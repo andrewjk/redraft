@@ -1,0 +1,125 @@
+/*
+ * Adapted from
+ * https://www.joshwcomeau.com/css/custom-css-reset/
+ * https://piccalil.li/blog/a-more-modern-css-reset/
+ */
+
+/*
+ * Use a more-intuitive box-sizing model
+ */
+*,
+*::before,
+*::after {
+	box-sizing: border-box;
+}
+
+/*
+ * Remove default margin
+ */
+* {
+	margin: 0;
+}
+
+/*
+ * Set 1rem = 10px for more intuitive calculations
+ * Prevent font size inflation
+ */
+html {
+	font-size: 62.5%;
+	-moz-text-size-adjust: none;
+	-webkit-text-size-adjust: none;
+	text-size-adjust: none;
+}
+
+/*
+ * Set a default font size of 16px
+ * Add an accessible line-height
+ * Default the minimum height to the window height
+ * Improve text rendering
+ */
+body {
+	font-size: 1.6em;
+	line-height: 1.7;
+	min-height: 100vh;
+	-webkit-font-smoothing: antialiased;
+}
+
+/*
+ * Set shorter line heights on headings and interactive elements
+ */
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+button,
+input,
+label {
+	line-height: 1.1;
+}
+
+/* 
+ * Avoid text overflows
+ */
+p,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+	overflow-wrap: break-word;
+}
+
+/*
+ * Improve line wrapping
+ */
+p {
+	text-wrap: pretty;
+}
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+	text-wrap: balance;
+}
+
+/*
+ * Improve media defaults
+ */
+img,
+picture,
+video,
+canvas,
+svg {
+	display: block;
+	max-width: 100%;
+}
+
+/*
+ * Inherit fonts for form controls
+ */
+input,
+button,
+textarea,
+select {
+	font: inherit;
+}
+
+/*
+ * Make sure textareas without a rows attribute are not tiny
+ */
+textarea:not([rows]) {
+	min-height: 10em;
+}
+
+/*
+ * Create a root stacking context for popups etc
+ */
+#root,
+#__next {
+	isolation: isolate;
+}

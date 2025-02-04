@@ -1,0 +1,59 @@
+import { $page, $navigation } from "@torpor/build/state";
+
+export default function Layout() {
+	@render {
+		<div>
+			<Nav user={$props.data.user} />
+
+			<main>
+				<:slot />
+			</main>
+		</div>
+	}
+}
+
+function Nav($props: any) {
+	@render {
+		<nav class="nav-bar hstack spaced full-width">
+			<ul class="plain hstack">
+				<li class="nav-item">
+					<a :class={{ "nav-link": true, active: $page.url.pathname === "/" }} href="/">
+						Home
+					</a>
+				</li>
+
+				@if ($props.user) {
+					<li class="nav-item">
+						<a href="/editor" :class={{ "nav-link": true, active: $page.url.pathname === "/editor" }}>
+							New Post
+						</a>
+					</li>
+
+					<li class="nav-item">
+						<a href="/settings" :class={{ "nav-link": true, active: $page.url.pathname === "/settings" }}>
+							Settings
+						</a>
+					</li>
+
+					<li class="nav-item">
+						<a href="/account" class="nav-link">
+							{$props.user.username}
+						</a>
+					</li>
+				} else {
+					<li class="nav-item">
+						<a href="/account/login" :class={{ "nav-link": true, active: $page.url.pathname === "/account/login" }}>
+							Login
+						</a>
+					</li>
+
+					<li class="nav-item">
+						<a href="/account/register" :class={{ "nav-link": true, active: $page.url.pathname === "/account/register" }}>
+							Register
+						</a>
+					</li>
+				}
+			</ul>
+		</nav>
+	}
+}

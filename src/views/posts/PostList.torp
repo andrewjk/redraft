@@ -1,0 +1,24 @@
+import PostPreview from './PostPreview.torp';
+
+/**
+ * Shows a list of post previews.
+ */
+export default function PostList() {
+	@render {
+		<div class="post-list">
+			@if ($props.posts.length === 0) {
+				<div class="post-preview">
+					No posts here yet.
+				</div>
+			} else {
+				@// Can we delete this <div>?
+				<div>
+					@for (let post of $props.posts) {
+						@key = post.id
+						<PostPreview {post} user={$props.user} />
+					}
+				</div>
+			}
+		</div>
+	}
+}

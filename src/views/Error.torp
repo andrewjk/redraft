@@ -1,0 +1,17 @@
+import { $page } from "@torpor/build/state";
+
+export default function Error() {
+	@render {
+		<div>
+			<:head>
+				<title>{$page.status}</title>
+			</:head>
+
+			@if ($page.status === 404) {
+				<h1>Not found!</h1>
+			} else {
+				<h1>Something went wrong</h1>
+			}
+		</div>
+	}
+}

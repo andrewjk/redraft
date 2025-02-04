@@ -1,0 +1,19 @@
+/**
+ * Displays a list of errors from a server action
+ */
+export default function FormErrors($props: {
+	/** The errors to display */
+	errors: Object
+}) {
+	@render {
+		<div>
+			@if ($props.errors) {
+				<ul class="error-messages">
+					@for (let key of Object.keys($props.errors)) {
+						<li>{key} {errors[key]}</li>
+					}
+				</ul>
+			}
+		</div>
+	}
+}

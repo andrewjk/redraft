@@ -1,0 +1,111 @@
+//import { enhance } from '$app/forms';
+import { $page } from '@torpor/build/state';
+
+export default function Layout() {
+	const $state = $watch({
+		isFavorites: $page.route === '/profile/@[user]/favorites'
+	});
+
+	@render {
+		<div class="profile-page">
+			<:head>
+				<title>Account ~ Social</title>
+			</:head>
+
+			<div class="user-info">
+				<div class="container">
+					<div class="row">
+						<div class="col-xs-12 col-md-10 offset-md-1">
+							<img src={$props.data.profile.image} class="user-img" alt={$props.data.profile.username} />
+							<h4>{$props.data.profile.username}</h4>
+							@if ($props.data.profile.bio) {
+								<p>{$props.data.profile.bio}</p>
+							}
+								<form use:enhance method="POST" action="?/logout">
+									<button class="btn btn-outline-danger">Or click here to logout.</button>
+								</form>
+
+							@if ($props.data.profile.username === $props.data.user?.username) {
+
+								<a href="/settings" class="btn btn-sm btn-outline-secondary action-btn">
+									<i class="ion-gear-a" />
+									Edit Profile Settings
+								</a>
+							} else if ($props.data.user) {
+								<form
+									method="POST"
+									action="/profile/@{$props.data.profile.username}?/toggleFollow"
+									@/*
+									use:enhance={({ form }) => {
+										// optimistic UI
+										$props.data.profile.following = !$props.data.profile.following;
+
+										const button = form.querySelector('button');
+										button.disabled = true;
+
+										return ({ result, update }) => {
+											button.disabled = false;
+											if (result.type === 'error') update();
+										};
+									}}
+									*/
+								>
+									<input hidden type="checkbox" name="following" checked={$props.data.profile.following} />
+									<button
+										:class={{
+											"btn btn-sm action-btn": true,
+											"btn-secondary": $props.data.profile.following,
+											"btn-outline-secondary": !$props.data.profile.following
+										}}
+									>
+										<i class="ion-plus-round" />
+										{$props.data.profile.following ? 'Unfollow' : 'Follow'}
+										{$props.data.profile.username}
+									</button>
+								</form>
+							} else {
+								<a href="/login">Sign in to follow</a>
+							}
+						</div>
+					</div>
+				</div>
+			</div>
+
+			<div class="container">
+				<div class="row">
+					<div class="col-xs-12 col-md-10 offset-md-1">
+						<div class="articles-toggle">
+							<ul class="nav nav-pills outline-active">
+								<li class="nav-item">
+									<a
+										href="/profile/@{$props.data.profile.username}"
+										:class={{
+											"nav-link": true,
+											active: !$state.isFavorites
+										}}
+									>
+										Articles
+									</a>
+								</li>
+
+								<li class="nav-item">
+									<a
+										href="/profile/@{$props.data.profile.username}/favorites"
+										:class={{
+											"nav-link": true,
+											active: $state.isFavorites
+										}}
+									>
+										Favorites
+									</a>
+								</li>
+							</ul>
+						</div>
+
+						<:slot />
+					</div>
+				</div>
+			</div>
+		</div>
+	}
+}

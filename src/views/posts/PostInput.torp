@@ -1,0 +1,24 @@
+//import { enhance } from '$app/forms';
+import { placeholder } from '@/lib/constants';
+
+/**
+ * Allows creating a post.
+ */
+export default function PostInput() {
+	let user = $props.user;
+
+	@render {
+		<form class="post-input" method="POST" action="?/createPost">
+			<div class="card-block">
+				<textarea class="form-control" name="text" placeholder="Post something..." rows="3" />
+			</div>
+
+			<div class="card-footer">
+				@/*
+					<img src={user.image || placeholder} class="post-author-img" alt={user.username} />
+				*/
+				<button class="btn btn-sm btn-primary" type="submit">Post</button>
+			</div>
+		</form>
+	}
+}

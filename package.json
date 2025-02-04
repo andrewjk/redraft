@@ -7,20 +7,39 @@
     "access": "public"
   },
   "scripts": {
+		"check": "tsc -p tsconfig.json --noEmit",
     "dev": "tb --dev",
     "build": "tsc && tb --build",
-    "preview": "vinxi serve"
+    "preview": "vinxi serve",
+    "db:push": "drizzle-kit push",
+    "db:generate": "drizzle-kit generate",
+    "db:migrate": "drizzle-kit migrate"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "@torpor/build": "^0.0.1",
-    "@torpor/unplugin": "^0.0.1",
-    "@torpor/view": "^0.0.1",
-    "vinxi": "^0.5.1"
+    "@libsql/client": "^0.14.0",
+    "bcryptjs": "^2.4.3",
+    "dotenv": "^16.4.7",
+    "drizzle-orm": "^0.38.4",
+    "drizzle-valibot": "^0.3.1",
+    "jose": "^5.9.6",
+    "valibot": "1.0.0-beta.14"
   },
-  "peerDependencies": {
-    "typescript": "^5.7.2"
+  "devDependencies": {
+    "@torpor/build": "^0.0.1",
+    "@torpor/view": "^0.0.2",
+    "@trivago/prettier-plugin-sort-imports": "^5.2.1",
+    "@types/bcryptjs": "^2.4.6",
+    "@types/node": "^22.10.10",
+    "@types/sanitize-html": "^2.13.0",
+    "dotenv-cli": "^7.4.4",
+    "drizzle-kit": "^0.30.2",
+    "marked": "^15.0.6",
+    "sanitize-html": "^2.14.0",
+    "tsx": "^4.19.2",
+    "typescript": "^5.7.3",
+    "vinxi": "^0.5.1"
   }
 }
