@@ -11,10 +11,35 @@ export default function Login() {
 			<h1>Account Edit</h1>
 			<FormErrors errors={$props.form?.errors} />
 
-			<form use:enhance method="POST" class="form">
+			<form use:enhance enctype="multipart/form-data" method="POST">
 				@// TODO: Image!!
 				@// TODO: Location, links!!
 
+				<div class="form-row">
+					<label for="email">Image</label
+					<div class="hstack spaced centered">
+						<div id="image-preview" style={`background-image: url("${$props.data.account.image}")`} />
+						<input
+							:value={$props.data.account.imagefile}
+							name="imagefile"
+							type="file"
+							accept="image/*"
+							onchange={fileSelected}
+						/>
+					</div>
+				</div>
+				@function fileSelected(e) {
+					const image = e.target.files[0];
+					if (!image.type.includes("image")) {
+						return;
+					}
+					const fileReader = new FileReader();
+					fileReader.readAsDataURL(image);
+					fileReader.onload = (ev) => {
+						const preview = document.getElementById("image-preview");
+						preview.style.backgroundImage = `url('${ev.target.result}')`;
+					}
+				}
 				<div class="form-row">
 					<label for="email">Email</label
 					<input
@@ -66,6 +91,13 @@ export default function Login() {
 
 		.form-footer {
 			text-align: end;
+		}
+
+		#image-preview {
+			height: 100px;
+			width: 100px;
+			background-size: cover;
+			border-radius: 50%;
 		}
 	}
 }

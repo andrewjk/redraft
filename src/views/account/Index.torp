@@ -7,8 +7,8 @@ export default function Layout($props) {
 				<title>Account ~ Social</title>
 			</:head>
 
-			<div class="account-details">
-				<img src={$props.data.account.image} class="profile-image" alt={$props.data.account.username} />
+			<div class="vstack centered account-details">
+				<img src={$props.data.account.image} class="account-image" alt={$props.data.account.username} />
 				<h4>{$props.data.account.username}</h4>
 				@if ($props.data.account.bio) {
 					<p>{$props.data.account.bio}</p>
@@ -29,6 +29,12 @@ export default function Layout($props) {
 	@style {
 		.account-details {
 			text-align: center;
+		}
+
+		.account-image {
+			height: 200px;
+			width: 200px;
+			border-radius: 50%;
 		}
 
 		.account-options {

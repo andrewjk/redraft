@@ -33,6 +33,7 @@ async function send({ method, path, data, token }: SendOptions) {
 	}
 
 	const result = await fetch(`${base}/${path}`, options);
+
 	if (result.ok || result.status === 422) {
 		const text = await result.text();
 		return text ? JSON.parse(text) : {};

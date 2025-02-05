@@ -1,4 +1,4 @@
-import { int, sqliteTable, text } from "drizzle-orm/sqlite-core";
+import { blob, int, sqliteTable, text } from "drizzle-orm/sqlite-core";
 import { createInsertSchema, createSelectSchema, createUpdateSchema } from "drizzle-valibot";
 import { InferOutput } from "valibot";
 
@@ -77,6 +77,17 @@ export const feedTable = sqliteTable("feed", {
 	text: text().notNull(),
 	user_id: int().notNull(),
 	liked: int({ mode: "boolean" }).notNull(),
+	created_at: int({ mode: "timestamp" }).notNull(),
+	updated_at: int({ mode: "timestamp" }).notNull(),
+	deleted_at: int({ mode: "timestamp" }),
+});
+
+// Images etc
+export const contentTable = sqliteTable("content", {
+	id: int().primaryKey({ autoIncrement: true }),
+	name: text().notNull(),
+	type: text().notNull(),
+	content: blob().notNull(),
 	created_at: int({ mode: "timestamp" }).notNull(),
 	updated_at: int({ mode: "timestamp" }).notNull(),
 	deleted_at: int({ mode: "timestamp" }),
