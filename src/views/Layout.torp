@@ -2,7 +2,7 @@ import { $page, $navigation } from "@torpor/build/state";
 
 export default function Layout() {
 	@render {
-		<div>
+		<div class="app-layout">
 			<Nav user={$props.data.user} />
 
 			<main>
@@ -10,12 +10,20 @@ export default function Layout() {
 			</main>
 		</div>
 	}
+
+	@style {
+		main {
+			padding: 1rem;
+			margin: 0 auto;
+			max-width: 60rem;
+		}
+	}
 }
 
-function Nav($props: any) {
+function Nav() {
 	@render {
-		<nav class="nav-bar hstack spaced full-width">
-			<ul class="plain hstack">
+		<nav class="nav-bar">
+			<ul class="plain hstack spaced full-width">
 				<li class="nav-item">
 					<a :class={{ "nav-link": true, active: $page.url.pathname === "/" }} href="/">
 						Home
@@ -25,22 +33,26 @@ function Nav($props: any) {
 				@if ($props.user) {
 					<li class="nav-item">
 						<a href="/editor" :class={{ "nav-link": true, active: $page.url.pathname === "/editor" }}>
-							New Post
+							Editor
 						</a>
 					</li>
 
+					<div class="spacer" />
+
 					<li class="nav-item">
-						<a href="/settings" :class={{ "nav-link": true, active: $page.url.pathname === "/settings" }}>
-							Settings
+						<a href="/feed" class="nav-link">
+							Feed
 						</a>
 					</li>
 
 					<li class="nav-item">
 						<a href="/account" class="nav-link">
-							{$props.user.username}
+							Account
 						</a>
 					</li>
 				} else {
+					<div class="spacer" />
+
 					<li class="nav-item">
 						<a href="/account/login" :class={{ "nav-link": true, active: $page.url.pathname === "/account/login" }}>
 							Login
@@ -55,5 +67,13 @@ function Nav($props: any) {
 				}
 			</ul>
 		</nav>
+	}
+
+	@style {
+		nav {
+			padding: 1rem;
+			border-bottom: 1px solid lightgray;
+			box-shadow: 0 0.4rem 0.4rem -0.2rem #e2e2e2;
+		}
 	}
 }

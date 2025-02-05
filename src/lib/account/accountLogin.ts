@@ -5,7 +5,7 @@ import { eq } from "drizzle-orm";
 import createUserToken from "../utils/createUserToken";
 import getErrorMessage from "../utils/getErrorMessage";
 import { compareWithHash } from "../utils/hashPasswords";
-import accountView from "./accountView";
+import accountPreview from "./accountPreview";
 
 export type LoginModel = {
 	email: string;
@@ -30,7 +30,7 @@ export default async function accountLogin(request: Request) {
 		const token = await createUserToken(user);
 
 		// Create the user view with the authentication token
-		const view = accountView(user, token);
+		const view = accountPreview(user, token);
 
 		return created(view);
 	} catch (error) {

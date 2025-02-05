@@ -3,9 +3,9 @@ import FormErrors from '@/views/FormErrors.torp';
 
 export default function Login() {
 	@render {
-		<div class="auth-page">
+		<div class="login-page">
 			<:head>
-				<title>Login</title>
+				<title>Login ~ Social</title>
 			</:head>
 
 			<div class="container page">

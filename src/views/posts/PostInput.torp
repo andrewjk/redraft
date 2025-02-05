@@ -9,16 +9,21 @@ export default function PostInput() {
 
 	@render {
 		<form class="post-input" method="POST" action="?/createPost">
-			<div class="card-block">
-				<textarea class="form-control" name="text" placeholder="Post something..." rows="3" />
-			</div>
+			<textarea class="form-control full-width" name="text" placeholder="Post something..." rows="3" />
 
-			<div class="card-footer">
-				@/*
-					<img src={user.image || placeholder} class="post-author-img" alt={user.username} />
-				*/
-				<button class="btn btn-sm btn-primary" type="submit">Post</button>
+			<div class="post-footer">
+				<button type="submit">Post</button>
 			</div>
 		</form>
+	}
+
+	@style {
+		.post-input {
+			margin-bottom: 1rem;
+		}
+
+		.post-footer {
+			text-align: end;
+		}
 	}
 }

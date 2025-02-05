@@ -11,14 +11,19 @@ export default function PostList() {
 					No posts here yet.
 				</div>
 			} else {
-				@// Can we delete this <div>?
-				<div>
-					@for (let post of $props.posts) {
-						@key = post.id
-						<PostPreview {post} user={$props.user} />
-					}
-				</div>
+				@for (let post of $props.posts) {
+					@key = post.id
+					<PostPreview {post} user={$props.user} />
+				}
 			}
 		</div>
+	}
+
+	@style {
+		.post-list {
+			display: flex;
+			flex-direction: column;
+			gap: 0.5rem;
+		}
 	}
 }

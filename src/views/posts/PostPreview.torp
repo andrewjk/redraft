@@ -1,4 +1,5 @@
 //import { enhance } from '$app/forms';
+import relativeTimeSince from "@/lib/utils/relativeTimeSince"
 
 /**
  * Shows a post preview for display in a list.
@@ -6,18 +7,24 @@
 export default function PostPreview() {
 	let { post, user } = $props;
 
+	let fmt = new Intl.DateTimeFormat(undefined, {
+		day: "numeric",
+		month: "short",
+		year: "numeric",
+		hour: "numeric",
+		minute: "numeric"
+	});
+
 	@render {
 		<div class="post-preview">
-			@/*
-			<div class="post-meta">
+			<div class="post-preview-header hstack spaced">
 				<a href="/profile/@{post.author.username}">
 					<img src={post.author.image} alt={post.author.username} />
 				</a>
-				<div class="info">
-					<a class="author" href="/profile/@{post.author.username}">{post.author.username}</a>
-					<span class="date">{new Date(post.createdAt).toDateString()}</span>
-				</div>
+				<a href="/profile/@{post.author.username}">{post.author.username}</a>
+				<span title={fmt.format(new Date(post.createdAt))}>{relativeTimeSince(new Date(post.createdAt))}</span>
 
+			@/*
 				@if (user) {
 					<form
 						method="POST"
@@ -31,20 +38,40 @@ export default function PostPreview() {
 						</button>
 					</form>
 				}
-			</div>
 			*/
+			</div>
 
-			<a href="/post/{post.id}" class="preview-link">
+			<a href="/post/{post.id}" class="post-preview-link">
 				<p>{post.text}</p>
-				<span>Read more...</span>
-				@/*
-				<ul class="tag-list">
-					@for (let tag of post.tagList) {
-						<li class="tag-default tag-pill tag-outline"><a href="/?tag={tag}">{tag}</a></li>
-					}
-				</ul>
-				*/
 			</a>
+
+			<div class="post-preview-footer hstack spaced">
+				<a>
+					5 comments
+				</a>
+				<a>
+					React
+				</a>
+			</div>
 		</div>
+	}
+
+	@style {
+		.post-preview {
+			padding: 0.6rem 1rem;
+			background-color: #fff;
+			border: 1px solid lightgray;
+			border-radius: var(--brad);
+		}
+
+		.post-preview-header,
+		.post-preview-footer {
+			font-size: small;
+			color: gray;
+		}
+
+		.post-preview-link {
+			color: inherit;
+		}
 	}
 }

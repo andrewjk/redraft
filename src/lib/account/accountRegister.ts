@@ -4,7 +4,7 @@ import { created, serverError } from "@torpor/build/response";
 import createUserToken from "../utils/createUserToken";
 import getErrorMessage from "../utils/getErrorMessage";
 import { hashPassword } from "../utils/hashPasswords";
-import accountView from "./accountView";
+import accountPreview from "./accountPreview";
 
 export type RegisterModel = {
 	email: string;
@@ -36,7 +36,7 @@ export default async function accountRegister(request: Request) {
 		const token = await createUserToken(user);
 
 		// Create the user view with the authentication token
-		const view = accountView(newUser, token);
+		const view = accountPreview(newUser, token);
 
 		return created(view);
 	} catch (error) {

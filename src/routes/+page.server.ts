@@ -6,7 +6,6 @@ import { ok, redirect, unauthorized, unprocessable } from "@torpor/build/respons
 
 export default {
 	load: async ({ url, appData }) => {
-		console.log("WHATS GOING ON HRE");
 		const user = appData.user;
 
 		// If not logged in, redirect to the public /posts page

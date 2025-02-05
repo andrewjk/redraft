@@ -1,5 +1,6 @@
 import * as api from "@/lib/api.js";
 import formDataToObject from "@/lib/utils/formDataToObject";
+import setUserToken from "@/lib/utils/setUserToken";
 import { type PageServerEndPoint } from "@torpor/build";
 import { redirect, seeOther, unprocessable } from "@torpor/build/response";
 
@@ -20,8 +21,13 @@ export default {
 				return unprocessable(result);
 			}
 
-			const value = btoa(JSON.stringify(result));
-			cookies.set("jwt", value, { path: "/" });
+			setUserToken(cookies, {
+				email: result.email,
+				token: result.token,
+				username: result.username,
+				name: result.name,
+				image: result.image,
+			});
 
 			return seeOther("/");
 		},

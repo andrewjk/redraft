@@ -3,9 +3,9 @@ import FormErrors from '@/views/FormErrors.torp';
 
 export default function Register() {
 	@render {
-		<div class="auth-page">
+		<div class="register-page">
 			<:head>
-				<title>Register</title>
+				<title>Register ~ Social</title>
 			</:head>
 
 			<div class="container page">

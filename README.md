@@ -1,5 +1,16 @@
 # Social
 
+move auth checks from routes into endpoints
+
+The homepage should show the public page i.e. what other people see
+Remove username??
+put an auth function on endpoints??
+
+/follow page
+enter someone's url which sends them a request with a guid
+if they approve, they send us a message with another guid which we use to login
+they send us posts from then on
+
 - [] / page showing profile, pinned (if any), 5ish status updates
 - [] /feed page showing showing user's feed (must be logged in)
 - [] /posts page showing public posts (with login button)
@@ -28,4 +39,4 @@
 
 - [] App
 
-user name should be an env setting until registered
+username should be an env setting until registered
