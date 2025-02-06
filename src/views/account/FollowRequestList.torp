@@ -1,0 +1,35 @@
+import FollowPreview from './FollowPreview.torp';
+
+/**
+ * Shows a list of the users being followed.
+ */
+export default function FollowRequestList() {
+	@render {
+		<div class="follow-list">
+			@if ($props.data.requests.length === 0) {
+				<div class="follow-preview">
+					You don't have any follow requests.
+				</div>
+			} else {
+				@for (let follow of $props.data.requests) {
+					@key = follow.id
+					<div class="hstack spaced full-width">
+						<FollowPreview {follow} user={$props.data.user} class="full-width" />
+						<form use:enhance method="POST" action="?/approve">
+							<input type="hidden" name="id" value={follow.id} />
+							<button>Approve</button>
+						</form>
+					</div>
+				}
+			}
+		</div>
+	}
+
+	@style {
+		.follow-list {
+			display: flex;
+			flex-direction: column;
+			gap: 0.5rem;
+		}
+	}
+}

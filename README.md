@@ -1,11 +1,12 @@
 # Social
 
 The homepage should show the public page i.e. what other people see
-Put an auth function on endpoints??
+Put an auth function on build endpoints??
 
 /follow page
-enter someone's url which sends them a request with a guid
-if they approve, they send us a message with another guid which we use to login
+enter someone's url which sends them a request with our url and a guid
+their site confirms from the url/confirm and gets our profile stuff (image, name etc)
+if they approve, they send us a message with a guid which we use to login (url/guid)
 they send us posts from then on
 
 - [] / page showing profile, pinned (if any), 5ish status updates

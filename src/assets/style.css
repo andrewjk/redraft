@@ -117,6 +117,8 @@ textarea.code {
 	white-space-collapse: preserve;
 }
 
+/* Layout */
+
 .hstack,
 .vstack {
 	display: flex;
@@ -172,6 +174,8 @@ textarea.code {
 	min-width: 100%;
 }
 
+/* Tables */
+
 table {
 	border-spacing: 0;
 	text-align: left;
@@ -183,11 +187,27 @@ td {
 	padding: 0.5rem 0.5rem 0.5rem 0;
 }
 
-.warning {
-	border: 1px solid red;
-	border-radius: var(--brad);
-	background-color: rgba(255, 0, 0, 0.1);
-	padding: 0.5rem 1rem;
+/* Forms */
+
+form {
+	display: flex;
+	flex-direction: column;
+	gap: 1rem;
+}
+
+.form-row {
+	* {
+		width: 100%;
+	}
+}
+
+.form-footer {
+	text-align: end;
+}
+
+label {
+	display: block;
+	color: gray;
 }
 
 textarea,
@@ -199,4 +219,13 @@ input {
 
 button {
 	min-width: 7.5rem;
+}
+
+/* Misc */
+
+.warning {
+	border: 1px solid red;
+	border-radius: var(--brad);
+	background-color: rgba(255, 0, 0, 0.1);
+	padding: 0.5rem 1rem;
 }

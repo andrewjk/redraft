@@ -1,4 +1,4 @@
-import postCreate from "@/lib/posts/postCreate";
+import followApprove from "@/lib/follow/followApprove";
 import type { ServerEndPoint } from "@torpor/build";
 import { unauthorized } from "@torpor/build/response";
 
@@ -9,6 +9,6 @@ export default {
 			return unauthorized();
 		}
 
-		return postCreate(appData, request.user.username);
+		return followApprove(request, user.username);
 	},
 } satisfies ServerEndPoint;

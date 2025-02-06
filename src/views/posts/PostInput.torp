@@ -9,10 +9,17 @@ export default function PostInput() {
 
 	@render {
 		<form class="post-input" method="POST" action="?/createPost">
-			<textarea class="form-control full-width" name="text" placeholder="Post something..." rows="3" />
+			<textarea
+				class="full-width"
+				name="text"
+				placeholder="Post something..."
+				rows="3"
+			/>
 
 			<div class="post-footer">
-				<button type="submit">Post</button>
+				<button type="submit">
+					Post
+				</button>
 			</div>
 		</form>
 	}

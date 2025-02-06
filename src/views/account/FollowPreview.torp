@@ -1,0 +1,56 @@
+//import { enhance } from '$app/forms';
+import relativeTimeSince from "@/lib/utils/relativeTimeSince"
+
+/**
+ * Shows a follow(er/ing) preview for display in a list.
+ */
+export default function FollowPreview() {
+	let { follow, user } = $props;
+
+	let fmt = new Intl.DateTimeFormat(undefined, {
+		day: "numeric",
+		month: "short",
+		year: "numeric",
+		hour: "numeric",
+		minute: "numeric"
+	});
+
+	@render {
+		<div class="follow-preview">
+			<div class="follow-preview-header hstack spaced">
+				<a href="/profile/@{follow.username}">
+					<img class="follow-preview-image" src={follow.image} alt={follow.username} />
+				</a>
+				<a href="/profile/@{follow.username}">{follow.username}</a>
+				@/*
+					<span title={fmt.format(new Date(post.createdAt))}>{relativeTimeSince(new Date(post.createdAt))}</span>
+				*/
+			</div>
+		</div>
+	}
+
+	@style {
+		.follow-preview {
+			padding: 0.6rem 1rem;
+			background-color: #fff;
+			border: 1px solid lightgray;
+			border-radius: var(--brad);
+		}
+
+		.follow-preview-header,
+		.follow-preview-footer {
+			font-size: small;
+			color: gray;
+		}
+
+		.follow-preview-link {
+			color: inherit;
+		}
+
+		.follow-preview-image {
+			height: 40px;
+			width: 40px;
+			border-radius: 50%;
+		}
+	}
+}

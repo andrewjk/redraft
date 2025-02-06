@@ -7,6 +7,9 @@ export default async function postList(
 	limit?: number,
 	offset?: number,
 ): Promise<{ posts: PostPreview[]; postsCount: number }> {
+	// Get the current (only) user
+	const user = await db.query.usersTable.findFirst();
+
 	// Get the posts from the database
 	const dbposts = await db.query.postsTable.findMany({
 		limit,
@@ -18,7 +21,7 @@ export default async function postList(
 	const postsCount = await db.$count(postsTable);
 
 	// Create post previews
-	const posts = dbposts.map((post) => postPreview(post));
+	const posts = dbposts.map((post) => postPreview(post, user!));
 
 	return {
 		posts,

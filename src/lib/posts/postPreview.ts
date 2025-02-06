@@ -11,15 +11,15 @@ export type PostPreview = {
 	updatedAt: Date;
 };
 
-export default function postPreview(post: Post, currentUser?: User): PostPreview {
+export default function postPreview(post: Post, currentUser: User): PostPreview {
 	// TODO:
 	//const authorView = profileView(post.author, currentUser);
 
 	const postView = {
 		text: post.text,
 		author: {
-			image: currentUser?.image ?? "",
-			username: currentUser?.username ?? "",
+			image: currentUser.image,
+			username: currentUser.username,
 		},
 		createdAt: post.created_at,
 		updatedAt: post.updated_at,

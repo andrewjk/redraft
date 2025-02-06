@@ -1,37 +1,29 @@
 //import { enhance } from '$app/forms';
 import FormErrors from '@/views/FormErrors.torp';
 
-export default function Login() {
+export default function Index() {
 	@render {
-		<div class="login-page">
+		<div class="follow-page">
 			<:head>
-				<title>Login ~ Social</title>
+				<title>Follow ~ Social</title>
 			</:head>
 
-			<h1>Login</h1>
+			<h1>Follow</h1>
 
 			<FormErrors errors={$props.form?.errors} />
 
 			<form use:enhance method="POST">
 				<div class="form-row">
-					<label for="email">Email</label>
+					<label for="url">Url</label>
 					<input
-						name="email"
-						type="email"
-						required
-					/>
-				</div>
-				<div class="form-row">
-					<label for="password">Password</label>
-					<input
-						name="password"
-						type="password"
+						name="url"
+						type="url"
 						required
 					/>
 				</div>
 				<div class="form-footer">
 					<button type="submit">
-						Login
+						Send request
 					</button>
 				</div>
 			</form>

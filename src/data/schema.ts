@@ -24,9 +24,13 @@ export type User = InferOutput<typeof UserSelectSchema>;
 export type UserInsert = InferOutput<typeof UserInsertSchema>;
 export type UserUpdate = InferOutput<typeof UserUpdateSchema>;
 
-// The people being followed, who we will receive posts etc from
+// TODO: Separate out following/followedby user fields into a new table
+
+// The people we are following, who we will receive posts etc from
 export const followingTable = sqliteTable("following", {
 	id: int().primaryKey({ autoIncrement: true }),
+	// Whether they have approved us to follow them
+	approved: int({ mode: "boolean" }).notNull(),
 	username: text().notNull(),
 	url: text().notNull(),
 	// The secret shared key that we use to communicate with this user
@@ -38,7 +42,7 @@ export const followingTable = sqliteTable("following", {
 	deleted_at: int({ mode: "timestamp" }),
 });
 
-// The people following us, who we will send posts etc to
+// The people we are followed by, who we will send posts etc to
 export const followedByTable = sqliteTable("followed_by", {
 	id: int().primaryKey({ autoIncrement: true }),
 	// Whether they've been approved to follow -- everyone starts off by sending us a request

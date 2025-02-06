@@ -32,7 +32,7 @@ export default {
 			const data = await request.formData();
 			const model = formDataToObject(data);
 
-			const result = await api.put("account/edit", model, user.token);
+			const result = await api.post("account/edit", model, user.token);
 			if (result.errors) {
 				return unprocessable(result);
 			}

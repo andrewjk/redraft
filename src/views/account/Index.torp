@@ -16,6 +16,20 @@ export default function Layout($props) {
 			</div>
 
 			<div class="hstack spaced account-options">
+				<a href="/account/following" class="button">
+					Following
+				</a>
+				<span>~</span>
+				<a href="/account/followed-by" class="button">
+					Followed by
+				</a>
+				<span>~</span>
+				<a href="/account/follow-requests" class="button">
+					Follow requests
+				</a>
+			</div>
+
+			<div class="hstack spaced account-options">
 				<a href="/account/edit" class="button">
 					Edit
 				</a>

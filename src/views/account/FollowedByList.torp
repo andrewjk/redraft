@@ -1,0 +1,30 @@
+import FollowPreview from './FollowPreview.torp';
+
+/**
+ * Shows a list of the users being followed.
+ */
+export default function FollowedByList($props) {
+	console.log($props)
+	@render {
+		<div class="follow-list">
+			@if ($props.data.followedBy.length === 0) {
+				<div class="follow-preview">
+					You are not followed by anyone yet.
+				</div>
+			} else {
+				@for (let follow of $props.data.followedBy) {
+					@key = follow.id
+					<FollowPreview {follow} user={$props.data.user} />
+				}
+			}
+		</div>
+	}
+
+	@style {
+		.follow-list {
+			display: flex;
+			flex-direction: column;
+			gap: 0.5rem;
+		}
+	}
+}
