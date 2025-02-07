@@ -1,0 +1,24 @@
+import { $page } from "@torpor/build/state";
+import PostInput from "@/views/posts/PostInput.torp";
+import PostList from "@/views/posts/PostList.torp";
+import Pagination from "@/views/Pagination.torp";
+
+export default function Index() {
+	let $state = $watch({
+		page: +($page.url.searchParams.get("page") || 1),
+	})
+
+	@render {
+		<div>
+			<:head>
+				<title>Posts ~ Social</title>
+			</:head>
+
+			@if ($props.data.user) {
+				<PostInput />
+			}
+			<PostList posts={$props.data.posts} user={$props.data.user} />
+			<Pagination pageCount={$props.data.pageCount} page={$state.page} href={(p) => `/?page=${p}`} />
+		</div>
+	}
+}

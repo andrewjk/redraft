@@ -2,28 +2,36 @@
 import { type Post, type User } from "@/data/schema";
 
 export type PostPreview = {
+	slug: string;
 	text: string;
 	author: {
 		image: string;
 		username: string;
+		url: string;
 	};
 	createdAt: Date;
 	updatedAt: Date;
 };
 
-export default function postPreview(post: Post, currentUser: User): PostPreview {
-	// TODO:
-	//const authorView = profileView(post.author, currentUser);
-
-	const postView = {
+export default function postPreview(
+	post: Post & { user?: { image: string; username: string; url: string } | null },
+	currentUser: User,
+): PostPreview {
+	return {
+		slug: post.slug,
 		text: post.text,
-		author: {
-			image: currentUser.image,
-			username: currentUser.username,
-		},
+		author: post.user
+			? {
+					image: post.user.image,
+					username: post.user.username,
+					url: post.user.url,
+				}
+			: {
+					image: currentUser.image,
+					username: currentUser.username,
+					url: process.env.SITE_LOCATION!,
+				},
 		createdAt: post.created_at,
 		updatedAt: post.updated_at,
 	};
-
-	return postView;
 }

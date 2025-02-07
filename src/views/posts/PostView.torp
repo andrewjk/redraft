@@ -2,10 +2,10 @@
 import relativeTimeSince from "@/lib/utils/relativeTimeSince"
 
 /**
- * Shows a post preview for display in a list.
+ * Shows a post's full details.
  */
 export default function PostPreview() {
-	let { post, user } = $props;
+	let { post, user } = $props.data;
 
 	let fmt = new Intl.DateTimeFormat(undefined, {
 		day: "numeric",
@@ -18,10 +18,10 @@ export default function PostPreview() {
 	@render {
 		<div class="post-preview">
 			<div class="post-preview-header hstack centered spaced">
-				<a href={post.author.url}>
-					<img class="post-preview-image" src={post.author.image} alt={`${post.author.name} (${post.author.username})`} />
+				<a href="/profile/@{post.author.username}">
+					<img class="post-preview-image" src={post.author.image} alt={post.author.username} />
 				</a>
-				<a href={post.author.url}>{post.author.username}</a>
+				<a href="/profile/@{post.author.username}">{post.author.username}</a>
 				<span title={fmt.format(new Date(post.createdAt))}>{relativeTimeSince(new Date(post.createdAt))}</span>
 
 			@/*
@@ -41,10 +41,9 @@ export default function PostPreview() {
 			*/
 			</div>
 
-			<a href="{post.author.url}posts/{post.slug}" class="post-preview-link">
-				<p>{post.text}</p>
-			</a>
+			<p>{post.text}</p>
 
+			@// TODO: Show the actual comments
 			<div class="post-preview-footer hstack spaced">
 				<a>
 					5 comments

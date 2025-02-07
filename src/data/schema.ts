@@ -1,3 +1,4 @@
+import { relations } from "drizzle-orm";
 import { blob, int, sqliteTable, text } from "drizzle-orm/sqlite-core";
 import { createInsertSchema, createSelectSchema, createUpdateSchema } from "drizzle-valibot";
 import { InferOutput } from "valibot";
@@ -42,6 +43,10 @@ export const followingTable = sqliteTable("following", {
 	deleted_at: int({ mode: "timestamp" }),
 });
 
+export const followingRelations = relations(followingTable, ({ many }) => ({
+	posts: many(feedTable),
+}));
+
 // The people we are followed by, who we will send posts etc to
 export const followedByTable = sqliteTable("followed_by", {
 	id: int().primaryKey({ autoIncrement: true }),
@@ -79,7 +84,7 @@ export type PostUpdate = InferOutput<typeof PostUpdateSchema>;
 // Posts from people we are following
 export const feedTable = sqliteTable("feed", {
 	id: int().primaryKey({ autoIncrement: true }),
-	user_id: int().notNull(),
+	user_id: int().references(() => followingTable.id),
 	slug: text().notNull(),
 	text: text().notNull(),
 	liked: int({ mode: "boolean" }).notNull(),
@@ -87,6 +92,10 @@ export const feedTable = sqliteTable("feed", {
 	updated_at: int({ mode: "timestamp" }).notNull(),
 	deleted_at: int({ mode: "timestamp" }),
 });
+
+export const feedTableRelations = relations(feedTable, ({ one }) => ({
+	user: one(followingTable, { fields: [feedTable.user_id], references: [followingTable.id] }),
+}));
 
 // Images etc
 export const contentTable = sqliteTable("content", {

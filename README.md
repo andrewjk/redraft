@@ -1,40 +1,77 @@
 # Social
 
-The homepage should show the public page i.e. what other people see
-Put an auth function on build endpoints??
+Social media x Blogging x Newsletters
 
-/follow page
-enter someone's url which sends them a request with our url and a guid
-their site confirms from the url/confirm and gets our profile stuff (image, name etc)
-if they approve, they send us a message with a guid which we use to login (url/guid)
-they send us posts from then on
+- Fully self-hostable
+- All your data in a single file
+- Make short status posts, or lengthy article posts
+- Follow anyone and/or be followed by anyone with their own site
+- Comment, like, react
 
-- [] / page showing profile, pinned (if any), 5ish status updates
-- [] /feed page showing showing user's feed (must be logged in)
-- [] /posts page showing public posts (with login button)
-- [] Status updates
-- [] Pin a status
-- [] Articles attached to status
-- [] Images attached to status
-- [] Following
-- [] Followed by
-- [] Share with QR
-- [] Comments
-- [] Approving
-- [] Blocking
-- [] Deploy
+## Things to do
 
-- [] Chat
-- [] Audio
-- [] Video
-- [] Polls
-- [] Events
-- [] etc
+Put an auth function on @torpor/build endpoints??
 
-- [] Host friends
-- [] Multiple users e.g. for a publication/organisation
-- [] Encryption
+- Use one-time passwords for logging into other sites
+- OR load posts etc into an iframe?? seems like that could run into CORS issues
 
-- [] App
+// TODO: lib should always return data OR responses
 
-Log in with username (initially from env), reset password with email
+- [ ] / page showing profile, pinned (if any), 5ish status updates
+- [ ] /feed page showing showing your feed (must be logged in)
+- [ ] /posts page showing public posts (with login button)
+- [ ] Status updates
+- [ ] Pin a status
+- [ ] Articles attached to status
+- [ ] Images attached to status
+- [x] Following
+- [x] Followed by
+- [ ] Share with QR
+- [ ] Comments
+- [x] Approving
+  - [ ] Auto-approving
+- [ ] Blocking
+- [ ] Editing profile should propagate to following/followers
+- [ ] Deploy
+
+- [ ] Liking
+- [ ] Reacting
+- [ ] Sharing
+- [ ] Post visibility
+- [ ] Recipient lists
+- [ ] Editing posts
+- [ ] Paid tiers?
+- etc
+
+- [ ] Chat
+- [ ] Audio
+- [ ] Video
+- [ ] Polls
+- [ ] Events
+- etc
+
+- [ ] RSS
+- [ ] Host friends
+- [ ] Multiple users e.g. for a publication/organisation
+- [ ] Sign up to communicate with a single user on their page??
+  - Maybe expand the followedBy table to have a password?
+- [ ] Encryption
+
+- [ ] App
+
+## Setup
+
+- Fork the repo
+- Deploy it
+  - Set SITE_LOCATION env variable to the URL which will be shared with others
+  - Set DB_CONNECTION env variable, pointing to an SQLite database
+  - Set USERNAME env variable, which will be used to login the first time
+- Customise CSS in src/assets/custom.css
+
+## How following works
+
+- From the /follow page
+- Enter someone's url which sends them a request with our url and a secret key
+- Their site confirms from our /url/check and gets our profile name and image
+- If they approve, their site sends us a message and we can then login on their site with the secret key
+- Any posts they make will be sent to us with the secret key and saved into our database

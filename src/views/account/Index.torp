@@ -25,7 +25,7 @@ export default function Layout($props) {
 				</a>
 				<span>~</span>
 				<a href="/account/follow-requests" class="button">
-					Follow requests
+					Requests
 				</a>
 			</div>
 
