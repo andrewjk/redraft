@@ -28,8 +28,7 @@ export default async function followConfirmed(request: Request) {
 				approved: true,
 				updated_at: new Date(),
 			})
-			.where(eq(followingTable.shared_key, model.sharedKey))
-			.returning();
+			.where(eq(followingTable.shared_key, model.sharedKey));
 
 		// TODO: Create a notification
 

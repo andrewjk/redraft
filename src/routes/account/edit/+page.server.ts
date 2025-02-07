@@ -34,7 +34,7 @@ export default {
 			// Save the image if it's been uploaded
 			if (model.imagefile) {
 				let name = uuid() + "." + model.imagefile.name.split(".").at(-1);
-				//const url = "http://localhost:7059/api/storage";
+				//const url = `${process.env.URL}api/storage`;
 				//let upload = new FormData();
 				//upload.set("file", model.imagefile);
 				//upload.set("name", name);

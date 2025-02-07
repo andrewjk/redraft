@@ -2,6 +2,7 @@ import db from "@/data/db";
 import { followedByTable } from "@/data/schema";
 import { ok, serverError, unauthorized, unprocessable } from "@torpor/build/response";
 import { eq } from "drizzle-orm";
+import { postPublic } from "../public";
 import getErrorMessage from "../utils/getErrorMessage";
 import getUser from "../utils/getUser";
 import { FollowConfirmModel } from "./followConfirmed";
@@ -24,7 +25,6 @@ export default async function followApprove(request: Request, username: string) 
 		}
 
 		// Set approved in the followed by record
-		console.log("APPRAVING", model);
 		const record = (
 			await db
 				.update(followedByTable)
@@ -39,15 +39,11 @@ export default async function followApprove(request: Request, username: string) 
 		// TODO: Create a notification
 
 		// Send the confirmation
-		let sendUrl = `${record.url}${record.url.endsWith("/") ? "" : "/"}api/follow/confirm`;
+		let sendUrl = `${record.url}api/public/follow/confirm`;
 		let sendData: FollowConfirmModel = {
 			sharedKey: record.shared_key,
 		};
-		console.log("FETCHING", sendUrl, sendData);
-		const response = await fetch(sendUrl, { method: "POST", body: JSON.stringify(sendData) });
-		if (response.status !== 200) {
-			return unprocessable();
-		}
+		await postPublic(sendUrl, sendData);
 
 		return ok();
 	} catch (error) {

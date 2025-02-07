@@ -61,6 +61,7 @@ export const followedByTable = sqliteTable("followed_by", {
 // Our posts
 export const postsTable = sqliteTable("posts", {
 	id: int().primaryKey({ autoIncrement: true }),
+	slug: text().notNull(),
 	text: text().notNull(),
 	created_at: int({ mode: "timestamp" }).notNull(),
 	updated_at: int({ mode: "timestamp" }).notNull(),
@@ -78,8 +79,9 @@ export type PostUpdate = InferOutput<typeof PostUpdateSchema>;
 // Posts from people we are following
 export const feedTable = sqliteTable("feed", {
 	id: int().primaryKey({ autoIncrement: true }),
-	text: text().notNull(),
 	user_id: int().notNull(),
+	slug: text().notNull(),
+	text: text().notNull(),
 	liked: int({ mode: "boolean" }).notNull(),
 	created_at: int({ mode: "timestamp" }).notNull(),
 	updated_at: int({ mode: "timestamp" }).notNull(),

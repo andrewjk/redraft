@@ -6,8 +6,6 @@ import { ok, redirect, unauthorized, unprocessable } from "@torpor/build/respons
 
 export default {
 	load: async ({ url, appData }) => {
-		//console.log("URL", url);
-		//console.log("ENV", process.env);
 		const user = appData.user;
 
 		// If not logged in, redirect to the public /posts page
@@ -44,7 +42,6 @@ export default {
 			const data = await request.formData();
 			const post = formDataToObject(data);
 
-			console.log(`~~> posts/create`, post, user.token);
 			const result = await api.post(`posts/create`, post, user.token);
 			if (result.errors) {
 				return unprocessable(result);

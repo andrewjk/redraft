@@ -1,4 +1,4 @@
-const base = "http://localhost:7059/api";
+const base = `${process.env.SITE_LOCATION}api/`;
 
 type SendOptions = {
 	method: "GET" | "POST" | "PUT" | "DELETE";
@@ -32,7 +32,7 @@ async function send({ method, path, data, token }: SendOptions) {
 		options.headers.append("Authorization", `Token ${token}`);
 	}
 
-	const result = await fetch(`${base}/${path}`, options);
+	const result = await fetch(`${base}${path}`, options);
 
 	if (result.ok || result.status === 422) {
 		const text = await result.text();

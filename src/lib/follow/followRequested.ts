@@ -1,6 +1,7 @@
 import db from "@/data/db";
 import { followedByTable } from "@/data/schema";
 import { notFound, ok, serverError, unprocessable } from "@torpor/build/response";
+import { postPublic } from "../public";
 import getErrorMessage from "../utils/getErrorMessage";
 import { FollowCheckModel, FollowCheckResponseModel } from "./followCheck";
 
@@ -22,19 +23,12 @@ export default async function followRequested(request: Request) {
 		const model: FollowRequestModel = await request.json();
 
 		// Check that this request actually came from the url claimed by hitting /follow/check
-		let sendUrl = `${model.url}${model.url.endsWith("/") ? "" : "/"}api/follow/check`;
+		let sendUrl = `${model.url}api/public/follow/check`;
 		let sendData: FollowCheckModel = {
 			//url: model.url,
 			sharedKey: model.sharedKey,
 		};
-		console.log("FETCHING", sendUrl, sendData);
-		const response = await fetch(sendUrl, { method: "POST", body: JSON.stringify(sendData) });
-		console.log("GOT", response.status);
-		if (response.status !== 200) {
-			return unprocessable();
-		}
-		let confirmData: FollowCheckResponseModel = await response.json();
-		console.log("GOT", confirmData);
+		const confirmData = (await postPublic(sendUrl, sendData)) as FollowCheckResponseModel;
 
 		// Get the current (only) user
 		const user = await db.query.usersTable.findFirst();
@@ -53,7 +47,7 @@ export default async function followRequested(request: Request) {
 			created_at: new Date(),
 			updated_at: new Date(),
 		};
-		await db.insert(followedByTable).values(record).returning();
+		await db.insert(followedByTable).values(record);
 
 		// TODO: Create a notification
 

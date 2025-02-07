@@ -1,38 +1,37 @@
 import db from "@/data/db";
-import { feedTable } from "@/data/schema";
-import { ok, serverError } from "@torpor/build/response";
+import { feedTable, followingTable } from "@/data/schema";
+import { notFound, ok, serverError } from "@torpor/build/response";
+import { eq } from "drizzle-orm";
 import getErrorMessage from "../utils/getErrorMessage";
 
 export type InboxModel = {
-	url: string;
+	sharedKey: string;
+	slug: string;
+	text: string;
 };
 
-export default async function followRequested(request: Request) {
+export default async function inboxReceived(request: Request) {
 	try {
 		const model: InboxModel = await request.json();
 
-		// TODO: Should we check the referrer or something to make sure it's
-		// actually been sent from the url? And how do we do it in a way that
-		// doesn't ddos either?
-
-		// Get the current user
-		//const currentUser = await getUser(username);
-		//if (!currentUser) {
-		//	return unauthorized();
-		//}
+		const user = await db.query.followingTable.findFirst({
+			where: eq(followingTable.shared_key, model.sharedKey),
+		});
+		if (!user) {
+			return notFound();
+		}
 
 		// Create the feed record
 		const record = {
-			approved: false,
-			username: "",
-			url: model.url,
-			shared_key: "",
-			name: "",
-			image: "",
+			user_id: user.id,
+			slug: model.slug,
+			text: model.text,
+			liked: false,
+			// TODO: Should receive posted_at, edited_at etc
 			created_at: new Date(),
 			updated_at: new Date(),
 		};
-		await db.insert(feedTable).values(record).returning();
+		await db.insert(feedTable).values(record);
 
 		// TODO: Create a notification
 

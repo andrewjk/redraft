@@ -41,7 +41,7 @@ export default async function followCheck(request: Request) {
 		const data: FollowCheckResponseModel = {
 			name: user.name,
 			// TODO: get the proper url
-			image: `http://localhost:${process.env.PORT}` + user.image,
+			image: `${process.env.URL}${user.image}`,
 		};
 
 		return ok(data);

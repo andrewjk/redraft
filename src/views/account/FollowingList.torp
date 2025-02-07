@@ -4,7 +4,6 @@ import FollowPreview from './FollowPreview.torp';
  * Shows a list of the users being followed.
  */
 export default function FollowingList($props) {
-	console.log($props)
 	@render {
 		<div class="follow-list">
 			@if ($props.data.following.length === 0) {

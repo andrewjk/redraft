@@ -8,6 +8,8 @@ export type FollowingPreview = {
 	image: string;
 };
 
+// TODO: Show both followedBy and following requests
+
 export default async function followRequestList(
 	limit?: number,
 	offset?: number,
