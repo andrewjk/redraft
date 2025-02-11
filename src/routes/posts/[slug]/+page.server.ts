@@ -20,7 +20,8 @@ export default {
 	},
 	actions: {
 		createComment: async ({ appData, request }) => {
-			const user = appData.user;
+			// Comments can be made by a following user, or by the main user
+			const user = appData.fuser || appData.user;
 			if (!user) {
 				return unauthorized();
 			}

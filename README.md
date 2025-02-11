@@ -18,7 +18,7 @@ Put an auth function on @torpor/build endpoints??
 // TODO: lib should always return data OR responses
 
 - [ ] / page showing public profile, pinned (if any), 5ish posts
-- [ ] /feed page showing showing your feed (must be logged in)
+- [x] /feed page showing showing your feed (must be logged in)
 - [ ] /posts page showing public posts (with login button)
 - [x] Status updates
 - [ ] Pin a status
@@ -28,7 +28,9 @@ Put an auth function on @torpor/build endpoints??
 - [x] Following
 - [x] Followed by
 - [ ] Share with QR
-- [ ] Comments
+- [x] Comments
+  - [ ] Replying
+  - [ ] Quoting
 - [x] Approving
   - [ ] Auto-approving
 - [ ] Blocking
@@ -37,10 +39,13 @@ Put an auth function on @torpor/build endpoints??
 
 - [ ] Liking
 - [ ] Reacting
-- [ ] Sharing
+- [ ] Saving
+- [ ] Sharing / reposting
 - [ ] Post visibility
 - [ ] Recipient lists
 - [ ] Editing posts
+- [ ] Deleting your posts
+- [ ] Deleting posts from other people from your db
 - [ ] Paid tiers?
 - etc
 
@@ -57,6 +62,8 @@ Put an auth function on @torpor/build endpoints??
 - [ ] Sign up to communicate with a single user on their page??
   - Maybe expand the followedBy table to have a password?
 - [ ] Encryption
+
+- [ ] Browser extension
 
 - [ ] App
 

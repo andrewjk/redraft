@@ -4,11 +4,11 @@ import { unauthorized } from "@torpor/build/response";
 
 export default {
 	post: ({ appData, request }) => {
-		const user = appData.user;
+		const user = appData.fuser || appData.user;
 		if (!user) {
 			return unauthorized();
 		}
 
-		return commentCreate(request, user.username, user.token);
+		return commentCreate(request, user.url, user.token);
 	},
 } satisfies ServerEndPoint;

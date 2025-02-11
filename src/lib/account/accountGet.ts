@@ -4,7 +4,7 @@ import { notFound, ok } from "@torpor/build/response";
 import { eq } from "drizzle-orm";
 import accountView from "./accountView";
 
-export default async function accountGet(request: Request, username: string) {
+export default async function accountGet(username: string) {
 	// Get the user from the database
 	const user = await db.query.usersTable.findFirst({ where: eq(usersTable.username, username) });
 	if (!user) {

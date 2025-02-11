@@ -25,6 +25,8 @@ export default async function followedByList(
 	// Create views
 	const followedBy = dbfollowedBy.map((f) => {
 		return {
+			id: f.id,
+			url: f.url,
 			name: f.name,
 			image: f.image,
 		};

@@ -2,6 +2,7 @@ import db from "@/data/db";
 import { commentsTable, postsTable } from "@/data/schema";
 import { notFound, ok, serverError } from "@torpor/build/response";
 import { and, eq, isNull } from "drizzle-orm";
+import commentPreview from "../comments/commentPreview";
 import getErrorMessage from "../utils/getErrorMessage";
 
 export default async function postGet(slug: string) {
@@ -15,25 +16,28 @@ export default async function postGet(slug: string) {
 		// Get the post from the database
 		const post = await db.query.postsTable.findFirst({
 			where: eq(postsTable.slug, slug),
-			//extras: {
-			//	// HACK: https://github.com/drizzle-team/drizzle-orm/issues/3493
-			//	//commentCount: db
-			//	//	.$count(commentsTable, eq(commentsTable.post_id, postsTable.id))
-			//	//	.as("commentCount"),
-			//	commentCount:
-			//		sql`(select count(*) from comments where comments.post_id = postsTable.id)`.as(
-			//			"commentCount",
-			//		),
-			//},
+			// TODO: Async load comments when scrolled to?
 			with: {
 				comments: {
-					where: and(eq(commentsTable.post_id, postsTable.id), isNull(commentsTable.parent_id)),
+					where: isNull(commentsTable.parent_id),
+					with: {
+						user: true,
+					},
 				},
 			},
 		});
 		if (!post) {
 			return notFound();
 		}
+
+		const comments = await db.query.commentsTable.findMany({
+			where: and(eq(commentsTable.post_id, post.id), isNull(commentsTable.parent_id)),
+			orderBy: commentsTable.created_at,
+			with: {
+				user: true,
+			},
+		});
+		console.log(comments);
 
 		// Create the view
 		const view = {
@@ -42,12 +46,12 @@ export default async function postGet(slug: string) {
 			author: {
 				image: user.image,
 				username: user.username,
-				url: process.env.SITE_LOCATION!,
+				url: user.url,
 			},
 			commentCount: post.comment_count,
 			createdAt: post.created_at,
 			updatedAt: post.updated_at,
-			comments: post.comments,
+			comments: post.comments.map((c) => commentPreview(c, user)),
 		};
 
 		return ok(view);

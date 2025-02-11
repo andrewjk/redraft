@@ -7,10 +7,12 @@ import CommentInput from "./CommentInput.torp"
 export default function CommentList() {
 	@render {
 		<div class="comment-list">
-			<CommentInput post={$props.post} />
 			@for (let comment of $props.comments) {
 				@key = comment.id
-				<CommentPreview {comment} user={$props.user} />
+				<CommentPreview {comment} user={$props.user} fuser={$props.fuser} />
+			}
+			@if ($props.user || $props.fuser) {
+				<CommentInput post={$props.post} />
 			}
 		</div>
 	}

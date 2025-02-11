@@ -16,8 +16,7 @@ export default function relativeTimeSince(datetime: Date) {
 	let now = new Date();
 	let secondsPast = (now.getTime() - datetime.getTime()) / 1000;
 	if (secondsPast < ONE_MINUTE) {
-		let seconds = Math.floor(secondsPast);
-		return `${pluralize(seconds, "second")} ago`;
+		return "Just now";
 	}
 	if (secondsPast < ONE_HOUR) {
 		let minutes = Math.floor(secondsPast / ONE_MINUTE);

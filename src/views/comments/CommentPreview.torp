@@ -6,7 +6,7 @@ import CommentInput from "./CommentInput.torp"
  * Shows a comment preview for display in a list.
  */
 export default function CommentPreview() {
-	let { comment, user } = $props;
+	let { comment, user, fuser } = $props;
 	let $state = $watch({ replying: false })
 
 	let fmt = new Intl.DateTimeFormat(undefined, {
@@ -36,7 +36,7 @@ export default function CommentPreview() {
 			<div class="comment-preview-footer hstack spaced">
 				@if ($state.replying) {
 					<CommentInput post={$props.post} />
-				} else {
+				} else if (user || fuser) {
 					<button type="button" onclick={() => $state.replying = true}>
 						Reply
 					</button>
@@ -47,10 +47,11 @@ export default function CommentPreview() {
 
 	@style {
 		.comment-preview {
-			padding: 0.6rem 1rem;
-			background-color: #fff;
-			border: 1px solid lightgray;
-			border-radius: var(--brad);
+			//padding: 0.6rem 1rem;
+			//background-color: #fff;
+			//border: 1px solid lightgray;
+			//border-radius: var(--brad);
+			margin: 0.6rem 0;
 		}
 
 		.comment-preview-header,

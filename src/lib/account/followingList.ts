@@ -25,6 +25,8 @@ export default async function followingList(
 	// Create views
 	const following = dbfollowing.map((f) => {
 		return {
+			id: f.id,
+			url: `${f.url}api/follow/login?sharedkey=${f.shared_key}`,
 			name: f.name,
 			image: f.image,
 		};

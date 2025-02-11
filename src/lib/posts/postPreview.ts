@@ -37,7 +37,7 @@ export default function postPreview(
 			: {
 					image: currentUser.image,
 					username: currentUser.username,
-					url: process.env.SITE_LOCATION!,
+					url: currentUser.url,
 				},
 		createdAt: post.created_at,
 		updatedAt: post.updated_at,

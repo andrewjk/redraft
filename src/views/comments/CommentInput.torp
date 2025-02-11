@@ -9,7 +9,7 @@ export default function CommentInput() {
 
 	@render {
 		<form class="comment-input" method="POST" action="?/createComment">
-			<input type="hidden" name="post_id" value={post.id} />
+			<input type="hidden" name="postslug" value={post.slug} />
 
 			<textarea
 				class="full-width"
@@ -20,7 +20,7 @@ export default function CommentInput() {
 
 			<div class="comment-footer">
 				<button type="submit">
-					Comment
+					Submit
 				</button>
 			</div>
 		</form>

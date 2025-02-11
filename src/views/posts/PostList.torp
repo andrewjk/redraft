@@ -13,7 +13,7 @@ export default function PostList() {
 			} else {
 				@for (let post of $props.posts) {
 					@key = post.id
-					<PostPreview {post} user={$props.user} />
+					<PostPreview {post} user={$props.user} fuser={$props.fuser} />
 				}
 			}
 		</div>

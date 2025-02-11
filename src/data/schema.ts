@@ -1,6 +1,6 @@
 import { relations } from "drizzle-orm";
 import { blob, int, sqliteTable, text } from "drizzle-orm/sqlite-core";
-import { createInsertSchema, createSelectSchema, createUpdateSchema } from "drizzle-valibot";
+import { createSelectSchema } from "drizzle-valibot";
 import { InferOutput } from "valibot";
 
 // There is only going to be one user in this table (for now, at least) and it's us
@@ -8,6 +8,7 @@ export const usersTable = sqliteTable("users", {
 	id: int().primaryKey({ autoIncrement: true }),
 	email: text().notNull().unique(),
 	username: text().notNull(),
+	url: text().notNull(),
 	password: text().notNull(),
 	name: text().notNull(),
 	bio: text().notNull(),
@@ -18,12 +19,7 @@ export const usersTable = sqliteTable("users", {
 });
 
 export const UserSelectSchema = createSelectSchema(usersTable);
-export const UserInsertSchema = createInsertSchema(usersTable);
-export const UserUpdateSchema = createUpdateSchema(usersTable);
-
 export type User = InferOutput<typeof UserSelectSchema>;
-export type UserInsert = InferOutput<typeof UserInsertSchema>;
-export type UserUpdate = InferOutput<typeof UserUpdateSchema>;
 
 // TODO: Separate out following/followedby user fields into a new table
 
@@ -63,6 +59,9 @@ export const followedByTable = sqliteTable("followed_by", {
 	deleted_at: int({ mode: "timestamp" }),
 });
 
+export const FollowedBySelectSchema = createSelectSchema(followedByTable);
+export type FollowedBy = InferOutput<typeof FollowedBySelectSchema>;
+
 // Our posts
 export const postsTable = sqliteTable("posts", {
 	id: int().primaryKey({ autoIncrement: true }),
@@ -80,16 +79,12 @@ export const postsRelations = relations(postsTable, ({ many }) => ({
 }));
 
 export const PostSelectSchema = createSelectSchema(postsTable);
-export const PostInsertSchema = createInsertSchema(postsTable);
-export const PostUpdateSchema = createUpdateSchema(postsTable);
-
 export type Post = InferOutput<typeof PostSelectSchema>;
-export type PostInsert = InferOutput<typeof PostInsertSchema>;
-export type PostUpdate = InferOutput<typeof PostUpdateSchema>;
 
 // Comments on our posts
 export const commentsTable = sqliteTable("comments", {
 	id: int().primaryKey({ autoIncrement: true }),
+	user_id: int().references(() => followedByTable.id),
 	post_id: int()
 		.notNull()
 		.references(() => postsTable.id),
@@ -104,21 +99,17 @@ export const commentsTable = sqliteTable("comments", {
 });
 
 export const commentsRelations = relations(commentsTable, ({ one }) => ({
-	user: one(postsTable, { fields: [commentsTable.post_id], references: [postsTable.id] }),
+	user: one(followedByTable, { fields: [commentsTable.user_id], references: [followedByTable.id] }),
+	post: one(postsTable, { fields: [commentsTable.post_id], references: [postsTable.id] }),
 }));
 
 export const CommentSelectSchema = createSelectSchema(commentsTable);
-export const CommentInsertSchema = createInsertSchema(commentsTable);
-export const CommentUpdateSchema = createUpdateSchema(commentsTable);
-
 export type Comment = InferOutput<typeof CommentSelectSchema>;
-export type CommentInsert = InferOutput<typeof CommentInsertSchema>;
-export type CommentUpdate = InferOutput<typeof CommentUpdateSchema>;
 
 // Posts from people we are following
 export const feedTable = sqliteTable("feed", {
 	id: int().primaryKey({ autoIncrement: true }),
-	// HACK: Can't have a nullable foreign key column?
+	// HACK: Can't update to a nullable foreign key column?
 	user_id: int(), //.references(() => followingTable.id),
 	slug: text().notNull(),
 	text: text().notNull(),

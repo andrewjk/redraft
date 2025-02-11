@@ -12,11 +12,19 @@ export default {
 		}
 		const [tag, token] = authorization.split(" ");
 		if (tag === "Token" || tag === "Bearer") {
-			appData.user = jose.decodeJwt(token)?.user;
-
-			// HACK: Not sure if this is good, but we need to set the token so
-			// we can call api methods from api methods
-			appData.user.token = token;
+			const decoded = jose.decodeJwt(token);
+			console.log("API HOOK", decoded);
+			if (decoded?.user) {
+				appData.user = decoded.user;
+				// HACK: Not sure if this is good, but we need to set the token so
+				// we can call api methods from api methods
+				appData.user.token = token;
+			} else if (decoded?.fuser) {
+				appData.fuser = decoded.fuser;
+				// HACK: Not sure if this is good, but we need to set the token so
+				// we can call api methods from api methods
+				appData.fuser.token = token;
+			}
 		}
 	},
 } satisfies ServerHook;

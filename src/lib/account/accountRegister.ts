@@ -21,6 +21,8 @@ export default async function accountRegister(request: Request) {
 		const user = {
 			email: model.email,
 			username: model.username,
+			// TODO: Get this from the request headers?
+			url: process.env.SITE_LOCATION!,
 			password: hashed,
 			name: "",
 			bio: "",

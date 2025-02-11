@@ -29,6 +29,7 @@ export default async function followRequestList(
 	const requests = dbawaiting.map((f) => {
 		return {
 			id: f.id,
+			url: f.url,
 			name: f.name,
 			image: f.image,
 		};

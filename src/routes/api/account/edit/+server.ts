@@ -4,13 +4,13 @@ import type { ServerEndPoint } from "@torpor/build";
 import { unauthorized } from "@torpor/build/response";
 
 export default {
-	get: async ({ appData, request }) => {
+	get: async ({ appData }) => {
 		const user = appData.user;
 		if (!user) {
 			return unauthorized();
 		}
 
-		return await accountGet(request, user.username);
+		return await accountGet(user.username);
 	},
 	post: ({ appData, request }) => {
 		const user = appData.user;

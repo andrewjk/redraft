@@ -6,8 +6,8 @@ import CommentList from "@/views/comments/CommentList.torp"
 /**
  * Shows a post's full details.
  */
-export default function PostPreview() {
-	let { post, user } = $props.data;
+export default function PostView() {
+	let { post, user, fuser } = $props.data;
 
 	let fmt = new Intl.DateTimeFormat(undefined, {
 		day: "numeric",
@@ -43,7 +43,7 @@ export default function PostPreview() {
 			</div>
 
 			<div class="post-preview-comments-container">
-				<CommentList {post} comments={post.comments}/>
+				<CommentList {post} {user} {fuser} comments={post.comments}/>
 			</div>
 		</div>
 	}
@@ -86,6 +86,7 @@ export default function PostPreview() {
 		.post-preview-comments-container {
 			background-color: #fcfcfc;
 			border-radius: var(--brad);
+			font-size: 85%;
 		}
 	}
 }

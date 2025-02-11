@@ -1,29 +1,26 @@
 //import profileView from "./profileView";
 import { type Comment, type User } from "@/data/schema";
 
+type CommentAuthor = {
+	image: string;
+	username: string;
+	url: string;
+};
+
 export type CommentPreview = {
 	slug: string;
 	text: string;
-	author: {
-		image: string;
-		username: string;
-		url: string;
-	};
+	author: CommentAuthor;
 	createdAt: Date;
 	updatedAt: Date;
-	commentCount: number;
+	// TODO: commentCount: number;
 };
 
 export default function commentPreview(
 	comment: Comment & {
-		user?: {
-			image: string;
-			username: string;
-			url: string;
-		} | null;
-		commentCount?: number;
+		user?: User;
 	},
-	currentUser: User,
+	currentUser: CommentAuthor,
 ): CommentPreview {
 	return {
 		slug: comment.slug,
@@ -37,10 +34,9 @@ export default function commentPreview(
 			: {
 					image: currentUser.image,
 					username: currentUser.username,
-					url: process.env.SITE_LOCATION!,
+					url: currentUser.url,
 				},
 		createdAt: comment.created_at,
 		updatedAt: comment.updated_at,
-		commentCount: comment.commentCount ?? 0,
 	};
 }
