@@ -30,10 +30,9 @@ export default async function followerLogin(
 		// TODO: This should be done in the API call?
 		setFollowerToken(cookies, {
 			url: user.url,
-			token: token,
-			username: user.username,
 			name: user.name,
 			image: user.image,
+			token: token,
 		});
 
 		return redirect("/");

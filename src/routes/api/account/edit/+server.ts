@@ -10,7 +10,7 @@ export default {
 			return unauthorized();
 		}
 
-		return await accountGet(user.username);
+		return await accountGet();
 	},
 	post: ({ appData, request }) => {
 		const user = appData.user;
@@ -18,6 +18,6 @@ export default {
 			return unauthorized();
 		}
 
-		return accountEdit(request, user.username);
+		return accountEdit(request);
 	},
 } satisfies ServerEndPoint;

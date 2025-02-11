@@ -36,7 +36,6 @@ export default async function followCheck(request: Request) {
 		}
 
 		// Return the name and image
-		// TODO: and the username
 		// TODO: and the canonical url?
 		const data: FollowCheckResponseModel = {
 			name: user.name,

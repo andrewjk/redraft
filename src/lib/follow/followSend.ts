@@ -6,7 +6,6 @@ import { v4 as uuid } from "uuid";
 import { postPublic } from "../public";
 import { FollowRequestModel, FollowRequestResponseModel } from "../public/followRequested";
 import getErrorMessage from "../utils/getErrorMessage";
-import getUser from "../utils/getUser";
 
 export type FollowModel = {
 	url: string;
@@ -15,12 +14,12 @@ export type FollowModel = {
 /**
  * Sends a follow request from another user.
  */
-export default async function followSend(request: Request, url: URL, username: string) {
+export default async function followSend(request: Request, url: URL) {
 	try {
 		const model: FollowModel = await request.json();
 
-		// Get the current user
-		const currentUser = await getUser(username);
+		// Get the current (only) user
+		const currentUser = await db.query.usersTable.findFirst();
 		if (!currentUser) {
 			return unauthorized();
 		}
@@ -34,7 +33,6 @@ export default async function followSend(request: Request, url: URL, username: s
 		// Create the following record, with approved = false
 		let record = {
 			approved: false,
-			username: "",
 			url: model.url,
 			shared_key: sharedKey,
 			name: "",

@@ -22,20 +22,35 @@ export default function PostView() {
 		<div class="post-preview-container">
 			<div class="post-preview-header hstack centered spaced">
 				<a href={post.author.url}>
-					<img class="post-preview-image" src={post.author.image} alt={post.author.username} />
+					<img class="post-preview-image" src={post.author.image} alt="{post.author.name} ({post.author.url})" />
 				</a>
-				<a href={post.author.url}>{post.author.username}</a>
-				<span title={fmt.format(new Date(post.createdAt))}>
-					{relativeTimeSince(new Date(post.createdAt))}
-				</span>
+				<a class="post-preview-link hstack spaced" href={post.author.url}>
+					<div class="vstack">
+						<div class="post-preview-name">
+							{post.author.name}
+						</div>
+						<div class="post-preview-url">
+							{post.author.url}
+						</div>
+					</div>
+				</a>
+				<div class="spacer" />
+				<div class="vstack">
+					<div class="post-preview-time" title={fmt.format(new Date(post.createdAt))}>
+						{relativeTimeSince(new Date(post.createdAt))}
+					</div>
+					<div>&nbsp;</div>
+				</div>
 			</div>
 
-			<p>{post.text}</p>
+			<div class="post-preview-body">
+				<p>{post.text}</p>
+			</div>
 
 			<div class="post-preview-footer hstack spaced">
-				<a>
+				<div>
 					{pluralize(post.commentCount, "comment")}
-				</a>
+				</div>
 				<a>
 					React
 				</a>
@@ -60,7 +75,7 @@ export default function PostView() {
 
 		.post-preview-container,
 		.post-preview-comments-container {
-			padding: 0.6rem 1rem;
+			padding: 1rem;
 		}
 
 		.post-preview-container {
@@ -69,8 +84,12 @@ export default function PostView() {
 
 		.post-preview-header,
 		.post-preview-footer {
-			font-size: small;
-			color: gray;
+			font-size: 90%;
+			line-height: 1.4;
+		}
+
+		.post-preview-body {
+			padding: 1rem 0;
 		}
 
 		.post-preview-link {
@@ -81,6 +100,17 @@ export default function PostView() {
 			height: 40px;
 			width: 40px;
 			border-radius: 50%;
+		}
+
+		.post-preview-name {
+			//color: inherit;
+			font-weight: bold;
+		}
+
+		.post-preview-url,
+		.post-preview-time,
+		.post-preview-footer {
+			color: gray;
 		}
 
 		.post-preview-comments-container {

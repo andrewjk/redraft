@@ -2,17 +2,15 @@ import { type User } from "@/data/schema/usersTable";
 
 export type AccountPreview = {
 	email: string;
-	token: string;
-	username: string;
+	name: string;
 	bio: string;
 	image: string;
 };
 
-export default function accountPreview(user: User, token: string) {
+export default function accountPreview(user: User) {
 	const view = {
 		email: user.email,
-		token: token,
-		username: user.username,
+		name: user.name,
 		bio: user.bio,
 		image: user.image,
 	};

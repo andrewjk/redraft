@@ -9,6 +9,6 @@ export default {
 			return unauthorized();
 		}
 
-		return postCreate(request, user.username, user.token);
+		return postCreate(request, user.token);
 	},
 } satisfies ServerEndPoint;

@@ -24,7 +24,7 @@ export default async function commentCreate(request: Request, url: string, token
 				id: true,
 				url: true,
 				image: true,
-				username: true,
+				name: true,
 			},
 		});
 		if (!currentUser) {
@@ -35,7 +35,7 @@ export default async function commentCreate(request: Request, url: string, token
 					id: true,
 					url: true,
 					image: true,
-					username: true,
+					name: true,
 				},
 			});
 		}

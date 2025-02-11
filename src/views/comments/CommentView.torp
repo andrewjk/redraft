@@ -19,9 +19,9 @@ export default function CommentPreview() {
 		<div class="comment-preview">
 			<div class="comment-preview-header hstack centered spaced">
 				<a href={comment.author.url}>
-					<img class="comment-preview-image" src={comment.author.image} alt={comment.author.username} />
+					<img class="comment-preview-image" src={comment.author.image} alt="{comment.author.name} ({comment.author.url})" />
 				</a>
-				<a href={comment.author.url}>{comment.author.username}</a>
+				<a href={comment.author.url}>{comment.author.name}</a>
 				<span title={fmt.format(new Date(comment.createdAt))}>
 					{relativeTimeSince(new Date(comment.createdAt))}
 				</span>

@@ -1,9 +1,8 @@
 type User = {
 	url: string;
-	token: string;
-	username: string;
 	name: string;
 	image: string;
+	token: string;
 };
 
 // TODO: Export CookieHelper from @torpor/build

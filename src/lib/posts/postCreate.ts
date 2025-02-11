@@ -4,19 +4,18 @@ import * as api from "@/lib/api";
 import { created, serverError, unauthorized } from "@torpor/build/response";
 import { v4 as uuid } from "uuid";
 import getErrorMessage from "../utils/getErrorMessage";
-import getUser from "../utils/getUser";
 import postPreview from "./postPreview";
 
 export type PostCreateModel = {
 	text: string;
 };
 
-export default async function postCreate(request: Request, username: string, token: string) {
+export default async function postCreate(request: Request, token: string) {
 	try {
 		const model: PostCreateModel = await request.json();
 
-		// Get the current user
-		const currentUser = await getUser(username);
+		// Get the current (only) user
+		const currentUser = await db.query.usersTable.findFirst();
 		if (!currentUser) {
 			return unauthorized();
 		}

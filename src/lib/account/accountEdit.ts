@@ -3,24 +3,22 @@ import { usersTable } from "@/data/schema";
 import { ok, serverError, unauthorized } from "@torpor/build/response";
 import { eq } from "drizzle-orm";
 import getErrorMessage from "../utils/getErrorMessage";
-import getUser from "../utils/getUser";
 import accountView from "./accountView";
 
 export type EditModel = {
 	email: string;
-	username: string;
 	password: string;
 	name: string;
 	bio: string;
 	image: string;
 };
 
-export default async function accountEdit(request: Request, username: string) {
+export default async function accountEdit(request: Request) {
 	try {
 		const model: EditModel = await request.json();
 
-		// Get the current user
-		const currentUser = await getUser(username);
+		// Get the current (only) user
+		const currentUser = await db.query.usersTable.findFirst();
 		if (!currentUser) {
 			return unauthorized();
 		}
@@ -29,7 +27,6 @@ export default async function accountEdit(request: Request, username: string) {
 		const user = {
 			id: currentUser.id,
 			email: model.email,
-			username: model.username,
 			name: model.name,
 			bio: model.bio,
 			image: model.image,

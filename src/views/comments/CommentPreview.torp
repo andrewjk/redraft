@@ -21,17 +21,30 @@ export default function CommentPreview() {
 		<div class="comment-preview">
 			<div class="comment-preview-header hstack centered spaced">
 				<a href={comment.author.url}>
-					<img class="comment-preview-image" src={comment.author.image} alt={`${comment.author.name} (${comment.author.username})`} />
+					<img class="comment-preview-image" src={comment.author.image} alt={`${comment.author.name} (${comment.author.url})`} />
 				</a>
-				<a href={comment.author.url}>{comment.author.username}</a>
-				<span title={fmt.format(new Date(comment.createdAt))}>
-					{relativeTimeSince(new Date(comment.createdAt))}
-				</span>
+				<a class="comment-preview-link grow hstack spaced" href={comment.author.url}>
+					<div class="grow vstack">
+						<div class="comment-preview-name">
+							{comment.author.name}
+						</div>
+						<div class="comment-preview-url">
+							{comment.author.url}
+						</div>
+					</div>
+					<div class="vstack">
+						<div class="comment-preview-time" title={fmt.format(new Date(comment.createdAt))}>
+							{relativeTimeSince(new Date(comment.createdAt))}
+						</div>
+					</div>
+				</a>
 			</div>
 
-			<a href="{comment.author.url}comments/{comment.slug}" class="comment-preview-link">
-				<p>{comment.text}</p>
-			</a>
+			<div class="comment-preview-body">
+				<a class="comment-preview-link" href="{comment.author.url}comments/{comment.slug}">
+					<p>{comment.text}</p>
+				</a>
+			</div>
 
 			<div class="comment-preview-footer hstack spaced">
 				@if ($state.replying) {
@@ -47,17 +60,16 @@ export default function CommentPreview() {
 
 	@style {
 		.comment-preview {
-			//padding: 0.6rem 1rem;
-			//background-color: #fff;
-			//border: 1px solid lightgray;
-			//border-radius: var(--brad);
 			margin: 0.6rem 0;
 		}
 
 		.comment-preview-header,
 		.comment-preview-footer {
-			font-size: small;
-			color: gray;
+			line-height: 1.4;
+		}
+
+		.comment-preview-body {
+			padding: 0.4rem 0;
 		}
 
 		.comment-preview-link {
@@ -68,6 +80,15 @@ export default function CommentPreview() {
 			height: 40px;
 			width: 40px;
 			border-radius: 50%;
+		}
+
+		.comment-preview-name {
+			font-weight: bold;
+		}
+
+		.comment-preview-url,
+		.comment-preview-time {
+			color: gray;
 		}
 	}
 }

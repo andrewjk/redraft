@@ -1,14 +1,13 @@
 import db from "@/data/db";
 import { usersTable } from "@/data/schema";
-import { created, serverError } from "@torpor/build/response";
+import { serverError } from "@torpor/build/response";
 import createUserToken from "../utils/createUserToken";
 import getErrorMessage from "../utils/getErrorMessage";
 import { hashPassword } from "../utils/hashPasswords";
-import accountPreview from "./accountPreview";
 
 export type RegisterModel = {
 	email: string;
-	username: string;
+	name: string;
 	password: string;
 };
 
@@ -20,11 +19,13 @@ export default async function accountRegister(request: Request) {
 		const hashed = hashPassword(model.password);
 		const user = {
 			email: model.email,
-			username: model.username,
+			// TODO: What should this be?
+			username: "",
 			// TODO: Get this from the request headers?
 			url: process.env.SITE_LOCATION!,
 			password: hashed,
-			name: "",
+			name: model.name,
+			// TODO: Require this stuff to be set?
 			bio: "",
 			image: "",
 			created_at: new Date(),
@@ -32,15 +33,17 @@ export default async function accountRegister(request: Request) {
 		};
 
 		// Insert the user into the database
-		const newUser = (await db.insert(usersTable).values(user).returning())[0];
+		await db.insert(usersTable).values(user).returning();
 
 		// Create the authentication token for future use
 		const token = await createUserToken(user);
 
-		// Create the user view with the authentication token
-		const view = accountPreview(newUser, token);
-
-		return created(view);
+		return {
+			email: user.email,
+			name: user.name,
+			image: user.image,
+			token,
+		};
 	} catch (error) {
 		const message = getErrorMessage(error).message;
 		return serverError(message);

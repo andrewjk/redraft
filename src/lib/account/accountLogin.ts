@@ -1,11 +1,10 @@
 import db from "@/data/db";
 import { usersTable } from "@/data/schema";
-import { created, forbidden, serverError } from "@torpor/build/response";
+import { forbidden, serverError } from "@torpor/build/response";
 import { eq } from "drizzle-orm";
 import createUserToken from "../utils/createUserToken";
 import getErrorMessage from "../utils/getErrorMessage";
 import { compareWithHash } from "../utils/hashPasswords";
-import accountPreview from "./accountPreview";
 
 export type LoginModel = {
 	email: string;
@@ -29,10 +28,12 @@ export default async function accountLogin(request: Request) {
 		// Create the authentication token for future use
 		const token = await createUserToken(user);
 
-		// Create the user view with the authentication token
-		const view = accountPreview(user, token);
-
-		return created(view);
+		return {
+			email: user.email,
+			name: user.name,
+			image: user.image,
+			token,
+		};
 	} catch (error) {
 		const message = getErrorMessage(error).message;
 		return serverError(message);

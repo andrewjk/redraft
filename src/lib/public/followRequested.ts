@@ -39,7 +39,6 @@ export default async function followRequested(request: Request) {
 		// Create the followed by record, with approved = false
 		const record = {
 			approved: false,
-			username: "",
 			url: model.url,
 			shared_key: model.sharedKey,
 			name: confirmData.name,

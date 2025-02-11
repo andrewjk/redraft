@@ -9,6 +9,6 @@ export default {
 			return unauthorized();
 		}
 
-		return await accountGet(user.username);
+		return await accountGet();
 	},
 } satisfies ServerEndPoint;

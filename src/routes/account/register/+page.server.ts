@@ -12,7 +12,7 @@ export default {
 		}
 	},
 	actions: {
-		default: async ({ cookies, request }) => {
+		default: async ({ request, cookies }) => {
 			const data = await request.formData();
 			const model = formDataToObject(data);
 
@@ -23,10 +23,9 @@ export default {
 
 			setUserToken(cookies, {
 				email: result.email,
-				token: result.token,
-				username: result.username,
 				name: result.name,
 				image: result.image,
+				token: result.token,
 			});
 
 			return seeOther("/");

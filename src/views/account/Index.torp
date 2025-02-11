@@ -8,8 +8,8 @@ export default function Layout($props) {
 			</:head>
 
 			<div class="vstack centered account-details">
-				<img src={$props.data.account.image} class="account-image" alt={$props.data.account.username} />
-				<h4>{$props.data.account.username}</h4>
+				<img src={$props.data.account.image} class="account-image" alt="{$props.data.account.name} ({$props.data.account.url})" />
+				<h4>{$props.data.account.name}</h4>
 				@if ($props.data.account.bio) {
 					<p>{$props.data.account.bio}</p>
 				}

@@ -4,7 +4,7 @@ import { type User } from "@/data/schema/usersTable";
 
 type CommentAuthor = {
 	image: string;
-	username: string;
+	name: string;
 	url: string;
 };
 
@@ -29,12 +29,12 @@ export default function commentPreview(
 		author: comment.user
 			? {
 					image: comment.user.image,
-					username: comment.user.username,
+					name: comment.user.name,
 					url: comment.user.url,
 				}
 			: {
 					image: currentUser.image,
-					username: currentUser.username,
+					name: currentUser.name,
 					url: currentUser.url,
 				},
 		createdAt: comment.created_at,

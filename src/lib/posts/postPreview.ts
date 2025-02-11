@@ -6,8 +6,8 @@ export type PostPreview = {
 	slug: string;
 	text: string;
 	author: {
+		name: string;
 		image: string;
-		username: string;
 		url: string;
 	};
 	createdAt: Date;
@@ -18,8 +18,8 @@ export type PostPreview = {
 export default function postPreview(
 	post: Post & {
 		user?: {
+			name: string;
 			image: string;
-			username: string;
 			url: string;
 		} | null;
 		//commentCount?: number;
@@ -31,13 +31,13 @@ export default function postPreview(
 		text: post.text,
 		author: post.user
 			? {
+					name: post.user.name,
 					image: post.user.image,
-					username: post.user.username,
 					url: post.user.url,
 				}
 			: {
+					name: currentUser.name,
 					image: currentUser.image,
-					username: currentUser.username,
 					url: currentUser.url,
 				},
 		createdAt: post.created_at,

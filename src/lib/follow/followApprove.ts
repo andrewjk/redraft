@@ -5,7 +5,6 @@ import { eq } from "drizzle-orm";
 import { postPublic } from "../public";
 import { FollowConfirmModel } from "../public/followConfirmed";
 import getErrorMessage from "../utils/getErrorMessage";
-import getUser from "../utils/getUser";
 
 export type ApproveModel = {
 	id: number;
@@ -14,12 +13,12 @@ export type ApproveModel = {
 /**
  * Approves a follow request from another user.
  */
-export default async function followApprove(request: Request, username: string) {
+export default async function followApprove(request: Request) {
 	try {
 		const model: ApproveModel = await request.json();
 
-		// Get the current user
-		const currentUser = await getUser(username);
+		// Get the current (only) user
+		const currentUser = await db.query.usersTable.findFirst();
 		if (!currentUser) {
 			return unauthorized();
 		}

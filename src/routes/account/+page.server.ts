@@ -39,10 +39,9 @@ export default {
 
 			setUserToken(cookies, {
 				email: result.email,
-				token: user.token,
-				username: result.username,
 				name: result.name,
 				image: result.image,
+				token: user.token,
 			});
 
 			appData.user = result;

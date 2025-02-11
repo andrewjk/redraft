@@ -17,23 +17,36 @@ export default function FollowPreview() {
 
 	@render {
 		<div class="follow-preview">
-			<div class="follow-preview-header hstack spaced">
+			<div class="follow-preview-header hstack centered spaced">
 				<a href={follow.url}>
-					<img class="follow-preview-image" src={follow.image} alt={follow.username} />
+					<img class="follow-preview-image" src={follow.image} alt="{follow.name} ({follow.url})" />
 				</a>
-				<a href={follow.url}>{follow.username}</a>
+				<a class="follow-preview-link grow hstack spaced" href={follow.url}>
+					<div class="grow vstack">
+						<div class="follow-preview-name">
+							{follow.name}
+						</div>
+						<div class="follow-preview-url">
+							{follow.url}
+						</div>
+					</div>
+				</a>
 				@/*
 					<span title={fmt.format(new Date(post.createdAt))}>
 						{relativeTimeSince(new Date(post.createdAt))}
 					</span>
 				*/
 			</div>
+
+			<div class="follow-preview-body">
+				<p>{follow.bio}</p>
+			</div>
 		</div>
 	}
 
 	@style {
 		.follow-preview {
-			padding: 0.6rem 1rem;
+			padding: 1rem;
 			background-color: #fff;
 			border: 1px solid lightgray;
 			border-radius: var(--brad);
@@ -41,8 +54,11 @@ export default function FollowPreview() {
 
 		.follow-preview-header,
 		.follow-preview-footer {
-			font-size: small;
-			color: gray;
+			line-height: 1.4;
+		}
+
+		.follow-preview-body {
+			padding: 0.4rem 0;
 		}
 
 		.follow-preview-link {
@@ -53,6 +69,15 @@ export default function FollowPreview() {
 			height: 40px;
 			width: 40px;
 			border-radius: 50%;
+		}
+
+		.follow-preview-name {
+			font-weight: bold;
+		}
+
+		.follow-preview-url,
+		.follow-preview-time {
+			color: gray;
 		}
 	}
 }

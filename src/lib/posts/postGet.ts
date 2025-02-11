@@ -30,22 +30,13 @@ export default async function postGet(slug: string) {
 			return notFound();
 		}
 
-		const comments = await db.query.commentsTable.findMany({
-			where: and(eq(commentsTable.post_id, post.id), isNull(commentsTable.parent_id)),
-			orderBy: commentsTable.created_at,
-			with: {
-				user: true,
-			},
-		});
-		console.log(comments);
-
 		// Create the view
 		const view = {
 			slug: post.slug,
 			text: post.text,
 			author: {
 				image: user.image,
-				username: user.username,
+				name: user.name,
 				url: user.url,
 			},
 			commentCount: post.comment_count,
