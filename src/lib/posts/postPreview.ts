@@ -1,5 +1,6 @@
 //import profileView from "./profileView";
-import { type Post, type User } from "@/data/schema";
+import { type Post } from "@/data/schema/postsTable";
+import { type User } from "@/data/schema/usersTable";
 
 export type PostPreview = {
 	slug: string;

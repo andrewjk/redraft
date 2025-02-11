@@ -1,5 +1,6 @@
 import db from "@/data/db";
-import { User, usersTable } from "@/data/schema";
+import { usersTable } from "@/data/schema";
+import { type User } from "@/data/schema/usersTable";
 import { eq } from "drizzle-orm";
 
 export default async function getUser(username: string): Promise<User | undefined> {

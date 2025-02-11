@@ -1,4 +1,4 @@
-import { type User } from "@/data/schema";
+import { type User } from "@/data/schema/usersTable";
 
 export type AccountPreview = {
 	email: string;
