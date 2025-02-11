@@ -2,7 +2,7 @@ import * as api from "@/lib/api";
 import { PAGE_SIZE } from "@/lib/constants";
 import formDataToObject from "@/lib/utils/formDataToObject";
 import { type PageServerEndPoint } from "@torpor/build";
-import { ok, redirect, unauthorized, unprocessable } from "@torpor/build/response";
+import { ok, unauthorized, unprocessable } from "@torpor/build/response";
 
 export default {
 	load: async ({ url, appData }) => {

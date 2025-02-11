@@ -1,4 +1,5 @@
 //import { enhance } from '$app/forms';
+import pluralize from "@/lib/utils/pluralize"
 import relativeTimeSince from "@/lib/utils/relativeTimeSince"
 
 /**
@@ -22,23 +23,9 @@ export default function PostPreview() {
 					<img class="post-preview-image" src={post.author.image} alt={`${post.author.name} (${post.author.username})`} />
 				</a>
 				<a href={post.author.url}>{post.author.username}</a>
-				<span title={fmt.format(new Date(post.createdAt))}>{relativeTimeSince(new Date(post.createdAt))}</span>
-
-			@/*
-				@if (user) {
-					<form
-						method="POST"
-						action="/posts/{post.slug}?/toggleFavorite"
-						class="pull-xs-right"
-					>
-						<input hidden type="checkbox" name="favorited" checked={post.favorited} />
-						<button class="btn btn-sm {post.favorited ? 'btn-primary' : 'btn-outline-primary'}">
-							<i class="ion-heart" />
-							{post.favoritesCount}
-						</button>
-					</form>
-				}
-			*/
+				<span title={fmt.format(new Date(post.createdAt))}>
+					{relativeTimeSince(new Date(post.createdAt))}
+				</span>
 			</div>
 
 			<a href="{post.author.url}posts/{post.slug}" class="post-preview-link">
@@ -46,8 +33,8 @@ export default function PostPreview() {
 			</a>
 
 			<div class="post-preview-footer hstack spaced">
-				<a>
-					5 comments
+				<a href="{post.author.url}posts/{post.slug}#comments">
+					{pluralize(post.commentCount, "comment")}
 				</a>
 				<a>
 					React

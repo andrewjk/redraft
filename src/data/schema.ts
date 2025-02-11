@@ -68,10 +68,16 @@ export const postsTable = sqliteTable("posts", {
 	id: int().primaryKey({ autoIncrement: true }),
 	slug: text().notNull(),
 	text: text().notNull(),
+	comment_count: int().notNull().default(0),
+	last_comment_at: int({ mode: "timestamp" }),
 	created_at: int({ mode: "timestamp" }).notNull(),
 	updated_at: int({ mode: "timestamp" }).notNull(),
 	deleted_at: int({ mode: "timestamp" }),
 });
+
+export const postsRelations = relations(postsTable, ({ many }) => ({
+	comments: many(commentsTable),
+}));
 
 export const PostSelectSchema = createSelectSchema(postsTable);
 export const PostInsertSchema = createInsertSchema(postsTable);
@@ -81,19 +87,50 @@ export type Post = InferOutput<typeof PostSelectSchema>;
 export type PostInsert = InferOutput<typeof PostInsertSchema>;
 export type PostUpdate = InferOutput<typeof PostUpdateSchema>;
 
-// Posts from people we are following
-export const feedTable = sqliteTable("feed", {
+// Comments on our posts
+export const commentsTable = sqliteTable("comments", {
 	id: int().primaryKey({ autoIncrement: true }),
-	user_id: int().references(() => followingTable.id),
+	post_id: int()
+		.notNull()
+		.references(() => postsTable.id),
+	// 1 level deep only
+	parent_id: int(),
+	// For permalinking
 	slug: text().notNull(),
 	text: text().notNull(),
-	liked: int({ mode: "boolean" }).notNull(),
 	created_at: int({ mode: "timestamp" }).notNull(),
 	updated_at: int({ mode: "timestamp" }).notNull(),
 	deleted_at: int({ mode: "timestamp" }),
 });
 
-export const feedTableRelations = relations(feedTable, ({ one }) => ({
+export const commentsRelations = relations(commentsTable, ({ one }) => ({
+	user: one(postsTable, { fields: [commentsTable.post_id], references: [postsTable.id] }),
+}));
+
+export const CommentSelectSchema = createSelectSchema(commentsTable);
+export const CommentInsertSchema = createInsertSchema(commentsTable);
+export const CommentUpdateSchema = createUpdateSchema(commentsTable);
+
+export type Comment = InferOutput<typeof CommentSelectSchema>;
+export type CommentInsert = InferOutput<typeof CommentInsertSchema>;
+export type CommentUpdate = InferOutput<typeof CommentUpdateSchema>;
+
+// Posts from people we are following
+export const feedTable = sqliteTable("feed", {
+	id: int().primaryKey({ autoIncrement: true }),
+	// HACK: Can't have a nullable foreign key column?
+	user_id: int(), //.references(() => followingTable.id),
+	slug: text().notNull(),
+	text: text().notNull(),
+	comment_count: int().notNull().default(0),
+	last_comment_at: int({ mode: "timestamp" }),
+	liked: int({ mode: "boolean" }).notNull().default(false),
+	created_at: int({ mode: "timestamp" }).notNull(),
+	updated_at: int({ mode: "timestamp" }).notNull(),
+	deleted_at: int({ mode: "timestamp" }),
+});
+
+export const feedRelations = relations(feedTable, ({ one }) => ({
 	user: one(followingTable, { fields: [feedTable.user_id], references: [followingTable.id] }),
 }));
 

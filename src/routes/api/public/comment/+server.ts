@@ -1,4 +1,4 @@
-import followCheck from "@/lib/public/followCheck";
+import commentReceived from "@/lib/public/commentReceived";
 import type { ServerEndPoint } from "@torpor/build";
 
 export default {
@@ -8,6 +8,6 @@ export default {
 		//	return unauthorized();
 		//}
 
-		return followCheck(request);
+		return commentReceived(request);
 	},
 } satisfies ServerEndPoint;

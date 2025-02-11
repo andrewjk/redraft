@@ -3,19 +3,21 @@ import { followedByTable, postsTable } from "@/data/schema";
 import { notFound, ok, serverError } from "@torpor/build/response";
 import { eq } from "drizzle-orm";
 import { postPublic } from "../public";
-import { InboxModel } from "../public/inboxReceived";
+import { CommentedModel } from "../public/commentReceived";
 import getErrorMessage from "../utils/getErrorMessage";
 
-export type PostSendModel = {
-	id: number;
+export type CommentSendModel = {
+	post_id: number;
 };
 
-export default async function postSend(request: Request) {
+export default async function commentSend(request: Request) {
 	try {
-		const model: PostSendModel = await request.json();
+		const model: CommentSendModel = await request.json();
 
 		// Load the post
-		const post = await db.query.postsTable.findFirst({ where: eq(postsTable.id, model.id) });
+		const post = await db.query.postsTable.findFirst({
+			where: eq(postsTable.id, model.post_id),
+		});
 		if (!post) {
 			return notFound();
 		}
@@ -31,11 +33,12 @@ export default async function postSend(request: Request) {
 
 		for (let follower of followers) {
 			try {
-				let sendUrl = `${follower.url}api/public/inbox`;
-				let sendData: InboxModel = {
+				let sendUrl = `${follower.url}api/public/commented`;
+				let sendData: CommentedModel = {
 					sharedKey: follower.shared_key,
 					slug: post.slug,
-					text: post.text,
+					commentCount: post.comment_count,
+					lastCommentAt: post.last_comment_at!,
 				};
 				await postPublic(sendUrl, sendData);
 			} catch {

@@ -3,7 +3,7 @@
 Social media x Blogging x Newsletters
 
 - Fully self-hostable
-- All your data in a single file
+- All your data in a single file that you can take anywhere
 - Make short status posts, or lengthy article posts
 - Follow anyone and/or be followed by anyone with their own site
 - Comment, like, react
@@ -13,17 +13,18 @@ Social media x Blogging x Newsletters
 Put an auth function on @torpor/build endpoints??
 
 - Use one-time passwords for logging into other sites
-- OR load posts etc into an iframe?? seems like that could run into CORS issues
+- With a browser plugin to auto-login (only when commenting or otherwise interacting)
 
 // TODO: lib should always return data OR responses
 
-- [ ] / page showing profile, pinned (if any), 5ish status updates
+- [ ] / page showing public profile, pinned (if any), 5ish posts
 - [ ] /feed page showing showing your feed (must be logged in)
 - [ ] /posts page showing public posts (with login button)
-- [ ] Status updates
+- [x] Status updates
 - [ ] Pin a status
 - [ ] Articles attached to status
 - [ ] Images attached to status
+- [ ] Multi status "threads"
 - [x] Following
 - [x] Followed by
 - [ ] Share with QR

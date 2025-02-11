@@ -11,10 +11,18 @@ export type PostPreview = {
 	};
 	createdAt: Date;
 	updatedAt: Date;
+	commentCount: number;
 };
 
 export default function postPreview(
-	post: Post & { user?: { image: string; username: string; url: string } | null },
+	post: Post & {
+		user?: {
+			image: string;
+			username: string;
+			url: string;
+		} | null;
+		//commentCount?: number;
+	},
 	currentUser: User,
 ): PostPreview {
 	return {
@@ -33,5 +41,6 @@ export default function postPreview(
 				},
 		createdAt: post.created_at,
 		updatedAt: post.updated_at,
+		commentCount: post.comment_count,
 	};
 }

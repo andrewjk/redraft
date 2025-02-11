@@ -1,0 +1,38 @@
+//import { enhance } from '$app/forms';
+import { placeholder } from '@/lib/constants';
+
+/**
+ * Allows creating a comment.
+ */
+export default function CommentInput() {
+	let { post } = $props;
+
+	@render {
+		<form class="comment-input" method="POST" action="?/createComment">
+			<input type="hidden" name="post_id" value={post.id} />
+
+			<textarea
+				class="full-width"
+				name="text"
+				placeholder="Add a comment..."
+				rows="2"
+			/>
+
+			<div class="comment-footer">
+				<button type="submit">
+					Comment
+				</button>
+			</div>
+		</form>
+	}
+
+	@style {
+		.comment-input {
+			margin-bottom: 1rem;
+		}
+
+		.comment-footer {
+			text-align: end;
+		}
+	}
+}

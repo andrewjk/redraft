@@ -1,4 +1,4 @@
-import followConfirmed from "@/lib/follow/followConfirmed";
+import followConfirmed from "@/lib/public/followConfirmed";
 import type { ServerEndPoint } from "@torpor/build";
 
 export default {

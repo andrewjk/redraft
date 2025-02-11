@@ -1,6 +1,6 @@
 import db from "@/data/db";
 import { postsTable } from "@/data/schema";
-import { desc } from "drizzle-orm";
+import { desc, sql } from "drizzle-orm";
 import postPreview, { type PostPreview } from "./postPreview";
 
 export default async function postList(
@@ -15,6 +15,15 @@ export default async function postList(
 		limit,
 		offset,
 		orderBy: desc(postsTable.updated_at),
+		//extras: {
+		//	// HACK: https://github.com/drizzle-team/drizzle-orm/issues/3493
+		//	//commentCount: db
+		//	//	.$count(commentsTable, eq(commentsTable.post_id, postsTable.id))
+		//	//	.as("commentCount"),
+		//	commentCount: sql`(select count(*) from comments where comments.post_id = postsTable.id)`.as(
+		//		"commentCount",
+		//	),
+		//},
 	});
 
 	// Get the total post count

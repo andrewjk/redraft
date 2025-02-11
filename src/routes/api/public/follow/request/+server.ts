@@ -1,4 +1,4 @@
-import followRequested from "@/lib/follow/followRequested";
+import followRequested from "@/lib/public/followRequested";
 import type { ServerEndPoint } from "@torpor/build";
 
 export default {

@@ -1,4 +1,4 @@
-import inboxReceived from "@/lib/inbox/inboxReceived";
+import inboxReceived from "@/lib/public/inboxReceived";
 import type { ServerEndPoint } from "@torpor/build";
 
 export default {

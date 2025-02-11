@@ -36,7 +36,6 @@ export default async function postCreate(request: Request, username: string, tok
 		const feed = {
 			slug,
 			text: model.text,
-			liked: false,
 			created_at: new Date(),
 			updated_at: new Date(),
 		};

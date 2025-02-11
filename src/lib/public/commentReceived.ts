@@ -4,15 +4,16 @@ import { notFound, ok, serverError } from "@torpor/build/response";
 import { eq } from "drizzle-orm";
 import getErrorMessage from "../utils/getErrorMessage";
 
-export type InboxModel = {
+export type CommentedModel = {
 	sharedKey: string;
 	slug: string;
-	text: string;
+	commentCount: number;
+	lastCommentAt: Date;
 };
 
-export default async function inboxReceived(request: Request) {
+export default async function commentReceived(request: Request) {
 	try {
-		const model: InboxModel = await request.json();
+		const model: CommentedModel = await request.json();
 
 		const user = await db.query.followingTable.findFirst({
 			where: eq(followingTable.shared_key, model.sharedKey),
@@ -21,19 +22,16 @@ export default async function inboxReceived(request: Request) {
 			return notFound();
 		}
 
-		// Create the feed record
-		const record = {
-			user_id: user.id,
-			slug: model.slug,
-			text: model.text,
-			liked: false,
-			// TODO: Should receive posted_at, edited_at etc
-			created_at: new Date(),
-			updated_at: new Date(),
-		};
-		await db.insert(feedTable).values(record);
+		// Update the feed record
+		await db
+			.update(feedTable)
+			.set({
+				comment_count: model.commentCount,
+				last_comment_at: model.lastCommentAt,
+			})
+			.where(eq(feedTable.slug, model.slug));
 
-		// TODO: Create a notification
+		// TODO: Create a notification if this post has been commented on by the current user
 
 		return ok();
 	} catch (error) {

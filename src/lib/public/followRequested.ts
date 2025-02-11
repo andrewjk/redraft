@@ -1,6 +1,6 @@
 import db from "@/data/db";
 import { followedByTable } from "@/data/schema";
-import { notFound, ok, serverError, unprocessable } from "@torpor/build/response";
+import { notFound, ok, serverError } from "@torpor/build/response";
 import { postPublic } from "../public";
 import getErrorMessage from "../utils/getErrorMessage";
 import { FollowCheckModel, FollowCheckResponseModel } from "./followCheck";

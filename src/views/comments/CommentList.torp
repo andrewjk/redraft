@@ -1,0 +1,25 @@
+import CommentPreview from './CommentPreview.torp';
+import CommentInput from "./CommentInput.torp"
+
+/**
+ * Shows a list of comment previews.
+ */
+export default function CommentList() {
+	@render {
+		<div class="comment-list">
+			<CommentInput post={$props.post} />
+			@for (let comment of $props.comments) {
+				@key = comment.id
+				<CommentPreview {comment} user={$props.user} />
+			}
+		</div>
+	}
+
+	@style {
+		.comment-list {
+			display: flex;
+			flex-direction: column;
+			gap: 0.5rem;
+		}
+	}
+}

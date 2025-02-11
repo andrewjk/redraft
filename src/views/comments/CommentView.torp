@@ -1,0 +1,84 @@
+//import { enhance } from '$app/forms';
+import relativeTimeSince from "@/lib/utils/relativeTimeSince"
+
+/**
+ * Shows a comment's full details.
+ */
+export default function CommentPreview() {
+	let { comment, user } = $props.data;
+
+	let fmt = new Intl.DateTimeFormat(undefined, {
+		day: "numeric",
+		month: "short",
+		year: "numeric",
+		hour: "numeric",
+		minute: "numeric"
+	});
+
+	@render {
+		<div class="comment-preview">
+			<div class="comment-preview-header hstack centered spaced">
+				<a href={comment.author.url}>
+					<img class="comment-preview-image" src={comment.author.image} alt={comment.author.username} />
+				</a>
+				<a href={comment.author.url}>{comment.author.username}</a>
+				<span title={fmt.format(new Date(comment.createdAt))}>
+					{relativeTimeSince(new Date(comment.createdAt))}
+				</span>
+
+			@/*
+				@if (user) {
+					<form
+						method="POST"
+						action="/comments/{comment.slug}?/toggleFavorite"
+						class="pull-xs-right"
+					>
+						<input hidden type="checkbox" name="favorited" checked={comment.favorited} />
+						<button class="btn btn-sm {comment.favorited ? 'btn-primary' : 'btn-outline-primary'}">
+							<i class="ion-heart" />
+							{comment.favoritesCount}
+						</button>
+					</form>
+				}
+			*/
+			</div>
+
+			<p>{comment.text}</p>
+
+			@// TODO: Show the actual comments
+			<div class="comment-preview-footer hstack spaced">
+				<a>
+					5 comments
+				</a>
+				<a>
+					React
+				</a>
+			</div>
+		</div>
+	}
+
+	@style {
+		.comment-preview {
+			padding: 0.6rem 1rem;
+			background-color: #fff;
+			border: 1px solid lightgray;
+			border-radius: var(--brad);
+		}
+
+		.comment-preview-header,
+		.comment-preview-footer {
+			font-size: small;
+			color: gray;
+		}
+
+		.comment-preview-link {
+			color: inherit;
+		}
+
+		.comment-preview-image {
+			height: 40px;
+			width: 40px;
+			border-radius: 50%;
+		}
+	}
+}

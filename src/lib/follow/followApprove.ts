@@ -1,11 +1,11 @@
 import db from "@/data/db";
 import { followedByTable } from "@/data/schema";
-import { ok, serverError, unauthorized, unprocessable } from "@torpor/build/response";
+import { ok, serverError, unauthorized } from "@torpor/build/response";
 import { eq } from "drizzle-orm";
 import { postPublic } from "../public";
+import { FollowConfirmModel } from "../public/followConfirmed";
 import getErrorMessage from "../utils/getErrorMessage";
 import getUser from "../utils/getUser";
-import { FollowConfirmModel } from "./followConfirmed";
 
 export type ApproveModel = {
 	id: number;

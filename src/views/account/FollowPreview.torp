@@ -18,12 +18,14 @@ export default function FollowPreview() {
 	@render {
 		<div class="follow-preview">
 			<div class="follow-preview-header hstack spaced">
-				<a href="/profile/@{follow.username}">
+				<a href={follow.url}>
 					<img class="follow-preview-image" src={follow.image} alt={follow.username} />
 				</a>
-				<a href="/profile/@{follow.username}">{follow.username}</a>
+				<a href={follow.url}>{follow.username}</a>
 				@/*
-					<span title={fmt.format(new Date(post.createdAt))}>{relativeTimeSince(new Date(post.createdAt))}</span>
+					<span title={fmt.format(new Date(post.createdAt))}>
+						{relativeTimeSince(new Date(post.createdAt))}
+					</span>
 				*/
 			</div>
 		</div>
