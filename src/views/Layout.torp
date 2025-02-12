@@ -46,8 +46,8 @@ function Nav() {
 					</li>
 
 					<li class="nav-item">
-						<a href="/account" class="nav-link">
-							Account
+						<a href="/profile" class="nav-link">
+							Profile
 						</a>
 					</li>
 				} else {
