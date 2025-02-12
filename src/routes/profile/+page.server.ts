@@ -22,6 +22,7 @@ export default {
 		logout: ({ appData, cookies }) => {
 			cookies.delete("jwt", { path: "/" });
 			appData.user = null;
+			return redirect("/");
 		},
 		save: async ({ appData, cookies, request }) => {
 			const user = appData.user;

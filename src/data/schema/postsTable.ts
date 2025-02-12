@@ -11,6 +11,7 @@ export const postsTable = sqliteTable("posts", {
 	text: text().notNull(),
 	comment_count: int().notNull().default(0),
 	last_comment_at: int({ mode: "timestamp" }),
+	pinned: int({ mode: "boolean" }).notNull(),
 	created_at: int({ mode: "timestamp" }).notNull(),
 	updated_at: int({ mode: "timestamp" }).notNull(),
 	deleted_at: int({ mode: "timestamp" }),

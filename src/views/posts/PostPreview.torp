@@ -37,7 +37,16 @@ export default function PostPreview() {
 					<div class="post-preview-time" title={fmt.format(new Date(post.createdAt))}>
 						{relativeTimeSince(new Date(post.createdAt))}
 					</div>
-					<div>&nbsp;</div>
+					<div class="hstack spaced">
+						@if (user?.url === post.author.url) {
+							@console.log(post.pinned)
+							<form use:enhance method="POST" action="?/pinPost">
+								<input type="hidden" name="slug" value={post.slug} />
+								<input type="hidden" name="pinned" value={!post.pinned} />
+								<button>{post.pinned ? "Unpin" : "Pin"}</button>
+							</form>
+						}
+					</div>
 				</div>
 			</div>
 

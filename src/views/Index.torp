@@ -1,7 +1,6 @@
 import { $page } from "@torpor/build/state";
 import PostInput from "@/views/posts/PostInput.torp";
 import PostList from "@/views/posts/PostList.torp";
-import Pagination from "@/views/Pagination.torp";
 import Profile from "@/views/profile/Preview.torp";
 
 export default function Index() {

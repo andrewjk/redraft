@@ -26,6 +26,7 @@ export default async function postCreate(request: Request, token: string) {
 		const post = {
 			slug,
 			text: model.text,
+			pinned: false,
 			created_at: new Date(),
 			updated_at: new Date(),
 		};

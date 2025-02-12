@@ -30,5 +30,19 @@ export default {
 				return unprocessable(result);
 			}
 		},
+		pinPost: async ({ appData, request }) => {
+			const user = appData.user;
+			if (!user) {
+				return unauthorized();
+			}
+
+			const data = await request.formData();
+			const post = formDataToObject(data);
+
+			const result = await api.post(`posts/pin`, post, user.token);
+			if (result.errors) {
+				return unprocessable(result);
+			}
+		},
 	},
 } satisfies PageServerEndPoint;

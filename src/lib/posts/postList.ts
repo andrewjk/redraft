@@ -14,7 +14,7 @@ export default async function postList(
 	const dbposts = await db.query.postsTable.findMany({
 		limit,
 		offset,
-		orderBy: desc(postsTable.updated_at),
+		orderBy: [desc(postsTable.pinned), desc(postsTable.updated_at)],
 	});
 
 	// Get the total post count
