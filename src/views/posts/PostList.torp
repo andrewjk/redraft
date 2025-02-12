@@ -5,7 +5,7 @@ import PostPreview from './PostPreview.torp';
  */
 export default function PostList() {
 	@render {
-		<div class="post-list">
+		<div class="post-list centered">
 			@if ($props.posts.length === 0) {
 				<div class="post-preview">
 					No posts here yet.
@@ -24,6 +24,9 @@ export default function PostList() {
 			display: flex;
 			flex-direction: column;
 			gap: 0.5rem;
+
+			max-width: 60rem;
+			width: 100%;
 		}
 	}
 }

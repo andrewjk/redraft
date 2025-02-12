@@ -1,21 +1,21 @@
 import { $page } from '@torpor/build/state';
 
-export default function Layout($props) {
+export default function Index($props) {
 	@render {
-		<div class="account-page">
+		<div class="profile-page">
 			<:head>
-				<title>Account ~ Social</title>
+				<title>Profile ~ Social</title>
 			</:head>
 
-			<div class="vstack centered account-details">
-				<img src={$props.data.account.image} class="account-image" alt="{$props.data.account.name} ({$props.data.account.url})" />
-				<h4>{$props.data.account.name}</h4>
-				@if ($props.data.account.bio) {
-					<p>{$props.data.account.bio}</p>
+			<div class="vstack centered spaced profile-details">
+				<h2>{$props.data.profile.name}</h2>
+				<img src={$props.data.profile.image} class="profile-image" alt="{$props.data.profile.name} ({$props.data.profile.url})" />
+				@if ($props.data.profile.bio) {
+					<p>{$props.data.profile.bio}</p>
 				}
 			</div>
 
-			<div class="hstack spaced account-options">
+			<div class="hstack centered spaced profile-options">
 				<a href="/profile/following" class="button">
 					Following
 				</a>
@@ -29,7 +29,7 @@ export default function Layout($props) {
 				</a>
 			</div>
 
-			<div class="hstack spaced account-options">
+			<div class="hstack spaced profile-options">
 				<a href="/profile/edit" class="button">
 					Edit
 				</a>
@@ -41,17 +41,13 @@ export default function Layout($props) {
 	}
 
 	@style {
-		.account-details {
-			text-align: center;
-		}
-
-		.account-image {
+		.profile-image {
 			height: 200px;
 			width: 200px;
 			border-radius: 50%;
 		}
 
-		.account-options {
+		.profile-options {
 			justify-content: center;
 			margin-top: 2rem;
 		}

@@ -9,11 +9,12 @@ export default function Index() {
 	})
 
 	@render {
-		<div>
+		<div class="vstack centered">
 			<:head>
 				<title>Feed ~ Social</title>
 			</:head>
 
+			<h2>Feed</h2>
 			@if ($props.data.user) {
 				<PostInput />
 			}

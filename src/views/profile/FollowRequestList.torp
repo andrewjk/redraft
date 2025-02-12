@@ -5,23 +5,33 @@ import FollowPreview from './FollowPreview.torp';
  */
 export default function FollowRequestList() {
 	@render {
-		<div class="follow-list">
-			@if ($props.data.requests.length === 0) {
-				<div class="follow-preview">
-					You don't have any follow requests.
+		<div class="vstack centered">
+			<div class="follow-list">
+				<h2>Follow requests</h2>
+				<div class="hstack spaced">
+					<a href="/profile/following">Following</a>
+					<span>~</span>
+					<a href="/profile/followed-by">Followed by</a>
+					<span>~</span>
+					<span>Follow requests</span>
 				</div>
-			} else {
-				@for (let follow of $props.data.requests) {
-					@key = follow.id
-					<div class="hstack spaced full-width">
-						<FollowPreview {follow} user={$props.data.user} class="full-width" />
-						<form use:enhance method="POST" action="?/approve">
-							<input type="hidden" name="id" value={follow.id} />
-							<button>Approve</button>
-						</form>
-					</div>
+				@if ($props.data.requests.length === 0) {
+					<p>
+						You don't have any follow requests.
+					</p>
+				} else {
+					@for (let follow of $props.data.requests) {
+						@key = follow.id
+						<div class="hstack spaced full-width">
+							<FollowPreview {follow} user={$props.data.user} class="full-width" />
+							<form use:enhance method="POST" action="?/approve">
+								<input type="hidden" name="id" value={follow.id} />
+								<button>Approve</button>
+							</form>
+						</div>
+					}
 				}
-			}
+			</div>
 		</div>
 	}
 
@@ -30,6 +40,16 @@ export default function FollowRequestList() {
 			display: flex;
 			flex-direction: column;
 			gap: 0.5rem;
+			
+			max-width: 60rem;
+			width: 100%;
+		}
+
+		.follow-preview {
+			padding: 1rem;
+			background-color: #fff;
+			border: 1px solid lightgray;
+			border-radius: var(--brad);
 		}
 	}
 }

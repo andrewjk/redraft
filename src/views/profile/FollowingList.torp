@@ -5,17 +5,27 @@ import FollowPreview from './FollowPreview.torp';
  */
 export default function FollowingList($props) {
 	@render {
-		<div class="follow-list">
-			@if ($props.data.following.length === 0) {
-				<div class="follow-preview">
-					You are not following anyone yet.
+		<div class="vstack centered">
+			<div class="follow-list">
+				<h2>Following</h2>
+				<div class="hstack spaced">
+					<span>Following</span>
+					<span>~</span>
+					<a href="/profile/followed-by">Followed by</a>
+					<span>~</span>
+					<a href="/profile/follow-requests">Requests</a>
 				</div>
-			} else {
-				@for (let follow of $props.data.following) {
-					@key = follow.id
-					<FollowPreview {follow} user={$props.data.user} />
+				@if ($props.data.following.length === 0) {
+					<p>
+						You are not following anyone yet.
+					</p>
+				} else {
+					@for (let follow of $props.data.following) {
+						@key = follow.id
+						<FollowPreview {follow} user={$props.data.user} />
+					}
 				}
-			}
+			</div>
 		</div>
 	}
 
@@ -24,6 +34,9 @@ export default function FollowingList($props) {
 			display: flex;
 			flex-direction: column;
 			gap: 0.5rem;
+			
+			max-width: 60rem;
+			width: 100%;
 		}
 	}
 }

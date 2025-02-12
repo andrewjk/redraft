@@ -8,9 +8,9 @@ export default function Error() {
 			</:head>
 
 			@if ($page.status === 404) {
-				<h1>Not found!</h1>
+				<h2>Not found!</h2>
 			} else {
-				<h1>Something went wrong</h1>
+				<h2>Something went wrong</h2>
 			}
 		</div>
 	}

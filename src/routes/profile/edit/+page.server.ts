@@ -13,12 +13,12 @@ export default {
 			return unauthorized();
 		}
 
-		const result = await api.get("account", user.token);
+		const result = await api.get("profile", user.token);
 		if (result.errors) {
 			return unprocessable(result);
 		}
 
-		return ok({ account: result });
+		return ok({ profile: result });
 	},
 	actions: {
 		default: async ({ appData, cookies, request }) => {

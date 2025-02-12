@@ -3,12 +3,12 @@ import FormErrors from '@/views/FormErrors.torp';
 
 export default function Login() {
 	@render {
-		<div class="account-edit-page">
+		<div class="profile-edit-page">
 			<:head>
-				<title>Account Edit ~ Social</title>
+				<title>Edit Profile ~ Social</title>
 			</:head>
 
-			<h1>Account Edit</h1>
+			<h2>Edit Profile</h2>
 
 			<FormErrors errors={$props.form?.errors} />
 
@@ -18,9 +18,9 @@ export default function Login() {
 				<div class="form-row">
 					<label for="email">Image</label
 					<div class="hstack spaced centered">
-						<div id="image-preview" style={`background-image: url("${$props.data.account.image}")`} />
+						<div id="image-preview" style={`background-image: url("${$props.data.profile.image}")`} />
 						<input
-							:value={$props.data.account.imagefile}
+							:value={$props.data.profile.imagefile}
 							name="imagefile"
 							type="file"
 							accept="image/*"
@@ -43,7 +43,7 @@ export default function Login() {
 				<div class="form-row">
 					<label for="email">Email</label
 					<input
-						:value={$props.data.account.email}
+						:value={$props.data.profile.email}
 						name="email"
 						type="email"
 						required
@@ -52,7 +52,7 @@ export default function Login() {
 				<div class="form-row">
 					<label for="name">Name</label
 					<input
-						:value={$props.data.account.name}
+						:value={$props.data.profile.name}
 						name="name"
 						type="text"
 						required
@@ -61,7 +61,7 @@ export default function Login() {
 				<div class="form-row">
 					<label for="bio">Bio</label
 					<textarea
-						:value={$props.data.account.bio}
+						:value={$props.data.profile.bio}
 						name="bio"
 					/>
 				</div>

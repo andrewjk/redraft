@@ -15,7 +15,6 @@ export default function Layout() {
 		main {
 			padding: 1rem;
 			margin: 0 auto;
-			max-width: 60rem;
 		}
 	}
 }
@@ -31,13 +30,13 @@ function Nav() {
 				</li>
 
 				@if ($props.user) {
+					<div class="spacer" />
+
 					<li class="nav-item">
-						<a href="/editor" :class={{ "nav-link": true, active: $page.url.pathname === "/editor" }}>
-							Editor
+						<a href="/posts" class="nav-link">
+							Posts
 						</a>
 					</li>
-
-					<div class="spacer" />
 
 					<li class="nav-item">
 						<a href="/feed" class="nav-link">
@@ -52,6 +51,12 @@ function Nav() {
 					</li>
 				} else {
 					<div class="spacer" />
+
+					<li class="nav-item">
+						<a href="/posts" class="nav-link">
+							Posts
+						</a>
+					</li>
 
 					<li class="nav-item">
 						<a href="/account/login" :class={{ "nav-link": true, active: $page.url.pathname === "/account/login" }}>
@@ -71,6 +76,7 @@ function Nav() {
 
 	@style {
 		nav {
+			background-color: #fff;
 			padding: 1rem;
 			border-bottom: 1px solid lightgray;
 			box-shadow: 0 0.4rem 0.4rem -0.2rem #e2e2e2;

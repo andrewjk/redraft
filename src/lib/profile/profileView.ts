@@ -4,8 +4,8 @@ export type ProfileView = {
 	url: string;
 	email: string;
 	name: string;
-	bio: string;
 	image: string;
+	bio: string;
 };
 
 export default function profileView(user: User): ProfileView {
@@ -13,8 +13,8 @@ export default function profileView(user: User): ProfileView {
 		url: user.url,
 		email: user.email,
 		name: user.name,
-		bio: user.bio,
 		image: user.image,
+		bio: user.bio,
 	};
 	return view;
 }

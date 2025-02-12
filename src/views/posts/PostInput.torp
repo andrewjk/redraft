@@ -27,6 +27,8 @@ export default function PostInput() {
 	@style {
 		.post-input {
 			margin-bottom: 1rem;
+			max-width: 60rem;
+			width: 100%;
 		}
 
 		.post-footer {

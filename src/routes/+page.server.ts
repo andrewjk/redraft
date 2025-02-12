@@ -1,36 +1,19 @@
 import * as api from "@/lib/api";
-import { PAGE_SIZE } from "@/lib/constants";
+import { FRONT_PAGE_SIZE } from "@/lib/constants";
 import formDataToObject from "@/lib/utils/formDataToObject";
 import { type PageServerEndPoint } from "@torpor/build";
 import { ok, unauthorized, unprocessable } from "@torpor/build/response";
 
 export default {
-	load: async ({ url, appData }) => {
-		const user = appData.user;
-
-		// If not logged in, redirect to the public /posts page
-		//if (!user) {
-		//	return redirect("/posts");
-		//}
-
-		// Get URL params -- move this to /posts
-		const page = +(url.searchParams.get("page") || 1);
-
-		// TODO: Load the user's profile
-
-		// Load the user's posts
-		const location = "posts";
+	load: async () => {
+		// Load the user's profile and 5ish latest posts
 		const search = new URLSearchParams();
-		search.set("limit", PAGE_SIZE.toString());
-		search.set("offset", ((page - 1) * PAGE_SIZE).toString());
-
-		const [{ posts, postsCount }] = await Promise.all([
-			api.get(`${location}?${search}`, user?.token),
+		search.set("limit", FRONT_PAGE_SIZE.toString());
+		const [profile, { posts }] = await Promise.all([
+			api.get("profile/preview"),
+			api.get(`posts?${search}`),
 		]);
-
-		const pageCount = Math.ceil(postsCount / PAGE_SIZE);
-
-		return ok({ posts, pageCount });
+		return ok({ profile, posts });
 	},
 	actions: {
 		createPost: async ({ appData, request }) => {

@@ -1,16 +1,19 @@
 import db from "@/data/db";
 import { notFound, ok } from "@torpor/build/response";
-import profileView from "./profileView";
 
-export default async function profileGet() {
+export default async function profilePreview() {
 	// Get the current (only) user
 	const user = await db.query.usersTable.findFirst();
 	if (!user) {
 		return notFound();
 	}
 
-	// Create the profile view
-	const view = profileView(user);
+	const view = {
+		url: user.url,
+		name: user.name,
+		image: user.image,
+		bio: user.bio,
+	};
 
 	return ok(view);
 }

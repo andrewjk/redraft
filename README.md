@@ -1,6 +1,6 @@
 # Social
 
-Social media x Blogging x Newsletters
+Blogging x Social Media x Newsletters
 
 - Fully self-hostable
 - All your data in a single file that you can take anywhere
@@ -17,10 +17,10 @@ Put an auth function on @torpor/build endpoints??
 
 // TODO: lib should always return data OR responses
 
-- [ ] / page showing public profile, pinned (if any), 5ish posts
+- [x] / page showing public profile, pinned (if any), 5ish posts
 - [x] /feed page showing showing your feed (must be logged in)
   - [ ] "load more" at bottom
-- [ ] /posts page showing public posts (with login button)
+- [x] /posts page showing public posts (with login button)
   - [ ] "load more" at bottom
 - [x] Status updates
 - [ ] Pin a status
@@ -50,6 +50,8 @@ Put an auth function on @torpor/build endpoints??
 - [ ] Deleting posts from other people from your db
 - [ ] Paid tiers?
 - [ ] Adding a nickname for followers/followed by
+- [ ] Location and links in profile
+- [ ] Tags
 - etc
 
 - [ ] Chat
@@ -59,6 +61,7 @@ Put an auth function on @torpor/build endpoints??
 - [ ] Events
 - etc
 
+- [ ] Open Graph
 - [ ] RSS
 - [ ] Host friends
 - [ ] Multiple users e.g. for a publication/organisation
