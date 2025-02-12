@@ -3,7 +3,7 @@ import { followedByTable, postsTable } from "@/data/schema";
 import { notFound, ok, serverError } from "@torpor/build/response";
 import { eq } from "drizzle-orm";
 import { postPublic } from "../public";
-import { InboxModel } from "../public/inboxReceived";
+import { FeedReceivedModel } from "../public/feedReceived";
 import getErrorMessage from "../utils/getErrorMessage";
 
 export type PostSendModel = {
@@ -31,8 +31,8 @@ export default async function postSend(request: Request) {
 
 		for (let follower of followers) {
 			try {
-				let sendUrl = `${follower.url}api/public/inbox`;
-				let sendData: InboxModel = {
+				let sendUrl = `${follower.url}api/public/feed`;
+				let sendData: FeedReceivedModel = {
 					sharedKey: follower.shared_key,
 					slug: post.slug,
 					text: post.text,

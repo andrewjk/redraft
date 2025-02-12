@@ -4,7 +4,9 @@ import { InferOutput } from "valibot";
 
 // TODO: Separate out following/followedby user fields into a new table?
 
-// The people we are followed by, who we will send posts etc to
+/**
+ * The people we are followed by, who we will send posts etc to
+ */
 export const followedByTable = sqliteTable("followed_by", {
 	id: int().primaryKey({ autoIncrement: true }),
 	// Whether they've been approved to follow -- everyone starts off by sending us a request
@@ -14,6 +16,7 @@ export const followedByTable = sqliteTable("followed_by", {
 	shared_key: text().notNull(),
 	name: text().notNull(),
 	image: text().notNull(),
+	bio: text().notNull(),
 	created_at: int({ mode: "timestamp" }).notNull(),
 	updated_at: int({ mode: "timestamp" }).notNull(),
 	deleted_at: int({ mode: "timestamp" }),

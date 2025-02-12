@@ -1,7 +1,8 @@
 import db from "@/data/db";
 import { commentsTable, postsTable } from "@/data/schema";
+import { type Comment } from "@/data/schema/commentsTable";
 import { notFound, ok, serverError } from "@torpor/build/response";
-import { and, eq, isNull } from "drizzle-orm";
+import { eq, isNull } from "drizzle-orm";
 import commentPreview from "../comments/commentPreview";
 import getErrorMessage from "../utils/getErrorMessage";
 
@@ -42,7 +43,7 @@ export default async function postGet(slug: string) {
 			commentCount: post.comment_count,
 			createdAt: post.created_at,
 			updatedAt: post.updated_at,
-			comments: post.comments.map((c) => commentPreview(c, user)),
+			comments: post.comments.map((c) => commentPreview(c as Comment, user)),
 		};
 
 		return ok(view);

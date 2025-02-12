@@ -38,7 +38,7 @@ export default {
 			}
 
 			setUserToken(cookies, {
-				email: result.email,
+				url: result.url,
 				name: result.name,
 				image: result.image,
 				token: user.token,

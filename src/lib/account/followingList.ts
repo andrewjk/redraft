@@ -29,6 +29,7 @@ export default async function followingList(
 			url: `${f.url}api/follow/login?sharedkey=${f.shared_key}`,
 			name: f.name,
 			image: f.image,
+			bio: f.bio,
 		};
 	});
 

@@ -1,6 +1,6 @@
 import db from "@/data/db";
 import { usersTable } from "@/data/schema";
-import { serverError } from "@torpor/build/response";
+import { created, serverError } from "@torpor/build/response";
 import createUserToken from "../utils/createUserToken";
 import getErrorMessage from "../utils/getErrorMessage";
 import { hashPassword } from "../utils/hashPasswords";
@@ -38,12 +38,12 @@ export default async function accountRegister(request: Request) {
 		// Create the authentication token for future use
 		const token = await createUserToken(user);
 
-		return {
-			email: user.email,
+		return created({
+			url: user.url,
 			name: user.name,
 			image: user.image,
 			token,
-		};
+		});
 	} catch (error) {
 		const message = getErrorMessage(error).message;
 		return serverError(message);

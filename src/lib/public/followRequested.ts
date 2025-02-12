@@ -43,6 +43,7 @@ export default async function followRequested(request: Request) {
 			shared_key: model.sharedKey,
 			name: confirmData.name,
 			image: confirmData.image,
+			bio: confirmData.bio,
 			created_at: new Date(),
 			updated_at: new Date(),
 		};

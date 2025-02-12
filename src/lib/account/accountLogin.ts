@@ -1,6 +1,6 @@
 import db from "@/data/db";
 import { usersTable } from "@/data/schema";
-import { forbidden, serverError } from "@torpor/build/response";
+import { forbidden, ok, serverError } from "@torpor/build/response";
 import { eq } from "drizzle-orm";
 import createUserToken from "../utils/createUserToken";
 import getErrorMessage from "../utils/getErrorMessage";
@@ -28,12 +28,12 @@ export default async function accountLogin(request: Request) {
 		// Create the authentication token for future use
 		const token = await createUserToken(user);
 
-		return {
-			email: user.email,
+		return ok({
+			url: user.url,
 			name: user.name,
 			image: user.image,
 			token,
-		};
+		});
 	} catch (error) {
 		const message = getErrorMessage(error).message;
 		return serverError(message);

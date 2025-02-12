@@ -4,15 +4,15 @@ import { notFound, ok, serverError } from "@torpor/build/response";
 import { eq } from "drizzle-orm";
 import getErrorMessage from "../utils/getErrorMessage";
 
-export type InboxModel = {
+export type FeedReceivedModel = {
 	sharedKey: string;
 	slug: string;
 	text: string;
 };
 
-export default async function postReceived(request: Request) {
+export default async function feedReceived(request: Request) {
 	try {
-		const model: InboxModel = await request.json();
+		const model: FeedReceivedModel = await request.json();
 
 		const user = await db.query.followingTable.findFirst({
 			where: eq(followingTable.shared_key, model.sharedKey),

@@ -29,6 +29,7 @@ export default async function followedByList(
 			url: f.url,
 			name: f.name,
 			image: f.image,
+			bio: f.bio,
 		};
 	});
 

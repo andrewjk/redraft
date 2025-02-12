@@ -29,10 +29,10 @@ export default {
 
 			const data = await request.formData();
 			const model = formDataToObject(data);
-			model.imagefile = data.get("imagefile");
 
 			// Save the image if it's been uploaded
-			if (model.imagefile) {
+			model.imagefile = data.get("imagefile");
+			if (model.imagefile?.name) {
 				let name = uuid() + "." + model.imagefile.name.split(".").at(-1);
 				//const url = `${process.env.URL}api/storage`;
 				//let upload = new FormData();
@@ -40,7 +40,7 @@ export default {
 				//upload.set("name", name);
 				//await fetch(url, { method: "POST", body: upload });
 				await uploadFile(model.imagefile, name);
-				model.image = "/api/content/" + name;
+				model.image = `${user.url}api/content/${name}`;
 			}
 
 			const result = await api.post("account/edit", model, user.token);
@@ -49,7 +49,7 @@ export default {
 			}
 
 			setUserToken(cookies, {
-				email: result.email,
+				url: result.url,
 				name: result.name,
 				image: result.image,
 				token: user.token,

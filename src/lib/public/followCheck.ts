@@ -11,6 +11,7 @@ export type FollowCheckModel = {
 export type FollowCheckResponseModel = {
 	name: string;
 	image: string;
+	bio: string;
 };
 
 /**
@@ -41,6 +42,7 @@ export default async function followCheck(request: Request) {
 			name: user.name,
 			// TODO: get the proper url
 			image: `${process.env.URL}${user.image}`,
+			bio: user.bio,
 		};
 
 		return ok(data);

@@ -18,6 +18,6 @@ export default {
 			return unauthorized();
 		}
 
-		return accountEdit(request);
+		return accountEdit(request, user.token);
 	},
 } satisfies ServerEndPoint;

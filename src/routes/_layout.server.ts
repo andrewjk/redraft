@@ -7,13 +7,13 @@ export default {
 		const fuser = appData.fuser;
 		return ok({
 			user: user && {
-				email: user.email,
+				url: user.url,
 				name: user.name,
 				image: user.image,
 				bio: user.bio,
 			},
 			fuser: fuser && {
-				email: fuser.email,
+				url: fuser.url,
 				name: fuser.name,
 				image: fuser.image,
 				bio: fuser.bio,

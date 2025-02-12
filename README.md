@@ -19,7 +19,9 @@ Put an auth function on @torpor/build endpoints??
 
 - [ ] / page showing public profile, pinned (if any), 5ish posts
 - [x] /feed page showing showing your feed (must be logged in)
+  - [ ] "load more" at bottom
 - [ ] /posts page showing public posts (with login button)
+  - [ ] "load more" at bottom
 - [x] Status updates
 - [ ] Pin a status
 - [ ] Articles attached to status
@@ -34,7 +36,7 @@ Put an auth function on @torpor/build endpoints??
 - [x] Approving
   - [ ] Auto-approving
 - [ ] Blocking
-- [ ] Editing profile should propagate to following/followers
+- [x] Editing profile should propagate to following/followers
 - [ ] Deploy
 
 - [ ] Liking
@@ -47,6 +49,7 @@ Put an auth function on @torpor/build endpoints??
 - [ ] Deleting your posts
 - [ ] Deleting posts from other people from your db
 - [ ] Paid tiers?
+- [ ] Adding a nickname for followers/followed by
 - etc
 
 - [ ] Chat

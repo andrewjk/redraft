@@ -37,6 +37,7 @@ export default async function followSend(request: Request, url: URL) {
 			shared_key: sharedKey,
 			name: "",
 			image: "",
+			bio: "",
 			created_at: new Date(),
 			updated_at: new Date(),
 		};

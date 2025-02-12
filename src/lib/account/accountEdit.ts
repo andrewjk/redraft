@@ -1,5 +1,6 @@
 import db from "@/data/db";
 import { usersTable } from "@/data/schema";
+import * as api from "@/lib/api";
 import { ok, serverError, unauthorized } from "@torpor/build/response";
 import { eq } from "drizzle-orm";
 import getErrorMessage from "../utils/getErrorMessage";
@@ -13,7 +14,7 @@ export type EditModel = {
 	image: string;
 };
 
-export default async function accountEdit(request: Request) {
+export default async function accountEdit(request: Request, token: string) {
 	try {
 		const model: EditModel = await request.json();
 
@@ -23,26 +24,27 @@ export default async function accountEdit(request: Request) {
 			return unauthorized();
 		}
 
-		// Create the user
+		// Update the user in the database
 		const user = {
 			id: currentUser.id,
 			email: model.email,
 			name: model.name,
 			bio: model.bio,
 			image: model.image,
-			//created_at: new Date(),
 			updated_at: new Date(),
 		};
+		await db.update(usersTable).set(user).where(eq(usersTable.id, currentUser.id));
 
-		// Update the user in the database
-		const newUser = (
-			await db.update(usersTable).set(user).where(eq(usersTable.id, currentUser.id)).returning()
-		)[0];
+		// Send an update to all followers/followed by
+		// This could take some time, so send it off to be done in an endpoint without awaiting it
+		api.post(`account/send`, null, token);
 
-		// Create the user view
-		const view = accountView(newUser);
-
-		return ok(view);
+		return ok({
+			url: currentUser.url,
+			name: model.name,
+			image: model.image,
+			token,
+		});
 	} catch (error) {
 		const message = getErrorMessage(error).message;
 		return serverError(message);

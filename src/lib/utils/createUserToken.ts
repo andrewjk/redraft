@@ -2,7 +2,7 @@
 import * as jose from "jose";
 
 type User = {
-	email: string;
+	url: string;
 	name: string;
 };
 
@@ -17,7 +17,7 @@ export default async function createUserToken(user: User) {
 	if (!process.env.JWT_SECRET) {
 		throw new Error("JWT_SECRET missing in environment.");
 	}
-	const tokenObject = { user: { email: user.email, name: user.name } };
+	const tokenObject = { user: { url: user.url, name: user.name } };
 	//const userJSON = JSON.stringify(tokenObject);
 	//const token = jwt.sign(userJSON, process.env.JWT_SECRET);
 	const secret = new TextEncoder().encode(process.env.JWT_SECRET);

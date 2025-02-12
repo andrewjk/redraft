@@ -32,6 +32,7 @@ export default async function followRequestList(
 			url: f.url,
 			name: f.name,
 			image: f.image,
+			bio: f.bio,
 		};
 	});
 

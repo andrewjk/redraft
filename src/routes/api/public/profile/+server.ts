@@ -1,4 +1,4 @@
-import inboxReceived from "@/lib/public/inboxReceived";
+import profileUpdated from "@/lib/public/profileUpdated";
 import type { ServerEndPoint } from "@torpor/build";
 
 export default {
@@ -8,6 +8,6 @@ export default {
 		//	return unauthorized();
 		//}
 
-		return inboxReceived(request);
+		return profileUpdated(request);
 	},
 } satisfies ServerEndPoint;
