@@ -16,7 +16,7 @@ export default function CommentPreview() {
 	});
 
 	@render {
-		<div class="comment-preview">
+		<div class="comment-preview card">
 			<div class="comment-preview-header hstack centered spaced">
 				<a href={comment.author.url}>
 					<img class="comment-preview-image" src={comment.author.image} alt="{comment.author.name} ({comment.author.url})" />
@@ -59,10 +59,6 @@ export default function CommentPreview() {
 
 	@style {
 		.comment-preview {
-			padding: 0.6rem 1rem;
-			background-color: #fff;
-			border: 1px solid lightgray;
-			border-radius: var(--brad);
 		}
 
 		.comment-preview-header,

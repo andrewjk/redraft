@@ -18,7 +18,7 @@ export default function PostView() {
 	});
 
 	@render {
-		<div class="post-view">
+		<div class="post-view card">
 			<div class="post-view-container">
 				<div class="post-view-header hstack centered spaced">
 					<a href={post.author.url}>
@@ -65,10 +65,6 @@ export default function PostView() {
 
 	@style {
 		.post-view {
-			background-color: #fff;
-			border: 1px solid lightgray;
-			border-radius: var(--brad);
-
 			margin: 0 auto;
 			max-width: 60rem;
 			width: 100%;

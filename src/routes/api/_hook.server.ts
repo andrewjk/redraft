@@ -3,7 +3,6 @@ import * as jose from "jose";
 
 export default {
 	handle: ({ appData, request }) => {
-		console.log("HEY");
 		const authorization = request.headers.get("authorization");
 		if (!authorization) {
 			return;

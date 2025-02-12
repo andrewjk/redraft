@@ -7,7 +7,7 @@ export default function PostList() {
 	@render {
 		<div class="post-list centered">
 			@if ($props.posts.length === 0) {
-				<div class="post-preview">
+				<div class="card">
 					No posts here yet.
 				</div>
 			} else {

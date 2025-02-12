@@ -16,7 +16,7 @@ export default function FollowPreview() {
 	});
 
 	@render {
-		<div class="follow-preview">
+		<div class="follow-preview card">
 			<div class="follow-preview-header hstack centered spaced">
 				<a href={follow.url}>
 					<img class="follow-preview-image" src={follow.image} alt="{follow.name} ({follow.url})" />
@@ -46,10 +46,6 @@ export default function FollowPreview() {
 
 	@style {
 		.follow-preview {
-			padding: 1rem;
-			background-color: #fff;
-			border: 1px solid lightgray;
-			border-radius: var(--brad);
 		}
 
 		.follow-preview-header,

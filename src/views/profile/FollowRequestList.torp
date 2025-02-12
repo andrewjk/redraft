@@ -16,9 +16,9 @@ export default function FollowRequestList() {
 					<span>Follow requests</span>
 				</div>
 				@if ($props.data.requests.length === 0) {
-					<p>
+					<div class="card">
 						You don't have any follow requests.
-					</p>
+					</div>
 				} else {
 					@for (let follow of $props.data.requests) {
 						@key = follow.id
@@ -43,13 +43,6 @@ export default function FollowRequestList() {
 			
 			max-width: 60rem;
 			width: 100%;
-		}
-
-		.follow-preview {
-			padding: 1rem;
-			background-color: #fff;
-			border: 1px solid lightgray;
-			border-radius: var(--brad);
 		}
 	}
 }

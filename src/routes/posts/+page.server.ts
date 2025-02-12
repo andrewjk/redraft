@@ -5,16 +5,15 @@ import { type PageServerEndPoint } from "@torpor/build";
 import { ok, unauthorized, unprocessable } from "@torpor/build/response";
 
 export default {
-	load: async ({ url, appData }) => {
-		const user = appData.user;
-		if (!user) {
-			return unauthorized();
-		}
+	load: async ({ url }) => {
+		// TODO: Filter by permissions
+		//const user = appData.user;
+		//if (!user) {
+		//	return unauthorized();
+		//}
 
 		// Get URL params
 		const page = +(url.searchParams.get("page") || 1);
-
-		// TODO: Load the user's profile
 
 		// Load the user's feed posts
 		const location = "posts";
@@ -22,9 +21,7 @@ export default {
 		search.set("limit", PAGE_SIZE.toString());
 		search.set("offset", ((page - 1) * PAGE_SIZE).toString());
 
-		const [{ posts, postsCount }] = await Promise.all([
-			api.get(`${location}?${search}`, user?.token),
-		]);
+		const { posts, postsCount } = await api.get(`${location}?${search}`);
 
 		const pageCount = Math.ceil(postsCount / PAGE_SIZE);
 

@@ -17,7 +17,7 @@ export default function PostPreview() {
 	});
 
 	@render {
-		<div class="post-preview">
+		<div class="post-preview card">
 			<div class="post-preview-header hstack centered spaced">
 				<a href={post.author.url}>
 					<img class="post-preview-image" src={post.author.image} alt={`${post.author.name} (${post.author.url})`} />
@@ -69,10 +69,6 @@ export default function PostPreview() {
 
 	@style {
 		.post-preview {
-			padding: 1rem;
-			background-color: #fff;
-			border: 1px solid lightgray;
-			border-radius: var(--brad);
 		}
 
 		.post-preview-header,

@@ -16,9 +16,9 @@ export default function FollowedByList($props) {
 					<a href="/profile/follow-requests">Requests</a>
 				</div>
 				@if ($props.data.followedBy.length === 0) {
-					<p>
+					<div class="card">
 						You are not followed by anyone yet.
-					</p>
+					</div>
 				} else {
 					@for (let follow of $props.data.followedBy) {
 						@key = follow.id
