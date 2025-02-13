@@ -26,6 +26,7 @@ Put an auth function on @torpor/build endpoints??
 - [x] Pin a status
 - [ ] Articles attached to status
 - [ ] Images attached to status
+- [ ] Links attached to status
 - [ ] Multi status "threads"
 - [x] Following
 - [x] Followed by
@@ -41,9 +42,9 @@ Put an auth function on @torpor/build endpoints??
 - [x] Editing profile should propagate to following/followers
 - [ ] Deploy
 
-- [ ] Liking
+- [x] Liking
 - [ ] Reacting
-- [ ] Saving
+- [x] Saving
 - [ ] Sharing / reposting
 - [ ] Post visibility
 - [ ] Recipient lists

@@ -11,14 +11,14 @@ export default function Index() {
 	@render {
 		<div class="vstack centered">
 			<:head>
-				<title>Feed ~ Social</title>
+				<title>Liked ~ Social</title>
 			</:head>
 
-			<h2>Feed</h2>
+			<h2>Liked</h2>
 			<div class="hstack spaced">
-				<span>All</span>
+				<a href="/feed">All</a>
 				<span>~</span>
-				<a href="/feed/liked">Liked</a>
+				<span>Liked</span>
 				<span>~</span>
 				<a href="/feed/saved">Saved</a>
 			</div>

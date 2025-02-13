@@ -1,0 +1,108 @@
+//import { enhance } from '$app/forms';
+import pluralize from "@/lib/utils/pluralize"
+import relativeTimeSince from "@/lib/utils/relativeTimeSince"
+
+/**
+ * Shows a feed preview for display in a list.
+ */
+export default function FeedPreview() {
+	let { feed, user } = $props;
+
+	let fmt = new Intl.DateTimeFormat(undefined, {
+		day: "numeric",
+		month: "short",
+		year: "numeric",
+		hour: "numeric",
+		minute: "numeric"
+	});
+
+	@render {
+		<div class="feed-preview card">
+			<div class="feed-preview-header hstack centered spaced">
+				<a href={feed.author.url}>
+					<img class="feed-preview-image" src={feed.author.image} alt={`${feed.author.name} (${feed.author.url})`} />
+				</a>
+				<a class="feed-preview-link hstack spaced" href={feed.author.url}>
+					<div class="grow vstack">
+						<div class="feed-preview-name">
+							{feed.author.name}
+						</div>
+						<div class="feed-preview-url">
+							{feed.author.url}
+						</div>
+					</div>
+				</a>
+				<div class="spacer" />
+				<div class="vstack">
+					<div class="feed-preview-time" title={fmt.format(new Date(feed.createdAt))}>
+						{relativeTimeSince(new Date(feed.createdAt))}
+					</div>
+					<div class="hstack spaced">
+						<form use:enhance method="POST" action="?/likePost">
+							<input type="hidden" name="slug" value={feed.slug} />
+							<input type="hidden" name="authorUrl" value={feed.author.url} />
+							<input type="hidden" name="sharedKey" value={feed.author.sharedKey} />
+							<input type="hidden" name="liked" value={!feed.liked} />
+							<button>{feed.liked ? "Unlike" : "Like"}</button>
+						</form>
+						<form use:enhance method="POST" action="?/savePost">
+							<input type="hidden" name="slug" value={feed.slug} />
+							<input type="hidden" name="saved" value={!feed.saved} />
+							<button>{feed.saved ? "Unsave" : "Save"}</button>
+						</form>
+					</div>
+				</div>
+			</div>
+
+			<div class="feed-preview-body">
+				<a class="feed-preview-link" href="{feed.author.url}feeds/{feed.slug}">
+					<p>{feed.text}</p>
+				</a>
+			</div>
+
+			<div class="feed-preview-footer hstack spaced">
+				<a href="{feed.author.url}feeds/{feed.slug}#feeds">
+					{pluralize(feed.commentCount, "comment")}
+				</a>
+				<a>
+					React
+				</a>
+			</div>
+		</div>
+	}
+
+	@style {
+		.feed-preview {
+		}
+
+		.feed-preview-header,
+		.feed-preview-footer {
+			font-size: 90%;
+			line-height: 1.4;
+		}
+
+		.feed-preview-body {
+			padding: 1rem 0;
+		}
+
+		.feed-preview-link {
+			color: inherit;
+		}
+
+		.feed-preview-image {
+			height: 40px;
+			width: 40px;
+			border-radius: 50%;
+		}
+
+		.feed-preview-name {
+			//color: inherit;
+			font-weight: bold;
+		}
+
+		.feed-preview-url,
+		.feed-preview-time {
+			color: gray;
+		}
+	}
+}

@@ -9,8 +9,10 @@ export default {
 			const query = Object.fromEntries(url.searchParams.entries());
 			const limit = query.limit ? parseInt(query.limit) : undefined;
 			const offset = query.offset ? parseInt(query.offset) : undefined;
+			const liked = query.liked !== undefined ? true : undefined;
+			const saved = query.saved !== undefined ? true : undefined;
 
-			const posts = await feedList(limit, offset);
+			const posts = await feedList(limit, offset, liked, saved);
 
 			return ok(posts);
 		} catch (error) {

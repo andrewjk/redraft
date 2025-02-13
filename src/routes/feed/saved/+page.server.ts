@@ -18,6 +18,7 @@ export default {
 		const search = new URLSearchParams();
 		search.set("limit", PAGE_SIZE.toString());
 		search.set("offset", ((page - 1) * PAGE_SIZE).toString());
+		search.set("saved", "");
 
 		const [{ feed, feedCount }] = await Promise.all([api.get(`feed?${search}`, user?.token)]);
 

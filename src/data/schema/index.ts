@@ -3,6 +3,7 @@ import { contentTable } from "./contentTable";
 import { feedRelations, feedTable } from "./feedTable";
 import { followedByTable } from "./followedByTable";
 import { followingRelations, followingTable } from "./followingTable";
+import { postReactionsRelations, postReactionsTable } from "./postReactionsTable";
 import { postsRelations, postsTable } from "./postsTable";
 import { usersTable } from "./usersTable";
 
@@ -17,5 +18,7 @@ export {
 	followingRelations,
 	postsTable,
 	postsRelations,
+	postReactionsTable,
+	postReactionsRelations,
 	usersTable,
 };

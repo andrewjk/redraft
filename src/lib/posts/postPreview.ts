@@ -1,5 +1,4 @@
 //import profileView from "./profileView";
-import { type Feed } from "@/data/schema/feedTable";
 import { type Post } from "@/data/schema/postsTable";
 import { type User } from "@/data/schema/usersTable";
 
@@ -17,10 +16,11 @@ export type PostPreview = {
 	createdAt: Date;
 	updatedAt: Date;
 	commentCount: number;
+	likeCount: number;
 };
 
 export default function postPreview(
-	post: (Post & { user?: PostAuthor | null }) | (Feed & { user?: PostAuthor | null }),
+	post: Post & { user?: PostAuthor | null },
 	currentUser: User,
 ): PostPreview {
 	return {
@@ -37,10 +37,10 @@ export default function postPreview(
 					image: currentUser.image,
 					url: currentUser.url,
 				},
-		// @ts-ignore
-		pinned: !!post.pinned,
+		pinned: post.pinned,
 		createdAt: post.created_at,
 		updatedAt: post.updated_at,
 		commentCount: post.comment_count,
+		likeCount: post.like_count,
 	};
 }
