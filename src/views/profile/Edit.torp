@@ -5,7 +5,7 @@ export default function Login() {
 	@render {
 		<div class="profile-edit-page">
 			<:head>
-				<title>Edit Profile ~ Social</title>
+				<title>Edit Profile • Social</title>
 			</:head>
 
 			<h2>Edit Profile</h2>

@@ -33,40 +33,42 @@ export default function FeedPreview() {
 					</div>
 				</a>
 				<div class="spacer" />
-				<div class="vstack">
+				<div class="vstack align-end">
 					<div class="feed-preview-time" title={fmt.format(new Date(feed.createdAt))}>
 						{relativeTimeSince(new Date(feed.createdAt))}
 					</div>
 					<div class="hstack spaced">
-						<form use:enhance method="POST" action="?/likePost">
-							<input type="hidden" name="slug" value={feed.slug} />
-							<input type="hidden" name="authorUrl" value={feed.author.url} />
-							<input type="hidden" name="sharedKey" value={feed.author.sharedKey} />
-							<input type="hidden" name="liked" value={!feed.liked} />
-							<button>{feed.liked ? "Unlike" : "Like"}</button>
-						</form>
-						<form use:enhance method="POST" action="?/savePost">
-							<input type="hidden" name="slug" value={feed.slug} />
-							<input type="hidden" name="saved" value={!feed.saved} />
-							<button>{feed.saved ? "Unsave" : "Save"}</button>
-						</form>
+						@if (user?.url !== feed.author.url) {
+							<form use:enhance method="POST" action="?/likePost">
+								<input type="hidden" name="slug" value={feed.slug} />
+								<input type="hidden" name="authorUrl" value={feed.author.url} />
+								<input type="hidden" name="sharedKey" value={feed.author.sharedKey} />
+								<input type="hidden" name="liked" value={!feed.liked} />
+								<button class="link">{feed.liked ? "Unlike" : "Like"}</button>
+							</form>
+							<span class="separator" />
+							<form use:enhance method="POST" action="?/savePost">
+								<input type="hidden" name="slug" value={feed.slug} />
+								<input type="hidden" name="saved" value={!feed.saved} />
+								<button class="link">{feed.saved ? "Unsave" : "Save"}</button>
+							</form>
+						} else {
+							<span>&nbsp;</span>
+						}
 					</div>
 				</div>
 			</div>
 
 			<div class="feed-preview-body">
-				<a class="feed-preview-link" href="{feed.author.url}feeds/{feed.slug}">
+				<a class="feed-preview-link" href="{feed.author.url}posts/{feed.slug}">
 					<p>{feed.text}</p>
 				</a>
 			</div>
 
 			<div class="feed-preview-footer hstack spaced">
-				<a href="{feed.author.url}feeds/{feed.slug}#feeds">
+				<span>
 					{pluralize(feed.commentCount, "comment")}
-				</a>
-				<a>
-					React
-				</a>
+				</span>
 			</div>
 		</div>
 	}
@@ -102,6 +104,10 @@ export default function FeedPreview() {
 
 		.feed-preview-url,
 		.feed-preview-time {
+			color: gray;
+		}
+
+		.feed-preview-footer {
 			color: gray;
 		}
 	}

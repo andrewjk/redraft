@@ -6,7 +6,7 @@ export default function Login() {
 		<div class="vstack centered">
 			<div class="login-page">
 				<:head>
-					<title>Login ~ Social</title>
+					<title>Login • Social</title>
 				</:head>
 
 				<h2>Login</h2>

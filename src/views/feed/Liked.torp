@@ -11,15 +11,15 @@ export default function Index() {
 	@render {
 		<div class="vstack centered">
 			<:head>
-				<title>Liked ~ Social</title>
+				<title>Liked • Social</title>
 			</:head>
 
 			<h2>Liked</h2>
 			<div class="hstack spaced">
 				<a href="/feed">All</a>
-				<span>~</span>
+				<span class="menu-separator" />
 				<span>Liked</span>
-				<span>~</span>
+				<span class="menu-separator" />
 				<a href="/feed/saved">Saved</a>
 			</div>
 			@if ($props.data.user) {

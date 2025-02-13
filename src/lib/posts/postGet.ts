@@ -41,6 +41,7 @@ export default async function postGet(slug: string) {
 				url: user.url,
 			},
 			commentCount: post.comment_count,
+			likeCount: post.like_count,
 			createdAt: post.created_at,
 			updatedAt: post.updated_at,
 			comments: post.comments.map((c) => commentPreview(c as Comment, user)),

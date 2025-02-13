@@ -4,7 +4,7 @@ export default function Index($props) {
 	@render {
 		<div class="profile-page">
 			<:head>
-				<title>Profile ~ Social</title>
+				<title>Profile • Social</title>
 			</:head>
 
 			<div class="vstack centered spaced profile-details">
@@ -19,11 +19,11 @@ export default function Index($props) {
 				<a href="/profile/following" class="button">
 					Following
 				</a>
-				<span>~</span>
+				<span class="menu-separator" />
 				<a href="/profile/followed-by" class="button">
 					Followed by
 				</a>
-				<span>~</span>
+				<span class="menu-separator" />
 				<a href="/profile/follow-requests" class="button">
 					Requests
 				</a>

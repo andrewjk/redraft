@@ -10,9 +10,9 @@ export default function FollowingList($props) {
 				<h2>Following</h2>
 				<div class="hstack spaced">
 					<span>Following</span>
-					<span>~</span>
+					<span class="menu-separator" />
 					<a href="/profile/followed-by">Followed by</a>
-					<span>~</span>
+					<span class="menu-separator" />
 					<a href="/profile/follow-requests">Requests</a>
 				</div>
 				@if ($props.data.following.length === 0) {

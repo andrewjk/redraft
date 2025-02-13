@@ -6,7 +6,7 @@ import relativeTimeSince from "@/lib/utils/relativeTimeSince"
  * Shows a post preview for display in a list.
  */
 export default function PostPreview() {
-	let { post, user } = $props;
+	let { post, user, fuser } = $props;
 
 	let fmt = new Intl.DateTimeFormat(undefined, {
 		day: "numeric",
@@ -33,7 +33,7 @@ export default function PostPreview() {
 					</div>
 				</a>
 				<div class="spacer" />
-				<div class="vstack">
+				<div class="vstack align-end">
 					<div class="post-preview-time" title={fmt.format(new Date(post.createdAt))}>
 						{relativeTimeSince(new Date(post.createdAt))}
 					</div>
@@ -42,11 +42,35 @@ export default function PostPreview() {
 							<form use:enhance method="POST" action="?/pinPost">
 								<input type="hidden" name="slug" value={post.slug} />
 								<input type="hidden" name="pinned" value={!post.pinned} />
-								<button>{post.pinned ? "Unpin" : "Pin"}</button>
+								<button class="link">{post.pinned ? "Unpin" : "Pin"}</button>
 							</form>
 						} else if (post.pinned) {
-							<span>Pinned</span>
+							<span class="post-preview-time">Pinned</span>
+							@/*
+							@if (fuser) {
+								<span class="separator" />
+							}
+							*/
 						}
+						@// TODO: How would we do this? We would need to post from the other user's site back to our site??
+						@// Maybe this needs to wait until we have a browser plugin
+						@/*
+						@if (fuser) {
+							<form use:enhance method="POST" action="?/likePost">
+								<input type="hidden" name="slug" value={post.slug} />
+								<input type="hidden" name="authorUrl" value={post.author.url} />
+								<input type="hidden" name="sharedKey" value={post.author.sharedKey} />
+								<input type="hidden" name="liked" value={!post.liked} />
+								<button class="link">{post.liked ? "Unlike" : "Like"}</button>
+							</form>
+							<span class="separator" />
+							<form use:enhance method="POST" action="?/savePost">
+								<input type="hidden" name="slug" value={post.slug} />
+								<input type="hidden" name="saved" value={!post.saved} />
+								<button class="link">{post.saved ? "Unsave" : "Save"}</button>
+							</form>
+						}
+						*/
 					</div>
 				</div>
 			</div>
@@ -61,14 +85,10 @@ export default function PostPreview() {
 				<span>
 					{pluralize(post.commentCount, "comment")}
 				</span>
-				<span class="separator">·</span>
+				<span class="separator" />
 				<span>
 					{pluralize(post.likeCount, "like")}
 				</span>
-				<span class="separator">·</span>
-				<a>
-					React
-				</a>
 			</div>
 		</div>
 	}

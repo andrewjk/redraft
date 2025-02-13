@@ -38,11 +38,15 @@ function Nav() {
 						</a>
 					</li>
 
+					<span class="menu-separator" />
+
 					<li class="nav-item">
 						<a href="/feed" class="nav-link">
 							Feed
 						</a>
 					</li>
+
+					<span class="menu-separator" />
 
 					<li class="nav-item">
 						<a href="/profile" class="nav-link">
@@ -58,11 +62,15 @@ function Nav() {
 						</a>
 					</li>
 
+					<span class="menu-separator" />
+
 					<li class="nav-item">
 						<a href="/account/login" :class={{ "nav-link": true, active: $page.url.pathname === "/account/login" }}>
 							Login
 						</a>
 					</li>
+
+					<span class="menu-separator" />
 
 					<li class="nav-item">
 						<a href="/account/register" :class={{ "nav-link": true, active: $page.url.pathname === "/account/register" }}>

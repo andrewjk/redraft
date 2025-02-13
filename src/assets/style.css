@@ -1,11 +1,11 @@
 :root {
 	--bg: #fafbfc;
-	--header: #223;
-	--text: #222;
+	--header: #222233;
+	--text: #222222;
 	--panel-back: #f3f6f9;
 	--code-back: #e3e6e9;
 	--brad: 0.4rem;
-	--link: #1144cc;
+	--link: #0066cc;
 }
 
 html {
@@ -132,26 +132,21 @@ textarea.code {
 	flex-direction: row;
 }
 
-.hstack.centered {
-	align-items: center;
-}
-
-.hstack.collapse {
-	flex-direction: column;
-}
-
-@media screen and (min-width: 768px) {
-	.hstack.collapse {
-		flex-direction: row;
-	}
-}
-
 .vstack {
 	flex-direction: column;
 }
 
+.hstack.centered,
 .vstack.centered {
 	align-items: center;
+}
+
+.vstack.align-start {
+	align-items: start;
+}
+
+.vstack.align-end {
+	align-items: end;
 }
 
 .hstack.spaced,
@@ -163,6 +158,16 @@ textarea.code {
 .vstack.equal {
 	* {
 		flex: 1 1 0;
+	}
+}
+
+.hstack.collapse {
+	flex-direction: column;
+}
+
+@media screen and (min-width: 768px) {
+	.hstack.collapse {
+		flex-direction: row;
 	}
 }
 
@@ -221,6 +226,15 @@ button {
 	min-width: 7.5rem;
 }
 
+button.link {
+	background: none;
+	border: none;
+	min-width: auto;
+	padding: 0;
+	color: var(--link);
+	cursor: pointer;
+}
+
 /* Misc */
 
 .warning {
@@ -235,4 +249,14 @@ button {
 	background-color: #fff;
 	border: 1px solid lightgray;
 	border-radius: var(--brad);
+}
+
+.separator::after {
+	color: gray;
+	content: "·";
+}
+
+.menu-separator::after {
+	color: gray;
+	content: "•";
 }

@@ -6,7 +6,7 @@ export default function Register() {
 		<div class="vstack centered">
 			<div class="register-page">
 				<:head>
-					<title>Register ~ Social</title>
+					<title>Register • Social</title>
 				</:head>
 
 				<h2>Register</h2>

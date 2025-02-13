@@ -48,12 +48,13 @@ export default function PostView() {
 				</div>
 
 				<div class="post-view-footer hstack spaced">
-					<div>
+					<span>
 						{pluralize(post.commentCount, "comment")}
-					</div>
-					<a>
-						React
-					</a>
+					</span>
+					<span class="separator" />
+					<span>
+						{pluralize(post.likeCount, "like")}
+					</span>
 				</div>
 			</div>
 
@@ -67,6 +68,7 @@ export default function PostView() {
 		.post-view {
 			margin: 0 auto;
 			max-width: 60rem;
+			padding: 0;
 			width: 100%;
 		}
 
