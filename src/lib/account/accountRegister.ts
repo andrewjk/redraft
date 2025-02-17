@@ -28,6 +28,7 @@ export default async function accountRegister(request: Request) {
 			// TODO: Require this stuff to be set?
 			bio: "",
 			image: "",
+			location: "",
 			created_at: new Date(),
 			updated_at: new Date(),
 		};
