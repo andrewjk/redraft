@@ -59,6 +59,7 @@ export default function FollowPreview() {
 
 		.follow-preview-link {
 			color: inherit;
+			text-decoration: none;
 		}
 
 		.follow-preview-image {

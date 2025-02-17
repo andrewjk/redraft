@@ -5,7 +5,7 @@ import { followedByTable } from "./followedByTable";
 import { followingRelations, followingTable } from "./followingTable";
 import { postReactionsRelations, postReactionsTable } from "./postReactionsTable";
 import { postsRelations, postsTable } from "./postsTable";
-import { usersTable } from "./usersTable";
+import { userLinksRelations, userLinksTable, usersRelations, usersTable } from "./usersTable";
 
 export {
 	commentsTable,
@@ -21,4 +21,7 @@ export {
 	postReactionsTable,
 	postReactionsRelations,
 	usersTable,
+	usersRelations,
+	userLinksTable,
+	userLinksRelations,
 };

@@ -10,7 +10,7 @@ export default {
 			return unauthorized();
 		}
 
-		return await profileGet();
+		return await profileGet(true);
 	},
 	post: ({ appData, request }) => {
 		const user = appData.user;

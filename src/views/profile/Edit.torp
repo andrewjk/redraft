@@ -1,7 +1,9 @@
 //import { enhance } from '$app/forms';
 import FormErrors from '@/views/FormErrors.torp';
 
-export default function Login() {
+export default function Edit() {
+	let $profile = $watch($props.data.profile)
+
 	@render {
 		<div class="profile-edit-page">
 			<:head>
@@ -13,8 +15,6 @@ export default function Login() {
 			<FormErrors errors={$props.form?.errors} />
 
 			<form use:enhance enctype="multipart/form-data" method="POST">
-				@// TODO: Location, links!!
-
 				<div class="form-row">
 					<label for="email">Image</label
 					<div class="hstack spaced centered">
@@ -43,7 +43,7 @@ export default function Login() {
 				<div class="form-row">
 					<label for="email">Email</label
 					<input
-						:value={$props.data.profile.email}
+						:value={$profile.email}
 						name="email"
 						type="email"
 						required
@@ -52,18 +52,48 @@ export default function Login() {
 				<div class="form-row">
 					<label for="name">Name</label
 					<input
-						:value={$props.data.profile.name}
+						:value={$profile.name}
 						name="name"
-						type="text"
 						required
 					/>
 				</div>
 				<div class="form-row">
 					<label for="bio">Bio</label
 					<textarea
-						:value={$props.data.profile.bio}
+						:value={$profile.bio}
 						name="bio"
 					/>
+				</div>
+				<div class="form-row">
+					<label for="location">Location</label
+					<input
+						:value={$profile.location}
+						name="location"
+					/>
+				</div>
+
+				<h3>Links</h3>
+				@for (let [i, link] of $profile.links.entries()) {
+					<input type="hidden" name="links[{i}].id" value={link.id} />
+					<div class="form-row">
+						<label for="links[{i}].text">URL / Text</label>
+						<input
+							:value={link.url}
+							name="links[{i}].url"
+							style="margin-bottom: 0.4rem"
+						/>
+						<input
+							:value={link.text}
+							name="links[{i}].text"
+						/>
+					</div>
+				}
+				<div class="form-row">
+					<button class="link" type="button" onclick={() => addLink()}>Add a link</button>
+					@function addLink() {
+						$profile.links.push({ id: -1, text: "", url: "" })
+						console.log($profile.links)
+					}
 				</div>
 				<div class="form-footer">
 					<button type="submit">

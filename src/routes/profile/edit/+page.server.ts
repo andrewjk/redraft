@@ -13,7 +13,7 @@ export default {
 			return unauthorized();
 		}
 
-		const result = await api.get("profile", user.token);
+		const result = await api.get("profile/edit", user.token);
 		if (result.errors) {
 			return unprocessable(result);
 		}

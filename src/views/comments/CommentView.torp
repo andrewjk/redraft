@@ -69,6 +69,7 @@ export default function CommentPreview() {
 
 		.comment-preview-link {
 			color: inherit;
+			text-decoration: none;
 		}
 
 		.comment-preview-image {

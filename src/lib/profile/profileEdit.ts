@@ -1,17 +1,22 @@
 import db from "@/data/db";
-import { usersTable } from "@/data/schema";
+import { userLinksRelations, userLinksTable, usersTable } from "@/data/schema";
 import * as api from "@/lib/api";
 import { ok, serverError, unauthorized } from "@torpor/build/response";
 import { eq } from "drizzle-orm";
 import getErrorMessage from "../utils/getErrorMessage";
-import accountView from "./profileView";
 
 export type ProfileEdit = {
 	email: string;
 	password: string;
 	name: string;
 	bio: string;
+	location: string;
 	image: string;
+	links: {
+		id: number;
+		url: string;
+		text: string;
+	}[];
 };
 
 export default async function profileEdit(request: Request, token: string) {
@@ -19,7 +24,11 @@ export default async function profileEdit(request: Request, token: string) {
 		const model: ProfileEdit = await request.json();
 
 		// Get the current (only) user
-		const currentUser = await db.query.usersTable.findFirst();
+		const currentUser = await db.query.usersTable.findFirst({
+			with: {
+				links: true,
+			},
+		});
 		if (!currentUser) {
 			return unauthorized();
 		}
@@ -30,10 +39,44 @@ export default async function profileEdit(request: Request, token: string) {
 			email: model.email,
 			name: model.name,
 			bio: model.bio,
+			location: model.location,
 			image: model.image,
 			updated_at: new Date(),
 		};
 		await db.update(usersTable).set(user).where(eq(usersTable.id, currentUser.id));
+
+		// Update the user's links in the database
+		// TODO: Is there a better way to do this?
+		let updates = [];
+		for (let link of currentUser.links) {
+			if (!model.links.find((l) => l.id === link.id)) {
+				updates.push(db.delete(userLinksTable).where(eq(userLinksTable.id, link.id)));
+			}
+		}
+		for (let link of model.links) {
+			if (link.id < 0) {
+				updates.push(
+					db.insert(userLinksTable).values({
+						user_id: currentUser.id,
+						text: link.text,
+						url: link.url,
+						created_at: new Date(),
+						updated_at: new Date(),
+					}),
+				);
+			} else {
+				updates.push(
+					db
+						.update(userLinksTable)
+						.set({
+							url: link.url,
+							text: link.text,
+						})
+						.where(eq(userLinksTable.id, link.id)),
+				);
+			}
+		}
+		await Promise.all(updates);
 
 		// Send an update to all followers/followed by
 		// This could take some time, so send it off to be done in an endpoint without awaiting it

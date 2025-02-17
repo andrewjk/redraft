@@ -33,6 +33,14 @@ function Nav() {
 					<div class="spacer" />
 
 					<li class="nav-item">
+						<a href="/articles" class="nav-link">
+							Articles
+						</a>
+					</li>
+
+					<span class="menu-separator" />
+
+					<li class="nav-item">
 						<a href="/posts" class="nav-link">
 							Posts
 						</a>

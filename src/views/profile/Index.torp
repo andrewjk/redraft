@@ -13,6 +13,17 @@ export default function Index($props) {
 				@if ($props.data.profile.bio) {
 					<p>{$props.data.profile.bio}</p>
 				}
+				@if ($props.data.profile.location) {
+					<p>Location: {$props.data.profile.location}</p>
+				}
+				@if ($props.data.profile.links.length) {
+					<div class="hstack spaced separated">
+						Links:
+						@for (let link of $props.data.profile.links) {
+							<a href={link.url}>{link.text}</a>
+						}
+					</div>
+				}
 			</div>
 
 			<div class="hstack centered spaced profile-options">
@@ -33,8 +44,9 @@ export default function Index($props) {
 				<a href="/profile/edit" class="button">
 					Edit
 				</a>
+				<span class="menu-separator" />
 				<form use:enhance method="POST" action="?/logout">
-					<button>Logout</button>
+					<button class="link">Logout</button>
 				</form>
 			</div>
 		</div>

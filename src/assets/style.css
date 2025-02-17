@@ -73,6 +73,10 @@ a:visited {
 	text-decoration: none;
 }
 
+a:hover {
+	text-decoration: underline;
+}
+
 ul.plain,
 ol.plain {
 	list-style-type: none;
@@ -233,6 +237,10 @@ button.link {
 	padding: 0;
 	color: var(--link);
 	cursor: pointer;
+}
+
+button.link:hover {
+	text-decoration: underline;
 }
 
 /* Misc */

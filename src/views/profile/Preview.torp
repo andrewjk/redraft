@@ -16,8 +16,9 @@ export default function Preview($props) {
 					<a href="/profile/edit" class="button">
 						Edit profile
 					</a>
+					<span class="menu-separator" />
 					<form use:enhance method="POST" action="?/logout">
-						<button>Logout</button>
+						<button class="link">Logout</button>
 					</form>
 				</div>
 			}

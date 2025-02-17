@@ -26,7 +26,6 @@ export default function Register() {
 						<label for="name">Name</label>
 						<input
 							name="name"
-							type="text"
 							required
 						/>
 					</div>
