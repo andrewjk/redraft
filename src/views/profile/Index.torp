@@ -27,21 +27,21 @@ export default function Index($props) {
 			</div>
 
 			<div class="hstack centered spaced profile-options">
-				<a href="/profile/following" class="button">
+				<a href="/profile/following">
 					Following
 				</a>
 				<span class="menu-separator" />
-				<a href="/profile/followed-by" class="button">
+				<a href="/profile/followed-by">
 					Followed by
 				</a>
 				<span class="menu-separator" />
-				<a href="/profile/follow-requests" class="button">
+				<a href="/profile/follow-requests">
 					Requests
 				</a>
 			</div>
 
 			<div class="hstack spaced profile-options">
-				<a href="/profile/edit" class="button">
+				<a href="/profile/edit">
 					Edit
 				</a>
 				<span class="menu-separator" />

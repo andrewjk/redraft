@@ -1,6 +1,7 @@
 import { $page } from "@torpor/build/state";
 import PostInput from "@/views/posts/PostInput.torp";
 import FeedList from "@/views/feed/FeedList.torp";
+import FeedMenu from "@/views/feed/FeedMenu.torp";
 import Pagination from "@/views/Pagination.torp";
 
 export default function Index() {
@@ -15,13 +16,7 @@ export default function Index() {
 			</:head>
 
 			<h2>Saved</h2>
-			<div class="hstack spaced">
-				<a href="/feed">All</a>
-				<span class="menu-separator" />
-				<a href="/feed/liked">Liked</a>
-				<span class="menu-separator" />
-				<span>Saved</span>
-			</div>
+			<FeedMenu section="Saved" />
 			@if ($props.data.user) {
 				<PostInput />
 			}

@@ -1,0 +1,38 @@
+/**
+ * Shows a menu for selecting Following/Followed by/Requests.
+ */
+export default function FollowMenu($props: { section: string }) {
+	@render {
+		<div class="hstack spaced follow-menu">
+			@if ($props.section === "Following") {
+				<span>Following</span>
+			} else {
+				<a href="/profile/following">
+					Following
+				</a>
+			}
+			<span class="menu-separator" />
+			@if ($props.section === "FollowedBy") {
+				<span>Followed by</span>
+			} else {
+				<a href="/profile/followed-by">
+					Followed by
+				</a>
+			}
+			<span class="menu-separator" />
+			@if ($props.section === "Requests") {
+				<span>Requests</span>
+			} else {
+				<a href="/profile/follow-requests">
+					Requests
+				</a>
+			}
+		</div>
+	}
+
+	@style {
+		.follow-menu {
+			margin-bottom: 1rem;
+		}
+	}
+}

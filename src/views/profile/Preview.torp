@@ -13,7 +13,7 @@ export default function Preview($props) {
 
 			@if ($props.user) {
 				<div class="hstack spaced centered profile-options">
-					<a href="/profile/edit" class="button">
+					<a href="/profile/edit">
 						Edit profile
 					</a>
 					<span class="menu-separator" />

@@ -1,0 +1,38 @@
+/**
+ * Shows a menu for selecting All/Liked/Saved.
+ */
+export default function FeedMenu($props: { section: string }) {
+	@render {
+		<div class="hstack spaced feed-menu">
+			@if ($props.section === "All") {
+				<span>All</span>
+			} else {
+				<a href="/feed">
+					All
+				</a>
+			}
+			<span class="menu-separator" />
+			@if ($props.section === "Liked") {
+				<span>Liked</span>
+			} else {
+				<a href="/feed/liked">
+					Liked
+				</a>
+			}
+			<span class="menu-separator" />
+			@if ($props.section === "Saved") {
+				<span>Saved</span>
+			} else {
+				<a href="/feed/saved">
+					Saved
+				</a>
+			}
+		</div>
+	}
+
+	@style {
+		.feed-menu {
+			margin-bottom: 1rem;
+		}
+	}
+}

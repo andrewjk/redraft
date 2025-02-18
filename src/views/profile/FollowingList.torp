@@ -1,4 +1,5 @@
 import FollowPreview from './FollowPreview.torp';
+import FollowMenu from './FollowMenu.torp';
 
 /**
  * Shows a list of the users being followed.
@@ -8,13 +9,7 @@ export default function FollowingList($props) {
 		<div class="vstack centered">
 			<div class="follow-list">
 				<h2>Following</h2>
-				<div class="hstack spaced">
-					<span>Following</span>
-					<span class="menu-separator" />
-					<a href="/profile/followed-by">Followed by</a>
-					<span class="menu-separator" />
-					<a href="/profile/follow-requests">Requests</a>
-				</div>
+				<FollowMenu section="Following" />
 				@if ($props.data.following.length === 0) {
 					<div class="card">
 						You are not following anyone yet.
