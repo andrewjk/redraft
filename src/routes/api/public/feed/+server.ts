@@ -2,12 +2,12 @@ import feedReceived from "@/lib/public/feedReceived";
 import type { ServerEndPoint } from "@torpor/build";
 
 export default {
-	post: ({ request }) => {
+	post: async ({ request }) => {
 		//const user = appData.user;
 		//if (!user) {
 		//	return unauthorized();
 		//}
 
-		return feedReceived(request);
+		return await feedReceived(request);
 	},
 } satisfies ServerEndPoint;

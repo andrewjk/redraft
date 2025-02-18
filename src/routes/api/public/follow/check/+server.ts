@@ -2,12 +2,12 @@ import followCheck from "@/lib/public/followCheck";
 import type { ServerEndPoint } from "@torpor/build";
 
 export default {
-	post: ({ request }) => {
+	post: async ({ request }) => {
 		//const user = appData.user;
 		//if (!user) {
 		//	return unauthorized();
 		//}
 
-		return followCheck(request);
+		return await followCheck(request);
 	},
 } satisfies ServerEndPoint;

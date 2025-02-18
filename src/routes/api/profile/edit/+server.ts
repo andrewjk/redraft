@@ -12,12 +12,12 @@ export default {
 
 		return await profileGet(true);
 	},
-	post: ({ appData, request }) => {
+	post: async ({ appData, request }) => {
 		const user = appData.user;
 		if (!user) {
 			return unauthorized();
 		}
 
-		return profileEdit(request, user.token);
+		return await profileEdit(request, user.token);
 	},
 } satisfies ServerEndPoint;

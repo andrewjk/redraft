@@ -2,12 +2,12 @@ import commentReceived from "@/lib/public/commentReceived";
 import type { ServerEndPoint } from "@torpor/build";
 
 export default {
-	post: ({ request }) => {
+	post: async ({ request }) => {
 		//const user = appData.user;
 		//if (!user) {
 		//	return unauthorized();
 		//}
 
-		return commentReceived(request);
+		return await commentReceived(request);
 	},
 } satisfies ServerEndPoint;

@@ -2,12 +2,12 @@ import profileUpdated from "@/lib/public/profileUpdated";
 import type { ServerEndPoint } from "@torpor/build";
 
 export default {
-	post: ({ request }) => {
+	post: async ({ request }) => {
 		//const user = appData.user;
 		//if (!user) {
 		//	return unauthorized();
 		//}
 
-		return profileUpdated(request);
+		return await profileUpdated(request);
 	},
 } satisfies ServerEndPoint;

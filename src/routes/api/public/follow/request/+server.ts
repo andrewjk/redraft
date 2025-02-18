@@ -2,12 +2,12 @@ import followRequested from "@/lib/public/followRequested";
 import type { ServerEndPoint } from "@torpor/build";
 
 export default {
-	post: ({ request }) => {
+	post: async ({ request }) => {
 		//const user = appData.user;
 		//if (!user) {
 		//	return unauthorized();
 		//}
 
-		return followRequested(request);
+		return await followRequested(request);
 	},
 } satisfies ServerEndPoint;
