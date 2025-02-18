@@ -20,11 +20,18 @@ Put an auth function on @torpor/build endpoints??
 - [x] / page showing public profile, pinned (if any), 5ish posts
 - [x] /feed page showing showing your feed (must be logged in)
   - [ ] pagination
+  - [ ] search
+  - [ ] filtering by type
 - [x] /posts page showing public posts (with login button)
   - [ ] pagination
+  - [ ] search
+  - [ ] filtering by type
 - [x] Status updates
 - [x] Pin a status
-- [ ] Articles attached to status
+- [x] Articles attached to status
+  - [ ] Link commenting/reacting to post
+  - [ ] Word count?
+  - [ ] Banner image
 - [ ] Images attached to status
 - [ ] Links attached to status
 - [ ] Multi status "threads"

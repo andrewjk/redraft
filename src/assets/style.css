@@ -228,6 +228,7 @@ input {
 
 button {
 	min-width: 7.5rem;
+	padding: 0 1rem;
 }
 
 button.link {
@@ -257,6 +258,7 @@ button.link:hover {
 	background-color: #fff;
 	border: 1px solid lightgray;
 	border-radius: var(--brad);
+	box-shadow: 0 0 0.5rem 0.2rem #eee;
 }
 
 .separator::after {

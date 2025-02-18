@@ -9,14 +9,16 @@ export default function PostInput() {
 
 	@render {
 		<form class="post-input" method="POST" action="?/createPost">
-			<textarea
-				class="full-width"
-				name="text"
-				placeholder="Post something..."
-				rows="3"
-			/>
+			<div class="form-row">
+				<textarea
+					class="full-width"
+					name="text"
+					placeholder="Post something..."
+					rows="3"
+				/>
+			</div>
 
-			<div class="post-footer">
+			<div class="form-footer">
 				<button type="submit">
 					Post
 				</button>
@@ -29,10 +31,6 @@ export default function PostInput() {
 			margin-bottom: 1rem;
 			max-width: 60rem;
 			width: 100%;
-		}
-
-		.post-footer {
-			text-align: end;
 		}
 	}
 }

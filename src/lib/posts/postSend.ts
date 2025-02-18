@@ -36,6 +36,9 @@ export default async function postSend(request: Request) {
 					sharedKey: follower.shared_key,
 					slug: post.slug,
 					text: post.text,
+					type: post.type,
+					url: post.url,
+					title: post.title,
 				};
 				await postPublic(sendUrl, sendData);
 			} catch {

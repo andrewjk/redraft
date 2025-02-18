@@ -1,0 +1,28 @@
+import * as api from "@/lib/api";
+import { PAGE_SIZE } from "@/lib/constants";
+import { type PageServerEndPoint } from "@torpor/build";
+import { ok } from "@torpor/build/response";
+
+export default {
+	load: async ({ url }) => {
+		// TODO: Filter by permissions
+		//const user = appData.user;
+		//if (!user) {
+		//	return unauthorized();
+		//}
+
+		// Get URL params
+		const page = +(url.searchParams.get("page") || 1);
+
+		// Load the user's articles
+		const search = new URLSearchParams();
+		search.set("limit", PAGE_SIZE.toString());
+		search.set("offset", ((page - 1) * PAGE_SIZE).toString());
+
+		const { articles, articlesCount } = await api.get(`articles?${search}`);
+
+		const pageCount = Math.ceil(articlesCount / PAGE_SIZE);
+
+		return ok({ articles, pageCount });
+	},
+} satisfies PageServerEndPoint;

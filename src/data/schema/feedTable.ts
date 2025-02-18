@@ -15,7 +15,20 @@ export const feedTable = sqliteTable("feed", {
 	text: text().notNull(),
 	comment_count: int().notNull().default(0),
 	last_comment_at: int({ mode: "timestamp" }),
+	/**
+	 * The type of the post, which affects the way it is displayed
+	 * 0 = normal
+	 * 1 = image
+	 * 2 = article
+	 * 3 = link
+	 */
+	type: int().notNull().default(0),
+	/** Image/article/link etc fields */
+	url: text().notNull().default(""),
+	title: text().notNull().default(""),
+	/** Whether this feed item has been liked */
 	liked: int({ mode: "boolean" }).notNull().default(false),
+	/** Whether this feed item has been saved */
 	saved: int({ mode: "boolean" }).notNull().default(false),
 	created_at: int({ mode: "timestamp" }).notNull(),
 	updated_at: int({ mode: "timestamp" }).notNull(),

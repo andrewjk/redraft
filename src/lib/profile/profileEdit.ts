@@ -1,5 +1,5 @@
 import db from "@/data/db";
-import { userLinksRelations, userLinksTable, usersTable } from "@/data/schema";
+import { userLinksTable, usersTable } from "@/data/schema";
 import * as api from "@/lib/api";
 import { ok, serverError, unauthorized } from "@torpor/build/response";
 import { eq } from "drizzle-orm";

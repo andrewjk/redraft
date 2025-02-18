@@ -8,6 +8,9 @@ export type FeedReceivedModel = {
 	sharedKey: string;
 	slug: string;
 	text: string;
+	type: number;
+	url: string;
+	title: string;
 };
 
 export default async function feedReceived(request: Request) {
@@ -26,6 +29,9 @@ export default async function feedReceived(request: Request) {
 			user_id: user.id,
 			slug: model.slug,
 			text: model.text,
+			type: model.type,
+			url: model.url,
+			title: model.title,
 			// TODO: Should receive posted_at, edited_at etc
 			created_at: new Date(),
 			updated_at: new Date(),

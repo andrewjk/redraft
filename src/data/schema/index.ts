@@ -1,3 +1,4 @@
+import { articlesTable } from "./articlesTable";
 import { commentsRelations, commentsTable } from "./commentsTable";
 import { contentTable } from "./contentTable";
 import { feedRelations, feedTable } from "./feedTable";
@@ -8,6 +9,7 @@ import { postsRelations, postsTable } from "./postsTable";
 import { userLinksRelations, userLinksTable, usersRelations, usersTable } from "./usersTable";
 
 export {
+	articlesTable,
 	commentsTable,
 	commentsRelations,
 	contentTable,

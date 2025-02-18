@@ -1,6 +1,7 @@
 //import { enhance } from '$app/forms';
 import pluralize from "@/lib/utils/pluralize"
 import relativeTimeSince from "@/lib/utils/relativeTimeSince"
+import { ARTICLE_POST } from "@/data/schema/postsTable";
 
 /**
  * Shows a feed preview for display in a list.
@@ -61,11 +62,20 @@ export default function FeedPreview() {
 
 			<div class="feed-preview-body">
 				<a class="feed-preview-link" href="{feed.author.url}posts/{feed.slug}">
+					@if (feed.type === ARTICLE_POST) {
+						<h3>{feed.title}</h3>
+					}
 					<p>{feed.text}</p>
 				</a>
 			</div>
 
 			<div class="feed-preview-footer hstack spaced">
+				@if (feed.type === ARTICLE_POST) {
+					<a href={feed.url}>
+						Read article
+					</a>
+					<span class="separator" />
+				}
 				<span>
 					{pluralize(feed.commentCount, "comment")}
 				</span>

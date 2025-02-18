@@ -4,6 +4,11 @@ import { createSelectSchema } from "drizzle-valibot";
 import { InferOutput } from "valibot";
 import { commentsTable } from "./commentsTable";
 
+export const TEXT_POST = 0;
+export const IMAGE_POST = 1;
+export const ARTICLE_POST = 2;
+export const LINK_POST = 3;
+
 /**
  * Our posts
  */
@@ -12,9 +17,21 @@ export const postsTable = sqliteTable("posts", {
 	slug: text().notNull(),
 	text: text().notNull(),
 	comment_count: int().notNull().default(0),
+	last_comment_at: int({ mode: "timestamp" }),
 	like_count: int().notNull().default(0),
 	save_count: int().notNull().default(0),
-	last_comment_at: int({ mode: "timestamp" }),
+	/**
+	 * The type of the post, which affects the way it is displayed
+	 * 0 = normal
+	 * 1 = image
+	 * 2 = article
+	 * 3 = link
+	 */
+	type: int().notNull().default(0),
+	/** Image/article/link etc fields */
+	url: text().notNull().default(""),
+	title: text().notNull().default(""),
+	/** Whether this post is pinned at the top of the list */
 	pinned: int({ mode: "boolean" }).notNull().default(false),
 	created_at: int({ mode: "timestamp" }).notNull(),
 	updated_at: int({ mode: "timestamp" }).notNull(),

@@ -17,6 +17,9 @@ export type PostPreview = {
 	updatedAt: Date;
 	commentCount: number;
 	likeCount: number;
+	type: number;
+	url: string;
+	title: string;
 };
 
 export default function postPreview(
@@ -42,5 +45,8 @@ export default function postPreview(
 		updatedAt: post.updated_at,
 		commentCount: post.comment_count,
 		likeCount: post.like_count,
+		type: post.type,
+		url: post.url,
+		title: post.title,
 	};
 }

@@ -20,9 +20,8 @@ export default async function postCreate(request: Request, token: string) {
 			return unauthorized();
 		}
 
-		const slug = uuid();
-
 		// Create the post
+		const slug = uuid();
 		const post = {
 			slug,
 			text: model.text,

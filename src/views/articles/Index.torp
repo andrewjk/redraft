@@ -1,0 +1,26 @@
+import { $page } from "@torpor/build/state";
+import ArticleInput from "@/views/articles/ArticleInput.torp";
+import ArticleList from "@/views/articles/ArticleList.torp";
+import ArticleMenu from "@/views/articles/ArticleMenu.torp";
+import Pagination from "@/views/Pagination.torp";
+
+export default function Index() {
+	let $state = $watch({
+		page: +($page.url.searchParams.get("page") || 1),
+	})
+
+	@render {
+		<div class="vstack centered">
+			<:head>
+				<title>Articles • Social</title>
+			</:head>
+
+			<h2>Articles</h2>
+			@if ($props.data.user) {
+				<ArticleMenu section="Articles" />
+			}
+			<ArticleList articles={$props.data.articles} user={$props.data.user} fuser={$props.data.fuser} />
+			<Pagination pageCount={$props.data.pageCount} page={$state.page} href={(p) => `/?page=${p}`} />
+		</div>
+	}
+}

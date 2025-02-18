@@ -1,6 +1,7 @@
 //import { enhance } from '$app/forms';
 import pluralize from "@/lib/utils/pluralize"
 import relativeTimeSince from "@/lib/utils/relativeTimeSince"
+import { ARTICLE_POST } from "@/data/schema/postsTable";
 
 /**
  * Shows a post preview for display in a list.
@@ -77,11 +78,20 @@ export default function PostPreview() {
 
 			<div class="post-preview-body">
 				<a class="post-preview-link" href="{post.author.url}posts/{post.slug}">
+					@if (post.type === ARTICLE_POST) {
+						<h3>{post.title}</h3>
+					}
 					<p>{post.text}</p>
 				</a>
 			</div>
 
 			<div class="post-preview-footer hstack spaced centered">
+				@if (post.type === ARTICLE_POST) {
+					<a href={post.url}>
+						Read article
+					</a>
+					<span class="separator" />
+				}
 				<span>
 					{pluralize(post.commentCount, "comment")}
 				</span>

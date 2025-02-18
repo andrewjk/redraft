@@ -16,12 +16,11 @@ export default {
 		const page = +(url.searchParams.get("page") || 1);
 
 		// Load the user's feed posts
-		const location = "posts";
 		const search = new URLSearchParams();
 		search.set("limit", PAGE_SIZE.toString());
 		search.set("offset", ((page - 1) * PAGE_SIZE).toString());
 
-		const { posts, postsCount } = await api.get(`${location}?${search}`);
+		const { posts, postsCount } = await api.get(`posts?${search}`);
 
 		const pageCount = Math.ceil(postsCount / PAGE_SIZE);
 
