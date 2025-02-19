@@ -1,6 +1,6 @@
 import db from "@/data/db";
 import { postsTable } from "@/data/schema";
-import { desc, isNotNull } from "drizzle-orm";
+import { desc, isNull } from "drizzle-orm";
 import postPreview, { type PostPreview } from "./postPreview";
 
 export default async function postList(
@@ -10,7 +10,7 @@ export default async function postList(
 	// Get the current (only) user
 	const user = await db.query.usersTable.findFirst();
 
-	let condition = isNotNull(postsTable.published_at);
+	let condition = isNull(postsTable.published_at);
 
 	// Get the posts from the database
 	const dbposts = await db.query.postsTable.findMany({

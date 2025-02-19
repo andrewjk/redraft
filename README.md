@@ -37,7 +37,7 @@ Put an auth function on @torpor/build endpoints??
 - [ ] Multi status "threads"
 - [ ] Re-posting a post to move it back up to the top
   - [ ] Comments should be redirected to the original post?
-- [ ] Draft posts
+- [x] Draft posts
 - [x] Following
 - [x] Followed by
 - [ ] Share with QR

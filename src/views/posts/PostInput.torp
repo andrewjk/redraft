@@ -8,16 +8,18 @@ import { IMAGE_POST } from "@/data/schema/postsTable";
  */
 export default function PostInput($props) {
 	let user = $props.user;
-	let post = $watch($props.post ?? {});
+	let post = $watch($props.post ?? { id: -1, type: 0 });
 
 	@render {
-		<form class="post-input" method="POST" enctype="multipart/form-data" action="?/createPost">
+		<form class="post-input" method="POST" enctype="multipart/form-data">
+			<input type="hidden" name="id" value={post.id} />
 			<input type="hidden" name="type" :value={post.type} />
 
 			<div class="post-input-row">
 				<textarea
 					class="full-width"
 					name="text"
+					:value={post.text}
 					placeholder="Post something..."
 					rows="3"
 				/>
@@ -35,8 +37,11 @@ export default function PostInput($props) {
 					<menu class="separator" />
 				}
 				<div class="spacer" />
-				<button type="submit">
-					Post
+				<button type="submit" formaction="?/savePost">
+					Save draft
+				</button>
+				<button type="submit" formaction="?/publishPost">
+					Publish
 				</button>
 			</div>
 		</form>

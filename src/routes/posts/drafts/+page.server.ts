@@ -2,13 +2,11 @@ import * as api from "@/lib/api";
 import { PAGE_SIZE } from "@/lib/constants";
 import { type PageServerEndPoint } from "@torpor/build";
 import { ok, unauthorized } from "@torpor/build/response";
-import publishPost from "../posts/_actions/publishPost";
-import savePost from "../posts/_actions/savePost";
-import likeFeedPost from "./_actions/likeFeedPost";
-import saveFeedPost from "./_actions/saveFeedPost";
+import publishPost from "../_actions/publishPost";
+import savePost from "../_actions/savePost";
 
 export default {
-	load: async ({ url, appData }) => {
+	load: async ({ appData, url }) => {
 		const user = appData.user;
 		if (!user) {
 			return unauthorized();
@@ -17,21 +15,19 @@ export default {
 		// Get URL params
 		const page = +(url.searchParams.get("page") || 1);
 
-		// Load the user's feed posts
+		// Load the user's posts
 		const search = new URLSearchParams();
 		search.set("limit", PAGE_SIZE.toString());
 		search.set("offset", ((page - 1) * PAGE_SIZE).toString());
 
-		const [{ feed, feedCount }] = await Promise.all([api.get(`feed?${search}`, user?.token)]);
+		const { posts, postsCount } = await api.get(`posts/drafts?${search}`);
 
-		const pageCount = Math.ceil(feedCount / PAGE_SIZE);
+		const pageCount = Math.ceil(postsCount / PAGE_SIZE);
 
-		return ok({ feed, pageCount });
+		return ok({ posts, pageCount });
 	},
 	actions: {
 		savePost,
 		publishPost,
-		likeFeedPost,
-		saveFeedPost,
 	},
 } satisfies PageServerEndPoint;

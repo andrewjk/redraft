@@ -40,7 +40,7 @@ export default function FeedPreview() {
 					</div>
 					<div class="hstack spaced">
 						@if (user?.url !== feed.author.url) {
-							<form use:enhance method="POST" action="?/likePost">
+							<form use:enhance method="POST" action="?/likeFeedPost">
 								<input type="hidden" name="slug" value={feed.slug} />
 								<input type="hidden" name="authorUrl" value={feed.author.url} />
 								<input type="hidden" name="sharedKey" value={feed.author.sharedKey} />
@@ -48,7 +48,7 @@ export default function FeedPreview() {
 								<button class="link">{feed.liked ? "Unlike" : "Like"}</button>
 							</form>
 							<span class="separator" />
-							<form use:enhance method="POST" action="?/savePost">
+							<form use:enhance method="POST" action="?/saveFeedPost">
 								<input type="hidden" name="slug" value={feed.slug} />
 								<input type="hidden" name="saved" value={!feed.saved} />
 								<button class="link">{feed.saved ? "Unsave" : "Save"}</button>

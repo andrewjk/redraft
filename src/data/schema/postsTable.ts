@@ -28,12 +28,16 @@ export const postsTable = sqliteTable("posts", {
 	 * 3 = link
 	 */
 	type: int().notNull().default(0),
-	/** Image/article/link etc fields */
+	/** Image link for image */
 	image: text(),
+	/** Url link for article */
 	url: text(),
+	/** Title for article */
 	title: text(),
 	/** Whether this post is pinned at the top of the list */
 	pinned: int({ mode: "boolean" }).notNull().default(false),
+	/** When this post was published, or null if it's still in draft */
+	published_at: int({ mode: "timestamp" }),
 	created_at: int({ mode: "timestamp" }).notNull(),
 	updated_at: int({ mode: "timestamp" }).notNull(),
 	deleted_at: int({ mode: "timestamp" }),

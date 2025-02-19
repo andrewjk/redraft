@@ -60,7 +60,7 @@ export default function PostPreview() {
 						@// Maybe this needs to wait until we have a browser plugin
 						@/*
 						@if (fuser) {
-							<form use:enhance method="POST" action="?/likePost">
+							<form use:enhance method="POST" action="?/likeFeedPost">
 								<input type="hidden" name="slug" value={post.slug} />
 								<input type="hidden" name="authorUrl" value={post.author.url} />
 								<input type="hidden" name="sharedKey" value={post.author.sharedKey} />
@@ -68,7 +68,7 @@ export default function PostPreview() {
 								<button class="link">{post.liked ? "Unlike" : "Like"}</button>
 							</form>
 							<span class="separator" />
-							<form use:enhance method="POST" action="?/savePost">
+							<form use:enhance method="POST" action="?/saveFeedPost">
 								<input type="hidden" name="slug" value={post.slug} />
 								<input type="hidden" name="saved" value={!post.saved} />
 								<button class="link">{post.saved ? "Unsave" : "Save"}</button>

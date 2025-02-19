@@ -1,4 +1,4 @@
-import postCreate from "@/lib/posts/postCreate";
+import postSave from "@/lib/posts/postSave";
 import type { ServerEndPoint } from "@torpor/build";
 import { unauthorized } from "@torpor/build/response";
 
@@ -9,6 +9,6 @@ export default {
 			return unauthorized();
 		}
 
-		return await postCreate(request, user.token);
+		return await postSave(request);
 	},
 } satisfies ServerEndPoint;

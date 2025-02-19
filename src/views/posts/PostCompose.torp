@@ -1,0 +1,33 @@
+//import { enhance } from '$app/forms';
+import FormErrors from '@/views/FormErrors.torp';
+import PostInput from '@/views/posts/PostInput.torp';
+
+/**
+ * Allows composing a post.
+ */
+export default function PostCompose() {
+	let { user, post } = $props.data;
+
+	@render {
+		<div class="vstack centered">
+			<div class="compose-page">
+				<:head>
+					<title>Compose • Social</title>
+				</:head>
+
+				<h2>Compose</h2>
+
+				<FormErrors errors={$props.form?.errors} />
+
+				<PostInput {post} {user} />
+			</div>
+		</div>
+	}
+
+	@style {
+		.compose-page {
+			width: 100%;
+			max-width: 70rem;
+		}
+	}
+}

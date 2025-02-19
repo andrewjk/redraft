@@ -23,7 +23,7 @@ export default function ImageUpload($props: { image: string }) {
 				accept="image/*"
 				onchange={fileSelected}
 			/>
-			<img :self={img} />
+			<img :self={img} src={$props.image} />
 		</div>
 	}
 }
