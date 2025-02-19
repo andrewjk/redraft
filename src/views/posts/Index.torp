@@ -16,7 +16,7 @@ export default function Index() {
 
 			<h2>Posts</h2>
 			@if ($props.data.user) {
-				<PostInput />
+				<PostInput user={$props.data.user} />
 			}
 			<PostList posts={$props.data.posts} user={$props.data.user} fuser={$props.data.fuser} />
 			<Pagination pageCount={$props.data.pageCount} page={$state.page} href={(p) => `/?page=${p}`} />

@@ -18,7 +18,7 @@ export default function Index() {
 				<div class="vstack spaced centered grow">
 					<Profile profile={$props.data.profile} user={$props.data.user}  />
 					@if ($props.data.user) {
-						<PostInput />
+						<PostInput user={$props.data.user} />
 					}
 				</div>
 

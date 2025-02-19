@@ -3,8 +3,8 @@ import { commentsTable, feedTable, followedByTable, postsTable, usersTable } fro
 import * as api from "@/lib/api";
 import { created, serverError, unauthorized } from "@torpor/build/response";
 import { eq } from "drizzle-orm";
-import { v4 as uuid } from "uuid";
 import getErrorMessage from "../utils/getErrorMessage";
+import uuid from "../utils/uuid";
 import commentPreview from "./commentPreview";
 
 export type CommentCreateModel = {

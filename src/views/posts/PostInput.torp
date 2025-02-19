@@ -1,15 +1,20 @@
 //import { enhance } from '$app/forms';
 import { placeholder } from '@/lib/constants';
+import ImageUpload from '@/views/ImageUpload.torp';
+import { IMAGE_POST } from "@/data/schema/postsTable";
 
 /**
  * Allows creating a post.
  */
-export default function PostInput() {
+export default function PostInput($props) {
 	let user = $props.user;
+	let post = $watch($props.post ?? {});
 
 	@render {
-		<form class="post-input" method="POST" action="?/createPost">
-			<div class="form-row">
+		<form class="post-input" method="POST" enctype="multipart/form-data" action="?/createPost">
+			<input type="hidden" name="type" :value={post.type} />
+
+			<div class="post-input-row">
 				<textarea
 					class="full-width"
 					name="text"
@@ -18,7 +23,18 @@ export default function PostInput() {
 				/>
 			</div>
 
-			<div class="form-footer">
+			@if (post.type === IMAGE_POST) {
+				<ImageUpload image={post.image} class="full-width" />
+			}
+
+			<div class="hstack spaced post-input-footer">
+				@if (!post.type) {
+					<button type="button" class="link" onclick={() => post.type = IMAGE_POST}>
+						+ Image
+					</button>
+					<menu class="separator" />
+				}
+				<div class="spacer" />
 				<button type="submit">
 					Post
 				</button>

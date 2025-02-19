@@ -27,9 +27,9 @@ export default {
 			}
 
 			const data = await request.formData();
-			const comment = formDataToObject(data);
+			const model = formDataToObject(data);
 
-			const result = await api.post(`comments/create`, comment, user.token);
+			const result = await api.post(`comments/create`, model, user.token);
 			if (result.errors) {
 				return unprocessable(result);
 			}

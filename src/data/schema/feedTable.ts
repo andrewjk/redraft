@@ -24,8 +24,9 @@ export const feedTable = sqliteTable("feed", {
 	 */
 	type: int().notNull().default(0),
 	/** Image/article/link etc fields */
-	url: text().notNull().default(""),
-	title: text().notNull().default(""),
+	image: text(),
+	url: text(),
+	title: text(),
 	/** Whether this feed item has been liked */
 	liked: int({ mode: "boolean" }).notNull().default(false),
 	/** Whether this feed item has been saved */

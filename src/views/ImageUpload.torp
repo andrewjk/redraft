@@ -1,0 +1,29 @@
+
+export default function ImageUpload($props: { image: string }) {
+	let img;
+
+	function fileSelected(e) {
+		const image = e.target.files[0];
+		if (!image.type.includes("image")) {
+			return;
+		}
+		const fileReader = new FileReader();
+		fileReader.readAsDataURL(image);
+		fileReader.onload = (ev) => {
+			img.src = ev.target.result
+		}
+	}
+
+	@render {
+		<div class="vstack spaced centered">
+			<input
+				class="full-width"
+				name="imagefile"
+				type="file"
+				accept="image/*"
+				onchange={fileSelected}
+			/>
+			<img :self={img} />
+		</div>
+	}
+}

@@ -9,8 +9,9 @@ export type FeedReceivedModel = {
 	slug: string;
 	text: string;
 	type: number;
-	url: string;
-	title: string;
+	image: string | null;
+	url: string | null;
+	title: string | null;
 };
 
 export default async function feedReceived(request: Request) {
@@ -30,6 +31,7 @@ export default async function feedReceived(request: Request) {
 			slug: model.slug,
 			text: model.text,
 			type: model.type,
+			image: model.image,
 			url: model.url,
 			title: model.title,
 			// TODO: Should receive posted_at, edited_at etc

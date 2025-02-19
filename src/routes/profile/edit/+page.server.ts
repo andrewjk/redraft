@@ -2,9 +2,9 @@ import * as api from "@/lib/api.js";
 import { uploadFile } from "@/lib/storage";
 import formDataToObject from "@/lib/utils/formDataToObject";
 import setUserToken from "@/lib/utils/setUserToken";
+import uuid from "@/lib/utils/uuid";
 import { type PageServerEndPoint } from "@torpor/build";
 import { ok, seeOther, unauthorized, unprocessable } from "@torpor/build/response";
-import { v4 as uuid } from "uuid";
 
 export default {
 	load: async ({ appData }) => {

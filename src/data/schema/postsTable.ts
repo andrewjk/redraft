@@ -29,8 +29,9 @@ export const postsTable = sqliteTable("posts", {
 	 */
 	type: int().notNull().default(0),
 	/** Image/article/link etc fields */
-	url: text().notNull().default(""),
-	title: text().notNull().default(""),
+	image: text(),
+	url: text(),
+	title: text(),
 	/** Whether this post is pinned at the top of the list */
 	pinned: int({ mode: "boolean" }).notNull().default(false),
 	created_at: int({ mode: "timestamp" }).notNull(),

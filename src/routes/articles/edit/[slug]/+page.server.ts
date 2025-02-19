@@ -25,9 +25,9 @@ export default {
 			}
 
 			const data = await request.formData();
-			const article = formDataToObject(data);
+			const model = formDataToObject(data);
 
-			const result = await api.post(`articles/save`, article, user.token);
+			const result = await api.post(`articles/save`, model, user.token);
 			if (result.errors) {
 				return unprocessable(result);
 			}
@@ -41,9 +41,9 @@ export default {
 			}
 
 			const data = await request.formData();
-			const article = formDataToObject(data);
+			const model = formDataToObject(data);
 
-			const result = await api.post(`articles/publish`, article, user.token);
+			const result = await api.post(`articles/publish`, model, user.token);
 			if (result.errors) {
 				return unprocessable(result);
 			}

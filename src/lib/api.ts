@@ -37,9 +37,6 @@ async function send({ method, path, data, token }: SendOptions) {
 	if (result.ok || result.status === 422) {
 		const text = await result.text();
 		const data = text ? JSON.parse(text) : {};
-
-		console.log("got", data);
-
 		return data;
 	}
 

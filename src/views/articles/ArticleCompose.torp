@@ -2,19 +2,19 @@
 import FormErrors from '@/views/FormErrors.torp';
 
 /**
- * Allows creating a article.
+ * Allows composing an article.
  */
-export default function ArticleInput() {
+export default function ArticleCompose() {
 	let user = $props.data.user;
 
 	@render {
 		<div class="vstack centered">
 			<div class="write-page">
 				<:head>
-					<title>Write • Social</title>
+					<title>Compose • Social</title>
 				</:head>
 
-				<h2>Write</h2>
+				<h2>Compose</h2>
 
 				<FormErrors errors={$props.form?.errors} />
 

@@ -2,10 +2,10 @@ import db from "@/data/db";
 import { followingTable } from "@/data/schema";
 import { ok, serverError, unauthorized } from "@torpor/build/response";
 import { eq } from "drizzle-orm";
-import { v4 as uuid } from "uuid";
 import { postPublic } from "../public";
 import { FollowRequestModel, FollowRequestResponseModel } from "../public/followRequested";
 import getErrorMessage from "../utils/getErrorMessage";
+import uuid from "../utils/uuid";
 
 export type FollowModel = {
 	url: string;

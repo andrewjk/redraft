@@ -4,9 +4,9 @@ import { ARTICLE_POST, postsTable } from "@/data/schema/postsTable";
 import * as api from "@/lib/api";
 import { created, serverError, unauthorized } from "@torpor/build/response";
 import { eq } from "drizzle-orm";
-import { v4 as uuid } from "uuid";
 import getErrorMessage from "../utils/getErrorMessage";
 import sluggify from "../utils/sluggify";
+import uuid from "../utils/uuid";
 import articlePreview from "./articlePreview";
 
 export type ArticlePublishModel = {

@@ -1,6 +1,8 @@
 import * as api from "@/lib/api";
 import { FRONT_PAGE_SIZE } from "@/lib/constants";
+import { uploadFile } from "@/lib/storage";
 import formDataToObject from "@/lib/utils/formDataToObject";
+import uuid from "@/lib/utils/uuid";
 import { type PageServerEndPoint } from "@torpor/build";
 import { ok, unauthorized, unprocessable } from "@torpor/build/response";
 
@@ -23,9 +25,17 @@ export default {
 			}
 
 			const data = await request.formData();
-			const post = formDataToObject(data);
+			const model = formDataToObject(data);
 
-			const result = await api.post(`posts/create`, post, user.token);
+			// Save the image if it's been uploaded
+			const imagefile = data.get("imagefile") as File;
+			if (imagefile?.name) {
+				let name = uuid() + "." + imagefile.name.split(".").at(-1);
+				await uploadFile(imagefile, name);
+				model.image = `${user.url}api/content/${name}`;
+			}
+
+			const result = await api.post(`posts/create`, model, user.token);
 			if (result.errors) {
 				return unprocessable(result);
 			}
@@ -37,9 +47,9 @@ export default {
 			}
 
 			const data = await request.formData();
-			const post = formDataToObject(data);
+			const model = formDataToObject(data);
 
-			const result = await api.post(`posts/pin`, post, user.token);
+			const result = await api.post(`posts/pin`, model, user.token);
 			if (result.errors) {
 				return unprocessable(result);
 			}

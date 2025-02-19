@@ -2,12 +2,14 @@ import db from "@/data/db";
 import { feedTable, postsTable } from "@/data/schema";
 import * as api from "@/lib/api";
 import { created, serverError, unauthorized } from "@torpor/build/response";
-import { v4 as uuid } from "uuid";
 import getErrorMessage from "../utils/getErrorMessage";
+import uuid from "../utils/uuid";
 import postPreview from "./postPreview";
 
 export type PostCreateModel = {
 	text: string;
+	type: number;
+	image: string;
 };
 
 export default async function postCreate(request: Request, token: string) {
@@ -25,6 +27,8 @@ export default async function postCreate(request: Request, token: string) {
 		const post = {
 			slug,
 			text: model.text,
+			type: model.type,
+			image: model.image,
 			created_at: new Date(),
 			updated_at: new Date(),
 		};
@@ -34,6 +38,8 @@ export default async function postCreate(request: Request, token: string) {
 		const feed = {
 			slug,
 			text: model.text,
+			type: model.type,
+			image: model.image,
 			created_at: new Date(),
 			updated_at: new Date(),
 		};

@@ -1,5 +1,4 @@
 import { $page } from "@torpor/build/state";
-import ArticleInput from "@/views/articles/ArticleInput.torp";
 import ArticleList from "@/views/articles/ArticleList.torp";
 import ArticleMenu from "@/views/articles/ArticleMenu.torp";
 import Pagination from "@/views/Pagination.torp";

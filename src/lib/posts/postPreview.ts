@@ -1,4 +1,3 @@
-//import profileView from "./profileView";
 import { type Post } from "@/data/schema/postsTable";
 import { type User } from "@/data/schema/usersTable";
 
@@ -18,8 +17,9 @@ export type PostPreview = {
 	commentCount: number;
 	likeCount: number;
 	type: number;
-	url: string;
-	title: string;
+	image: string | null;
+	url: string | null;
+	title: string | null;
 };
 
 export default function postPreview(
@@ -46,6 +46,7 @@ export default function postPreview(
 		commentCount: post.comment_count,
 		likeCount: post.like_count,
 		type: post.type,
+		image: post.image,
 		url: post.url,
 		title: post.title,
 	};

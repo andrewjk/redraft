@@ -20,8 +20,8 @@ export default function ArticleMenu($props: { section: string }) {
 				</a>
 			}
 			<span class="menu-separator" />
-			<a href="/articles/write">
-				Write an article
+			<a href="/articles/compose">
+				Compose
 			</a>
 		</div>
 	}

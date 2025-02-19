@@ -37,6 +37,7 @@ export default async function postSend(request: Request) {
 					slug: post.slug,
 					text: post.text,
 					type: post.type,
+					image: post.image,
 					url: post.url,
 					title: post.title,
 				};

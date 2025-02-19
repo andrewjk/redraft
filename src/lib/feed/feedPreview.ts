@@ -20,8 +20,9 @@ export type FeedPreview = {
 	updatedAt: Date;
 	commentCount: number;
 	type: number;
-	url: string;
-	title: string;
+	image: string | null;
+	url: string | null;
+	title: string | null;
 };
 
 export default function feedPreview(
@@ -50,6 +51,7 @@ export default function feedPreview(
 		updatedAt: feed.updated_at,
 		commentCount: feed.comment_count,
 		type: feed.type,
+		image: feed.image,
 		url: feed.url,
 		title: feed.title,
 	};
