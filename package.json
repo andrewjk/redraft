@@ -21,7 +21,7 @@
   "dependencies": {
     "@aws-sdk/client-s3": "^3.750.0",
     "@libsql/client": "^0.14.0",
-    "@torpor/view": "^0.0.5",
+    "@torpor/view": "^0.0.7",
     "bcryptjs": "^3.0.2",
     "dotenv": "^16.4.7",
     "drizzle-orm": "^0.39.3",
@@ -31,7 +31,7 @@
     "valibot": "1.0.0-rc.1"
   },
   "devDependencies": {
-    "@torpor/build": "^0.0.4",
+    "@torpor/build": "^0.0.6",
     "@trivago/prettier-plugin-sort-imports": "^5.2.2",
     "@types/bcryptjs": "^2.4.6",
     "@types/node": "^22.13.4",
@@ -40,7 +40,7 @@
     "drizzle-kit": "^0.30.4",
     "marked": "^15.0.7",
     "sanitize-html": "^2.14.0",
-    "tsx": "^4.19.2",
+    "tsx": "^4.19.3",
     "typescript": "^5.7.3",
     "vinxi": "^0.5.3"
   }
