@@ -92,7 +92,6 @@ export default function Edit() {
 					<button class="link" type="button" onclick={() => addLink()}>Add a link</button>
 					@function addLink() {
 						$profile.links.push({ id: -1, text: "", url: "" })
-						console.log($profile.links)
 					}
 				</div>
 				<div class="form-footer">

@@ -1,26 +1,25 @@
 import db from "@/data/db";
-import { feedTable, postsTable } from "@/data/schema";
-import { ARTICLE_POST, IMAGE_POST } from "@/data/schema/postsTable";
+import { articlesTable, feedTable, postsTable } from "@/data/schema";
+import { ARTICLE_POST } from "@/data/schema/postsTable";
 import * as api from "@/lib/api";
-import { created, serverError, unauthorized } from "@torpor/build/response";
+import { created, serverError, unauthorized, unprocessable } from "@torpor/build/response";
 import { eq } from "drizzle-orm";
 import getErrorMessage from "../utils/getErrorMessage";
 import sluggify from "../utils/sluggify";
 import uuid from "../utils/uuid";
+import { PostEditModel } from "./postEdit";
 import postPreview from "./postPreview";
-
-export type PostPublishModel = {
-	id: number;
-	type: number;
-	text: string;
-	image: string;
-	title: string;
-	description: string;
-};
 
 export default async function postPublish(request: Request, token: string) {
 	try {
-		const model: PostPublishModel = await request.json();
+		const model: PostEditModel = await request.json();
+
+		// Can't publish if it's already been published
+		// TODO: Maybe we should allow this, for updating the feed in followers' tables...
+		const post = await db.query.postsTable.findFirst({ where: eq(postsTable.id, model.id) });
+		if (post?.published_at) {
+			return unprocessable();
+		}
 
 		// Get the current (only) user
 		const currentUser = await db.query.usersTable.findFirst();
@@ -28,17 +27,38 @@ export default async function postPublish(request: Request, token: string) {
 			return unauthorized();
 		}
 
+		// Create or update the article, if applicable
+		if (model.type === ARTICLE_POST) {
+			if (model.articleId == null) {
+				const article = {
+					text: model.articleText!,
+					created_at: new Date(),
+					updated_at: new Date(),
+				};
+				model.articleId = (
+					await db.insert(articlesTable).values(article).returning({ id: articlesTable.id })
+				)[0].id;
+			} else {
+				const article = {
+					text: model.articleText!,
+					created_at: new Date(),
+					updated_at: new Date(),
+				};
+				await db.update(articlesTable).set(article).where(eq(articlesTable.id, model.articleId!));
+			}
+		}
+
 		// Create or update the post
 		let slug;
 		let newPost;
 		if (model.id < 0) {
 			const post = {
-				slug: model.type === ARTICLE_POST ? sluggify(model.title) : uuid(),
+				slug: model.type === ARTICLE_POST ? sluggify(model.title!) : uuid(),
 				type: model.type || 0,
 				text: model.text,
 				image: model.image,
 				title: model.title,
-				description: model.description,
+				//description: model.description,
 				created_at: new Date(),
 				updated_at: new Date(),
 				published_at: new Date(),
@@ -51,7 +71,7 @@ export default async function postPublish(request: Request, token: string) {
 				text: model.text,
 				image: model.image,
 				title: model.title,
-				description: model.description,
+				//description: model.description,
 				updated_at: new Date(),
 				published_at: new Date(),
 			};
@@ -67,7 +87,7 @@ export default async function postPublish(request: Request, token: string) {
 			text: model.text,
 			image: model.image,
 			title: model.title,
-			description: model.description,
+			//description: model.description,
 			url: `${currentUser.url}posts/${slug}`,
 			created_at: new Date(),
 			updated_at: new Date(),

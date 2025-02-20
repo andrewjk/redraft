@@ -1,9 +1,10 @@
 import { $page } from "@torpor/build/state";
-import ArticleList from "@/views/articles/ArticleList.torp";
 import ArticleMenu from "@/views/articles/ArticleMenu.torp";
+import PostInput from "@/views/posts/PostInput.torp";
+import PostList from "@/views/posts/PostList.torp";
 import Pagination from "@/views/Pagination.torp";
 
-export default function Drafts() {
+export default function Index() {
 	let $state = $watch({
 		page: +($page.url.searchParams.get("page") || 1),
 	})
@@ -11,14 +12,15 @@ export default function Drafts() {
 	@render {
 		<div class="vstack centered">
 			<:head>
-				<title>Drafts • Social</title>
+				<title>Article Drafts • Social</title>
 			</:head>
 
-			<h2>Drafts</h2>
+			<h2>Article Drafts</h2>
 			@if ($props.data.user) {
-				<ArticleMenu section="Drafts" />
+				<PostInput user={$props.data.user} />
 			}
-			<ArticleList articles={$props.data.articles} user={$props.data.user} fuser={$props.data.fuser} />
+			<ArticleMenu section="Drafts" user={$props.data.user} />
+			<PostList posts={$props.data.posts} user={$props.data.user} fuser={$props.data.fuser} />
 			<Pagination pageCount={$props.data.pageCount} page={$state.page} href={(p) => `/?page=${p}`} />
 		</div>
 	}

@@ -1,6 +1,7 @@
 import db from "@/data/db";
-import { commentsTable, postsTable } from "@/data/schema";
+import { articlesTable, commentsTable, postsTable } from "@/data/schema";
 import { type Comment } from "@/data/schema/commentsTable";
+import { ARTICLE_POST } from "@/data/schema/postsTable";
 import { notFound, ok, serverError } from "@torpor/build/response";
 import { eq, isNull } from "drizzle-orm";
 import commentPreview from "../comments/commentPreview";
@@ -31,10 +32,22 @@ export default async function postGet(slug: string) {
 			return notFound();
 		}
 
+		// If it's an article, get the article text
+		let article;
+		if (post.type === ARTICLE_POST && post.article_id) {
+			article = await db.query.articlesTable.findFirst({
+				where: eq(articlesTable.id, post.article_id),
+			});
+		}
+
 		// Create the view
 		const view = {
 			slug: post.slug,
+			type: post.type,
 			text: post.text,
+			image: post.image,
+			title: post.title,
+			articleText: article?.text,
 			author: {
 				image: user.image,
 				name: user.name,

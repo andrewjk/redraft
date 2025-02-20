@@ -19,10 +19,10 @@ export default {
 		search.set("limit", PAGE_SIZE.toString());
 		search.set("offset", ((page - 1) * PAGE_SIZE).toString());
 
-		const { articles, articlesCount } = await api.get(`articles?${search}`);
+		const { posts, postsCount } = await api.get(`articles?${search}`);
 
-		const pageCount = Math.ceil(articlesCount / PAGE_SIZE);
+		const pageCount = Math.ceil(postsCount / PAGE_SIZE);
 
-		return ok({ articles, pageCount });
+		return ok({ posts, pageCount });
 	},
 } satisfies PageServerEndPoint;

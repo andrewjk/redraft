@@ -1,8 +1,20 @@
 import db from "@/data/db";
-import { postsTable } from "@/data/schema";
+import { articlesTable, postsTable } from "@/data/schema";
+import { ARTICLE_POST } from "@/data/schema/postsTable";
 import { notFound, ok, serverError } from "@torpor/build/response";
 import { eq } from "drizzle-orm";
 import getErrorMessage from "../utils/getErrorMessage";
+
+export type PostEditModel = {
+	id: number;
+	published: boolean;
+	type: number;
+	text: string;
+	image: string | null;
+	articleId: number | null;
+	title: string | null;
+	articleText: string | null;
+};
 
 export default async function postEdit(slug: string) {
 	try {
@@ -20,21 +32,24 @@ export default async function postEdit(slug: string) {
 			return notFound();
 		}
 
+		// If it's an article, get the article text
+		let article;
+		if (post.type === ARTICLE_POST && post.article_id) {
+			article = await db.query.articlesTable.findFirst({
+				where: eq(articlesTable.id, post.article_id),
+			});
+		}
+
 		// Create the view
-		const view = {
+		const view: PostEditModel = {
 			id: post.id,
-			slug: post.slug,
+			published: !!post.published_at,
 			type: post.type,
 			text: post.text,
 			image: post.image,
 			title: post.title,
-			author: {
-				image: user.image,
-				name: user.name,
-				url: user.url,
-			},
-			createdAt: post.created_at,
-			updatedAt: post.updated_at,
+			articleId: article ? article.id : null,
+			articleText: article ? article.text : null,
 		};
 
 		return ok(view);

@@ -10,7 +10,7 @@ export default async function postList(
 	// Get the current (only) user
 	const user = await db.query.usersTable.findFirst();
 
-	let condition = isNull(postsTable.published_at);
+	const condition = isNull(postsTable.published_at);
 
 	// Get the posts from the database
 	const dbposts = await db.query.postsTable.findMany({

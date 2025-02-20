@@ -30,6 +30,8 @@ export const postsTable = sqliteTable("posts", {
 	type: int().notNull().default(0),
 	/** Image link for image */
 	image: text(),
+	/** Id for viewing the post with the article */
+	article_id: int(),
 	/** Url link for article */
 	url: text(),
 	/** Title for article */

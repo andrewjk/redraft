@@ -1,31 +1,34 @@
 import db from "@/data/db";
-import { articlesTable } from "@/data/schema";
-import { desc, isNotNull } from "drizzle-orm";
-import articlePreview, { type ArticlePreview } from "./articlePreview";
+import { postsTable } from "@/data/schema";
+import { ARTICLE_POST } from "@/data/schema/postsTable";
+import { and, desc, eq, isNotNull } from "drizzle-orm";
+import postPreview, { PostPreview } from "../posts/postPreview";
 
-export default async function articleList(
+export default async function articleDraftList(
 	limit?: number,
 	offset?: number,
-): Promise<{ articles: ArticlePreview[]; articlesCount: number }> {
+): Promise<{ posts: PostPreview[]; postsCount: number }> {
 	// Get the current (only) user
 	const user = await db.query.usersTable.findFirst();
 
+	const condition = and(eq(postsTable.type, ARTICLE_POST), isNotNull(postsTable.published_at));
+
 	// Get the articles from the database
-	const dbarticles = await db.query.articlesTable.findMany({
+	const dbarticles = await db.query.postsTable.findMany({
 		limit,
 		offset,
-		where: isNotNull(articlesTable.published_at),
-		orderBy: desc(articlesTable.published_at),
+		where: condition,
+		orderBy: desc(postsTable.updated_at),
 	});
 
 	// Get the total article count
-	const articlesCount = await db.$count(articlesTable);
+	const postsCount = await db.$count(postsTable, condition);
 
 	// Create article previews
-	const articles = dbarticles.map((article) => articlePreview(article, user!));
+	const posts = dbarticles.map((article) => postPreview(article, user!));
 
 	return {
-		articles,
-		articlesCount,
+		posts,
+		postsCount,
 	};
 }

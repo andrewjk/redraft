@@ -20,6 +20,10 @@ export default function PostMenu($props: { section: string, user: any }) {
 						Drafts
 					</a>
 				}
+				<span class="menu-separator" />
+				<a href="/posts/compose">
+					Compose
+				</a>
 			}
 		</div>
 	}

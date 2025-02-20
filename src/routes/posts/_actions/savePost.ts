@@ -27,5 +27,5 @@ export default async function savePost({ appData, request }: ServerEvent) {
 		return unprocessable(result);
 	}
 
-	return redirect("posts/drafts");
+	return redirect("/posts/drafts");
 }

@@ -27,5 +27,5 @@ export default async function publishPost({ appData, request }: ServerEvent) {
 		return unprocessable(result);
 	}
 
-	return redirect("posts");
+	return redirect("/posts");
 }

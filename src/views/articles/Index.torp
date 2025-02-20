@@ -1,6 +1,7 @@
 import { $page } from "@torpor/build/state";
-import ArticleList from "@/views/articles/ArticleList.torp";
 import ArticleMenu from "@/views/articles/ArticleMenu.torp";
+import PostInput from "@/views/posts/PostInput.torp";
+import PostList from "@/views/posts/PostList.torp";
 import Pagination from "@/views/Pagination.torp";
 
 export default function Index() {
@@ -16,9 +17,10 @@ export default function Index() {
 
 			<h2>Articles</h2>
 			@if ($props.data.user) {
-				<ArticleMenu section="Articles" />
+				<PostInput user={$props.data.user} />
 			}
-			<ArticleList articles={$props.data.articles} user={$props.data.user} fuser={$props.data.fuser} />
+			<ArticleMenu section="Articles" user={$props.data.user} />
+			<PostList posts={$props.data.posts} user={$props.data.user} fuser={$props.data.fuser} />
 			<Pagination pageCount={$props.data.pageCount} page={$state.page} href={(p) => `/?page=${p}`} />
 		</div>
 	}

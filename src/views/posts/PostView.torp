@@ -2,6 +2,7 @@
 import pluralize from "@/lib/utils/pluralize"
 import relativeTimeSince from "@/lib/utils/relativeTimeSince"
 import CommentList from "@/views/comments/CommentList.torp"
+import { ARTICLE_POST, IMAGE_POST } from "@/data/schema/postsTable";
 
 /**
  * Shows a post's full details.
@@ -48,7 +49,20 @@ export default function PostView() {
 				</div>
 
 				<div class="post-view-body">
-					<p>{post.text}</p>
+					@switch (post.type) {
+						case ARTICLE_POST: {
+							<h3>{post.title}</h3>
+							<p style="color: gray">{post.text}</p>
+							<p>{post.articleText}</p>
+						}
+						case IMAGE_POST: {
+							<p>{post.text}</p>
+							<img src={post.image} />
+						}
+						default: {
+							<p>{post.text}</p>
+						}
+					}
 				</div>
 
 				<div class="post-view-footer hstack spaced">

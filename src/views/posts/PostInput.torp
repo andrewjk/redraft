@@ -1,7 +1,7 @@
 //import { enhance } from '$app/forms';
 import { placeholder } from '@/lib/constants';
 import ImageUpload from '@/views/ImageUpload.torp';
-import { IMAGE_POST } from "@/data/schema/postsTable";
+import { IMAGE_POST, ARTICLE_POST } from "@/data/schema/postsTable";
 
 /**
  * Allows creating a post.
@@ -15,34 +15,65 @@ export default function PostInput($props) {
 			<input type="hidden" name="id" value={post.id} />
 			<input type="hidden" name="type" :value={post.type} />
 
+			@if (post.type === ARTICLE_POST) {
+				<input type="hidden" name="articleId" value={post.articleId} />
+				<div class="form-row">
+					<input
+						name="title"
+						:value={post.title}
+						required
+						placeholder="Title"
+					/>
+				</div>
+			}
+
 			<div class="post-input-row">
 				<textarea
 					class="full-width"
 					name="text"
 					:value={post.text}
-					placeholder="Post something..."
+					placeholder={post.type === ARTICLE_POST ? "Description" : "Post something..."}
 					rows="3"
 				/>
 			</div>
 
+			@if (post.type === ARTICLE_POST) {
+				<div class="form-row">
+					<textarea
+						class="full-width"
+						:value={post.articleText}
+						name="articleText"
+						placeholder="Article text"
+					/>
+				</div>
+			}
+
 			@if (post.type === IMAGE_POST) {
 				<ImageUpload image={post.image} class="full-width" />
 			}
-
+			
 			<div class="hstack spaced post-input-footer">
 				@if (!post.type) {
 					<button type="button" class="link" onclick={() => post.type = IMAGE_POST}>
 						+ Image
 					</button>
-					<menu class="separator" />
+					<button type="button" class="link" onclick={() => post.type = ARTICLE_POST}>
+						+ Article
+					</button>
 				}
 				<div class="spacer" />
-				<button type="submit" formaction="?/savePost">
-					Save draft
-				</button>
-				<button type="submit" formaction="?/publishPost">
-					Publish
-				</button>
+				@if (post.published) {
+					<button type="submit" formaction="?/savePost">
+						Save
+					</button>
+				} else {
+					<button type="submit" formaction="?/savePost">
+						Save draft
+					</button>
+					<button type="submit" formaction="?/publishPost">
+						Publish
+					</button>
+				}
 			</div>
 		</form>
 	}

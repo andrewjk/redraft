@@ -29,25 +29,9 @@ function Nav() {
 					</a>
 				</li>
 
+				<div class="spacer" />
+
 				@if ($props.user) {
-					<div class="spacer" />
-
-					<li class="nav-item">
-						<a href="/articles" class="nav-link">
-							Articles
-						</a>
-					</li>
-
-					<span class="menu-separator" />
-
-					<li class="nav-item">
-						<a href="/posts" class="nav-link">
-							Posts
-						</a>
-					</li>
-
-					<span class="menu-separator" />
-
 					<li class="nav-item">
 						<a href="/feed" class="nav-link">
 							Feed
@@ -55,23 +39,31 @@ function Nav() {
 					</li>
 
 					<span class="menu-separator" />
+				}
 
+				<li class="nav-item">
+					<a href="/posts" class="nav-link">
+						Posts
+					</a>
+				</li>
+
+				<span class="menu-separator" />
+
+				<li class="nav-item">
+					<a href="/articles" class="nav-link">
+						Articles
+					</a>
+				</li>
+
+				<span class="menu-separator" />
+
+				@if ($props.user) {
 					<li class="nav-item">
 						<a href="/profile" class="nav-link">
 							Profile
 						</a>
 					</li>
 				} else {
-					<div class="spacer" />
-
-					<li class="nav-item">
-						<a href="/posts" class="nav-link">
-							Posts
-						</a>
-					</li>
-
-					<span class="menu-separator" />
-
 					<li class="nav-item">
 						<a href="/account/login" :class={{ "nav-link": true, active: $page.url.pathname === "/account/login" }}>
 							Login

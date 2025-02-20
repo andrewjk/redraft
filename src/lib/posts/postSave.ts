@@ -1,6 +1,6 @@
 import db from "@/data/db";
-import { postsTable } from "@/data/schema";
-import { ARTICLE_POST, IMAGE_POST } from "@/data/schema/postsTable";
+import { articlesTable, postsTable } from "@/data/schema";
+import { ARTICLE_POST } from "@/data/schema/postsTable";
 import { created, ok, serverError, unauthorized } from "@torpor/build/response";
 import { eq } from "drizzle-orm";
 import getErrorMessage from "../utils/getErrorMessage";
@@ -13,8 +13,10 @@ export type PostSaveDraftModel = {
 	type: number;
 	text: string;
 	image: string | null;
+	articleId: number | null;
 	title: string | null;
 	description: string | null;
+	articleText: string | null;
 };
 
 export default async function postSave(request: Request) {
@@ -27,7 +29,27 @@ export default async function postSave(request: Request) {
 			return unauthorized();
 		}
 
-		console.log("MODEL", model);
+		// Create or update the article, if applicable
+		if (model.type === ARTICLE_POST) {
+			if (!model.articleId && model.articleId !== 0) {
+				const article = {
+					text: model.articleText!,
+					created_at: new Date(),
+					updated_at: new Date(),
+				};
+				model.articleId = (
+					await db.insert(articlesTable).values(article).returning({ id: articlesTable.id })
+				)[0].id;
+			} else {
+				const article = {
+					text: model.articleText!,
+					created_at: new Date(),
+					updated_at: new Date(),
+				};
+				await db.update(articlesTable).set(article).where(eq(articlesTable.id, model.articleId!));
+			}
+		}
+
 		// Create or update the post
 		if (model.id < 0) {
 			const post = {
@@ -35,6 +57,7 @@ export default async function postSave(request: Request) {
 				type: model.type || 0,
 				text: model.text,
 				image: model.image,
+				articleId: model.articleId,
 				title: model.title,
 				description: model.description,
 				created_at: new Date(),
@@ -51,6 +74,7 @@ export default async function postSave(request: Request) {
 				type: model.type || 0,
 				text: model.text,
 				image: model.image,
+				articleId: model.articleId,
 				title: model.title,
 				description: model.description,
 				updated_at: new Date(),
