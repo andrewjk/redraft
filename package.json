@@ -27,7 +27,7 @@
     "drizzle-orm": "^0.39.3",
     "drizzle-valibot": "^0.4.0",
     "jose": "^5.10.0",
-    "uuid": "^11.0.5",
+    "uuid": "^11.1.0",
     "valibot": "1.0.0-rc.1"
   },
   "devDependencies": {
