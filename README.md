@@ -1,6 +1,6 @@
 # Social
 
-Blogging x Social Media x Newsletters
+Social Media x Blogging x Newsletters
 
 - Fully self-hostable
 - All your data in a single file that you can take anywhere
@@ -29,20 +29,19 @@ Put an auth function on @torpor/build endpoints??
 - [x] Status updates
 - [x] Pin a status
 - [x] Articles attached to status
-  - [ ] Link commenting/reacting to post
-  - [ ] Word count?
+  - [ ] Word count
   - [ ] Banner image
-- [ ] Images attached to status
+- [x] Images attached to status
 - [ ] Links attached to status
 - [ ] Multi status "threads"
-- [ ] Re-posting a post to move it back up to the top
-  - [ ] Comments should be redirected to the original post?
+  - [ ] Post count
+- [ ] Re-posting a post ("boosting"?) to move it back up to the top
 - [x] Draft posts
 - [x] Following
 - [x] Followed by
 - [ ] Share with QR
 - [x] Comments
-  - [ ] Replying
+  - [x] Replying
   - [ ] Quoting
 - [x] Approving
   - [ ] Auto-approving
@@ -69,6 +68,7 @@ Put an auth function on @torpor/build endpoints??
 - [ ] Settings
   - [ ] Number of posts to show on the homepage
   - [ ] Type of posts to show on the homepage
+  - [ ] Nav menu options e.g. show Articles/Media/Images/Audio/Video
 - etc
 
 - [ ] Chat

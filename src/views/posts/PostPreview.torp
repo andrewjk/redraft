@@ -26,8 +26,8 @@ export default function PostPreview() {
 				<a href={post.author.url}>
 					<img class="post-preview-author-image" src={post.author.image} alt={`${post.author.name} (${post.author.url})`} />
 				</a>
-				<a class="post-preview-link hstack spaced" href={post.author.url}>
-					<div class="grow vstack">
+				<a class="post-preview-link hstack spaced grow" href={post.author.url}>
+					<div class="vstack">
 						<div class="post-preview-name">
 							{post.author.name}
 						</div>
@@ -36,7 +36,6 @@ export default function PostPreview() {
 						</div>
 					</div>
 				</a>
-				<div class="spacer" />
 				<div class="vstack align-end">
 					<div class="post-preview-time" title={fmt.format(new Date(post.createdAt))}>
 						{relativeTimeSince(new Date(post.createdAt))}

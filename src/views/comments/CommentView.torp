@@ -1,11 +1,14 @@
 //import { enhance } from '$app/forms';
 import relativeTimeSince from "@/lib/utils/relativeTimeSince"
+import CommentInput from "./CommentInput.torp"
+import CommentPreview from "./CommentPreview.torp"
 
 /**
- * Shows a comment's full details.
+ * Shows a comment view for display in a list.
  */
-export default function CommentPreview() {
-	let { comment, user } = $props.data;
+export default function CommentView() {
+	let { post, comment, user, fuser } = $props.data;
+	let $state = $watch({ replying: false })
 
 	let fmt = new Intl.DateTimeFormat(undefined, {
 		day: "numeric",
@@ -16,66 +19,94 @@ export default function CommentPreview() {
 	});
 
 	@render {
-		<div class="comment-preview card">
-			<div class="comment-preview-header hstack centered spaced">
+		<div class="card comment-view">
+			<div class="comment-view-header hstack centered spaced">
 				<a href={comment.author.url}>
-					<img class="comment-preview-image" src={comment.author.image} alt="{comment.author.name} ({comment.author.url})" />
+					<img class="comment-view-image" src={comment.author.image} alt={`${comment.author.name} (${comment.author.url})`} />
 				</a>
-				<a href={comment.author.url}>{comment.author.name}</a>
-				<span title={fmt.format(new Date(comment.createdAt))}>
-					{relativeTimeSince(new Date(comment.createdAt))}
-				</span>
-
-			@/*
-				@if (user) {
-					<form
-						method="POST"
-						action="/comments/{comment.slug}?/toggleFavorite"
-						class="pull-xs-right"
-					>
-						<input hidden type="checkbox" name="favorited" checked={comment.favorited} />
-						<button class="btn btn-sm {comment.favorited ? 'btn-primary' : 'btn-outline-primary'}">
-							<i class="ion-heart" />
-							{comment.favoritesCount}
+				<a class="comment-view-link grow hstack spaced" href={comment.author.url}>
+					<div class="grow vstack">
+						<div class="comment-view-name">
+							{comment.author.name}
+						</div>
+						<div class="comment-view-url">
+							{comment.author.url}
+						</div>
+					</div>
+				</a>
+				<div class="vstack align-end">
+					<div class="comment-view-time" title={fmt.format(new Date(comment.createdAt))}>
+						{relativeTimeSince(new Date(comment.createdAt))}
+					</div>
+					@if (!$props.parent && (user || fuser) && !$state.replying) {
+						<button type="button" class="link" onclick={() => $state.replying = true}>
+							Reply
 						</button>
-					</form>
-				}
-			*/
+					} else {
+						<div>&nbsp;</div>
+					}
+				</div>
 			</div>
 
-			<p>{comment.text}</p>
-
-			@// TODO: Show the actual comments
-			<div class="comment-preview-footer hstack spaced">
-				<a>
-					5 comments
-				</a>
-				<a>
-					React
+			<div class="comment-view-body">
+				<a class="comment-view-link" href="{post.author.url}comments/{comment.slug}">
+					<p>{comment.text}</p>
 				</a>
 			</div>
+
+			@if ($state.replying) {
+				<div class="comment-view-footer hstack spaced">
+					<CommentInput {post} parent={comment.slug} />
+				</div>
+			}
+
+			@if (comment.children.length) {
+				<div class="comment-view-children">
+					@for (let child of comment.children) {
+						<CommentPreview {post} comment={child} {user} {fuser} parent={comment.slug} />
+					}
+				</div>
+			}
 		</div>
 	}
 
 	@style {
-		.comment-preview {
+		.comment-view {
+			margin: 0.6rem 0;
 		}
 
-		.comment-preview-header,
-		.comment-preview-footer {
-			font-size: small;
-			color: gray;
+		.comment-view-header,
+		.comment-view-footer {
+			font-size: 90%;
+			line-height: 1.4;
 		}
 
-		.comment-preview-link {
+		.comment-view-body {
+			padding: 0.4rem 0;
+		}
+
+		.comment-view-link {
 			color: inherit;
 			text-decoration: none;
 		}
 
-		.comment-preview-image {
+		.comment-view-image {
 			height: 40px;
 			width: 40px;
 			border-radius: 50%;
+		}
+
+		.comment-view-name {
+			font-weight: bold;
+		}
+
+		.comment-view-url,
+		.comment-view-time {
+			color: gray;
+		}
+
+		.comment-view-children {
+			padding-left: 40px;
 		}
 	}
 }

@@ -1,6 +1,5 @@
 //import profileView from "./profileView";
 import { type Comment } from "@/data/schema/commentsTable";
-import { type User } from "@/data/schema/usersTable";
 
 type CommentAuthor = {
 	image: string;
@@ -15,13 +14,17 @@ export type CommentPreview = {
 	createdAt: Date;
 	updatedAt: Date;
 	// TODO: commentCount: number;
+	children: CommentPreview[];
+};
+
+type CommentWithUser = Comment & {
+	user?: CommentAuthor | null;
 };
 
 export default function commentPreview(
-	comment: Comment & {
-		user?: User;
-	},
+	comment: CommentWithUser,
 	currentUser: CommentAuthor,
+	childComments: CommentWithUser[],
 ): CommentPreview {
 	return {
 		slug: comment.slug,
@@ -39,5 +42,8 @@ export default function commentPreview(
 				},
 		createdAt: comment.created_at,
 		updatedAt: comment.updated_at,
+		children: childComments
+			.filter((c) => c.parent_id === comment.id)
+			.map((c) => commentPreview(c, currentUser, [])),
 	};
 }

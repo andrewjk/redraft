@@ -1,9 +1,9 @@
 import db from "@/data/db";
-import { articlesTable, commentsTable, postsTable } from "@/data/schema";
+import { articlesTable, postsTable } from "@/data/schema";
 import { type Comment } from "@/data/schema/commentsTable";
 import { ARTICLE_POST } from "@/data/schema/postsTable";
 import { notFound, ok, serverError } from "@torpor/build/response";
-import { eq, isNull } from "drizzle-orm";
+import { eq } from "drizzle-orm";
 import commentPreview from "../comments/commentPreview";
 import getErrorMessage from "../utils/getErrorMessage";
 
@@ -18,10 +18,10 @@ export default async function postGet(slug: string) {
 		// Get the post from the database
 		const post = await db.query.postsTable.findFirst({
 			where: eq(postsTable.slug, slug),
-			// TODO: Async load comments when scrolled to?
+			// TODO: Async (all/child) load comments when scrolled to?
 			with: {
 				comments: {
-					where: isNull(commentsTable.parent_id),
+					//where: isNull(commentsTable.parent_id),
 					with: {
 						user: true,
 					},
@@ -41,6 +41,8 @@ export default async function postGet(slug: string) {
 		}
 
 		// Create the view
+		let parentComments = post.comments.filter((c) => c.parent_id === null);
+		let childComments = post.comments.filter((c) => c.parent_id !== null);
 		const view = {
 			slug: post.slug,
 			type: post.type,
@@ -57,7 +59,7 @@ export default async function postGet(slug: string) {
 			likeCount: post.like_count,
 			createdAt: post.created_at,
 			updatedAt: post.updated_at,
-			comments: post.comments.map((c) => commentPreview(c as Comment, user)),
+			comments: parentComments.map((c) => commentPreview(c, user, childComments)),
 		};
 
 		return ok(view);

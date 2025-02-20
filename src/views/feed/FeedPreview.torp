@@ -1,7 +1,7 @@
 //import { enhance } from '$app/forms';
 import pluralize from "@/lib/utils/pluralize"
 import relativeTimeSince from "@/lib/utils/relativeTimeSince"
-import { ARTICLE_POST } from "@/data/schema/postsTable";
+import { IMAGE_POST, ARTICLE_POST } from "@/data/schema/postsTable";
 
 /**
  * Shows a feed preview for display in a list.
@@ -21,10 +21,10 @@ export default function FeedPreview() {
 		<div class="feed-preview card">
 			<div class="feed-preview-header hstack centered spaced">
 				<a href={feed.author.url}>
-					<img class="feed-preview-image" src={feed.author.image} alt={`${feed.author.name} (${feed.author.url})`} />
+					<img class="feed-preview-author-image" src={feed.author.image} alt={`${feed.author.name} (${feed.author.url})`} />
 				</a>
-				<a class="feed-preview-link hstack spaced" href={feed.author.url}>
-					<div class="grow vstack">
+				<a class="feed-preview-link hstack spaced grow" href={feed.author.url}>
+					<div class="vstack">
 						<div class="feed-preview-name">
 							{feed.author.name}
 						</div>
@@ -33,7 +33,6 @@ export default function FeedPreview() {
 						</div>
 					</div>
 				</a>
-				<div class="spacer" />
 				<div class="vstack align-end">
 					<div class="feed-preview-time" title={fmt.format(new Date(feed.createdAt))}>
 						{relativeTimeSince(new Date(feed.createdAt))}
@@ -66,6 +65,9 @@ export default function FeedPreview() {
 						<h3>{feed.title}</h3>
 					}
 					<p>{feed.text}</p>
+					@if (feed.type === IMAGE_POST) {
+						<img class="feed-preview-image" src={feed.image} alt={feed.imageAlt} />
+					}
 				</a>
 			</div>
 
@@ -102,7 +104,7 @@ export default function FeedPreview() {
 			text-decoration: none;
 		}
 
-		.feed-preview-image {
+		.feed-preview-author-image {
 			height: 40px;
 			width: 40px;
 			border-radius: 50%;

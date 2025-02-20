@@ -8,13 +8,14 @@ export default function CommentInput() {
 	let { post } = $props;
 
 	@render {
-		<form class="comment-input" method="POST" action="?/createComment">
+		<form class="full-width comment-input" method="POST" action="?/createComment">
 			<input type="hidden" name="postslug" value={post.slug} />
+			<input type="hidden" name="parentslug" value={$props.parent} />
 
 			<textarea
 				class="full-width"
 				name="text"
-				placeholder="Add a comment..."
+				placeholder={$props.parent ? "Add a reply..." : "Add a comment..."}
 				rows="2"
 			/>
 

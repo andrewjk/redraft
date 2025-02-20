@@ -6,7 +6,7 @@ import CommentInput from "./CommentInput.torp"
  * Shows a comment preview for display in a list.
  */
 export default function CommentPreview() {
-	let { comment, user, fuser } = $props;
+	let { post, comment, user, fuser } = $props;
 	let $state = $watch({ replying: false })
 
 	let fmt = new Intl.DateTimeFormat(undefined, {
@@ -32,29 +32,40 @@ export default function CommentPreview() {
 							{comment.author.url}
 						</div>
 					</div>
-					<div class="vstack">
-						<div class="comment-preview-time" title={fmt.format(new Date(comment.createdAt))}>
-							{relativeTimeSince(new Date(comment.createdAt))}
-						</div>
-					</div>
 				</a>
+				<div class="vstack align-end">
+					<div class="comment-preview-time" title={fmt.format(new Date(comment.createdAt))}>
+						{relativeTimeSince(new Date(comment.createdAt))}
+					</div>
+					@if (!$props.parent && (user || fuser) && !$state.replying) {
+						<button type="button" class="link" onclick={() => $state.replying = true}>
+							Reply
+						</button>
+					} else {
+						<div>&nbsp;</div>
+					}
+				</div>
 			</div>
 
 			<div class="comment-preview-body">
-				<a class="comment-preview-link" href="{comment.author.url}comments/{comment.slug}">
+				<a class="comment-preview-link" href="{post.author.url}comments/{comment.slug}">
 					<p>{comment.text}</p>
 				</a>
 			</div>
 
-			<div class="comment-preview-footer hstack spaced">
-				@if ($state.replying) {
-					<CommentInput post={$props.post} />
-				} else if (user || fuser) {
-					<button type="button" onclick={() => $state.replying = true}>
-						Reply
-					</button>
-				}
-			</div>
+			@if ($state.replying) {
+				<div class="comment-preview-footer hstack spaced">
+					<CommentInput {post} parent={comment.slug} />
+				</div>
+			}
+
+			@if (comment.children.length) {
+				<div class="comment-preview-children">
+					@for (let child of comment.children) {
+						<CommentPreview {post} comment={child} {user} {fuser} parent={comment.slug} />
+					}
+				</div>
+			}
 		</div>
 	}
 
@@ -90,6 +101,10 @@ export default function CommentPreview() {
 		.comment-preview-url,
 		.comment-preview-time {
 			color: gray;
+		}
+
+		.comment-preview-children {
+			padding-left: 40px;
 		}
 	}
 }

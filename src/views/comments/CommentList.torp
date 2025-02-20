@@ -5,14 +5,16 @@ import CommentInput from "./CommentInput.torp"
  * Shows a list of comment previews.
  */
 export default function CommentList() {
+	let { post, comments, user, fuser } = $props;
+
 	@render {
 		<div class="comment-list centered">
-			@for (let comment of $props.comments) {
+			@for (let comment of comments) {
 				@key = comment.id
-				<CommentPreview {comment} user={$props.user} fuser={$props.fuser} />
+				<CommentPreview {post} {comment} {user} {fuser} />
 			}
-			@if ($props.user || $props.fuser) {
-				<CommentInput post={$props.post} />
+			@if (user || fuser) {
+				<CommentInput {post} />
 			}
 		</div>
 	}

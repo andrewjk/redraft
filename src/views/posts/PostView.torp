@@ -25,7 +25,7 @@ export default function PostView() {
 					<a href={post.author.url}>
 						<img class="post-view-image" src={post.author.image} alt="{post.author.name} ({post.author.url})" />
 					</a>
-					<a class="post-view-link hstack spaced" href={post.author.url}>
+					<a class="post-view-link hstack spaced grow" href={post.author.url}>
 						<div class="vstack">
 							<div class="post-view-name">
 								{post.author.name}
@@ -35,7 +35,6 @@ export default function PostView() {
 							</div>
 						</div>
 					</a>
-					<div class="spacer" />
 					<div class="vstack align-end">
 						<div class="post-view-time" title={fmt.format(new Date(post.createdAt))}>
 							{relativeTimeSince(new Date(post.createdAt))}

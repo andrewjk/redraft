@@ -1,7 +1,7 @@
 import db from "@/data/db";
 import { commentsTable, feedTable, followedByTable, postsTable, usersTable } from "@/data/schema";
 import * as api from "@/lib/api";
-import { created, serverError, unauthorized } from "@torpor/build/response";
+import { created, notFound, serverError, unauthorized } from "@torpor/build/response";
 import { eq } from "drizzle-orm";
 import getErrorMessage from "../utils/getErrorMessage";
 import uuid from "../utils/uuid";
@@ -9,6 +9,7 @@ import commentPreview from "./commentPreview";
 
 export type CommentCreateModel = {
 	postslug: string;
+	parentslug: string;
 	text: string;
 };
 
@@ -51,16 +52,28 @@ export default async function commentCreate(request: Request, url: string, token
 			columns: { id: true },
 		});
 		if (!post) {
-			return unauthorized();
+			return notFound();
 		}
 
-		const slug = uuid();
+		// Get the parent id
+		let parentId: number | undefined;
+		if (model.parentslug) {
+			const parent = await db.query.commentsTable.findFirst({
+				where: eq(commentsTable.slug, model.parentslug),
+				columns: { id: true },
+			});
+			if (!parent) {
+				return notFound();
+			}
+			parentId = parent.id;
+		}
 
 		// Create the comment
 		const comment = {
 			user_id: isFollower ? currentUser.id : null,
 			post_id: post.id,
-			slug,
+			parent_id: parentId,
+			slug: uuid(),
 			text: model.text,
 			created_at: new Date(),
 			updated_at: new Date(),
@@ -89,7 +102,7 @@ export default async function commentCreate(request: Request, url: string, token
 		api.post(`comments/send`, { post_id: post.id }, token);
 
 		// Return
-		const view = commentPreview(newComment, currentUser);
+		const view = commentPreview(newComment, currentUser, []);
 		return created(view);
 	} catch (error) {
 		const message = getErrorMessage(error).message;
