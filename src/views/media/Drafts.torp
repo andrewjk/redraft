@@ -1,0 +1,27 @@
+import { $page } from "@torpor/build/state";
+import MediaMenu from "@/views/media/MediaMenu.torp";
+import PostInput from "@/views/posts/PostInput.torp";
+import PostList from "@/views/posts/PostList.torp";
+import Pagination from "@/views/Pagination.torp";
+
+export default function Index() {
+	let $state = $watch({
+		page: +($page.url.searchParams.get("page") || 1),
+	})
+
+	@render {
+		<div class="vstack centered">
+			<:head>
+				<title>Media Drafts • Social</title>
+			</:head>
+
+			<h2>Media Drafts</h2>
+			@if ($props.data.user) {
+				<PostInput user={$props.data.user} />
+			}
+			<MediaMenu section="Drafts" user={$props.data.user} />
+			<PostList posts={$props.data.posts} user={$props.data.user} fuser={$props.data.fuser} />
+			<Pagination pageCount={$props.data.pageCount} page={$state.page} href={(p) => `/?page=${p}`} />
+		</div>
+	}
+}

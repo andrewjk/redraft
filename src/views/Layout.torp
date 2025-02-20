@@ -57,6 +57,13 @@ function Nav() {
 
 				<span class="menu-separator" />
 
+				<li class="nav-item">
+					<a href="/media" class="nav-link">
+						Media
+					</a>
+				</li>
+
+				<span class="menu-separator" />
 				@if ($props.user) {
 					<li class="nav-item">
 						<a href="/profile" class="nav-link">
