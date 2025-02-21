@@ -20,6 +20,7 @@ export type PostPreview = {
 	image: string | null;
 	url: string | null;
 	title: string | null;
+	publication: string | null;
 };
 
 export default function postPreview(
@@ -49,5 +50,6 @@ export default function postPreview(
 		image: post.image,
 		url: post.url,
 		title: post.title,
+		publication: post.publication,
 	};
 }

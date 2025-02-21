@@ -12,7 +12,9 @@ export type PostEditModel = {
 	text: string;
 	image: string | null;
 	articleId: number | null;
+	url: string | null;
 	title: string | null;
+	publication: string | null;
 	articleText: string | null;
 };
 
@@ -47,7 +49,9 @@ export default async function postEdit(slug: string) {
 			type: post.type,
 			text: post.text,
 			image: post.image,
+			url: post.url,
 			title: post.title,
+			publication: post.publication,
 			articleId: article ? article.id : null,
 			articleText: article ? article.text : null,
 		};

@@ -1,7 +1,8 @@
 //import { enhance } from '$app/forms';
 import pluralize from "@/lib/utils/pluralize"
 import relativeTimeSince from "@/lib/utils/relativeTimeSince"
-import { ARTICLE_POST, IMAGE_POST } from "@/data/schema/postsTable";
+import LinkPreview from '@/views/posts/LinkPreview.torp';
+import { ARTICLE_POST, IMAGE_POST, LINK_POST } from "@/data/schema/postsTable";
 
 /**
  * Shows a post preview for display in a list.
@@ -80,23 +81,40 @@ export default function PostPreview() {
 
 			<div class="post-preview-body">
 				<a class="post-preview-link" href="{post.author.url}posts/{post.slug}">
+					@switch (post.type) {
+						case ARTICLE_POST: {
+							<h3>{post.title}</h3>
+							<p>{post.text}</p>
+						}
+						case IMAGE_POST: {
+							<p>{post.text}</p>
+							<img class="post-preview-image" src={post.image} alt={post.imageAlt} />
+						}
+						case LINK_POST: {
+							<p>{post.text}</p>
+							<LinkPreview link={post} />
+						}
+						default: {
+							<p>{post.text}</p>
+						}
+					}
 					@if (post.type === ARTICLE_POST) {
 						<h3>{post.title}</h3>
-					}
-					<p>{post.text}</p>
-					@if (post.type === IMAGE_POST) {
-						<img class="post-preview-image" src={post.image} alt={post.imageAlt} />
 					}
 				</a>
 			</div>
 
 			<div class="post-preview-footer hstack spaced centered">
 				@if (post.type === ARTICLE_POST) {
-					<a href={post.url}>
+					<a href="{post.author.url}posts/{post.slug}">
 						Read article
 					</a>
-					<span class="separator" />
+				} else {
+					<a href="{post.author.url}posts/{post.slug}">
+						View post
+					</a>
 				}
+				<span class="separator" />
 				<span>
 					{pluralize(post.commentCount, "comment")}
 				</span>

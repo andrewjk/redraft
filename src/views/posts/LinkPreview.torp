@@ -1,0 +1,45 @@
+/**
+ * Shows a link preview for display in a post/feed.
+ */
+export default function LinkPreview() {
+	let { link } = $props;
+
+	@render {
+		<a class="link-preview" href={link.url}>
+			<img class="link-preview-image" src={link.image} />
+			<div class="link-preview-background">
+				<h4 class="link-preview-title">{link.title}</h4>
+				<div class="link-preview-publication">
+					<span>{link.publication}</span>
+					<span class="link-preview-host">({(new URL(link.url)).host})</span>
+				</div>
+			</div>
+		</a>
+	}
+
+	@style {
+		.link-preview {
+			color: inherit;
+			text-decoration: none;
+			position: relative;
+		}
+
+		.link-preview-background {
+			padding: 0;
+			position: absolute;
+			top: 0;
+		}
+
+		.link-preview-title,
+		.link-preview-publication {
+			background-color: rgba(0, 0, 0, 0.5);
+			color: #fff;
+			margin: 1rem;
+			padding: 0.5rem 1rem;
+		}
+
+		.link-preview-host {
+			color: lightgray;
+		}
+	}
+}

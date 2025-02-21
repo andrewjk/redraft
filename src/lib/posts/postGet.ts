@@ -1,6 +1,5 @@
 import db from "@/data/db";
 import { articlesTable, postsTable } from "@/data/schema";
-import { type Comment } from "@/data/schema/commentsTable";
 import { ARTICLE_POST } from "@/data/schema/postsTable";
 import { notFound, ok, serverError } from "@torpor/build/response";
 import { eq } from "drizzle-orm";
@@ -48,7 +47,9 @@ export default async function postGet(slug: string) {
 			type: post.type,
 			text: post.text,
 			image: post.image,
+			url: post.url,
 			title: post.title,
+			publication: post.publication,
 			articleText: article?.text,
 			author: {
 				image: user.image,

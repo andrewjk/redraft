@@ -6,22 +6,12 @@ import { eq } from "drizzle-orm";
 import getErrorMessage from "../utils/getErrorMessage";
 import sluggify from "../utils/sluggify";
 import uuid from "../utils/uuid";
+import { PostEditModel } from "./postEdit";
 import postPreview from "./postPreview";
-
-export type PostSaveDraftModel = {
-	id: number;
-	type: number;
-	text: string;
-	image: string | null;
-	articleId: number | null;
-	title: string | null;
-	description: string | null;
-	articleText: string | null;
-};
 
 export default async function postSave(request: Request) {
 	try {
-		const model: PostSaveDraftModel = await request.json();
+		const model: PostEditModel = await request.json();
 
 		// Get the current (only) user
 		const currentUser = await db.query.usersTable.findFirst();
@@ -54,12 +44,13 @@ export default async function postSave(request: Request) {
 		if (model.id < 0) {
 			const post = {
 				slug: model.type === ARTICLE_POST ? sluggify(model.title!) : uuid(),
-				type: model.type || 0,
 				text: model.text,
+				type: model.type || 0,
 				image: model.image,
 				articleId: model.articleId,
+				url: model.url,
 				title: model.title,
-				description: model.description,
+				publication: model.publication,
 				created_at: new Date(),
 				updated_at: new Date(),
 			};
@@ -71,12 +62,13 @@ export default async function postSave(request: Request) {
 		} else {
 			const post = {
 				slug: model.type === ARTICLE_POST ? sluggify(model.title!) : undefined,
-				type: model.type || 0,
 				text: model.text,
+				type: model.type || 0,
 				image: model.image,
 				articleId: model.articleId,
+				url: model.url,
 				title: model.title,
-				description: model.description,
+				publication: model.publication,
 				updated_at: new Date(),
 			};
 			const newPost = (

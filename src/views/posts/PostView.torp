@@ -2,7 +2,8 @@
 import pluralize from "@/lib/utils/pluralize"
 import relativeTimeSince from "@/lib/utils/relativeTimeSince"
 import CommentList from "@/views/comments/CommentList.torp"
-import { ARTICLE_POST, IMAGE_POST } from "@/data/schema/postsTable";
+import LinkPreview from '@/views/posts/LinkPreview.torp';
+import { ARTICLE_POST, IMAGE_POST, LINK_POST } from "@/data/schema/postsTable";
 
 /**
  * Shows a post's full details.
@@ -57,6 +58,10 @@ export default function PostView() {
 						case IMAGE_POST: {
 							<p>{post.text}</p>
 							<img src={post.image} />
+						}
+						case LINK_POST: {
+							<p>{post.text}</p>
+							<LinkPreview link={post} />
 						}
 						default: {
 							<p>{post.text}</p>

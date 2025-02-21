@@ -1,7 +1,8 @@
 //import { enhance } from '$app/forms';
 import pluralize from "@/lib/utils/pluralize"
 import relativeTimeSince from "@/lib/utils/relativeTimeSince"
-import { IMAGE_POST, ARTICLE_POST } from "@/data/schema/postsTable";
+import LinkPreview from '@/views/posts/LinkPreview.torp';
+import { IMAGE_POST, ARTICLE_POST, LINK_POST } from "@/data/schema/postsTable";
 
 /**
  * Shows a feed preview for display in a list.
@@ -61,12 +62,22 @@ export default function FeedPreview() {
 
 			<div class="feed-preview-body">
 				<a class="feed-preview-link" href="{feed.author.url}posts/{feed.slug}">
-					@if (feed.type === ARTICLE_POST) {
-						<h3>{feed.title}</h3>
-					}
-					<p>{feed.text}</p>
-					@if (feed.type === IMAGE_POST) {
-						<img class="feed-preview-image" src={feed.image} alt={feed.imageAlt} />
+					@switch (feed.type) {
+						case ARTICLE_POST: {
+							<h3>{feed.title}</h3>
+							<p>{feed.text}</p>
+						}
+						case IMAGE_POST: {
+							<p>{feed.text}</p>
+							<img class="feed-preview-image" src={feed.image} alt={feed.imageAlt} />
+						}
+						case LINK_POST: {
+							<p>{feed.text}</p>
+							<LinkPreview link={feed} />
+						}
+						default: {
+							<p>{feed.text}</p>
+						}
 					}
 				</a>
 			</div>
@@ -76,8 +87,12 @@ export default function FeedPreview() {
 					<a href={feed.url}>
 						Read article
 					</a>
-					<span class="separator" />
+				} else {
+					<a href={feed.url}>
+						View post
+					</a>
 				}
+				<span class="separator" />
 				<span>
 					{pluralize(feed.commentCount, "comment")}
 				</span>

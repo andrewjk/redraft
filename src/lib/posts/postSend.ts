@@ -40,6 +40,7 @@ export default async function postSend(request: Request) {
 					image: post.image,
 					url: post.url,
 					title: post.title,
+					publication: post.publication,
 				};
 				await postPublic(sendUrl, sendData);
 			} catch {

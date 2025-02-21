@@ -1,7 +1,9 @@
 //import { enhance } from '$app/forms';
 import { placeholder } from '@/lib/constants';
+import loadLinkInfo from '@/lib/utils/loadLinkInfo';
 import ImageUpload from '@/views/ImageUpload.torp';
-import { IMAGE_POST, ARTICLE_POST } from "@/data/schema/postsTable";
+import LinkPreview from '@/views/posts/LinkPreview.torp';
+import { IMAGE_POST, ARTICLE_POST, LINK_POST } from "@/data/schema/postsTable";
 
 /**
  * Allows creating a post.
@@ -9,6 +11,10 @@ import { IMAGE_POST, ARTICLE_POST } from "@/data/schema/postsTable";
 export default function PostInput($props) {
 	let user = $props.user;
 	let post = $watch($props.post ?? { id: -1, type: 0 });
+	let $state = $watch({
+		linkLoading: false,
+		linkLoaded: post.type === LINK_POST
+	});
 
 	@render {
 		<form class="post-input" method="POST" enctype="multipart/form-data">
@@ -46,16 +52,48 @@ export default function PostInput($props) {
 						placeholder="Article text"
 					/>
 				</div>
-			}
-
-			@if (post.type === IMAGE_POST) {
+			} else if (post.type === IMAGE_POST) {
 				<ImageUpload image={post.image} class="full-width" />
+			} else if (post.type === LINK_POST) {
+				<input type="hidden" name="image" value={post.image} />
+				<input type="hidden" name="title" value={post.title} />
+				<input type="hidden" name="publication" value={post.publication} />
+
+				<div class="form-row">
+					<label for="url">Paste a URL</label>
+					<input
+						type="url"
+						name="url"
+						:value={post.url}
+						class="full-width"
+						oninput={async (e) => {
+							// TODO: Debounce
+							$state.linkLoading = true;
+							const response = await fetch(`/api/posts/link-info?url=${e.target.value}`, { credentials: 'same-origin' });
+							const info = await response.json()
+							if (info) {
+								$state.linkLoading = false;
+								$state.linkLoaded = true;
+								post.image = info.image;
+								post.title = info.title;
+								post.publication = info.publication;
+							}
+						}} />
+				</div>
+				@if ($state.linkLoading) {
+					<div>Loading...</div>
+				} else if ($state.linkLoaded) {
+					<LinkPreview link={post} />
+				}
 			}
 			
 			<div class="hstack spaced post-input-footer">
 				@if (!post.type) {
 					<button type="button" class="link" onclick={() => post.type = IMAGE_POST}>
 						+ Image
+					</button>
+					<button type="button" class="link" onclick={() => post.type = LINK_POST}>
+						+ Link
 					</button>
 					<button type="button" class="link" onclick={() => post.type = ARTICLE_POST}>
 						+ Article

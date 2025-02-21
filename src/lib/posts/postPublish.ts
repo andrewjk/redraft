@@ -54,11 +54,13 @@ export default async function postPublish(request: Request, token: string) {
 		if (model.id < 0) {
 			const post = {
 				slug: model.type === ARTICLE_POST ? sluggify(model.title!) : uuid(),
-				type: model.type || 0,
 				text: model.text,
+				type: model.type || 0,
 				image: model.image,
+				articleId: model.articleId,
+				url: model.url,
 				title: model.title,
-				//description: model.description,
+				publication: model.publication,
 				created_at: new Date(),
 				updated_at: new Date(),
 				published_at: new Date(),
@@ -67,11 +69,13 @@ export default async function postPublish(request: Request, token: string) {
 		} else {
 			const post = {
 				slug: model.type === ARTICLE_POST ? sluggify(model.title!) : undefined,
-				type: model.type || 0,
 				text: model.text,
+				type: model.type || 0,
 				image: model.image,
+				articleId: model.articleId,
+				url: model.url,
 				title: model.title,
-				//description: model.description,
+				publication: model.publication,
 				updated_at: new Date(),
 				published_at: new Date(),
 			};
@@ -83,12 +87,12 @@ export default async function postPublish(request: Request, token: string) {
 		// Put it in the feed table as well, so that it shows up in our feed
 		const feed = {
 			slug: newPost.slug,
-			type: ARTICLE_POST,
 			text: model.text,
+			type: ARTICLE_POST,
 			image: model.image,
+			url: model.url,
 			title: model.title,
-			//description: model.description,
-			url: `${currentUser.url}posts/${slug}`,
+			publication: model.publication,
 			created_at: new Date(),
 			updated_at: new Date(),
 		};

@@ -23,6 +23,7 @@ export type FeedPreview = {
 	image: string | null;
 	url: string | null;
 	title: string | null;
+	publication: string | null;
 };
 
 export default function feedPreview(
@@ -54,5 +55,6 @@ export default function feedPreview(
 		image: feed.image,
 		url: feed.url,
 		title: feed.title,
+		publication: feed.publication,
 	};
 }

@@ -32,7 +32,7 @@ Put an auth function on @torpor/build endpoints??
   - [ ] Word count
   - [ ] Banner image
 - [x] Images attached to status
-- [ ] Links attached to status
+- [x] Links attached to status
 - [ ] Multi status "threads"
   - [ ] Post count
 - [ ] Re-posting a post ("boosting"?) to move it back up to the top
@@ -57,11 +57,12 @@ Put an auth function on @torpor/build endpoints??
 - [ ] Sharing / reposting
 - [ ] Post visibility
 - [ ] Recipient lists
-- [ ] Editing posts
+- [x] Editing posts
+  - [ ] Re-publishing posts
 - [ ] Deleting your posts
 - [ ] Deleting posts from other people from your db
 - [ ] Paid tiers?
-- [ ] Adding a nickname for following/followed by
+- [ ] Adding a nickname for following/followed by users
 - [x] Location and links in profile
 - [ ] Formatting w/ markdown
 - [ ] Tags

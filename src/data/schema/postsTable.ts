@@ -28,14 +28,16 @@ export const postsTable = sqliteTable("posts", {
 	 * 3 = link
 	 */
 	type: int().notNull().default(0),
-	/** Image link for image */
+	/** Image link for image, article or link */
 	image: text(),
-	/** Id for viewing the post with the article */
+	/** Id for viewing the post with the article text */
 	article_id: int(),
-	/** Url link for article */
+	/** Url for link */
 	url: text(),
-	/** Title for article */
+	/** Title for article or link */
 	title: text(),
+	/** Publication for link */
+	publication: text(),
 	/** Whether this post is pinned at the top of the list */
 	pinned: int({ mode: "boolean" }).notNull().default(false),
 	/** When this post was published, or null if it's still in draft */
