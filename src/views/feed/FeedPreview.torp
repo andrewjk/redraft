@@ -84,11 +84,11 @@ export default function FeedPreview() {
 
 			<div class="feed-preview-footer hstack spaced">
 				@if (feed.type === ARTICLE_POST) {
-					<a href={feed.url}>
+					<a href="{feed.author.url}posts/{feed.slug}">
 						Read article
 					</a>
 				} else {
-					<a href={feed.url}>
+					<a href="{feed.author.url}posts/{feed.slug}">
 						View post
 					</a>
 				}

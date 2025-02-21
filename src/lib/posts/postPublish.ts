@@ -88,7 +88,7 @@ export default async function postPublish(request: Request, token: string) {
 		const feed = {
 			slug: newPost.slug,
 			text: model.text,
-			type: ARTICLE_POST,
+			type: model.type,
 			image: model.image,
 			url: model.url,
 			title: model.title,
