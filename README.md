@@ -33,6 +33,7 @@ Put an auth function on @torpor/build endpoints??
   - [ ] Banner image
 - [x] Images attached to status
 - [x] Links attached to status
+- [ ] Posts attached to status? Not sure about this one...
 - [ ] Multi status "threads"
   - [ ] Post count
 - [ ] Re-posting a post ("boosting"?) to move it back up to the top
@@ -53,6 +54,8 @@ Put an auth function on @torpor/build endpoints??
 
 - [x] Liking
 - [ ] Reacting
+  - [ ] Heart, thumbs up, thumbs down, laugh, shock, sad
+  - [ ] Any emoji (in a popup)
 - [x] Saving
 - [ ] Sharing / reposting
 - [ ] Post visibility
@@ -66,20 +69,29 @@ Put an auth function on @torpor/build endpoints??
 - [x] Location and links in profile
 - [ ] Formatting w/ markdown
 - [ ] Tags
+  - [ ] Auto-complete
+  - [ ] Show how many posts are under a tag, and when it was last used
+- [ ] Spoiler tags / disclosures
 - [ ] Settings
   - [ ] Number of posts to show on the homepage
   - [ ] Type of posts to show on the homepage
   - [ ] Nav menu options e.g. show Articles/Media/Images/Audio/Video
+  - [ ] Disable comments or comment replies for legal
 - etc
+
+- [ ] Need a way to deal with out-of-date followers, where their api/db may not be compatible
 
 - [ ] Chat
 - [ ] Audio
 - [ ] Video
 - [ ] Polls
 - [ ] Events
+- [ ] Groups
 - etc
 
 - [ ] Open Graph
+  - [x] Post
+  - [ ] Everywhere else that has a <:head>
 - [ ] RSS
 - [ ] Host friends
 - [ ] Multiple users e.g. for a publication/organisation

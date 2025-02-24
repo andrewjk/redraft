@@ -1,0 +1,21 @@
+import { $page } from "@torpor/build/state";
+import TagList from "@/views/tags/TagList.torp";
+import Pagination from "@/views/Pagination.torp";
+
+export default function Index() {
+	let $state = $watch({
+		page: +($page.url.searchParams.get("page") || 1),
+	})
+
+	@render {
+		<div class="vstack centered">
+			<:head>
+				<title>Tags • Social</title>
+			</:head>
+
+			<h2>Tags</h2>
+			<TagList tags={$props.data.tags} user={$props.data.user} fuser={$props.data.fuser} />
+			<Pagination pageCount={$props.data.pageCount} page={$state.page} href={(p) => `/?page=${p}`} />
+		</div>
+	}
+}

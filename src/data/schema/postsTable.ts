@@ -3,6 +3,7 @@ import { int, sqliteTable, text } from "drizzle-orm/sqlite-core";
 import { createSelectSchema } from "drizzle-valibot";
 import { InferOutput } from "valibot";
 import { commentsTable } from "./commentsTable";
+import { postTagsTable } from "./postTagsTable";
 
 export const TEXT_POST = 0;
 export const IMAGE_POST = 1;
@@ -49,6 +50,7 @@ export const postsTable = sqliteTable("posts", {
 
 export const postsRelations = relations(postsTable, ({ many }) => ({
 	comments: many(commentsTable),
+	postTags: many(postTagsTable),
 }));
 
 export const PostSelectSchema = createSelectSchema(postsTable);

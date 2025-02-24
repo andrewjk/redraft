@@ -1,0 +1,21 @@
+import pluralize from "@/lib/utils/pluralize"
+
+/**
+ * Shows a tag preview for display in a list.
+ */
+export default function TagPreview() {
+	@render {
+		<div class="tag-preview card">
+			<div class="tag-preview-header hstack centered spaced">
+				<a href="/tags/{$props.tag.slug}">{$props.tag.text}</a>
+				<span class="separator" />
+				<span>{pluralize($props.tag.count, "post")}</span>
+			</div>
+		</div>
+	}
+
+	@style {
+		.tag-preview {
+		}
+	}
+}

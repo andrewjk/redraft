@@ -1,0 +1,27 @@
+import { $page } from "@torpor/build/state";
+import TagMenu from "@/views/tags/TagMenu.torp";
+import PostInput from "@/views/posts/PostInput.torp";
+import PostList from "@/views/posts/PostList.torp";
+import Pagination from "@/views/Pagination.torp";
+
+export default function TagDrafts() {
+	let $state = $watch({
+		page: +($page.url.searchParams.get("page") || 1),
+	})
+
+	@render {
+		<div class="vstack centered">
+			<:head>
+				<title>{$props.data.tag.text} • Social</title>
+			</:head>
+
+			<h2>{$props.data.tag.text}</h2>
+			<TagMenu tag={$props.data.tag.slug} section="Drafts" user={$props.data.user} />
+			@if ($props.data.user) {
+				<PostInput user={$props.data.user} />
+			}
+			<PostList posts={$props.data.posts} user={$props.data.user} fuser={$props.data.fuser} />
+			<Pagination pageCount={$props.data.pageCount} page={$state.page} href={(p) => `/?page=${p}`} />
+		</div>
+	}
+}

@@ -1,11 +1,7 @@
 import db from "@/data/db";
-import { articlesTable, postsTable } from "@/data/schema";
-import { ARTICLE_POST } from "@/data/schema/postsTable";
-import { created, ok, serverError, unauthorized } from "@torpor/build/response";
-import { eq } from "drizzle-orm";
+import { ok, serverError, unauthorized } from "@torpor/build/response";
 import getErrorMessage from "../utils/getErrorMessage";
-import sluggify from "../utils/sluggify";
-import uuid from "../utils/uuid";
+import postCreateOrUpdate from "./postCreateOrUpdate";
 import { PostEditModel } from "./postEdit";
 import postPreview from "./postPreview";
 
@@ -19,64 +15,11 @@ export default async function postSave(request: Request) {
 			return unauthorized();
 		}
 
-		// Create or update the article, if applicable
-		if (model.type === ARTICLE_POST) {
-			if (!model.articleId && model.articleId !== 0) {
-				const article = {
-					text: model.articleText!,
-					created_at: new Date(),
-					updated_at: new Date(),
-				};
-				model.articleId = (
-					await db.insert(articlesTable).values(article).returning({ id: articlesTable.id })
-				)[0].id;
-			} else {
-				const article = {
-					text: model.articleText!,
-					created_at: new Date(),
-					updated_at: new Date(),
-				};
-				await db.update(articlesTable).set(article).where(eq(articlesTable.id, model.articleId!));
-			}
-		}
-
-		// Create or update the post
-		if (model.id < 0) {
-			const post = {
-				slug: model.type === ARTICLE_POST ? sluggify(model.title!) : uuid(),
-				text: model.text,
-				type: model.type || 0,
-				image: model.image,
-				articleId: model.articleId,
-				url: model.url,
-				title: model.title,
-				publication: model.publication,
-				created_at: new Date(),
-				updated_at: new Date(),
-			};
-			const newPost = (await db.insert(postsTable).values(post).returning())[0];
-
-			// Return
-			const view = postPreview(newPost, currentUser);
-			return created(view);
-		} else {
-			const post = {
-				slug: model.type === ARTICLE_POST ? sluggify(model.title!) : undefined,
-				text: model.text,
-				type: model.type || 0,
-				image: model.image,
-				articleId: model.articleId,
-				url: model.url,
-				title: model.title,
-				publication: model.publication,
-				updated_at: new Date(),
-			};
-			const newPost = (
-				await db.update(postsTable).set(post).where(eq(postsTable.id, model.id)).returning()
-			)[0];
-
-			// Return
-			const view = postPreview(newPost, currentUser);
+		const result = await postCreateOrUpdate(model);
+		const view = postPreview(result.post, currentUser);
+		if (result.op === "create") {
+			return ok(view);
+		} else if (result.op === "update") {
 			return ok(view);
 		}
 	} catch (error) {

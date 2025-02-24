@@ -16,6 +16,7 @@ export type PostEditModel = {
 	title: string | null;
 	publication: string | null;
 	articleText: string | null;
+	tags: string | null;
 };
 
 export default async function postEdit(slug: string) {
@@ -29,6 +30,13 @@ export default async function postEdit(slug: string) {
 		// Get the post from the database
 		const post = await db.query.postsTable.findFirst({
 			where: eq(postsTable.slug, slug),
+			with: {
+				postTags: {
+					with: {
+						tag: true,
+					},
+				},
+			},
 		});
 		if (!post) {
 			return notFound();
@@ -54,6 +62,7 @@ export default async function postEdit(slug: string) {
 			publication: post.publication,
 			articleId: article ? article.id : null,
 			articleText: article ? article.text : null,
+			tags: post.postTags.map((pt) => pt.tag.text).join("; "),
 		};
 
 		return ok(view);

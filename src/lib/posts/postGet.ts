@@ -17,8 +17,13 @@ export default async function postGet(slug: string) {
 		// Get the post from the database
 		const post = await db.query.postsTable.findFirst({
 			where: eq(postsTable.slug, slug),
-			// TODO: Async (all/child) load comments when scrolled to?
 			with: {
+				postTags: {
+					with: {
+						tag: true,
+					},
+				},
+				// TODO: Async (all/child) load comments when scrolled to?
 				comments: {
 					//where: isNull(commentsTable.parent_id),
 					with: {
@@ -61,6 +66,7 @@ export default async function postGet(slug: string) {
 			publishedAt: post.published_at,
 			createdAt: post.created_at,
 			updatedAt: post.updated_at,
+			tags: post.postTags.map((pt) => ({ slug: pt.tag.slug, text: pt.tag.text })),
 			comments: parentComments.map((c) => commentPreview(c, user, childComments)),
 		};
 

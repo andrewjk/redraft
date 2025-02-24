@@ -87,7 +87,20 @@ export default function PostView() {
 					}
 				</div>
 
-				<div class="post-view-footer hstack spaced">
+				@/*
+				@if (post.tags.length) {
+					<div class="post-view-tags-container">
+						@for (let [i, tag] of post.tags.entries()) {
+							@if (i > 0) {
+								<span class="separator" />
+							}
+							<a href="/tags/{tag}">{tag}</a>
+						}
+					</div>
+				}
+				*/
+
+				<div class="post-view-footer">
 					<span>
 						{pluralize(post.commentCount, "comment")}
 					</span>
@@ -95,6 +108,10 @@ export default function PostView() {
 					<span>
 						{pluralize(post.likeCount, "like")}
 					</span>
+					@for (let tag of post.tags) {
+						<span class="separator" />
+						<a href="/tags/{tag.slug}">{tag.text}</a>
+					}
 				</div>
 			</div>
 
@@ -150,6 +167,10 @@ export default function PostView() {
 		.post-view-time,
 		.post-view-footer {
 			color: gray;
+		}
+
+		.separator {
+			margin: 0 0.5rem;
 		}
 
 		.post-view-comments-container {

@@ -13,7 +13,8 @@ export default function PostInput($props) {
 	let post = $watch($props.post ?? { id: -1, type: 0 });
 	let $state = $watch({
 		linkLoading: false,
-		linkLoaded: post.type === LINK_POST
+		linkLoaded: post.type === LINK_POST,
+		showTags: !!post.tags,
 	});
 
 	@render {
@@ -87,6 +88,13 @@ export default function PostInput($props) {
 				}
 			}
 			
+			@if ($state.showTags) {
+				<div class="form-row">
+					<label for="url">Enter tags separated by semicolons</label>
+					<input name="tags" :value={post.tags} />
+				</div>
+			}
+
 			<div class="hstack spaced post-input-footer">
 				@if (!post.type) {
 					<button type="button" class="link" onclick={() => post.type = IMAGE_POST}>
@@ -99,6 +107,9 @@ export default function PostInput($props) {
 						+ Article
 					</button>
 				}
+				<button type="button" class="link" onclick={() => $state.showTags = !$state.showTags}>
+					+ Tags
+				</button>
 				<div class="spacer" />
 				@if (post.published) {
 					<button type="submit" formaction="?/savePost">
