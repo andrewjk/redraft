@@ -21,7 +21,12 @@ export default function PostPreview() {
 	@render {
 		<div class="post-preview card">
 			@if (post.pinned) {
-				<div class="post-preview-pinned">Pinned</div>
+				<div class="post-preview-status">Pinned</div>
+			}
+			@if (post.republishedAt) {
+				<div class="post-preview-status" title={fmt.format(new Date(post.republishedAt))}>
+					Republished {relativeTimeSince(new Date(post.republishedAt)).toLocaleLowerCase()}
+				</div>
 			}
 			<div class="post-preview-header hstack centered spaced">
 				<a href={post.author.url}>
@@ -38,8 +43,8 @@ export default function PostPreview() {
 					</div>
 				</a>
 				<div class="vstack align-end">
-					<div class="post-preview-time" title={fmt.format(new Date(post.createdAt))}>
-						{relativeTimeSince(new Date(post.createdAt))}
+					<div class="post-preview-time" title={fmt.format(new Date(post.publishedAt))}>
+						{relativeTimeSince(new Date(post.publishedAt))}
 					</div>
 					<div class="hstack spaced">
 						@if (user?.url === post.author.url) {
@@ -130,9 +135,10 @@ export default function PostPreview() {
 		.post-preview {
 		}
 
-		.post-preview-pinned {
+		.post-preview-status {
 			color: gray;
 			font-size: 75%;
+			font-weight: bold;
 			margin: -0.5rem 0 0.5rem 0;
 		}
 

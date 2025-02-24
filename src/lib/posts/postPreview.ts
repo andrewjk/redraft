@@ -12,8 +12,8 @@ export type PostPreview = {
 	text: string;
 	author: PostAuthor;
 	pinned: boolean;
-	createdAt: Date;
-	updatedAt: Date;
+	publishedAt: Date;
+	republishedAt: Date | null;
 	commentCount: number;
 	likeCount: number;
 	type: number;
@@ -42,8 +42,8 @@ export default function postPreview(
 					url: currentUser.url,
 				},
 		pinned: post.pinned,
-		createdAt: post.created_at,
-		updatedAt: post.updated_at,
+		publishedAt: post.published_at ?? post.updated_at,
+		republishedAt: post.republished_at,
 		commentCount: post.comment_count,
 		likeCount: post.like_count,
 		type: post.type,

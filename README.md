@@ -36,7 +36,7 @@ Put an auth function on @torpor/build endpoints??
 - [ ] Posts attached to status? Not sure about this one...
 - [ ] Multi status "threads"
   - [ ] Post count
-- [ ] Re-posting a post ("boosting"?) to move it back up to the top
+- [x] Republishing a post to move it back up to the top
 - [x] Draft posts
 - [x] Following
 - [x] Followed by
@@ -68,9 +68,10 @@ Put an auth function on @torpor/build endpoints??
 - [ ] Adding a nickname for following/followed by users
 - [x] Location and links in profile
 - [ ] Formatting w/ markdown
-- [ ] Tags
+- [x] Tags
   - [ ] Auto-complete
-  - [ ] Show how many posts are under a tag, and when it was last used
+  - [ ] Show how many posts are under a tag
+  - [ ] Show when it was last used
 - [ ] Spoiler tags / disclosures
 - [ ] Settings
   - [ ] Number of posts to show on the homepage
@@ -93,6 +94,7 @@ Put an auth function on @torpor/build endpoints??
   - [x] Post
   - [ ] Everywhere else that has a <:head>
 - [ ] RSS
+- [ ] Cross post to Mastodon / Bluesky
 - [ ] Host friends
 - [ ] Multiple users e.g. for a publication/organisation
 - [ ] Sign up to communicate with a single user on their page??

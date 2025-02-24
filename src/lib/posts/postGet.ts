@@ -64,8 +64,7 @@ export default async function postGet(slug: string) {
 			commentCount: post.comment_count,
 			likeCount: post.like_count,
 			publishedAt: post.published_at,
-			createdAt: post.created_at,
-			updatedAt: post.updated_at,
+			republishedAt: post.republished_at,
 			tags: post.postTags.map((pt) => ({ slug: pt.tag.slug, text: pt.tag.text })),
 			comments: parentComments.map((c) => commentPreview(c, user, childComments)),
 		};

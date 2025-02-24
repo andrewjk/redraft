@@ -31,11 +31,6 @@ export default function FollowPreview() {
 						</div>
 					</div>
 				</a>
-				@/*
-					<span title={fmt.format(new Date(post.createdAt))}>
-						{relativeTimeSince(new Date(post.createdAt))}
-					</span>
-				*/
 			</div>
 
 			<div class="follow-preview-body">

@@ -55,8 +55,8 @@ export default function PostView() {
 						</div>
 					</a>
 					<div class="vstack align-end">
-						<div class="post-view-time" title={fmt.format(new Date(post.createdAt))}>
-							{relativeTimeSince(new Date(post.createdAt))}
+						<div class="post-view-time" title={fmt.format(new Date(post.publishedAt))}>
+							{relativeTimeSince(new Date(post.publishedAt))}
 						</div>
 						@if (user?.url === post.author.url) {
 							<a href="/posts/edit/{post.slug}">Edit</a>

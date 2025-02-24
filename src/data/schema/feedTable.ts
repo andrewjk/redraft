@@ -31,6 +31,10 @@ export const feedTable = sqliteTable("feed", {
 	title: text(),
 	/** Publication for link */
 	publication: text(),
+	/** When this post was published */
+	published_at: int({ mode: "timestamp" }).notNull(),
+	/** When this post was re-published, if applicable */
+	republished_at: int({ mode: "timestamp" }),
 	/** Whether this feed item has been liked */
 	liked: int({ mode: "boolean" }).notNull().default(false),
 	/** Whether this feed item has been saved */

@@ -43,6 +43,8 @@ export const postsTable = sqliteTable("posts", {
 	pinned: int({ mode: "boolean" }).notNull().default(false),
 	/** When this post was published, or null if it's still in draft */
 	published_at: int({ mode: "timestamp" }),
+	/** When this post was re-published, if applicable */
+	republished_at: int({ mode: "timestamp" }),
 	created_at: int({ mode: "timestamp" }).notNull(),
 	updated_at: int({ mode: "timestamp" }).notNull(),
 	deleted_at: int({ mode: "timestamp" }),

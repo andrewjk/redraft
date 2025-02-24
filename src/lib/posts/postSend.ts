@@ -41,6 +41,8 @@ export default async function postSend(request: Request) {
 					url: post.url,
 					title: post.title,
 					publication: post.publication,
+					publishedAt: post.published_at!,
+					republishedAt: post.republished_at,
 				};
 				await postPublic(sendUrl, sendData);
 			} catch {

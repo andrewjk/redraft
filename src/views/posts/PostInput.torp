@@ -113,14 +113,10 @@ export default function PostInput($props) {
 				<div class="spacer" />
 				@if (post.published) {
 					<button type="submit" formaction="?/savePost">
-						Save
-					</button>
-				} else {
-					<button type="submit" formaction="?/savePost">
-						Save draft
+						{post.published ? "Save" : "Save draft"}
 					</button>
 					<button type="submit" formaction="?/publishPost">
-						Publish
+						{post.published ? "Republish" : "Publish"}
 					</button>
 				}
 			</div>

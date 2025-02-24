@@ -4,7 +4,6 @@ import TagPreview from './TagPreview.torp';
  * Shows a list of tags and the number of posts they have.
  */
 export default function TagList() {
-	console.log($props)
 	@render {
 		<div class="tag-list centered">
 			@if ($props.tags.length === 0) {

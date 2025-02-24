@@ -16,8 +16,8 @@ export type FeedPreview = {
 	author: FeedAuthor;
 	liked: boolean;
 	saved: boolean;
-	createdAt: Date;
-	updatedAt: Date;
+	publishedAt: Date;
+	republishedAt: Date | null;
 	commentCount: number;
 	type: number;
 	image: string | null;
@@ -48,8 +48,8 @@ export default function feedPreview(
 				},
 		liked: feed.liked,
 		saved: feed.saved,
-		createdAt: feed.created_at,
-		updatedAt: feed.updated_at,
+		publishedAt: feed.published_at,
+		republishedAt: feed.republished_at,
 		commentCount: feed.comment_count,
 		type: feed.type,
 		image: feed.image,

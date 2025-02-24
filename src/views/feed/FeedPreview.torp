@@ -20,6 +20,11 @@ export default function FeedPreview() {
 
 	@render {
 		<div class="feed-preview card">
+			@if (feed.republishedAt) {
+				<div class="feed-preview-status" title={fmt.format(new Date(feed.republishedAt))}>
+					Republished {relativeTimeSince(new Date(feed.republishedAt)).toLocaleLowerCase()}
+				</div>
+			}
 			<div class="feed-preview-header hstack centered spaced">
 				<a href={feed.author.url}>
 					<img class="feed-preview-author-image" src={feed.author.image} alt={`${feed.author.name} (${feed.author.url})`} />
@@ -35,8 +40,8 @@ export default function FeedPreview() {
 					</div>
 				</a>
 				<div class="vstack align-end">
-					<div class="feed-preview-time" title={fmt.format(new Date(feed.createdAt))}>
-						{relativeTimeSince(new Date(feed.createdAt))}
+					<div class="feed-preview-time" title={fmt.format(new Date(feed.publishedAt))}>
+						{relativeTimeSince(new Date(feed.publishedAt))}
 					</div>
 					<div class="hstack spaced">
 						@if (user?.url !== feed.author.url) {
@@ -102,6 +107,13 @@ export default function FeedPreview() {
 
 	@style {
 		.feed-preview {
+		}
+
+		.feed-preview-status {
+			color: gray;
+			font-size: 75%;
+			font-weight: bold;
+			margin: -0.5rem 0 0.5rem 0;
 		}
 
 		.feed-preview-header,
