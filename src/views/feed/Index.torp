@@ -16,8 +16,8 @@ export default function Index() {
 			</:head>
 
 			<h2>Feed</h2>
-			<FeedMenu section="All" />
 			@if ($props.data.user) {
+				<FeedMenu section="All" />
 				<PostInput user={$props.data.user} />
 			}
 			<FeedList feed={$props.data.feed} user={$props.data.user} fuser={$props.data.fuser} />

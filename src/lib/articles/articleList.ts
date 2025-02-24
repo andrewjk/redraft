@@ -1,17 +1,21 @@
 import db from "@/data/db";
 import { postsTable } from "@/data/schema";
 import { ARTICLE_POST } from "@/data/schema/postsTable";
-import { and, desc, eq, isNotNull } from "drizzle-orm";
+import { and, desc, eq, isNotNull, isNull } from "drizzle-orm";
 import postPreview, { PostPreview } from "../posts/postPreview";
 
-export default async function articleDraftList(
+export default async function articleList(
+	drafts: boolean,
 	limit?: number,
 	offset?: number,
 ): Promise<{ posts: PostPreview[]; postsCount: number }> {
 	// Get the current (only) user
 	const user = await db.query.usersTable.findFirst();
 
-	const condition = and(eq(postsTable.type, ARTICLE_POST), isNotNull(postsTable.published_at));
+	const condition = and(
+		eq(postsTable.type, ARTICLE_POST),
+		drafts ? isNull(postsTable.published_at) : isNotNull(postsTable.published_at),
+	);
 
 	// Get the articles from the database
 	const dbarticles = await db.query.postsTable.findMany({

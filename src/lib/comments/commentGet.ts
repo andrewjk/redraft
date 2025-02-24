@@ -1,6 +1,5 @@
 import db from "@/data/db";
-import { articlesTable, commentsTable } from "@/data/schema";
-import { type Comment } from "@/data/schema/commentsTable";
+import { commentsTable } from "@/data/schema";
 import { notFound, ok, serverError } from "@torpor/build/response";
 import { eq } from "drizzle-orm";
 import postPreview from "../posts/postPreview";

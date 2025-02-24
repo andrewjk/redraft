@@ -16,8 +16,8 @@ export default function Index() {
 			</:head>
 
 			<h2>Liked</h2>
-			<FeedMenu section="Liked" />
 			@if ($props.data.user) {
+				<FeedMenu section="Liked" />
 				<PostInput user={$props.data.user} />
 			}
 			<FeedList feed={$props.data.feed} user={$props.data.user} fuser={$props.data.fuser} />

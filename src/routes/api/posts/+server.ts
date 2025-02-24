@@ -10,7 +10,7 @@ export default {
 			const limit = query.limit ? parseInt(query.limit) : undefined;
 			const offset = query.offset ? parseInt(query.offset) : undefined;
 
-			const posts = await postList(limit, offset);
+			const posts = await postList(false, limit, offset);
 
 			return ok(posts);
 		} catch (error) {

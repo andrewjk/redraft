@@ -10,7 +10,7 @@ export default {
 			const limit = query.limit ? parseInt(query.limit) : undefined;
 			const offset = query.offset ? parseInt(query.offset) : undefined;
 
-			const media = await mediaList(limit, offset);
+			const media = await mediaList(false, limit, offset);
 
 			return ok(media);
 		} catch (error) {

@@ -4,11 +4,11 @@
 export default function MediaMenu($props: { section: string, user: any }) {
 	@render {
 		<div class="hstack spaced post-menu">
-			@if ($props.section === "Media") {
-				<span>Media</span>
+			@if ($props.section === "Posts") {
+				<span>Posts</span>
 			} else {
 				<a href="/media">
-					Media
+					Posts
 				</a>
 			}
 			@if ($props.user) {

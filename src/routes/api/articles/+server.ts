@@ -10,7 +10,7 @@ export default {
 			const limit = query.limit ? parseInt(query.limit) : undefined;
 			const offset = query.offset ? parseInt(query.offset) : undefined;
 
-			const articles = await articleList(limit, offset);
+			const articles = await articleList(false, limit, offset);
 
 			return ok(articles);
 		} catch (error) {

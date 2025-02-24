@@ -1,4 +1,4 @@
-import postDraftList from "@/lib/posts/postDraftList";
+import postList from "@/lib/posts/postList";
 import getErrorMessage from "@/lib/utils/getErrorMessage";
 import type { ServerEndPoint } from "@torpor/build";
 import { ok, serverError } from "@torpor/build/response";
@@ -10,7 +10,7 @@ export default {
 			const limit = query.limit ? parseInt(query.limit) : undefined;
 			const offset = query.offset ? parseInt(query.offset) : undefined;
 
-			const posts = await postDraftList(limit, offset);
+			const posts = await postList(true, limit, offset);
 
 			return ok(posts);
 		} catch (error) {
