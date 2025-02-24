@@ -5,6 +5,7 @@ import { ok, unauthorized } from "@torpor/build/response";
 import publishPost from "../posts/_actions/publishPost";
 import savePost from "../posts/_actions/savePost";
 import likeFeedPost from "./_actions/likeFeedPost";
+import reactToFeedPost from "./_actions/reactToFeedPost";
 import saveFeedPost from "./_actions/saveFeedPost";
 
 export default {
@@ -33,5 +34,6 @@ export default {
 		publishPost,
 		likeFeedPost,
 		saveFeedPost,
+		reactToFeedPost,
 	},
 } satisfies PageServerEndPoint;

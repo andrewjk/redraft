@@ -16,6 +16,9 @@ export type PostPreview = {
 	republishedAt: Date | null;
 	commentCount: number;
 	likeCount: number;
+	emojiFirst: string | null;
+	emojiSecond: string | null;
+	emojiThird: string | null;
 	type: number;
 	image: string | null;
 	url: string | null;
@@ -46,6 +49,9 @@ export default function postPreview(
 		republishedAt: post.republished_at,
 		commentCount: post.comment_count,
 		likeCount: post.like_count,
+		emojiFirst: post.emoji_first,
+		emojiSecond: post.emoji_second,
+		emojiThird: post.emoji_third,
 		type: post.type,
 		image: post.image,
 		url: post.url,

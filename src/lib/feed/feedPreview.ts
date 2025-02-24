@@ -16,6 +16,7 @@ export type FeedPreview = {
 	author: FeedAuthor;
 	liked: boolean;
 	saved: boolean;
+	emoji: string | null;
 	publishedAt: Date;
 	republishedAt: Date | null;
 	commentCount: number;
@@ -48,6 +49,7 @@ export default function feedPreview(
 				},
 		liked: feed.liked,
 		saved: feed.saved,
+		emoji: feed.emoji,
 		publishedAt: feed.published_at,
 		republishedAt: feed.republished_at,
 		commentCount: feed.comment_count,

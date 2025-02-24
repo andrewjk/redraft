@@ -35,7 +35,8 @@ export default async function postPublish(request: Request, token: string) {
 			.where(eq(postsTable.id, post.id));
 
 		// Put it in the feed table as well, so that it shows up in our feed
-		const feed = {
+		const feed = await db.query.feedTable.findFirst({ where: eq(feedTable.slug, post.slug) });
+		const record = {
 			slug: post.slug,
 			text: model.text,
 			type: model.type,
@@ -45,10 +46,14 @@ export default async function postPublish(request: Request, token: string) {
 			publication: model.publication,
 			published_at: post.published_at,
 			republished_at: post.republished_at,
-			created_at: new Date(),
+			created_at: feed?.created_at ?? new Date(),
 			updated_at: new Date(),
 		};
-		await db.insert(feedTable).values(feed);
+		if (feed) {
+			await db.update(feedTable).set(record).where(eq(feedTable.id, feed.id));
+		} else {
+			await db.insert(feedTable).values(record);
+		}
 
 		// Send it to all followers
 		// This could take some time, so send it off to be done in an endpoint without awaiting it

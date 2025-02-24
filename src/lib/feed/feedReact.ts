@@ -3,19 +3,19 @@ import { feedTable } from "@/data/schema";
 import { ok, serverError, unauthorized } from "@torpor/build/response";
 import { eq } from "drizzle-orm";
 import { postPublic } from "../public";
-import { PostLikeModel } from "../public/postLiked";
+import { PostReactionModel } from "../public/postReaction";
 import getErrorMessage from "../utils/getErrorMessage";
 
-export type FeedLikeModel = {
+export type FeedReactModel = {
 	slug: string;
 	authorUrl: string;
 	sharedKey: string;
-	liked: boolean;
+	emoji: string;
 };
 
-export default async function feedLike(request: Request) {
+export default async function feedReact(request: Request) {
 	try {
-		const model: FeedLikeModel = await request.json();
+		const model: FeedReactModel = await request.json();
 
 		// Get the current (only) user
 		const currentUser = await db.query.usersTable.findFirst();
@@ -27,16 +27,16 @@ export default async function feedLike(request: Request) {
 		await db
 			.update(feedTable)
 			.set({
-				liked: model.liked,
+				emoji: model.emoji,
 			})
 			.where(eq(feedTable.slug, model.slug));
 
 		// Send the like so the count can be updated
-		let sendUrl = `${model.authorUrl}api/public/post/like`;
-		let sendData: PostLikeModel = {
+		let sendUrl = `${model.authorUrl}api/public/post/react`;
+		let sendData: PostReactionModel = {
 			slug: model.slug,
 			sharedKey: model.sharedKey,
-			liked: model.liked,
+			emoji: model.emoji,
 		};
 		await postPublic(sendUrl, sendData);
 

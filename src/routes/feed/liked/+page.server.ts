@@ -5,6 +5,7 @@ import savePost from "@/routes/posts/_actions/savePost";
 import { type PageServerEndPoint } from "@torpor/build";
 import { ok, unauthorized } from "@torpor/build/response";
 import likeFeedPost from "../_actions/likeFeedPost";
+import reactToFeedPost from "../_actions/reactToFeedPost";
 import saveFeedPost from "../_actions/saveFeedPost";
 
 export default {
@@ -34,5 +35,6 @@ export default {
 		publishPost,
 		likeFeedPost,
 		saveFeedPost,
+		reactToFeedPost,
 	},
 } satisfies PageServerEndPoint;

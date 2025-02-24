@@ -97,16 +97,16 @@ export default function PostPreview() {
 						}
 						case LINK_POST: {
 							<p>{post.text}</p>
-							<LinkPreview link={post} />
 						}
 						default: {
 							<p>{post.text}</p>
 						}
 					}
-					@if (post.type === ARTICLE_POST) {
-						<h3>{post.title}</h3>
-					}
 				</a>
+				@// NOTE: This has to go outside of the feed anchor
+				@if (post.type === LINK_POST) {
+					<LinkPreview link={post} />
+				}
 			</div>
 
 			<div class="post-preview-footer hstack spaced centered">
@@ -127,6 +127,16 @@ export default function PostPreview() {
 				<span>
 					{pluralize(post.likeCount, "like")}
 				</span>
+				@if (post.emojiFirst) {
+					<span class="separator" />
+					<span>{post.emojiFirst}</span>
+				}
+				@if (post.emojiSecond) {
+					<span>{post.emojiSecond}</span>
+				}
+				@if (post.emojiThird) {
+					<span>{post.emojiThird}</span>
+				}
 			</div>
 		</div>
 	}

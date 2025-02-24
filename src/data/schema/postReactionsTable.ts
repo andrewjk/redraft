@@ -1,5 +1,5 @@
 import { relations } from "drizzle-orm";
-import { int, sqliteTable } from "drizzle-orm/sqlite-core";
+import { int, sqliteTable, text } from "drizzle-orm/sqlite-core";
 import { followedByTable } from "./followedByTable";
 import { postsTable } from "./postsTable";
 
@@ -18,6 +18,7 @@ export const postReactionsTable = sqliteTable("post_reactions", {
 		.notNull()
 		.references(() => followedByTable.id),
 	liked: int({ mode: "boolean" }).notNull().default(false),
+	emoji: text().notNull().default(""),
 	created_at: int({ mode: "timestamp" }).notNull(),
 });
 

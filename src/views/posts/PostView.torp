@@ -35,7 +35,9 @@ export default function PostView() {
 				@// <meta property="og:image:alt" content="todo" />
 				@if (post.publishedAt) {
 					<meta property="article:published_time" content={(new Date(post.publishedAt)).toISOString()} />
-					<meta property="article:modified_time" content={(new Date(post.updatedAt)).toISOString()} />
+				}
+				@if (post.republishedAt) {
+					<meta property="article:modified_time" content={(new Date(post.republishedAt)).toISOString()} />
 				}
 			</:head>
 
@@ -108,6 +110,16 @@ export default function PostView() {
 					<span>
 						{pluralize(post.likeCount, "like")}
 					</span>
+					@if (post.emojiFirst) {
+						<span class="separator" />
+						<span>{post.emojiFirst}</span>
+					}
+					@if (post.emojiSecond) {
+						<span>{post.emojiSecond}</span>
+					}
+					@if (post.emojiThird) {
+						<span>{post.emojiThird}</span>
+					}
 					@for (let tag of post.tags) {
 						<span class="separator" />
 						<a href="/tags/{tag.slug}">{tag.text}</a>

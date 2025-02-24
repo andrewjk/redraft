@@ -39,6 +39,8 @@ export const feedTable = sqliteTable("feed", {
 	liked: int({ mode: "boolean" }).notNull().default(false),
 	/** Whether this feed item has been saved */
 	saved: int({ mode: "boolean" }).notNull().default(false),
+	/** The emoji used to react to this post */
+	emoji: text(),
 	created_at: int({ mode: "timestamp" }).notNull(),
 	updated_at: int({ mode: "timestamp" }).notNull(),
 	deleted_at: int({ mode: "timestamp" }),

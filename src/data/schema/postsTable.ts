@@ -19,8 +19,14 @@ export const postsTable = sqliteTable("posts", {
 	text: text().notNull(),
 	comment_count: int().notNull().default(0),
 	last_comment_at: int({ mode: "timestamp" }),
+	/** The number of people who have liked this post */
 	like_count: int().notNull().default(0),
-	save_count: int().notNull().default(0),
+	/** The most popular emoji used to react to this post */
+	emoji_first: text(),
+	/** The second most popular emoji used to react to this post */
+	emoji_second: text(),
+	/** The third most popular emoji used to react to this post */
+	emoji_third: text(),
 	/**
 	 * The type of the post, which affects the way it is displayed
 	 * 0 = normal

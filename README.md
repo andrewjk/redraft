@@ -11,6 +11,7 @@ Social Media x Blogging x Newsletters
 ## Things to do
 
 Put an auth function on @torpor/build endpoints??
+Have a better error when you have an anchor in an anchor (and other things that are forbidden?)
 
 - Use one-time passwords for logging into other sites
 - With a browser plugin to auto-login (only when commenting or otherwise interacting)
@@ -34,6 +35,7 @@ Put an auth function on @torpor/build endpoints??
 - [x] Images attached to status
 - [x] Links attached to status
 - [ ] Posts attached to status? Not sure about this one...
+- [ ] Stories/disappearing posts -- would need to withold from the feed
 - [ ] Multi status "threads"
   - [ ] Post count
 - [x] Republishing a post to move it back up to the top
@@ -53,9 +55,10 @@ Put an auth function on @torpor/build endpoints??
 - [ ] Deploy
 
 - [x] Liking
-- [ ] Reacting
-  - [ ] Heart, thumbs up, thumbs down, laugh, shock, sad
+- [x] Reacting
+  - [x] Heart, thumbs up, thumbs down, laugh, shock, sad
   - [ ] Any emoji (in a popup)
+  - [ ] Post author should be able to see all interactions (comments, likes, emojis)
 - [x] Saving
 - [ ] Sharing / reposting
 - [ ] Post visibility

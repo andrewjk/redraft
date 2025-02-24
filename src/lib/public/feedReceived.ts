@@ -28,6 +28,8 @@ export default async function feedReceived(request: Request) {
 			return notFound();
 		}
 
+		// Create or update the feed record
+		const feed = await db.query.feedTable.findFirst({ where: eq(feedTable.slug, model.slug) });
 		const record = {
 			user_id: user.id,
 			slug: model.slug,
@@ -40,12 +42,9 @@ export default async function feedReceived(request: Request) {
 			// TODO: Should receive posted_at, edited_at etc
 			published_at: new Date(model.publishedAt),
 			republished_at: model.republishedAt ? new Date(model.republishedAt) : undefined,
-			created_at: new Date(),
+			created_at: feed?.created_at ?? new Date(),
 			updated_at: new Date(),
 		};
-
-		// Create or update the feed record
-		const feed = await db.query.feedTable.findFirst({ where: eq(feedTable.slug, model.slug) });
 		if (feed) {
 			await db.update(feedTable).set(record).where(eq(feedTable.id, feed.id));
 		} else {

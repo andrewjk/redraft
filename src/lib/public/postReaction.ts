@@ -1,20 +1,20 @@
 import db from "@/data/db";
 import { followedByTable, postReactionsTable, postsTable } from "@/data/schema";
 import { notFound, ok, serverError, unauthorized } from "@torpor/build/response";
-import { and, eq } from "drizzle-orm";
+import { and, count, desc, eq } from "drizzle-orm";
 import getErrorMessage from "../utils/getErrorMessage";
 
-export type PostLikeModel = {
+export type PostReactionModel = {
 	slug: string;
 	sharedKey: string;
-	liked: boolean;
+	emoji: string;
 };
 
-export default async function postLiked(request: Request) {
+export default async function postReaction(request: Request) {
 	try {
-		const model: PostLikeModel = await request.json();
+		const model: PostReactionModel = await request.json();
 
-		// Get the user who liked the post
+		// Get the user who reacted to the post
 		let user = await db.query.followedByTable.findFirst({
 			where: eq(followedByTable.shared_key, model.sharedKey),
 			columns: { id: true },
@@ -38,29 +38,29 @@ export default async function postLiked(request: Request) {
 		});
 
 		// Insert or delete the reaction
-		if (model.liked) {
+		if (model.emoji) {
 			if (reaction) {
 				await db
 					.update(postReactionsTable)
 					.set({
-						liked: true,
+						emoji: model.emoji,
 					})
 					.where(eq(postReactionsTable.id, reaction.id));
 			} else {
 				await db.insert(postReactionsTable).values({
 					post_id: post.id,
 					user_id: user.id,
-					liked: true,
+					emoji: model.emoji,
 					created_at: new Date(),
 				});
 			}
 		} else {
 			if (reaction) {
-				if (reaction.emoji) {
+				if (reaction.liked) {
 					await db
 						.update(postReactionsTable)
 						.set({
-							liked: false,
+							emoji: "",
 						})
 						.where(eq(postReactionsTable.id, reaction.id));
 				} else {
@@ -69,16 +69,21 @@ export default async function postLiked(request: Request) {
 			}
 		}
 
-		// Update the post's like count
+		// Update the post's popular emojis
+		const emojiCounts = await db
+			.select({ value: postReactionsTable.emoji, count: count(postReactionsTable.id).as("count") })
+			.from(postReactionsTable)
+			.groupBy(postReactionsTable.emoji)
+			.orderBy(({ count }) => desc(count))
+			.limit(3);
 		await db
 			.update(postsTable)
 			.set({
-				like_count: db.$count(
-					postReactionsTable,
-					and(eq(postReactionsTable.post_id, post.id), eq(postReactionsTable.liked, true)),
-				),
+				emoji_first: emojiCounts[0]?.value,
+				emoji_second: emojiCounts[1]?.value,
+				emoji_third: emojiCounts[2]?.value,
 			})
-			.where(eq(postsTable.slug, model.slug));
+			.where(eq(postsTable.id, post.id));
 
 		return ok();
 	} catch (error) {

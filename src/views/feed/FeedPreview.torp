@@ -9,6 +9,10 @@ import { IMAGE_POST, ARTICLE_POST, LINK_POST } from "@/data/schema/postsTable";
  */
 export default function FeedPreview() {
 	let { feed, user } = $props;
+	let $state = $watch({
+		showReaction: false,
+		emoji: ""
+	})
 
 	let fmt = new Intl.DateTimeFormat(undefined, {
 		day: "numeric",
@@ -58,12 +62,41 @@ export default function FeedPreview() {
 								<input type="hidden" name="saved" value={!feed.saved} />
 								<button class="link">{feed.saved ? "Unsave" : "Save"}</button>
 							</form>
+							<span class="separator" />
+							@if (feed.emoji) {
+								<form use:enhance method="POST" action="?/reactToFeedPost">
+									<input type="hidden" name="slug" value={feed.slug} />
+									<input type="hidden" name="authorUrl" value={feed.author.url} />
+									<input type="hidden" name="sharedKey" value={feed.author.sharedKey} />
+									<input type="hidden" name="emoji" value="" />
+									<button class="link">Unreact {feed.emoji}</button>
+								</form>
+							} else {
+								<button type="button" class="link" onclick={() => $state.showReaction = true }>
+									React
+								</button>
+							}
 						} else {
 							<span>&nbsp;</span>
 						}
 					</div>
 				</div>
 			</div>
+
+			@if ($state.showReaction) {
+				<form class="hstack" use:enhance method="POST" action="?/reactToFeedPost">
+					<span class="spacer" />
+					<input type="hidden" name="slug" value={feed.slug} />
+					<input type="hidden" name="authorUrl" value={feed.author.url} />
+					<input type="hidden" name="sharedKey" value={feed.author.sharedKey} />
+					<button class="link" name="emoji" value="❤️">❤️</button>
+					<button class="link" name="emoji" value="👍">👍</button>
+					<button class="link" name="emoji" value="👎">👎</button>
+					<button class="link" name="emoji" value="😂">😂</button>
+					<button class="link" name="emoji" value="🤯">🤯</button>
+					<button class="link" name="emoji" value="😔">😔</button>
+				</form>
+			}
 
 			<div class="feed-preview-body">
 				<a class="feed-preview-link" href="{feed.author.url}posts/{feed.slug}">
@@ -78,13 +111,16 @@ export default function FeedPreview() {
 						}
 						case LINK_POST: {
 							<p>{feed.text}</p>
-							<LinkPreview link={feed} />
 						}
 						default: {
 							<p>{feed.text}</p>
 						}
 					}
 				</a>
+				@// NOTE: This has to go outside of the feed anchor
+				@if (feed.type === LINK_POST) {
+					<LinkPreview link={feed} />
+				}
 			</div>
 
 			<div class="feed-preview-footer hstack spaced">
