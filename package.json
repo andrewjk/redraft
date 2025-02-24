@@ -27,7 +27,7 @@
 		"drizzle-orm": "^0.39.3",
 		"drizzle-valibot": "^0.4.0",
 		"grab-page-info": "^1.0.1",
-		"jose": "^5.10.0",
+		"jose": "^6.0.6",
 		"ky": "^1.7.5",
 		"uuid": "^11.1.0",
 		"valibot": "1.0.0-rc.1"
@@ -36,7 +36,7 @@
 		"@torpor/build": "^0.0.6",
 		"@trivago/prettier-plugin-sort-imports": "^5.2.2",
 		"@types/bcryptjs": "^2.4.6",
-		"@types/node": "^22.13.4",
+		"@types/node": "^22.13.5",
 		"@types/sanitize-html": "^2.13.0",
 		"dotenv-cli": "^8.0.0",
 		"drizzle-kit": "^0.30.4",
