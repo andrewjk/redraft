@@ -2,6 +2,7 @@
 import { type Feed } from "@/data/schema/feedTable";
 import { FollowedBy } from "@/data/schema/followedByTable";
 import { type User } from "@/data/schema/usersTable";
+import { micromark } from "micromark";
 
 type FeedAuthor = {
 	name: string;
@@ -34,7 +35,7 @@ export default function feedPreview(
 ): FeedPreview {
 	return {
 		slug: feed.slug,
-		text: feed.text,
+		text: micromark(feed.text),
 		author: feed.user
 			? {
 					name: feed.user.name,

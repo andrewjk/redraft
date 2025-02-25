@@ -1,5 +1,6 @@
 import { type Post } from "@/data/schema/postsTable";
 import { type User } from "@/data/schema/usersTable";
+import { micromark } from "micromark";
 
 type PostAuthor = {
 	name: string;
@@ -33,7 +34,7 @@ export default function postPreview(
 ): PostPreview {
 	return {
 		slug: post.slug,
-		text: post.text,
+		text: micromark(post.text),
 		author: post.user
 			? {
 					name: post.user.name,

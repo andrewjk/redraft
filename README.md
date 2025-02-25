@@ -2,6 +2,8 @@
 
 Social Media x Blogging x Newsletters
 
+🚧 WARNING: WORK IN PROGRESS 🚧
+
 - Fully self-hostable
 - All your data in a single file that you can take anywhere
 - Make short status posts, or lengthy article posts
@@ -10,13 +12,13 @@ Social Media x Blogging x Newsletters
 
 ## Things to do
 
-Put an auth function on @torpor/build endpoints??
-Have a better error when you have an anchor in an anchor (and other things that are forbidden)?
+- Put an auth function on @torpor/build endpoints??
+- Have a better error when you have an anchor in an anchor (and other things that are forbidden)?
 
 - Use one-time passwords for logging into other sites
 - With a browser plugin to auto-login (only when commenting or otherwise interacting)
 
-// TODO: lib should always return data OR responses
+- TODO: lib should always return data OR responses
 
 - [x] / page showing public profile, pinned (if any), 5ish posts
 - [x] /feed page showing showing your feed (must be logged in)
@@ -61,8 +63,8 @@ Have a better error when you have an anchor in an anchor (and other things that 
   - [ ] Post author should be able to see all interactions (comments, likes, emojis)
 - [x] Saving
 - [ ] Sharing / reposting
-- [ ] Post visibility
-- [ ] Recipient lists
+- [x] Post visibility
+  - [ ] Recipient lists
 - [x] Editing posts
   - [x] Re-publishing posts
 - [ ] Deleting your posts
@@ -70,7 +72,7 @@ Have a better error when you have an anchor in an anchor (and other things that 
 - [ ] Paid tiers?
 - [ ] Adding a nickname for following/followed by users
 - [x] Location and links in profile
-- [ ] Formatting w/ markdown
+- [x] Formatting w/ markdown
 - [x] Tags
   - [ ] Auto-complete
   - [ ] Show how many posts are under a tag

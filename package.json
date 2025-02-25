@@ -29,6 +29,8 @@
 		"grab-page-info": "^1.0.1",
 		"jose": "^6.0.6",
 		"ky": "^1.7.5",
+		"micromark": "^4.0.1",
+		"micromark-extension-gfm": "^3.0.0",
 		"uuid": "^11.1.0",
 		"valibot": "1.0.0-rc.1"
 	},

@@ -8,6 +8,8 @@ import {
 import { User } from "@/data/schema/usersTable";
 import { notFound, ok, serverError } from "@torpor/build/response";
 import { and, eq, or } from "drizzle-orm";
+import { micromark } from "micromark";
+import { gfm, gfmHtml } from "micromark-extension-gfm";
 import commentPreview from "../comments/commentPreview";
 import getErrorMessage from "../utils/getErrorMessage";
 
@@ -57,11 +59,17 @@ export default async function postGet(user: User, follower: User, slug: string) 
 		}
 
 		// If it's an article, get the article text
-		let article;
+		let articleText;
 		if (post.type === ARTICLE_POST_TYPE && post.article_id) {
-			article = await db.query.articlesTable.findFirst({
+			const article = await db.query.articlesTable.findFirst({
 				where: eq(articlesTable.id, post.article_id),
 			});
+			if (article) {
+				articleText = micromark(article.text, {
+					extensions: [gfm()],
+					htmlExtensions: [gfmHtml()],
+				});
+			}
 		}
 
 		// Create the view
@@ -75,7 +83,7 @@ export default async function postGet(user: User, follower: User, slug: string) 
 			url: post.url,
 			title: post.title,
 			publication: post.publication,
-			articleText: article?.text,
+			articleText: articleText,
 			author: {
 				image: currentUser.image,
 				name: currentUser.name,

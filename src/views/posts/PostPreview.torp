@@ -102,17 +102,17 @@ export default function PostPreview() {
 					@switch (post.type) {
 						case ARTICLE_POST_TYPE: {
 							<h3>{post.title}</h3>
-							<p>{post.text}</p>
+							@html(post.text)
 						}
 						case IMAGE_POST_TYPE: {
-							<p>{post.text}</p>
+							@html(post.text)
 							<img class="post-preview-image" src={post.image} alt={post.imageAlt} />
 						}
 						case LINK_POST_TYPE: {
-							<p>{post.text}</p>
+							@html(post.text)
 						}
 						default: {
-							<p>{post.text}</p>
+							@html(post.text)
 						}
 					}
 				</a>

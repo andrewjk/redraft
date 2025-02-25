@@ -116,17 +116,17 @@ export default function FeedPreview() {
 					@switch (feed.type) {
 						case ARTICLE_POST_TYPE: {
 							<h3>{feed.title}</h3>
-							<p>{feed.text}</p>
+							@html(feed.text)
 						}
 						case IMAGE_POST_TYPE: {
-							<p>{feed.text}</p>
+							@html(feed.text)
 							<img class="feed-preview-image" src={feed.image} alt={feed.imageAlt} />
 						}
 						case LINK_POST_TYPE: {
-							<p>{feed.text}</p>
+							@html(feed.text)
 						}
 						default: {
-							<p>{feed.text}</p>
+							@html(feed.text)
 						}
 					}
 				</a>

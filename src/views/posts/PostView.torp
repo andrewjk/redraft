@@ -73,7 +73,7 @@ export default function PostView() {
 						case ARTICLE_POST_TYPE: {
 							<h3>{post.title}</h3>
 							<p style="color: gray">{post.text}</p>
-							<p>{post.articleText}</p>
+							@html(post.articleText)
 						}
 						case IMAGE_POST_TYPE: {
 							<p>{post.text}</p>
