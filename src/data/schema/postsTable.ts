@@ -5,10 +5,18 @@ import { InferOutput } from "valibot";
 import { commentsTable } from "./commentsTable";
 import { postTagsTable } from "./postTagsTable";
 
-export const TEXT_POST = 0;
-export const IMAGE_POST = 1;
-export const ARTICLE_POST = 2;
-export const LINK_POST = 3;
+// Post types
+export const TEXT_POST_TYPE = 0;
+export const IMAGE_POST_TYPE = 1;
+export const ARTICLE_POST_TYPE = 2;
+export const LINK_POST_TYPE = 3;
+
+// Visibility options
+export const PUBLIC_POST_VISIBILITY = 0;
+export const FOLLOWER_POST_VISIBILITY = 1;
+export const PRIVATE_POST_VISIBILITY = 2;
+// TODO:
+export const LIST_POST_VISIBILITY = 3;
 
 /**
  * Our posts
@@ -27,6 +35,14 @@ export const postsTable = sqliteTable("posts", {
 	emoji_second: text(),
 	/** The third most popular emoji used to react to this post */
 	emoji_third: text(),
+	/**
+	 * The post visibility, which affects who can see it and who it is sent to
+	 * 0 = public
+	 * 1 = followers
+	 * 2 = private
+	 * 3 = custom list
+	 */
+	visibility: int().notNull().default(0),
 	/**
 	 * The type of the post, which affects the way it is displayed
 	 * 0 = normal

@@ -1,22 +1,42 @@
 import db from "@/data/db";
 import { articlesTable, postsTable } from "@/data/schema";
-import { ARTICLE_POST } from "@/data/schema/postsTable";
+import {
+	ARTICLE_POST_TYPE,
+	FOLLOWER_POST_VISIBILITY,
+	PUBLIC_POST_VISIBILITY,
+} from "@/data/schema/postsTable";
+import { User } from "@/data/schema/usersTable";
 import { notFound, ok, serverError } from "@torpor/build/response";
-import { eq } from "drizzle-orm";
+import { and, eq, or } from "drizzle-orm";
 import commentPreview from "../comments/commentPreview";
 import getErrorMessage from "../utils/getErrorMessage";
 
-export default async function postGet(slug: string) {
+export default async function postGet(user: User, follower: User, slug: string) {
 	try {
 		// Get the current (only) user
-		const user = await db.query.usersTable.findFirst();
-		if (!user) {
+		const currentUser = await db.query.usersTable.findFirst();
+		if (!currentUser) {
 			return notFound();
 		}
 
+		const condition = and(
+			eq(postsTable.slug, slug),
+			// Logged in users can see any post
+			// Logged in followers can see public or follower posts
+			// Non-logged in users can only see public posts
+			user
+				? undefined
+				: follower
+					? or(
+							eq(postsTable.visibility, PUBLIC_POST_VISIBILITY),
+							eq(postsTable.visibility, FOLLOWER_POST_VISIBILITY),
+						)
+					: eq(postsTable.visibility, PUBLIC_POST_VISIBILITY),
+		);
+
 		// Get the post from the database
 		const post = await db.query.postsTable.findFirst({
-			where: eq(postsTable.slug, slug),
+			where: condition,
 			with: {
 				postTags: {
 					with: {
@@ -38,7 +58,7 @@ export default async function postGet(slug: string) {
 
 		// If it's an article, get the article text
 		let article;
-		if (post.type === ARTICLE_POST && post.article_id) {
+		if (post.type === ARTICLE_POST_TYPE && post.article_id) {
 			article = await db.query.articlesTable.findFirst({
 				where: eq(articlesTable.id, post.article_id),
 			});
@@ -57,9 +77,9 @@ export default async function postGet(slug: string) {
 			publication: post.publication,
 			articleText: article?.text,
 			author: {
-				image: user.image,
-				name: user.name,
-				url: user.url,
+				image: currentUser.image,
+				name: currentUser.name,
+				url: currentUser.url,
 			},
 			commentCount: post.comment_count,
 			likeCount: post.like_count,
@@ -69,7 +89,7 @@ export default async function postGet(slug: string) {
 			publishedAt: post.published_at ?? post.created_at,
 			republishedAt: post.republished_at,
 			tags: post.postTags.map((pt) => ({ slug: pt.tag.slug, text: pt.tag.text })),
-			comments: parentComments.map((c) => commentPreview(c, user, childComments)),
+			comments: parentComments.map((c) => commentPreview(c, currentUser, childComments)),
 		};
 
 		return ok(view);

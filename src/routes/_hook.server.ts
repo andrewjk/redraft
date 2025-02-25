@@ -15,7 +15,7 @@ export default {
 		// Decode the follower token, if it exists
 		const fjwt = cookies.get("fjwt");
 		try {
-			appData.fuser = fjwt ? JSON.parse(atob(fjwt)) : null;
+			appData.follower = fjwt ? JSON.parse(atob(fjwt)) : null;
 		} catch {
 			cookies.delete("fjwt", { path: "/" });
 		}

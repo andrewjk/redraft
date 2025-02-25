@@ -8,6 +8,7 @@ export type FeedReceivedModel = {
 	sharedKey: string;
 	slug: string;
 	text: string;
+	visibility: number;
 	type: number;
 	image: string | null;
 	url: string | null;
@@ -34,6 +35,7 @@ export default async function feedReceived(request: Request) {
 			user_id: user.id,
 			slug: model.slug,
 			text: model.text,
+			visibility: model.visibility,
 			type: model.type,
 			image: model.image,
 			url: model.url,

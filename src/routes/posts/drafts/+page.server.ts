@@ -20,7 +20,7 @@ export default {
 		search.set("limit", PAGE_SIZE.toString());
 		search.set("offset", ((page - 1) * PAGE_SIZE).toString());
 
-		const { posts, postsCount } = await api.get(`posts/drafts?${search}`);
+		const { posts, postsCount } = await api.get(`posts/drafts?${search}`, user.token);
 
 		const pageCount = Math.ceil(postsCount / PAGE_SIZE);
 

@@ -20,7 +20,7 @@ export default function Index() {
 				<FeedMenu section="All" />
 				<PostInput user={$props.data.user} />
 			}
-			<FeedList feed={$props.data.feed} user={$props.data.user} fuser={$props.data.fuser} />
+			<FeedList feed={$props.data.feed} user={$props.data.user} follower={$props.data.follower} />
 			<Pagination pageCount={$props.data.pageCount} page={$state.page} href={(p) => `/?page=${p}`} />
 		</div>
 	}

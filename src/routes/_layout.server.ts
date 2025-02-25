@@ -4,7 +4,7 @@ import { ok } from "@torpor/build/response";
 export default {
 	load: ({ appData }) => {
 		const user = appData.user;
-		const fuser = appData.fuser;
+		const follower = appData.follower;
 		return ok({
 			user: user && {
 				url: user.url,
@@ -12,11 +12,11 @@ export default {
 				image: user.image,
 				bio: user.bio,
 			},
-			fuser: fuser && {
-				url: fuser.url,
-				name: fuser.name,
-				image: fuser.image,
-				bio: fuser.bio,
+			follower: follower && {
+				url: follower.url,
+				name: follower.name,
+				image: follower.image,
+				bio: follower.bio,
 			},
 		});
 	},

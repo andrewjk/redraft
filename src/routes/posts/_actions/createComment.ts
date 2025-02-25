@@ -5,7 +5,7 @@ import { unauthorized, unprocessable } from "@torpor/build/response";
 
 export default async function createComment({ appData, request }: ServerEvent) {
 	// Comments can be made by a following user, or by the main user
-	const user = appData.fuser || appData.user;
+	const user = appData.follower || appData.user;
 	if (!user) {
 		return unauthorized();
 	}

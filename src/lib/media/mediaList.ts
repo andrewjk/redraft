@@ -1,6 +1,6 @@
 import db from "@/data/db";
 import { postsTable } from "@/data/schema";
-import { IMAGE_POST } from "@/data/schema/postsTable";
+import { IMAGE_POST_TYPE } from "@/data/schema/postsTable";
 import { and, desc, eq, isNotNull, isNull } from "drizzle-orm";
 import postPreview, { PostPreview } from "../posts/postPreview";
 
@@ -13,7 +13,7 @@ export default async function mediaDraftList(
 	const user = await db.query.usersTable.findFirst();
 
 	const condition = and(
-		eq(postsTable.type, IMAGE_POST),
+		eq(postsTable.type, IMAGE_POST_TYPE),
 		drafts ? isNull(postsTable.published_at) : isNotNull(postsTable.published_at),
 	);
 

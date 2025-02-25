@@ -20,7 +20,7 @@ export default function TagPosts() {
 			@if ($props.data.user) {
 				<PostInput user={$props.data.user} />
 			}
-			<PostList posts={$props.data.posts} user={$props.data.user} fuser={$props.data.fuser} />
+			<PostList posts={$props.data.posts} user={$props.data.user} follower={$props.data.follower} />
 			<Pagination pageCount={$props.data.pageCount} page={$state.page} href={(p) => `/?page=${p}`} />
 		</div>
 	}

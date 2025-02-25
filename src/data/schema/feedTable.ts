@@ -16,6 +16,14 @@ export const feedTable = sqliteTable("feed", {
 	comment_count: int().notNull().default(0),
 	last_comment_at: int({ mode: "timestamp" }),
 	/**
+	 * The post visibility, which affects who can see it and who it is sent to
+	 * 0 = public
+	 * 1 = followers
+	 * 2 = private
+	 * 3 = custom list
+	 */
+	visibility: int().notNull().default(0),
+	/**
 	 * The type of the post, which affects the way it is displayed
 	 * 0 = normal
 	 * 1 = image

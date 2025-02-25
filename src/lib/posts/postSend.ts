@@ -36,6 +36,7 @@ export default async function postSend(request: Request) {
 					sharedKey: follower.shared_key,
 					slug: post.slug,
 					text: post.text,
+					visibility: post.visibility,
 					type: post.type,
 					image: post.image,
 					url: post.url,

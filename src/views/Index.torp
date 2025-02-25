@@ -24,7 +24,7 @@ export default function Index() {
 
 				<div class="vstack spaced centered grow">
 					<h2>Recent posts</h2>
-					<PostList posts={$props.data.posts} user={$props.data.user} fuser={$props.data.fuser} />
+					<PostList posts={$props.data.posts} user={$props.data.user} follower={$props.data.follower} />
 					<a href="/posts">All posts</a>
 				</div>
 			</div>

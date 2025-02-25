@@ -19,6 +19,7 @@ export type PostPreview = {
 	emojiFirst: string | null;
 	emojiSecond: string | null;
 	emojiThird: string | null;
+	visibility: number;
 	type: number;
 	image: string | null;
 	url: string | null;
@@ -52,6 +53,7 @@ export default function postPreview(
 		emojiFirst: post.emoji_first,
 		emojiSecond: post.emoji_second,
 		emojiThird: post.emoji_third,
+		visibility: post.visibility,
 		type: post.type,
 		image: post.image,
 		url: post.url,

@@ -3,18 +3,19 @@ import { placeholder } from '@/lib/constants';
 import loadLinkInfo from '@/lib/utils/loadLinkInfo';
 import ImageUpload from '@/views/ImageUpload.torp';
 import LinkPreview from '@/views/posts/LinkPreview.torp';
-import { IMAGE_POST, ARTICLE_POST, LINK_POST } from "@/data/schema/postsTable";
+import { IMAGE_POST_TYPE, ARTICLE_POST_TYPE, LINK_POST_TYPE } from "@/data/schema/postsTable";
 
 /**
  * Allows creating a post.
  */
 export default function PostInput($props) {
 	let user = $props.user;
-	let post = $watch($props.post ?? { id: -1, type: 0 });
+	let post = $watch($props.post ?? { id: -1, type: 0, visibility: 0 });
 	let $state = $watch({
 		linkLoading: false,
-		linkLoaded: post.type === LINK_POST,
+		linkLoaded: post.type === LINK_POST_TYPE,
 		showTags: !!post.tags,
+		showVisibility: !!post.visibility,
 	});
 
 	@render {
@@ -22,7 +23,7 @@ export default function PostInput($props) {
 			<input type="hidden" name="id" value={post.id} />
 			<input type="hidden" name="type" :value={post.type} />
 
-			@if (post.type === ARTICLE_POST) {
+			@if (post.type === ARTICLE_POST_TYPE) {
 				<input type="hidden" name="articleId" value={post.articleId} />
 				<div class="form-row">
 					<input
@@ -39,12 +40,12 @@ export default function PostInput($props) {
 					class="full-width"
 					name="text"
 					:value={post.text}
-					placeholder={post.type === ARTICLE_POST ? "Description" : "Post something..."}
+					placeholder={post.type === ARTICLE_POST_TYPE ? "Description" : "Post something..."}
 					rows="3"
 				/>
 			</div>
 
-			@if (post.type === ARTICLE_POST) {
+			@if (post.type === ARTICLE_POST_TYPE) {
 				<div class="form-row">
 					<textarea
 						class="full-width"
@@ -53,9 +54,9 @@ export default function PostInput($props) {
 						placeholder="Article text"
 					/>
 				</div>
-			} else if (post.type === IMAGE_POST) {
+			} else if (post.type === IMAGE_POST_TYPE) {
 				<ImageUpload image={post.image} class="full-width" />
-			} else if (post.type === LINK_POST) {
+			} else if (post.type === LINK_POST_TYPE) {
 				<input type="hidden" name="image" value={post.image} />
 				<input type="hidden" name="title" value={post.title} />
 				<input type="hidden" name="publication" value={post.publication} />
@@ -95,30 +96,41 @@ export default function PostInput($props) {
 				</div>
 			}
 
+			@if ($state.showVisibility) {
+				<div class="form-row">
+					<select name="visibility" :value={post.visibility}>
+						<option value="0">Public</option>
+						<option value="1">Followers</option>
+						<option value="2">Private</option>
+					</select>
+				</div>
+			}
+
 			<div class="hstack spaced post-input-footer">
 				@if (!post.type) {
-					<button type="button" class="link" onclick={() => post.type = IMAGE_POST}>
+					<button type="button" class="link" onclick={() => post.type = IMAGE_POST_TYPE}>
 						+ Image
 					</button>
-					<button type="button" class="link" onclick={() => post.type = LINK_POST}>
+					<button type="button" class="link" onclick={() => post.type = LINK_POST_TYPE}>
 						+ Link
 					</button>
-					<button type="button" class="link" onclick={() => post.type = ARTICLE_POST}>
+					<button type="button" class="link" onclick={() => post.type = ARTICLE_POST_TYPE}>
 						+ Article
 					</button>
 				}
 				<button type="button" class="link" onclick={() => $state.showTags = !$state.showTags}>
 					+ Tags
 				</button>
+				<button type="button" class="link" onclick={() => $state.showVisibility = !$state.showVisibility}>
+					+ Visibility
+				</button>
 				<div class="spacer" />
-				@if (post.published) {
-					<button type="submit" formaction="?/savePost">
-						{post.published ? "Save" : "Save draft"}
-					</button>
-					<button type="submit" formaction="?/publishPost">
-						{post.published ? "Republish" : "Publish"}
-					</button>
-				}
+				<button type="submit" formaction="?/savePost">
+					{post.published ? "Save" : "Save draft"}
+				</button>
+				<button type="submit" formaction="?/publishPost">
+					{post.published ? "Republish" : "Publish"}
+				</button>
 			</div>
 		</form>
 	}

@@ -11,7 +11,7 @@ Social Media x Blogging x Newsletters
 ## Things to do
 
 Put an auth function on @torpor/build endpoints??
-Have a better error when you have an anchor in an anchor (and other things that are forbidden?)
+Have a better error when you have an anchor in an anchor (and other things that are forbidden)?
 
 - Use one-time passwords for logging into other sites
 - With a browser plugin to auto-login (only when commenting or otherwise interacting)
@@ -64,7 +64,7 @@ Have a better error when you have an anchor in an anchor (and other things that 
 - [ ] Post visibility
 - [ ] Recipient lists
 - [x] Editing posts
-  - [ ] Re-publishing posts
+  - [x] Re-publishing posts
 - [ ] Deleting your posts
 - [ ] Deleting posts from other people from your db
 - [ ] Paid tiers?
@@ -80,7 +80,9 @@ Have a better error when you have an anchor in an anchor (and other things that 
   - [ ] Number of posts to show on the homepage
   - [ ] Type of posts to show on the homepage
   - [ ] Nav menu options e.g. show Articles/Media/Images/Audio/Video
-  - [ ] Disable comments or comment replies for legal
+  - [ ] Disable comments or comment replies for legal reasons
+  - [ ] Custom ToS, legal pages etc
+  - [ ] Default post visibility
 - etc
 
 - [ ] Need a way to deal with out-of-date followers, where their api/db may not be compatible

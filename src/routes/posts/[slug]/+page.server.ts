@@ -4,14 +4,11 @@ import { ok, unprocessable } from "@torpor/build/response";
 import createComment from "../_actions/createComment";
 
 export default {
-	load: async ({ params }) => {
-		// TODO: Check permissions
-		//const user = appData.user;
-		//if (!user) {
-		//	return unauthorized();
-		//}
+	load: async ({ appData, params }) => {
+		const user = appData.user;
+		const follower = appData.follower;
 
-		const result = await api.get(`posts/${params.slug}`);
+		const result = await api.get(`posts/${params.slug}`, user?.token || follower?.token);
 		if (result.errors) {
 			return unprocessable(result);
 		}

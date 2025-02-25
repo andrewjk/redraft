@@ -7,13 +7,16 @@ import pinPost from "./posts/_actions/pinPost";
 import publishPost from "./posts/_actions/publishPost";
 
 export default {
-	load: async () => {
+	load: async ({ appData }) => {
+		let user = appData.user;
+		let follower = appData.follower;
+
 		// Load the user's profile and 5ish latest posts
 		const search = new URLSearchParams();
 		search.set("limit", FRONT_PAGE_SIZE.toString());
 		const [profile, { posts }] = await Promise.all([
 			api.get("profile/preview"),
-			api.get(`posts?${search}`),
+			api.get(`posts?${search}`, user?.token || follower?.token),
 		]);
 		return ok({ profile, posts });
 	},

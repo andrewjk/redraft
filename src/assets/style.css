@@ -226,6 +226,10 @@ input {
 	padding: 0.2rem 0.6rem;
 }
 
+select {
+	padding: 0.4rem 0.6rem;
+}
+
 button {
 	min-width: 7.5rem;
 	padding: 0 1rem;

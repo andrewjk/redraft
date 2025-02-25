@@ -13,7 +13,7 @@ export default function FeedList() {
 			} else {
 				@for (let feed of $props.feed) {
 					@key = feed.id
-					<FeedPreview {feed} user={$props.user} fuser={$props.fuser} />
+					<FeedPreview {feed} user={$props.user} follower={$props.follower} />
 				}
 			}
 		</div>

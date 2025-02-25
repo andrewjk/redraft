@@ -3,13 +3,13 @@ import pluralize from "@/lib/utils/pluralize"
 import relativeTimeSince from "@/lib/utils/relativeTimeSince"
 import CommentList from "@/views/comments/CommentList.torp"
 import LinkPreview from '@/views/posts/LinkPreview.torp';
-import { ARTICLE_POST, IMAGE_POST, LINK_POST } from "@/data/schema/postsTable";
+import { ARTICLE_POST_TYPE, IMAGE_POST_TYPE, LINK_POST_TYPE } from "@/data/schema/postsTable";
 
 /**
  * Shows a post's full details.
  */
 export default function PostView() {
-	let { post, user, fuser } = $props.data;
+	let { post, user, follower } = $props.data;
 
 	let fmt = new Intl.DateTimeFormat(undefined, {
 		day: "numeric",
@@ -26,7 +26,7 @@ export default function PostView() {
 				<meta property="og:type" content="article" />
 				@// <meta property="og:locale" content="en_US" />
 				<meta property="og:site_name" content="Social" />
-				<meta property="og:title" content={post.type === ARTICLE_POST ? post.title : "Social post"} />
+				<meta property="og:title" content={post.type === ARTICLE_POST_TYPE ? post.title : "Social post"} />
 				<meta property="og:description" content={post.text} />
 				<meta property="og:url" content="{post.author.url}posts/${post.slug}" />
 				@// <meta property="og:image" content="" />
@@ -70,16 +70,16 @@ export default function PostView() {
 
 				<div class="post-view-body">
 					@switch (post.type) {
-						case ARTICLE_POST: {
+						case ARTICLE_POST_TYPE: {
 							<h3>{post.title}</h3>
 							<p style="color: gray">{post.text}</p>
 							<p>{post.articleText}</p>
 						}
-						case IMAGE_POST: {
+						case IMAGE_POST_TYPE: {
 							<p>{post.text}</p>
 							<img src={post.image} />
 						}
-						case LINK_POST: {
+						case LINK_POST_TYPE: {
 							<p>{post.text}</p>
 							<LinkPreview link={post} />
 						}
@@ -128,7 +128,7 @@ export default function PostView() {
 			</div>
 
 			<div class="post-view-comments-container">
-				<CommentList {post} {user} {fuser} comments={post.comments}/>
+				<CommentList {post} {user} {follower} comments={post.comments}/>
 			</div>
 		</div>
 	}

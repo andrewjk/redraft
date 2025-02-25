@@ -1,6 +1,6 @@
 import db from "@/data/db";
 import { articlesTable, postTagsTable, tagsTable } from "@/data/schema";
-import { ARTICLE_POST, Post, postsTable } from "@/data/schema/postsTable";
+import { ARTICLE_POST_TYPE, Post, postsTable } from "@/data/schema/postsTable";
 import { Tag } from "@/data/schema/tagsTable";
 import { and, eq, inArray } from "drizzle-orm";
 import sluggify from "../utils/sluggify";
@@ -38,7 +38,7 @@ export default async function postCreateOrUpdate(model: PostEditModel): Promise<
 	}
 
 	// Create or update the article, if applicable
-	if (model.type === ARTICLE_POST) {
+	if (model.type === ARTICLE_POST_TYPE) {
 		const article = {
 			text: model.articleText!,
 			created_at: new Date(),
@@ -56,8 +56,9 @@ export default async function postCreateOrUpdate(model: PostEditModel): Promise<
 	// Create or update the post
 	if (model.id < 0) {
 		const post = {
-			slug: model.type === ARTICLE_POST ? sluggify(model.title!) : uuid(),
+			slug: model.type === ARTICLE_POST_TYPE ? sluggify(model.title!) : uuid(),
 			text: model.text,
+			visibility: model.visibility || 0,
 			type: model.type || 0,
 			image: model.image,
 			articleId: model.articleId,
@@ -79,8 +80,9 @@ export default async function postCreateOrUpdate(model: PostEditModel): Promise<
 		};
 	} else {
 		const post = {
-			slug: model.type === ARTICLE_POST ? sluggify(model.title!) : undefined,
+			slug: model.type === ARTICLE_POST_TYPE ? sluggify(model.title!) : undefined,
 			text: model.text,
+			visibility: model.visibility || 0,
 			type: model.type || 0,
 			image: model.image,
 			articleId: model.articleId,

@@ -6,12 +6,9 @@ import publishPost from "./_actions/publishPost";
 import savePost from "./_actions/savePost";
 
 export default {
-	load: async ({ url }) => {
-		// TODO: Filter by permissions
-		//const user = appData.user;
-		//if (!user) {
-		//	return unauthorized();
-		//}
+	load: async ({ appData, url }) => {
+		const user = appData.user;
+		const follower = appData.follower;
 
 		// Get URL params
 		const page = +(url.searchParams.get("page") || 1);
@@ -21,7 +18,7 @@ export default {
 		search.set("limit", PAGE_SIZE.toString());
 		search.set("offset", ((page - 1) * PAGE_SIZE).toString());
 
-		const { posts, postsCount } = await api.get(`posts?${search}`);
+		const { posts, postsCount } = await api.get(`posts?${search}`, user?.token || follower?.token);
 
 		const pageCount = Math.ceil(postsCount / PAGE_SIZE);
 

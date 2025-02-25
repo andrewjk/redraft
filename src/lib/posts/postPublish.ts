@@ -1,5 +1,6 @@
 import db from "@/data/db";
 import { feedTable, postsTable } from "@/data/schema";
+import { FOLLOWER_POST_VISIBILITY, PUBLIC_POST_VISIBILITY } from "@/data/schema/postsTable";
 import * as api from "@/lib/api";
 import { created, serverError, unauthorized } from "@torpor/build/response";
 import { eq } from "drizzle-orm";
@@ -39,6 +40,7 @@ export default async function postPublish(request: Request, token: string) {
 		const record = {
 			slug: post.slug,
 			text: model.text,
+			visibility: model.visibility,
 			type: model.type,
 			image: model.image,
 			url: model.url,
@@ -55,9 +57,14 @@ export default async function postPublish(request: Request, token: string) {
 			await db.insert(feedTable).values(record);
 		}
 
-		// Send it to all followers
-		// This could take some time, so send it off to be done in an endpoint without awaiting it
-		api.post(`posts/send`, { id: post.id }, token);
+		if (
+			post.visibility === PUBLIC_POST_VISIBILITY ||
+			post.visibility === FOLLOWER_POST_VISIBILITY
+		) {
+			// Send it to all followers
+			// This could take some time, so send it off to be done in an endpoint without awaiting it
+			api.post(`posts/send`, { id: post.id }, token);
+		}
 
 		// Return
 		const view = postPreview(post, currentUser);

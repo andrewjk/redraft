@@ -18,11 +18,11 @@ export default {
 				// HACK: Not sure if this is good, but we need to set the token so
 				// we can call api methods from api methods
 				appData.user.token = token;
-			} else if (decoded?.fuser) {
-				appData.fuser = decoded.fuser;
+			} else if (decoded?.follower) {
+				appData.follower = decoded.follower;
 				// HACK: Not sure if this is good, but we need to set the token so
 				// we can call api methods from api methods
-				appData.fuser.token = token;
+				appData.follower.token = token;
 			}
 		}
 	},

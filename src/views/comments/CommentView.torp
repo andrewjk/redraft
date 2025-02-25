@@ -7,7 +7,7 @@ import CommentPreview from "./CommentPreview.torp"
  * Shows a comment view for display in a list.
  */
 export default function CommentView() {
-	let { post, comment, user, fuser } = $props.data;
+	let { post, comment, user, follower } = $props.data;
 	let $state = $watch({ replying: false })
 
 	let fmt = new Intl.DateTimeFormat(undefined, {
@@ -38,7 +38,7 @@ export default function CommentView() {
 					<div class="comment-view-time" title={fmt.format(new Date(comment.createdAt))}>
 						{relativeTimeSince(new Date(comment.createdAt))}
 					</div>
-					@if (!$props.parent && (user || fuser) && !$state.replying) {
+					@if (!$props.parent && (user || follower) && !$state.replying) {
 						<button type="button" class="link" onclick={() => $state.replying = true}>
 							Reply
 						</button>
@@ -63,7 +63,7 @@ export default function CommentView() {
 			@if (comment.children.length) {
 				<div class="comment-view-children">
 					@for (let child of comment.children) {
-						<CommentPreview {post} comment={child} {user} {fuser} parent={comment.slug} />
+						<CommentPreview {post} comment={child} {user} {follower} parent={comment.slug} />
 					}
 				</div>
 			}

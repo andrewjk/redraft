@@ -4,7 +4,7 @@ import { unauthorized } from "@torpor/build/response";
 
 export default {
 	post: async ({ appData, request }) => {
-		const user = appData.fuser || appData.user;
+		const user = appData.follower || appData.user;
 		if (!user) {
 			return unauthorized();
 		}

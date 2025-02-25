@@ -2,7 +2,7 @@
 import pluralize from "@/lib/utils/pluralize"
 import relativeTimeSince from "@/lib/utils/relativeTimeSince"
 import LinkPreview from '@/views/posts/LinkPreview.torp';
-import { IMAGE_POST, ARTICLE_POST, LINK_POST } from "@/data/schema/postsTable";
+import { IMAGE_POST_TYPE, ARTICLE_POST_TYPE, LINK_POST_TYPE } from "@/data/schema/postsTable";
 
 /**
  * Shows a feed preview for display in a list.
@@ -28,6 +28,19 @@ export default function FeedPreview() {
 				<div class="feed-preview-status" title={fmt.format(new Date(feed.republishedAt))}>
 					Republished {relativeTimeSince(new Date(feed.republishedAt)).toLocaleLowerCase()}
 				</div>
+			}
+			@if (feed.visibility) {
+				<div class="feed-preview-status">
+					Visibility {visibilityText()}
+				</div>
+				@function visibilityText() {
+					switch (feed.visibility) {
+						case 0: return "public";
+						case 1: return "followers";
+						case 2: return "private";
+						case 3: return "recipients";
+					}
+				}
 			}
 			<div class="feed-preview-header hstack centered spaced">
 				<a href={feed.author.url}>
@@ -101,15 +114,15 @@ export default function FeedPreview() {
 			<div class="feed-preview-body">
 				<a class="feed-preview-link" href="{feed.author.url}posts/{feed.slug}">
 					@switch (feed.type) {
-						case ARTICLE_POST: {
+						case ARTICLE_POST_TYPE: {
 							<h3>{feed.title}</h3>
 							<p>{feed.text}</p>
 						}
-						case IMAGE_POST: {
+						case IMAGE_POST_TYPE: {
 							<p>{feed.text}</p>
 							<img class="feed-preview-image" src={feed.image} alt={feed.imageAlt} />
 						}
-						case LINK_POST: {
+						case LINK_POST_TYPE: {
 							<p>{feed.text}</p>
 						}
 						default: {
@@ -118,13 +131,13 @@ export default function FeedPreview() {
 					}
 				</a>
 				@// NOTE: This has to go outside of the feed anchor
-				@if (feed.type === LINK_POST) {
+				@if (feed.type === LINK_POST_TYPE) {
 					<LinkPreview link={feed} />
 				}
 			</div>
 
 			<div class="feed-preview-footer hstack spaced">
-				@if (feed.type === ARTICLE_POST) {
+				@if (feed.type === ARTICLE_POST_TYPE) {
 					<a href="{feed.author.url}posts/{feed.slug}">
 						Read article
 					</a>
