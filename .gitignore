@@ -15,6 +15,9 @@ temp
 *.db
 .env*
 
+.output/
+.vinxi/
+
 # Editor directories and files
 .vscode/*
 !.vscode/extensions.json
