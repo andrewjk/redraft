@@ -26,7 +26,7 @@ export default function FeedPreview() {
 		<div class="feed-preview card">
 			@if (feed.republishedAt) {
 				<div class="feed-preview-status" title={fmt.format(new Date(feed.republishedAt))}>
-					Republished {relativeTimeSince(new Date(feed.republishedAt)).toLocaleLowerCase()}
+					Republished {relativeTimeSince(new Date(feed.republishedAt))}
 				</div>
 			}
 			@if (feed.visibility) {

@@ -25,7 +25,7 @@ export default function PostPreview() {
 			}
 			@if (post.republishedAt) {
 				<div class="post-preview-status" title={fmt.format(new Date(post.republishedAt))}>
-					Republished {relativeTimeSince(new Date(post.republishedAt)).toLocaleLowerCase()}
+					Republished {relativeTimeSince(new Date(post.republishedAt))}
 				</div>
 			}
 			@if (post.visibility) {
