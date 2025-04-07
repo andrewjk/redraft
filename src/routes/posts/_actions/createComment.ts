@@ -1,9 +1,9 @@
 import * as api from "@/lib/api";
 import formDataToObject from "@/lib/utils/formDataToObject";
-import { type ServerEvent } from "@torpor/build";
+import { type ServerLoadEvent } from "@torpor/build";
 import { unauthorized, unprocessable } from "@torpor/build/response";
 
-export default async function createComment({ appData, request }: ServerEvent) {
+export default async function createComment({ appData, request }: ServerLoadEvent) {
 	// Comments can be made by a following user, or by the main user
 	const user = appData.follower || appData.user;
 	if (!user) {

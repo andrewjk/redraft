@@ -2,10 +2,10 @@ import * as api from "@/lib/api";
 import { uploadFile } from "@/lib/storage";
 import formDataToObject from "@/lib/utils/formDataToObject";
 import uuid from "@/lib/utils/uuid";
-import { type ServerEvent } from "@torpor/build";
+import { type ServerLoadEvent } from "@torpor/build";
 import { redirect, unauthorized, unprocessable } from "@torpor/build/response";
 
-export default async function savePost({ appData, request }: ServerEvent) {
+export default async function savePost({ appData, request }: ServerLoadEvent) {
 	const user = appData.user;
 	if (!user) {
 		return unauthorized();

@@ -1,9 +1,9 @@
 import * as api from "@/lib/api";
 import formDataToObject from "@/lib/utils/formDataToObject";
-import { type ServerEvent } from "@torpor/build";
+import { type ServerLoadEvent } from "@torpor/build";
 import { unauthorized, unprocessable } from "@torpor/build/response";
 
-export default async function saveFeedPost({ appData, request }: ServerEvent) {
+export default async function saveFeedPost({ appData, request }: ServerLoadEvent) {
 	const user = appData.user;
 	if (!user) {
 		return unauthorized();
