@@ -12,9 +12,6 @@ Social Media x Blogging x Newsletters
 
 ## Things to do
 
-- Put an auth function on @torpor/build endpoints??
-- Have a better error when you have an anchor in an anchor (and other things that are forbidden)?
-
 - Use one-time passwords for logging into other sites
 - With a browser plugin to auto-login (only when commenting or otherwise interacting)
 
@@ -55,7 +52,6 @@ Social Media x Blogging x Newsletters
 - [ ] Realtime updates w/ sockets
 - [x] Editing profile should propagate to following/followers
 - [ ] Deploy
-
 - [x] Liking
 - [x] Reacting
   - [x] Heart, thumbs up, thumbs down, laugh, shock, sad
@@ -86,17 +82,18 @@ Social Media x Blogging x Newsletters
   - [ ] Custom ToS, legal pages etc
   - [ ] Default post visibility
 - etc
-
 - [ ] Need a way to deal with out-of-date followers, where their api/db may not be compatible
 
-- [ ] Chat
-- [ ] Audio
-- [ ] Video
-- [ ] Polls
-- [ ] Events
-- [ ] Groups
-- etc
+### Extended functionality
 
+- [ ] More communication types
+  - [ ] Chat
+  - [ ] Audio
+  - [ ] Video
+  - [ ] Polls
+  - [ ] Events
+  - [ ] Groups
+  - etc
 - [ ] Open Graph
   - [x] Post
   - [ ] Everywhere else that has a <:head>
@@ -107,19 +104,20 @@ Social Media x Blogging x Newsletters
 - [ ] Sign up to communicate with a single user on their page??
   - Maybe expand the followedBy table to have a password?
 - [ ] Encryption
-
 - [ ] Browser extension
-
 - [ ] App
 
 ## Setup
 
 - Fork the repo
-- Deploy it
-  - Set SITE_LOCATION env variable to the URL which will be shared with others
-  - Set DB_CONNECTION env variable, pointing to an SQLite database
-  - Set USERNAME env variable, which will be used to login the first time
 - Customise CSS in src/assets/custom.css
+- Set environment variables in a `.env` file for dev and in your production environment
+  - Set `SITE_LOCATION` to the URL which will be shared with others
+  - Set `DB_CONNECTION`, pointing to an SQLite database
+  - Set `JWT_SECRET` to a random passphrase for encrypting your user token
+  - Set `USERNAME` and `PASSWORD`, which will be used to login the first time
+- Run `npm run db:push` to create the database
+- Deploy the site
 
 ## How following works
 
