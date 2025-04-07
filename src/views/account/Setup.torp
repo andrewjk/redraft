@@ -1,0 +1,103 @@
+//import { enhance } from '$app/forms';
+import FormErrors from '@/views/FormErrors.torp';
+
+export default function Setup() {
+	@render {
+		<div class="vstack centered">
+			<div class="setup-page">
+				<:head>
+					<title>Setup • Social</title>
+				</:head>
+
+				<h2>Setup</h2>
+
+				<FormErrors errors={$props.form?.errors} />
+
+				<form use:enhance enctype="multipart/form-data" method="POST">
+					<div class="form-row">
+						<label for="username">Username</label>
+						<input
+							name="username"
+							required
+						/>
+					</div>
+					<div class="form-row">
+						<label for="password">Password</label>
+						<input
+							name="password"
+							type="password"
+							required
+						/>
+					</div>
+					<div class="form-row">
+						<label for="email">Image</label
+						<div class="hstack spaced centered">
+							<div id="image-preview" />
+							<input
+								name="imagefile"
+								type="file"
+								accept="image/*"
+								onchange={fileSelected}
+							/>
+						</div>
+					</div>
+					@function fileSelected(e) {
+						console.log("HEY")
+						const image = e.target.files[0];
+						if (!image.type.includes("image")) {
+							return;
+						}
+						const fileReader = new FileReader();
+						fileReader.readAsDataURL(image);
+						fileReader.onload = (ev) => {
+							const preview = document.getElementById("image-preview");
+							preview.style.backgroundImage = `url('${ev.target.result}')`;
+						}
+					}
+					<div class="form-row">
+						<label for="email">Email</label>
+						<input
+							name="email"
+							type="email"
+							required
+						/>
+					</div>
+					<div class="form-row">
+						<label for="name">Name</label>
+						<input
+							name="name"
+							required
+						/>
+					</div>
+					<div class="form-row">
+						<label for="bio">Bio</label>
+						<input name="bio" />
+					</div>
+					<div class="form-row">
+						<label for="location">Location</label>
+						<input name="location" />
+					</div>
+					<div class="form-footer">
+						<button type="submit">
+							Setup
+						</button>
+					</div>
+				</form>
+			</div>
+		</div>
+	}
+
+	@style {
+		.setup-page {
+			max-width: 60rem;
+			width: 100%;
+		}
+
+		#image-preview {
+			height: 100px;
+			width: 100px;
+			background-size: cover;
+			border-radius: 50%;
+		}
+	}
+}

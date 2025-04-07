@@ -1,6 +1,8 @@
 import * as api from "@/lib/api.js";
+import { uploadFile } from "@/lib/storage";
 import formDataToObject from "@/lib/utils/formDataToObject";
 import setUserToken from "@/lib/utils/setUserToken";
+import uuid from "@/lib/utils/uuid";
 import { type PageServerEndPoint } from "@torpor/build";
 import { redirect, seeOther, unprocessable } from "@torpor/build/response";
 
@@ -16,7 +18,15 @@ export default {
 			const data = await request.formData();
 			const model = formDataToObject(data);
 
-			const result = await api.post("account/register", model);
+			// Save the image if it's been uploaded
+			model.imagefile = data.get("imagefile");
+			if (model.imagefile?.name) {
+				let name = uuid() + "." + model.imagefile.name.split(".").at(-1);
+				await uploadFile(model.imagefile, name);
+				model.image = `${process.env.SITE_LOCATION}api/content/${name}`;
+			}
+
+			const result = await api.post("account/setup", model);
 			if (result.errors) {
 				return unprocessable(result);
 			}
