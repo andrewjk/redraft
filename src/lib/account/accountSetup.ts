@@ -34,7 +34,7 @@ export default async function accountSetup(request: Request) {
 			// TODO: Get this from the request headers?
 			url: process.env.SITE_LOCATION!,
 			password: hashed,
-			name: model.name ?? "",
+			name: model.name,
 			bio: model.bio ?? "",
 			image: model.image ?? "",
 			location: model.location ?? "",

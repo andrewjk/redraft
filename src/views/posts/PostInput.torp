@@ -1,5 +1,4 @@
 //import { enhance } from '$app/forms';
-import { placeholder } from '@/lib/constants';
 import loadLinkInfo from '@/lib/utils/loadLinkInfo';
 import ImageUpload from '@/views/ImageUpload.torp';
 import LinkPreview from '@/views/posts/LinkPreview.torp';
