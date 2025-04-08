@@ -2,7 +2,7 @@ import { $page } from "@torpor/build/state";
 
 export default function Error() {
 	@render {
-		<div>
+		<div class="error-page">
 			<:head>
 				<title>{$page.status}</title>
 			</:head>

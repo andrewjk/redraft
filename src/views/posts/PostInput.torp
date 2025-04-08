@@ -4,6 +4,11 @@ import loadLinkInfo from '@/lib/utils/loadLinkInfo';
 import ImageUpload from '@/views/ImageUpload.torp';
 import LinkPreview from '@/views/posts/LinkPreview.torp';
 import { IMAGE_POST_TYPE, ARTICLE_POST_TYPE, LINK_POST_TYPE } from "@/data/schema/postsTable";
+import Image from "phosphor-torpor/lib/Image";
+import Link from "phosphor-torpor/lib/Link";
+import Article from "phosphor-torpor/lib/Article";
+import Tag from "phosphor-torpor/lib/Tag";
+import UsersThree from "phosphor-torpor/lib/UsersThree";
 
 /**
  * Allows creating a post.
@@ -109,20 +114,20 @@ export default function PostInput($props) {
 			<div class="hstack spaced post-input-footer">
 				@if (!post.type) {
 					<button type="button" class="link" onclick={() => post.type = IMAGE_POST_TYPE}>
-						+ Image
+						<Image />
 					</button>
 					<button type="button" class="link" onclick={() => post.type = LINK_POST_TYPE}>
-						+ Link
+						<Link />
 					</button>
 					<button type="button" class="link" onclick={() => post.type = ARTICLE_POST_TYPE}>
-						+ Article
+						<Article />
 					</button>
 				}
 				<button type="button" class="link" onclick={() => $state.showTags = !$state.showTags}>
-					+ Tags
+					<Tag />
 				</button>
 				<button type="button" class="link" onclick={() => $state.showVisibility = !$state.showVisibility}>
-					+ Visibility
+					<UsersThree />
 				</button>
 				<div class="spacer" />
 				<button type="submit" formaction="?/savePost">

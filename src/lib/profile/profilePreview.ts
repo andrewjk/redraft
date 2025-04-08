@@ -13,6 +13,7 @@ export default async function profilePreview() {
 		name: user.name,
 		image: user.image,
 		bio: user.bio,
+		location: user.location,
 	};
 
 	return ok(view);

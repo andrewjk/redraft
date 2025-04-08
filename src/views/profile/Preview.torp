@@ -1,4 +1,7 @@
 import { $page } from '@torpor/build/state';
+import MapPinSimpleArea from "phosphor-torpor/lib/MapPinSimpleArea";
+import Pencil from "phosphor-torpor/lib/Pencil";
+import SignOut from "phosphor-torpor/lib/SignOut";
 
 export default function Preview($props) {
 	@render {
@@ -6,19 +9,28 @@ export default function Preview($props) {
 			<div class="vstack spaced centered profile-details">
 				<h2>{$props.profile.name}</h2>
 				<img src={$props.profile.image} class="profile-image" alt="{$props.profile.name} ({$props.profile.url})" />
-				@if ($props.profile.bio) {
-					<p>{$props.profile.bio}</p>
-				}
+				<div class="vstack spaced">
+					@if ($props.profile.bio) {
+						<div>{$props.profile.bio}</div>
+					}
+					@if ($props.profile.location) {
+						<div class="hstack spaced centered">
+							<MapPinSimpleArea />
+							{$props.profile.location}
+						</div>
+					}
+				</div>
 			</div>
 
 			@if ($props.user) {
 				<div class="hstack spaced centered profile-options">
 					<a href="/profile/edit">
-						Edit profile
+						<Pencil />
 					</a>
-					<span class="menu-separator" />
 					<form use:enhance method="POST" action="?/logout">
-						<button class="link">Logout</button>
+						<button class="link">
+							<SignOut />
+						</button>
 					</form>
 				</div>
 			}

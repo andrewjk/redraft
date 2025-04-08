@@ -1,4 +1,7 @@
 import { $page } from '@torpor/build/state';
+import Pencil from "phosphor-torpor/lib/Pencil";
+import SignOut from "phosphor-torpor/lib/SignOut";
+import MapPinSimpleArea from "phosphor-torpor/lib/MapPinSimpleArea";
 
 export default function Index($props) {
 	@render {
@@ -10,12 +13,17 @@ export default function Index($props) {
 			<div class="vstack centered spaced profile-details">
 				<h2>{$props.data.profile.name}</h2>
 				<img src={$props.data.profile.image} class="profile-image" alt="{$props.data.profile.name} ({$props.data.profile.url})" />
-				@if ($props.data.profile.bio) {
-					<p>{$props.data.profile.bio}</p>
-				}
-				@if ($props.data.profile.location) {
-					<p>Location: {$props.data.profile.location}</p>
-				}
+				<div class="vstack spaced">
+					@if ($props.data.profile.bio) {
+						<div>{$props.data.profile.bio}</div>
+					}
+					@if ($props.data.profile.location) {
+						<div class="hstack spaced centered">
+							<MapPinSimpleArea />
+							{$props.data.profile.location}
+						</div>
+					}
+				</div>
 				@if ($props.data.profile.links.length) {
 					<div class="hstack spaced separated">
 						Links:
@@ -42,11 +50,12 @@ export default function Index($props) {
 
 			<div class="hstack spaced profile-options">
 				<a href="/profile/edit">
-					Edit
+					<Pencil />
 				</a>
-				<span class="menu-separator" />
 				<form use:enhance method="POST" action="?/logout">
-					<button class="link">Logout</button>
+					<button class="link">
+						<SignOut />
+					</button>
 				</form>
 			</div>
 		</div>
