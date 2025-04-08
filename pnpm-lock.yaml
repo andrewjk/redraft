@@ -15,11 +15,11 @@ importers:
         specifier: ^0.15.2
         version: 0.15.2
       '@torpor/adapter-node':
-        specifier: ^0.0.1
-        version: 0.0.1(@types/node@22.14.0)(esbuild@0.19.12)(jiti@2.4.2)(rollup@4.39.0)(terser@5.39.0)(tsx@4.19.3)(typescript@5.8.3)
+        specifier: ^0.0.4
+        version: 0.0.4(@types/node@22.14.0)(esbuild@0.19.12)(jiti@2.4.2)(rollup@4.39.0)(terser@5.39.0)(tsx@4.19.3)(typescript@5.8.3)
       '@torpor/view':
-        specifier: ^0.0.7
-        version: 0.0.7
+        specifier: ^0.0.10
+        version: 0.0.10
       bcryptjs:
         specifier: ^3.0.2
         version: 3.0.2
@@ -47,6 +47,9 @@ importers:
       micromark-extension-gfm:
         specifier: ^3.0.0
         version: 3.0.0
+      phosphor-torpor:
+        specifier: ^1.0.0
+        version: 1.0.0(@torpor/view@0.0.10)(vite@6.2.5(@types/node@22.14.0)(jiti@2.4.2)(terser@5.39.0)(tsx@4.19.3))
       uuid:
         specifier: ^11.1.0
         version: 11.1.0
@@ -55,8 +58,11 @@ importers:
         version: 1.0.0(typescript@5.8.3)
     devDependencies:
       '@torpor/build':
-        specifier: ^0.1.4
-        version: 0.1.4(@types/node@22.14.0)(esbuild@0.19.12)(jiti@2.4.2)(rollup@4.39.0)(terser@5.39.0)(tsx@4.19.3)(typescript@5.8.3)
+        specifier: ^0.1.7
+        version: 0.1.7(@types/node@22.14.0)(esbuild@0.19.12)(jiti@2.4.2)(rollup@4.39.0)(terser@5.39.0)(tsx@4.19.3)(typescript@5.8.3)
+      '@torpor/unplugin':
+        specifier: ^0.1.3
+        version: 0.1.3(esbuild@0.19.12)(rollup@4.39.0)(vite@6.2.5(@types/node@22.14.0)(jiti@2.4.2)(terser@5.39.0)(tsx@4.19.3))
       '@trivago/prettier-plugin-sort-imports':
         specifier: ^5.2.2
         version: 5.2.2(prettier@3.5.3)
@@ -1524,15 +1530,15 @@ packages:
   '@speed-highlight/core@1.2.7':
     resolution: {integrity: sha512-0dxmVj4gxg3Jg879kvFS/msl4s9F3T9UXC1InxgOf7t5NvcPD97u/WTA5vL/IxWHMn7qSxBozqrnnE2wvl1m8g==}
 
-  '@torpor/adapter-node@0.0.1':
-    resolution: {integrity: sha512-eOBsP2TwpCQ/bUJ/SjscT6ZHJveeJqTEzWacZ4uJw2vUZfkTetUKJV2PEoCrjbhRal4bBjWBZXSNdO5ddEm7kg==}
+  '@torpor/adapter-node@0.0.4':
+    resolution: {integrity: sha512-iy4gukyLN7BZz+WHRLspgSoWE5se0/5NRnhc0ldLqzcclGdt1hrIi82nKi6LdfmBLqQ7MMeOI+D/OH13y9MFYQ==}
 
-  '@torpor/build@0.1.4':
-    resolution: {integrity: sha512-8bj4bGy7JRBCyUX/xyHOXAUXikL9amy7IukE3+UCAPcGB0/easgUZS9nA6r5ak2LHqlU7k2OPgc+0Lq6+3iang==}
+  '@torpor/build@0.1.7':
+    resolution: {integrity: sha512-+jDPZl6i4gnHR/V/ZYCzgknF1nVrQdkHQqHZg3xERBcTayRHikjO8Q2dmN5EPtpCk/SMtSnvVNz4yIsClaA9JQ==}
     hasBin: true
 
-  '@torpor/unplugin@0.1.0':
-    resolution: {integrity: sha512-DYsDKdTp1OuayrTpncg5DJVzHxGvVnTvib3dRwg0wDk3Yeh5LQmwEW+1bsokivZw0M/311jOQ6/pjPADeOPJbg==}
+  '@torpor/unplugin@0.1.3':
+    resolution: {integrity: sha512-jx5tviW1uni1gHVUwCBFcsWvJ84B/IOp1sziZPNXWD1h6C0weqwUzrvkePfX63OUF0Bb/SgAHWj29WZIMreFGw==}
     peerDependencies:
       '@nuxt/kit': ^3
       '@nuxt/schema': ^3
@@ -1554,8 +1560,8 @@ packages:
       webpack:
         optional: true
 
-  '@torpor/view@0.0.7':
-    resolution: {integrity: sha512-oxnBy7epulD8pyFXdBO4juDErrGG+sY1Jx3fbR0hcoLrLQar2AoDzrpUXS6zyPkBvuQODj53Tgebe/jL8kg+fw==}
+  '@torpor/view@0.0.10':
+    resolution: {integrity: sha512-iyBgjsHqiQm7D8WjW188zewYh2Kofd/D6Wnk8wjpOokGhI75AC48/zvppaKrxvHxmirrvpNoVyDcOfC+eIgQIg==}
 
   '@trivago/prettier-plugin-sort-imports@5.2.2':
     resolution: {integrity: sha512-fYDQA9e6yTNmA13TLVSA+WMQRc5Bn/c0EUBditUHNfMMxN7M82c38b1kEggVE3pLpZ0FwkwJkUEKMiOi52JXFA==}
@@ -2072,8 +2078,8 @@ packages:
   ee-first@1.1.1:
     resolution: {integrity: sha512-WMwm9LhRUo+WUaRN+vRuETqG89IgZphVSNkdFgeb6sS/E4OrDIN7t48CAewSHXc6C8lefD8KKfr5vY61brQlow==}
 
-  electron-to-chromium@1.5.132:
-    resolution: {integrity: sha512-QgX9EBvWGmvSRa74zqfnG7+Eno0Ak0vftBll0Pt2/z5b3bEGYL6OUXLgKPtvx73dn3dvwrlyVkjPKRRlhLYTEg==}
+  electron-to-chromium@1.5.134:
+    resolution: {integrity: sha512-zSwzrLg3jNP3bwsLqWHmS5z2nIOQ5ngMnfMZOWWtXnqqQkPVyOipxK98w+1beLw1TB+EImPNcG8wVP/cLVs2Og==}
 
   emoji-regex@8.0.0:
     resolution: {integrity: sha512-MSjYzcWNOA0ewAHpz0MxpYFvwg6yjy1NG3xteoqz644VCo/RPgnr1/GGt+ic3iJTzQ8Eu3TdM14SawnVUmGE6A==}
@@ -2792,6 +2798,15 @@ packages:
   perfect-debounce@1.0.0:
     resolution: {integrity: sha512-xCy9V055GLEqoFaHoC1SoLIaLmWctgCUaBaWxDZ7/Zx4CTyX7cJQLJOok/orfjZAh9kEYpjJa4d0KcJmCbctZA==}
 
+  phosphor-torpor@1.0.0:
+    resolution: {integrity: sha512-4hYxt3qveWRlo5T2VV7b9pMmF7wOG2cMCDQ3Z8/vgwG5Ny6WoE0CEYd/mNrCY08ZLutjjIpIy1dGdftxOwr+Pw==}
+    peerDependencies:
+      '@torpor/view': ^0.0.1
+      vite: '>=5'
+    peerDependenciesMeta:
+      vite:
+        optional: true
+
   picocolors@1.1.1:
     resolution: {integrity: sha512-xceH2snhtb5M9liqDsmEw56le376mTZkEX/jEb/RxNFyegNul7eNslCXP9FDj/Lcu0X8KEyMceP2ntpaHrDEVA==}
 
@@ -3118,8 +3133,8 @@ packages:
     engines: {node: '>=14.17'}
     hasBin: true
 
-  ufo@1.5.4:
-    resolution: {integrity: sha512-UsUk3byDzKd04EyoZ7U4DOlxQaD14JUKQl6/P7wiX4FNvUfm3XL246n9W5AmqwW5RSFJ27NAuM0iLscAOYUiGQ==}
+  ufo@1.6.0:
+    resolution: {integrity: sha512-AkgU2cV/+Xb4Uz6cic0kMZbtM42nbltnGvTVOt/8gMCbO2/z64nE47TOygh7HjgFPkUkVRBEyNFqpqi3zo+BJA==}
 
   ultrahtml@1.6.0:
     resolution: {integrity: sha512-R9fBn90VTJrqqLDwyMph+HGne8eqY1iPfYhPzZrvKpIfwkWZbcYlfpsb8B9dTvBfpy1/hqAD7Wi8EKfP9e8zdw==}
@@ -4943,9 +4958,9 @@ snapshots:
 
   '@speed-highlight/core@1.2.7': {}
 
-  '@torpor/adapter-node@0.0.1(@types/node@22.14.0)(esbuild@0.19.12)(jiti@2.4.2)(rollup@4.39.0)(terser@5.39.0)(tsx@4.19.3)(typescript@5.8.3)':
+  '@torpor/adapter-node@0.0.4(@types/node@22.14.0)(esbuild@0.19.12)(jiti@2.4.2)(rollup@4.39.0)(terser@5.39.0)(tsx@4.19.3)(typescript@5.8.3)':
     dependencies:
-      '@torpor/build': 0.1.4(@types/node@22.14.0)(esbuild@0.19.12)(jiti@2.4.2)(rollup@4.39.0)(terser@5.39.0)(tsx@4.19.3)(typescript@5.8.3)
+      '@torpor/build': 0.1.7(@types/node@22.14.0)(esbuild@0.19.12)(jiti@2.4.2)(rollup@4.39.0)(terser@5.39.0)(tsx@4.19.3)(typescript@5.8.3)
       vite: 6.2.5(@types/node@22.14.0)(jiti@2.4.2)(terser@5.39.0)(tsx@4.19.3)
     transitivePeerDependencies:
       - '@nuxt/kit'
@@ -4967,10 +4982,10 @@ snapshots:
       - webpack
       - yaml
 
-  '@torpor/build@0.1.4(@types/node@22.14.0)(esbuild@0.19.12)(jiti@2.4.2)(rollup@4.39.0)(terser@5.39.0)(tsx@4.19.3)(typescript@5.8.3)':
+  '@torpor/build@0.1.7(@types/node@22.14.0)(esbuild@0.19.12)(jiti@2.4.2)(rollup@4.39.0)(terser@5.39.0)(tsx@4.19.3)(typescript@5.8.3)':
     dependencies:
-      '@torpor/unplugin': 0.1.0(esbuild@0.19.12)(rollup@4.39.0)(vite@6.2.5(@types/node@22.14.0)(jiti@2.4.2)(terser@5.39.0)(tsx@4.19.3))
-      '@torpor/view': 0.0.7
+      '@torpor/unplugin': 0.1.3(esbuild@0.19.12)(rollup@4.39.0)(vite@6.2.5(@types/node@22.14.0)(jiti@2.4.2)(terser@5.39.0)(tsx@4.19.3))
+      '@torpor/view': 0.0.10
       cookie: 1.0.2
       dotenv: 16.4.7
       vite: 6.2.5(@types/node@22.14.0)(jiti@2.4.2)(terser@5.39.0)(tsx@4.19.3)
@@ -4995,16 +5010,16 @@ snapshots:
       - webpack
       - yaml
 
-  '@torpor/unplugin@0.1.0(esbuild@0.19.12)(rollup@4.39.0)(vite@6.2.5(@types/node@22.14.0)(jiti@2.4.2)(terser@5.39.0)(tsx@4.19.3))':
+  '@torpor/unplugin@0.1.3(esbuild@0.19.12)(rollup@4.39.0)(vite@6.2.5(@types/node@22.14.0)(jiti@2.4.2)(terser@5.39.0)(tsx@4.19.3))':
     dependencies:
-      '@torpor/view': 0.0.7
+      '@torpor/view': 0.0.10
       unplugin: 2.2.2
     optionalDependencies:
       esbuild: 0.19.12
       rollup: 4.39.0
       vite: 6.2.5(@types/node@22.14.0)(jiti@2.4.2)(terser@5.39.0)(tsx@4.19.3)
 
-  '@torpor/view@0.0.7': {}
+  '@torpor/view@0.0.10': {}
 
   '@trivago/prettier-plugin-sort-imports@5.2.2(prettier@3.5.3)':
     dependencies:
@@ -5081,7 +5096,7 @@ snapshots:
       node-forge: 1.3.1
       pathe: 1.1.2
       std-env: 3.9.0
-      ufo: 1.5.4
+      ufo: 1.6.0
       untun: 0.1.3
       uqr: 0.1.2
 
@@ -5183,7 +5198,7 @@ snapshots:
   browserslist@4.24.4:
     dependencies:
       caniuse-lite: 1.0.30001712
-      electron-to-chromium: 1.5.132
+      electron-to-chromium: 1.5.134
       node-releases: 2.0.19
       update-browserslist-db: 1.1.3(browserslist@4.24.4)
 
@@ -5423,7 +5438,7 @@ snapshots:
 
   ee-first@1.1.1: {}
 
-  electron-to-chromium@1.5.132: {}
+  electron-to-chromium@1.5.134: {}
 
   emoji-regex@8.0.0: {}
 
@@ -5719,7 +5734,7 @@ snapshots:
       iron-webcrypto: 1.2.1
       ohash: 1.1.6
       radix3: 1.1.2
-      ufo: 1.5.4
+      ufo: 1.6.0
       uncrypto: 0.1.3
       unenv: 1.10.0
 
@@ -5732,7 +5747,7 @@ snapshots:
       iron-webcrypto: 1.2.1
       node-mock-http: 1.0.0
       radix3: 1.1.2
-      ufo: 1.5.4
+      ufo: 1.6.0
       uncrypto: 0.1.3
 
   hasown@2.0.2:
@@ -5921,7 +5936,7 @@ snapshots:
       node-forge: 1.3.1
       pathe: 1.1.2
       std-env: 3.9.0
-      ufo: 1.5.4
+      ufo: 1.6.0
       untun: 0.1.3
       uqr: 0.1.2
 
@@ -6177,7 +6192,7 @@ snapshots:
       acorn: 8.14.1
       pathe: 2.0.3
       pkg-types: 1.3.1
-      ufo: 1.5.4
+      ufo: 1.6.0
 
   ms@2.0.0: {}
 
@@ -6246,7 +6261,7 @@ snapshots:
       serve-static: 1.16.2
       source-map: 0.7.4
       std-env: 3.9.0
-      ufo: 1.5.4
+      ufo: 1.6.0
       ultrahtml: 1.6.0
       uncrypto: 0.1.3
       unctx: 2.4.1
@@ -6331,7 +6346,7 @@ snapshots:
     dependencies:
       destr: 2.0.5
       node-fetch-native: 1.6.6
-      ufo: 1.5.4
+      ufo: 1.6.0
 
   ohash@1.1.6: {}
 
@@ -6377,6 +6392,14 @@ snapshots:
   pathe@2.0.3: {}
 
   perfect-debounce@1.0.0: {}
+
+  phosphor-torpor@1.0.0(@torpor/view@0.0.10)(vite@6.2.5(@types/node@22.14.0)(jiti@2.4.2)(terser@5.39.0)(tsx@4.19.3)):
+    dependencies:
+      '@torpor/view': 0.0.10
+      estree-walker: 3.0.3
+      magic-string: 0.30.17
+    optionalDependencies:
+      vite: 6.2.5(@types/node@22.14.0)(jiti@2.4.2)(terser@5.39.0)(tsx@4.19.3)
 
   picocolors@1.1.1: {}
 
@@ -6714,7 +6737,7 @@ snapshots:
 
   typescript@5.8.3: {}
 
-  ufo@1.5.4: {}
+  ufo@1.6.0: {}
 
   ultrahtml@1.6.0: {}
 
@@ -6745,7 +6768,7 @@ snapshots:
       exsolve: 1.0.4
       ohash: 2.0.11
       pathe: 2.0.3
-      ufo: 1.5.4
+      ufo: 1.6.0
 
   unicorn-magic@0.3.0: {}
 
@@ -6790,7 +6813,7 @@ snapshots:
       lru-cache: 10.4.3
       node-fetch-native: 1.6.6
       ofetch: 1.4.1
-      ufo: 1.5.4
+      ufo: 1.6.0
     optionalDependencies:
       db0: 0.3.1(@libsql/client@0.15.2)(drizzle-orm@0.41.0(@libsql/client@0.15.2)(gel@2.0.2))
       ioredis: 5.6.0
@@ -6866,7 +6889,7 @@ snapshots:
       resolve: 1.22.10
       serve-placeholder: 2.0.2
       serve-static: 1.16.2
-      ufo: 1.5.4
+      ufo: 1.6.0
       unctx: 2.4.1
       unenv: 1.10.0
       unstorage: 1.15.0(db0@0.3.1(@libsql/client@0.15.2)(drizzle-orm@0.41.0(@libsql/client@0.15.2)(gel@2.0.2)))(ioredis@5.6.0)
