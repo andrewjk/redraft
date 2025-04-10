@@ -1,12 +1,13 @@
-type User = {
+import { CookieHelper } from "@torpor/build/server";
+
+type Follower = {
 	url: string;
 	name: string;
 	image: string;
 	token: string;
 };
 
-// TODO: Export CookieHelper from @torpor/build
-export default function setFollowerToken(cookies: any, user: User) {
-	const value = btoa(JSON.stringify(user));
+export default function setFollowerToken(cookies: CookieHelper, follower: Follower) {
+	const value = btoa(JSON.stringify(follower));
 	cookies.set("fjwt", value, { path: "/", sameSite: "none", secure: true });
 }

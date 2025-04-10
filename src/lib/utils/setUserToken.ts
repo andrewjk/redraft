@@ -1,12 +1,13 @@
-type CookieUser = {
+import { CookieHelper } from "@torpor/build/server";
+
+type User = {
 	url: string;
 	name: string;
 	image: string;
 	token: string;
 };
 
-// TODO: Export CookieHelper from @torpor/build
-export default function setUserToken(cookies: any, user: CookieUser) {
+export default function setUserToken(cookies: CookieHelper, user: User) {
 	const value = btoa(JSON.stringify(user));
 	cookies.set("jwt", value, { path: "/" });
 }

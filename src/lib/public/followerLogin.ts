@@ -1,6 +1,7 @@
 import db from "@/data/db";
 import { followedByTable } from "@/data/schema";
 import { notFound, redirect, serverError } from "@torpor/build/response";
+import { CookieHelper } from "@torpor/build/server";
 import { eq } from "drizzle-orm";
 import createFollowerToken from "../utils/createFollowerToken";
 import getErrorMessage from "../utils/getErrorMessage";
@@ -12,7 +13,7 @@ import setFollowerToken from "../utils/setFollowerToken";
 
 export default async function followerLogin(
 	/*request: Request, */ sharedKey: string,
-	cookies: any,
+	cookies: CookieHelper,
 ) {
 	try {
 		//const model: FollowerLoginModel = await request.json();
