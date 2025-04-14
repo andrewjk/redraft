@@ -10,7 +10,7 @@ import { contentTable } from "@/data/schema";
 //
 //const S3 = new S3Client({
 //	region: "auto",
-//	endpoint: `${process.env.URL}api/storage`,
+//	endpoint: `${process.env.SITE_LOCATION}api/storage`,
 //	credentials: {
 //		accessKeyId: "ACCESS_KEY_ID",
 //		secretAccessKey: "SECRET_ACCESS_KEY",

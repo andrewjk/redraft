@@ -34,7 +34,7 @@ export default {
 			model.imagefile = data.get("imagefile");
 			if (model.imagefile?.name) {
 				let name = uuid() + "." + model.imagefile.name.split(".").at(-1);
-				//const url = `${process.env.URL}api/storage`;
+				//const url = `${process.env.SITE_LOCATION}api/storage`;
 				//let upload = new FormData();
 				//upload.set("file", model.imagefile);
 				//upload.set("name", name);
