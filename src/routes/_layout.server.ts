@@ -5,7 +5,9 @@ export default {
 	load: ({ appData }) => {
 		const user = appData.user;
 		const follower = appData.follower;
+		const url = process.env.SITE_LOCATION;
 		return ok({
+			url,
 			user: user && {
 				url: user.url,
 				name: user.name,

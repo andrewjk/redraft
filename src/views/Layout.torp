@@ -3,6 +3,10 @@ import { $page, $navigation } from "@torpor/build/state";
 export default function Layout() {
 	@render {
 		<div class="app-layout">
+			<:head>
+				<meta name="redraft-follow" content={$props.data.url} />
+			</:head>
+
 			<Nav user={$props.data.user} follower={$props.data.follower} />
 
 			<main>
