@@ -8,8 +8,8 @@ export default function CommentInput() {
 
 	@render {
 		<form class="full-width comment-input" method="POST" action="?/createComment">
-			<input type="hidden" name="postslug" value={post.slug} />
-			<input type="hidden" name="parentslug" value={$props.parent} />
+			<input type="hidden" name="parentSlug" value={$props.parent} />
+			<input type="hidden" name="postSlug" value={post.slug} />
 
 			<textarea
 				class="full-width"

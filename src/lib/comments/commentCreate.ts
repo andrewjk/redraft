@@ -8,8 +8,8 @@ import uuid from "../utils/uuid";
 import commentPreview from "./commentPreview";
 
 export type CommentCreateModel = {
-	postslug: string;
-	parentslug: string;
+	postSlug: string;
+	parentSlug: string;
 	text: string;
 };
 
@@ -48,7 +48,7 @@ export default async function commentCreate(request: Request, url: string, token
 
 		// Get the post id
 		const post = await db.query.postsTable.findFirst({
-			where: eq(postsTable.slug, model.postslug),
+			where: eq(postsTable.slug, model.postSlug),
 			columns: { id: true },
 		});
 		if (!post) {
@@ -57,9 +57,9 @@ export default async function commentCreate(request: Request, url: string, token
 
 		// Get the parent id
 		let parentId: number | undefined;
-		if (model.parentslug) {
+		if (model.parentSlug) {
 			const parent = await db.query.commentsTable.findFirst({
-				where: eq(commentsTable.slug, model.parentslug),
+				where: eq(commentsTable.slug, model.parentSlug),
 				columns: { id: true },
 			});
 			if (!parent) {
@@ -94,7 +94,7 @@ export default async function commentCreate(request: Request, url: string, token
 				comment_count: db.$count(commentsTable, eq(commentsTable.post_id, post.id)),
 				last_comment_at: new Date(),
 			})
-			.where(eq(feedTable.slug, model.postslug));
+			.where(eq(feedTable.slug, model.postSlug));
 		await Promise.all([updatePosts, updateFeed]);
 
 		// Send an update to all followers
