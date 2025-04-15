@@ -3,7 +3,7 @@ import formDataToObject from "@/lib/utils/formDataToObject";
 import { ServerLoadEvent } from "@torpor/build";
 import { unauthorized, unprocessable } from "@torpor/build/response";
 
-export default async function ({ appData, request }: ServerLoadEvent) {
+export default async function ({ appData, request, params }: ServerLoadEvent) {
 	const user = appData.user;
 	if (!user) {
 		return unauthorized();
@@ -12,7 +12,7 @@ export default async function ({ appData, request }: ServerLoadEvent) {
 	const data = await request.formData();
 	const model = formDataToObject(data);
 
-	const result = await api.post(`posts/pin`, model, user.token);
+	const result = await api.post(`posts/pin`, params, model, user.token);
 	if (result.errors) {
 		return unprocessable(result);
 	}

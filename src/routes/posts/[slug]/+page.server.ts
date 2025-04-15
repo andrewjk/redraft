@@ -8,7 +8,7 @@ export default {
 		const user = appData.user;
 		const follower = appData.follower;
 
-		const result = await api.get(`posts/${params.slug}`, user?.token || follower?.token);
+		const result = await api.get(`posts/${params.slug}`, params, user?.token || follower?.token);
 		if (result.errors) {
 			return unprocessable(result);
 		}

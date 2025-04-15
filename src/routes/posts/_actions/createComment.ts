@@ -3,7 +3,7 @@ import formDataToObject from "@/lib/utils/formDataToObject";
 import { type ServerLoadEvent } from "@torpor/build";
 import { unauthorized, unprocessable } from "@torpor/build/response";
 
-export default async function createComment({ appData, request }: ServerLoadEvent) {
+export default async function createComment({ appData, request, params }: ServerLoadEvent) {
 	// Comments can be made by a following user, or by the main user
 	const user = appData.follower || appData.user;
 	if (!user) {
@@ -13,7 +13,7 @@ export default async function createComment({ appData, request }: ServerLoadEven
 	const data = await request.formData();
 	const model = formDataToObject(data);
 
-	const result = await api.post(`comments/create`, model, user.token);
+	const result = await api.post(`comments/create`, params, model, user.token);
 	if (result.errors) {
 		return unprocessable(result);
 	}

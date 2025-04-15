@@ -7,13 +7,13 @@ import { type PageServerEndPoint } from "@torpor/build";
 import { ok, seeOther, unauthorized, unprocessable } from "@torpor/build/response";
 
 export default {
-	load: async ({ appData }) => {
+	load: async ({ appData, params }) => {
 		const user = appData.user;
 		if (!user) {
 			return unauthorized();
 		}
 
-		const result = await api.get("profile/edit", user.token);
+		const result = await api.get("profile/edit", params, user.token);
 		if (result.errors) {
 			return unprocessable(result);
 		}
@@ -21,7 +21,7 @@ export default {
 		return ok({ profile: result });
 	},
 	actions: {
-		default: async ({ appData, cookies, request }) => {
+		default: async ({ appData, cookies, request, params }) => {
 			const user = appData.user;
 			if (!user) {
 				return unauthorized();
@@ -43,7 +43,7 @@ export default {
 				model.image = `${user.url}api/content/${name}`;
 			}
 
-			const result = await api.post("profile/edit", model, user.token);
+			const result = await api.post("profile/edit", params, model, user.token);
 			if (result.errors) {
 				return unprocessable(result);
 			}
@@ -53,6 +53,7 @@ export default {
 				name: result.name,
 				image: result.image,
 				token: user.token,
+				code: user.code,
 			});
 
 			return seeOther("/profile");

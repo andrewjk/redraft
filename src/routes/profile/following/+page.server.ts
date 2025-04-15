@@ -3,13 +3,13 @@ import { type PageServerEndPoint } from "@torpor/build";
 import { ok, unauthorized, unprocessable } from "@torpor/build/response";
 
 export default {
-	load: async ({ appData }) => {
+	load: async ({ appData, params }) => {
 		const user = appData.user;
 		if (!user) {
 			return unauthorized();
 		}
 
-		const result = await api.get("profile/following", user.token);
+		const result = await api.get("profile/following", params, user.token);
 		if (result.errors) {
 			return unprocessable(result);
 		}

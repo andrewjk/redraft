@@ -11,7 +11,7 @@ export default {
 			return unauthorized();
 		}
 
-		const result = await api.get(`posts/edit/${params.slug}`, user.token);
+		const result = await api.get(`posts/edit/${params.slug}`, params, user.token);
 		if (result.errors) {
 			return unprocessable(result);
 		}

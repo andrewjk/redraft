@@ -10,7 +10,7 @@ export default {
 		//	return unauthorized();
 		//}
 
-		const result = await api.get(`comments/${params.slug}`);
+		const result = await api.get(`comments/${params.slug}`, params);
 		if (result.errors) {
 			return unprocessable(result);
 		}

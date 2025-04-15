@@ -12,11 +12,11 @@ export default {
 		}
 	},
 	actions: {
-		default: async ({ request, cookies }) => {
+		default: async ({ request, params, cookies }) => {
 			const data = await request.formData();
 			const model = formDataToObject(data);
 
-			const result = await api.post("account/login", model);
+			const result = await api.post("account/login", params, model);
 			if (result.errors) {
 				return unprocessable(result);
 			}

@@ -5,7 +5,7 @@ import uuid from "@/lib/utils/uuid";
 import { type ServerLoadEvent } from "@torpor/build";
 import { redirect, unauthorized, unprocessable } from "@torpor/build/response";
 
-export default async function savePost({ appData, request }: ServerLoadEvent) {
+export default async function savePost({ appData, request, params }: ServerLoadEvent) {
 	const user = appData.user;
 	if (!user) {
 		return unauthorized();
@@ -22,7 +22,7 @@ export default async function savePost({ appData, request }: ServerLoadEvent) {
 		model.image = `${user.url}api/content/${name}`;
 	}
 
-	const result = await api.post(`posts/save`, model, user.token);
+	const result = await api.post(`posts/save`, params, model, user.token);
 	if (result.errors) {
 		return unprocessable(result);
 	}

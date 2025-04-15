@@ -5,13 +5,13 @@ import { type PageServerEndPoint } from "@torpor/build";
 import { ok, redirect, unauthorized, unprocessable } from "@torpor/build/response";
 
 export default {
-	load: async ({ appData }) => {
+	load: async ({ appData, params }) => {
 		const user = appData.user;
 		if (!user) {
 			return redirect("/account/login");
 		}
 
-		const result = await api.get("profile", user.token);
+		const result = await api.get("profile", params, user.token);
 		if (result.errors) {
 			return unprocessable(result);
 		}
@@ -24,7 +24,7 @@ export default {
 			appData.user = null;
 			return redirect("/");
 		},
-		save: async ({ appData, cookies, request }) => {
+		save: async ({ appData, cookies, request, params }) => {
 			const user = appData.user;
 			if (!user) {
 				return unauthorized();
@@ -33,7 +33,7 @@ export default {
 			const data = await request.formData();
 			const model = formDataToObject(data);
 
-			const result = await api.post("profile/edit", model, user.token);
+			const result = await api.post("profile/edit", params, model, user.token);
 			if (result.errors) {
 				return unprocessable(result);
 			}
@@ -43,6 +43,7 @@ export default {
 				name: result.name,
 				image: result.image,
 				token: user.token,
+				code: user.code,
 			});
 
 			appData.user = result;

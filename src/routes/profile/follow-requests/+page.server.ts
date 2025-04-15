@@ -18,7 +18,7 @@ export default {
 		return ok(result);
 	},
 	actions: {
-		approve: async ({ request, appData }) => {
+		approve: async ({ request, params, appData }) => {
 			const user = appData.user;
 			if (!user) {
 				return unauthorized();
@@ -27,7 +27,7 @@ export default {
 			const data = await request.formData();
 			const model = formDataToObject(data);
 
-			const result = await api.post("follow/approve", model, user.token);
+			const result = await api.post("follow/approve", params, model, user.token);
 			if (result.errors) {
 				return unprocessable(result);
 			}

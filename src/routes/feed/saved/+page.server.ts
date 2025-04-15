@@ -9,7 +9,7 @@ import reactToFeedPost from "../_actions/reactToFeedPost";
 import saveFeedPost from "../_actions/saveFeedPost";
 
 export default {
-	load: async ({ url, appData }) => {
+	load: async ({ url, params, appData }) => {
 		const user = appData.user;
 		if (!user) {
 			return unauthorized();
@@ -24,7 +24,9 @@ export default {
 		search.set("offset", ((page - 1) * PAGE_SIZE).toString());
 		search.set("saved", "");
 
-		const [{ feed, feedCount }] = await Promise.all([api.get(`feed?${search}`, user?.token)]);
+		const [{ feed, feedCount }] = await Promise.all([
+			api.get(`feed?${search}`, params, user?.token),
+		]);
 
 		const pageCount = Math.ceil(feedCount / PAGE_SIZE);
 

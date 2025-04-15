@@ -13,7 +13,12 @@ export type CommentCreateModel = {
 	text: string;
 };
 
-export default async function commentCreate(request: Request, url: string, token: string) {
+export default async function commentCreate(
+	request: Request,
+	params: Record<string, string>,
+	url: string,
+	token: string,
+) {
 	try {
 		const model: CommentCreateModel = await request.json();
 
@@ -99,7 +104,7 @@ export default async function commentCreate(request: Request, url: string, token
 
 		// Send an update to all followers
 		// This could take some time, so send it off to be done in an endpoint without awaiting it
-		api.post(`comments/send`, { post_id: post.id }, token);
+		api.post(`comments/send`, params, { post_id: post.id }, token);
 
 		// Return
 		const view = commentPreview(newComment, currentUser, []);

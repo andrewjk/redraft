@@ -4,7 +4,7 @@ import { type PageServerEndPoint } from "@torpor/build";
 import { ok } from "@torpor/build/response";
 
 export default {
-	load: async ({ url }) => {
+	load: async ({ url, params }) => {
 		// TODO: Filter by permissions
 		//const user = appData.user;
 		//if (!user) {
@@ -19,7 +19,7 @@ export default {
 		search.set("limit", PAGE_SIZE.toString());
 		search.set("offset", ((page - 1) * PAGE_SIZE).toString());
 
-		const { posts, postsCount } = await api.get(`media?${search}`);
+		const { posts, postsCount } = await api.get(`media?${search}`, params);
 
 		const pageCount = Math.ceil(postsCount / PAGE_SIZE);
 

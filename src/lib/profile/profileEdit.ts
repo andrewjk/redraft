@@ -19,7 +19,11 @@ export type ProfileEdit = {
 	}[];
 };
 
-export default async function profileEdit(request: Request, token: string) {
+export default async function profileEdit(
+	request: Request,
+	params: Record<string, string>,
+	token: string,
+) {
 	try {
 		const model: ProfileEdit = await request.json();
 
@@ -80,7 +84,7 @@ export default async function profileEdit(request: Request, token: string) {
 
 		// Send an update to all followers/followed by
 		// This could take some time, so send it off to be done in an endpoint without awaiting it
-		api.post(`profile/send`, null, token);
+		api.post(`profile/send`, params, null, token);
 
 		return ok({
 			url: currentUser.url,

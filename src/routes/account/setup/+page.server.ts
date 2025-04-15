@@ -14,7 +14,7 @@ export default {
 		}
 	},
 	actions: {
-		default: async ({ request, cookies }) => {
+		default: async ({ request, params, cookies }) => {
 			const data = await request.formData();
 			const model = formDataToObject(data);
 
@@ -26,7 +26,7 @@ export default {
 				model.image = `${process.env.SITE_LOCATION}api/content/${name}`;
 			}
 
-			const result = await api.post("account/setup", model);
+			const result = await api.post("account/setup", params, model);
 			if (result.errors) {
 				return unprocessable(result);
 			}

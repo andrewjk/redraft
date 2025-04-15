@@ -9,7 +9,11 @@ import postCreateOrUpdate from "./postCreateOrUpdate";
 import { PostEditModel } from "./postEdit";
 import postPreview from "./postPreview";
 
-export default async function postPublish(request: Request, token: string) {
+export default async function postPublish(
+	request: Request,
+	params: Record<string, string>,
+	token: string,
+) {
 	try {
 		const model: PostEditModel = await request.json();
 
@@ -63,7 +67,7 @@ export default async function postPublish(request: Request, token: string) {
 		) {
 			// Send it to all followers
 			// This could take some time, so send it off to be done in an endpoint without awaiting it
-			api.post(`posts/send`, { id: post.id }, token);
+			api.post(`posts/send`, params, { id: post.id }, token);
 		}
 
 		// Return

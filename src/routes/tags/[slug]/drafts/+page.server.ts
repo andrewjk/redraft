@@ -10,7 +10,7 @@ export default {
 		//	return unauthorized();
 		//}
 
-		const result = await api.get(`tags/${params.slug}/drafts`);
+		const result = await api.get(`tags/${params.slug}/drafts`, params);
 		if (result.errors) {
 			return unprocessable(result);
 		}

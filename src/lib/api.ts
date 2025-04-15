@@ -3,6 +3,7 @@ const base = `${process.env.SITE_LOCATION}api/`;
 type SendOptions = {
 	method: "GET" | "POST" | "PUT" | "DELETE";
 	path: string;
+	params: Record<string, string>;
 	data?: any;
 	token?: string;
 };
@@ -43,18 +44,18 @@ async function send({ method, path, data, token }: SendOptions) {
 	throw new Error(result.status.toString());
 }
 
-export function get(path: string, token?: string) {
-	return send({ method: "GET", path, token });
+export function get(path: string, params: Record<string, string>, token?: string) {
+	return send({ method: "GET", path, params, token });
 }
 
-export function del(path: string, token?: string) {
-	return send({ method: "DELETE", path, token });
+export function del(path: string, params: Record<string, string>, token?: string) {
+	return send({ method: "DELETE", path, params, token });
 }
 
-export function post(path: string, data: any, token?: string) {
-	return send({ method: "POST", path, data, token });
+export function post(path: string, params: Record<string, string>, data: any, token?: string) {
+	return send({ method: "POST", path, data, params, token });
 }
 
-export function put(path: string, data: any, token?: string) {
-	return send({ method: "PUT", path, data, token });
+export function put(path: string, params: Record<string, string>, data: any, token?: string) {
+	return send({ method: "PUT", path, data, params, token });
 }

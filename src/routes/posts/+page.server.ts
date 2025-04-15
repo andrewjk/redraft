@@ -6,7 +6,7 @@ import publishPost from "./_actions/publishPost";
 import savePost from "./_actions/savePost";
 
 export default {
-	load: async ({ appData, url }) => {
+	load: async ({ appData, url, params }) => {
 		const user = appData.user;
 		const follower = appData.follower;
 
@@ -18,7 +18,11 @@ export default {
 		search.set("limit", PAGE_SIZE.toString());
 		search.set("offset", ((page - 1) * PAGE_SIZE).toString());
 
-		const { posts, postsCount } = await api.get(`posts?${search}`, user?.token || follower?.token);
+		const { posts, postsCount } = await api.get(
+			`posts?${search}`,
+			params,
+			user?.token || follower?.token,
+		);
 
 		const pageCount = Math.ceil(postsCount / PAGE_SIZE);
 

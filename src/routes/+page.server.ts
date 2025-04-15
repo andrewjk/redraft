@@ -7,7 +7,7 @@ import pinPost from "./posts/_actions/pinPost";
 import publishPost from "./posts/_actions/publishPost";
 
 export default {
-	load: async ({ appData }) => {
+	load: async ({ appData, params }) => {
 		let user = appData.user;
 		let follower = appData.follower;
 
@@ -15,8 +15,8 @@ export default {
 		const search = new URLSearchParams();
 		search.set("limit", FRONT_PAGE_SIZE.toString());
 		const [profile, { posts }] = await Promise.all([
-			api.get("profile/preview"),
-			api.get(`posts?${search}`, user?.token || follower?.token),
+			api.get("profile/preview", params),
+			api.get(`posts?${search}`, params, user?.token || follower?.token),
 		]);
 		return ok({ profile, posts });
 	},
