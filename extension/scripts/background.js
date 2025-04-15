@@ -12,6 +12,10 @@ browser.runtime.onMessage.addListener((request, sender, sendResponse) => {
 			logout(request).then((res) => sendResponse(res));
 			return true;
 		}
+		case "social-follow": {
+			follow(request).then((res) => sendResponse(res));
+			return true;
+		}
 		case "social-icon": {
 			let iconPrefix = request.iconPrefix;
 			browser.action.setIcon({
@@ -38,21 +42,77 @@ async function login(request) {
 	});
 	const ok = loginResponse.ok;
 
-	// If logged in, store somewhere
+	// If logged in ok, store things
 	if (ok) {
-		await browser.storage.local.set({ url, email, authenticated: true });
+		const { token } = await loginResponse.json();
+
+		await browser.storage.local.set({ url, email, authenticated: true, token });
 
 		// TODO: Refresh this every now and then...
-		const followingResponse = await fetch(`${url}api/extension/following`);
-		if (followingResponse.ok) {
-			const following = await followingResponse.json();
-			await browser.storage.local.set({ following: following.following });
+		const followingData = await api("get", url, `api/extension/following`, token);
+		if (followingData) {
+			//const followingData = await followingResponse.json();
+			const following = followingData.following;
+			await browser.storage.local.set({ following });
+
+			const { MODIFY_HEADERS } = browser.declarativeNetRequest.RuleActionType;
+			const { SET: SET_HEADER } = browser.declarativeNetRequest.HeaderOperation;
+			const ALL_RESOURCE_TYPES = Object.values(chrome.declarativeNetRequest.ResourceType);
+
+			const addRules = following.map((f, i) => ({
+				id: i + 1,
+				priority: 1,
+				action: {
+					type: MODIFY_HEADERS,
+					requestHeaders: [
+						{
+							operation: SET_HEADER,
+							header: "x-social-follower",
+							value: f.token,
+						},
+					],
+				},
+				condition: {
+					urlFilter: `${f.url}*`,
+					resourceTypes: ALL_RESOURCE_TYPES,
+				},
+			}));
+
+			const oldRules = await browser.declarativeNetRequest.getDynamicRules();
+			browser.declarativeNetRequest.updateDynamicRules({
+				// Remove all dynamic rules
+				removeRuleIds: oldRules.map((r) => r.id),
+				// Add new rules
+				addRules,
+			});
 		}
 	}
 
 	return {
 		ok,
 		error: ok ? "" : "Login failed, please try again",
+	};
+}
+
+async function follow() {
+	const { url, followUrl } = await browser.storage.local.get();
+	if (!followUrl) {
+		throw new Error("No follow url supplied");
+	}
+
+	// Send them to the url to follow
+	if (!url.endsWith("/")) url += "/";
+	const followResponse = await fetch(`${url}api/follow`, {
+		method: "POST",
+		body: JSON.stringify({ url: followUrl }),
+	});
+	const ok = followResponse.ok;
+
+	// TODO: Show a "request sent" page?
+
+	return {
+		ok,
+		error: ok ? "" : "Follow failed, please try again",
 	};
 }
 
@@ -68,4 +128,31 @@ async function logout() {
 		ok,
 		error: ok ? "" : "Logout failed, please try again",
 	};
+}
+
+/** Sends a request to the API with authentication etc */
+async function api(method, base, path, token) {
+	const options = {
+		method,
+		headers: new Headers(),
+	};
+
+	//if (data) {
+	//	options.headers.append("Content-Type", "application/json");
+	//	options.body = JSON.stringify(data);
+	//}
+
+	if (token) {
+		options.headers.append("Authorization", `Token ${token}`);
+	}
+
+	const result = await fetch(`${base}${path}`, options);
+
+	if (result.ok || result.status === 422) {
+		const text = await result.text();
+		const data = text ? JSON.parse(text) : {};
+		return data;
+	}
+
+	throw new Error(result.status.toString());
 }

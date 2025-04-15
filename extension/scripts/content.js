@@ -16,6 +16,10 @@ async function formatContent() {
 
 	// Is this the site of a user that we are following?
 	const followingUser = following.find((f) => location.startsWith(f.url));
+	const followEl = document.head.querySelector("meta[name='social-follow']");
+	if (followEl) {
+		await browser.storage.local.set({ followUrl: followEl.content });
+	}
 
 	// Look for <input name="followerUrl"> and set our url (for following another user)
 	for (let el of document.body.querySelectorAll("input[name='followerUrl']")) {
@@ -31,10 +35,10 @@ async function formatContent() {
 
 	// Look for our own URL, and display the icon in blue if found
 	// Look for a following record, and display the icon in red if found
-	// Look for <meta name="redraft-follow">url</meta> and display the icon in yellow if found
+	// Look for <meta name="social-follow">url</meta> and display the icon in yellow if found
 	let showAccount = authenticated && location.startsWith(url);
 	let showInfo = authenticated && !!followingUser;
-	let showFollow = authenticated && !!document.head.querySelector("meta[name='redraft-follow']");
+	let showFollow = authenticated && !!followEl;
 
 	// Set the icon color
 	let iconPrefix = "";

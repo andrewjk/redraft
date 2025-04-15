@@ -4,6 +4,7 @@ if (typeof browser === "undefined") {
 
 document.getElementById("login-form").addEventListener("submit", login);
 document.getElementById("logout-form").addEventListener("submit", logout);
+document.getElementById("follow-form").addEventListener("submit", follow);
 
 // If we're not logged in, show the login panel
 // If we're on a site that we're not following, show the follow panel
@@ -11,13 +12,18 @@ document.getElementById("logout-form").addEventListener("submit", logout);
 // Otherwise, show the other panel
 loadInterface();
 async function loadInterface() {
+	let location = document.location.toString();
+
 	let localStorage = await browser.storage.local.get();
 	let authenticated = localStorage.authenticated ?? false;
 	let following = localStorage.following ?? [];
 
+	// Is this the site of a user that we are following?
+	const followingUser = following.find((f) => location.startsWith(f.url));
+
 	let showLogin = !authenticated;
 	let showFollow = authenticated && false;
-	let showInfo = authenticated && !!following.find((f) => document.location.url.startsWith(f.url));
+	let showInfo = authenticated && !!followingUser;
 	let showOther = authenticated && !showFollow && !showInfo;
 	let showLogout = authenticated;
 
@@ -58,6 +64,22 @@ function logout() {
 
 	let response = browser.runtime.sendMessage({
 		query: "social-logout",
+	});
+
+	if (response.ok) {
+		errorEl.style.display = "none";
+		loadInterface();
+	} else {
+		errorEl.style.display = "block";
+		errorEl.innerHTML = response.error;
+	}
+}
+
+function follow() {
+	let errorEl = document.getElementById("follow-error");
+
+	let response = browser.runtime.sendMessage({
+		query: "social-follow",
 	});
 
 	if (response.ok) {
