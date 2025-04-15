@@ -1,6 +1,6 @@
 import db from "@/data/db";
 import { postsTable } from "@/data/schema";
-import { IMAGE_POST_TYPE } from "@/data/schema/postsTable";
+import { IMAGE_POST_TYPE } from "@/lib/constants";
 import { and, desc, eq, isNotNull, isNull } from "drizzle-orm";
 import postPreview, { PostPreview } from "../posts/postPreview";
 

@@ -1,7 +1,7 @@
 import db from "@/data/db";
 import { feedTable, postsTable } from "@/data/schema";
-import { FOLLOWER_POST_VISIBILITY, PUBLIC_POST_VISIBILITY } from "@/data/schema/postsTable";
 import * as api from "@/lib/api";
+import { FOLLOWER_POST_VISIBILITY, PUBLIC_POST_VISIBILITY } from "@/lib/constants";
 import { created, serverError, unauthorized } from "@torpor/build/response";
 import { eq } from "drizzle-orm";
 import getErrorMessage from "../utils/getErrorMessage";

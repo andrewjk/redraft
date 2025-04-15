@@ -1,11 +1,11 @@
 import db from "@/data/db";
 import { articlesTable, postsTable } from "@/data/schema";
+import { User } from "@/data/schema/usersTable";
 import {
 	ARTICLE_POST_TYPE,
 	FOLLOWER_POST_VISIBILITY,
 	PUBLIC_POST_VISIBILITY,
-} from "@/data/schema/postsTable";
-import { User } from "@/data/schema/usersTable";
+} from "@/lib/constants";
 import { notFound, ok, serverError } from "@torpor/build/response";
 import { and, eq, or } from "drizzle-orm";
 import { micromark } from "micromark";

@@ -1,6 +1,6 @@
 import db from "@/data/db";
 import { articlesTable, postsTable } from "@/data/schema";
-import { ARTICLE_POST_TYPE } from "@/data/schema/postsTable";
+import { ARTICLE_POST_TYPE } from "@/lib/constants";
 import { notFound, ok, serverError } from "@torpor/build/response";
 import { eq } from "drizzle-orm";
 import getErrorMessage from "../utils/getErrorMessage";

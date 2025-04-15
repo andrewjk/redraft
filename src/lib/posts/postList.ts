@@ -1,7 +1,7 @@
 import db from "@/data/db";
 import { postsTable } from "@/data/schema";
-import { FOLLOWER_POST_VISIBILITY, PUBLIC_POST_VISIBILITY } from "@/data/schema/postsTable";
 import { User } from "@/data/schema/usersTable";
+import { FOLLOWER_POST_VISIBILITY, PUBLIC_POST_VISIBILITY } from "@/lib/constants";
 import { and, desc, eq, isNotNull, isNull, or } from "drizzle-orm";
 import postPreview, { type PostPreview } from "./postPreview";
 
