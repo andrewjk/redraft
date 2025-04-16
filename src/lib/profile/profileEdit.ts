@@ -1,4 +1,4 @@
-import db from "@/data/db";
+import database from "@/data/database";
 import { userLinksTable, usersTable } from "@/data/schema";
 import * as api from "@/lib/api";
 import { ok, serverError, unauthorized } from "@torpor/build/response";
@@ -24,6 +24,8 @@ export default async function profileEdit(
 	params: Record<string, string>,
 	token: string,
 ) {
+	const db = database();
+
 	try {
 		const model: ProfileEdit = await request.json();
 

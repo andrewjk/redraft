@@ -1,4 +1,4 @@
-import db from "@/data/db";
+import database from "@/data/database";
 import { followedByTable } from "@/data/schema";
 import { ok, serverError, unauthorized } from "@torpor/build/response";
 import { eq } from "drizzle-orm";
@@ -14,6 +14,8 @@ export type ApproveModel = {
  * Approves a follow request from another user.
  */
 export default async function followApprove(request: Request) {
+	const db = database();
+
 	try {
 		const model: ApproveModel = await request.json();
 

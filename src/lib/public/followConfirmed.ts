@@ -1,4 +1,4 @@
-import db from "@/data/db";
+import database from "@/data/database";
 import { followingTable } from "@/data/schema";
 import { notFound, ok, serverError } from "@torpor/build/response";
 import { eq } from "drizzle-orm";
@@ -12,6 +12,8 @@ export type FollowConfirmModel = {
  * Confirms a follow request that was sent.
  */
 export default async function followConfirmed(request: Request) {
+	const db = database();
+
 	try {
 		const model: FollowConfirmModel = await request.json();
 

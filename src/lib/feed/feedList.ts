@@ -1,4 +1,4 @@
-import db from "@/data/db";
+import database from "@/data/database";
 import { feedTable } from "@/data/schema";
 import { desc, eq } from "drizzle-orm";
 import feedPreview, { type FeedPreview } from "./feedPreview";
@@ -9,6 +9,8 @@ export default async function feedList(
 	liked?: boolean,
 	saved?: boolean,
 ): Promise<{ feed: FeedPreview[]; feedCount: number }> {
+	const db = database();
+
 	// Get the current (only) user
 	const user = await db.query.usersTable.findFirst();
 

@@ -1,3 +1,4 @@
+import env from "@/lib/env";
 import type { PageServerEndPoint } from "@torpor/build";
 import { ok } from "@torpor/build/response";
 
@@ -5,7 +6,7 @@ export default {
 	load: ({ appData }) => {
 		const user = appData.user;
 		const follower = appData.follower;
-		const url = process.env.SITE_LOCATION;
+		const url = env().SITE_LOCATION;
 		return ok({
 			url,
 			user: user && {

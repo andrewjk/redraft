@@ -1,4 +1,4 @@
-import db from "@/data/db";
+import database from "@/data/database";
 import { followingTable, postsTable } from "@/data/schema";
 import { desc, eq } from "drizzle-orm";
 
@@ -11,6 +11,8 @@ export default async function followingList(
 	limit?: number,
 	offset?: number,
 ): Promise<{ following: FollowingPreview[]; followingCount: number }> {
+	const db = database();
+
 	// Get the follows from the database
 	const dbfollowing = await db.query.followingTable.findMany({
 		limit,

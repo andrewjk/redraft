@@ -1,4 +1,4 @@
-import db from "@/data/db";
+import database from "@/data/database";
 import { postsTable } from "@/data/schema";
 import { ok, serverError } from "@torpor/build/response";
 import { eq } from "drizzle-orm";
@@ -10,6 +10,8 @@ export type PostPinModel = {
 };
 
 export default async function postPin(request: Request) {
+	const db = database();
+
 	try {
 		const model: PostPinModel = await request.json();
 

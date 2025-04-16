@@ -1,4 +1,4 @@
-import db from "@/data/db";
+import database from "@/data/database";
 import { feedTable } from "@/data/schema";
 import { ok, serverError } from "@torpor/build/response";
 import { eq } from "drizzle-orm";
@@ -10,6 +10,8 @@ export type FeedSaveModel = {
 };
 
 export default async function feedSave(request: Request) {
+	const db = database();
+
 	try {
 		const model: FeedSaveModel = await request.json();
 

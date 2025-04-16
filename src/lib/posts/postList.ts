@@ -1,4 +1,4 @@
-import db from "@/data/db";
+import database from "@/data/database";
 import { postsTable } from "@/data/schema";
 import { User } from "@/data/schema/usersTable";
 import { FOLLOWER_POST_VISIBILITY, PUBLIC_POST_VISIBILITY } from "@/lib/constants";
@@ -12,6 +12,8 @@ export default async function postList(
 	limit?: number,
 	offset?: number,
 ): Promise<{ posts: PostPreview[]; postsCount: number }> {
+	const db = database();
+
 	// Get the current (only) user
 	const currentUser = await db.query.usersTable.findFirst();
 

@@ -1,4 +1,5 @@
-import * as api from "@/lib/api.js";
+import * as api from "@/lib/api";
+//import env from "@/lib/env";
 import { uploadFile } from "@/lib/storage";
 import formDataToObject from "@/lib/utils/formDataToObject";
 import setUserToken from "@/lib/utils/setUserToken";
@@ -34,7 +35,7 @@ export default {
 			model.imagefile = data.get("imagefile");
 			if (model.imagefile?.name) {
 				let name = uuid() + "." + model.imagefile.name.split(".").at(-1);
-				//const url = `${process.env.SITE_LOCATION}api/storage`;
+				//const url = `${env().SITE_LOCATION}api/storage`;
 				//let upload = new FormData();
 				//upload.set("file", model.imagefile);
 				//upload.set("name", name);

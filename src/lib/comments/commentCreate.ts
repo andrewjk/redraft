@@ -1,4 +1,4 @@
-import db from "@/data/db";
+import database from "@/data/database";
 import { commentsTable, feedTable, followedByTable, postsTable, usersTable } from "@/data/schema";
 import * as api from "@/lib/api";
 import { created, notFound, serverError, unauthorized } from "@torpor/build/response";
@@ -19,6 +19,8 @@ export default async function commentCreate(
 	url: string,
 	token: string,
 ) {
+	const db = database();
+
 	try {
 		const model: CommentCreateModel = await request.json();
 

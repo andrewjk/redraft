@@ -1,4 +1,4 @@
-import db from "@/data/db";
+import database from "@/data/database";
 import { followedByTable } from "@/data/schema";
 import { notFound, ok, serverError } from "@torpor/build/response";
 import { postPublic } from "../public";
@@ -19,6 +19,8 @@ export type FollowRequestResponseModel = {
  * Receives a follow request from another user.
  */
 export default async function followRequested(request: Request) {
+	const db = database();
+
 	try {
 		const model: FollowRequestModel = await request.json();
 

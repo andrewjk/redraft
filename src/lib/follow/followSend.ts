@@ -1,4 +1,4 @@
-import db from "@/data/db";
+import database from "@/data/database";
 import { followingTable } from "@/data/schema";
 import { ok, serverError, unauthorized } from "@torpor/build/response";
 import { eq } from "drizzle-orm";
@@ -15,6 +15,8 @@ export type FollowModel = {
  * Sends a follow request from another user.
  */
 export default async function followSend(request: Request, url: URL) {
+	const db = database();
+
 	try {
 		const model: FollowModel = await request.json();
 

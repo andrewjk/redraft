@@ -1,4 +1,4 @@
-import db from "@/data/db";
+import database from "@/data/database";
 import { articlesTable, postTagsTable, tagsTable } from "@/data/schema";
 import { Post, postsTable } from "@/data/schema/postsTable";
 import { Tag } from "@/data/schema/tagsTable";
@@ -12,6 +12,8 @@ export default async function postCreateOrUpdate(model: PostEditModel): Promise<
 	op: "create" | "update";
 	post: Post;
 }> {
+	const db = database();
+
 	// Create tags, if applicable
 	let dbtags: Tag[] = [];
 	if (model.tags) {

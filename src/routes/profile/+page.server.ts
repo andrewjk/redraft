@@ -1,4 +1,4 @@
-import * as api from "@/lib/api.js";
+import * as api from "@/lib/api";
 import formDataToObject from "@/lib/utils/formDataToObject";
 import setUserToken from "@/lib/utils/setUserToken";
 import { type PageServerEndPoint } from "@torpor/build";

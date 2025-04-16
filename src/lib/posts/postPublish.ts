@@ -1,4 +1,4 @@
-import db from "@/data/db";
+import database from "@/data/database";
 import { feedTable, postsTable } from "@/data/schema";
 import * as api from "@/lib/api";
 import { FOLLOWER_POST_VISIBILITY, PUBLIC_POST_VISIBILITY } from "@/lib/constants";
@@ -14,6 +14,8 @@ export default async function postPublish(
 	params: Record<string, string>,
 	token: string,
 ) {
+	const db = database();
+
 	try {
 		const model: PostEditModel = await request.json();
 

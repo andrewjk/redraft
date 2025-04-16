@@ -1,4 +1,4 @@
-import db from "@/data/db";
+import database from "@/data/database";
 import { tagsTable } from "@/data/schema";
 import { desc, isNull } from "drizzle-orm";
 
@@ -11,6 +11,8 @@ export default async function tagList(
 	limit?: number,
 	offset?: number,
 ): Promise<{ tags: TagPreview[]; tagsCount: number }> {
+	const db = database();
+
 	// Get the current (only) user
 	//const user = await db.query.usersTable.findFirst();
 

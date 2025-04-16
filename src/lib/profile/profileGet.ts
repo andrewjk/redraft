@@ -1,9 +1,11 @@
-import db from "@/data/db";
+import database from "@/data/database";
 import { notFound, ok, serverError } from "@torpor/build/response";
 import getErrorMessage from "../utils/getErrorMessage";
 import profileView from "./profileView";
 
 export default async function profileGet(forEditing = false) {
+	const db = database();
+
 	try {
 		// Get the current (only) user
 		const user = await db.query.usersTable.findFirst({

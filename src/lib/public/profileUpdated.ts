@@ -1,4 +1,4 @@
-import db from "@/data/db";
+import database from "@/data/database";
 import { followedByTable, followingTable } from "@/data/schema";
 import { ok, serverError } from "@torpor/build/response";
 import { eq } from "drizzle-orm";
@@ -27,6 +27,8 @@ export default async function profileUpdated(request: Request) {
 }
 
 async function updateFollowingTable(model: ProfileUpdatedModel) {
+	const db = database();
+
 	const user = await db.query.followingTable.findFirst({
 		where: eq(followingTable.shared_key, model.sharedKey),
 	});
@@ -43,6 +45,8 @@ async function updateFollowingTable(model: ProfileUpdatedModel) {
 }
 
 async function updateFollowedByTable(model: ProfileUpdatedModel) {
+	const db = database();
+
 	const user = await db.query.followedByTable.findFirst({
 		where: eq(followedByTable.shared_key, model.sharedKey),
 	});

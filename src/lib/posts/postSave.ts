@@ -1,4 +1,4 @@
-import db from "@/data/db";
+import database from "@/data/database";
 import { ok, serverError, unauthorized } from "@torpor/build/response";
 import getErrorMessage from "../utils/getErrorMessage";
 import postCreateOrUpdate from "./postCreateOrUpdate";
@@ -6,6 +6,8 @@ import { PostEditModel } from "./postEdit";
 import postPreview from "./postPreview";
 
 export default async function postSave(request: Request) {
+	const db = database();
+
 	try {
 		const model: PostEditModel = await request.json();
 

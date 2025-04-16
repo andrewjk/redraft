@@ -1,4 +1,4 @@
-import db from "@/data/db";
+import database from "@/data/database";
 import { usersTable } from "@/data/schema";
 import { forbidden, ok, serverError } from "@torpor/build/response";
 import { eq } from "drizzle-orm";
@@ -12,6 +12,8 @@ export type LoginModel = {
 };
 
 export default async function accountLogin(request: Request) {
+	const db = database();
+
 	try {
 		const model: LoginModel = await request.json();
 

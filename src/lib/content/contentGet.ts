@@ -1,9 +1,11 @@
-import db from "@/data/db";
+import database from "@/data/database";
 import { contentTable } from "@/data/schema";
 import { notFound } from "@torpor/build/response";
 import { eq } from "drizzle-orm";
 
 export default async function contentGet(name: string) {
+	const db = database();
+
 	// Get the content from the database
 	//const name = url.searchParams.get("name");
 	//if (!name) {

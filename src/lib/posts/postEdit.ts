@@ -1,4 +1,4 @@
-import db from "@/data/db";
+import database from "@/data/database";
 import { articlesTable, postsTable } from "@/data/schema";
 import { ARTICLE_POST_TYPE } from "@/lib/constants";
 import { notFound, ok, serverError } from "@torpor/build/response";
@@ -21,6 +21,8 @@ export type PostEditModel = {
 };
 
 export default async function postEdit(slug: string) {
+	const db = database();
+
 	try {
 		// Get the current (only) user
 		const user = await db.query.usersTable.findFirst();

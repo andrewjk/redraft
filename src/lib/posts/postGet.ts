@@ -1,4 +1,4 @@
-import db from "@/data/db";
+import database from "@/data/database";
 import { articlesTable, postsTable } from "@/data/schema";
 import { User } from "@/data/schema/usersTable";
 import {
@@ -14,6 +14,8 @@ import commentPreview from "../comments/commentPreview";
 import getErrorMessage from "../utils/getErrorMessage";
 
 export default async function postGet(user: User, follower: User, slug: string) {
+	const db = database();
+
 	try {
 		// Get the current (only) user
 		const currentUser = await db.query.usersTable.findFirst();

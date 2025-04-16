@@ -1,5 +1,6 @@
-import db from "@/data/db";
+import database from "@/data/database";
 import { usersTable } from "@/data/schema";
+import env from "@/lib/env";
 import { created, forbidden, serverError } from "@torpor/build/response";
 import createUserToken from "../utils/createUserToken";
 import getErrorMessage from "../utils/getErrorMessage";
@@ -16,13 +17,15 @@ export type SetupModel = {
 };
 
 export default async function accountSetup(request: Request) {
+	const db = database();
+
 	try {
 		// TODO: Make sure a user doesn't exist
 
 		const model: SetupModel = await request.json();
 
 		// Make sure the name and password match the env variables
-		if (model.username !== process.env.USERNAME || model.password !== process.env.PASSWORD) {
+		if (model.username !== env().USERNAME || model.password !== env().PASSWORD) {
 			return forbidden();
 		}
 
@@ -32,9 +35,9 @@ export default async function accountSetup(request: Request) {
 			email: model.email,
 			username: model.username,
 			// TODO: Get this from the request headers?
-			url: process.env.SITE_LOCATION!,
 			password: hashed,
 			name: model.name,
+			url: env().SITE_LOCATION!,
 			bio: model.bio ?? "",
 			image: model.image ?? "",
 			location: model.location ?? "",

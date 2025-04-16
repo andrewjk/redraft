@@ -1,9 +1,11 @@
-import db from "@/data/db";
+import database from "@/data/database";
 import { followingTable } from "@/data/schema";
 import { ok, unauthorized } from "@torpor/build/response";
 import { isNull } from "drizzle-orm";
 
 export default async function extensionFollowing(limit?: number, offset?: number) {
+	const db = database();
+
 	// Get the current (only) user
 	const currentUser = await db.query.usersTable.findFirst();
 	if (!currentUser) {

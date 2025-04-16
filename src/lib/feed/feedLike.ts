@@ -1,4 +1,4 @@
-import db from "@/data/db";
+import database from "@/data/database";
 import { feedTable } from "@/data/schema";
 import { ok, serverError, unauthorized } from "@torpor/build/response";
 import { eq } from "drizzle-orm";
@@ -14,6 +14,8 @@ export type FeedLikeModel = {
 };
 
 export default async function feedLike(request: Request) {
+	const db = database();
+
 	try {
 		const model: FeedLikeModel = await request.json();
 

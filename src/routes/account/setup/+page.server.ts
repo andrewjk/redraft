@@ -1,4 +1,5 @@
-import * as api from "@/lib/api.js";
+import * as api from "@/lib/api";
+import env from "@/lib/env";
 import { uploadFile } from "@/lib/storage";
 import formDataToObject from "@/lib/utils/formDataToObject";
 import setUserToken from "@/lib/utils/setUserToken";
@@ -23,7 +24,7 @@ export default {
 			if (model.imagefile?.name) {
 				let name = uuid() + "." + model.imagefile.name.split(".").at(-1);
 				await uploadFile(model.imagefile, name);
-				model.image = `${process.env.SITE_LOCATION}api/content/${name}`;
+				model.image = `${env().SITE_LOCATION}api/content/${name}`;
 			}
 
 			const result = await api.post("account/setup", params, model);

@@ -1,4 +1,6 @@
-const base = `${process.env.SITE_LOCATION}api/`;
+import env from "@/lib/env";
+
+const base = `${env().SITE_LOCATION}api/`;
 
 type SendOptions = {
 	method: "GET" | "POST" | "PUT" | "DELETE";

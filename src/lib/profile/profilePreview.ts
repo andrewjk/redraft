@@ -1,7 +1,9 @@
-import db from "@/data/db";
+import database from "@/data/database";
 import { notFound, ok } from "@torpor/build/response";
 
 export default async function profilePreview() {
+	const db = database();
+
 	// Get the current (only) user
 	const user = await db.query.usersTable.findFirst();
 	if (!user) {

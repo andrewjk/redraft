@@ -1,4 +1,4 @@
-import db from "@/data/db";
+import database from "@/data/database";
 import { postTagsTable, postsTable, tagsTable } from "@/data/schema";
 import { and, desc, eq, inArray, isNotNull, isNull } from "drizzle-orm";
 import postPreview, { PostPreview } from "../posts/postPreview";
@@ -9,6 +9,8 @@ export default async function tagPostList(
 	limit?: number,
 	offset?: number,
 ): Promise<{ tag: { slug: string; text: string }; posts: PostPreview[]; postsCount: number }> {
+	const db = database();
+
 	// Get the current (only) user
 	const user = await db.query.usersTable.findFirst();
 	//if (!user) {

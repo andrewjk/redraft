@@ -1,4 +1,4 @@
-import db from "@/data/db";
+import database from "@/data/database";
 import { feedTable, followingTable } from "@/data/schema";
 import { notFound, ok, serverError } from "@torpor/build/response";
 import { eq } from "drizzle-orm";
@@ -12,6 +12,8 @@ export type CommentedModel = {
 };
 
 export default async function commentReceived(request: Request) {
+	const db = database();
+
 	try {
 		const model: CommentedModel = await request.json();
 

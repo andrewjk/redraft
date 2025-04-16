@@ -1,4 +1,4 @@
-import db from "@/data/db";
+import database from "@/data/database";
 import { followedByTable } from "@/data/schema";
 import { notFound, redirect, serverError } from "@torpor/build/response";
 import { CookieHelper } from "@torpor/build/server";
@@ -15,6 +15,8 @@ export default async function followerLogin(
 	/*request: Request, */ sharedKey: string,
 	cookies: CookieHelper,
 ) {
+	const db = database();
+
 	try {
 		//const model: FollowerLoginModel = await request.json();
 

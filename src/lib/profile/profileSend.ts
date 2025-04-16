@@ -1,4 +1,4 @@
-import db from "@/data/db";
+import database from "@/data/database";
 import { followedByTable, followingTable } from "@/data/schema";
 import { ok, serverError, unauthorized } from "@torpor/build/response";
 import { eq } from "drizzle-orm";
@@ -9,6 +9,8 @@ import getErrorMessage from "../utils/getErrorMessage";
 // TODO: Should only send the data that has changed
 
 export default async function profileSend() {
+	const db = database();
+
 	try {
 		// Get the current (only) user
 		const currentUser = await db.query.usersTable.findFirst();

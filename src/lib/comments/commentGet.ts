@@ -1,4 +1,4 @@
-import db from "@/data/db";
+import database from "@/data/database";
 import { commentsTable } from "@/data/schema";
 import { notFound, ok, serverError } from "@torpor/build/response";
 import { eq } from "drizzle-orm";
@@ -7,6 +7,8 @@ import getErrorMessage from "../utils/getErrorMessage";
 import commentPreview from "./commentPreview";
 
 export default async function commentGet(slug: string) {
+	const db = database();
+
 	try {
 		// Get the current (only) user
 		const user = await db.query.usersTable.findFirst();

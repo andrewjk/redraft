@@ -1,4 +1,4 @@
-import db from "@/data/db";
+import database from "@/data/database";
 import { postsTable } from "@/data/schema";
 import { IMAGE_POST_TYPE } from "@/lib/constants";
 import { and, desc, eq, isNotNull, isNull } from "drizzle-orm";
@@ -9,6 +9,8 @@ export default async function mediaDraftList(
 	limit?: number,
 	offset?: number,
 ): Promise<{ posts: PostPreview[]; postsCount: number }> {
+	const db = database();
+
 	// Get the current (only) user
 	const user = await db.query.usersTable.findFirst();
 

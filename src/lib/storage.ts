@@ -3,14 +3,16 @@
 // or self-hosted scenarios. But S3 expects that your URLs are in the format
 // http://[bucket].[host]. Which obviously doesn't work with localhost! So for
 // now we are just storing images in the database
-import db from "@/data/db";
+import database from "@/data/database";
 import { contentTable } from "@/data/schema";
+
+//import env from "@/lib/env";
 
 //import { PutObjectCommand, S3Client } from "@aws-sdk/client-s3";
 //
 //const S3 = new S3Client({
 //	region: "auto",
-//	endpoint: `${process.env.SITE_LOCATION}api/storage`,
+//	endpoint: `${env().SITE_LOCATION}api/storage`,
 //	credentials: {
 //		accessKeyId: "ACCESS_KEY_ID",
 //		secretAccessKey: "SECRET_ACCESS_KEY",
@@ -35,6 +37,8 @@ import { contentTable } from "@/data/schema";
 //
 
 export async function uploadFile(file: File, name: string) {
+	const db = database();
+
 	// TODO: Need error handling
 	const body = await file.arrayBuffer();
 

@@ -1,5 +1,6 @@
-import db from "@/data/db";
+import database from "@/data/database";
 import { followingTable } from "@/data/schema";
+import env from "@/lib/env";
 import { notFound, ok, serverError } from "@torpor/build/response";
 import { eq } from "drizzle-orm";
 import getErrorMessage from "../utils/getErrorMessage";
@@ -18,6 +19,8 @@ export type FollowCheckResponseModel = {
  * Checks that a follow request was sent by this user.
  */
 export default async function followCheck(request: Request) {
+	const db = database();
+
 	try {
 		const model: FollowCheckModel = await request.json();
 
@@ -41,7 +44,7 @@ export default async function followCheck(request: Request) {
 		const data: FollowCheckResponseModel = {
 			name: user.name,
 			// TODO: get the proper url
-			image: `${process.env.SITE_LOCATION}${user.image}`,
+			image: `${env().SITE_LOCATION}${user.image}`,
 			bio: user.bio,
 		};
 

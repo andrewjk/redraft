@@ -1,4 +1,4 @@
-import db from "@/data/db";
+import database from "@/data/database";
 import { followedByTable, postReactionsTable, postsTable } from "@/data/schema";
 import { notFound, ok, serverError, unauthorized } from "@torpor/build/response";
 import { and, eq } from "drizzle-orm";
@@ -11,6 +11,8 @@ export type PostLikeModel = {
 };
 
 export default async function postLiked(request: Request) {
+	const db = database();
+
 	try {
 		const model: PostLikeModel = await request.json();
 
