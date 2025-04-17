@@ -7,7 +7,7 @@ export default function TagMenu($props: { tag: string, section: string, user: an
 			@if ($props.section === "Posts") {
 				<span>Posts</span>
 			} else {
-				<a href="/tags/{$props.tag}">
+				<a href="tags/{$props.tag}">
 					Posts
 				</a>
 			}
@@ -16,17 +16,17 @@ export default function TagMenu($props: { tag: string, section: string, user: an
 				@if ($props.section === "Drafts") {
 					<span>Drafts</span>
 				} else {
-					<a href="/tags/{$props.tag}/drafts">
+					<a href="tags/{$props.tag}/drafts">
 						Drafts
 					</a>
 				}
 				<span class="menu-separator" />
-				<a href="/posts/compose">
+				<a href="posts/compose">
 					Compose
 				</a>
 			}
 			<span class="menu-separator" />
-			<a href="/tags">
+			<a href="tags">
 				All tags
 			</a>
 		</div>

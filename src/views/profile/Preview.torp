@@ -25,7 +25,7 @@ export default function Preview($props) {
 
 			@if ($props.user) {
 				<div class="hstack spaced centered profile-options">
-					<a href="/profile/edit">
+					<a href="profile/edit">
 						<Pencil />
 					</a>
 					<form use:enhance method="POST" action="?/logout">

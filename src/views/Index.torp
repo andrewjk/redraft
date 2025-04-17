@@ -28,7 +28,7 @@ export default function Index() {
 					}
 					<PostList posts={$props.data.posts} user={$props.data.user} follower={$props.data.follower} />
 					@if ($props.data.posts.length) {
-						<a href="/posts">All posts</a>
+						<a href="posts">All posts</a>
 					}
 				</div>
 

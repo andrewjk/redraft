@@ -36,21 +36,21 @@ export default function Index($props) {
 			</div>
 
 			<div class="hstack centered spaced profile-options">
-				<a href="/profile/following">
+				<a href="profile/following">
 					Following
 				</a>
 				<span class="menu-separator" />
-				<a href="/profile/followed-by">
+				<a href="profile/followed-by">
 					Followed by
 				</a>
 				<span class="menu-separator" />
-				<a href="/profile/follow-requests">
+				<a href="profile/follow-requests">
 					Requests
 				</a>
 			</div>
 
 			<div class="hstack spaced profile-options">
-				<a href="/profile/edit">
+				<a href="profile/edit">
 					<Pencil />
 				</a>
 				<form use:enhance method="POST" action="?/logout">

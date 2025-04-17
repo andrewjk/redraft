@@ -7,7 +7,7 @@ export default function FeedMenu($props: { section: string }) {
 			@if ($props.section === "All") {
 				<span>All</span>
 			} else {
-				<a href="/feed">
+				<a href="feed">
 					All
 				</a>
 			}
@@ -15,7 +15,7 @@ export default function FeedMenu($props: { section: string }) {
 			@if ($props.section === "Liked") {
 				<span>Liked</span>
 			} else {
-				<a href="/feed/liked">
+				<a href="feed/liked">
 					Liked
 				</a>
 			}
@@ -23,7 +23,7 @@ export default function FeedMenu($props: { section: string }) {
 			@if ($props.section === "Saved") {
 				<span>Saved</span>
 			} else {
-				<a href="/feed/saved">
+				<a href="feed/saved">
 					Saved
 				</a>
 			}

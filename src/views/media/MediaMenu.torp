@@ -7,7 +7,7 @@ export default function MediaMenu($props: { section: string, user: any }) {
 			@if ($props.section === "Posts") {
 				<span>Posts</span>
 			} else {
-				<a href="/media">
+				<a href="media">
 					Posts
 				</a>
 			}
@@ -16,12 +16,12 @@ export default function MediaMenu($props: { section: string, user: any }) {
 				@if ($props.section === "Drafts") {
 					<span>Drafts</span>
 				} else {
-					<a href="/media/drafts">
+					<a href="media/drafts">
 						Drafts
 					</a>
 				}
 				<span class="menu-separator" />
-				<a href="/posts/compose">
+				<a href="posts/compose">
 					Compose
 				</a>
 			}

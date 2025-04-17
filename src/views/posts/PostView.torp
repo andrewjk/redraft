@@ -62,7 +62,7 @@ export default function PostView() {
 							{relativeTimeSince(new Date(post.publishedAt))}
 						</div>
 						@if (user?.url === post.author.url) {
-							<a href="/posts/edit/{post.slug}">Edit</a>
+							<a href="posts/edit/{post.slug}">Edit</a>
 						} else {
 							<span>&nbsp;</span>
 						}
@@ -97,7 +97,7 @@ export default function PostView() {
 							@if (i > 0) {
 								<span class="separator" />
 							}
-							<a href="/tags/{tag}">{tag}</a>
+							<a href="tags/{tag}">{tag}</a>
 						}
 					</div>
 				}
@@ -123,7 +123,7 @@ export default function PostView() {
 					}
 					@for (let tag of post.tags) {
 						<span class="separator" />
-						<a href="/tags/{tag.slug}">{tag.text}</a>
+						<a href="tags/{tag.slug}">{tag.text}</a>
 					}
 				</div>
 			</div>

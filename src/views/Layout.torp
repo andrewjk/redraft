@@ -7,6 +7,9 @@ export default function Layout() {
 				<meta name="redraft-follow" content={$props.data.url} />
 			</:head>
 
+			@if ($props.data.username) {
+				<base href={`/${$props.data.username}/`} />
+			}
 			<Nav user={$props.data.user} follower={$props.data.follower} />
 
 			<main>
@@ -37,7 +40,7 @@ function Nav() {
 
 				@if ($props.user) {
 					<li class="nav-item">
-						<a href="/feed" class="nav-link">
+						<a href="feed" class="nav-link">
 							Feed
 						</a>
 					</li>
@@ -46,7 +49,7 @@ function Nav() {
 				}
 
 				<li class="nav-item">
-					<a href="/posts" class="nav-link">
+					<a href="posts" class="nav-link">
 						Posts
 					</a>
 				</li>
@@ -54,7 +57,7 @@ function Nav() {
 				<span class="menu-separator" />
 
 				<li class="nav-item">
-					<a href="/articles" class="nav-link">
+					<a href="articles" class="nav-link">
 						Articles
 					</a>
 				</li>
@@ -62,7 +65,7 @@ function Nav() {
 				<span class="menu-separator" />
 
 				<li class="nav-item">
-					<a href="/media" class="nav-link">
+					<a href="media" class="nav-link">
 						Media
 					</a>
 				</li>
@@ -70,13 +73,13 @@ function Nav() {
 				<span class="menu-separator" />
 				@if ($props.user) {
 					<li class="nav-item">
-						<a href="/profile" class="nav-link">
+						<a href="profile" class="nav-link">
 							Profile
 						</a>
 					</li>
 				} else {
 					<li class="nav-item">
-						<a href="/account/login" :class={{ "nav-link": true, active: $page.url.pathname === "/account/login" }}>
+						<a href="account/login" :class={{ "nav-link": true, active: $page.url.pathname === "/account/login" }}>
 							Login
 						</a>
 					</li>
@@ -84,7 +87,7 @@ function Nav() {
 					<span class="menu-separator" />
 
 					<li class="nav-item">
-						<a href="/account/register" :class={{ "nav-link": true, active: $page.url.pathname === "/account/register" }}>
+						<a href="account/register" :class={{ "nav-link": true, active: $page.url.pathname === "/account/register" }}>
 							Register
 						</a>
 					</li>

@@ -3,12 +3,13 @@ import type { PageServerEndPoint } from "@torpor/build";
 import { ok } from "@torpor/build/response";
 
 export default {
-	load: ({ appData }) => {
+	load: ({ appData, params }) => {
 		const user = appData.user;
 		const follower = appData.follower;
 		const url = env().SITE_LOCATION;
 		return ok({
 			url,
+			username: params.user,
 			user: user && {
 				url: user.url,
 				name: user.name,

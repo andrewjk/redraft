@@ -7,7 +7,7 @@ export default function TagPreview() {
 	@render {
 		<div class="tag-preview card">
 			<div class="tag-preview-header hstack centered spaced">
-				<a href="/tags/{$props.tag.slug}">{$props.tag.text}</a>
+				<a href="tags/{$props.tag.slug}">{$props.tag.text}</a>
 				<span class="separator" />
 				<span>{pluralize($props.tag.count, "post")}</span>
 			</div>
