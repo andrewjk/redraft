@@ -1,4 +1,5 @@
 //import { enhance } from '$app/forms';
+import placeholdify from "@/lib/utils/placeholdify";
 import pluralize from "@/lib/utils/pluralize"
 import relativeTimeSince from "@/lib/utils/relativeTimeSince"
 import LinkPreview from '@/views/posts/LinkPreview.torp';
@@ -43,7 +44,7 @@ export default function PostPreview() {
 			}
 			<div class="post-preview-header hstack centered spaced">
 				<a href={post.author.url}>
-					<img class="post-preview-author-image" src={post.author.image} alt={`${post.author.name} (${post.author.url})`} />
+					<img class="post-preview-author-image" src={placeholdify(post.author.image)} alt={`${post.author.name} (${post.author.url})`} />
 				</a>
 				<a class="post-preview-link hstack spaced grow" href={post.author.url}>
 					<div class="vstack">

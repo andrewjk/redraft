@@ -1,4 +1,5 @@
 //import { enhance } from '$app/forms';
+import placeholdify from "@/lib/utils/placeholdify";
 import relativeTimeSince from "@/lib/utils/relativeTimeSince"
 import CommentInput from "./CommentInput.torp"
 
@@ -21,7 +22,7 @@ export default function CommentPreview() {
 		<div class="comment-preview">
 			<div class="comment-preview-header hstack centered spaced">
 				<a href={comment.author.url}>
-					<img class="comment-preview-image" src={comment.author.image} alt={`${comment.author.name} (${comment.author.url})`} />
+					<img class="comment-preview-image" src={placeholdify(comment.author.image)} alt={`${comment.author.name} (${comment.author.url})`} />
 				</a>
 				<a class="comment-preview-link grow hstack spaced" href={comment.author.url}>
 					<div class="grow vstack">

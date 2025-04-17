@@ -2,14 +2,15 @@ import { $page } from '@torpor/build/state';
 import MapPinSimpleArea from "phosphor-torpor/lib/MapPinSimpleArea";
 import Pencil from "phosphor-torpor/lib/Pencil";
 import SignOut from "phosphor-torpor/lib/SignOut";
+import placeholdify from "@/lib/utils/placeholdify";
 
 export default function Preview($props) {
 	@render {
 		<div class="profile-page">
 			<div class="vstack spaced centered profile-details">
 				<h2>{$props.profile.name}</h2>
-				<img src={$props.profile.image} class="profile-image" alt="{$props.profile.name} ({$props.profile.url})" />
-				<div class="vstack spaced">
+				<img src={placeholdify($props.profile.image)} class="profile-image" alt="{$props.profile.name} ({$props.profile.url})" />
+				<div class="vstack spaced centered">
 					@if ($props.profile.bio) {
 						<div>{$props.profile.bio}</div>
 					}
