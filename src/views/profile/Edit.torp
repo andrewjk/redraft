@@ -109,7 +109,9 @@ export default function Edit() {
 			height: 100px;
 			width: 100px;
 			background-size: cover;
+			border: 1px solid #efefef;
 			border-radius: 50%;
+			box-shadow: 0 0.2rem 0.4rem #eee;
 		}
 	}
 }

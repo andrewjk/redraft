@@ -148,7 +148,7 @@ export default function PostView() {
 		}
 
 		.post-view-container {
-			border-bottom: 1px solid lightgray;
+			border-bottom: 1px solid #efefef;
 		}
 
 		.post-view-header,
@@ -169,7 +169,9 @@ export default function PostView() {
 		.post-view-image {
 			height: 40px;
 			width: 40px;
+			border: 1px solid #efefef;
 			border-radius: 50%;
+			box-shadow: 0 0.2rem 0.4rem #eee;
 		}
 
 		.post-view-name {

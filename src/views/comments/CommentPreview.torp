@@ -92,7 +92,9 @@ export default function CommentPreview() {
 		.comment-preview-image {
 			height: 40px;
 			width: 40px;
+			border: 1px solid #efefef;
 			border-radius: 50%;
+			box-shadow: 0 0.2rem 0.4rem #eee;
 		}
 
 		.comment-preview-name {

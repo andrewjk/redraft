@@ -260,7 +260,7 @@ button.link:hover {
 .card {
 	padding: 1rem;
 	background-color: #fff;
-	border: 1px solid lightgray;
+	border: 1px solid #efefef;
 	border-radius: var(--brad);
 	box-shadow: 0 0.2rem 0.4rem #eee;
 }

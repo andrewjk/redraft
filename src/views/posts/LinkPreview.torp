@@ -39,7 +39,7 @@ export default function LinkPreview() {
 		}
 
 		.link-preview-host {
-			color: lightgray;
+			color: #efefef;
 		}
 	}
 }

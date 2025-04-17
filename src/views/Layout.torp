@@ -100,7 +100,7 @@ function Nav() {
 		nav {
 			background-color: #fff;
 			padding: 1rem;
-			border-bottom: 1px solid lightgray;
+			border-bottom: 1px solid #efefef;
 			box-shadow: 0 0.2rem 0.4rem #eee;
 		}
 	}
