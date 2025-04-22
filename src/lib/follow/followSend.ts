@@ -1,10 +1,11 @@
 import database from "@/data/database";
-import { followingTable } from "@/data/schema";
+import { followingTable, usersTable } from "@/data/schema";
 import { ok, serverError, unauthorized } from "@torpor/build/response";
 import { eq } from "drizzle-orm";
 import { postPublic } from "../public";
 import { FollowRequestModel, FollowRequestResponseModel } from "../public/followRequested";
 import getErrorMessage from "../utils/getErrorMessage";
+import userIdQuery from "../utils/userIdQuery";
 import uuid from "../utils/uuid";
 
 export type FollowModel = {
@@ -14,14 +15,16 @@ export type FollowModel = {
 /**
  * Sends a follow request from another user.
  */
-export default async function followSend(request: Request, url: URL) {
-	const db = database();
-
+export default async function followSend(request: Request, url: URL, code: string) {
 	try {
+		const db = database();
+
 		const model: FollowModel = await request.json();
 
-		// Get the current (only) user
-		const currentUser = await db.query.usersTable.findFirst();
+		// Get the current user
+		const currentUser = await db.query.usersTable.findFirst({
+			where: eq(usersTable.id, userIdQuery(code)),
+		});
 		if (!currentUser) {
 			return unauthorized();
 		}

@@ -9,6 +9,6 @@ export default {
 			return unauthorized();
 		}
 
-		return await postPin(request);
+		return await postPin(request, user.code);
 	},
 } satisfies ServerEndPoint;

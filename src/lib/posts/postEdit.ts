@@ -1,9 +1,10 @@
 import database from "@/data/database";
-import { articlesTable, postsTable } from "@/data/schema";
+import { articlesTable, postsTable, usersTable } from "@/data/schema";
 import { ARTICLE_POST_TYPE } from "@/lib/constants";
-import { notFound, ok, serverError } from "@torpor/build/response";
+import { notFound, ok, serverError, unauthorized } from "@torpor/build/response";
 import { eq } from "drizzle-orm";
 import getErrorMessage from "../utils/getErrorMessage";
+import userIdQuery from "../utils/userIdQuery";
 
 export type PostEditModel = {
 	id: number;
@@ -20,14 +21,16 @@ export type PostEditModel = {
 	tags: string | null;
 };
 
-export default async function postEdit(slug: string) {
-	const db = database();
-
+export default async function postEdit(slug: string, code: string) {
 	try {
-		// Get the current (only) user
-		const user = await db.query.usersTable.findFirst();
-		if (!user) {
-			return notFound();
+		const db = database();
+
+		// Get the current user
+		const currentUser = await db.query.usersTable.findFirst({
+			where: eq(usersTable.id, userIdQuery(code)),
+		});
+		if (!currentUser) {
+			return unauthorized();
 		}
 
 		// Get the post from the database

@@ -26,9 +26,9 @@ async function send({ method, path, data, token }: SendOptions) {
 		headers: new Headers(),
 	};
 
-	if (data) {
+	if (data || method === "POST") {
 		options.headers.append("Content-Type", "application/json");
-		options.body = JSON.stringify(data);
+		options.body = JSON.stringify(data ?? {});
 	}
 
 	if (token) {

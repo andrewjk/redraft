@@ -1,19 +1,22 @@
 import database from "@/data/database";
-import { followedByTable, followingTable } from "@/data/schema";
+import { followedByTable, followingTable, usersTable } from "@/data/schema";
 import { ok, serverError, unauthorized } from "@torpor/build/response";
 import { eq } from "drizzle-orm";
 import { postPublic } from "../public";
 import { ProfileUpdatedModel } from "../public/profileUpdated";
 import getErrorMessage from "../utils/getErrorMessage";
+import userIdQuery from "../utils/userIdQuery";
 
 // TODO: Should only send the data that has changed
 
-export default async function profileSend() {
-	const db = database();
-
+export default async function profileSend(code: string) {
 	try {
-		// Get the current (only) user
-		const currentUser = await db.query.usersTable.findFirst();
+		const db = database();
+
+		// Get the current user
+		const currentUser = await db.query.usersTable.findFirst({
+			where: eq(usersTable.id, userIdQuery(code)),
+		});
 		if (!currentUser) {
 			return unauthorized();
 		}

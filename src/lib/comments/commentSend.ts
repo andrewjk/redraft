@@ -11,9 +11,9 @@ export type CommentSendModel = {
 };
 
 export default async function commentSend(request: Request) {
-	const db = database();
-
 	try {
+		const db = database();
+
 		const model: CommentSendModel = await request.json();
 
 		// Load the post

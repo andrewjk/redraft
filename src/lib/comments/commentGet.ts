@@ -7,14 +7,11 @@ import getErrorMessage from "../utils/getErrorMessage";
 import commentPreview from "./commentPreview";
 
 export default async function commentGet(slug: string) {
-	const db = database();
-
 	try {
-		// Get the current (only) user
+		const db = database();
+
+		// Get the user
 		const user = await db.query.usersTable.findFirst();
-		if (!user) {
-			return notFound();
-		}
 
 		// Get the comment from the database
 		const comment = await db.query.commentsTable.findFirst({
@@ -40,8 +37,8 @@ export default async function commentGet(slug: string) {
 		//const view = commentPreview(comment, user, children);
 
 		return ok({
-			post: postPreview(comment.post, user),
-			comment: commentPreview(comment, user, children),
+			post: postPreview(comment.post, user!),
+			comment: commentPreview(comment, user!, children),
 		});
 	} catch (error) {
 		const message = getErrorMessage(error).message;

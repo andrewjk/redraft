@@ -1,40 +1,52 @@
 import database from "@/data/database";
 import { postsTable } from "@/data/schema";
 import { IMAGE_POST_TYPE } from "@/lib/constants";
+import { ok, serverError } from "@torpor/build/response";
 import { and, desc, eq, isNotNull, isNull } from "drizzle-orm";
 import postPreview, { PostPreview } from "../posts/postPreview";
+import getErrorMessage from "../utils/getErrorMessage";
+
+export type MediaList = {
+	posts: PostPreview[];
+	postsCount: number;
+};
 
 export default async function mediaDraftList(
 	drafts: boolean,
 	limit?: number,
 	offset?: number,
-): Promise<{ posts: PostPreview[]; postsCount: number }> {
-	const db = database();
+): Promise<Response> {
+	try {
+		const db = database();
 
-	// Get the current (only) user
-	const user = await db.query.usersTable.findFirst();
+		// Get the current (only) user
+		const user = await db.query.usersTable.findFirst();
 
-	const condition = and(
-		eq(postsTable.type, IMAGE_POST_TYPE),
-		drafts ? isNull(postsTable.published_at) : isNotNull(postsTable.published_at),
-	);
+		const condition = and(
+			eq(postsTable.type, IMAGE_POST_TYPE),
+			drafts ? isNull(postsTable.published_at) : isNotNull(postsTable.published_at),
+		);
 
-	// Get the media from the database
-	const dbmedia = await db.query.postsTable.findMany({
-		limit,
-		offset,
-		where: condition,
-		orderBy: desc(postsTable.updated_at),
-	});
+		// Get the media from the database
+		const dbmedia = await db.query.postsTable.findMany({
+			limit,
+			offset,
+			where: condition,
+			orderBy: desc(postsTable.updated_at),
+		});
 
-	// Get the total media count
-	const postsCount = await db.$count(postsTable, condition);
+		// Get the total media count
+		const postsCount = await db.$count(postsTable, condition);
 
-	// Create media previews
-	const posts = dbmedia.map((media) => postPreview(media, user!));
+		// Create media previews
+		const posts = dbmedia.map((media) => postPreview(media, user!));
 
-	return {
-		posts,
-		postsCount,
-	};
+		return ok({
+			posts,
+			postsCount,
+		});
+	} catch (error) {
+		const message = getErrorMessage(error).message;
+		return serverError(message);
+	}
 }

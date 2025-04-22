@@ -11,9 +11,9 @@ export type PostReactionModel = {
 };
 
 export default async function postReaction(request: Request) {
-	const db = database();
-
 	try {
+		const db = database();
+
 		const model: PostReactionModel = await request.json();
 
 		// Get the user who reacted to the post

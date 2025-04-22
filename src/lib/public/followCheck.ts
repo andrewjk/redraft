@@ -19,9 +19,9 @@ export type FollowCheckResponseModel = {
  * Checks that a follow request was sent by this user.
  */
 export default async function followCheck(request: Request) {
-	const db = database();
-
 	try {
+		const db = database();
+
 		const model: FollowCheckModel = await request.json();
 
 		// Get the current (only) user

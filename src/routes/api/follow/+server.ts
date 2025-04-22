@@ -9,6 +9,6 @@ export default {
 			return unauthorized();
 		}
 
-		return await followSend(request, url);
+		return await followSend(request, url, user.code);
 	},
 } satisfies ServerEndPoint;

@@ -12,9 +12,9 @@ export type CommentedModel = {
 };
 
 export default async function commentReceived(request: Request) {
-	const db = database();
-
 	try {
+		const db = database();
+
 		const model: CommentedModel = await request.json();
 
 		const user = await db.query.followingTable.findFirst({

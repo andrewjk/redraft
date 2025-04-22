@@ -14,9 +14,9 @@ import commentPreview from "../comments/commentPreview";
 import getErrorMessage from "../utils/getErrorMessage";
 
 export default async function postGet(user: User, follower: User, slug: string) {
-	const db = database();
-
 	try {
+		const db = database();
+
 		// Get the current (only) user
 		const currentUser = await db.query.usersTable.findFirst();
 		if (!currentUser) {

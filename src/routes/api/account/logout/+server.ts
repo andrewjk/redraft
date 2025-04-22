@@ -1,14 +1,14 @@
-import extensionFollowing from "@/lib/extension/extensionFollowing";
+import accountLogout from "@/lib/account/accountLogout";
 import type { ServerEndPoint } from "@torpor/build";
 import { unauthorized } from "@torpor/build/response";
 
 export default {
-	get: async ({ appData }) => {
+	post: async ({ appData }) => {
 		const user = appData.user;
 		if (!user) {
 			return unauthorized();
 		}
 
-		return await extensionFollowing(user.code);
+		return await accountLogout(user.code);
 	},
 } satisfies ServerEndPoint;

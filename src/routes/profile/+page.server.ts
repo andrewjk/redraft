@@ -3,6 +3,7 @@ import formDataToObject from "@/lib/utils/formDataToObject";
 import setUserToken from "@/lib/utils/setUserToken";
 import { type PageServerEndPoint } from "@torpor/build";
 import { ok, redirect, unauthorized, unprocessable } from "@torpor/build/response";
+import logout from "../account/_actions/logout";
 
 export default {
 	load: async ({ appData, params }) => {
@@ -19,11 +20,7 @@ export default {
 		return ok({ profile: result });
 	},
 	actions: {
-		logout: ({ appData, cookies }) => {
-			cookies.delete("jwt", { path: "/" });
-			appData.user = null;
-			return redirect("/");
-		},
+		logout,
 		save: async ({ appData, cookies, request, params }) => {
 			const user = appData.user;
 			if (!user) {

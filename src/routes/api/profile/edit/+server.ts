@@ -18,6 +18,6 @@ export default {
 			return unauthorized();
 		}
 
-		return await profileEdit(request, params, user.token);
+		return await profileEdit(request, params, user.token, user.code);
 	},
 } satisfies ServerEndPoint;

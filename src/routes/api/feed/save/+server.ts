@@ -9,6 +9,6 @@ export default {
 			return unauthorized();
 		}
 
-		return await feedSave(request);
+		return await feedSave(request, user.code);
 	},
 } satisfies ServerEndPoint;

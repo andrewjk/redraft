@@ -1,20 +1,29 @@
 import database from "@/data/database";
-import { followedByTable, postsTable } from "@/data/schema";
-import { notFound, ok, serverError } from "@torpor/build/response";
+import { followedByTable, postsTable, usersTable } from "@/data/schema";
+import { notFound, ok, serverError, unauthorized } from "@torpor/build/response";
 import { eq } from "drizzle-orm";
 import { postPublic } from "../public";
 import { FeedReceivedModel } from "../public/feedReceived";
 import getErrorMessage from "../utils/getErrorMessage";
+import userIdQuery from "../utils/userIdQuery";
 
 export type PostSendModel = {
 	id: number;
 };
 
-export default async function postSend(request: Request) {
-	const db = database();
-
+export default async function postSend(request: Request, code: string) {
 	try {
+		const db = database();
+
 		const model: PostSendModel = await request.json();
+
+		// Get the current user
+		const currentUser = await db.query.usersTable.findFirst({
+			where: eq(usersTable.id, userIdQuery(code)),
+		});
+		if (!currentUser) {
+			return unauthorized();
+		}
 
 		// Load the post
 		const post = await db.query.postsTable.findFirst({ where: eq(postsTable.id, model.id) });

@@ -4,9 +4,9 @@ import getErrorMessage from "../utils/getErrorMessage";
 import profileView from "./profileView";
 
 export default async function profileGet(forEditing = false) {
-	const db = database();
-
 	try {
+		const db = database();
+
 		// Get the current (only) user
 		const user = await db.query.usersTable.findFirst({
 			with: {

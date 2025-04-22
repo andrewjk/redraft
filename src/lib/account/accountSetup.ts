@@ -1,10 +1,12 @@
 import database from "@/data/database";
 import { usersTable } from "@/data/schema";
+import { userTokensTable } from "@/data/schema/userTokensTable";
 import env from "@/lib/env";
 import { created, forbidden, serverError } from "@torpor/build/response";
 import createUserToken from "../utils/createUserToken";
 import getErrorMessage from "../utils/getErrorMessage";
 import { hashPassword } from "../utils/hashPasswords";
+import uuid from "../utils/uuid";
 
 export type SetupModel = {
 	username: string;
@@ -17,9 +19,9 @@ export type SetupModel = {
 };
 
 export default async function accountSetup(request: Request) {
-	const db = database();
-
 	try {
+		const db = database();
+
 		// TODO: Make sure a user doesn't exist
 
 		const model: SetupModel = await request.json();
@@ -30,14 +32,14 @@ export default async function accountSetup(request: Request) {
 		}
 
 		// Create the user
-		const hashed = hashPassword(model.password);
+		const password = hashPassword(model.password.trim());
 		const user = {
-			email: model.email,
-			username: model.username,
+			email: model.email.trim(),
+			username: model.username.trim(),
 			// TODO: Get this from the request headers?
-			password: hashed,
-			name: model.name,
 			url: env().SITE_LOCATION!,
+			password,
+			name: model.name.trim(),
 			bio: model.bio ?? "",
 			image: model.image ?? "",
 			location: model.location ?? "",
@@ -46,16 +48,27 @@ export default async function accountSetup(request: Request) {
 		};
 
 		// Insert the user into the database
-		await db.insert(usersTable).values(user).returning();
+		const newUser = (await db.insert(usersTable).values(user).returning({ id: usersTable.id }))[0];
+
+		// Create a user token
+		// TODO: Send them to the login page instead
+		const code = uuid().toString();
+		const sevenDays = 7 * 24 * 60 * 60;
+		await db.insert(userTokensTable).values({
+			user_id: newUser.id,
+			code: code,
+			expires_at: new Date(new Date().getTime() + sevenDays * 1000),
+		});
 
 		// Create the authentication token for future use
-		const token = await createUserToken(user);
+		const token = await createUserToken(user, code);
 
 		return created({
 			url: user.url,
 			name: user.name,
 			image: user.image,
 			token,
+			code,
 		});
 	} catch (error) {
 		const message = getErrorMessage(error).message;

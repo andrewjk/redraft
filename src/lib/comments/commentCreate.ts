@@ -19,9 +19,9 @@ export default async function commentCreate(
 	url: string,
 	token: string,
 ) {
-	const db = database();
-
 	try {
+		const db = database();
+
 		const model: CommentCreateModel = await request.json();
 
 		// TODO: Should be using the shared key!

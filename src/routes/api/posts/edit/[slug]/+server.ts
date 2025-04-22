@@ -9,6 +9,6 @@ export default {
 			return unauthorized();
 		}
 
-		return await postEdit(params.slug);
+		return await postEdit(params.slug, user.code);
 	},
 } satisfies ServerEndPoint;

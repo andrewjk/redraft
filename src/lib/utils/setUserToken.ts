@@ -4,7 +4,9 @@ type User = {
 	url: string;
 	name: string;
 	image: string;
+	// TODO: Ditch this??
 	token: string;
+	code: string;
 };
 
 export default function setUserToken(cookies: CookieHelper, user: User) {

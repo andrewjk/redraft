@@ -4,6 +4,7 @@ import * as api from "@/lib/api";
 import { ok, serverError, unauthorized } from "@torpor/build/response";
 import { eq } from "drizzle-orm";
 import getErrorMessage from "../utils/getErrorMessage";
+import userIdQuery from "../utils/userIdQuery";
 
 export type ProfileEdit = {
 	email: string;
@@ -23,14 +24,16 @@ export default async function profileEdit(
 	request: Request,
 	params: Record<string, string>,
 	token: string,
+	code: string,
 ) {
-	const db = database();
-
 	try {
+		const db = database();
+
 		const model: ProfileEdit = await request.json();
 
-		// Get the current (only) user
+		// Get the current user
 		const currentUser = await db.query.usersTable.findFirst({
+			where: eq(usersTable.id, userIdQuery(code)),
 			with: {
 				links: true,
 			},

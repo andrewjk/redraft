@@ -1,10 +1,11 @@
 import database from "@/data/database";
-import { feedTable } from "@/data/schema";
+import { feedTable, usersTable } from "@/data/schema";
 import { ok, serverError, unauthorized } from "@torpor/build/response";
 import { eq } from "drizzle-orm";
 import { postPublic } from "../public";
 import { PostLikeModel } from "../public/postLiked";
 import getErrorMessage from "../utils/getErrorMessage";
+import userIdQuery from "../utils/userIdQuery";
 
 export type FeedLikeModel = {
 	slug: string;
@@ -13,14 +14,16 @@ export type FeedLikeModel = {
 	liked: boolean;
 };
 
-export default async function feedLike(request: Request) {
-	const db = database();
-
+export default async function feedLike(request: Request, code: string) {
 	try {
+		const db = database();
+
 		const model: FeedLikeModel = await request.json();
 
-		// Get the current (only) user
-		const currentUser = await db.query.usersTable.findFirst();
+		// Get the current user
+		const currentUser = await db.query.usersTable.findFirst({
+			where: eq(usersTable.id, userIdQuery(code)),
+		});
 		if (!currentUser) {
 			return unauthorized();
 		}

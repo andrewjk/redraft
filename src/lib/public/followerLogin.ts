@@ -15,9 +15,9 @@ export default async function followerLogin(
 	/*request: Request, */ sharedKey: string,
 	cookies: CookieHelper,
 ) {
-	const db = database();
-
 	try {
+		const db = database();
+
 		//const model: FollowerLoginModel = await request.json();
 
 		const user = await db.query.followedByTable.findFirst({

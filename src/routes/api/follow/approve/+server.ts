@@ -9,6 +9,6 @@ export default {
 			return unauthorized();
 		}
 
-		return await followApprove(request);
+		return await followApprove(request, user.code);
 	},
 } satisfies ServerEndPoint;

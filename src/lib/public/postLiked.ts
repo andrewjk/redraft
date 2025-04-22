@@ -11,9 +11,9 @@ export type PostLikeModel = {
 };
 
 export default async function postLiked(request: Request) {
-	const db = database();
-
 	try {
+		const db = database();
+
 		const model: PostLikeModel = await request.json();
 
 		// Get the user who liked the post

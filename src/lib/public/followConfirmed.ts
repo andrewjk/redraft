@@ -12,9 +12,9 @@ export type FollowConfirmModel = {
  * Confirms a follow request that was sent.
  */
 export default async function followConfirmed(request: Request) {
-	const db = database();
-
 	try {
+		const db = database();
+
 		const model: FollowConfirmModel = await request.json();
 
 		// Get the current (only) user

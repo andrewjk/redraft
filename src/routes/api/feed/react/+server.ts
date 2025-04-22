@@ -9,6 +9,6 @@ export default {
 			return unauthorized();
 		}
 
-		return await feedReact(request);
+		return await feedReact(request, user.code);
 	},
 } satisfies ServerEndPoint;

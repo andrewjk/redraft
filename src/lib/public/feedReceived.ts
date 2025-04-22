@@ -19,9 +19,9 @@ export type FeedReceivedModel = {
 };
 
 export default async function feedReceived(request: Request) {
-	const db = database();
-
 	try {
+		const db = database();
+
 		const model: FeedReceivedModel = await request.json();
 
 		const user = await db.query.followingTable.findFirst({

@@ -30,6 +30,21 @@ export default function Setup() {
 						/>
 					</div>
 					<div class="form-row">
+						<label for="email">Email</label>
+						<input
+							name="email"
+							type="email"
+							required
+						/>
+					</div>
+					<div class="form-row">
+						<label for="name">Name</label>
+						<input
+							name="name"
+							required
+						/>
+					</div>
+					<div class="form-row">
 						<label for="email">Image</label
 						<div class="hstack spaced centered">
 							<div id="image-preview" />
@@ -53,21 +68,6 @@ export default function Setup() {
 							preview.style.backgroundImage = `url('${ev.target.result}')`;
 						}
 					}
-					<div class="form-row">
-						<label for="email">Email</label>
-						<input
-							name="email"
-							type="email"
-							required
-						/>
-					</div>
-					<div class="form-row">
-						<label for="name">Name</label>
-						<input
-							name="name"
-							required
-						/>
-					</div>
 					<div class="form-row">
 						<label for="bio">Bio</label>
 						<input name="bio" />
@@ -96,7 +96,9 @@ export default function Setup() {
 			height: 100px;
 			width: 100px;
 			background-size: cover;
+			border: 1px solid #efefef;
 			border-radius: 50%;
+			box-shadow: 0 0.2rem 0.4rem #eee;
 		}
 	}
 }

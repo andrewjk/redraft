@@ -9,6 +9,6 @@ export default {
 			return unauthorized();
 		}
 
-		return await profileSend();
+		return await profileSend(user.code);
 	},
 } satisfies ServerEndPoint;

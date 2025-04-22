@@ -2,6 +2,7 @@ import * as api from "@/lib/api";
 import { FRONT_PAGE_SIZE } from "@/lib/constants";
 import { type PageServerEndPoint } from "@torpor/build";
 import { ok } from "@torpor/build/response";
+import logout from "./account/_actions/logout";
 import savePost from "./feed/_actions/saveFeedPost";
 import pinPost from "./posts/_actions/pinPost";
 import publishPost from "./posts/_actions/publishPost";
@@ -24,5 +25,6 @@ export default {
 		savePost,
 		publishPost,
 		pinPost,
+		logout,
 	},
 } satisfies PageServerEndPoint;

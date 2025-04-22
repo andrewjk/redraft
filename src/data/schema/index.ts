@@ -8,6 +8,7 @@ import { postReactionsRelations, postReactionsTable } from "./postReactionsTable
 import { postTagsRelations, postTagsTable } from "./postTagsTable";
 import { postsRelations, postsTable } from "./postsTable";
 import { tagsRelations, tagsTable } from "./tagsTable";
+import { userTokensRelations, userTokensTable } from "./userTokensTable";
 import { userLinksRelations, userLinksTable, usersRelations, usersTable } from "./usersTable";
 
 export {
@@ -32,4 +33,6 @@ export {
 	usersRelations,
 	userLinksTable,
 	userLinksRelations,
+	userTokensTable,
+	userTokensRelations,
 };

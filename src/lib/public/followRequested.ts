@@ -19,9 +19,9 @@ export type FollowRequestResponseModel = {
  * Receives a follow request from another user.
  */
 export default async function followRequested(request: Request) {
-	const db = database();
-
 	try {
+		const db = database();
+
 		const model: FollowRequestModel = await request.json();
 
 		// Check that this request actually came from the url claimed by hitting /follow/check

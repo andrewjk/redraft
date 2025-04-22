@@ -9,6 +9,6 @@ export default {
 			return unauthorized();
 		}
 
-		return await postPublish(request, params, user.token);
+		return await postPublish(request, params, user.token, user.code);
 	},
 } satisfies ServerEndPoint;

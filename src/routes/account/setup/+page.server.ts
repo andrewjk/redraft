@@ -37,6 +37,7 @@ export default {
 				name: result.name,
 				image: result.image,
 				token: result.token,
+				code: result.code,
 			});
 
 			return seeOther("/");

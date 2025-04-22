@@ -1,20 +1,14 @@
 import database from "@/data/database";
-import { postsTable, usersTable } from "@/data/schema";
+import { usersTable } from "@/data/schema";
+import { userTokensTable } from "@/data/schema/userTokensTable";
 import { ok, serverError, unauthorized } from "@torpor/build/response";
 import { eq } from "drizzle-orm";
 import getErrorMessage from "../utils/getErrorMessage";
 import userIdQuery from "../utils/userIdQuery";
 
-export type PostPinModel = {
-	slug: string;
-	pinned: boolean;
-};
-
-export default async function postPin(request: Request, code: string) {
+export default async function accountLogout(code: string) {
 	try {
 		const db = database();
-
-		const model: PostPinModel = await request.json();
 
 		// Get the current user
 		const currentUser = await db.query.usersTable.findFirst({
@@ -24,13 +18,9 @@ export default async function postPin(request: Request, code: string) {
 			return unauthorized();
 		}
 
-		// Update the post
-		await db
-			.update(postsTable)
-			.set({
-				pinned: model.pinned,
-			})
-			.where(eq(postsTable.slug, model.slug));
+		// Remove the user token
+		// TODO: Allow logging out of all devices
+		await db.delete(userTokensTable).where(eq(userTokensTable.code, code));
 
 		return ok();
 	} catch (error) {
