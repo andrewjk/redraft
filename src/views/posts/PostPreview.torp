@@ -21,27 +21,35 @@ export default function PostPreview() {
 
 	@render {
 		<div class="post-preview card">
-			@if (post.pinned) {
-				<div class="post-preview-status">Pinned</div>
-			}
-			@if (post.republishedAt) {
-				<div class="post-preview-status" title={fmt.format(new Date(post.republishedAt))}>
-					Republished {relativeTimeSince(new Date(post.republishedAt))}
-				</div>
-			}
-			@if (post.visibility) {
-				<div class="post-preview-status">
-					Visibility {visibilityText()}
-				</div>
-				@function visibilityText() {
-					switch (post.visibility) {
-						case 0: return "public";
-						case 1: return "followers";
-						case 2: return "private";
-						case 3: return "recipients";
+			<div class="post-preview-status hstack spaced-text">
+				@if (post.pinned) {
+					<div>Pinned</div>
+				}
+				@if (post.pinned && (post.republishedAt || post.visibility)) {
+					<div class="menu-separator" />
+				}
+				@if (post.republishedAt) {
+					<div title={fmt.format(new Date(post.republishedAt))}>
+						Republished {relativeTimeSince(new Date(post.republishedAt))}
+					</div>
+				}
+				@if (post.republishedAt && post.visibility) {
+					<div class="menu-separator" />
+				}
+				@if (post.visibility) {
+					<div>
+						Visibility {visibilityText()}
+					</div>
+					@function visibilityText() {
+						switch (post.visibility) {
+							case 0: return "public";
+							case 1: return "followers";
+							case 2: return "private";
+							case 3: return "recipients";
+						}
 					}
 				}
-			}
+			</div>
 			<div class="post-preview-header hstack centered spaced">
 				<a href={post.author.url}>
 					<img class="post-preview-author-image" src={placeholdify(post.author.image)} alt={`${post.author.name} (${post.author.url})`} />

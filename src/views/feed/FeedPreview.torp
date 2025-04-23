@@ -25,24 +25,29 @@ export default function FeedPreview() {
 
 	@render {
 		<div class="feed-preview card">
-			@if (feed.republishedAt) {
-				<div class="feed-preview-status" title={fmt.format(new Date(feed.republishedAt))}>
-					Republished {relativeTimeSince(new Date(feed.republishedAt))}
-				</div>
-			}
-			@if (feed.visibility) {
-				<div class="feed-preview-status">
-					Visibility {visibilityText()}
-				</div>
-				@function visibilityText() {
-					switch (feed.visibility) {
-						case 0: return "public";
-						case 1: return "followers";
-						case 2: return "private";
-						case 3: return "recipients";
+			<div class="feed-preview-status hstack spaced-text"}>
+				@if (feed.republishedAt) {
+					<div title={fmt.format(new Date(feed.republishedAt))}>
+						Republished {relativeTimeSince(new Date(feed.republishedAt))}
+					</div>
+				}
+				@if (feed.republishedAt && feed.visibility) {
+					<div class="menu-separator" />
+				}
+				@if (feed.visibility) {
+					<div>
+						Visibility {visibilityText()}
+					</div>
+					@function visibilityText() {
+						switch (feed.visibility) {
+							case 0: return "public";
+							case 1: return "followers";
+							case 2: return "private";
+							case 3: return "recipients";
+						}
 					}
 				}
-			}
+			</div>
 			<div class="feed-preview-header hstack centered spaced">
 				<a href={feed.author.url}>
 					<img class="feed-preview-author-image" src={placeholdify(feed.author.image)} alt={`${feed.author.name} (${feed.author.url})`} />

@@ -1,5 +1,5 @@
 import { $page } from '@torpor/build/state';
-import MapPinSimpleArea from "phosphor-torpor/lib/MapPinSimpleArea";
+import MapPin from "phosphor-torpor/lib/MapPin";
 import Pencil from "phosphor-torpor/lib/Pencil";
 import SignOut from "phosphor-torpor/lib/SignOut";
 import placeholdify from "@/lib/utils/placeholdify";
@@ -15,8 +15,8 @@ export default function Preview($props) {
 						<div>{$props.profile.bio}</div>
 					}
 					@if ($props.profile.location) {
-						<div class="hstack spaced centered">
-							<MapPinSimpleArea />
+						<div class="hstack spaced-text centered">
+							<MapPin weight="bold" />
 							{$props.profile.location}
 						</div>
 					}
@@ -25,12 +25,12 @@ export default function Preview($props) {
 
 			@if ($props.user) {
 				<div class="hstack spaced centered profile-options">
-					<a href="profile/edit">
-						<Pencil />
+					<a href="profile/edit" class="hstack spaced-text centered">
+						<Pencil weight="bold" /> Edit profile
 					</a>
 					<form use:enhance method="POST" action="?/logout">
-						<button class="link">
-							<SignOut />
+						<button class="link hstack spaced-text centered">
+							<SignOut weight="bold" /> Log out
 						</button>
 					</form>
 				</div>

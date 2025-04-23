@@ -113,20 +113,20 @@ export default function PostInput($props) {
 			<div class="hstack spaced post-input-footer">
 				@if (!post.type) {
 					<button type="button" class="link" onclick={() => post.type = IMAGE_POST_TYPE}>
-						<Image />
+						<Image weight="bold" />
 					</button>
 					<button type="button" class="link" onclick={() => post.type = LINK_POST_TYPE}>
-						<Link />
+						<Link weight="bold" />
 					</button>
 					<button type="button" class="link" onclick={() => post.type = ARTICLE_POST_TYPE}>
-						<Article />
+						<Article weight="bold" />
 					</button>
 				}
 				<button type="button" class="link" onclick={() => $state.showTags = !$state.showTags}>
-					<Tag />
+					<Tag weight="bold" />
 				</button>
 				<button type="button" class="link" onclick={() => $state.showVisibility = !$state.showVisibility}>
-					<UsersThree />
+					<UsersThree weight="bold" />
 				</button>
 				<div class="spacer" />
 				<button type="submit" formaction="?/savePost">

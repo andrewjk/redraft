@@ -9,8 +9,10 @@ export default function Layout() {
 
 			@if ($props.data.username) {
 				<base href={`/${$props.data.username}/`} />
+			} else {
+				<base href="/" />
 			}
-			<Nav user={$props.data.user} follower={$props.data.follower} />
+			<Nav user={$props.data.user} follower={$props.data.follower} username={$props.data.username} />
 
 			<main>
 				<:slot />
@@ -31,17 +33,33 @@ function Nav() {
 		<nav class="nav-bar">
 			<ul class="plain hstack spaced full-width">
 				<li class="nav-item">
-					<a :class={{ "nav-link": true, active: $page.url.pathname === "/" }} href="/">
+					<a
+					  :class={{ "nav-link": true, active: $page.url.pathname === "/" }}
+					  href={$props.user?.url || "/"}>
 						Home
 					</a>
 				</li>
 
+				@if ($props.user) {
+					<span class="menu-separator" />
+
+					<li class="nav-item">
+						<a
+						  :class={{ "nav-link": true, active: $page.url.pathname === `/feed` }}
+						  href={`${$props.user?.url}feed`}>
+							Feed
+						</a>
+					</li>
+				}
+
 				<div class="spacer" />
 
-				@if ($props.user) {
+				@if ($props.username && $props.username !== $props.user?.username) {
 					<li class="nav-item">
-						<a href="feed" class="nav-link">
-							Feed
+						<a
+						  :class={{ "nav-link": true, active: $page.url.pathname === `/${$props.username}` }}
+						  href={`/${$props.username}`}>
+							User
 						</a>
 					</li>
 
@@ -71,6 +89,10 @@ function Nav() {
 				</li>
 
 				<span class="menu-separator" />
+
+				@// TODO: Fix the links -- maybe only have login and have a link to setup/join from that page?
+				@// TODO: Figure out how to do Home/Feed/User
+
 				@if ($props.user) {
 					<li class="nav-item">
 						<a href="profile" class="nav-link">
@@ -79,7 +101,7 @@ function Nav() {
 					</li>
 				} else {
 					<li class="nav-item">
-						<a href="account/login" :class={{ "nav-link": true, active: $page.url.pathname === "/account/login" }}>
+						<a href="/account/login" :class={{ "nav-link": true, active: $page.url.pathname === "/account/login" }}>
 							Login
 						</a>
 					</li>
@@ -87,7 +109,7 @@ function Nav() {
 					<span class="menu-separator" />
 
 					<li class="nav-item">
-						<a href="account/register" :class={{ "nav-link": true, active: $page.url.pathname === "/account/register" }}>
+						<a href="/account/register" :class={{ "nav-link": true, active: $page.url.pathname === "/account/register" }}>
 							Register
 						</a>
 					</li>

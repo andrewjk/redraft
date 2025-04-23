@@ -158,6 +158,11 @@ textarea.code {
 	gap: 1rem;
 }
 
+.hstack.spaced-text,
+.vstack.spaced-text {
+	gap: 0.6rem;
+}
+
 .hstack.equal,
 .vstack.equal {
 	* {
