@@ -1,11 +1,11 @@
 import * as api from "@/lib/api";
 import { FRONT_PAGE_SIZE } from "@/lib/constants";
+import logout from "@/routes/account/_actions/logout";
+import savePost from "@/routes/feed/_actions/saveFeedPost";
+import pinPost from "@/routes/posts/_actions/pinPost";
+import publishPost from "@/routes/posts/_actions/publishPost";
 import { type PageServerEndPoint } from "@torpor/build";
 import { ok } from "@torpor/build/response";
-import logout from "./account/_actions/logout";
-import savePost from "./feed/_actions/saveFeedPost";
-import pinPost from "./posts/_actions/pinPost";
-import publishPost from "./posts/_actions/publishPost";
 
 export default {
 	load: async ({ appData, params }) => {

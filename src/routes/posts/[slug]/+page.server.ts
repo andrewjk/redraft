@@ -1,7 +1,7 @@
 import * as api from "@/lib/api";
+import createComment from "@/routes/posts/_actions/createComment";
 import { type PageServerEndPoint } from "@torpor/build";
 import { ok, unprocessable } from "@torpor/build/response";
-import createComment from "../_actions/createComment";
 
 export default {
 	load: async ({ appData, params }) => {

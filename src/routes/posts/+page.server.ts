@@ -1,9 +1,9 @@
 import * as api from "@/lib/api";
 import { PAGE_SIZE } from "@/lib/constants";
+import publishPost from "@/routes/posts/_actions/publishPost";
+import savePost from "@/routes/posts/_actions/savePost";
 import { type PageServerEndPoint } from "@torpor/build";
 import { ok } from "@torpor/build/response";
-import publishPost from "./_actions/publishPost";
-import savePost from "./_actions/savePost";
 
 export default {
 	load: async ({ appData, url, params }) => {
