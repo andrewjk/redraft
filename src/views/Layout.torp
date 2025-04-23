@@ -4,7 +4,7 @@ export default function Layout() {
 	@render {
 		<div class="app-layout">
 			<:head>
-				<meta name="redraft-follow" content={$props.data.url} />
+				<meta name="social-follow" content={$props.data.url} />
 			</:head>
 
 			@if ($props.data.username) {
