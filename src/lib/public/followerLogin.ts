@@ -1,6 +1,6 @@
 import database from "@/data/database";
 import { followedByTable } from "@/data/schema";
-import { notFound, redirect, serverError } from "@torpor/build/response";
+import { notFound, seeOther, serverError } from "@torpor/build/response";
 import { CookieHelper } from "@torpor/build/server";
 import { eq } from "drizzle-orm";
 import createFollowerToken from "../utils/createFollowerToken";
@@ -38,7 +38,7 @@ export default async function followerLogin(
 			token: token,
 		});
 
-		return redirect("/");
+		return seeOther("/");
 	} catch (error) {
 		const message = getErrorMessage(error).message;
 		return serverError(message);

@@ -1,6 +1,6 @@
 import * as api from "@/lib/api";
 import { type ServerLoadEvent } from "@torpor/build";
-import { redirect, unauthorized, unprocessable } from "@torpor/build/response";
+import { seeOther, unauthorized, unprocessable } from "@torpor/build/response";
 
 export default async function logout({ appData, cookies, params }: ServerLoadEvent) {
 	const user = appData.user;
@@ -15,5 +15,5 @@ export default async function logout({ appData, cookies, params }: ServerLoadEve
 
 	cookies.delete("jwt", { path: "/" });
 	appData.user = null;
-	return redirect("/");
+	return seeOther("/");
 }

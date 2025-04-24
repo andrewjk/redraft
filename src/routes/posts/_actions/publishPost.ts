@@ -3,7 +3,7 @@ import { uploadFile } from "@/lib/storage";
 import formDataToObject from "@/lib/utils/formDataToObject";
 import uuid from "@/lib/utils/uuid";
 import { type ServerLoadEvent } from "@torpor/build";
-import { redirect, unauthorized, unprocessable } from "@torpor/build/response";
+import { seeOther, unauthorized, unprocessable } from "@torpor/build/response";
 
 export default async function publishPost({ appData, request, params }: ServerLoadEvent) {
 	const user = appData.user;
@@ -27,5 +27,5 @@ export default async function publishPost({ appData, request, params }: ServerLo
 		return unprocessable(result);
 	}
 
-	return redirect("/posts");
+	return seeOther("/posts");
 }
