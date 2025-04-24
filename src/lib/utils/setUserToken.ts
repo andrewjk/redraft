@@ -2,6 +2,7 @@ import { CookieHelper } from "@torpor/build/server";
 
 type User = {
 	url: string;
+	username: string;
 	name: string;
 	image: string;
 	// TODO: Ditch this??

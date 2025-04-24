@@ -46,6 +46,7 @@ export default async function accountLogin(request: Request) {
 
 		return ok({
 			url: user.url,
+			username: user.username,
 			name: user.name,
 			image: user.image,
 			token,

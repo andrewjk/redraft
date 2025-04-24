@@ -51,6 +51,7 @@ export default {
 
 			setUserToken(cookies, {
 				url: result.url,
+				username: user.username,
 				name: result.name,
 				image: result.image,
 				token: user.token,

@@ -65,6 +65,7 @@ export default async function accountSetup(request: Request) {
 
 		return created({
 			url: user.url,
+			username: user.username,
 			name: user.name,
 			image: user.image,
 			token,
