@@ -13,9 +13,9 @@ export type FollowModel = {
 };
 
 /**
- * Sends a follow request from another user.
+ * Sends a follow request to another user.
  */
-export default async function followSend(request: Request, url: URL, code: string) {
+export default async function followSend(request: Request, code: string) {
 	try {
 		const db = database();
 
@@ -53,7 +53,7 @@ export default async function followSend(request: Request, url: URL, code: strin
 		// Send off a request to the url, and hopefully receive the name and image
 		let sendUrl = `${model.url}api/public/follow/request`;
 		let sendData: FollowRequestModel = {
-			url: url.toString().replace("/follow", ""),
+			url: currentUser.url,
 			sharedKey,
 		};
 		let requestData = (await postPublic(sendUrl, sendData)) as FollowRequestResponseModel;

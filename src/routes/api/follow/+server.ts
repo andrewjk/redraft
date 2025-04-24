@@ -3,12 +3,12 @@ import type { ServerEndPoint } from "@torpor/build";
 import { unauthorized } from "@torpor/build/response";
 
 export default {
-	post: async ({ appData, request, url }) => {
+	post: async ({ appData, request }) => {
 		const user = appData.user;
 		if (!user) {
 			return unauthorized();
 		}
 
-		return await followSend(request, url, user.code);
+		return await followSend(request, user.code);
 	},
 } satisfies ServerEndPoint;

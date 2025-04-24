@@ -46,7 +46,7 @@ export default async function followingList(
 		const following = dbfollowing.map((f) => {
 			return {
 				id: f.id,
-				url: `${f.url}api/follow/login?sharedkey=${f.shared_key}`,
+				url: f.url, // `${f.url}api/follow/login?sharedkey=${f.shared_key}`,
 				name: f.name,
 				image: f.image,
 				bio: f.bio,

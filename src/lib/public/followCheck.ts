@@ -44,7 +44,7 @@ export default async function followCheck(request: Request) {
 		const data: FollowCheckResponseModel = {
 			name: user.name,
 			// TODO: get the proper url
-			image: `${env().SITE_LOCATION}${user.image}`,
+			image: user.image ? `${env().SITE_LOCATION}${user.image}` : "",
 			bio: user.bio,
 		};
 
