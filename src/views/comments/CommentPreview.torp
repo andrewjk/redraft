@@ -20,53 +20,59 @@ export default function CommentPreview() {
 
 	@render {
 		<div class="comment-preview">
-			<div class="comment-preview-header hstack centered spaced">
-				<a href={comment.author.url}>
-					<img class="comment-preview-image" src={placeholdify(comment.author.image)} alt={`${comment.author.name} (${comment.author.url})`} />
-				</a>
-				<a class="comment-preview-link grow hstack spaced" href={comment.author.url}>
-					<div class="grow vstack">
-						<div class="comment-preview-name">
-							{comment.author.name}
-						</div>
-						<div class="comment-preview-url">
-							{comment.author.url}
+			<div class="hstack spaced">
+				<div style="flex: 0 0 auto">
+					<a href={comment.author.url}>
+						<img class="comment-preview-image" src={placeholdify(comment.author.image)} alt={`${comment.author.name} (${comment.author.url})`} />
+					</a>
+				</div>
+				<div style="flex: 1 1 auto">
+					<div class="comment-preview-header hstack centered spaced">
+						<a class="comment-preview-link grow hstack spaced" href={comment.author.url}>
+							<div class="grow vstack">
+								<div class="comment-preview-name">
+									{comment.author.name}
+								</div>
+								<div class="comment-preview-url">
+									{comment.author.url}
+								</div>
+							</div>
+						</a>
+						<div class="vstack align-end">
+							<div class="comment-preview-time" title={fmt.format(new Date(comment.createdAt))}>
+								{relativeTimeSince(new Date(comment.createdAt))}
+							</div>
+							@if (!$props.parent && (user || follower) && !$state.replying) {
+								<button type="button" class="link" onclick={() => $state.replying = true}>
+									Reply
+								</button>
+							} else {
+								<div>&nbsp;</div>
+							}
 						</div>
 					</div>
-				</a>
-				<div class="vstack align-end">
-					<div class="comment-preview-time" title={fmt.format(new Date(comment.createdAt))}>
-						{relativeTimeSince(new Date(comment.createdAt))}
+
+					<div class="comment-preview-body">
+						<a class="comment-preview-link" href="{post.author.url}comments/{comment.slug}">
+							<p>{comment.text}</p>
+						</a>
 					</div>
-					@if (!$props.parent && (user || follower) && !$state.replying) {
-						<button type="button" class="link" onclick={() => $state.replying = true}>
-							Reply
-						</button>
-					} else {
-						<div>&nbsp;</div>
+
+					@if ($state.replying) {
+						<div class="comment-preview-footer hstack spaced">
+							<CommentInput {post} parent={comment.slug} />
+						</div>
+					}
+
+					@if (comment.children.length) {
+						<div class="comment-preview-children">
+							@for (let child of comment.children) {
+								<CommentPreview {post} comment={child} {user} {follower} parent={comment.slug} />
+							}
+						</div>
 					}
 				</div>
 			</div>
-
-			<div class="comment-preview-body">
-				<a class="comment-preview-link" href="{post.author.url}comments/{comment.slug}">
-					<p>{comment.text}</p>
-				</a>
-			</div>
-
-			@if ($state.replying) {
-				<div class="comment-preview-footer hstack spaced">
-					<CommentInput {post} parent={comment.slug} />
-				</div>
-			}
-
-			@if (comment.children.length) {
-				<div class="comment-preview-children">
-					@for (let child of comment.children) {
-						<CommentPreview {post} comment={child} {user} {follower} parent={comment.slug} />
-					}
-				</div>
-			}
 		</div>
 	}
 
@@ -104,10 +110,6 @@ export default function CommentPreview() {
 		.comment-preview-url,
 		.comment-preview-time {
 			color: gray;
-		}
-
-		.comment-preview-children {
-			padding-left: 40px;
 		}
 	}
 }

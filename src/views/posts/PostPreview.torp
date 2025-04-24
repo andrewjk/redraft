@@ -4,6 +4,10 @@ import pluralize from "@/lib/utils/pluralize"
 import relativeTimeSince from "@/lib/utils/relativeTimeSince"
 import LinkPreview from '@/views/posts/LinkPreview.torp';
 import { ARTICLE_POST_TYPE, IMAGE_POST_TYPE, LINK_POST_TYPE } from "@/lib/constants";
+import PushPin from "phosphor-torpor/lib/PushPin";
+import PushPinSlash from "phosphor-torpor/lib/PushPinSlash";
+import ChatCircle from "phosphor-torpor/lib/ChatCircle";
+import Heart from "phosphor-torpor/lib/Heart";
 
 /**
  * Shows a post preview for display in a list.
@@ -50,115 +54,130 @@ export default function PostPreview() {
 					}
 				}
 			</div>
-			<div class="post-preview-header hstack centered spaced">
-				<a href={post.author.url}>
-					<img class="post-preview-author-image" src={placeholdify(post.author.image)} alt={`${post.author.name} (${post.author.url})`} />
-				</a>
-				<a class="post-preview-link hstack spaced grow" href={post.author.url}>
-					<div class="vstack">
-						<div class="post-preview-name">
-							{post.author.name}
-						</div>
-						<div class="post-preview-url">
-							{post.author.url}
+			<div class="hstack spaced">
+				<div style="flex: 0 0 auto">
+					<a href={post.author.url}>
+						<img class="post-preview-author-image" src={placeholdify(post.author.image)} alt={`${post.author.name} (${post.author.url})`} />
+					</a>
+				</div>
+				<div style="flex: 1 1 auto">
+					<div class="post-preview-header hstack centered spaced">
+						<a class="post-preview-link hstack spaced grow" href={post.author.url}>
+							<div class="vstack">
+								<div class="post-preview-name">
+									{post.author.name}
+								</div>
+								<div class="post-preview-url">
+									{post.author.url}
+								</div>
+							</div>
+						</a>
+						<div class="vstack align-end">
+							<div class="post-preview-time" title={fmt.format(new Date(post.publishedAt))}>
+								{relativeTimeSince(new Date(post.publishedAt))}
+							</div>
+							<div class="hstack spaced-text">
+								@if (user?.url === post.author.url) {
+									<form use:enhance method="POST" action="?/pinPost">
+										<input type="hidden" name="slug" value={post.slug} />
+										<input type="hidden" name="pinned" value={!post.pinned} />
+										<button class="link icon">
+											@if (post.pinned) {
+												<PushPinSlash weight="bold" />
+											} else {
+												<PushPin weight="bold" />
+											}
+										</button>
+									</form>
+								} else if (post.pinned) {
+									<span class="post-preview-time">
+										<PushPin weight="fill" />
+									</span>
+									@/*
+									@if (follower) {
+										<span class="separator" />
+									}
+									*/
+								} else {
+									<span class="post-preview-time">&nbsp;</span>
+								}
+								@// TODO: How would we do this? We would need to post from the other user's site back to our site??
+								@// Maybe this needs to wait until we have a browser plugin
+								@/*
+								@if (follower) {
+									<form use:enhance method="POST" action="?/likeFeedPost">
+										<input type="hidden" name="slug" value={post.slug} />
+										<input type="hidden" name="authorUrl" value={post.author.url} />
+										<input type="hidden" name="sharedKey" value={post.author.sharedKey} />
+										<input type="hidden" name="liked" value={!post.liked} />
+										<button class="link">{post.liked ? "Unlike" : "Like"}</button>
+									</form>
+									<span class="separator" />
+									<form use:enhance method="POST" action="?/saveFeedPost">
+										<input type="hidden" name="slug" value={post.slug} />
+										<input type="hidden" name="saved" value={!post.saved} />
+										<button class="link">{post.saved ? "Unsave" : "Save"}</button>
+									</form>
+								}
+								*/
+							</div>
 						</div>
 					</div>
-				</a>
-				<div class="vstack align-end">
-					<div class="post-preview-time" title={fmt.format(new Date(post.publishedAt))}>
-						{relativeTimeSince(new Date(post.publishedAt))}
-					</div>
-					<div class="hstack spaced">
-						@if (user?.url === post.author.url) {
-							<form use:enhance method="POST" action="?/pinPost">
-								<input type="hidden" name="slug" value={post.slug} />
-								<input type="hidden" name="pinned" value={!post.pinned} />
-								<button class="link">{post.pinned ? "Unpin" : "Pin"}</button>
-							</form>
-						} else if (post.pinned) {
-							<span class="post-preview-time">Pinned</span>
-							@/*
-							@if (follower) {
-								<span class="separator" />
+
+					<div class="post-preview-body">
+						<a class="post-preview-link" href="{post.author.url}posts/{post.slug}">
+							@switch (post.type) {
+								case ARTICLE_POST_TYPE: {
+									<h4>{post.title}</h4>
+									@html(post.text)
+								}
+								case IMAGE_POST_TYPE: {
+									@html(post.text)
+									<img class="post-preview-image" src={post.image} alt={post.imageAlt} />
+								}
+								case LINK_POST_TYPE: {
+									@html(post.text)
+								}
+								default: {
+									@html(post.text)
+								}
 							}
-							*/
+						</a>
+						@// NOTE: This has to go outside of the feed anchor
+						@if (post.type === LINK_POST_TYPE) {
+							<LinkPreview link={post} />
 						}
-						@// TODO: How would we do this? We would need to post from the other user's site back to our site??
-						@// Maybe this needs to wait until we have a browser plugin
-						@/*
-						@if (follower) {
-							<form use:enhance method="POST" action="?/likeFeedPost">
-								<input type="hidden" name="slug" value={post.slug} />
-								<input type="hidden" name="authorUrl" value={post.author.url} />
-								<input type="hidden" name="sharedKey" value={post.author.sharedKey} />
-								<input type="hidden" name="liked" value={!post.liked} />
-								<button class="link">{post.liked ? "Unlike" : "Like"}</button>
-							</form>
-							<span class="separator" />
-							<form use:enhance method="POST" action="?/saveFeedPost">
-								<input type="hidden" name="slug" value={post.slug} />
-								<input type="hidden" name="saved" value={!post.saved} />
-								<button class="link">{post.saved ? "Unsave" : "Save"}</button>
-							</form>
+					</div>
+
+					<div class="post-preview-footer hstack centered">
+						@if (post.type === ARTICLE_POST_TYPE) {
+							<a href="{post.author.url}posts/{post.slug}">
+								Read
+							</a>
+						} else {
+							<a href="{post.author.url}posts/{post.slug}">
+								View
+							</a>
 						}
-						*/
+						<span class="hstack spaced-text">
+							<ChatCircle weight="bold" />
+							{post.commentCount}
+						</span>
+						<span class="hstack spaced-text">
+							<Heart weight="bold" />
+							{post.likeCount}
+						</span>
+						@if (post.emojiFirst) {
+							<span>{post.emojiFirst}</span>
+						}
+						@if (post.emojiSecond) {
+							<span>{post.emojiSecond}</span>
+						}
+						@if (post.emojiThird) {
+							<span>{post.emojiThird}</span>
+						}
 					</div>
 				</div>
-			</div>
-
-			<div class="post-preview-body">
-				<a class="post-preview-link" href="{post.author.url}posts/{post.slug}">
-					@switch (post.type) {
-						case ARTICLE_POST_TYPE: {
-							<h3>{post.title}</h3>
-							@html(post.text)
-						}
-						case IMAGE_POST_TYPE: {
-							@html(post.text)
-							<img class="post-preview-image" src={post.image} alt={post.imageAlt} />
-						}
-						case LINK_POST_TYPE: {
-							@html(post.text)
-						}
-						default: {
-							@html(post.text)
-						}
-					}
-				</a>
-				@// NOTE: This has to go outside of the feed anchor
-				@if (post.type === LINK_POST_TYPE) {
-					<LinkPreview link={post} />
-				}
-			</div>
-
-			<div class="post-preview-footer hstack spaced centered">
-				@if (post.type === ARTICLE_POST_TYPE) {
-					<a href="{post.author.url}posts/{post.slug}">
-						Read article
-					</a>
-				} else {
-					<a href="{post.author.url}posts/{post.slug}">
-						View post
-					</a>
-				}
-				<span class="separator" />
-				<span>
-					{pluralize(post.commentCount, "comment")}
-				</span>
-				<span class="separator" />
-				<span>
-					{pluralize(post.likeCount, "like")}
-				</span>
-				@if (post.emojiFirst) {
-					<span class="separator" />
-					<span>{post.emojiFirst}</span>
-				}
-				@if (post.emojiSecond) {
-					<span>{post.emojiSecond}</span>
-				}
-				@if (post.emojiThird) {
-					<span>{post.emojiThird}</span>
-				}
 			</div>
 		</div>
 	}
@@ -178,6 +197,10 @@ export default function PostPreview() {
 		.post-preview-footer {
 			font-size: 90%;
 			line-height: 1.4;
+		}
+
+		.post-preview-footer {
+			gap: 2rem;
 		}
 
 		.post-preview-body {

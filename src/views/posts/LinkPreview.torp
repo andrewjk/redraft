@@ -5,11 +5,12 @@ export default function LinkPreview() {
 	let { link } = $props;
 
 	@render {
-		<a class="link-preview" href={link.url}>
+		<a class="link-preview vstack" href={link.url}>
 			<img class="link-preview-image" src={link.image} />
-			<div class="link-preview-background">
+			<div class="link-preview-background vstack">
 				<h4 class="link-preview-title">{link.title}</h4>
-				<div class="link-preview-publication">
+				<div class="spacer" />
+				<div class="link-preview-publication vstack">
 					<span>{link.publication}</span>
 					<span class="link-preview-host">({(new URL(link.url)).host})</span>
 				</div>
@@ -28,14 +29,15 @@ export default function LinkPreview() {
 			padding: 0;
 			position: absolute;
 			top: 0;
+			bottom: 0;
 		}
 
 		.link-preview-title,
 		.link-preview-publication {
 			background-color: rgba(0, 0, 0, 0.5);
 			color: #fff;
-			margin: 1rem;
-			padding: 0.5rem 1rem;
+			margin: 0;
+			padding: 0.6rem 1rem;
 		}
 
 		.link-preview-host {

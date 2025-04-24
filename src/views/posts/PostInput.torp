@@ -111,24 +111,25 @@ export default function PostInput($props) {
 			}
 
 			<div class="hstack spaced post-input-footer">
+				<div class="spacer" />
 				@if (!post.type) {
-					<button type="button" class="link" onclick={() => post.type = IMAGE_POST_TYPE}>
+					<button type="button" class="link icon" onclick={() => post.type = IMAGE_POST_TYPE}>
 						<Image weight="bold" />
 					</button>
-					<button type="button" class="link" onclick={() => post.type = LINK_POST_TYPE}>
+					<button type="button" class="link icon" onclick={() => post.type = LINK_POST_TYPE}>
 						<Link weight="bold" />
 					</button>
-					<button type="button" class="link" onclick={() => post.type = ARTICLE_POST_TYPE}>
+					<button type="button" class="link icon" onclick={() => post.type = ARTICLE_POST_TYPE}>
 						<Article weight="bold" />
 					</button>
 				}
-				<button type="button" class="link" onclick={() => $state.showTags = !$state.showTags}>
+				<button type="button" class="link icon" onclick={() => $state.showTags = !$state.showTags}>
 					<Tag weight="bold" />
 				</button>
-				<button type="button" class="link" onclick={() => $state.showVisibility = !$state.showVisibility}>
+				<button type="button" class="link icon" onclick={() => $state.showVisibility = !$state.showVisibility}>
 					<UsersThree weight="bold" />
 				</button>
-				<div class="spacer" />
+
 				<button type="submit" formaction="?/savePost">
 					{post.published ? "Save" : "Save draft"}
 				</button>

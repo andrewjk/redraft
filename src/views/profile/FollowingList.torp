@@ -7,9 +7,9 @@ import FollowMenu from './FollowMenu.torp';
 export default function FollowingList($props) {
 	@render {
 		<div class="vstack centered">
-			<div class="follow-list">
-				<h2>Following</h2>
-				<FollowMenu section="Following" />
+			<h2>Following</h2>
+			<FollowMenu section="Following" />
+			<div class="follow-list centered">
 				@if ($props.data.following.length === 0) {
 					<div class="card">
 						You are not following anyone yet.

@@ -7,9 +7,9 @@ import FollowMenu from './FollowMenu.torp';
 export default function FollowRequestList() {
 	@render {
 		<div class="vstack centered">
-			<div class="follow-list">
-				<h2>Follow requests</h2>
-				<FollowMenu section="Requests" />
+			<h2>Follow requests</h2>
+			<FollowMenu section="Requests" />
+			<div class="follow-list centered">
 				@if ($props.data.requests.length === 0) {
 					<div class="card">
 						You don't have any follow requests.

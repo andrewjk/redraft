@@ -5,6 +5,8 @@ import relativeTimeSince from "@/lib/utils/relativeTimeSince"
 import CommentList from "@/views/comments/CommentList.torp"
 import LinkPreview from '@/views/posts/LinkPreview.torp';
 import { ARTICLE_POST_TYPE, IMAGE_POST_TYPE, LINK_POST_TYPE } from "@/lib/constants";
+import ChatCircle from "phosphor-torpor/lib/ChatCircle";
+import Heart from "phosphor-torpor/lib/Heart";
 
 /**
  * Shows a post's full details.
@@ -43,88 +45,93 @@ export default function PostView() {
 			</:head>
 
 			<div class="post-view-container">
-				<div class="post-view-header hstack centered spaced">
-					<a href={post.author.url}>
-						<img class="post-view-image" src={placeholdify(post.author.image)} alt="{post.author.name} ({post.author.url})" />
-					</a>
-					<a class="post-view-link hstack spaced grow" href={post.author.url}>
-						<div class="vstack">
-							<div class="post-view-name">
-								{post.author.name}
-							</div>
-							<div class="post-view-url">
-								{post.author.url}
-							</div>
-						</div>
-					</a>
-					<div class="vstack align-end">
-						<div class="post-view-time" title={fmt.format(new Date(post.publishedAt))}>
-							{relativeTimeSince(new Date(post.publishedAt))}
-						</div>
-						@if (user?.url === post.author.url) {
-							<a href="posts/edit/{post.slug}">Edit</a>
-						} else {
-							<span>&nbsp;</span>
-						}
+				<div class="hstack spaced">
+					<div style="flex: 0 0 auto">
+						<a href={post.author.url}>
+							<img class="post-view-image" src={placeholdify(post.author.image)} alt="{post.author.name} ({post.author.url})" />
+						</a>
 					</div>
-				</div>
+					<div style="flex: 1 1 auto">
+						<div class="post-view-header hstack centered spaced">
+							<a class="post-view-link hstack spaced grow" href={post.author.url}>
+								<div class="vstack">
+									<div class="post-view-name">
+										{post.author.name}
+									</div>
+									<div class="post-view-url">
+										{post.author.url}
+									</div>
+								</div>
+							</a>
+							<div class="vstack align-end">
+								<div class="post-view-time" title={fmt.format(new Date(post.publishedAt))}>
+									{relativeTimeSince(new Date(post.publishedAt))}
+								</div>
+								@if (user?.url === post.author.url) {
+									<a href="posts/edit/{post.slug}">Edit</a>
+								} else {
+									<span>&nbsp;</span>
+								}
+							</div>
+						</div>
 
-				<div class="post-view-body">
-					@switch (post.type) {
-						case ARTICLE_POST_TYPE: {
-							<h3>{post.title}</h3>
-							<p style="color: gray">{post.text}</p>
-							@html(post.articleText)
-						}
-						case IMAGE_POST_TYPE: {
-							<p>{post.text}</p>
-							<img src={post.image} />
-						}
-						case LINK_POST_TYPE: {
-							<p>{post.text}</p>
-							<LinkPreview link={post} />
-						}
-						default: {
-							<p>{post.text}</p>
-						}
-					}
-				</div>
-
-				@/*
-				@if (post.tags.length) {
-					<div class="post-view-tags-container">
-						@for (let [i, tag] of post.tags.entries()) {
-							@if (i > 0) {
-								<span class="separator" />
+						<div class="post-view-body">
+							@switch (post.type) {
+								case ARTICLE_POST_TYPE: {
+									<h3>{post.title}</h3>
+									<p style="color: gray">{post.text}</p>
+									@html(post.articleText)
+								}
+								case IMAGE_POST_TYPE: {
+									<p>{post.text}</p>
+									<img src={post.image} />
+								}
+								case LINK_POST_TYPE: {
+									<p>{post.text}</p>
+									<LinkPreview link={post} />
+								}
+								default: {
+									<p>{post.text}</p>
+								}
 							}
-							<a href="tags/{tag}">{tag}</a>
-						}
-					</div>
-				}
-				*/
+						</div>
 
-				<div class="post-view-footer">
-					<span>
-						{pluralize(post.commentCount, "comment")}
-					</span>
-					<span class="separator" />
-					<span>
-						{pluralize(post.likeCount, "like")}
-					</span>
-					@if (post.emojiFirst) {
-						<span class="separator" />
-						<span>{post.emojiFirst}</span>
-					}
-					@if (post.emojiSecond) {
-						<span>{post.emojiSecond}</span>
-					}
-					@if (post.emojiThird) {
-						<span>{post.emojiThird}</span>
-					}
-					@for (let tag of post.tags) {
-						<span class="separator" />
-						<a href="tags/{tag.slug}">{tag.text}</a>
-					}
+						@/*
+						@if (post.tags.length) {
+							<div class="post-view-tags-container">
+								@for (let [i, tag] of post.tags.entries()) {
+									@if (i > 0) {
+										<span class="separator" />
+									}
+									<a href="tags/{tag}">{tag}</a>
+								}
+							</div>
+						}
+						*/
+
+						<div class="post-view-footer hstack centered">
+							<span class="hstack spaced-text">
+								<ChatCircle weight="bold" />
+								{post.commentCount}
+							</span>
+							<span class="hstack spaced-text">
+								<Heart weight="bold" />
+								{post.likeCount}
+							</span>
+							@if (post.emojiFirst) {
+								<span>{post.emojiFirst}</span>
+							}
+							@if (post.emojiSecond) {
+								<span>{post.emojiSecond}</span>
+							}
+							@if (post.emojiThird) {
+								<span>{post.emojiThird}</span>
+							}
+							@for (let tag of post.tags) {
+								<a href="tags/{tag.slug}">{tag.text}</a>
+							}
+						</div>
+					</div>
 				</div>
 			</div>
 
@@ -155,6 +162,10 @@ export default function PostView() {
 		.post-view-footer {
 			font-size: 90%;
 			line-height: 1.4;
+		}
+
+		.post-view-footer {
+			gap: 2rem;
 		}
 
 		.post-view-body {

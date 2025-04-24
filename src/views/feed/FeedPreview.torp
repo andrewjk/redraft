@@ -4,6 +4,11 @@ import pluralize from "@/lib/utils/pluralize"
 import relativeTimeSince from "@/lib/utils/relativeTimeSince"
 import LinkPreview from '@/views/posts/LinkPreview.torp';
 import { IMAGE_POST_TYPE, ARTICLE_POST_TYPE, LINK_POST_TYPE } from "@/lib/constants";
+import ChatCircle from "phosphor-torpor/lib/ChatCircle";
+import Heart from "phosphor-torpor/lib/Heart";
+import FloppyDiskBack from "phosphor-torpor/lib/FloppyDiskBack";
+import HandWaving from "phosphor-torpor/lib/HandWaving";
+import XCircle from "phosphor-torpor/lib/XCircle";
 
 /**
  * Shows a feed preview for display in a list.
@@ -48,114 +53,132 @@ export default function FeedPreview() {
 					}
 				}
 			</div>
-			<div class="feed-preview-header hstack centered spaced">
-				<a href={feed.author.url}>
-					<img class="feed-preview-author-image" src={placeholdify(feed.author.image)} alt={`${feed.author.name} (${feed.author.url})`} />
-				</a>
-				<a class="feed-preview-link hstack spaced grow" href={feed.author.url}>
-					<div class="vstack">
-						<div class="feed-preview-name">
-							{feed.author.name}
-						</div>
-						<div class="feed-preview-url">
-							{feed.author.url}
+			<div class="hstack spaced">
+				<div style="flex: 0 0 auto">
+					<a href={feed.author.url}>
+						<img class="feed-preview-author-image" src={placeholdify(feed.author.image)} alt={`${feed.author.name} (${feed.author.url})`} />
+					</a>
+				</div>
+				<div style="flex: 1 1 auto">
+					<div class="feed-preview-header hstack centered spaced">
+						<a class="feed-preview-link hstack spaced grow" href={feed.author.url}>
+							<div class="vstack">
+								<div class="feed-preview-name">
+									{feed.author.name}
+								</div>
+								<div class="feed-preview-url">
+									{feed.author.url}
+								</div>
+							</div>
+						</a>
+						<div class="vstack align-end">
+							<div class="feed-preview-time" title={fmt.format(new Date(feed.publishedAt))}>
+								{relativeTimeSince(new Date(feed.publishedAt))}
+							</div>
+							<div class="hstack spaced-text">
+								@if (user?.url !== feed.author.url) {
+									<form use:enhance method="POST" action="?/likeFeedPost">
+										<input type="hidden" name="slug" value={feed.slug} />
+										<input type="hidden" name="authorUrl" value={feed.author.url} />
+										<input type="hidden" name="sharedKey" value={feed.author.sharedKey} />
+										<input type="hidden" name="liked" value={!feed.liked} />
+										<button class="link icon">
+											@if (feed.liked) {
+												<Heart weight="fill" color="pink" />
+											} else {
+												<Heart weight="bold" />
+											}
+										</button>
+									</form>
+									<form use:enhance method="POST" action="?/saveFeedPost">
+										<input type="hidden" name="slug" value={feed.slug} />
+										<input type="hidden" name="saved" value={!feed.saved} />
+										<button class="link icon">
+											@if (feed.saved) {
+												<FloppyDiskBack weight="fill" color="blue" />
+											} else {
+												<FloppyDiskBack weight="bold" />
+											}
+										</button>
+									</form>
+									@if (feed.emoji) {
+										<form use:enhance method="POST" action="?/reactToFeedPost">
+											<input type="hidden" name="slug" value={feed.slug} />
+											<input type="hidden" name="authorUrl" value={feed.author.url} />
+											<input type="hidden" name="sharedKey" value={feed.author.sharedKey} />
+											<input type="hidden" name="emoji" value="" />
+											<button class="link">
+												<XCircle weight="bold" /> {feed.emoji}
+											</button>
+										</form>
+									} else {
+										<button type="button" class="link icon" onclick={() => $state.showReaction = true }>
+											<HandWaving weight="bold" />
+										</button>
+									}
+								} else {
+									<span>&nbsp;</span>
+								}
+							</div>
 						</div>
 					</div>
-				</a>
-				<div class="vstack align-end">
-					<div class="feed-preview-time" title={fmt.format(new Date(feed.publishedAt))}>
-						{relativeTimeSince(new Date(feed.publishedAt))}
-					</div>
-					<div class="hstack spaced">
-						@if (user?.url !== feed.author.url) {
-							<form use:enhance method="POST" action="?/likeFeedPost">
-								<input type="hidden" name="slug" value={feed.slug} />
-								<input type="hidden" name="authorUrl" value={feed.author.url} />
-								<input type="hidden" name="sharedKey" value={feed.author.sharedKey} />
-								<input type="hidden" name="liked" value={!feed.liked} />
-								<button class="link">{feed.liked ? "Unlike" : "Like"}</button>
-							</form>
-							<span class="separator" />
-							<form use:enhance method="POST" action="?/saveFeedPost">
-								<input type="hidden" name="slug" value={feed.slug} />
-								<input type="hidden" name="saved" value={!feed.saved} />
-								<button class="link">{feed.saved ? "Unsave" : "Save"}</button>
-							</form>
-							<span class="separator" />
-							@if (feed.emoji) {
-								<form use:enhance method="POST" action="?/reactToFeedPost">
-									<input type="hidden" name="slug" value={feed.slug} />
-									<input type="hidden" name="authorUrl" value={feed.author.url} />
-									<input type="hidden" name="sharedKey" value={feed.author.sharedKey} />
-									<input type="hidden" name="emoji" value="" />
-									<button class="link">Unreact {feed.emoji}</button>
-								</form>
-							} else {
-								<button type="button" class="link" onclick={() => $state.showReaction = true }>
-									React
-								</button>
+
+					@if ($state.showReaction) {
+						<form class="hstack" use:enhance method="POST" action="?/reactToFeedPost">
+							<span class="spacer" />
+							<input type="hidden" name="slug" value={feed.slug} />
+							<input type="hidden" name="authorUrl" value={feed.author.url} />
+							<input type="hidden" name="sharedKey" value={feed.author.sharedKey} />
+							<button class="link" name="emoji" value="❤️">❤️</button>
+							<button class="link" name="emoji" value="👍">👍</button>
+							<button class="link" name="emoji" value="👎">👎</button>
+							<button class="link" name="emoji" value="😂">😂</button>
+							<button class="link" name="emoji" value="🤯">🤯</button>
+							<button class="link" name="emoji" value="😔">😔</button>
+						</form>
+					}
+
+					<div class="feed-preview-body">
+						<a class="feed-preview-link" href="{feed.author.url}posts/{feed.slug}">
+							@switch (feed.type) {
+								case ARTICLE_POST_TYPE: {
+									<h4>{feed.title}</h4>
+									@html(feed.text)
+								}
+								case IMAGE_POST_TYPE: {
+									@html(feed.text)
+									<img class="feed-preview-image" src={feed.image} alt={feed.imageAlt} />
+								}
+								case LINK_POST_TYPE: {
+									@html(feed.text)
+								}
+								default: {
+									@html(feed.text)
+								}
 							}
-						} else {
-							<span>&nbsp;</span>
+						</a>
+						@// NOTE: This has to go outside of the feed anchor
+						@if (feed.type === LINK_POST_TYPE) {
+							<LinkPreview link={feed} />
 						}
+					</div>
+
+					<div class="feed-preview-footer hstack centered">
+						@if (feed.type === ARTICLE_POST_TYPE) {
+							<a href="{feed.author.url}posts/{feed.slug}">
+								Read
+							</a>
+						} else {
+							<a href="{feed.author.url}posts/{feed.slug}">
+								View
+							</a>
+						}
+						<span class="hstack spaced-text">
+							<ChatCircle weight="bold" />
+							{feed.commentCount}
+						</span>
 					</div>
 				</div>
-			</div>
-
-			@if ($state.showReaction) {
-				<form class="hstack" use:enhance method="POST" action="?/reactToFeedPost">
-					<span class="spacer" />
-					<input type="hidden" name="slug" value={feed.slug} />
-					<input type="hidden" name="authorUrl" value={feed.author.url} />
-					<input type="hidden" name="sharedKey" value={feed.author.sharedKey} />
-					<button class="link" name="emoji" value="❤️">❤️</button>
-					<button class="link" name="emoji" value="👍">👍</button>
-					<button class="link" name="emoji" value="👎">👎</button>
-					<button class="link" name="emoji" value="😂">😂</button>
-					<button class="link" name="emoji" value="🤯">🤯</button>
-					<button class="link" name="emoji" value="😔">😔</button>
-				</form>
-			}
-
-			<div class="feed-preview-body">
-				<a class="feed-preview-link" href="{feed.author.url}posts/{feed.slug}">
-					@switch (feed.type) {
-						case ARTICLE_POST_TYPE: {
-							<h3>{feed.title}</h3>
-							@html(feed.text)
-						}
-						case IMAGE_POST_TYPE: {
-							@html(feed.text)
-							<img class="feed-preview-image" src={feed.image} alt={feed.imageAlt} />
-						}
-						case LINK_POST_TYPE: {
-							@html(feed.text)
-						}
-						default: {
-							@html(feed.text)
-						}
-					}
-				</a>
-				@// NOTE: This has to go outside of the feed anchor
-				@if (feed.type === LINK_POST_TYPE) {
-					<LinkPreview link={feed} />
-				}
-			</div>
-
-			<div class="feed-preview-footer hstack spaced">
-				@if (feed.type === ARTICLE_POST_TYPE) {
-					<a href="{feed.author.url}posts/{feed.slug}">
-						Read article
-					</a>
-				} else {
-					<a href="{feed.author.url}posts/{feed.slug}">
-						View post
-					</a>
-				}
-				<span class="separator" />
-				<span>
-					{pluralize(feed.commentCount, "comment")}
-				</span>
 			</div>
 		</div>
 	}
@@ -175,6 +198,10 @@ export default function FeedPreview() {
 		.feed-preview-footer {
 			font-size: 90%;
 			line-height: 1.4;
+		}
+
+		.feed-preview-footer {
+			gap: 2rem;
 		}
 
 		.feed-preview-body {

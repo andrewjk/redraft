@@ -253,6 +253,17 @@ button.link:hover {
 	text-decoration: underline;
 }
 
+button.link.icon {
+	width: 2.4rem;
+	height: 2.4rem;
+	padding: 0.4rem;
+	border-radius: var(--brad);
+}
+
+button.link.icon:hover {
+	background: rgba(0, 102, 204, 0.1);
+}
+
 /* Misc */
 
 .warning {
