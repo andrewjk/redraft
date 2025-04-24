@@ -7,12 +7,7 @@ export default function Layout() {
 				<meta name="social-follow" content={$props.data.url} />
 			</:head>
 
-			@if ($props.data.username) {
-				<base href={`/${$props.data.username}/`} />
-			} else {
-				<base href="/" />
-			}
-			<Nav user={$props.data.user} follower={$props.data.follower} username={$props.data.username} />
+			<Nav user={$props.data.user} follower={$props.data.follower} />
 
 			<main>
 				<:slot />
@@ -35,7 +30,7 @@ function Nav() {
 				<li class="nav-item">
 					<a
 					  :class={{ "nav-link": true, active: $page.url.pathname === "/" }}
-					  href={$props.user?.url || "/"}>
+					  href="/">
 						Home
 					</a>
 				</li>
@@ -46,7 +41,7 @@ function Nav() {
 					<li class="nav-item">
 						<a
 						  :class={{ "nav-link": true, active: $page.url.pathname === `/feed` }}
-						  href={`${$props.user?.url}feed`}>
+						  href="/feed">
 							Feed
 						</a>
 					</li>
@@ -54,20 +49,8 @@ function Nav() {
 
 				<div class="spacer" />
 
-				@if ($props.username && $props.username !== $props.user?.username) {
-					<li class="nav-item">
-						<a
-						  :class={{ "nav-link": true, active: $page.url.pathname === `/${$props.username}` }}
-						  href={`/${$props.username}`}>
-							User
-						</a>
-					</li>
-
-					<span class="menu-separator" />
-				}
-
 				<li class="nav-item">
-					<a href="posts" class="nav-link">
+					<a href="/posts" class="nav-link">
 						Posts
 					</a>
 				</li>
@@ -75,7 +58,7 @@ function Nav() {
 				<span class="menu-separator" />
 
 				<li class="nav-item">
-					<a href="articles" class="nav-link">
+					<a href="/articles" class="nav-link">
 						Articles
 					</a>
 				</li>
@@ -83,7 +66,7 @@ function Nav() {
 				<span class="menu-separator" />
 
 				<li class="nav-item">
-					<a href="media" class="nav-link">
+					<a href="/media" class="nav-link">
 						Media
 					</a>
 				</li>
@@ -95,7 +78,7 @@ function Nav() {
 
 				@if ($props.user) {
 					<li class="nav-item">
-						<a href="profile" class="nav-link">
+						<a href="/profile" class="nav-link">
 							Profile
 						</a>
 					</li>
