@@ -1,7 +1,8 @@
 import type { ServerHook } from "@torpor/build";
+import * as jose from "jose";
 
 export default {
-	handle: ({ appData, cookies }) => {
+	handle: ({ appData, cookies, request }) => {
 		// Decode the user token, if it exists
 		const jwt = cookies.get("jwt");
 		try {
@@ -19,5 +20,16 @@ export default {
 		} catch {
 			cookies.delete("fjwt", { path: "/" });
 		}
+
+		// Or the follower header, if it exists
+		//if (!appData.follower) {
+		//const fjwtHeader = request.headers.get("x-social-follower");
+		//if (fjwtHeader) {
+		//	//appData.follower = JSON.parse(atob(fjwtHeader));
+		//	const decoded = jose.decodeJwt(fjwtHeader);
+		//
+		//	console.log("GOT FOLLOWER", decoded);
+		//}
+		//}
 	},
 } satisfies ServerHook;
