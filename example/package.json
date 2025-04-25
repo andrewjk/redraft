@@ -1,0 +1,23 @@
+{
+	"name": "@redsoc/example",
+	"version": "0.0.1",
+	"description": "",
+	"type": "module",
+	"scripts": {
+		"dev": "tb --dev",
+		"build": "tsc --noEmit && tb --build",
+		"preview": "tb --preview",
+		"check": "tsc --noEmit"
+	},
+	"keywords": [],
+	"author": "",
+	"license": "ISC",
+	"dependencies": {
+		"@redsoc/site": "workspace:^",
+		"@torpor/adapter-node": "^0.0.9",
+		"@torpor/build": "^0.1.12"
+	},
+	"devDependencies": {
+		"typescript": "^5.8.3"
+	}
+}
