@@ -16,10 +16,10 @@
 	"packageManager": "pnpm@10.9.0",
 	"dependencies": {
 		"@redsoc/adapter-core": "workspace:^",
-		"drizzle-orm": "^0.43.0"
+		"drizzle-orm": "^0.43.1"
 	},
 	"devDependencies": {
-		"@types/node": "^22.15.1",
+		"@types/node": "^22.15.3",
 		"prettier": "^3.5.3",
 		"tsup": "^8.4.0",
 		"typescript": "^5.8.3"
