@@ -1,0 +1,27 @@
+{
+	"name": "@redsoc/adapter-node",
+	"version": "0.0.1",
+	"description": "",
+	"type": "module",
+	"main": "dist/index.cjs",
+	"module": "dist/index.js",
+	"types": "dist/index.d.ts",
+	"scripts": {
+		"check": "tsc --noEmit",
+		"build": "tsc --noEmit && tsup"
+	},
+	"keywords": [],
+	"author": "",
+	"license": "ISC",
+	"packageManager": "pnpm@10.9.0",
+	"dependencies": {
+		"@redsoc/adapter-core": "workspace:^",
+		"drizzle-orm": "^0.43.0"
+	},
+	"devDependencies": {
+		"@types/node": "^22.15.1",
+		"prettier": "^3.5.3",
+		"tsup": "^8.4.0",
+		"typescript": "^5.8.3"
+	}
+}

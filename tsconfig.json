@@ -1,0 +1,27 @@
+{
+	"compilerOptions": {
+		"target": "es2022",
+		"lib": ["es2022", "DOM", "DOM.Iterable"],
+		"module": "esnext",
+		"moduleResolution": "bundler",
+		"esModuleInterop": true,
+
+		// Strict
+		"strict": true,
+		"strictNullChecks": true,
+		"noUnusedLocals": true,
+		"noUnusedParameters": true,
+		"noFallthroughCasesInSwitch": true,
+
+		// Node type erasing
+		"erasableSyntaxOnly": true,
+		"allowImportingTsExtensions": true,
+		"rewriteRelativeImportExtensions": true,
+		"verbatimModuleSyntax": true,
+
+		// Isolated declarations
+		"isolatedDeclarations": true,
+		"declaration": true,
+		"declarationMap": true
+	}
+}

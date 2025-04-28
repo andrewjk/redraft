@@ -1,6 +1,6 @@
-import { defineConfig } from "drizzle-kit";
+import { type Config, defineConfig } from "drizzle-kit";
 
-export default defineConfig({
+const config: Config = defineConfig({
 	out: "./drizzle",
 	schema: "./src/data/schema",
 	dialect: "sqlite",
@@ -8,3 +8,5 @@ export default defineConfig({
 		url: process.env.DB_CONNECTION!,
 	},
 });
+
+export default config;
