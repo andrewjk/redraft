@@ -1,5 +1,5 @@
 {
-	"name": "@redsoc/adapter-node",
+	"name": "@redsoc/adapter-cloudflare",
 	"version": "0.0.1",
 	"description": "",
 	"type": "module",
