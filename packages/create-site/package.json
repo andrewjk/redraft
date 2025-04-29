@@ -1,0 +1,13 @@
+{
+	"name": "@redsoc/create-site",
+	"version": "0.0.1",
+	"description": "A starter template for building a social site with Redraft",
+	"publishConfig": {
+		"access": "public"
+	},
+	"bin": {
+		"create-site": "./index.js"
+	},
+	"license": "ISC",
+	"dependencies": {}
+}

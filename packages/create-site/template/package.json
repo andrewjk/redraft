@@ -1,0 +1,25 @@
+{
+	"name": "@redsoc/create-site",
+	"version": "0.0.1",
+	"description": "",
+	"type": "module",
+	"scripts": {
+		"dev": "tb --dev",
+		"build": "tsc --noEmit && tb --build",
+		"preview": "tb --preview",
+		"check": "tsc --noEmit"
+	},
+	"keywords": [],
+	"author": "",
+	"license": "ISC",
+	"dependencies": {
+		"@redsoc/adapter-node": "workspace:^",
+		"@redsoc/site": "workspace:^",
+		"@torpor/adapter-node": "^0.0.9",
+		"@torpor/build": "^0.1.12",
+		"dotenv": "^16.5.0"
+	},
+	"devDependencies": {
+		"typescript": "^5.8.3"
+	}
+}

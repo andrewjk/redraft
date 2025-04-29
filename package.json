@@ -21,7 +21,7 @@
 		"typescript": "^5.8.3"
 	},
 	"workspaces": [
-		"packages/site",
-		"packages/adapters/*/**"
+		"packages/*",
+		"packages/adapters/*"
 	]
 }

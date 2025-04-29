@@ -1,0 +1,16 @@
+# Initial setup credentials
+
+USERNAME=username
+PASSWORD=password
+
+# The hosted application URL, used for sharing etc. Make sure it ends with /
+
+SITE_LOCATION=http://localhost:7059/
+
+# The connection string for your SQLite data file
+
+DB_CONNECTION=file:./data/user.db
+
+# Set a passphrase for encrypting your user token when logged in
+
+JWT_SECRET=JWT_secret
