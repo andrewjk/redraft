@@ -1,5 +1,5 @@
-import env from "@/lib/env";
 import * as jose from "jose";
+import env from "../env";
 
 type User = {
 	url: string;

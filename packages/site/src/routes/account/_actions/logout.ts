@@ -1,6 +1,6 @@
-import * as api from "@/lib/api";
 import { type ServerLoadEvent } from "@torpor/build";
 import { seeOther, unauthorized, unprocessable } from "@torpor/build/response";
+import * as api from "../../../lib/api";
 
 export default async function logout({ appData, cookies, params }: ServerLoadEvent) {
 	const user = appData.user;

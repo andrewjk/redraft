@@ -1,7 +1,7 @@
-import database from "@/data/database";
-import { contentTable } from "@/data/schema";
 import { notFound, serverError } from "@torpor/build/response";
 import { eq } from "drizzle-orm";
+import database from "../../data/database";
+import { contentTable } from "../../data/schema";
 import getErrorMessage from "../utils/getErrorMessage";
 
 export default async function contentGet(name: string) {

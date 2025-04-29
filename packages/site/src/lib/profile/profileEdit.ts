@@ -1,8 +1,8 @@
-import database from "@/data/database";
-import { userLinksTable, usersTable } from "@/data/schema";
-import * as api from "@/lib/api";
 import { ok, serverError, unauthorized } from "@torpor/build/response";
 import { eq } from "drizzle-orm";
+import database from "../../data/database";
+import { userLinksTable, usersTable } from "../../data/schema";
+import * as api from "../api";
 import getErrorMessage from "../utils/getErrorMessage";
 import userIdQuery from "../utils/userIdQuery";
 

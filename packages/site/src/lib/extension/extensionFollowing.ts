@@ -1,7 +1,7 @@
-import database from "@/data/database";
-import { followingTable, usersTable } from "@/data/schema";
 import { ok, serverError, unauthorized } from "@torpor/build/response";
 import { eq, isNull } from "drizzle-orm";
+import database from "../../data/database";
+import { followingTable, usersTable } from "../../data/schema";
 import createHeaderToken from "../utils/createHeaderToken";
 import getErrorMessage from "../utils/getErrorMessage";
 import userIdQuery from "../utils/userIdQuery";

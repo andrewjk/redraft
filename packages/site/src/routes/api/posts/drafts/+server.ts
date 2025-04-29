@@ -1,6 +1,6 @@
-import postList from "@/lib/posts/postList";
 import type { ServerEndPoint } from "@torpor/build";
 import { unauthorized } from "@torpor/build/response";
+import postList from "../../../../lib/posts/postList";
 
 export default {
 	get: async ({ appData, url }) => {

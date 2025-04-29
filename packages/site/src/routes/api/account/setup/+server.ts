@@ -1,5 +1,5 @@
-import accountSetup from "@/lib/account/accountSetup";
 import type { ServerEndPoint } from "@torpor/build";
+import accountSetup from "../../../../lib/account/accountSetup";
 
 export default {
 	post: async ({ request }) => {

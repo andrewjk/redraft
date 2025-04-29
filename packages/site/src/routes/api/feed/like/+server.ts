@@ -1,6 +1,6 @@
-import feedLike from "@/lib/feed/feedLike";
 import type { ServerEndPoint } from "@torpor/build";
 import { unauthorized } from "@torpor/build/response";
+import feedLike from "../../../../lib/feed/feedLike";
 
 export default {
 	post: async ({ appData, request }) => {

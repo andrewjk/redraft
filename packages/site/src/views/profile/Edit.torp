@@ -1,6 +1,6 @@
 //import { enhance } from '$app/forms';
-import placeholdify from "@/lib/utils/placeholdify";
-import FormErrors from '@/views/FormErrors.torp';
+import placeholdify from "../../lib/utils/placeholdify";
+import FormErrors from '../FormErrors.torp';
 
 export default function Edit() {
 	let $profile = $watch($props.data.profile)

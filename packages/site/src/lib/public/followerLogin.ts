@@ -1,8 +1,8 @@
-import database from "@/data/database";
-import { followedByTable } from "@/data/schema";
 import { notFound, seeOther, serverError } from "@torpor/build/response";
 import { CookieHelper } from "@torpor/build/server";
 import { eq } from "drizzle-orm";
+import database from "../../data/database";
+import { followedByTable } from "../../data/schema";
 import createFollowerToken from "../utils/createFollowerToken";
 import getErrorMessage from "../utils/getErrorMessage";
 import setFollowerToken from "../utils/setFollowerToken";

@@ -1,6 +1,6 @@
-import { type Post } from "@/data/schema/postsTable";
-import { type User } from "@/data/schema/usersTable";
 import { micromark } from "micromark";
+import { type Post } from "../../data/schema/postsTable";
+import { type User } from "../../data/schema/usersTable";
 
 type PostAuthor = {
 	name: string;

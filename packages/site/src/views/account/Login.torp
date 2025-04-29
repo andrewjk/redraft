@@ -1,5 +1,5 @@
 //import { enhance } from '$app/forms';
-import FormErrors from '@/views/FormErrors.torp';
+import FormErrors from '../FormErrors.torp';
 
 export default function Login() {
 	@render {

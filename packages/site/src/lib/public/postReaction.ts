@@ -1,7 +1,7 @@
-import database from "@/data/database";
-import { followedByTable, postReactionsTable, postsTable } from "@/data/schema";
 import { notFound, ok, serverError, unauthorized } from "@torpor/build/response";
 import { and, count, desc, eq } from "drizzle-orm";
+import database from "../../data/database";
+import { followedByTable, postReactionsTable, postsTable } from "../../data/schema";
 import getErrorMessage from "../utils/getErrorMessage";
 
 export type PostReactionModel = {

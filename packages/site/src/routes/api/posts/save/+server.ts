@@ -1,6 +1,6 @@
-import postSave from "@/lib/posts/postSave";
 import type { ServerEndPoint } from "@torpor/build";
 import { unauthorized } from "@torpor/build/response";
+import postSave from "../../../../lib/posts/postSave";
 
 export default {
 	post: async ({ appData, request }) => {

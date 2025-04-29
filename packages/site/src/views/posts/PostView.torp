@@ -1,10 +1,10 @@
 //import { enhance } from '$app/forms';
-import placeholdify from "@/lib/utils/placeholdify";
-import pluralize from "@/lib/utils/pluralize"
-import relativeTimeSince from "@/lib/utils/relativeTimeSince"
-import CommentList from "@/views/comments/CommentList.torp"
-import LinkPreview from '@/views/posts/LinkPreview.torp';
-import { ARTICLE_POST_TYPE, IMAGE_POST_TYPE, LINK_POST_TYPE } from "@/lib/constants";
+import placeholdify from "../../lib/utils/placeholdify";
+import pluralize from "../../lib/utils/pluralize"
+import relativeTimeSince from "../../lib/utils/relativeTimeSince"
+import CommentList from "../comments/CommentList.torp"
+import LinkPreview from './LinkPreview.torp';
+import { ARTICLE_POST_TYPE, IMAGE_POST_TYPE, LINK_POST_TYPE } from "../../lib/constants";
 import ChatCircle from "phosphor-torpor/lib/ChatCircle";
 import Heart from "phosphor-torpor/lib/Heart";
 

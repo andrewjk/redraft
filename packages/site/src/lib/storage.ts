@@ -3,10 +3,10 @@
 // or self-hosted scenarios. But S3 expects that your URLs are in the format
 // http://[bucket].[host]. Which obviously doesn't work with localhost! So for
 // now we are just storing images in the database
-import database from "@/data/database";
-import { contentTable } from "@/data/schema";
+import database from "../data/database";
+import { contentTable } from "../data/schema";
 
-//import env from "@/lib/env";
+//import env from "../env";
 
 //import { PutObjectCommand, S3Client } from "@aws-sdk/client-s3";
 //

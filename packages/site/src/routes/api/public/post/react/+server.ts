@@ -1,5 +1,5 @@
-import postReaction from "@/lib/public/postReaction";
 import type { ServerEndPoint } from "@torpor/build";
+import postReaction from "../../../../../lib/public/postReaction";
 
 export default {
 	post: async ({ request }) => {

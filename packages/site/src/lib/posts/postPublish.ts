@@ -1,9 +1,9 @@
-import database from "@/data/database";
-import { feedTable, postsTable, usersTable } from "@/data/schema";
-import * as api from "@/lib/api";
-import { FOLLOWER_POST_VISIBILITY, PUBLIC_POST_VISIBILITY } from "@/lib/constants";
 import { created, serverError, unauthorized } from "@torpor/build/response";
 import { eq } from "drizzle-orm";
+import database from "../../data/database";
+import { feedTable, postsTable, usersTable } from "../../data/schema";
+import * as api from "../api";
+import { FOLLOWER_POST_VISIBILITY, PUBLIC_POST_VISIBILITY } from "../constants";
 import getErrorMessage from "../utils/getErrorMessage";
 import userIdQuery from "../utils/userIdQuery";
 import postCreateOrUpdate from "./postCreateOrUpdate";

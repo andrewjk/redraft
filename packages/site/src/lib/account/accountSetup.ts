@@ -1,8 +1,8 @@
-import database from "@/data/database";
-import { usersTable } from "@/data/schema";
-import { userTokensTable } from "@/data/schema/userTokensTable";
-import env from "@/lib/env";
 import { created, forbidden, serverError } from "@torpor/build/response";
+import database from "../../data/database";
+import { usersTable } from "../../data/schema";
+import { userTokensTable } from "../../data/schema/userTokensTable";
+import env from "../env";
 import createUserToken from "../utils/createUserToken";
 import getErrorMessage from "../utils/getErrorMessage";
 import { hashPassword } from "../utils/hashPasswords";

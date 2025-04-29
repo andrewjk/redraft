@@ -1,6 +1,6 @@
-import commentCreate from "@/lib/comments/commentCreate";
 import type { ServerEndPoint } from "@torpor/build";
 import { unauthorized } from "@torpor/build/response";
+import commentCreate from "../../../../lib/comments/commentCreate";
 
 export default {
 	post: async ({ appData, request, params }) => {

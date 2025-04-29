@@ -1,8 +1,8 @@
-import database from "@/data/database";
-import { articlesTable, postsTable, usersTable } from "@/data/schema";
-import { ARTICLE_POST_TYPE } from "@/lib/constants";
 import { notFound, ok, serverError, unauthorized } from "@torpor/build/response";
 import { eq } from "drizzle-orm";
+import database from "../../data/database";
+import { articlesTable, postsTable, usersTable } from "../../data/schema";
+import { ARTICLE_POST_TYPE } from "../constants";
 import getErrorMessage from "../utils/getErrorMessage";
 import userIdQuery from "../utils/userIdQuery";
 

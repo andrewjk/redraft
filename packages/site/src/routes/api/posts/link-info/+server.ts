@@ -1,6 +1,6 @@
-import loadLinkInfo from "@/lib/utils/loadLinkInfo";
 import type { ServerEndPoint } from "@torpor/build";
 import { notFound, ok, unauthorized } from "@torpor/build/response";
+import loadLinkInfo from "../../../../lib/utils/loadLinkInfo";
 
 export default {
 	get: async ({ appData, url, cookies }) => {

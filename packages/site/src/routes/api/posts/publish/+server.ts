@@ -1,6 +1,6 @@
-import postPublish from "@/lib/posts/postPublish";
 import type { ServerEndPoint } from "@torpor/build";
 import { unauthorized } from "@torpor/build/response";
+import postPublish from "../../../../lib/posts/postPublish";
 
 export default {
 	post: async ({ appData, request, params }) => {

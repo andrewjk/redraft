@@ -1,7 +1,7 @@
-import profileEdit from "@/lib/profile/profileEdit";
-import profileGet from "@/lib/profile/profileGet";
 import type { ServerEndPoint } from "@torpor/build";
 import { unauthorized } from "@torpor/build/response";
+import profileEdit from "../../../../lib/profile/profileEdit";
+import profileGet from "../../../../lib/profile/profileGet";
 
 export default {
 	get: async ({ appData }) => {

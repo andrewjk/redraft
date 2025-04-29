@@ -1,6 +1,6 @@
-import postSend from "@/lib/posts/postSend";
 import type { ServerEndPoint } from "@torpor/build";
 import { unauthorized } from "@torpor/build/response";
+import postSend from "../../../../lib/posts/postSend";
 
 export default {
 	post: async ({ appData, request }) => {

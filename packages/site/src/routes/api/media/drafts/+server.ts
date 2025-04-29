@@ -1,5 +1,5 @@
-import mediaList from "@/lib/media/mediaList";
 import type { ServerEndPoint } from "@torpor/build";
+import mediaList from "../../../../lib/media/mediaList";
 
 export default {
 	get: async ({ url }) => {

@@ -1,8 +1,8 @@
 //import { enhance } from '$app/forms';
 import loadLinkInfo from '@/lib/utils/loadLinkInfo';
-import ImageUpload from '@/views/ImageUpload.torp';
-import LinkPreview from '@/views/posts/LinkPreview.torp';
-import { IMAGE_POST_TYPE, ARTICLE_POST_TYPE, LINK_POST_TYPE } from "@/lib/constants";
+import ImageUpload from '../ImageUpload.torp';
+import LinkPreview from './LinkPreview.torp';
+import { IMAGE_POST_TYPE, ARTICLE_POST_TYPE, LINK_POST_TYPE } from "../../lib/constants";
 import Image from "phosphor-torpor/lib/Image";
 import Link from "phosphor-torpor/lib/Link";
 import Article from "phosphor-torpor/lib/Article";

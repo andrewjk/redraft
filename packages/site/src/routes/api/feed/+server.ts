@@ -1,6 +1,6 @@
-import feedList from "@/lib/feed/feedList";
 import type { ServerEndPoint } from "@torpor/build";
 import { unauthorized } from "@torpor/build/response";
+import feedList from "../../../lib/feed/feedList";
 
 export default {
 	get: async ({ appData, url }) => {

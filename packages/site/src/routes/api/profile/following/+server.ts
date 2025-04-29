@@ -1,6 +1,6 @@
-import followingList from "@/lib/profile/followingList";
 import type { ServerEndPoint } from "@torpor/build";
 import { unauthorized } from "@torpor/build/response";
+import followingList from "../../../../lib/profile/followingList";
 
 export default {
 	get: async ({ appData, url }) => {

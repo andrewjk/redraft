@@ -1,7 +1,7 @@
-import database from "@/data/database";
-import { commentsTable } from "@/data/schema";
 import { notFound, ok, serverError } from "@torpor/build/response";
 import { eq } from "drizzle-orm";
+import database from "../../data/database";
+import { commentsTable } from "../../data/schema";
 import postPreview from "../posts/postPreview";
 import getErrorMessage from "../utils/getErrorMessage";
 import commentPreview from "./commentPreview";

@@ -1,7 +1,7 @@
-import database from "@/data/database";
-import { followedByTable, followingTable } from "@/data/schema";
 import { ok, serverError } from "@torpor/build/response";
 import { eq } from "drizzle-orm";
+import database from "../../data/database";
+import { followedByTable, followingTable } from "../../data/schema";
 import getErrorMessage from "../utils/getErrorMessage";
 
 export type ProfileUpdatedModel = {

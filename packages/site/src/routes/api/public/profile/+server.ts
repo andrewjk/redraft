@@ -1,5 +1,5 @@
-import profileUpdated from "@/lib/public/profileUpdated";
 import type { ServerEndPoint } from "@torpor/build";
+import profileUpdated from "../../../../lib/public/profileUpdated";
 
 export default {
 	post: async ({ request }) => {

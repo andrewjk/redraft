@@ -1,5 +1,5 @@
 //import profileView from "./profileView";
-import { type Comment } from "@/data/schema/commentsTable";
+import { type Comment } from "../../data/schema/commentsTable";
 
 type CommentAuthor = {
 	image: string;

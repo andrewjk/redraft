@@ -1,7 +1,7 @@
-import database from "@/data/database";
-import { followedByTable, postsTable } from "@/data/schema";
 import { notFound, ok, serverError } from "@torpor/build/response";
 import { eq } from "drizzle-orm";
+import database from "../../data/database";
+import { followedByTable, postsTable } from "../../data/schema";
 import { postPublic } from "../public";
 import { CommentedModel } from "../public/commentReceived";
 import getErrorMessage from "../utils/getErrorMessage";

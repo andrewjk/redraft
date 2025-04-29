@@ -1,5 +1,5 @@
-import commentReceived from "@/lib/public/commentReceived";
 import type { ServerEndPoint } from "@torpor/build";
+import commentReceived from "../../../../lib/public/commentReceived";
 
 export default {
 	post: async ({ request }) => {

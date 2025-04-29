@@ -1,6 +1,6 @@
-import feedReact from "@/lib/feed/feedReact";
 import type { ServerEndPoint } from "@torpor/build";
 import { unauthorized } from "@torpor/build/response";
+import feedReact from "../../../../lib/feed/feedReact";
 
 export default {
 	post: async ({ appData, request }) => {

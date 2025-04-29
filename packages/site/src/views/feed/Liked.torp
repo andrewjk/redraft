@@ -1,8 +1,8 @@
 import { $page } from "@torpor/build/state";
-import PostInput from "@/views/posts/PostInput.torp";
-import FeedList from "@/views/feed/FeedList.torp";
-import FeedMenu from "@/views/feed/FeedMenu.torp";
-import Pagination from "@/views/Pagination.torp";
+import PostInput from "../posts/PostInput.torp";
+import FeedList from "./FeedList.torp";
+import FeedMenu from "./FeedMenu.torp";
+import Pagination from "../Pagination.torp";
 
 export default function Index() {
 	let $state = $watch({

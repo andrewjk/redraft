@@ -1,7 +1,7 @@
-import * as api from "@/lib/api";
-import { PAGE_SIZE } from "@/lib/constants";
 import { type PageServerEndPoint } from "@torpor/build";
 import { ok } from "@torpor/build/response";
+import * as api from "../../lib/api";
+import { PAGE_SIZE } from "../../lib/constants";
 
 export default {
 	load: async ({ url, params }) => {

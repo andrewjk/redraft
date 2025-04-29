@@ -1,6 +1,6 @@
-import postEdit from "@/lib/posts/postEdit";
 import type { ServerEndPoint } from "@torpor/build";
 import { unauthorized } from "@torpor/build/response";
+import postEdit from "../../../../../lib/posts/postEdit";
 
 export default {
 	get: async ({ appData, params }) => {

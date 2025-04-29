@@ -1,6 +1,6 @@
-import extensionFollowing from "@/lib/extension/extensionFollowing";
 import type { ServerEndPoint } from "@torpor/build";
 import { unauthorized } from "@torpor/build/response";
+import extensionFollowing from "../../../../lib/extension/extensionFollowing";
 
 export default {
 	get: async ({ appData }) => {

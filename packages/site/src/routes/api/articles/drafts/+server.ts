@@ -1,5 +1,5 @@
-import articleList from "@/lib/articles/articleList";
 import type { ServerEndPoint } from "@torpor/build";
+import articleList from "../../../../lib/articles/articleList";
 
 export default {
 	get: async ({ url }) => {

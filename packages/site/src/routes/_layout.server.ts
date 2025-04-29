@@ -1,6 +1,6 @@
-import env from "@/lib/env";
 import type { PageServerEndPoint } from "@torpor/build";
 import { ok } from "@torpor/build/response";
+import env from "../lib/env";
 
 export default {
 	load: ({ appData, params }) => {

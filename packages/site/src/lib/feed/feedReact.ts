@@ -1,7 +1,7 @@
-import database from "@/data/database";
-import { feedTable, usersTable } from "@/data/schema";
 import { ok, serverError, unauthorized } from "@torpor/build/response";
 import { eq } from "drizzle-orm";
+import database from "../../data/database";
+import { feedTable, usersTable } from "../../data/schema";
 import { postPublic } from "../public";
 import { PostReactionModel } from "../public/postReaction";
 import getErrorMessage from "../utils/getErrorMessage";

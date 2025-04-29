@@ -1,11 +1,11 @@
-import * as api from "@/lib/api";
-//import env from "@/lib/env";
-import { uploadFile } from "@/lib/storage";
-import formDataToObject from "@/lib/utils/formDataToObject";
-import setUserToken from "@/lib/utils/setUserToken";
-import uuid from "@/lib/utils/uuid";
 import { type PageServerEndPoint } from "@torpor/build";
 import { ok, seeOther, unauthorized, unprocessable } from "@torpor/build/response";
+import * as api from "../../../lib/api";
+//import env from "../../../lib/env";
+import { uploadFile } from "../../../lib/storage";
+import formDataToObject from "../../../lib/utils/formDataToObject";
+import setUserToken from "../../../lib/utils/setUserToken";
+import uuid from "../../../lib/utils/uuid";
 
 export default {
 	load: async ({ appData, params }) => {

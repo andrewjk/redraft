@@ -1,6 +1,6 @@
-import followApprove from "@/lib/follow/followApprove";
 import type { ServerEndPoint } from "@torpor/build";
 import { unauthorized } from "@torpor/build/response";
+import followApprove from "../../../../lib/follow/followApprove";
 
 export default {
 	post: async ({ appData, request }) => {

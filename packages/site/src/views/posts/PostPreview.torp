@@ -1,9 +1,9 @@
 //import { enhance } from '$app/forms';
-import placeholdify from "@/lib/utils/placeholdify";
-import pluralize from "@/lib/utils/pluralize"
-import relativeTimeSince from "@/lib/utils/relativeTimeSince"
-import LinkPreview from '@/views/posts/LinkPreview.torp';
-import { ARTICLE_POST_TYPE, IMAGE_POST_TYPE, LINK_POST_TYPE } from "@/lib/constants";
+import placeholdify from "../../lib/utils/placeholdify";
+import pluralize from "../../lib/utils/pluralize"
+import relativeTimeSince from "../../lib/utils/relativeTimeSince"
+import LinkPreview from './LinkPreview.torp';
+import { ARTICLE_POST_TYPE, IMAGE_POST_TYPE, LINK_POST_TYPE } from "../../lib/constants";
 import PushPin from "phosphor-torpor/lib/PushPin";
 import PushPinSlash from "phosphor-torpor/lib/PushPinSlash";
 import ChatCircle from "phosphor-torpor/lib/ChatCircle";

@@ -1,8 +1,14 @@
-import database from "@/data/database";
-import { commentsTable, feedTable, followedByTable, postsTable, usersTable } from "@/data/schema";
-import * as api from "@/lib/api";
 import { created, notFound, serverError, unauthorized } from "@torpor/build/response";
 import { eq } from "drizzle-orm";
+import database from "../../data/database";
+import {
+	commentsTable,
+	feedTable,
+	followedByTable,
+	postsTable,
+	usersTable,
+} from "../../data/schema";
+import * as api from "../api";
 import getErrorMessage from "../utils/getErrorMessage";
 import uuid from "../utils/uuid";
 import commentPreview from "./commentPreview";

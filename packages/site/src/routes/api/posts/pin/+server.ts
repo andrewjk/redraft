@@ -1,6 +1,6 @@
-import postPin from "@/lib/posts/postPin";
 import type { ServerEndPoint } from "@torpor/build";
 import { unauthorized } from "@torpor/build/response";
+import postPin from "../../../../lib/posts/postPin";
 
 export default {
 	post: async ({ appData, request }) => {

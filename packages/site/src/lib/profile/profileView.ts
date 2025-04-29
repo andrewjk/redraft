@@ -1,4 +1,4 @@
-import { type User, UserLink } from "@/data/schema/usersTable";
+import { type User, UserLink } from "../../data/schema/usersTable";
 
 type LinkView = {
 	id: number;

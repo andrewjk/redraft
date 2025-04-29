@@ -1,5 +1,5 @@
-import feedReceived from "@/lib/public/feedReceived";
 import type { ServerEndPoint } from "@torpor/build";
+import feedReceived from "../../../../lib/public/feedReceived";
 
 export default {
 	post: async ({ request }) => {

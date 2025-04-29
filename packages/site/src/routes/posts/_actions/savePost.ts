@@ -1,9 +1,9 @@
-import * as api from "@/lib/api";
-import { uploadFile } from "@/lib/storage";
-import formDataToObject from "@/lib/utils/formDataToObject";
-import uuid from "@/lib/utils/uuid";
 import { type ServerLoadEvent } from "@torpor/build";
 import { seeOther, unauthorized, unprocessable } from "@torpor/build/response";
+import * as api from "../../../lib/api";
+import { uploadFile } from "../../../lib/storage";
+import formDataToObject from "../../../lib/utils/formDataToObject";
+import uuid from "../../../lib/utils/uuid";
 
 export default async function savePost({ appData, request, params }: ServerLoadEvent) {
 	const user = appData.user;

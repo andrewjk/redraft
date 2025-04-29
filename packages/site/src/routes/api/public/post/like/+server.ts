@@ -1,5 +1,5 @@
-import postLiked from "@/lib/public/postLiked";
 import type { ServerEndPoint } from "@torpor/build";
+import postLiked from "../../../../../lib/public/postLiked";
 
 export default {
 	post: async ({ request }) => {

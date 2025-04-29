@@ -17,12 +17,12 @@
 		"strict": true,
 		"noUnusedLocals": true,
 		"noUnusedParameters": true,
-		"noFallthroughCasesInSwitch": true,
+		"noFallthroughCasesInSwitch": true
 
 		/* Site */
-		"paths": {
-			"@/*": ["./src/*"]
-		}
+		//"paths": {
+		//	"@/*": ["./src/*"]
+		//}
 	},
 	"include": ["src/**/*"]
 }

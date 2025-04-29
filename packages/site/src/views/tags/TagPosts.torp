@@ -1,8 +1,8 @@
 import { $page } from "@torpor/build/state";
-import TagMenu from "@/views/tags/TagMenu.torp";
-import PostInput from "@/views/posts/PostInput.torp";
-import PostList from "@/views/posts/PostList.torp";
-import Pagination from "@/views/Pagination.torp";
+import TagMenu from "./TagMenu.torp";
+import PostInput from "../posts/PostInput.torp";
+import PostList from "../posts/PostList.torp";
+import Pagination from "../Pagination.torp";
 
 export default function TagPosts() {
 	let $state = $watch({

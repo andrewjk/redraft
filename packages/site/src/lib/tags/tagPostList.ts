@@ -1,7 +1,7 @@
-import database from "@/data/database";
-import { postTagsTable, postsTable, tagsTable } from "@/data/schema";
 import { notFound, ok, serverError } from "@torpor/build/response";
 import { and, desc, eq, inArray, isNotNull, isNull } from "drizzle-orm";
+import database from "../../data/database";
+import { postTagsTable, postsTable, tagsTable } from "../../data/schema";
 import postPreview, { PostPreview } from "../posts/postPreview";
 import getErrorMessage from "../utils/getErrorMessage";
 

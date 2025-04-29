@@ -1,9 +1,9 @@
-import database from "@/data/database";
-import { postsTable } from "@/data/schema";
-import { User } from "@/data/schema/usersTable";
-import { FOLLOWER_POST_VISIBILITY, PUBLIC_POST_VISIBILITY } from "@/lib/constants";
 import { notFound, ok, serverError } from "@torpor/build/response";
 import { and, desc, eq, isNotNull, isNull, or } from "drizzle-orm";
+import database from "../../data/database";
+import { postsTable } from "../../data/schema";
+import { User } from "../../data/schema/usersTable";
+import { FOLLOWER_POST_VISIBILITY, PUBLIC_POST_VISIBILITY } from "../constants";
 import getErrorMessage from "../utils/getErrorMessage";
 import postPreview, { type PostPreview } from "./postPreview";
 

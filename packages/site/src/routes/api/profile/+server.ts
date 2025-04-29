@@ -1,5 +1,5 @@
-import profileGet from "@/lib/profile/profileGet";
 import type { ServerEndPoint } from "@torpor/build";
+import profileGet from "../../../lib/profile/profileGet";
 
 export default {
 	get: async () => {

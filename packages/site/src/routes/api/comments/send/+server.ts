@@ -1,5 +1,5 @@
-import commentSend from "@/lib/comments/commentSend";
 import type { ServerEndPoint } from "@torpor/build";
+import commentSend from "../../../../lib/comments/commentSend";
 
 export default {
 	post: async ({ request }) => {

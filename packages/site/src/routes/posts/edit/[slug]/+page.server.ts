@@ -1,8 +1,8 @@
-import * as api from "@/lib/api";
-import publishPost from "@/routes/posts/_actions/publishPost";
-import savePost from "@/routes/posts/_actions/savePost";
 import { type PageServerEndPoint } from "@torpor/build";
 import { ok, unauthorized, unprocessable } from "@torpor/build/response";
+import * as api from "../../../../lib/api";
+import publishPost from "../../../posts/_actions/publishPost";
+import savePost from "../../../posts/_actions/savePost";
 
 export default {
 	load: async ({ appData, params }) => {

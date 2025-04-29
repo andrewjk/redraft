@@ -1,4 +1,4 @@
-import env from "@/lib/env";
+import env from "../lib/env";
 
 const base = `${env().SITE_LOCATION}api/`;
 

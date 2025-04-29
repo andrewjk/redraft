@@ -1,7 +1,7 @@
-import database from "@/data/database";
-import { tagsTable } from "@/data/schema";
 import { notFound, ok, serverError } from "@torpor/build/response";
 import { desc, isNull } from "drizzle-orm";
+import database from "../../data/database";
+import { tagsTable } from "../../data/schema";
 import getErrorMessage from "../utils/getErrorMessage";
 
 export type TagPreview = {

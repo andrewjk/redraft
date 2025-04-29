@@ -1,6 +1,6 @@
 //import { enhance } from '$app/forms';
-import placeholdify from "@/lib/utils/placeholdify";
-import relativeTimeSince from "@/lib/utils/relativeTimeSince"
+import placeholdify from "../../lib/utils/placeholdify";
+import relativeTimeSince from "../../lib/utils/relativeTimeSince"
 
 /**
  * Shows a follow(er/ing) preview for display in a list.

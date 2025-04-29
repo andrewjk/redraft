@@ -2,7 +2,7 @@ import { $page } from '@torpor/build/state';
 import MapPin from "phosphor-torpor/lib/MapPin";
 import Pencil from "phosphor-torpor/lib/Pencil";
 import SignOut from "phosphor-torpor/lib/SignOut";
-import placeholdify from "@/lib/utils/placeholdify";
+import placeholdify from "../../lib/utils/placeholdify";
 
 export default function Preview($props) {
 	@render {

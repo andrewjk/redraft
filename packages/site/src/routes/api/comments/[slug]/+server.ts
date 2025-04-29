@@ -1,5 +1,5 @@
-import commentGet from "@/lib/comments/commentGet";
 import type { ServerEndPoint } from "@torpor/build";
+import commentGet from "../../../../lib/comments/commentGet";
 
 export default {
 	get: async ({ params }) => {

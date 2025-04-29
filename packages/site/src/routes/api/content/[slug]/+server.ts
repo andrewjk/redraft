@@ -1,5 +1,5 @@
-import contentGet from "@/lib/content/contentGet";
 import type { ServerEndPoint } from "@torpor/build";
+import contentGet from "../../../../lib/content/contentGet";
 
 export default {
 	get: async ({ params }) => {

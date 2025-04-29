@@ -1,4 +1,4 @@
-import pluralize from "@/lib/utils/pluralize"
+import pluralize from "../../lib/utils/pluralize"
 
 /**
  * Shows a tag preview for display in a list.

@@ -1,8 +1,8 @@
-import database from "@/data/database";
-import { postsTable } from "@/data/schema";
-import { ARTICLE_POST_TYPE } from "@/lib/constants";
 import { notFound, ok, serverError } from "@torpor/build/response";
 import { and, desc, eq, isNotNull, isNull } from "drizzle-orm";
+import database from "../../data/database";
+import { postsTable } from "../../data/schema";
+import { ARTICLE_POST_TYPE } from "../constants";
 import postPreview, { PostPreview } from "../posts/postPreview";
 import getErrorMessage from "../utils/getErrorMessage";
 

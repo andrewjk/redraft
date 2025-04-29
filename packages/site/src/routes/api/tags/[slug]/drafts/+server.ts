@@ -1,5 +1,5 @@
-import tagPostList from "@/lib/tags/tagPostList";
 import type { ServerEndPoint } from "@torpor/build";
+import tagPostList from "../../../../../lib/tags/tagPostList";
 
 export default {
 	get: async ({ url, params }) => {

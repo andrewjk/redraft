@@ -1,6 +1,6 @@
-import database from "@/data/database";
-import { userTokensTable, usersTable } from "@/data/schema";
 import { eq } from "drizzle-orm";
+import database from "../../data/database";
+import { userTokensTable, usersTable } from "../../data/schema";
 
 export default function userIdQuery(code: string) {
 	const db = database();

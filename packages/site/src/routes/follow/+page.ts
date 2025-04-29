@@ -1,5 +1,5 @@
-import component from "@/views/follow/Index.torp";
 import { type PageEndPoint } from "@torpor/build";
+import component from "../../views/follow/Index.torp";
 
 export default {
 	component,

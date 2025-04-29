@@ -1,6 +1,6 @@
-import feedSave from "@/lib/feed/feedSave";
 import type { ServerEndPoint } from "@torpor/build";
 import { unauthorized } from "@torpor/build/response";
+import feedSave from "../../../../lib/feed/feedSave";
 
 export default {
 	post: async ({ appData, request }) => {

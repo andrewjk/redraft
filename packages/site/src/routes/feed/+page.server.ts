@@ -1,12 +1,12 @@
-import * as api from "@/lib/api";
-import { PAGE_SIZE } from "@/lib/constants";
-import likeFeedPost from "@/routes/feed/_actions/likeFeedPost";
-import reactToFeedPost from "@/routes/feed/_actions/reactToFeedPost";
-import saveFeedPost from "@/routes/feed/_actions/saveFeedPost";
-import publishPost from "@/routes/posts/_actions/publishPost";
-import savePost from "@/routes/posts/_actions/savePost";
 import { type PageServerEndPoint } from "@torpor/build";
 import { ok, unauthorized } from "@torpor/build/response";
+import * as api from "../../lib/api";
+import { PAGE_SIZE } from "../../lib/constants";
+import likeFeedPost from "../feed/_actions/likeFeedPost";
+import reactToFeedPost from "../feed/_actions/reactToFeedPost";
+import saveFeedPost from "../feed/_actions/saveFeedPost";
+import publishPost from "../posts/_actions/publishPost";
+import savePost from "../posts/_actions/savePost";
 
 export default {
 	load: async ({ url, params, appData }) => {

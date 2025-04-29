@@ -1,16 +1,12 @@
-import database from "@/data/database";
-import { articlesTable, postsTable } from "@/data/schema";
-import { User } from "@/data/schema/usersTable";
-import {
-	ARTICLE_POST_TYPE,
-	FOLLOWER_POST_VISIBILITY,
-	PUBLIC_POST_VISIBILITY,
-} from "@/lib/constants";
 import { notFound, ok, serverError } from "@torpor/build/response";
 import { and, eq, or } from "drizzle-orm";
 import { micromark } from "micromark";
 import { gfm, gfmHtml } from "micromark-extension-gfm";
+import database from "../../data/database";
+import { articlesTable, postsTable } from "../../data/schema";
+import { User } from "../../data/schema/usersTable";
 import commentPreview from "../comments/commentPreview";
+import { ARTICLE_POST_TYPE, FOLLOWER_POST_VISIBILITY, PUBLIC_POST_VISIBILITY } from "../constants";
 import getErrorMessage from "../utils/getErrorMessage";
 
 export default async function postGet(user: User, follower: User, slug: string) {

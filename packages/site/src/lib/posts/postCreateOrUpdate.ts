@@ -1,9 +1,9 @@
-import database from "@/data/database";
-import { articlesTable, postTagsTable, tagsTable } from "@/data/schema";
-import { Post, postsTable } from "@/data/schema/postsTable";
-import { Tag } from "@/data/schema/tagsTable";
-import { ARTICLE_POST_TYPE } from "@/lib/constants";
 import { and, eq, inArray } from "drizzle-orm";
+import database from "../../data/database";
+import { articlesTable, postTagsTable, tagsTable } from "../../data/schema";
+import { Post, postsTable } from "../../data/schema/postsTable";
+import { Tag } from "../../data/schema/tagsTable";
+import { ARTICLE_POST_TYPE } from "../constants";
 import sluggify from "../utils/sluggify";
 import uuid from "../utils/uuid";
 import { PostEditModel } from "./postEdit";

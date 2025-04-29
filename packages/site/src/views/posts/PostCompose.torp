@@ -1,6 +1,6 @@
 //import { enhance } from '$app/forms';
-import FormErrors from '@/views/FormErrors.torp';
-import PostInput from '@/views/posts/PostInput.torp';
+import FormErrors from '../FormErrors.torp';
+import PostInput from './PostInput.torp';
 
 /**
  * Allows composing a post.

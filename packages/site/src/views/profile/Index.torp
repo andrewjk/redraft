@@ -1,5 +1,5 @@
 import { $page } from '@torpor/build/state';
-import placeholdify from "@/lib/utils/placeholdify";
+import placeholdify from "../../lib/utils/placeholdify";
 import MapPin from "phosphor-torpor/lib/MapPin";
 import Link from "phosphor-torpor/lib/Link";
 import Pencil from "phosphor-torpor/lib/Pencil";

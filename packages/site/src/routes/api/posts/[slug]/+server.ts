@@ -1,5 +1,5 @@
-import postGet from "@/lib/posts/postGet";
 import type { ServerEndPoint } from "@torpor/build";
+import postGet from "../../../../lib/posts/postGet";
 
 export default {
 	get: async ({ appData, params }) => {

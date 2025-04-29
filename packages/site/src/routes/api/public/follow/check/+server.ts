@@ -1,5 +1,5 @@
-import followCheck from "@/lib/public/followCheck";
 import type { ServerEndPoint } from "@torpor/build";
+import followCheck from "../../../../../lib/public/followCheck";
 
 export default {
 	post: async ({ request }) => {

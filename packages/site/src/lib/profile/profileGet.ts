@@ -1,5 +1,5 @@
-import database from "@/data/database";
 import { notFound, ok, serverError } from "@torpor/build/response";
+import database from "../../data/database";
 import getErrorMessage from "../utils/getErrorMessage";
 import profileView from "./profileView";
 

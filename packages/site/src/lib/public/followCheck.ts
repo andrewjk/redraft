@@ -1,8 +1,8 @@
-import database from "@/data/database";
-import { followingTable } from "@/data/schema";
-import env from "@/lib/env";
 import { notFound, ok, serverError } from "@torpor/build/response";
 import { eq } from "drizzle-orm";
+import database from "../../data/database";
+import { followingTable } from "../../data/schema";
+import env from "../env";
 import getErrorMessage from "../utils/getErrorMessage";
 
 export type FollowCheckModel = {

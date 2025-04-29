@@ -1,8 +1,8 @@
 //import profileView from "./profileView";
-import { type Feed } from "@/data/schema/feedTable";
-import { FollowedBy } from "@/data/schema/followedByTable";
-import { type User } from "@/data/schema/usersTable";
 import { micromark } from "micromark";
+import { type Feed } from "../../data/schema/feedTable";
+import { FollowedBy } from "../../data/schema/followedByTable";
+import { type User } from "../../data/schema/usersTable";
 
 type FeedAuthor = {
 	name: string;

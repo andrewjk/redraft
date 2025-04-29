@@ -1,6 +1,6 @@
-import profileSend from "@/lib/profile/profileSend";
 import type { ServerEndPoint } from "@torpor/build";
 import { unauthorized } from "@torpor/build/response";
+import profileSend from "../../../../lib/profile/profileSend";
 
 export default {
 	post: async ({ appData }) => {
