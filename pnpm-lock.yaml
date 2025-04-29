@@ -99,6 +99,9 @@ importers:
       '@redsoc/adapter-core':
         specifier: workspace:^
         version: link:../adapters/adapter-core
+      '@redsoc/adapter-node':
+        specifier: workspace:^
+        version: link:../adapters/adapter-node
       '@torpor/adapter-node':
         specifier: ^0.0.9
         version: 0.0.9(@types/node@22.15.3)(esbuild@0.25.3)(jiti@2.4.2)(rollup@4.40.1)(terser@5.39.0)(tsx@4.19.3)(typescript@5.8.3)
