@@ -1,8 +1,9 @@
 import { Adapter } from "@redraft/adapter-core";
 import { Site } from "@torpor/build";
-import { setDatabase } from "./data/database";
 
 export async function defineSite(site: Site, adapter: Adapter) {
 	await site.addRouteFolder("node_modules/@redraft/site/src/routes");
-	setDatabase(adapter);
+
+	// @ts-ignore
+	globalThis.socialAdapter = adapter;
 }

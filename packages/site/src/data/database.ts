@@ -1,19 +1,19 @@
-import { Adapter } from "@redraft/adapter-core";
 import { BaseSQLiteDatabase } from "drizzle-orm/sqlite-core";
 import * as schema from "./schema/index";
 
+let db: BaseSQLiteDatabase<"async", any, typeof schema>;
+
 export default function database(): BaseSQLiteDatabase<"async", any, typeof schema> {
-	// HACK: Can't call setDatabase from site.config because it's only
-	// transformed (not bundled), so we're just setting globalThis.adapter and
-	// checking the db on every call for now
+	// HACK: We can't call setDatabase from site.config because it's only
+	// transformed (not bundled), so we're just setting globalThis.socialAdapter
+	// and checking the db on every call for now
 	// @ts-ignore
-	globalThis.db ??= globalThis.adapter.database(schema);
+	db ??= globalThis.socialAdapter.database(schema);
 
-	// @ts-ignore
-	return globalThis.db;
+	return db;
 }
 
-export function setDatabase(adapter: Adapter) {
-	// @ts-ignore
-	globalThis.db = adapter.database(schema);
-}
+//export function setDatabase(adapter: Adapter) {
+//	// @ts-ignore
+//	globalThis.db = adapter.database(schema);
+//}
