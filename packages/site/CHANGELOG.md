@@ -1,5 +1,12 @@
 # @redraft/site
 
+## 0.0.4
+
+### Patch Changes
+
+- b89e5d5: Fix: load the database at runtime
+- 2909689: Fix: bad import
+
 ## 0.0.3
 
 ### Patch Changes
