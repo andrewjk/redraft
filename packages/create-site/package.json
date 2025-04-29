@@ -1,5 +1,5 @@
 {
-	"name": "@redsoc/create-site",
+	"name": "@redraft/create-site",
 	"version": "0.0.1",
 	"description": "A starter template for building a social site with Redraft",
 	"publishConfig": {

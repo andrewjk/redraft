@@ -1,4 +1,4 @@
-import { Adapter } from "@redsoc/adapter-core";
+import { Adapter } from "@redraft/adapter-core";
 import { BaseSQLiteDatabase } from "drizzle-orm/sqlite-core";
 import * as schema from "./schema/index";
 

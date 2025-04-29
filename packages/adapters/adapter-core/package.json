@@ -1,11 +1,14 @@
 {
-	"name": "@redsoc/adapter-core",
+	"name": "@redraft/adapter-core",
 	"version": "0.0.1",
-	"description": "",
+	"description": "The interfaces needed for building a Redraft adapter",
 	"type": "module",
 	"main": "dist/index.cjs",
 	"module": "dist/index.js",
 	"types": "dist/index.d.ts",
+	"publishConfig": {
+		"access": "public"
+	},
 	"scripts": {
 		"check": "tsc --noEmit",
 		"build": "tsc --noEmit && tsup"

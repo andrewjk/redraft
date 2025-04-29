@@ -1,5 +1,5 @@
-import { node as socialAdapter } from "@redsoc/adapter-node";
-import { defineSite } from "@redsoc/site";
+import { node as socialAdapter } from "@redraft/adapter-node";
+import { defineSite } from "@redraft/site";
 import { node } from "@torpor/adapter-node";
 import { Site } from "@torpor/build";
 import "dotenv/config";

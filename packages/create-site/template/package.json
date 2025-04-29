@@ -1,7 +1,7 @@
 {
-	"name": "@redsoc/create-site",
+	"name": "@redraft/create-site",
 	"version": "0.0.1",
-	"description": "",
+	"description": "A Redraft site",
 	"type": "module",
 	"scripts": {
 		"dev": "tb --dev",
@@ -13,8 +13,8 @@
 	"author": "",
 	"license": "ISC",
 	"dependencies": {
-		"@redsoc/adapter-node": "workspace:^",
-		"@redsoc/site": "workspace:^",
+		"@redraft/adapter-node": "workspace:^",
+		"@redraft/site": "workspace:^",
 		"@torpor/adapter-node": "^0.0.9",
 		"@torpor/build": "^0.1.12",
 		"dotenv": "^16.5.0"

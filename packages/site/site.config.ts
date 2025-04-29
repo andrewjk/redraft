@@ -1,4 +1,4 @@
-import { node as adapter } from "@redsoc/adapter-node";
+import { node as adapter } from "@redraft/adapter-node";
 import { node } from "@torpor/adapter-node";
 import { Site } from "@torpor/build";
 

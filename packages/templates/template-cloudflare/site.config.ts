@@ -1,5 +1,5 @@
-import { cloudflare as socialAdapter } from "@redsoc/adapter-cloudflare";
-import { defineSite } from "@redsoc/site";
+import { cloudflare as socialAdapter } from "@redraft/adapter-cloudflare";
+import { defineSite } from "@redraft/site";
 import { node } from "@torpor/adapter-node";
 import { Site } from "@torpor/build";
 import "dotenv/config";

@@ -9,7 +9,7 @@ A starter template for building a social site with [Redraft](https://redraft.soc
 Use `npm` (or your preferred package manager) to create the template:
 
 ```bash
-npm init @redsoc/site my-social
+npm init @redraft/site my-social
 cd my-social
 npm install
 npm run dev

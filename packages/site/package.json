@@ -1,7 +1,7 @@
 {
-	"name": "@redsoc/site",
+	"name": "@redraft/site",
 	"version": "0.0.1",
-	"description": "",
+	"description": "A social media experiment",
 	"type": "module",
 	"main": "dist/index.cjs",
 	"module": "dist/index.js",
@@ -23,10 +23,10 @@
 	"author": "",
 	"license": "ISC",
 	"dependencies": {
-		"@aws-sdk/client-s3": "^3.797.0",
+		"@aws-sdk/client-s3": "^3.798.0",
 		"@libsql/client": "^0.15.4",
-		"@redsoc/adapter-core": "workspace:^",
-		"@redsoc/adapter-node": "workspace:^",
+		"@redraft/adapter-core": "workspace:^",
+		"@redraft/adapter-node": "workspace:^",
 		"@torpor/adapter-node": "^0.0.9",
 		"@torpor/view": "^0.0.11",
 		"bcryptjs": "^3.0.2",

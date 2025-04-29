@@ -1,6 +1,8 @@
-# Social
+# Redraft
 
-Social Media x Blogging x Newsletters
+A social media experiment.
+
+Social media x blogging x newsletters
 
 🚧 WARNING: WORK IN PROGRESS 🚧
 
@@ -11,11 +13,6 @@ Social Media x Blogging x Newsletters
 - Comment, like, react
 
 ## Things to do
-
-- Use one-time passwords for logging into other sites
-- With a browser plugin to auto-login (only when commenting or otherwise interacting)
-
-- TODO: lib should always return data OR responses
 
 - [x] / page showing public profile, pinned (if any), 5ish posts
 - [x] /feed page showing showing your feed (must be logged in)
@@ -109,13 +106,39 @@ Social Media x Blogging x Newsletters
 
 ## Setup
 
-- Fork the repo
-- Customise CSS in src/assets/custom.css
+### Recommended
+
+Use `npm` (or your preferred package manager) to create the template:
+
+```bash
+npm init @redraft/site my-social
+cd my-social
+npm install
+npm run dev
+```
+
+- Customise CSS in /src/assets/custom.css
 - Set environment variables in a `.env` file for dev and in your production environment
+  - Set `USERNAME` and `PASSWORD`, which will be used to login the first time
   - Set `SITE_LOCATION` to the URL which will be shared with others
   - Set `DB_CONNECTION`, pointing to an SQLite database
   - Set `JWT_SECRET` to a random passphrase for encrypting your user token
+- Run `npm run dev` to create the database
+- Deploy the site
+- Regularly run `npm update`
+
+### Full customization
+
+🚧 WARNING: THIS WILL NEED CONSTANT MAINTENANCE 🚧
+
+- Fork the repo
+- Tweak the code in /packages/site to your needs
+- Customise CSS in /src/assets/custom.css
+- Set environment variables in a `.env` file for dev and in your production environment
   - Set `USERNAME` and `PASSWORD`, which will be used to login the first time
+  - Set `SITE_LOCATION` to the URL which will be shared with others
+  - Set `DB_CONNECTION`, pointing to an SQLite database
+  - Set `JWT_SECRET` to a random passphrase for encrypting your user token
 - Run `npm run db:push` to create the database
 - Deploy the site
 

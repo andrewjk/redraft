@@ -1,11 +1,14 @@
 {
-	"name": "@redsoc/adapter-cloudflare",
+	"name": "@redraft/adapter-cloudflare",
 	"version": "0.0.1",
-	"description": "",
+	"description": "A Redraft adapter for deploying to Cloudflare Pages",
 	"type": "module",
 	"main": "dist/index.cjs",
 	"module": "dist/index.js",
 	"types": "dist/index.d.ts",
+	"publishConfig": {
+		"access": "public"
+	},
 	"scripts": {
 		"check": "tsc --noEmit",
 		"build": "tsc --noEmit && tsup"
@@ -15,11 +18,11 @@
 	"license": "ISC",
 	"packageManager": "pnpm@10.9.0",
 	"dependencies": {
-		"@redsoc/adapter-core": "workspace:^",
+		"@redraft/adapter-core": "workspace:^",
 		"drizzle-orm": "^0.43.1"
 	},
 	"devDependencies": {
-		"@cloudflare/workers-types": "^4.20250428.0",
+		"@cloudflare/workers-types": "^4.20250429.0",
 		"@types/node": "^22.15.3",
 		"prettier": "^3.5.3",
 		"tsup": "^8.4.0",
