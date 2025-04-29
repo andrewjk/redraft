@@ -13,8 +13,8 @@
 	"author": "",
 	"license": "ISC",
 	"dependencies": {
-		"@redraft/adapter-node": "workspace:^",
-		"@redraft/site": "workspace:^",
+		"@redraft/adapter-node": "^0.0.1",
+		"@redraft/site": "^0.0.1",
 		"@torpor/adapter-node": "^0.0.9",
 		"@torpor/build": "^0.1.12",
 		"dotenv": "^16.5.0"
