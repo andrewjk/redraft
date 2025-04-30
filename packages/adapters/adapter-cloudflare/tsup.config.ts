@@ -5,13 +5,11 @@ type Config =
 	| Options[]
 	| ((overrideOptions: Options) => Options | Options[] | Promise<Options | Options[]>);
 
-const config: Config = defineConfig({
+export default defineConfig({
 	entry: ["src/index.ts"],
 	format: ["esm", "cjs"],
 	dts: true,
 	clean: true,
 	metafile: true,
 	sourcemap: true,
-});
-
-export default config;
+}) satisfies Config as Config;
