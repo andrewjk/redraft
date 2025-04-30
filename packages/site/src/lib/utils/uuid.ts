@@ -1,5 +1,5 @@
-import { v4 } from "uuid";
+import { randomUUID } from "node:crypto";
 
 export default function uuid() {
-	return v4();
+	return randomUUID();
 }

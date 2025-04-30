@@ -39,7 +39,6 @@
 		"micromark": "^4.0.2",
 		"micromark-extension-gfm": "^3.0.0",
 		"phosphor-torpor": "^1.0.1",
-		"uuid": "^11.1.0",
 		"valibot": "1.0.0"
 	},
 	"devDependencies": {
