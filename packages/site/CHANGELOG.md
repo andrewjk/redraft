@@ -1,5 +1,11 @@
 # @redraft/site
 
+## 0.0.5
+
+### Patch Changes
+
+- 0a7d663: Chore: replace UUID with the crypto module
+
 ## 0.0.4
 
 ### Patch Changes
