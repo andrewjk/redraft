@@ -1,5 +1,11 @@
 # @redraft/site
 
+## 0.0.7
+
+### Patch Changes
+
+- 8e47c1f: Chore: get env from the adapter, if applicable
+
 ## 0.0.6
 
 ### Patch Changes
