@@ -23,11 +23,11 @@
 	"author": "",
 	"license": "ISC",
 	"dependencies": {
-		"@aws-sdk/client-s3": "^3.798.0",
+		"@aws-sdk/client-s3": "^3.799.0",
 		"@libsql/client": "^0.15.4",
 		"@redraft/adapter-core": "workspace:^",
 		"@redraft/adapter-node": "workspace:^",
-		"@torpor/adapter-node": "^0.0.9",
+		"@torpor/adapter-node": "^0.0.10",
 		"@torpor/view": "^0.0.11",
 		"bcryptjs": "^3.0.2",
 		"dotenv": "^16.5.0",
@@ -53,7 +53,7 @@
 		"prettier": "^3.5.3",
 		"sanitize-html": "^2.16.0",
 		"tsup": "^8.4.0",
-		"tsx": "^4.19.3",
+		"tsx": "^4.19.4",
 		"typescript": "^5.8.3",
 		"vite": "^6.3.3"
 	}
