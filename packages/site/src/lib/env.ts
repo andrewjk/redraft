@@ -1,5 +1,4 @@
 type Env = {
-	DB_CONNECTION: string;
 	JWT_SECRET: string;
 	SITE_LOCATION: string;
 
@@ -9,5 +8,6 @@ type Env = {
 };
 
 export default function env(): Env {
-	return process.env as Env;
+	// @ts-ignore
+	return (globalThis.adapter?.env ?? process.env) as Env;
 }
