@@ -1,5 +1,11 @@
 # @redraft/site
 
+## 0.0.6
+
+### Patch Changes
+
+- c40eaa6: Chore: ship migrations
+
 ## 0.0.5
 
 ### Patch Changes
