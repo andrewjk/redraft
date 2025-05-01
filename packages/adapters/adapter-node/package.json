@@ -6,6 +6,18 @@
 	"main": "dist/index.cjs",
 	"module": "dist/index.js",
 	"types": "dist/index.d.ts",
+	"exports": {
+		".": {
+			"types": "./dist/index.d.ts",
+			"import": "./dist/index.js",
+			"require": "./dist/index.cjs"
+		},
+		"./adapter": {
+			"types": "./dist/adapter.d.ts",
+			"import": "./dist/adapter.js",
+			"require": "./dist/adapter.cjs"
+		}
+	},
 	"publishConfig": {
 		"access": "public"
 	},
@@ -19,6 +31,8 @@
 	"packageManager": "pnpm@10.9.0",
 	"dependencies": {
 		"@redraft/adapter-core": "workspace:^",
+		"@torpor/adapter-node": "^0.0.11",
+		"@torpor/build": "^0.1.13",
 		"drizzle-orm": "^0.43.1"
 	},
 	"devDependencies": {

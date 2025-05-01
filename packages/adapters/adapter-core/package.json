@@ -6,6 +6,11 @@
 	"main": "dist/index.cjs",
 	"module": "dist/index.js",
 	"types": "dist/index.d.ts",
+	"exports": {
+		"types": "./dist/index.d.ts",
+		"import": "./dist/index.js",
+		"require": "./dist/index.cjs"
+	},
 	"publishConfig": {
 		"access": "public"
 	},
@@ -17,12 +22,13 @@
 	"author": "",
 	"license": "ISC",
 	"packageManager": "pnpm@10.9.0",
+	"dependencies": {
+		"@torpor/build": "^0.1.13",
+		"drizzle-orm": "^0.43.1"
+	},
 	"devDependencies": {
 		"prettier": "^3.5.3",
 		"tsup": "^8.4.0",
 		"typescript": "^5.8.3"
-	},
-	"dependencies": {
-		"drizzle-orm": "^0.43.1"
 	}
 }

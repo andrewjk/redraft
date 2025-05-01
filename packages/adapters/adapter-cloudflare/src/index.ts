@@ -1,8 +1,4 @@
-import { type Adapter } from "@redraft/adapter-core";
-import database from "./database";
+import cloudflare from "./adapter";
+import siteAdapter from "./siteAdapter";
 
-const cloudflare: Adapter = {
-	database,
-};
-
-export { cloudflare };
+export { cloudflare, siteAdapter };

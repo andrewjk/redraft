@@ -6,7 +6,9 @@ type Config =
 	| ((overrideOptions: Options) => Options | Options[] | Promise<Options | Options[]>);
 
 export default defineConfig({
-	entry: ["src/index.ts"],
+	// HACK: Need to have a separate adapter-only export to avoid polluting
+	// _worker.ts with imports
+	entry: ["src/index.ts", "src/adapter.ts"],
 	format: ["esm", "cjs"],
 	dts: true,
 	clean: true,
