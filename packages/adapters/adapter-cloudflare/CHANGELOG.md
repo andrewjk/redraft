@@ -1,5 +1,11 @@
 # @redraft/adapter-cloudflare
 
+## 0.0.4
+
+### Patch Changes
+
+- 58750ae: Fix: workaround?
+
 ## 0.0.3
 
 ### Patch Changes
