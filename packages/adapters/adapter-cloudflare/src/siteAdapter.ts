@@ -10,6 +10,10 @@ export default {
 } satisfies Adapter as Adapter;
 
 async function prebuild(site: Site) {
+	// HACK: This doesn't work. In standalone projects the code doesn't get
+	// the imports and exports transformed. Just going to copy the code in
+
+	/*
 	// For production, we need to set the adapter in _worker.ts so it's
 	// accessible from server functions
 	const code = `
@@ -25,7 +29,7 @@ globalThis.socialAdapter = adapter;
 
 	// Get the site to build this file
 	site.inputs = [file];
-
+	*/
 	if (cloudflare.prebuild) {
 		await cloudflare.prebuild(site);
 	}
@@ -37,7 +41,11 @@ async function postbuild(site: Site) {
 	}
 
 	// Copy the file into _worker.js as an IIFE
-	const adapterFile = path.resolve(site.root, "./dist/cloudflare/adapter.server.js");
+	//const adapterFile = path.resolve(site.root, "./dist/cloudflare/adapter.server.js");
+	const adapterFile = path.resolve(
+		site.root,
+		"./node_modules/@redraft/adapter-cloudflare/src/adapter.server.js",
+	);
 	const adapterCode = fs.readFileSync(adapterFile, "utf-8");
 
 	const workerFile = path.resolve(site.root, "./dist/cloudflare/_worker.js");
