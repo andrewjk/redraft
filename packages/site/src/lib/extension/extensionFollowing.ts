@@ -1,5 +1,5 @@
 import { ok, serverError, unauthorized } from "@torpor/build/response";
-import { eq, isNull } from "drizzle-orm";
+import { and, eq, isNull } from "drizzle-orm";
 import database from "../../data/database";
 import { followingTable, usersTable } from "../../data/schema";
 import createHeaderToken from "../utils/createHeaderToken";
@@ -20,20 +20,22 @@ export default async function extensionFollowing(code: string, limit?: number, o
 
 		// Get the users that the user is following from the database
 		// TODO: Maybe we should chunk this, and check only for updated users
-		const following = (
-			await db.query.followingTable.findMany({
-				limit,
-				offset,
-				where: isNull(followingTable.deleted_at),
-				columns: {
-					url: true,
-					shared_key: true,
-				},
-			})
-		).map((f) => ({
-			url: f.url,
-			token: createHeaderToken(f),
-		}));
+		const followingData = await db.query.followingTable.findMany({
+			limit,
+			offset,
+			where: and(eq(followingTable.approved, true), isNull(followingTable.deleted_at)),
+			columns: {
+				url: true,
+				shared_key: true,
+			},
+		});
+
+		const following = await Promise.all(
+			followingData.map(async (f) => ({
+				url: f.url,
+				token: await createHeaderToken(f),
+			})),
+		);
 
 		return ok({
 			following,

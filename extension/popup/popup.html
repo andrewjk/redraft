@@ -34,10 +34,15 @@
 			<h1>Following</h1>
 			<p>TODO: Show updates?</p>
 		</div>
-		<div id="other-panel">
-			<h1>Hi :)</h1>
-		</div>
-		<div id="logout-panel">
+		<div id="account-panel">
+			<h1>Account</h1>
+			<div>
+				<img id="profile-image"></img>
+				<p id="profile-name"></p>
+				<p>
+					<a id="profile-url" target="_blank">Open page</a>
+				</p>
+			</div>
 			<form id="logout-form">
 				<div class="form-row">
 					<button type="submit">Logout</button>
@@ -71,6 +76,12 @@
 
 		#login-error {
 			color: red;
+		}
+
+		#profile-image {
+			width: 60px;
+			height: 60px;
+			border-radius: 50%;
 		}
 	</style>
 </html>

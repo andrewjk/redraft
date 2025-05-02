@@ -9,29 +9,24 @@ document.getElementById("follow-form").addEventListener("submit", follow);
 // If we're not logged in, show the login panel
 // If we're on a site that we're not following, show the follow panel
 // If we're on a site that we're following, show some info
-// Otherwise, show the other panel
+// If we're logged in, show the account panel
 loadInterface();
 async function loadInterface() {
-	let location = document.location.toString();
-
 	let localStorage = await browser.storage.local.get();
 	let authenticated = localStorage.authenticated ?? false;
-	let following = localStorage.following ?? [];
-
-	// Is this the site of a user that we are following?
-	const followingUser = following.find((f) => location.startsWith(f.url));
-
-	let showLogin = !authenticated;
-	let showFollow = authenticated && false;
-	let showInfo = authenticated && !!followingUser;
-	let showOther = authenticated && !showFollow && !showInfo;
-	let showLogout = authenticated;
-
-	document.getElementById("login-panel").style.display = showLogin ? "block" : "none";
+	let showFollow = localStorage.showFollow;
+	let showInfo = localStorage.showInfo;
+	document.getElementById("login-panel").style.display = !authenticated ? "block" : "none";
 	document.getElementById("follow-panel").style.display = showFollow ? "block" : "none";
 	document.getElementById("info-panel").style.display = showInfo ? "block" : "none";
-	document.getElementById("other-panel").style.display = showOther ? "block" : "none";
-	document.getElementById("logout-panel").style.display = showLogout ? "block" : "none";
+	document.getElementById("account-panel").style.display = authenticated ? "block" : "none";
+
+	if (authenticated) {
+		let { profile } = localStorage;
+		document.getElementById("profile-image").src = profile.image;
+		document.getElementById("profile-name").innerText = profile.name;
+		document.getElementById("profile-url").href = profile.url;
+	}
 }
 
 async function login(e) {

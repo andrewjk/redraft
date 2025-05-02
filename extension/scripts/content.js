@@ -2,11 +2,21 @@ if (typeof browser === "undefined") {
 	var browser = chrome;
 }
 
+browser.runtime.onMessage.addListener((request, sender, sendResponse) => {
+	//console.log("content message received");
+	//console.log("Message from the background script:");
+	//console.log(request.greeting);
+	formatContent().then((res) => sendResponse(res));
+	return true;
+	//return Promise.resolve({ response: "Hi from content script" });
+});
+
 formatContent();
 initializeObserver();
 
 async function formatContent() {
 	let location = document.location.toString();
+	if (!location.endsWith("/")) location += "/";
 
 	// Get authenticated, following list and url from storage
 	let localStorage = await browser.storage.local.get();
@@ -14,8 +24,13 @@ async function formatContent() {
 	let following = localStorage.following ?? [];
 	let url = localStorage.url ?? "--";
 
+	// Is this our site?
+	const currentUser = location.startsWith(url);
+
 	// Is this the site of a user that we are following?
 	const followingUser = following.find((f) => location.startsWith(f.url));
+
+	// Is this the site of a user that we can follow?
 	const followEl = document.head.querySelector("meta[name='social-follow']");
 	if (followEl) {
 		await browser.storage.local.set({ followUrl: followEl.content });
@@ -36,18 +51,24 @@ async function formatContent() {
 	// Look for our own URL, and display the icon in blue if found
 	// Look for a following record, and display the icon in red if found
 	// Look for <meta name="social-follow">url</meta> and display the icon in yellow if found
-	let showAccount = authenticated && location.startsWith(url);
+	let showFollow = authenticated && !currentUser && !followingUser && !!followEl;
 	let showInfo = authenticated && !!followingUser;
-	let showFollow = authenticated && !!followEl;
+	let showAccount = authenticated && location.startsWith(url);
+
+	// Store the state in localStorage for access from e.g. popup.js
+	await browser.storage.local.set({ showFollow, showInfo });
 
 	// Set the icon color
 	let iconPrefix = "";
 	if (showAccount) {
+		// We're logged in on our site
 		iconPrefix = "-blue";
-	} else if (showInfo) {
-		iconPrefix = "-red";
 	} else if (showFollow) {
+		// We're logged in and the user can be followed
 		iconPrefix = "-yellow";
+	} else if (showInfo) {
+		// We're logged in and already following this user (should this be green??)
+		iconPrefix = "-red";
 	}
 	browser.runtime.sendMessage({
 		query: "social-icon",

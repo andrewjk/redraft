@@ -26,7 +26,6 @@ export default async function profileGet(forEditing = false) {
 
 		return ok(view);
 	} catch (error) {
-		console.log(error);
 		const message = getErrorMessage(error).message;
 		return serverError(message);
 	}

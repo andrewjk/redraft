@@ -2,6 +2,19 @@ if (typeof browser === "undefined") {
 	var browser = chrome;
 }
 
+// TODO: Always send the "Follow" form, and show it if logged into the extension
+// Otherwise, show a "Follow" link, which goes to the follow page
+
+browser.tabs.onActivated.addListener(({ tabId }) => {
+	browser.tabs.sendMessage(tabId, {});
+});
+
+browser.tabs.onUpdated.addListener((tabId, changeInfo) => {
+	if (changeInfo.status === "complete") {
+		browser.tabs.sendMessage(tabId, {});
+	}
+});
+
 browser.runtime.onMessage.addListener((request, sender, sendResponse) => {
 	switch (request.query) {
 		case "social-login": {
@@ -48,18 +61,43 @@ async function login(request) {
 
 		await browser.storage.local.set({ url, email, authenticated: true, token });
 
-		// TODO: Refresh this every now and then...
-		const followingData = await api("get", url, `api/extension/following`, token);
-		if (followingData) {
-			//const followingData = await followingResponse.json();
-			const following = followingData.following;
-			await browser.storage.local.set({ following });
+		await Promise.all([loadProfile(), loadFollowers()]);
+	}
 
-			const { MODIFY_HEADERS } = browser.declarativeNetRequest.RuleActionType;
-			const { SET: SET_HEADER } = browser.declarativeNetRequest.HeaderOperation;
-			const ALL_RESOURCE_TYPES = Object.values(chrome.declarativeNetRequest.ResourceType);
+	return {
+		ok,
+		error: ok ? "" : "Login failed, please try again",
+	};
+}
 
-			const addRules = following.map((f, i) => ({
+// TODO: Refresh this every now and then...
+async function loadProfile() {
+	const { url, token } = await browser.storage.local.get();
+	const profile = await api("get", url, `api/extension/profile`, token);
+	if (profile) {
+		await browser.storage.local.set({ profile });
+	}
+
+	// TODO: Handle errors
+}
+
+// TODO: Refresh this every now and then...
+async function loadFollowers() {
+	const { url, token } = await browser.storage.local.get();
+	const followingData = await api("get", url, `api/extension/following`, token);
+	if (followingData) {
+		//const followingData = await followingResponse.json();
+		const following = followingData.following;
+		console.log("GOT", followingData);
+		await browser.storage.local.set({ following });
+
+		const { MODIFY_HEADERS } = browser.declarativeNetRequest.RuleActionType;
+		const { SET: SET_HEADER } = browser.declarativeNetRequest.HeaderOperation;
+		const ALL_RESOURCE_TYPES = Object.values(chrome.declarativeNetRequest.ResourceType);
+
+		const addRules = following
+			.filter((f) => !!f.url && !!f.token)
+			.map((f, i) => ({
 				id: i + 1,
 				priority: 1,
 				action: {
@@ -78,20 +116,16 @@ async function login(request) {
 				},
 			}));
 
-			const oldRules = await browser.declarativeNetRequest.getDynamicRules();
-			browser.declarativeNetRequest.updateDynamicRules({
-				// Remove all dynamic rules
-				removeRuleIds: oldRules.map((r) => r.id),
-				// Add new rules
-				addRules,
-			});
-		}
+		const oldRules = await browser.declarativeNetRequest.getDynamicRules();
+		browser.declarativeNetRequest.updateDynamicRules({
+			// Remove all dynamic rules
+			removeRuleIds: oldRules.map((r) => r.id),
+			// Add new rules
+			addRules,
+		});
 	}
 
-	return {
-		ok,
-		error: ok ? "" : "Login failed, please try again",
-	};
+	// TODO: Handle errors
 }
 
 async function follow() {
@@ -132,6 +166,8 @@ async function logout() {
 
 /** Sends a request to the API with authentication etc */
 async function api(method, base, path, token) {
+	console.log(`sending extension request to '${base}${path}'`);
+
 	const options = {
 		method,
 		headers: new Headers(),
