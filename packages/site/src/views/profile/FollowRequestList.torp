@@ -8,7 +8,7 @@ export default function FollowRequestList() {
 	@render {
 		<div class="vstack centered">
 			<h2>Follow requests</h2>
-			<FollowMenu section="Requests" />
+			<FollowMenu section="Requests" base={$props.data.base} />
 			<div class="follow-list centered">
 				@if ($props.data.requests.length === 0) {
 					<div class="card">

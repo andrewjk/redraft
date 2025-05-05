@@ -8,7 +8,7 @@ export default function FollowedByList($props) {
 	@render {
 		<div class="vstack centered">
 			<h2>Followed by</h2>
-			<FollowMenu section="FollowedBy" />
+			<FollowMenu section="FollowedBy" base={$props.data.base} />
 			<div class="follow-list centered">
 				@if ($props.data.followedBy.length === 0) {
 					<div class="card">

@@ -10,6 +10,7 @@ export default {
 		return ok({
 			url,
 			username: params.user,
+			base: params.user ? `/${params.user}/` : "",
 			user: user && {
 				url: user.url,
 				name: user.name,

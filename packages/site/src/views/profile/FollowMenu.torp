@@ -7,7 +7,7 @@ export default function FollowMenu($props: { section: string }) {
 			@if ($props.section === "Following") {
 				<span>Following</span>
 			} else {
-				<a href="profile/following">
+				<a href="{$props.base}profile/following">
 					Following
 				</a>
 			}
@@ -15,7 +15,7 @@ export default function FollowMenu($props: { section: string }) {
 			@if ($props.section === "FollowedBy") {
 				<span>Followed by</span>
 			} else {
-				<a href="profile/followed-by">
+				<a href="{$props.base}profile/followed-by">
 					Followed by
 				</a>
 			}
@@ -23,7 +23,7 @@ export default function FollowMenu($props: { section: string }) {
 			@if ($props.section === "Requests") {
 				<span>Requests</span>
 			} else {
-				<a href="profile/follow-requests">
+				<a href="{$props.base}profile/follow-requests">
 					Requests
 				</a>
 			}

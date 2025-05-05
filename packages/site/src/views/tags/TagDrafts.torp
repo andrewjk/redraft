@@ -16,7 +16,7 @@ export default function TagDrafts() {
 			</:head>
 
 			<h2>{$props.data.tag.text}</h2>
-			<TagMenu tag={$props.data.tag.slug} section="Drafts" user={$props.data.user} />
+			<TagMenu tag={$props.data.tag.slug} section="Drafts" user={$props.data.user} base={$props.data.base} />
 			@if ($props.data.user) {
 				<PostInput user={$props.data.user} />
 			}

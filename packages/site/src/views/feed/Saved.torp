@@ -16,7 +16,7 @@ export default function Index() {
 			</:head>
 
 			<h2>Saved</h2>
-			<FeedMenu section="Saved" />
+			<FeedMenu section="Saved" base={$props.data.base} />
 			@if ($props.data.user) {
 				<PostInput user={$props.data.user} />
 			}

@@ -9,7 +9,7 @@ export default function Preview($props) {
 		<div class="profile-page">
 			<div class="vstack spaced centered profile-details">
 				<h2>{$props.profile.name}</h2>
-				<a href="profile">
+				<a href="{$props.base}profile">
 					<img src={placeholdify($props.profile.image)} class="profile-image" alt="{$props.profile.name} ({$props.profile.url})" />
 				</a>
 				<div class="vstack spaced centered">

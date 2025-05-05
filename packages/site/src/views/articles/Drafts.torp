@@ -17,7 +17,7 @@ export default function Index() {
 
 			<h2>Article Drafts</h2>
 			@if ($props.data.user) {
-				<ArticleMenu section="Drafts" user={$props.data.user} />
+				<ArticleMenu section="Drafts" user={$props.data.user} base={$props.data.base} />
 				<PostInput user={$props.data.user} />
 			}
 			<PostList posts={$props.data.posts} user={$props.data.user} follower={$props.data.follower} />

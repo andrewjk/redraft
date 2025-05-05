@@ -17,21 +17,21 @@ export default function Index($props) {
 
 				@if ($props.data.user) {
 					<div class="hstack centered spaced">
-						<a href="profile/following">
+						<a href="{$props.data.base}profile/following">
 							Following
 						</a>
 						<span class="menu-separator" />
-						<a href="profile/followed-by">
+						<a href="{$props.data.base}profile/followed-by">
 							Followed by
 						</a>
 						<span class="menu-separator" />
-						<a href="profile/follow-requests">
+						<a href="{$props.data.base}profile/follow-requests">
 							Requests
 						</a>
 					</div>
 
 					<div class="hstack spaced">
-						<a href="profile/edit" class="hstack spaced-text centered">
+						<a href="{$props.data.base}profile/edit" class="hstack spaced-text centered">
 							<Pencil weight="bold" /> Edit profile
 						</a>
 						<form use:enhance method="POST" action="?/logout">
