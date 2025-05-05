@@ -23,7 +23,7 @@
 	"author": "",
 	"license": "ISC",
 	"dependencies": {
-		"@aws-sdk/client-s3": "^3.800.0",
+		"@aws-sdk/client-s3": "^3.802.0",
 		"@libsql/client": "^0.15.4",
 		"@redraft/adapter-core": "workspace:^",
 		"@redraft/adapter-node": "workspace:^",
@@ -48,7 +48,7 @@
 		"@types/node": "^22.15.3",
 		"@types/sanitize-html": "^2.15.0",
 		"dotenv-cli": "^8.0.0",
-		"drizzle-kit": "^0.31.0",
+		"drizzle-kit": "^0.31.1",
 		"prettier": "^3.5.3",
 		"sanitize-html": "^2.16.0",
 		"tsup": "^8.4.0",
