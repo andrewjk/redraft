@@ -18,6 +18,15 @@ export type SetupModel = {
 	location?: string;
 };
 
+export type SetupResponseModel = {
+	url: string;
+	username: string;
+	name: string;
+	image: string;
+	token: string;
+	code: string;
+};
+
 export default async function accountSetup(request: Request) {
 	try {
 		const db = database();
@@ -63,14 +72,16 @@ export default async function accountSetup(request: Request) {
 		// Create the authentication token for future use
 		const token = await createUserToken(user, code);
 
-		return created({
+		const response: SetupResponseModel = {
 			url: user.url,
 			username: user.username,
 			name: user.name,
 			image: user.image,
 			token,
 			code,
-		});
+		};
+
+		return created(response);
 	} catch (error) {
 		const message = getErrorMessage(error).message;
 		return serverError(message);

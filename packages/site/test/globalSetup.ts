@@ -1,0 +1,50 @@
+import { drizzle } from "drizzle-orm/libsql";
+import fs from "node:fs";
+import * as schema from "../src/data/schema/index";
+import { hashPassword } from "../src/lib/utils/hashPasswords";
+
+export async function setup(): Promise<void> {
+	// Copy empty.db to filled.db
+	fs.copyFileSync("./test/data/empty.db", "./test/data/filled.db");
+
+	// Fill filled.db with some test data
+	const db = drizzle("file:./test/data/filled.db", { schema });
+	await db.insert(schema.usersTable).values([
+		{
+			email: "alice@example.com",
+			username: "alice",
+			url: "https://example.com/alice",
+			password: hashPassword("alice's password"),
+			name: "Alice X",
+			bio: "Alice's bio...",
+			image: "alice.png",
+			location: "Alice's location...",
+			created_at: new Date(),
+			updated_at: new Date(),
+		},
+		{
+			email: "bob@example.com",
+			username: "bob",
+			url: "https://example.com/bob",
+			password: hashPassword("bob's password"),
+			name: "Bob Y",
+			bio: "Bob's bio...",
+			image: "bob.png",
+			location: "Bob's location...",
+			created_at: new Date(),
+			updated_at: new Date(),
+		},
+	]);
+
+	const users = await db.query.usersTable.findMany();
+
+	users.forEach(async (u) => {
+		await db
+			.insert(schema.userTokensTable)
+			.values([{ user_id: u.id, code: `xxx-${u.username}`, expires_at: new Date() }]);
+	});
+}
+
+export async function teardown(): Promise<void> {
+	fs.rmSync("./test/data/filled.db");
+}

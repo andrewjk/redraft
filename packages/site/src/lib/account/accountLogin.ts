@@ -14,6 +14,15 @@ export type LoginModel = {
 	rememberMe: boolean;
 };
 
+export type LoginResponseModel = {
+	url: string;
+	username: string;
+	name: string;
+	image: string;
+	token: string;
+	code: string;
+};
+
 export default async function accountLogin(request: Request) {
 	try {
 		const db = database();
@@ -44,14 +53,16 @@ export default async function accountLogin(request: Request) {
 		// Create the authentication token for future use
 		const token = await createUserToken(user, code);
 
-		return ok({
+		const response: LoginResponseModel = {
 			url: user.url,
 			username: user.username,
 			name: user.name,
 			image: user.image,
 			token,
 			code,
-		});
+		};
+
+		return ok(response);
 	} catch (error) {
 		const message = getErrorMessage(error).message;
 		return serverError(message);
