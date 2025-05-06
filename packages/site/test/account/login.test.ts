@@ -1,34 +1,45 @@
+import { queryByText } from "@testing-library/dom";
 import "@testing-library/jest-dom/vitest";
-import fs from "node:fs";
+import { Site } from "@torpor/build";
+import { runTest } from "@torpor/build/test";
+import type { LibSQLDatabase } from "drizzle-orm/libsql";
 import { afterAll, beforeAll, expect, test } from "vitest";
-import { vi } from "vitest";
+import * as schema from "../../src/data/schema/index";
 import accountLogin, {
 	type LoginModel,
 	type LoginResponseModel,
 } from "../../src/lib/account/accountLogin";
-import testAdapter from "../testAdapter";
+import { cleanUpSiteTest, prepareSiteTest } from "../prepareSiteTest";
 
-beforeAll(() => {
-	// Copy the database here and create a social adapter that gets it
-	fs.copyFileSync("./test/data/filled.db", "./test/data/login.db");
-	// @ts-ignore
-	globalThis.socialAdapter = testAdapter("./test/data/login.db");
+let db: LibSQLDatabase<typeof schema>;
+const site: Site = new Site();
 
-	// Stub environment variables
-	vi.stubEnv("JWT_SECRET", "blah");
+beforeAll(async () => {
+	db = await prepareSiteTest(site, "login");
 });
 
 afterAll(() => {
-	fs.rmSync("./test/data/login.db");
+	cleanUpSiteTest("login");
 });
 
-test("login", async () => {
+test("login get", async () => {
+	const response = await runTest(site, "/account/login");
+	const html = await response.text();
+
+	const div = document.createElement("div");
+	div.innerHTML = html;
+
+	const title = queryByText(div, "Remember me");
+	expect(title).not.toBeNull();
+});
+
+test("login post", async () => {
 	const model: LoginModel = {
-		email: "alice@example.com",
+		email: "alice@localhost",
 		password: "alice's password",
 		rememberMe: true,
 	};
-	const request = new Request("https://example.com", {
+	const request = new Request("http://localhost", {
 		method: "POST",
 		body: JSON.stringify(model),
 	});
@@ -37,7 +48,7 @@ test("login", async () => {
 
 	const data = (await response.json()) as LoginResponseModel;
 
-	expect(data.url).toEqual("https://example.com/alice");
+	expect(data.url).toEqual("http://localhost/alice");
 	expect(data.username).toEqual("alice");
 	expect(data.name).toEqual("Alice X");
 	expect(data.image).toEqual("alice.png");

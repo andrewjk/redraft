@@ -1,8 +1,10 @@
 import torpor from "@torpor/unplugin/vite";
+import tsconfigPaths from "vite-tsconfig-paths";
 import { type UserConfigFnObject, defineConfig } from "vitest/config";
 
 export default defineConfig(({ mode }) => ({
-	plugins: [torpor()],
+	// TODO: Make { server: true } and tsconfigPaths not required
+	plugins: [torpor({ server: true }), tsconfigPaths()],
 	resolve: {
 		conditions: mode === "test" ? ["browser"] : [],
 	},
@@ -10,5 +12,11 @@ export default defineConfig(({ mode }) => ({
 		// NOTE: jose doesn't work in jsdom
 		environment: "happy-dom",
 		globalSetup: "./test/globalSetup.ts",
+		// HACK: this is needed to process *.ts routes??
+		server: {
+			deps: {
+				inline: ["@torpor/build"],
+			},
+		},
 	},
 })) satisfies UserConfigFnObject as UserConfigFnObject;

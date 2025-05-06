@@ -1,6 +1,9 @@
+import { queryByText } from "@testing-library/dom";
 import "@testing-library/jest-dom/vitest";
+import { Site } from "@torpor/build";
+import { runTest } from "@torpor/build/test";
 import { eq } from "drizzle-orm";
-import fs from "node:fs";
+import type { LibSQLDatabase } from "drizzle-orm/libsql";
 import { afterAll, beforeAll, expect, test } from "vitest";
 import { vi } from "vitest";
 import * as schema from "../../src/data/schema/index";
@@ -8,38 +11,45 @@ import accountSetup, {
 	type SetupModel,
 	type SetupResponseModel,
 } from "../../src/lib/account/accountSetup";
-import testAdapter from "../testAdapter";
+import { cleanUpSiteTest, prepareSiteTest } from "../prepareSiteTest";
 
-const adapter = testAdapter("./test/data/setup.db");
+let db: LibSQLDatabase<typeof schema>;
+const site: Site = new Site();
 
-beforeAll(() => {
-	// Copy the database here and create a social adapter that gets it
-	fs.copyFileSync("./test/data/filled.db", "./test/data/setup.db");
-	// @ts-ignore
-	globalThis.socialAdapter = adapter;
+beforeAll(async () => {
+	db = await prepareSiteTest(site, "setup");
 
-	// Stub environment variables
-	vi.stubEnv("JWT_SECRET", "blah");
-	vi.stubEnv("SITE_LOCATION", "https://example.com/carla");
-	vi.stubEnv("USERNAME", "carla");
-	vi.stubEnv("PASSWORD", "carla's password");
+	vi.stubEnv("SITE_LOCATION", "http://localhost/cara");
+	vi.stubEnv("USERNAME", "cara");
+	vi.stubEnv("PASSWORD", "cara's password");
 });
 
 afterAll(() => {
-	fs.rmSync("./test/data/setup.db");
+	cleanUpSiteTest("setup");
+});
+
+test("setup get", async () => {
+	const response = await runTest(site, "/account/setup");
+	const html = await response.text();
+
+	const div = document.createElement("div");
+	div.innerHTML = html;
+
+	const title = queryByText(div, "Username");
+	expect(title).not.toBeNull();
 });
 
 test("setup", async () => {
 	const model: SetupModel = {
-		username: "carla",
-		password: "carla's password",
-		name: "Carla Z",
-		email: "carla@example.com",
-		bio: "Carla's bio",
-		image: "carla.png",
-		location: "Carla's location",
+		username: "cara",
+		password: "cara's password",
+		name: "Cara Z",
+		email: "cara@localhost",
+		bio: "Cara's bio",
+		image: "cara.png",
+		location: "Cara's location",
 	};
-	const request = new Request("https://example.com", {
+	const request = new Request("http://localhost", {
 		method: "POST",
 		body: JSON.stringify(model),
 	});
@@ -48,19 +58,18 @@ test("setup", async () => {
 
 	const data = (await response.json()) as SetupResponseModel;
 
-	expect(data.url).toEqual("https://example.com/carla");
-	expect(data.username).toEqual("carla");
-	expect(data.name).toEqual("Carla Z");
-	expect(data.image).toEqual("carla.png");
+	expect(data.url).toEqual("http://localhost/cara");
+	expect(data.username).toEqual("cara");
+	expect(data.name).toEqual("Cara Z");
+	expect(data.image).toEqual("cara.png");
 	expect(data.token).not.toBeUndefined();
 	expect(data.code).not.toBeUndefined();
 
-	const db = adapter.database(schema);
 	const user = await db.query.usersTable.findFirst({
-		where: eq(schema.usersTable.username, "carla"),
+		where: eq(schema.usersTable.username, "cara"),
 	});
 
 	expect(user).not.toBeUndefined();
-	expect(user.name).toEqual("Carla Z");
+	expect(user!.name).toEqual("Cara Z");
 	// etc
 });

@@ -42,36 +42,49 @@ export default async function postCreateOrUpdate(model: PostEditModel): Promise<
 
 	// Create or update the article, if applicable
 	if (model.type === ARTICLE_POST_TYPE) {
-		const article = {
-			text: model.articleText!,
-			created_at: new Date(),
-			updated_at: new Date(),
-		};
 		if (!model.articleId && model.articleId !== 0) {
 			model.articleId = (
-				await db.insert(articlesTable).values(article).returning({ id: articlesTable.id })
+				await db
+					.insert(articlesTable)
+					.values({
+						text: model.articleText!,
+						created_at: new Date(),
+						updated_at: new Date(),
+					})
+					.returning({ id: articlesTable.id })
 			)[0].id;
 		} else {
-			await db.update(articlesTable).set(article).where(eq(articlesTable.id, model.articleId!));
+			await db
+				.update(articlesTable)
+				.set({
+					text: model.articleText!,
+					created_at: new Date(),
+					updated_at: new Date(),
+				})
+				.where(eq(articlesTable.id, model.articleId!));
 		}
 	}
 
 	// Create or update the post
 	if (model.id < 0) {
-		const post = {
-			slug: model.type === ARTICLE_POST_TYPE ? sluggify(model.title!) : uuid(),
-			text: model.text,
-			visibility: model.visibility || 0,
-			type: model.type || 0,
-			image: model.image,
-			articleId: model.articleId,
-			url: model.url,
-			title: model.title,
-			publication: model.publication,
-			created_at: new Date(),
-			updated_at: new Date(),
-		};
-		const newPost = (await db.insert(postsTable).values(post).returning())[0];
+		const newPost = (
+			await db
+				.insert(postsTable)
+				.values({
+					slug: model.type === ARTICLE_POST_TYPE ? sluggify(model.title!) : uuid(),
+					text: model.text,
+					visibility: model.visibility || 0,
+					type: model.type || 0,
+					image: model.image,
+					article_id: model.articleId,
+					url: model.url,
+					title: model.title,
+					publication: model.publication,
+					created_at: new Date(),
+					updated_at: new Date(),
+				})
+				.returning()
+		)[0];
 		if (dbtags.length) {
 			await db
 				.insert(postTagsTable)
@@ -82,20 +95,23 @@ export default async function postCreateOrUpdate(model: PostEditModel): Promise<
 			post: newPost,
 		};
 	} else {
-		const post = {
-			slug: model.type === ARTICLE_POST_TYPE ? sluggify(model.title!) : undefined,
-			text: model.text,
-			visibility: model.visibility || 0,
-			type: model.type || 0,
-			image: model.image,
-			articleId: model.articleId,
-			url: model.url,
-			title: model.title,
-			publication: model.publication,
-			updated_at: new Date(),
-		};
 		const newPost = (
-			await db.update(postsTable).set(post).where(eq(postsTable.id, model.id)).returning()
+			await db
+				.update(postsTable)
+				.set({
+					slug: model.type === ARTICLE_POST_TYPE ? sluggify(model.title!) : undefined,
+					text: model.text,
+					visibility: model.visibility || 0,
+					type: model.type || 0,
+					image: model.image,
+					article_id: model.articleId,
+					url: model.url,
+					title: model.title,
+					publication: model.publication,
+					updated_at: new Date(),
+				})
+				.where(eq(postsTable.id, model.id))
+				.returning()
 		)[0];
 		if (dbtags.length) {
 			// Update the post's tags in the database

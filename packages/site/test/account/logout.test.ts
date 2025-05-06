@@ -1,25 +1,24 @@
 import "@testing-library/jest-dom/vitest";
+import { Site } from "@torpor/build";
 import { eq } from "drizzle-orm";
-import fs from "node:fs";
+import type { LibSQLDatabase } from "drizzle-orm/libsql";
 import { afterAll, beforeAll, expect, test } from "vitest";
 import * as schema from "../../src/data/schema/index";
 import accountLogout from "../../src/lib/account/accountLogout";
-import testAdapter from "../testAdapter";
+import { cleanUpSiteTest, prepareSiteTest } from "../prepareSiteTest";
 
-const adapter = testAdapter("./test/data/logout.db");
+let db: LibSQLDatabase<typeof schema>;
+const site: Site = new Site();
 
-beforeAll(() => {
-	// Copy the database here and create a social adapter that gets it
-	fs.copyFileSync("./test/data/filled.db", "./test/data/logout.db");
-	// @ts-ignore
-	globalThis.socialAdapter = adapter;
+beforeAll(async () => {
+	db = await prepareSiteTest(site, "logout");
 });
 
 afterAll(() => {
-	fs.rmSync("./test/data/logout.db");
+	cleanUpSiteTest("logout");
 });
 
-test("logout", async () => {
+test("logout post", async () => {
 	let code = await findCode("xxx-alice");
 	expect(code).not.toBeUndefined();
 
@@ -31,7 +30,6 @@ test("logout", async () => {
 });
 
 async function findCode(code: string) {
-	const db = adapter.database(schema);
 	return await db.query.userTokensTable.findFirst({
 		where: eq(schema.userTokensTable.code, code),
 	});
