@@ -1,5 +1,11 @@
 # @redraft/site
 
+## 0.0.9
+
+### Patch Changes
+
+- 0e1cd55: Fix: specify the base url
+
 ## 0.0.8
 
 ### Patch Changes
