@@ -88,14 +88,6 @@ function Nav() {
 							Login
 						</a>
 					</li>
-
-					<span class="menu-separator" />
-
-					<li class="nav-item">
-						<a href="/account/register" :class={{ "nav-link": true, active: $page.url.pathname === "/account/register" }}>
-							Register
-						</a>
-					</li>
 				}
 			</ul>
 		</nav>
