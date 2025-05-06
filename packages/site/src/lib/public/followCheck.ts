@@ -2,7 +2,6 @@ import { notFound, ok, serverError } from "@torpor/build/response";
 import { eq } from "drizzle-orm";
 import database from "../../data/database";
 import { followingTable } from "../../data/schema";
-import env from "../env";
 import getErrorMessage from "../utils/getErrorMessage";
 
 export type FollowCheckModel = {
@@ -43,8 +42,7 @@ export default async function followCheck(request: Request) {
 		// TODO: and the canonical url?
 		const data: FollowCheckResponseModel = {
 			name: user.name,
-			// TODO: get the proper url
-			image: user.image ? `${env().SITE_LOCATION}${user.image}` : "",
+			image: user.image,
 			bio: user.bio,
 		};
 
