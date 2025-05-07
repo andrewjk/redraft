@@ -4,6 +4,7 @@ if (typeof browser === "undefined") {
 
 document.getElementById("login-form").addEventListener("submit", login);
 document.getElementById("logout-form").addEventListener("submit", logout);
+document.getElementById("refresh-form").addEventListener("submit", refresh);
 document.getElementById("follow-form").addEventListener("submit", follow);
 
 // If we're not logged in, show the login panel
@@ -26,6 +27,20 @@ async function loadInterface() {
 		document.getElementById("profile-image").src = profile.image;
 		document.getElementById("profile-name").innerText = profile.name;
 		document.getElementById("profile-url").href = profile.url;
+	}
+
+	if (showFollow) {
+		let { followUrl } = localStorage;
+		const urlEl = document.getElementById("follow-url");
+		if (urlEl.innerText !== followUrl) {
+			urlEl.innerText = followUrl;
+			document.getElementById("follow-message").style.display = "none";
+		}
+	}
+
+	if (showInfo) {
+		let { followUrl } = localStorage;
+		document.getElementById("info-url").innerText = followUrl;
 	}
 }
 
@@ -54,10 +69,12 @@ async function login(e) {
 	}
 }
 
-function logout() {
+async function logout(e) {
+	e.preventDefault();
+
 	let errorEl = document.getElementById("logout-error");
 
-	let response = browser.runtime.sendMessage({
+	let response = await browser.runtime.sendMessage({
 		query: "social-logout",
 	});
 
@@ -70,15 +87,36 @@ function logout() {
 	}
 }
 
-function follow() {
+async function refresh(e) {
+	e.preventDefault();
+
+	let errorEl = document.getElementById("refresh-error");
+
+	let response = await browser.runtime.sendMessage({
+		query: "social-refresh",
+	});
+
+	if (response.ok) {
+		errorEl.style.display = "none";
+		loadInterface();
+	} else {
+		errorEl.style.display = "block";
+		errorEl.innerHTML = response.error;
+	}
+}
+
+async function follow(e) {
+	e.preventDefault();
+
 	let errorEl = document.getElementById("follow-error");
 
-	let response = browser.runtime.sendMessage({
+	let response = await browser.runtime.sendMessage({
 		query: "social-follow",
 	});
 
 	if (response.ok) {
 		errorEl.style.display = "none";
+		document.getElementById("follow-message").style.display = "block";
 		loadInterface();
 	} else {
 		errorEl.style.display = "block";

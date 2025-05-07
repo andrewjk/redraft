@@ -1,6 +1,10 @@
 <html>
+	<head>
+		<link rel="stylesheet" href="reset.css" />
+		<link rel="stylesheet" href="style.css" />
+	</head>
 	<body>
-		<div id="login-panel">
+		<div id="login-panel" style="display: none">
 			<h1>Login</h1>
 			<form id="login-form">
 				<div class="form-row">
@@ -18,23 +22,25 @@
 				<div class="form-row">
 					<button type="submit">Login</button>
 				</div>
-				<div id="login-error" style="display: none">Error message</div>
+				<div id="login-error" class="error" style="display: none">Error message</div>
 			</form>
 		</div>
-		<div id="follow-panel">
+		<div id="follow-panel" style="display: none">
 			<h1>Follow</h1>
+			<p id="follow-url"></p>
 			<form id="follow-form">
 				<div class="form-row">
 					<button type="submit">Send request</button>
 				</div>
-				<div id="follow-error" style="display: none">Error message</div>
+				<div id="follow-error" class="error" style="display: none">Error message</div>
 			</form>
+			<div id="follow-message" style="display: none">Follow requested</div>
 		</div>
-		<div id="info-panel">
+		<div id="info-panel" style="display: none">
 			<h1>Following</h1>
-			<p>TODO: Show updates?</p>
+			<p id="info-url"></p>
 		</div>
-		<div id="account-panel">
+		<div id="account-panel" style="display: none">
 			<h1>Account</h1>
 			<div>
 				<img id="profile-image"></img>
@@ -47,7 +53,13 @@
 				<div class="form-row">
 					<button type="submit">Logout</button>
 				</div>
-				<div id="logout-error" style="display: none">Error message</div>
+				<div id="logout-error" class="error" style="display: none">Error message</div>
+			</form>
+			<form id="refresh-form">
+				<div class="form-row">
+					<button type="submit" title="Reloads your account information">Refresh</button>
+				</div>
+				<div id="refresh-error" class="error" style="display: none">Error message</div>
 			</form>
 		</div>
 		<script src="popup.js"></script>
@@ -55,32 +67,35 @@
 
 	<style>
 		body {
-			min-width: 200px;
-		}
-
-		.form-row {
-			margin: 1em 0;
+			min-width: 240px;
+			min-height: 240px;
+			padding: 0 20px 20px;
 		}
 
 		label {
 			color: gray;
 			display: block;
+			margin-bottom: 0.4rem;
+		}
+
+		.form-row {
+			margin-bottom: 0.4rem;
 		}
 
 		input {
 			border: 1px solid gray;
-			border-radius: 4px;
-			padding: 4px;
+			border-radius: 0.4rem;
+			padding: 0.4rem;
 			width: 100%;
 		}
 
-		#login-error {
+		.error {
 			color: red;
 		}
 
 		#profile-image {
-			width: 60px;
-			height: 60px;
+			width: 6rem;
+			height: 6rem;
 			border-radius: 50%;
 		}
 	</style>

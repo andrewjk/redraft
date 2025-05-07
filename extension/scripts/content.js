@@ -3,12 +3,8 @@ if (typeof browser === "undefined") {
 }
 
 browser.runtime.onMessage.addListener((request, sender, sendResponse) => {
-	//console.log("content message received");
-	//console.log("Message from the background script:");
-	//console.log(request.greeting);
 	formatContent().then((res) => sendResponse(res));
 	return true;
-	//return Promise.resolve({ response: "Hi from content script" });
 });
 
 formatContent();
@@ -33,7 +29,11 @@ async function formatContent() {
 	// Is this the site of a user that we can follow?
 	const followEl = document.head.querySelector("meta[name='social-follow']");
 	if (followEl) {
-		await browser.storage.local.set({ followUrl: followEl.content });
+		await browser.storage.local.set({
+			followUrl: followEl.content,
+			//followName: document.head.querySelector("meta[name='social-follow-name']").content,
+			//followImage: document.head.querySelector("meta[name='social-follow-image']").content,
+		});
 	}
 
 	// Look for <input name="followerUrl"> and set our url (for following another user)

@@ -25,8 +25,12 @@ browser.runtime.onMessage.addListener((request, sender, sendResponse) => {
 			logout(request).then((res) => sendResponse(res));
 			return true;
 		}
+		case "social-refresh": {
+			refresh().then((res) => sendResponse(res));
+			return true;
+		}
 		case "social-follow": {
-			follow(request).then((res) => sendResponse(res));
+			follow().then((res) => sendResponse(res));
 			return true;
 		}
 		case "social-icon": {
@@ -73,7 +77,7 @@ async function login(request) {
 // TODO: Refresh this every now and then...
 async function loadProfile() {
 	const { url, token } = await browser.storage.local.get();
-	const profile = await api("get", url, `api/extension/profile`, token);
+	const profile = await get(url, `api/extension/profile`, token);
 	if (profile) {
 		await browser.storage.local.set({ profile });
 	}
@@ -84,11 +88,10 @@ async function loadProfile() {
 // TODO: Refresh this every now and then...
 async function loadFollowers() {
 	const { url, token } = await browser.storage.local.get();
-	const followingData = await api("get", url, `api/extension/following`, token);
+	const followingData = await get(url, `api/extension/following`, token);
 	if (followingData) {
 		//const followingData = await followingResponse.json();
 		const following = followingData.following;
-		console.log("GOT", followingData);
 		await browser.storage.local.set({ following });
 
 		const { MODIFY_HEADERS } = browser.declarativeNetRequest.RuleActionType;
@@ -128,28 +131,6 @@ async function loadFollowers() {
 	// TODO: Handle errors
 }
 
-async function follow() {
-	const { url, followUrl } = await browser.storage.local.get();
-	if (!followUrl) {
-		throw new Error("No follow url supplied");
-	}
-
-	// Send them to the url to follow
-	if (!url.endsWith("/")) url += "/";
-	const followResponse = await fetch(`${url}api/follow`, {
-		method: "POST",
-		body: JSON.stringify({ url: followUrl }),
-	});
-	const ok = followResponse.ok;
-
-	// TODO: Show a "request sent" page?
-
-	return {
-		ok,
-		error: ok ? "" : "Follow failed, please try again",
-	};
-}
-
 async function logout() {
 	// TODO: Should call api/account/logout to delete tokens etc
 	const ok = true;
@@ -164,8 +145,47 @@ async function logout() {
 	};
 }
 
+async function refresh() {
+	const { authenticated } = await browser.storage.local.get();
+	if (!authenticated) {
+		return { ok: false, error: "Not authenticated" };
+	}
+
+	await Promise.all([loadProfile(), loadFollowers()]);
+
+	return {
+		ok: true,
+		error: ok ? "" : "Refresh failed, please try again",
+	};
+}
+
+async function follow() {
+	const { url, token, followUrl } = await browser.storage.local.get();
+	if (!followUrl) {
+		return { ok: false, error: "No follow url supplied" };
+	}
+
+	// Send them to the url to follow
+	if (!url.endsWith("/")) url += "/";
+	const followResponse = await post(url, `api/follow`, { url: followUrl }, token);
+	const ok = followResponse.ok;
+
+	return {
+		ok,
+		error: ok ? "" : "Follow failed, please try again",
+	};
+}
+
+async function get(base, path, token) {
+	return api("GET", base, path, null, token);
+}
+
+async function post(base, path, data, token) {
+	return api("POST", base, path, data, token);
+}
+
 /** Sends a request to the API with authentication etc */
-async function api(method, base, path, token) {
+async function api(method, base, path, data, token) {
 	console.log(`sending extension request to '${base}${path}'`);
 
 	const options = {
@@ -173,10 +193,10 @@ async function api(method, base, path, token) {
 		headers: new Headers(),
 	};
 
-	//if (data) {
-	//	options.headers.append("Content-Type", "application/json");
-	//	options.body = JSON.stringify(data);
-	//}
+	if (data) {
+		options.headers.append("Content-Type", "application/json");
+		options.body = JSON.stringify(data);
+	}
 
 	if (token) {
 		options.headers.append("Authorization", `Token ${token}`);
