@@ -1,10 +1,11 @@
-import { notFound, ok, serverError } from "@torpor/build/response";
+import { notFound, ok, serverError, unauthorized } from "@torpor/build/response";
 import { and, desc, eq, isNotNull, isNull, or } from "drizzle-orm";
 import database from "../../data/database";
 import { postsTable } from "../../data/schema";
-import { User } from "../../data/schema/usersTable";
+import { User, usersTable } from "../../data/schema/usersTable";
 import { FOLLOWER_POST_VISIBILITY, PUBLIC_POST_VISIBILITY } from "../constants";
 import getErrorMessage from "../utils/getErrorMessage";
+import userIdQuery from "../utils/userIdQuery";
 import postPreview, { type PostPreview } from "./postPreview";
 
 export type PostList = {
@@ -12,12 +13,28 @@ export type PostList = {
 	postsCount: number;
 };
 
-export default async function postList(
-	user: User,
-	follower: User,
-	drafts: boolean,
+export async function postList(user?: User, follower?: User, limit?: number, offset?: number) {
+	return await getPosts(false, undefined, user, follower, limit, offset);
+}
+
+export async function draftPostList(
+	code: string,
+	user?: User,
+	follower?: User,
 	limit?: number,
 	offset?: number,
+) {
+	return await getPosts(true, undefined, user, follower, limit, offset, code);
+}
+
+export async function getPosts(
+	drafts: boolean,
+	type?: number,
+	user?: User,
+	follower?: User,
+	limit?: number,
+	offset?: number,
+	code?: string,
 ): Promise<Response> {
 	try {
 		const db = database();
@@ -28,8 +45,18 @@ export default async function postList(
 			return notFound();
 		}
 
+		if (drafts) {
+			const draftsUser = await db.query.usersTable.findFirst({
+				where: eq(usersTable.id, userIdQuery(code!)),
+			});
+			if (!draftsUser) {
+				return unauthorized();
+			}
+		}
+
 		const condition = and(
 			drafts ? isNull(postsTable.published_at) : isNotNull(postsTable.published_at),
+			type ? eq(postsTable.type, type) : undefined,
 			// Logged in users can see any post
 			// Logged in followers can see public or follower posts
 			// Non-logged in users can only see public posts

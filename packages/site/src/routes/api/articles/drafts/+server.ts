@@ -13,6 +13,6 @@ export default {
 		const limit = query.limit ? parseInt(query.limit) : undefined;
 		const offset = query.offset ? parseInt(query.offset) : undefined;
 
-		return await draftArticleList(user.code, limit, offset);
+		return await draftArticleList(user.code, appData.user, appData.follower, limit, offset);
 	},
 } satisfies ServerEndPoint;

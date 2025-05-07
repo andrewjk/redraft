@@ -24,11 +24,7 @@ export default async function postSave(request: Request, code: string) {
 
 		const result = await postCreateOrUpdate(model);
 		const view = postPreview(result.post, currentUser);
-		if (result.op === "create") {
-			return ok(view);
-		} else if (result.op === "update") {
-			return ok(view);
-		}
+		return ok(view);
 	} catch (error) {
 		const message = getErrorMessage(error).message;
 		return serverError(message);

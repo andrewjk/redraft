@@ -1,5 +1,5 @@
 import type { ServerEndPoint } from "@torpor/build";
-import postList from "../../../lib/posts/postList";
+import { postList } from "../../../lib/posts/postList";
 
 export default {
 	get: async ({ appData, url }) => {
@@ -7,6 +7,6 @@ export default {
 		const limit = query.limit ? parseInt(query.limit) : undefined;
 		const offset = query.offset ? parseInt(query.offset) : undefined;
 
-		return await postList(appData.user, appData.follower, false, limit, offset);
+		return await postList(appData.user, appData.follower, limit, offset);
 	},
 } satisfies ServerEndPoint;

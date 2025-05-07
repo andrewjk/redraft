@@ -43,7 +43,7 @@ export default async function tagPostList(
 			),
 		);
 
-		// Get the tags from the database
+		// Get the posts from the database
 		const dbposttags = await db.query.postTagsTable.findMany({
 			limit,
 			offset,
@@ -55,10 +55,10 @@ export default async function tagPostList(
 			},
 		});
 
-		// Get the total tag count
+		// Get the total post count
 		const postsCount = await db.$count(postTagsTable, condition);
 
-		// Create tag previews
+		// Create post previews
 		const posts = dbposttags.map((pt) => postPreview(pt.post, user!));
 
 		return ok({

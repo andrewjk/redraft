@@ -5,7 +5,7 @@ import { runTest } from "@torpor/build/test";
 import type { LibSQLDatabase } from "drizzle-orm/libsql";
 import { afterAll, beforeAll, expect, test } from "vitest";
 import * as schema from "../../src/data/schema/index";
-import { draftArticleList } from "../../src/lib/articles/articleList";
+import { draftPostList } from "../../src/lib/posts/postList";
 import mockFetch from "../mockFetch";
 import { cleanUpSiteTest, prepareSiteTest } from "../prepareSiteTest";
 
@@ -13,31 +13,31 @@ let db: LibSQLDatabase<typeof schema>;
 const site: Site = new Site();
 
 beforeAll(async () => {
-	db = await prepareSiteTest(site, "article-drafts");
+	db = await prepareSiteTest(site, "post-drafts");
 });
 
 afterAll(() => {
-	cleanUpSiteTest("article-drafts");
+	cleanUpSiteTest("post-drafts");
 });
 
-test("article drafts get", async () => {
-	mockFetch(fetch, draftArticleList("xxx-alice"));
+test("post drafts get", async () => {
+	mockFetch(fetch, draftPostList("xxx-alice"));
 
-	const response = await runTest(site, "/articles");
+	const response = await runTest(site, "/posts");
 	const html = await response.text();
 
 	const div = document.createElement("div");
 	div.innerHTML = html;
 
-	const title = queryByText(div, "Article 1");
-	expect(title).toBeNull();
+	const text = queryByText(div, "Here is a post");
+	expect(text).toBeNull();
 
-	const title2 = queryByText(div, "Article 2");
-	expect(title2).not.toBeNull();
+	const text2 = queryByText(div, "Here is a draft post");
+	expect(text2).not.toBeNull();
 });
 
-test("article drafts get with bad code", async () => {
-	mockFetch(fetch, draftArticleList("xxx-bob"));
+test("post drafts get with bad code", async () => {
+	mockFetch(fetch, draftPostList("xxx-bob", undefined, undefined));
 
-	await expect(runTest(site, "/articles")).rejects.toThrowError("401");
+	await expect(runTest(site, "/posts")).rejects.toThrowError("401");
 });

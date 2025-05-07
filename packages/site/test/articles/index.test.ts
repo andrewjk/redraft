@@ -6,6 +6,7 @@ import type { LibSQLDatabase } from "drizzle-orm/libsql";
 import { afterAll, beforeAll, expect, test } from "vitest";
 import * as schema from "../../src/data/schema/index";
 import { articleList } from "../../src/lib/articles/articleList";
+import mockFetch from "../mockFetch";
 import { cleanUpSiteTest, prepareSiteTest } from "../prepareSiteTest";
 
 let db: LibSQLDatabase<typeof schema>;
@@ -20,8 +21,7 @@ afterAll(() => {
 });
 
 test("articles get", async () => {
-	// @ts-ignore mock fetch
-	fetch.mockResolvedValue(articleList());
+	mockFetch(fetch, articleList());
 
 	const response = await runTest(site, "/articles");
 	const html = await response.text();
