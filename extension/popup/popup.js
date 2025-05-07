@@ -24,23 +24,23 @@ async function loadInterface() {
 
 	if (authenticated) {
 		let { profile } = localStorage;
-		document.getElementById("profile-image").src = profile.image;
+		document.getElementById("profile-image").src = profile.image || "placeholder.png";
 		document.getElementById("profile-name").innerText = profile.name;
 		document.getElementById("profile-url").href = profile.url;
 	}
 
 	if (showFollow) {
-		let { followUrl } = localStorage;
-		const urlEl = document.getElementById("follow-url");
-		if (urlEl.innerText !== followUrl) {
-			urlEl.innerText = followUrl;
-			document.getElementById("follow-message").style.display = "none";
-		}
+		let { followUrl, followName, followImage } = localStorage;
+		document.getElementById("follow-image").src = followImage || "placeholder.png";
+		document.getElementById("follow-name").innerText = followName;
+		//document.getElementById("follow-url").innerText = followUrl;
 	}
 
 	if (showInfo) {
-		let { followUrl } = localStorage;
-		document.getElementById("info-url").innerText = followUrl;
+		let { followUrl, followName, followImage } = localStorage;
+		document.getElementById("info-image").src = followImage || "placeholder.png";
+		document.getElementById("info-name").innerText = followName;
+		//document.getElementById("info-url").innerText = followUrl;
 	}
 }
 

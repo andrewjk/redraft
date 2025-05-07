@@ -8,15 +8,15 @@
 			<h1>Login</h1>
 			<form id="login-form">
 				<div class="form-row">
-					<label for="url">URL</label>
+					<label for="url-input">URL</label>
 					<input id="url-input" name="url" required />
 				</div>
 				<div class="form-row">
-					<label for="email">Email</label>
+					<label for="email-input">Email</label>
 					<input id="email-input" name="email" required />
 				</div>
 				<div class="form-row">
-					<label for="password">Password</label>
+					<label for="password-input">Password</label>
 					<input id="password-input" name="password" type="password" required />
 				</div>
 				<div class="form-row">
@@ -27,7 +27,8 @@
 		</div>
 		<div id="follow-panel" style="display: none">
 			<h1>Follow</h1>
-			<p id="follow-url"></p>
+			<img id="follow-image" class="user-image"></img>
+			<p id="follow-name"></p>
 			<form id="follow-form">
 				<div class="form-row">
 					<button type="submit">Send request</button>
@@ -38,16 +39,15 @@
 		</div>
 		<div id="info-panel" style="display: none">
 			<h1>Following</h1>
-			<p id="info-url"></p>
+			<img id="info-image" class="user-image"></img>
+			<p id="info-name"></p>
 		</div>
 		<div id="account-panel" style="display: none">
 			<h1>Account</h1>
 			<div>
-				<img id="profile-image"></img>
+				<img id="profile-image" class="user-image"></img>
 				<p id="profile-name"></p>
-				<p>
-					<a id="profile-url" target="_blank">Open page</a>
-				</p>
+				<p><a id="profile-url" target="_blank">Open page</a></p>
 			</div>
 			<form id="logout-form">
 				<div class="form-row">
@@ -93,7 +93,7 @@
 			color: red;
 		}
 
-		#profile-image {
+		.user-image {
 			width: 6rem;
 			height: 6rem;
 			border-radius: 50%;

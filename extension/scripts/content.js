@@ -27,12 +27,12 @@ async function formatContent() {
 	const followingUser = following.find((f) => location.startsWith(f.url));
 
 	// Is this the site of a user that we can follow?
-	const followEl = document.head.querySelector("meta[name='social-follow']");
+	const followEl = document.head.querySelector("meta[name='social-follow-url']");
 	if (followEl) {
 		await browser.storage.local.set({
 			followUrl: followEl.content,
-			//followName: document.head.querySelector("meta[name='social-follow-name']").content,
-			//followImage: document.head.querySelector("meta[name='social-follow-image']").content,
+			followName: document.head.querySelector("meta[name='social-follow-name']").content,
+			followImage: document.head.querySelector("meta[name='social-follow-image']").content,
 		});
 	}
 
@@ -68,7 +68,7 @@ async function formatContent() {
 		iconPrefix = "-yellow";
 	} else if (showInfo) {
 		// We're logged in and already following this user (should this be green??)
-		iconPrefix = "-red";
+		iconPrefix = "-green";
 	}
 	browser.runtime.sendMessage({
 		query: "social-icon",

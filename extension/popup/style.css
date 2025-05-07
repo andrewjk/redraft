@@ -151,6 +151,12 @@ form {
 	* {
 		width: 100%;
 	}
+
+	input[type="checkbox"],
+	input[type="checkbox"] + label {
+		display: inline;
+		width: inherit;
+	}
 }
 
 .form-footer {
