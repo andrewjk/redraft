@@ -1,5 +1,5 @@
 import type { ServerEndPoint } from "@torpor/build";
-import articleList from "../../../lib/articles/articleList";
+import { articleList } from "../../../lib/articles/articleList";
 
 export default {
 	get: async ({ url }) => {
@@ -7,6 +7,6 @@ export default {
 		const limit = query.limit ? parseInt(query.limit) : undefined;
 		const offset = query.offset ? parseInt(query.offset) : undefined;
 
-		return await articleList(false, limit, offset);
+		return await articleList(limit, offset);
 	},
 } satisfies ServerEndPoint;

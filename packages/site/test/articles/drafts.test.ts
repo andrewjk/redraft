@@ -5,23 +5,23 @@ import { runTest } from "@torpor/build/test";
 import type { LibSQLDatabase } from "drizzle-orm/libsql";
 import { afterAll, beforeAll, expect, test } from "vitest";
 import * as schema from "../../src/data/schema/index";
-import { articleList } from "../../src/lib/articles/articleList";
+import { draftArticleList } from "../../src/lib/articles/articleList";
 import { cleanUpSiteTest, prepareSiteTest } from "../prepareSiteTest";
 
 let db: LibSQLDatabase<typeof schema>;
 const site: Site = new Site();
 
 beforeAll(async () => {
-	db = await prepareSiteTest(site, "articles");
+	db = await prepareSiteTest(site, "article-drafts");
 });
 
 afterAll(() => {
-	cleanUpSiteTest("articles");
+	cleanUpSiteTest("article-drafts");
 });
 
-test("articles get", async () => {
+test("article drafts get", async () => {
 	// @ts-ignore mock fetch
-	fetch.mockResolvedValue(articleList());
+	fetch.mockResolvedValue(draftArticleList("xxx-alice"));
 
 	const response = await runTest(site, "/articles");
 	const html = await response.text();
@@ -30,12 +30,15 @@ test("articles get", async () => {
 	div.innerHTML = html;
 
 	const title = queryByText(div, "Article 1");
-	expect(title).not.toBeNull();
+	expect(title).toBeNull();
 
 	const title2 = queryByText(div, "Article 2");
-	expect(title2).toBeNull();
+	expect(title2).not.toBeNull();
 });
 
-test("articles post", async () => {
-	// TODO: Creating and updating an article
+test("article drafts get with bad code", async () => {
+	// @ts-ignore mock fetch
+	fetch.mockResolvedValue(draftArticleList("xxx-bob"));
+
+	await expect(runTest(site, "/articles")).rejects.toThrowError("401");
 });

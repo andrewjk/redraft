@@ -1,20 +1,30 @@
-import { notFound, ok, serverError } from "@torpor/build/response";
+import { notFound, ok, serverError, unauthorized } from "@torpor/build/response";
 import { and, desc, eq, isNotNull, isNull } from "drizzle-orm";
 import database from "../../data/database";
-import { postsTable } from "../../data/schema";
+import { postsTable, usersTable } from "../../data/schema";
 import { ARTICLE_POST_TYPE } from "../constants";
 import postPreview, { PostPreview } from "../posts/postPreview";
 import getErrorMessage from "../utils/getErrorMessage";
+import userIdQuery from "../utils/userIdQuery";
 
 export type ArticleList = {
 	posts: PostPreview[];
 	postsCount: number;
 };
 
-export default async function articleList(
+export async function articleList(limit?: number, offset?: number) {
+	return await getArticles(false, limit, offset);
+}
+
+export async function draftArticleList(code: string, limit?: number, offset?: number) {
+	return await getArticles(true, limit, offset, code);
+}
+
+async function getArticles(
 	drafts: boolean,
 	limit?: number,
 	offset?: number,
+	code?: string,
 ): Promise<Response> {
 	try {
 		const db = database();
@@ -25,8 +35,16 @@ export default async function articleList(
 			return notFound();
 		}
 
-		// TODO: Only show drafts to the logged in user
-		const condition = and(
+		if (drafts) {
+			const draftsUser = await db.query.usersTable.findFirst({
+				where: eq(usersTable.id, userIdQuery(code!)),
+			});
+			if (!draftsUser) {
+				return unauthorized();
+			}
+		}
+
+		let condition = and(
 			eq(postsTable.type, ARTICLE_POST_TYPE),
 			drafts ? isNull(postsTable.published_at) : isNotNull(postsTable.published_at),
 		);

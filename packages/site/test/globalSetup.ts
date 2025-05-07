@@ -31,18 +31,18 @@ async function insertUsers(db: LibSQLDatabase<typeof schema>) {
 			created_at: new Date(),
 			updated_at: new Date(),
 		},
-		{
-			email: "bob@localhost",
-			username: "bob",
-			url: "http://localhost/bob",
-			password: hashPassword("bob's password"),
-			name: "Bob Y",
-			bio: "Bob's bio...",
-			image: "bob.png",
-			location: "Bob's location...",
-			created_at: new Date(),
-			updated_at: new Date(),
-		},
+		//{
+		//	email: "bob@localhost",
+		//	username: "bob",
+		//	url: "http://localhost/bob",
+		//	password: hashPassword("bob's password"),
+		//	name: "Bob Y",
+		//	bio: "Bob's bio...",
+		//	image: "bob.png",
+		//	location: "Bob's location...",
+		//	created_at: new Date(),
+		//	updated_at: new Date(),
+		//},
 	]);
 }
 
@@ -77,6 +77,33 @@ async function insertArticles(db: LibSQLDatabase<typeof schema>) {
 			url: "article-1",
 			title: "Article 1",
 			published_at: new Date(),
+			created_at: new Date(),
+			updated_at: new Date(),
+		},
+	]);
+
+	const draft = (
+		await db
+			.insert(schema.articlesTable)
+			.values({
+				text: "Here is the text of a draft article",
+				created_at: new Date(),
+				updated_at: new Date(),
+			})
+			.returning()
+	)[0];
+
+	await db.insert(schema.postsTable).values([
+		{
+			slug: "article-2",
+			text: "Here is a draft article",
+			visibility: 0,
+			type: ARTICLE_POST_TYPE,
+			image: "",
+			article_id: draft.id,
+			url: "article-2",
+			title: "Article 2",
+			//published_at: new Date(),
 			created_at: new Date(),
 			updated_at: new Date(),
 		},
