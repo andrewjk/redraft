@@ -1,5 +1,15 @@
 # @redraft/site
 
+## 0.0.10
+
+### Patch Changes
+
+- af6272a: Fix: comment urls and keys
+- 7bd5e76: Fix: get the correct user image
+- aec039a: Fix: base url should be `/` if no user
+- 4f7c7fd: UI: move things around in the follow preview
+- 4ac31c0: Fix: remove dead register link
+
 ## 0.0.9
 
 ### Patch Changes
