@@ -9,6 +9,6 @@ export default {
 			return unauthorized();
 		}
 
-		return await commentCreate(request, params, user.url, user.token);
+		return await commentCreate(request, params, user.url, user.shared_key, user.code, user.token);
 	},
 } satisfies ServerEndPoint;

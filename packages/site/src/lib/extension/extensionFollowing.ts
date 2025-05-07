@@ -33,7 +33,10 @@ export default async function extensionFollowing(code: string, limit?: number, o
 		const following = await Promise.all(
 			followingData.map(async (f) => ({
 				url: f.url,
-				token: await createHeaderToken(f),
+				// NOTE: The token consists of our URL and the shared key, as it
+				// will be sent from our extension to identify us to the user we
+				// are following (who is reachable at `f.url`)
+				token: await createHeaderToken({ url: currentUser.url, shared_key: f.shared_key }),
 			})),
 		);
 

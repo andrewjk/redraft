@@ -1,5 +1,5 @@
 import { created, notFound, serverError, unauthorized } from "@torpor/build/response";
-import { eq } from "drizzle-orm";
+import { and, eq } from "drizzle-orm";
 import database from "../../data/database";
 import {
 	commentsTable,
@@ -10,6 +10,7 @@ import {
 } from "../../data/schema";
 import * as api from "../api";
 import getErrorMessage from "../utils/getErrorMessage";
+import userIdQuery from "../utils/userIdQuery";
 import uuid from "../utils/uuid";
 import commentPreview from "./commentPreview";
 
@@ -23,6 +24,8 @@ export default async function commentCreate(
 	request: Request,
 	params: Record<string, string>,
 	url: string,
+	sharedKey: string,
+	code: string,
 	token: string,
 ) {
 	try {
@@ -34,7 +37,7 @@ export default async function commentCreate(
 		// Get the user who created this comment
 		let isFollower = true;
 		let currentUser = await db.query.followedByTable.findFirst({
-			where: eq(followedByTable.url, url),
+			where: and(eq(followedByTable.url, url), eq(followedByTable.shared_key, sharedKey)),
 			columns: {
 				id: true,
 				url: true,
@@ -42,11 +45,12 @@ export default async function commentCreate(
 				name: true,
 			},
 		});
+
 		if (!currentUser) {
 			// TODO: Should be checking that we're logged in!
 			isFollower = false;
 			currentUser = await db.query.usersTable.findFirst({
-				where: eq(usersTable.url, url),
+				where: and(eq(usersTable.url, url), userIdQuery(code)),
 				columns: {
 					id: true,
 					url: true,
