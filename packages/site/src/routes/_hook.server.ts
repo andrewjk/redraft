@@ -1,9 +1,8 @@
 import type { ServerHook } from "@torpor/build";
-
-//import * as jose from "jose";
+import * as jose from "jose";
 
 export default {
-	handle: ({ appData, cookies }) => {
+	handle: ({ appData, cookies, request }) => {
 		// Decode the user token, if it exists
 		const jwt = cookies.get("jwt");
 		try {
@@ -14,23 +13,29 @@ export default {
 			cookies.delete("jwt", { path: "/" });
 		}
 
-		// Decode the follower token, if it exists
-		const fjwt = cookies.get("fjwt");
-		try {
-			appData.follower = fjwt ? JSON.parse(atob(fjwt)) : null;
-		} catch {
-			cookies.delete("fjwt", { path: "/" });
-		}
+		// NOTE: We were originally using cookies for logging in to the sites of
+		// users that you follow, but it had some drawbacks:
+		//   * required a lot of logging in
+		//   * confusing when cookies expired
+		//   * sometimes the way to log in wasn't easy to find
+		//   * would require us to save following records in the host site
+		// So we moved to sending a header via the browser extension
+
+		//// Decode the follower token, if it exists
+		//const fjwt = cookies.get("fjwt");
+		//try {
+		//	appData.follower = fjwt ? JSON.parse(atob(fjwt)) : null;
+		//} catch {
+		//	cookies.delete("fjwt", { path: "/" });
+		//}
 
 		// Or the follower header, if it exists
-		//if (!appData.follower) {
-		//const fjwtHeader = request.headers.get("x-social-follower");
-		//if (fjwtHeader) {
-		//	//appData.follower = JSON.parse(atob(fjwtHeader));
-		//	const decoded = jose.decodeJwt(fjwtHeader);
-		//
-		//	console.log("GOT FOLLOWER", decoded);
-		//}
-		//}
+		if (!appData.follower) {
+			const headerToken = request.headers.get("x-social-follower");
+			if (headerToken) {
+				appData.follower = jose.decodeJwt(headerToken);
+				appData.follower.token = headerToken;
+			}
+		}
 	},
 } satisfies ServerHook;
