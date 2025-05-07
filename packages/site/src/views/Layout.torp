@@ -4,7 +4,9 @@ export default function Layout() {
 	@render {
 		<div class="app-layout">
 			<:head>
-				<meta name="social-follow" content={$props.data.url} />
+				<meta name="social-follow-url" content={$props.data.url} />
+				<meta name="social-follow-name" content={$props.data.name} />
+				<meta name="social-follow-image" content={$props.data.image} />
 			</:head>
 
 			<Nav user={$props.data.user} follower={$props.data.follower} />
