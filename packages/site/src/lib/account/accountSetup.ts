@@ -1,11 +1,12 @@
 import { created, forbidden, serverError } from "@torpor/build/response";
+import { eq } from "drizzle-orm";
 import database from "../../data/database";
 import { usersTable } from "../../data/schema";
 import { userTokensTable } from "../../data/schema/userTokensTable";
 import env from "../env";
 import createUserToken from "../utils/createUserToken";
 import getErrorMessage from "../utils/getErrorMessage";
-import { hashPassword } from "../utils/hashPasswords";
+import { compareWithHash, hashPassword } from "../utils/hashPasswords";
 import uuid from "../utils/uuid";
 
 export type SetupModel = {
@@ -31,9 +32,15 @@ export default async function accountSetup(request: Request) {
 	try {
 		const db = database();
 
-		// TODO: Make sure a user doesn't exist
-
 		const model: SetupModel = await request.json();
+
+		// Make sure a different user doesn't already exist
+		const currentUser = await db.query.usersTable.findFirst();
+		if (currentUser) {
+			if (!compareWithHash(model.password.trim(), currentUser.password)) {
+				return forbidden();
+			}
+		}
 
 		// Make sure the name and password match the env variables
 		if (model.username !== env().USERNAME || model.password !== env().PASSWORD) {
@@ -57,7 +64,15 @@ export default async function accountSetup(request: Request) {
 		};
 
 		// Insert the user into the database
-		const newUser = (await db.insert(usersTable).values(user).returning({ id: usersTable.id }))[0];
+		const newUser = currentUser
+			? (
+					await db
+						.update(usersTable)
+						.set(user)
+						.where(eq(usersTable.id, currentUser.id))
+						.returning({ id: usersTable.id })
+				)[0]
+			: (await db.insert(usersTable).values(user).returning({ id: usersTable.id }))[0];
 
 		// Create a user token
 		// TODO: Send them to the login page instead
