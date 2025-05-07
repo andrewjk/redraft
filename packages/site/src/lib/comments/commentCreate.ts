@@ -33,8 +33,7 @@ export default async function commentCreate(
 
 		const model: CommentCreateModel = await request.json();
 
-		// TODO: Should be using the shared key!
-		// Get the user who created this comment
+		// Get the user who created this comment, from url and shared key
 		let isFollower = true;
 		let currentUser = await db.query.followedByTable.findFirst({
 			where: and(eq(followedByTable.url, url), eq(followedByTable.shared_key, sharedKey)),
@@ -47,10 +46,10 @@ export default async function commentCreate(
 		});
 
 		if (!currentUser) {
-			// TODO: Should be checking that we're logged in!
+			// Get the current user, from url and code
 			isFollower = false;
 			currentUser = await db.query.usersTable.findFirst({
-				where: and(eq(usersTable.url, url), userIdQuery(code)),
+				where: and(eq(usersTable.url, url), eq(usersTable.id, userIdQuery(code))),
 				columns: {
 					id: true,
 					url: true,
