@@ -173,7 +173,7 @@ export default function FeedPreview() {
 								View
 							</a>
 						}
-						<span class="hstack spaced-text">
+						<span class="hstack centered spaced-text">
 							<ChatCircle weight="bold" />
 							{feed.commentCount}
 						</span>

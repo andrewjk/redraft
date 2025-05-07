@@ -159,11 +159,11 @@ export default function PostPreview() {
 								View
 							</a>
 						}
-						<span class="hstack spaced-text">
+						<span class="hstack centered spaced-text">
 							<ChatCircle weight="bold" />
 							{post.commentCount}
 						</span>
-						<span class="hstack spaced-text">
+						<span class="hstack centered spaced-text">
 							<Heart weight="bold" />
 							{post.likeCount}
 						</span>
