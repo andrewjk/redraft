@@ -14,8 +14,9 @@ export default function Index() {
 
 			<form use:enhance method="POST">
 				<div class="form-row">
-					<label for="url">Url</label>
+					<label for="url-input">Url</label>
 					<input
+						id="url-input"
 						name="url"
 						type="url"
 						required

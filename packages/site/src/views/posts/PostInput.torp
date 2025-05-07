@@ -66,8 +66,9 @@ export default function PostInput($props) {
 				<input type="hidden" name="publication" value={post.publication} />
 
 				<div class="form-row">
-					<label for="url">Paste a URL</label>
+					<label for="url-input">Paste a URL</label>
 					<input
+						id="url-input"
 						type="url"
 						name="url"
 						:value={post.url}
@@ -95,8 +96,8 @@ export default function PostInput($props) {
 			
 			@if ($state.showTags) {
 				<div class="form-row">
-					<label for="url">Enter tags separated by semicolons</label>
-					<input name="tags" :value={post.tags} />
+					<label for="tags-input">Enter tags separated by semicolons</label>
+					<input id="tags-input" name="tags" :value={post.tags} />
 				</div>
 			}
 
