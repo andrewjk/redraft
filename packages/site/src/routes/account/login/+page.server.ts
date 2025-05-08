@@ -1,5 +1,5 @@
 import { type PageServerEndPoint } from "@torpor/build";
-import { redirect, seeOther, unprocessable } from "@torpor/build/response";
+import { seeOther, unprocessable } from "@torpor/build/response";
 import * as api from "../../../lib/api";
 import formDataToObject from "../../../lib/utils/formDataToObject";
 import setUserToken from "../../../lib/utils/setUserToken";
@@ -8,7 +8,7 @@ export default {
 	load: async ({ appData }) => {
 		const user = appData.user;
 		if (user) {
-			return redirect("/");
+			return seeOther("/");
 		}
 	},
 	actions: {

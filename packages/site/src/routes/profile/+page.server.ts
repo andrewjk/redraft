@@ -1,5 +1,5 @@
 import { type PageServerEndPoint } from "@torpor/build";
-import { ok, redirect, unauthorized, unprocessable } from "@torpor/build/response";
+import { ok, seeOther, unauthorized, unprocessable } from "@torpor/build/response";
 import * as api from "../../lib/api";
 import formDataToObject from "../../lib/utils/formDataToObject";
 import setUserToken from "../../lib/utils/setUserToken";
@@ -9,7 +9,7 @@ export default {
 	load: async ({ appData, params }) => {
 		const user = appData.user;
 		if (!user) {
-			return redirect("/account/login");
+			return seeOther("/account/login");
 		}
 
 		const result = await api.get("profile", params, user.token);
