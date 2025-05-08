@@ -11,48 +11,49 @@ export async function setup(): Promise<void> {
 
 	// Fill filled.db with some test data
 	const db = drizzle("file:./test/data/filled.db", { schema });
-	await insertUsers(db);
-	const users = await db.query.usersTable.findMany();
-	await insertUserTokens(db, users);
+	await insertUser(db);
+	await insertFollowers(db);
 	await insertPosts(db);
 	await insertMedia(db);
 	await insertArticles(db);
 }
 
-async function insertUsers(db: LibSQLDatabase<typeof schema>) {
-	await db.insert(schema.usersTable).values([
-		{
-			email: "alice@localhost",
-			username: "alice",
-			url: "http://localhost/alice",
-			password: hashPassword("alice's password"),
-			name: "Alice X",
-			bio: "Alice's bio...",
-			image: "alice.png",
-			location: "Alice's location...",
-			created_at: new Date(),
-			updated_at: new Date(),
-		},
-		//{
-		//	email: "bob@localhost",
-		//	username: "bob",
-		//	url: "http://localhost/bob",
-		//	password: hashPassword("bob's password"),
-		//	name: "Bob Y",
-		//	bio: "Bob's bio...",
-		//	image: "bob.png",
-		//	location: "Bob's location...",
-		//	created_at: new Date(),
-		//	updated_at: new Date(),
-		//},
-	]);
+async function insertUser(db: LibSQLDatabase<typeof schema>) {
+	const user = (
+		await db
+			.insert(schema.usersTable)
+			.values({
+				email: "alice@localhost",
+				username: "alice",
+				url: "http://localhost/alice",
+				password: hashPassword("alice's password"),
+				name: "Alice X",
+				bio: "Alice's bio...",
+				image: "alice.png",
+				location: "Alice's location...",
+				created_at: new Date(),
+				updated_at: new Date(),
+			})
+			.returning()
+	)[0];
+
+	await db.insert(schema.userTokensTable).values({
+		user_id: user.id,
+		code: `xxx-${user.username}`,
+		expires_at: new Date(),
+	});
 }
 
-async function insertUserTokens(db: LibSQLDatabase<typeof schema>, users: User[]) {
-	users.forEach(async (u) => {
-		await db
-			.insert(schema.userTokensTable)
-			.values([{ user_id: u.id, code: `xxx-${u.username}`, expires_at: new Date() }]);
+async function insertFollowers(db: LibSQLDatabase<typeof schema>) {
+	await db.insert(schema.followedByTable).values({
+		approved: true,
+		url: "http://localhost/bob",
+		shared_key: "yyy-bob",
+		name: "Bob Y",
+		bio: "Bob's bio...",
+		image: "bob.png",
+		created_at: new Date(),
+		updated_at: new Date(),
 	});
 }
 

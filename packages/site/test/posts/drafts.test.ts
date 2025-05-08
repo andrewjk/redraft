@@ -2,18 +2,15 @@ import { queryByText } from "@testing-library/dom";
 import "@testing-library/jest-dom/vitest";
 import { Site } from "@torpor/build";
 import { runTest } from "@torpor/build/test";
-import type { LibSQLDatabase } from "drizzle-orm/libsql";
 import { afterAll, beforeAll, expect, test } from "vitest";
-import * as schema from "../../src/data/schema/index";
 import { draftPostList } from "../../src/lib/posts/postList";
 import mockFetch from "../mockFetch";
 import { cleanUpSiteTest, prepareSiteTest } from "../prepareSiteTest";
 
-let db: LibSQLDatabase<typeof schema>;
 const site: Site = new Site();
 
 beforeAll(async () => {
-	db = await prepareSiteTest(site, "post-drafts");
+	await prepareSiteTest(site, "post-drafts");
 });
 
 afterAll(() => {
