@@ -1,7 +1,6 @@
 import { LibSQLDatabase, drizzle } from "drizzle-orm/libsql";
 import fs from "node:fs";
 import * as schema from "../src/data/schema/index";
-import type { User } from "../src/data/schema/usersTable";
 import { ARTICLE_POST_TYPE, IMAGE_POST_TYPE, TEXT_POST_TYPE } from "../src/lib/constants";
 import { hashPassword } from "../src/lib/utils/hashPasswords";
 
