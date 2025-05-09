@@ -8,7 +8,7 @@ export default {
 	load: async ({ appData }) => {
 		const user = appData.user;
 		if (user) {
-			return seeOther("/");
+			return seeOther("/feed");
 		}
 	},
 	actions: {
@@ -30,7 +30,7 @@ export default {
 				code: result.code,
 			});
 
-			return seeOther("/");
+			return seeOther("/feed");
 		},
 	},
 } satisfies PageServerEndPoint;

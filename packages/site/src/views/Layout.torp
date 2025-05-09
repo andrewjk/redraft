@@ -30,20 +30,20 @@ function Nav() {
 	@render {
 		<nav class="nav-bar">
 			<ul class="plain hstack centered full-width">
-				<li class="nav-item">
-					<a
-					  :class={{ "nav-link": true, active: $page.url.pathname === "/" }}
-					  href="/">
-						Home
-					</a>
-				</li>
-
 				@if ($props.user) {
 					<li class="nav-item">
 						<a
 						  :class={{ "nav-link": true, active: $page.url.pathname === "/feed" }}
 						  href="/feed">
 							Feed
+						</a>
+					</li>
+				} else {
+					<li class="nav-item">
+						<a
+						:class={{ "nav-link": true, active: $page.url.pathname === "/" }}
+						href="/">
+							Home
 						</a>
 					</li>
 				}
