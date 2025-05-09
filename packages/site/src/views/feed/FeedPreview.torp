@@ -6,7 +6,7 @@ import LinkPreview from '../posts/LinkPreview.torp';
 import { IMAGE_POST_TYPE, ARTICLE_POST_TYPE, LINK_POST_TYPE } from "../../lib/constants";
 import ChatCircle from "phosphor-torpor/lib/ChatCircle";
 import Heart from "phosphor-torpor/lib/Heart";
-import FloppyDiskBack from "phosphor-torpor/lib/FloppyDiskBack";
+import BookmarkSimple from "phosphor-torpor/lib/BookmarkSimple";
 import HandWaving from "phosphor-torpor/lib/HandWaving";
 import XCircle from "phosphor-torpor/lib/XCircle";
 
@@ -95,9 +95,9 @@ export default function FeedPreview() {
 										<input type="hidden" name="saved" value={!feed.saved} />
 										<button class="link icon">
 											@if (feed.saved) {
-												<FloppyDiskBack weight="fill" color="blue" />
+												<BookmarkSimple weight="fill" color="blue" />
 											} else {
-												<FloppyDiskBack weight="bold" />
+												<BookmarkSimple weight="bold" />
 											}
 										</button>
 									</form>
