@@ -2,12 +2,13 @@
 import loadLinkInfo from '@/lib/utils/loadLinkInfo';
 import ImageUpload from '../ImageUpload.torp';
 import LinkPreview from './LinkPreview.torp';
-import { IMAGE_POST_TYPE, ARTICLE_POST_TYPE, LINK_POST_TYPE } from "../../lib/constants";
+import { TEXT_POST_TYPE, IMAGE_POST_TYPE, ARTICLE_POST_TYPE, LINK_POST_TYPE } from "../../lib/constants";
 import Image from "phosphor-torpor/lib/Image";
 import Link from "phosphor-torpor/lib/Link";
 import Article from "phosphor-torpor/lib/Article";
 import Tag from "phosphor-torpor/lib/Tag";
 import UsersThree from "phosphor-torpor/lib/UsersThree";
+import XCircle from "phosphor-torpor/lib/XCircle";
 
 /**
  * Allows creating a post.
@@ -66,13 +67,13 @@ export default function PostInput($props) {
 				<input type="hidden" name="publication" value={post.publication} />
 
 				<div class="form-row">
-					<label for="url-input">Paste a URL</label>
 					<input
 						id="url-input"
 						type="url"
 						name="url"
 						:value={post.url}
 						class="full-width"
+						placeholder="Link URL"
 						oninput={async (e) => {
 							// TODO: Debounce
 							$state.linkLoading = true;
@@ -96,8 +97,7 @@ export default function PostInput($props) {
 			
 			@if ($state.showTags) {
 				<div class="form-row">
-					<label for="tags-input">Enter tags separated by semicolons</label>
-					<input id="tags-input" name="tags" :value={post.tags} />
+					<input id="tags-input" name="tags" :value={post.tags} placeholder="Tags (separate with semicolons)" />
 				</div>
 			}
 
@@ -111,9 +111,13 @@ export default function PostInput($props) {
 				</div>
 			}
 
-			<div class="hstack spaced post-input-footer">
+			<div class="hstack spaced centered post-input-footer">
 				<div class="spacer" />
-				@if (!post.type) {
+				@if (post.type) {
+					<button type="button" class="link icon" onclick={() => post.type = TEXT_POST_TYPE}>
+						<XCircle weight="bold" />
+					</button>
+				} else {
 					<button type="button" class="link icon" onclick={() => post.type = IMAGE_POST_TYPE}>
 						<Image weight="bold" />
 					</button>
