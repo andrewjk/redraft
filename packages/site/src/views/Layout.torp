@@ -26,9 +26,10 @@ export default function Layout() {
 }
 
 function Nav() {
+	console.log($page.url.pathname)
 	@render {
 		<nav class="nav-bar">
-			<ul class="plain hstack spaced full-width">
+			<ul class="plain hstack centered full-width">
 				<li class="nav-item">
 					<a
 					  :class={{ "nav-link": true, active: $page.url.pathname === "/" }}
@@ -38,11 +39,9 @@ function Nav() {
 				</li>
 
 				@if ($props.user) {
-					<span class="menu-separator" />
-
 					<li class="nav-item">
 						<a
-						  :class={{ "nav-link": true, active: $page.url.pathname === `/feed` }}
+						  :class={{ "nav-link": true, active: $page.url.pathname === "/feed" }}
 						  href="/feed">
 							Feed
 						</a>
@@ -52,41 +51,42 @@ function Nav() {
 				<div class="spacer" />
 
 				<li class="nav-item">
-					<a href="/posts" class="nav-link">
+					<a
+					  :class={{ "nav-link": true, active: $page.url.pathname === "/posts" }}
+					  href="/posts">
 						Posts
 					</a>
 				</li>
 
-				<span class="menu-separator" />
-
 				<li class="nav-item">
-					<a href="/articles" class="nav-link">
+					<a
+					  :class={{ "nav-link": true, active: $page.url.pathname === "/articles" }}
+					  href="/articles">
 						Articles
 					</a>
 				</li>
 
-				<span class="menu-separator" />
-
 				<li class="nav-item">
-					<a href="/media" class="nav-link">
+					<a
+					  :class={{ "nav-link": true, active: $page.url.pathname === "/media" }}
+					  href="/media">
 						Media
 					</a>
 				</li>
 
-				<span class="menu-separator" />
-
-				@// TODO: Fix the links -- maybe only have login and have a link to setup/join from that page?
-				@// TODO: Figure out how to do Home/Feed/User
-
 				@if ($props.user) {
 					<li class="nav-item">
-						<a href="/profile" class="nav-link">
+						<a
+						  :class={{ "nav-link": true, active: $page.url.pathname === "/profile" }}
+						  href="/profile">
 							Profile
 						</a>
 					</li>
 				} else {
 					<li class="nav-item">
-						<a href="/account/login" :class={{ "nav-link": true, active: $page.url.pathname === "/account/login" }}>
+						<a
+						  :class={{ "nav-link": true, active: $page.url.pathname === "/account/login" }}
+						  href="/account/login">
 							Login
 						</a>
 					</li>
@@ -98,9 +98,25 @@ function Nav() {
 	@style {
 		nav {
 			background-color: #fff;
-			padding: 1rem;
 			border-bottom: 1px solid #efefef;
 			box-shadow: 0 0.2rem 0.4rem #eee;
+			gap: 4rem;
+		}
+
+		.nav-link {
+			display: inline-block;
+			padding: 1rem;
+		}
+
+		.nav-link:hover {
+			background: #efefef;
+			text-decoration: none;
+		}
+
+		.nav-link.active {
+			border-top: 2px solid #fff0;
+			border-bottom: 2px solid orange;
+			padding:  calc(1rem - 2px) 1rem;
 		}
 	}
 }
