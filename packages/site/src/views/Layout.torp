@@ -26,7 +26,6 @@ export default function Layout() {
 }
 
 function Nav() {
-	console.log($page.url.pathname)
 	@render {
 		<nav class="nav-bar">
 			<ul class="plain hstack centered full-width">
@@ -100,7 +99,6 @@ function Nav() {
 			background-color: #fff;
 			border-bottom: 1px solid #efefef;
 			box-shadow: 0 0.2rem 0.4rem #eee;
-			gap: 4rem;
 		}
 
 		.nav-link {
