@@ -109,7 +109,7 @@ function Nav() {
 		}
 
 		.nav-link:hover {
-			background: #efefef;
+			background: #f0f2f6;
 			text-decoration: none;
 		}
 

@@ -267,7 +267,7 @@ button.link.icon {
 }
 
 button.link.icon:hover {
-	background: rgba(0, 102, 204, 0.1);
+	background: #f0f2f6;
 }
 
 /* Misc */
@@ -275,7 +275,7 @@ button.link.icon:hover {
 .warning {
 	border: 1px solid red;
 	border-radius: var(--brad);
-	background-color: rgba(255, 0, 0, 0.1);
+	background-color: #fbe6e5;
 	padding: 0.5rem 1rem;
 }
 
