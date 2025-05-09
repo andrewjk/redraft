@@ -32,7 +32,7 @@ function Nav() {
 				@if ($props.user) {
 					<li class="nav-item">
 						<a
-						  :class={{ "nav-link": true, active: $page.url.pathname === "/feed" }}
+						  :class={{ "nav-link": true, active: $page.url.pathname.startsWith("/feed") }}
 						  href="/feed">
 							Feed
 						</a>
@@ -51,7 +51,7 @@ function Nav() {
 
 				<li class="nav-item">
 					<a
-					  :class={{ "nav-link": true, active: $page.url.pathname === "/posts" }}
+					  :class={{ "nav-link": true, active: $page.url.pathname.startsWith("/posts") }}
 					  href="/posts">
 						Posts
 					</a>
@@ -59,7 +59,7 @@ function Nav() {
 
 				<li class="nav-item">
 					<a
-					  :class={{ "nav-link": true, active: $page.url.pathname === "/articles" }}
+					  :class={{ "nav-link": true, active: $page.url.pathname.startsWith("/articles") }}
 					  href="/articles">
 						Articles
 					</a>
@@ -67,7 +67,7 @@ function Nav() {
 
 				<li class="nav-item">
 					<a
-					  :class={{ "nav-link": true, active: $page.url.pathname === "/media" }}
+					  :class={{ "nav-link": true, active: $page.url.pathname.startsWith("/media") }}
 					  href="/media">
 						Media
 					</a>
@@ -76,7 +76,7 @@ function Nav() {
 				@if ($props.user) {
 					<li class="nav-item">
 						<a
-						  :class={{ "nav-link": true, active: $page.url.pathname === "/profile" }}
+						  :class={{ "nav-link": true, active: $page.url.pathname.startsWith("/profile") }}
 						  href="/profile">
 							Profile
 						</a>
@@ -84,7 +84,7 @@ function Nav() {
 				} else {
 					<li class="nav-item">
 						<a
-						  :class={{ "nav-link": true, active: $page.url.pathname === "/account/login" }}
+						  :class={{ "nav-link": true, active: $page.url.pathname.startsWith("/account/login") }}
 						  href="/account/login">
 							Login
 						</a>
