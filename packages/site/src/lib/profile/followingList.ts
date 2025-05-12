@@ -1,7 +1,7 @@
 import { ok, serverError, unauthorized } from "@torpor/build/response";
 import { desc, eq } from "drizzle-orm";
 import database from "../../data/database";
-import { followingTable, postsTable, usersTable } from "../../data/schema";
+import { followingTable, usersTable } from "../../data/schema";
 import getErrorMessage from "../utils/getErrorMessage";
 import userIdQuery from "../utils/userIdQuery";
 
@@ -35,7 +35,7 @@ export default async function followingList(
 		const dbfollowing = await db.query.followingTable.findMany({
 			limit,
 			offset,
-			orderBy: desc(postsTable.updated_at),
+			orderBy: desc(followingTable.updated_at),
 			where: eq(followingTable.approved, true),
 		});
 
