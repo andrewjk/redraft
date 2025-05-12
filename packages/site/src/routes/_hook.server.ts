@@ -33,7 +33,7 @@ export default {
 		if (!appData.follower) {
 			const headerToken = request.headers.get("x-social-follower");
 			if (headerToken) {
-				appData.follower = jose.decodeJwt(headerToken);
+				appData.follower = jose.decodeJwt(headerToken).follower;
 				appData.follower.token = headerToken;
 			}
 		}
