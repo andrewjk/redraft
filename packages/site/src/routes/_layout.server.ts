@@ -14,9 +14,6 @@ export default {
 		});
 
 		return ok({
-			url: env().SITE_LOCATION,
-			name: currentUser?.name,
-			image: currentUser?.image,
 			username: params.user,
 			base: params.user ? `/${params.user}/` : "/",
 			user: user && {
@@ -28,6 +25,11 @@ export default {
 				url: follower.url,
 				name: follower.name,
 				image: follower.image,
+			},
+			viewing: {
+				url: env().SITE_LOCATION,
+				name: currentUser?.name,
+				image: currentUser?.image,
 			},
 		});
 	},

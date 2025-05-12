@@ -1,15 +1,19 @@
 import { $page, $navigation } from "@torpor/build/state";
+import placeholdify from "../lib/utils/placeholdify";
 
 export default function Layout() {
 	@render {
 		<div class="app-layout">
 			<:head>
-				<meta name="social-follow-url" content={$props.data.url} />
-				<meta name="social-follow-name" content={$props.data.name} />
-				<meta name="social-follow-image" content={$props.data.image} />
+				<meta name="social-follow-url" content={$props.data.viewing.url} />
+				<meta name="social-follow-name" content={$props.data.viewing.name} />
+				<meta name="social-follow-image" content={$props.data.viewing.image} />
 			</:head>
 
-			<Nav user={$props.data.user} follower={$props.data.follower} />
+			<Nav
+				user={$props.data.user}
+				follower={$props.data.follower}
+				viewing={$props.data.viewing} />
 
 			<main>
 				<:slot />
@@ -40,10 +44,28 @@ function Nav() {
 				} else {
 					<li class="nav-item">
 						<a
-						:class={{ "nav-link": true, active: $page.url.pathname === "/" }}
+						:class={{ "nav-link hstack spaced text": true, active: $page.url.pathname === "/" }}
 						href="/">
-							Home
+							<img class="profile-image" src={placeholdify($props.viewing.image)} alt={`${$props.viewing.name} (${$props.viewing.url})`} />
+							{$props.viewing.name}
 						</a>
+					</li>
+					<li class="nav-item">
+						@if ($props.follower) {
+							<form use:enhance method="POST" action={`${$props.follower.url}unfollow`}>
+								<input type="hidden" name="url" value={$props.viewing.url} />
+								<button>Unfollow</button>
+							</form>
+						} else {
+							@// NOTE: These might get updated by the web extension
+							<form id="social-follow-form" use:enhance method="POST" style="display: none"}>
+								<input type="hidden" name="url" value={$props.viewing.url} />
+								<button>Follow</button>
+							</form>
+							<a id="social-follow-link" class="nav-link" href="/follow">
+								Follow
+							</a>
+						}
 					</li>
 				}
 
@@ -73,15 +95,15 @@ function Nav() {
 					</a>
 				</li>
 
-				@if ($props.user) {
-					<li class="nav-item">
-						<a
-						  :class={{ "nav-link": true, active: $page.url.pathname.startsWith("/profile") }}
-						  href="/profile">
-							Profile
-						</a>
-					</li>
-				} else {
+				<li class="nav-item">
+					<a
+						:class={{ "nav-link": true, active: $page.url.pathname.startsWith("/profile") }}
+						href="/profile">
+						Profile
+					</a>
+				</li>
+
+				@if (!$props.user && !$props.follower) {
 					<li class="nav-item">
 						<a
 						  :class={{ "nav-link": true, active: $page.url.pathname.startsWith("/account/login") }}
@@ -115,6 +137,17 @@ function Nav() {
 			border-top: 2px solid #fff0;
 			border-bottom: 2px solid orange;
 			padding:  calc(1rem - 2px) 1rem;
+		}
+
+		.profile-image {
+			height: 20px;
+			width: 20px;
+			border: 1px solid #efefef;
+			border-radius: 50%;
+			box-shadow: 0 0.2rem 0.4rem #eee;
+
+			display: inline-block;
+			vertical-align: top;
 		}
 	}
 }

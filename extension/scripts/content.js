@@ -34,6 +34,21 @@ async function formatContent() {
 			followName: document.head.querySelector("meta[name='social-follow-name']").content,
 			followImage: document.head.querySelector("meta[name='social-follow-image']").content,
 		});
+
+		// Maybe update the follow form/link
+		if (authenticated) {
+			const formEl = document.getElementById("social-follow-form");
+			const linkEl = document.getElementById("social-follow-link");
+			if (formEl && linkEl) {
+				if (followingUser) {
+					formEl.action = `${url}/unfollow`;
+				} else {
+					formEl.action = `${url}/follow`;
+				}
+				formEl.style.display = "inline-block";
+				linkEl.style.display = "none";
+			}
+		}
 	}
 
 	// Look for <input name="followerUrl"> and set our url (for following another user)
