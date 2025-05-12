@@ -14,7 +14,7 @@ export default {
 			const data = await request.formData();
 			const model = formDataToObject(data);
 
-			const result = await api.post("follow", params, model, user.token);
+			const result = await api.post("unfollow", params, model, user.token);
 			if (result.errors) {
 				return unprocessable(result);
 			}

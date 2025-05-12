@@ -1,5 +1,5 @@
 import { ok, serverError, unauthorized } from "@torpor/build/response";
-import { eq } from "drizzle-orm";
+import { and, eq, isNull } from "drizzle-orm";
 import database from "../../data/database";
 import { followingTable, usersTable } from "../../data/schema";
 import { postPublic } from "../public";
@@ -29,42 +29,50 @@ export default async function followSend(request: Request, code: string) {
 			return unauthorized();
 		}
 
-		// Create the shared key that we will use to authenticate ourselves when
-		// commenting etc, and which the other user will use to authenticate
-		// themselves when sending us posts etc
-		const sharedKey = uuid();
+		// Find the following record
+		const follow = await db.query.followingTable.findFirst({
+			where: and(eq(followingTable.url, model.url), isNull(followingTable.deleted_at)),
+			columns: { id: true },
+		});
 
-		// TODO: Upsert, in case we've sent a following request to this user before
-		// Create the following record, with approved = false
-		let record = {
-			approved: false,
-			url: model.url,
-			shared_key: sharedKey,
-			name: "",
-			image: "",
-			bio: "",
-			created_at: new Date(),
-			updated_at: new Date(),
-		};
-		let recordId = (
-			await db.insert(followingTable).values(record).returning({ id: followingTable.id })
-		)[0].id;
+		// If this user has already been requested, just return ok
+		if (!follow) {
+			// Create the shared key that we will use to authenticate ourselves when
+			// commenting etc, and which the other user will use to authenticate
+			// themselves when sending us posts etc
+			const sharedKey = uuid();
 
-		// Send off a request to the url, and hopefully receive the name and image
-		let sendUrl = `${model.url}api/public/follow/request`;
-		let sendData: FollowRequestModel = {
-			url: currentUser.url,
-			sharedKey,
-		};
-		let requestData = (await postPublic(sendUrl, sendData)) as FollowRequestResponseModel;
+			// Create the following record, with approved = false
+			let record = {
+				approved: false,
+				url: model.url,
+				shared_key: sharedKey,
+				name: "",
+				image: "",
+				bio: "",
+				created_at: new Date(),
+				updated_at: new Date(),
+			};
+			const recordId = (
+				await db.insert(followingTable).values(record).returning({ id: followingTable.id })
+			)[0].id;
 
-		// Update the following record with the name and image
-		let record2 = {
-			name: requestData.name,
-			image: requestData.image,
-			updated_at: new Date(),
-		};
-		await db.update(followingTable).set(record2).where(eq(followingTable.id, recordId));
+			// Send off a request to the url, and hopefully receive the name and image
+			let sendUrl = `${model.url}api/public/follow/request`;
+			let sendData: FollowRequestModel = {
+				url: currentUser.url,
+				sharedKey,
+			};
+			let requestData = (await postPublic(sendUrl, sendData)) as FollowRequestResponseModel;
+
+			// Update the following record with the name and image
+			let record2 = {
+				name: requestData.name,
+				image: requestData.image,
+				updated_at: new Date(),
+			};
+			await db.update(followingTable).set(record2).where(eq(followingTable.id, recordId));
+		}
 
 		return ok();
 	} catch (error) {

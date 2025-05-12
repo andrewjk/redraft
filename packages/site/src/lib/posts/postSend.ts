@@ -1,5 +1,5 @@
 import { notFound, ok, serverError, unauthorized } from "@torpor/build/response";
-import { eq } from "drizzle-orm";
+import { and, eq, isNull } from "drizzle-orm";
 import database from "../../data/database";
 import { followedByTable, postsTable, usersTable } from "../../data/schema";
 import { postPublic } from "../public";
@@ -33,7 +33,7 @@ export default async function postSend(request: Request, code: string) {
 
 		// Load the followers
 		const followers = await db.query.followedByTable.findMany({
-			where: eq(followedByTable.approved, true),
+			where: and(eq(followedByTable.approved, true), isNull(followedByTable.deleted_at)),
 		});
 
 		// TODO: Insert a queue record for each follower and set it to sent when

@@ -95,7 +95,7 @@ test("comment create by follower", async () => {
 		method: "POST",
 		body: JSON.stringify(model),
 	});
-	const response = await commentCreate(request, {}, "http://localhost/bob", "yyy-bob", "", "");
+	const response = await commentCreate(request, {}, "http://localhost/bob/", "yyy-bob", "", "");
 	expect(response.status).toBe(201);
 
 	// Check comment count in db

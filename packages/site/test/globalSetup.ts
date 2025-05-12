@@ -11,10 +11,12 @@ export async function setup(): Promise<void> {
 	// Fill filled.db with some test data
 	const db = drizzle("file:./test/data/filled.db", { schema });
 	await insertUser(db);
-	await insertFollowers(db);
+	await insertFollowedBy(db);
+	await insertFollowing(db);
 	await insertPosts(db);
 	await insertMedia(db);
 	await insertArticles(db);
+	await insertFeed(db);
 }
 
 async function insertUser(db: LibSQLDatabase<typeof schema>) {
@@ -43,14 +45,27 @@ async function insertUser(db: LibSQLDatabase<typeof schema>) {
 	});
 }
 
-async function insertFollowers(db: LibSQLDatabase<typeof schema>) {
+async function insertFollowedBy(db: LibSQLDatabase<typeof schema>) {
 	await db.insert(schema.followedByTable).values({
 		approved: true,
-		url: "http://localhost/bob",
+		url: "http://localhost/bob/",
 		shared_key: "yyy-bob",
 		name: "Bob Y",
 		bio: "Bob's bio...",
 		image: "bob.png",
+		created_at: new Date(),
+		updated_at: new Date(),
+	});
+}
+
+async function insertFollowing(db: LibSQLDatabase<typeof schema>) {
+	await db.insert(schema.followingTable).values({
+		approved: true,
+		url: "http://localhost/eli/",
+		shared_key: "yyy-eli",
+		name: "Eli Q",
+		bio: "Eli's bio...",
+		image: "eli.png",
 		created_at: new Date(),
 		updated_at: new Date(),
 	});
@@ -164,6 +179,26 @@ async function insertArticles(db: LibSQLDatabase<typeof schema>) {
 			url: "article-2",
 			title: "Article 2",
 			//published_at: new Date(),
+			created_at: new Date(),
+			updated_at: new Date(),
+		},
+	]);
+}
+
+async function insertFeed(db: LibSQLDatabase<typeof schema>) {
+	const following = await db.query.followingTable.findFirst();
+
+	await db.insert(schema.feedTable).values([
+		{
+			user_id: following!.id,
+			slug: "feed-1",
+			text: "Here is a post by Eli",
+			visibility: 0,
+			type: TEXT_POST_TYPE,
+			image: "",
+			url: "feed-1",
+			title: "Feed post 1",
+			published_at: new Date(),
 			created_at: new Date(),
 			updated_at: new Date(),
 		},
