@@ -43,7 +43,7 @@ test("comment create by author", async () => {
 		method: "POST",
 		body: JSON.stringify(model),
 	});
-	const response = await commentCreate(request, {}, "http://localhost/alice", "", "xxx-alice", "");
+	const response = await commentCreate(request, {}, "http://localhost/alice/", "", "xxx-alice", "");
 	expect(response.status).toBe(201);
 
 	// Check comment count in db

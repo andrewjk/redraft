@@ -45,7 +45,7 @@ test("login post", async () => {
 
 	const data = (await response.json()) as LoginResponseModel;
 
-	expect(data.url).toEqual("http://localhost/alice");
+	expect(data.url).toEqual("http://localhost/alice/");
 	expect(data.username).toEqual("alice");
 	expect(data.name).toEqual("Alice X");
 	expect(data.image).toEqual("alice.png");

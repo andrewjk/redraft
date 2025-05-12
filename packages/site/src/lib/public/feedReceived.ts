@@ -55,8 +55,6 @@ export default async function feedReceived(request: Request) {
 			await db.insert(feedTable).values(record);
 		}
 
-		// TODO: Create a notification
-
 		return ok();
 	} catch (error) {
 		const message = getErrorMessage(error).message;

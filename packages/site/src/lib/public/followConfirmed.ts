@@ -2,6 +2,7 @@ import { notFound, ok, serverError } from "@torpor/build/response";
 import { eq } from "drizzle-orm";
 import database from "../../data/database";
 import { followingTable } from "../../data/schema";
+import { notificationsTable } from "../../data/schema/notificationsTable";
 import getErrorMessage from "../utils/getErrorMessage";
 
 export type FollowConfirmModel = {
@@ -24,15 +25,24 @@ export default async function followConfirmed(request: Request) {
 		}
 
 		// Set approved in the following record
-		await db
-			.update(followingTable)
-			.set({
-				approved: true,
-				updated_at: new Date(),
-			})
-			.where(eq(followingTable.shared_key, model.sharedKey));
+		const record = (
+			await db
+				.update(followingTable)
+				.set({
+					approved: true,
+					updated_at: new Date(),
+				})
+				.where(eq(followingTable.shared_key, model.sharedKey))
+				.returning({ url: followingTable.url, name: followingTable.name })
+		)[0];
 
-		// TODO: Create a notification
+		// Create a notification
+		await db.insert(notificationsTable).values({
+			url: record.url,
+			text: `${record.name} has approved your follow request`,
+			created_at: new Date(),
+			updated_at: new Date(),
+		});
 
 		return ok();
 	} catch (error) {

@@ -17,6 +17,7 @@ export async function setup(): Promise<void> {
 	await insertMedia(db);
 	await insertArticles(db);
 	await insertFeed(db);
+	await insertNotifications(db);
 }
 
 async function insertUser(db: LibSQLDatabase<typeof schema>) {
@@ -26,7 +27,7 @@ async function insertUser(db: LibSQLDatabase<typeof schema>) {
 			.values({
 				email: "alice@localhost",
 				username: "alice",
-				url: "http://localhost/alice",
+				url: "http://localhost/alice/",
 				password: hashPassword("alice's password"),
 				name: "Alice X",
 				bio: "Alice's bio...",
@@ -59,16 +60,29 @@ async function insertFollowedBy(db: LibSQLDatabase<typeof schema>) {
 }
 
 async function insertFollowing(db: LibSQLDatabase<typeof schema>) {
-	await db.insert(schema.followingTable).values({
-		approved: true,
-		url: "http://localhost/eli/",
-		shared_key: "yyy-eli",
-		name: "Eli Q",
-		bio: "Eli's bio...",
-		image: "eli.png",
-		created_at: new Date(),
-		updated_at: new Date(),
-	});
+	await db.insert(schema.followingTable).values([
+		{
+			approved: true,
+			url: "http://localhost/eli/",
+			shared_key: "yyy-eli",
+			name: "Eli Q",
+			bio: "Eli's bio...",
+			image: "eli.png",
+			created_at: new Date(),
+			updated_at: new Date(),
+		},
+		{
+			// Not yet approved i.e. a request
+			approved: false,
+			url: "http://localhost/freya/",
+			shared_key: "yyy-freya",
+			name: "Freya S",
+			bio: "Freya's bio...",
+			image: "freya.png",
+			created_at: new Date(),
+			updated_at: new Date(),
+		},
+	]);
 }
 
 async function insertPosts(db: LibSQLDatabase<typeof schema>) {
@@ -205,6 +219,16 @@ async function insertFeed(db: LibSQLDatabase<typeof schema>) {
 	]);
 }
 
+async function insertNotifications(db: LibSQLDatabase<typeof schema>) {
+	await db.insert(schema.notificationsTable).values([
+		{
+			url: "http://localhost/alice/post-1",
+			text: "Someone commented on your post",
+			created_at: new Date(),
+			updated_at: new Date(),
+		},
+	]);
+}
 export async function teardown(): Promise<void> {
 	fs.rmSync("./test/data/filled.db");
 }

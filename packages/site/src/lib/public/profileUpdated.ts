@@ -2,6 +2,7 @@ import { ok, serverError } from "@torpor/build/response";
 import { eq } from "drizzle-orm";
 import database from "../../data/database";
 import { followedByTable, followingTable } from "../../data/schema";
+import { notificationsTable } from "../../data/schema/notificationsTable";
 import getErrorMessage from "../utils/getErrorMessage";
 
 export type ProfileUpdatedModel = {
@@ -16,8 +17,6 @@ export default async function profileUpdated(request: Request) {
 		const model: ProfileUpdatedModel = await request.json();
 
 		await Promise.all([updateFollowingTable(model), updateFollowedByTable(model)]);
-
-		// TODO: Create a notification
 
 		return ok();
 	} catch (error) {
@@ -41,6 +40,14 @@ async function updateFollowingTable(model: ProfileUpdatedModel) {
 				bio: model.bio,
 			})
 			.where(eq(followingTable.id, user.id));
+
+		// Create a notification for the users you are following only
+		await db.insert(notificationsTable).values({
+			url: user.url,
+			text: `${user.name} has changed their profile`,
+			created_at: new Date(),
+			updated_at: new Date(),
+		});
 	}
 }
 

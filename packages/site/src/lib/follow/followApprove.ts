@@ -40,8 +40,6 @@ export default async function followApprove(request: Request, code: string) {
 				.returning()
 		)[0];
 
-		// TODO: Create a notification
-
 		// Send the confirmation
 		let sendUrl = `${record.url}api/public/follow/confirm`;
 		let sendData: FollowConfirmModel = {

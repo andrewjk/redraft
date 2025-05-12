@@ -8,6 +8,7 @@ import {
 	postsTable,
 	usersTable,
 } from "../../data/schema";
+import { notificationsTable } from "../../data/schema/notificationsTable";
 import * as api from "../api";
 import getErrorMessage from "../utils/getErrorMessage";
 import userIdQuery from "../utils/userIdQuery";
@@ -32,6 +33,12 @@ export default async function commentCreate(
 		const db = database();
 
 		const model: CommentCreateModel = await request.json();
+
+		// Get the user
+		const user = await db.query.usersTable.findFirst();
+		if (!user) {
+			return notFound();
+		}
 
 		// Get the user who created this comment, from url and shared key
 		let isFollower = true;
@@ -65,7 +72,7 @@ export default async function commentCreate(
 		// Get the post id
 		const post = await db.query.postsTable.findFirst({
 			where: eq(postsTable.slug, model.postSlug),
-			columns: { id: true },
+			columns: { id: true, slug: true },
 		});
 		if (!post) {
 			return notFound();
@@ -112,6 +119,17 @@ export default async function commentCreate(
 			})
 			.where(eq(feedTable.slug, model.postSlug));
 		await Promise.all([updatePosts, updateFeed]);
+
+		// Create a notification if it's a comment created by a follower
+		// (you don't need to know about the comments you've made!)
+		if (isFollower) {
+			await db.insert(notificationsTable).values({
+				url: `${user.url}posts/${post.slug}`,
+				text: `${currentUser.name} commented on your post`,
+				created_at: new Date(),
+				updated_at: new Date(),
+			});
+		}
 
 		// Send an update to all followers
 		// This could take some time, so send it off to be done in an endpoint without awaiting it

@@ -1,0 +1,35 @@
+import NotificationPreview from './NotificationPreview.torp';
+
+/**
+ * Shows a list of the current user's notifications.
+ */
+export default function NotificationList($props) {
+	@render {
+		<div class="vstack centered">
+			<h2>Notifications</h2>
+			<div class="notification-list centered">
+				@if ($props.data.notifications.length === 0) {
+					<div class="card">
+						You have no notifications yet.
+					</div>
+				} else {
+					@for (let notification of $props.data.notifications) {
+						@key = notification.id
+						<NotificationPreview {notification} user={$props.data.user} />
+					}
+				}
+			</div>
+		</div>
+	}
+
+	@style {
+		.notification-list {
+			display: flex;
+			flex-direction: column;
+			gap: 0.5rem;
+			
+			max-width: 60rem;
+			width: 100%;
+		}
+	}
+}
