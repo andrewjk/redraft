@@ -1,7 +1,7 @@
 //import profileView from "./profileView";
 import { micromark } from "micromark";
 import { type Feed } from "../../data/schema/feedTable";
-import { FollowedBy } from "../../data/schema/followedByTable";
+import { type Following } from "../../data/schema/followingTable";
 import { type User } from "../../data/schema/usersTable";
 
 type FeedAuthor = {
@@ -30,7 +30,7 @@ export type FeedPreview = {
 };
 
 export default function feedPreview(
-	feed: Feed & { user?: FollowedBy | null },
+	feed: Feed & { user?: Following | null },
 	currentUser: User,
 ): FeedPreview {
 	return {
