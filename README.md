@@ -98,8 +98,13 @@ If the above sounds annoying, you can pay for a hosted account at https://redraf
   - [ ] Quoting
 - [x] Approving
   - [ ] Auto-approving
-- [ ] Blocking
-- [ ] Notifications
+- [x] Blocking
+  - [ ] Allow sending a message
+  - [ ] Expiring blocks
+  - [ ] Unblocking
+- [x] Notifications
+  - [ ] Track read status
+  - [ ] Display unread count in the header
 - [ ] Realtime updates w/ sockets
 - [x] Editing profile should propagate to following/followers
 - [ ] Deploy
@@ -151,7 +156,7 @@ If the above sounds annoying, you can pay for a hosted account at https://redraf
 - [ ] RSS
 - [ ] Cross post to Mastodon / Bluesky
 - [ ] Host friends
-- [ ] Multiple users e.g. for a publication/organisation
+- [ ] Multiple users e.g. for a publication/organisation ("contributors")
 - [ ] Sign up to communicate with a single user on their page??
   - Maybe expand the followedBy table to have a password?
 - [ ] Encryption

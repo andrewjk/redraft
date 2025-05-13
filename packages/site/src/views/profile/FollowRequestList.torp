@@ -18,7 +18,9 @@ export default function FollowRequestList() {
 					@for (let follow of $props.data.requests) {
 						@key = follow.id
 						<div class="hstack spaced full-width">
-							<FollowPreview {follow} user={$props.data.user} class="full-width" />
+							<div class="grow">
+								<FollowPreview {follow} user={$props.data.user} />
+							</div>
 							<form use:enhance method="POST" action="?/approve">
 								<input type="hidden" name="id" value={follow.id} />
 								<button>Approve</button>

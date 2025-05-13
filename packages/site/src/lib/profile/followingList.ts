@@ -1,5 +1,5 @@
 import { ok, serverError, unauthorized } from "@torpor/build/response";
-import { desc, eq } from "drizzle-orm";
+import { and, desc, eq, isNull } from "drizzle-orm";
 import database from "../../data/database";
 import { followingTable, usersTable } from "../../data/schema";
 import getErrorMessage from "../utils/getErrorMessage";
@@ -36,7 +36,7 @@ export default async function followingList(
 			limit,
 			offset,
 			orderBy: desc(followingTable.updated_at),
-			where: eq(followingTable.approved, true),
+			where: and(eq(followingTable.approved, true), isNull(followingTable.deleted_at)),
 		});
 
 		// Get the total count

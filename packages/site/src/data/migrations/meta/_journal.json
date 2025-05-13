@@ -15,6 +15,13 @@
       "when": 1747034073421,
       "tag": "0001_majestic_chamber",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "6",
+      "when": 1747104171944,
+      "tag": "0002_closed_stark_industries",
+      "breakpoints": true
     }
   ]
 }

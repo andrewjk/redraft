@@ -17,6 +17,7 @@ export const followedByTable = sqliteTable("followed_by", {
 	name: text().notNull(),
 	image: text().notNull(),
 	bio: text().notNull(),
+	blocked_at: int({ mode: "timestamp" }),
 	created_at: int({ mode: "timestamp" }).notNull(),
 	updated_at: int({ mode: "timestamp" }).notNull(),
 	deleted_at: int({ mode: "timestamp" }),
