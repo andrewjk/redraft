@@ -6,7 +6,8 @@
 	"scripts": {
 		"cs:add": "pnpm changeset add",
 		"cs:version": "pnpm changeset version",
-		"cs:publish": "pnpm -r build && pnpm changeset publish"
+		"cs:publish": "pnpm -r build && pnpm changeset publish",
+		"logo:build": "rsvg-convert -h 128 logo.svg > logo.png"
 	},
 	"keywords": [],
 	"author": "",
