@@ -12,7 +12,7 @@ export default function PostCompose() {
 		<div class="vstack centered">
 			<div class="compose-page">
 				<:head>
-					<title>Compose • Social</title>
+					<title>Compose • Redraft</title>
 				</:head>
 
 				<h2>Compose</h2>

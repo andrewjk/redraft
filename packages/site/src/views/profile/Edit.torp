@@ -8,7 +8,7 @@ export default function Edit() {
 	@render {
 		<div class="profile-edit-page">
 			<:head>
-				<title>Edit Profile • Social</title>
+				<title>Edit Profile • Redraft</title>
 			</:head>
 
 			<h2>Edit Profile</h2>

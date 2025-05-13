@@ -28,8 +28,8 @@ export default function PostView() {
 				<meta name="description" content={post.text} />
 				<meta property="og:type" content="article" />
 				@// <meta property="og:locale" content="en_US" />
-				<meta property="og:site_name" content="Social" />
-				<meta property="og:title" content={post.type === ARTICLE_POST_TYPE ? post.title : "Social post"} />
+				<meta property="og:site_name" content="Redraft" />
+				<meta property="og:title" content={post.type === ARTICLE_POST_TYPE ? post.title : "Redraft post"} />
 				<meta property="og:description" content={post.text} />
 				<meta property="og:url" content="{post.author.url}posts/${post.slug}" />
 				@// <meta property="og:image" content="" />

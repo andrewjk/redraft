@@ -10,7 +10,7 @@ export default function Index($props) {
 	@render {
 		<div class="profile-page">
 			<:head>
-				<title>Profile • Social</title>
+				<title>Profile • Redraft</title>
 			</:head>
 
 			<div class="vstack centered spaced profile-details">

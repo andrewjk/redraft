@@ -12,7 +12,7 @@ export default function Index() {
 	@render {
 		<div class="vstack centered">
 			<:head>
-				<title>Drafts • Social</title>
+				<title>Drafts • Redraft</title>
 			</:head>
 
 			<h2>Drafts</h2>

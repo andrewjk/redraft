@@ -6,7 +6,7 @@ export default function Setup() {
 		<div class="vstack centered">
 			<div class="setup-page">
 				<:head>
-					<title>Setup • Social</title>
+					<title>Setup • Redraft</title>
 				</:head>
 
 				<h2>Setup</h2>
