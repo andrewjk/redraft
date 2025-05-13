@@ -1,5 +1,11 @@
 # @redraft/create-site
 
+## 0.0.3
+
+### Patch Changes
+
+- 7bd1b74: Chore: branding
+
 ## 0.0.2
 
 ### Patch Changes

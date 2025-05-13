@@ -1,5 +1,15 @@
 # @redraft/site
 
+## 0.0.11
+
+### Patch Changes
+
+- 8769c64: Feat: show a follow button in the header
+- fd78a02: Feat: notifications
+- 7bd1b74: Chore: branding
+- 9150382: Feat: unfollow
+- 47f5f4f: Feat: blocking followers
+
 ## 0.0.10
 
 ### Patch Changes
