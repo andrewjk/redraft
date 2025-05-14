@@ -8,10 +8,10 @@ import setUserToken from "../../../lib/utils/setUserToken";
 import uuid from "../../../lib/utils/uuid";
 
 export default {
-	load: async ({ appData }) => {
+	load: async ({ appData, params }) => {
 		const user = appData.user;
 		if (user) {
-			return seeOther("/feed");
+			return seeOther(params.user ? `/${params.user}/feed` : "/feed");
 		}
 	},
 	actions: {
@@ -41,7 +41,7 @@ export default {
 				code: result.code,
 			});
 
-			return seeOther("/feed");
+			return seeOther(params.user ? `/${params.user}/feed` : "/feed");
 		},
 	},
 } satisfies PageServerEndPoint;

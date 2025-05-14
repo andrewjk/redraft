@@ -27,5 +27,5 @@ export default async function publishPost({ appData, request, params }: ServerLo
 		return unprocessable(result);
 	}
 
-	return seeOther("/posts");
+	return seeOther(params.user ? `/${params.user}/posts` : "/posts");
 }

@@ -58,7 +58,7 @@ export default {
 				code: user.code,
 			});
 
-			return seeOther("/profile");
+			return seeOther(params.user ? `/${params.user}/profile` : "/profile");
 		},
 	},
 } satisfies PageServerEndPoint;

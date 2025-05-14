@@ -5,10 +5,10 @@ import formDataToObject from "../../../lib/utils/formDataToObject";
 import setUserToken from "../../../lib/utils/setUserToken";
 
 export default {
-	load: async ({ appData }) => {
+	load: async ({ appData, params }) => {
 		const user = appData.user;
 		if (user) {
-			return seeOther("/feed");
+			return seeOther(params.user ? `/${params.user}/feed` : "/feed");
 		}
 	},
 	actions: {
@@ -30,7 +30,7 @@ export default {
 				code: result.code,
 			});
 
-			return seeOther("/feed");
+			return seeOther(params.user ? `/${params.user}/feed` : "/feed");
 		},
 	},
 } satisfies PageServerEndPoint;

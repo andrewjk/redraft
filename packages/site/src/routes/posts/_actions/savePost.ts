@@ -27,5 +27,5 @@ export default async function savePost({ appData, request, params }: ServerLoadE
 		return unprocessable(result);
 	}
 
-	return seeOther("/posts/drafts");
+	return seeOther(params.user ? `/${params.user}/posts/drafts` : "/posts/drafts");
 }
