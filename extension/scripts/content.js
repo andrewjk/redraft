@@ -41,9 +41,9 @@ async function formatContent() {
 			const linkEl = document.getElementById("social-follow-link");
 			if (formEl && linkEl) {
 				if (followingUser) {
-					formEl.action = `${url}/unfollow`;
+					formEl.action = `${url}unfollow`;
 				} else {
-					formEl.action = `${url}/follow`;
+					formEl.action = `${url}follow`;
 				}
 				formEl.style.display = "inline-block";
 				linkEl.style.display = "none";

@@ -133,7 +133,7 @@ async function loadFollowers() {
 
 async function logout() {
 	// TODO: Should call api/account/logout to delete tokens etc
-	const ok = true;
+	let ok = true;
 
 	if (ok) {
 		await browser.storage.local.set({ authenticated: false, following: [], url: "", email: "" });
@@ -151,10 +151,13 @@ async function refresh() {
 		return { ok: false, error: "Not authenticated" };
 	}
 
+	// TODO:
+	let ok = true;
+
 	await Promise.all([loadProfile(), loadFollowers()]);
 
 	return {
-		ok: true,
+		ok,
 		error: ok ? "" : "Refresh failed, please try again",
 	};
 }
@@ -165,10 +168,12 @@ async function follow() {
 		return { ok: false, error: "No follow url supplied" };
 	}
 
+	// TODO:
+	let ok = true;
+
 	// Send them to the url to follow
 	if (!url.endsWith("/")) url += "/";
-	const followResponse = await post(url, `api/follow`, { url: followUrl }, token);
-	const ok = followResponse.ok;
+	await post(url, `api/follow`, { url: followUrl }, token);
 
 	return {
 		ok,
