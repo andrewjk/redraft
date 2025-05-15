@@ -1,5 +1,14 @@
 # @redraft/site
 
+## 0.0.12
+
+### Patch Changes
+
+- 7b16280: Fix: use the user base url when redirecting
+- 7054306: Fix: log out and view profile
+- 259d205: Fix: delete old files when updating your profile
+- 61427cc: Fix: edit profile layout
+
 ## 0.0.11
 
 ### Patch Changes
