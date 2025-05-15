@@ -1,22 +1,21 @@
-import { ok, serverError, unauthorized } from "@torpor/build/response";
+import { ok, serverError } from "@torpor/build/response";
 import { eq } from "drizzle-orm";
 import database from "../../data/database";
-import { usersTable } from "../../data/schema";
 import { userTokensTable } from "../../data/schema/userTokensTable";
 import getErrorMessage from "../utils/getErrorMessage";
-import userIdQuery from "../utils/userIdQuery";
 
 export default async function accountLogout(code: string) {
 	try {
 		const db = database();
 
+		// NOTE: Actually, we don't care if they have a token...
 		// Get the current user
-		const currentUser = await db.query.usersTable.findFirst({
-			where: eq(usersTable.id, userIdQuery(code)),
-		});
-		if (!currentUser) {
-			return unauthorized();
-		}
+		//const currentUser = await db.query.usersTable.findFirst({
+		//	where: eq(usersTable.id, userIdQuery(code)),
+		//});
+		//if (!currentUser) {
+		//	return unauthorized();
+		//}
 
 		// Remove the user token
 		// TODO: Allow logging out of all devices

@@ -21,12 +21,14 @@ export default function Index($props) {
 
 					<div class="hstack spaced">
 						<a href="{$props.data.base}profile/edit" class="hstack centered spaced-text">
-							<Pencil weight="bold" /> Edit profile
+							<Pencil weight="bold" />
+							Edit profile
 						</a>
 						<span class="menu-separator" />
 						<form use:enhance method="POST" action="?/logout">
 							<button class="link hstack centered spaced-text">
-								<SignOut weight="bold" /> Log out
+								<SignOut weight="bold" />
+								Log out
 							</button>
 						</form>
 					</div>

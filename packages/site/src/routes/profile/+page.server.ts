@@ -1,18 +1,13 @@
 import { type PageServerEndPoint } from "@torpor/build";
-import { ok, seeOther, unauthorized, unprocessable } from "@torpor/build/response";
+import { ok, unauthorized, unprocessable } from "@torpor/build/response";
 import * as api from "../../lib/api";
 import formDataToObject from "../../lib/utils/formDataToObject";
 import setUserToken from "../../lib/utils/setUserToken";
 import logout from "../account/_actions/logout";
 
 export default {
-	load: async ({ appData, params }) => {
-		const user = appData.user;
-		if (!user) {
-			return seeOther("/account/login");
-		}
-
-		const result = await api.get("profile", params, user.token);
+	load: async ({ params }) => {
+		const result = await api.get("profile", params);
 		if (result.errors) {
 			return unprocessable(result);
 		}
