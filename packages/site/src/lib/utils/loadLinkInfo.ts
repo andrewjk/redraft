@@ -2,7 +2,7 @@ import { grabPageInfo } from "grab-page-info";
 import ky from "ky";
 
 export default async function loadLinkInfo(url: string) {
-	const response = await ky(url, { credentials: undefined });
+	const response = await ky(url /*, { credentials: undefined }*/);
 	const html = await response.text();
 	const info = grabPageInfo(html);
 	return {

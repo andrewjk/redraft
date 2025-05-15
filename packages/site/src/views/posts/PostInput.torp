@@ -1,5 +1,4 @@
 //import { enhance } from '$app/forms';
-import loadLinkInfo from '@/lib/utils/loadLinkInfo';
 import ImageUpload from '../ImageUpload.torp';
 import LinkPreview from './LinkPreview.torp';
 import { TEXT_POST_TYPE, IMAGE_POST_TYPE, ARTICLE_POST_TYPE, LINK_POST_TYPE } from "../../lib/constants";
