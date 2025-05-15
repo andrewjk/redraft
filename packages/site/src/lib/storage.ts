@@ -3,6 +3,7 @@
 // or self-hosted scenarios. But S3 expects that your URLs are in the format
 // http://[bucket].[host]. Which obviously doesn't work with localhost! So for
 // now we are just storing images in the database
+import { eq } from "drizzle-orm";
 import database from "../data/database";
 import { contentTable } from "../data/schema";
 
@@ -23,4 +24,10 @@ export async function uploadFile(file: File, name: string) {
 
 	// Insert the content into the database
 	await db.insert(contentTable).values(content);
+}
+
+export async function deleteFile(name: string) {
+	const db = database();
+
+	await db.delete(contentTable).where(eq(contentTable.name, name));
 }

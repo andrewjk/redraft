@@ -1,8 +1,7 @@
 import { type PageServerEndPoint } from "@torpor/build";
 import { ok, seeOther, unauthorized, unprocessable } from "@torpor/build/response";
 import * as api from "../../../lib/api";
-//import env from "../../../lib/env";
-import { uploadFile } from "../../../lib/storage";
+import { deleteFile, uploadFile } from "../../../lib/storage";
 import formDataToObject from "../../../lib/utils/formDataToObject";
 import setUserToken from "../../../lib/utils/setUserToken";
 import uuid from "../../../lib/utils/uuid";
@@ -34,6 +33,9 @@ export default {
 			// Save the image if it's been uploaded
 			model.imagefile = data.get("imagefile");
 			if (model.imagefile?.name) {
+				if (user.image) {
+					await deleteFile(user.image);
+				}
 				let name = uuid() + "." + model.imagefile.name.split(".").at(-1);
 				await uploadFile(model.imagefile, name);
 				model.image = `${user.url}api/content/${name}`;
