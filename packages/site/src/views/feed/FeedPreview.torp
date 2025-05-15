@@ -2,6 +2,7 @@
 import placeholdify from "../../lib/utils/placeholdify";
 import pluralize from "../../lib/utils/pluralize"
 import relativeTimeSince from "../../lib/utils/relativeTimeSince"
+import stripProtocol from "../../lib/utils/stripProtocol";
 import LinkPreview from '../posts/LinkPreview.torp';
 import { IMAGE_POST_TYPE, ARTICLE_POST_TYPE, LINK_POST_TYPE } from "../../lib/constants";
 import ChatCircle from "phosphor-torpor/lib/ChatCircle";
@@ -56,7 +57,7 @@ export default function FeedPreview() {
 			<div class="hstack spaced">
 				<div style="flex: 0 0 auto">
 					<a href={feed.author.url}>
-						<img class="feed-preview-author-image" src={placeholdify(feed.author.image)} alt={`${feed.author.name} (${feed.author.url})`} />
+						<img class="feed-preview-author-image" src={placeholdify(feed.author.image)} alt={`${feed.author.name} (${stripProtocol(feed.author.url)})`} />
 					</a>
 				</div>
 				<div style="flex: 1 1 auto">
@@ -67,7 +68,7 @@ export default function FeedPreview() {
 									{feed.author.name}
 								</div>
 								<div class="feed-preview-url">
-									{feed.author.url}
+									{stripProtocol(feed.author.url)}
 								</div>
 							</div>
 						</a>

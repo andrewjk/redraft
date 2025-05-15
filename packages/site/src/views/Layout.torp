@@ -1,5 +1,6 @@
 import { $page, $navigation } from "@torpor/build/state";
 import placeholdify from "../lib/utils/placeholdify";
+import stripProtocol from "../lib/utils/stripProtocol";
 
 export default function Layout() {
 	@render {
@@ -46,7 +47,7 @@ function Nav() {
 						<a
 						:class={{ "nav-link hstack spaced text": true, active: $page.url.pathname === "/" }}
 						href="/">
-							<img class="profile-image" src={placeholdify($props.viewing.image)} alt={`${$props.viewing.name} (${$props.viewing.url})`} />
+							<img class="profile-image" src={placeholdify($props.viewing.image)} alt={`${$props.viewing.name} (${stripProtocol($props.viewing.url)})`} />
 							{$props.viewing.name}
 						</a>
 					</li>

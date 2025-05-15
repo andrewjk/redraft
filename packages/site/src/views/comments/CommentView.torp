@@ -1,6 +1,7 @@
 //import { enhance } from '$app/forms';
 import placeholdify from "../../lib/utils/placeholdify";
 import relativeTimeSince from "../../lib/utils/relativeTimeSince"
+import stripProtocol from "../../lib/utils/stripProtocol";
 import CommentInput from "./CommentInput.torp"
 import CommentPreview from "./CommentPreview.torp"
 
@@ -23,7 +24,7 @@ export default function CommentView() {
 		<div class="card comment-view">
 			<div class="comment-view-header hstack centered spaced">
 				<a href={comment.author.url}>
-					<img class="comment-view-image" src={placeholdify(comment.author.image)} alt={`${comment.author.name} (${comment.author.url})`} />
+					<img class="comment-view-image" src={placeholdify(comment.author.image)} alt={`${comment.author.name} (${stripProtocol(comment.author.url)})`} />
 				</a>
 				<a class="comment-view-link grow hstack spaced" href={comment.author.url}>
 					<div class="grow vstack">
@@ -31,7 +32,7 @@ export default function CommentView() {
 							{comment.author.name}
 						</div>
 						<div class="comment-view-url">
-							{comment.author.url}
+							{stripProtocol(comment.author.url)}
 						</div>
 					</div>
 				</a>

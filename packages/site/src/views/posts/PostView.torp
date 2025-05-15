@@ -2,6 +2,7 @@
 import placeholdify from "../../lib/utils/placeholdify";
 import pluralize from "../../lib/utils/pluralize"
 import relativeTimeSince from "../../lib/utils/relativeTimeSince"
+import stripProtocol from "../../lib/utils/stripProtocol";
 import CommentList from "../comments/CommentList.torp"
 import LinkPreview from './LinkPreview.torp';
 import { ARTICLE_POST_TYPE, IMAGE_POST_TYPE, LINK_POST_TYPE } from "../../lib/constants";
@@ -48,7 +49,7 @@ export default function PostView() {
 				<div class="hstack spaced">
 					<div style="flex: 0 0 auto">
 						<a href={post.author.url}>
-							<img class="post-view-image" src={placeholdify(post.author.image)} alt="{post.author.name} ({post.author.url})" />
+							<img class="post-view-image" src={placeholdify(post.author.image)} alt="{post.author.name} ({stripProtocol(post.author.url)})" />
 						</a>
 					</div>
 					<div style="flex: 1 1 auto">
@@ -59,7 +60,7 @@ export default function PostView() {
 										{post.author.name}
 									</div>
 									<div class="post-view-url">
-										{post.author.url}
+										{stripProtocol(post.author.url)}
 									</div>
 								</div>
 							</a>

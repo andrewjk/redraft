@@ -3,6 +3,7 @@ import MapPin from "phosphor-torpor/lib/MapPin";
 import Pencil from "phosphor-torpor/lib/Pencil";
 import SignOut from "phosphor-torpor/lib/SignOut";
 import placeholdify from "../../lib/utils/placeholdify";
+import stripProtocol from "../../lib/utils/stripProtocol";
 
 export default function Preview($props) {
 	@render {
@@ -10,7 +11,7 @@ export default function Preview($props) {
 			<div class="vstack spaced centered profile-details">
 				<h2>{$props.profile.name}</h2>
 				<a href="{$props.base}profile">
-					<img src={placeholdify($props.profile.image)} class="profile-image" alt="{$props.profile.name} ({$props.profile.url})" />
+					<img src={placeholdify($props.profile.image)} class="profile-image" alt="{$props.profile.name} ({stripProtocol($props.profile.url)})" />
 				</a>
 				<div class="vstack spaced centered">
 					@if ($props.profile.bio) {

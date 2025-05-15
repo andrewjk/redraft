@@ -1,6 +1,7 @@
 //import { enhance } from '$app/forms';
 import placeholdify from "../../lib/utils/placeholdify";
 import relativeTimeSince from "../../lib/utils/relativeTimeSince"
+import stripProtocol from "../../lib/utils/stripProtocol";
 
 /**
  * Shows a follow(er/ing) preview for display in a list.
@@ -21,7 +22,7 @@ export default function FollowPreview() {
 			<div class="hstack spaced">
 				<div style="flex: 0 0 auto">
 					<a href={follow.url}>
-						<img class="follow-preview-image" src={placeholdify(follow.image)} alt="{follow.name} ({follow.url})" />
+						<img class="follow-preview-image" src={placeholdify(follow.image)} alt="{follow.name} ({stripProtocol(follow.url)})" />
 					</a>
 				</div>
 				<div style="flex: 1 1 auto">
@@ -32,7 +33,7 @@ export default function FollowPreview() {
 									{follow.name}
 								</div>
 								<div class="follow-preview-url">
-									{follow.url}
+									{stripProtocol(follow.url)}
 								</div>
 							</div>
 						</a>

@@ -1,5 +1,6 @@
 import { $page } from '@torpor/build/state';
 import placeholdify from "../../lib/utils/placeholdify";
+import stripProtocol from "../../lib/utils/stripProtocol";
 import FollowMenu from './FollowMenu.torp';
 import MapPin from "phosphor-torpor/lib/MapPin";
 import Link from "phosphor-torpor/lib/Link";
@@ -34,7 +35,7 @@ export default function Index($props) {
 					</div>
 				}
 
-				<img src={placeholdify($props.data.profile.image)} class="profile-image" alt="{$props.data.profile.name} ({$props.data.profile.url})" />
+				<img src={placeholdify($props.data.profile.image)} class="profile-image" alt="{$props.data.profile.name} ({stripProtocol($props.data.profile.url)})" />
 				<div class="vstack spaced centered">
 					@if ($props.data.profile.bio) {
 						<div>{$props.data.profile.bio}</div>
