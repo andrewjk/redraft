@@ -15,8 +15,8 @@ export type SetupModel = {
 	name: string;
 	email: string;
 	bio?: string;
-	image?: string;
 	location?: string;
+	image?: string;
 };
 
 export type SetupResponseModel = {
@@ -57,8 +57,8 @@ export default async function accountSetup(request: Request) {
 			password,
 			name: model.name.trim(),
 			bio: model.bio ?? "",
-			image: model.image ?? "",
 			location: model.location ?? "",
+			image: model.image ?? "",
 			created_at: new Date(),
 			updated_at: new Date(),
 		};

@@ -15,9 +15,9 @@ export default async function profilePreview() {
 		const view = {
 			url: user.url,
 			name: user.name,
-			image: user.image,
 			bio: user.bio,
 			location: user.location,
+			image: user.image,
 		};
 
 		return ok(view);

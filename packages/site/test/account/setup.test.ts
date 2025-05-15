@@ -64,8 +64,8 @@ test("setup post", async () => {
 		name: "Cara Z",
 		email: "cara@localhost",
 		bio: "Cara's bio",
-		image: "cara.png",
 		location: "Cara's location",
+		image: "cara.png",
 	};
 	const request = new Request("http://localhost", {
 		method: "POST",
@@ -130,8 +130,8 @@ test("setup post with bad username", async () => {
 		name: "Dan Z",
 		email: "dan@localhost",
 		bio: "Dan's bio",
-		image: "dan.png",
 		location: "Dan's location",
+		image: "dan.png",
 	};
 	const request = new Request("http://localhost", {
 		method: "POST",

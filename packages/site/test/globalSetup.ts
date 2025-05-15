@@ -31,8 +31,8 @@ async function insertUser(db: LibSQLDatabase<typeof schema>) {
 				password: hashPassword("alice's password"),
 				name: "Alice X",
 				bio: "Alice's bio...",
-				image: "alice.png",
 				location: "Alice's location...",
+				image: "alice.png",
 				created_at: new Date(),
 				updated_at: new Date(),
 			})

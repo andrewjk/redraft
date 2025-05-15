@@ -21,9 +21,9 @@ export default async function extensionProfile(code: string) {
 			url: user.url,
 			email: user.email,
 			name: user.name,
-			image: user.image,
 			bio: user.bio,
 			location: user.location,
+			image: user.image,
 		});
 	} catch (error) {
 		const message = getErrorMessage(error).message;

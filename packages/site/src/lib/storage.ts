@@ -6,36 +6,6 @@
 import database from "../data/database";
 import { contentTable } from "../data/schema";
 
-//import env from "../env";
-
-//import { PutObjectCommand, S3Client } from "@aws-sdk/client-s3";
-//
-//const S3 = new S3Client({
-//	region: "auto",
-//	endpoint: `${env().SITE_LOCATION}api/storage`,
-//	credentials: {
-//		accessKeyId: "ACCESS_KEY_ID",
-//		secretAccessKey: "SECRET_ACCESS_KEY",
-//	},
-//	requestChecksumCalculation: "WHEN_REQUIRED",
-//	responseChecksumValidation: "WHEN_REQUIRED",
-//});
-//
-//export async function uploadFile(file: File, name: string) {
-//	try {
-//		await S3.send(
-//			new PutObjectCommand({
-//				Body: file,
-//				Bucket: "content",
-//				Key: name,
-//			}),
-//		);
-//	} catch (err) {
-//		console.log(err);
-//	}
-//}
-//
-
 export async function uploadFile(file: File, name: string) {
 	const db = database();
 
