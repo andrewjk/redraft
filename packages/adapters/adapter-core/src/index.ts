@@ -1,3 +1,4 @@
-import type Adapter from './Adapter'
+import type Adapter from "./Adapter";
+import type Storage from "./Storage";
 
-export type { Adapter }
+export type { Adapter, Storage };

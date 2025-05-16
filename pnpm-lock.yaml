@@ -27,6 +27,9 @@ importers:
 
   packages/adapters/adapter-cloudflare:
     dependencies:
+      '@aws-sdk/client-s3':
+        specifier: ^3.810.0
+        version: 3.810.0
       '@redraft/adapter-core':
         specifier: workspace:^
         version: link:../adapter-core

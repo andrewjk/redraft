@@ -1,6 +1,6 @@
 type Env = {
-	JWT_SECRET: string;
 	SITE_LOCATION: string;
+	JWT_SECRET: string;
 
 	// For setup
 	USERNAME: string;

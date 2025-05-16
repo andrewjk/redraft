@@ -2,7 +2,7 @@ import { type PageServerEndPoint } from "@torpor/build";
 import { seeOther, unprocessable } from "@torpor/build/response";
 import * as api from "../../../lib/api";
 import env from "../../../lib/env";
-import { uploadFile } from "../../../lib/storage";
+import storage from "../../../lib/storage";
 import formDataToObject from "../../../lib/utils/formDataToObject";
 import setUserToken from "../../../lib/utils/setUserToken";
 import uuid from "../../../lib/utils/uuid";
@@ -16,6 +16,8 @@ export default {
 	},
 	actions: {
 		default: async ({ request, params, cookies }) => {
+			const store = storage();
+
 			const data = await request.formData();
 			const model = formDataToObject(data);
 
@@ -23,7 +25,7 @@ export default {
 			model.imagefile = data.get("imagefile");
 			if (model.imagefile?.name) {
 				let name = uuid() + "." + model.imagefile.name.split(".").at(-1);
-				await uploadFile(model.imagefile, name);
+				await store.uploadFile(model.imagefile, name);
 				model.image = `${env().SITE_LOCATION}api/content/${name}`;
 			}
 

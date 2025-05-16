@@ -1,7 +1,7 @@
 import { type ServerLoadEvent } from "@torpor/build";
 import { seeOther, unauthorized, unprocessable } from "@torpor/build/response";
 import * as api from "../../../lib/api";
-import { uploadFile } from "../../../lib/storage";
+import storage from "../../../lib/storage";
 import formDataToObject from "../../../lib/utils/formDataToObject";
 import uuid from "../../../lib/utils/uuid";
 
@@ -11,6 +11,8 @@ export default async function publishPost({ appData, request, params }: ServerLo
 		return unauthorized();
 	}
 
+	const store = storage();
+
 	const data = await request.formData();
 	const model = formDataToObject(data);
 
@@ -18,7 +20,7 @@ export default async function publishPost({ appData, request, params }: ServerLo
 	const imagefile = data.get("imagefile") as File;
 	if (imagefile?.name) {
 		let name = uuid() + "." + imagefile.name.split(".").at(-1);
-		await uploadFile(imagefile, name);
+		await store.uploadFile(imagefile, name);
 		model.image = `${user.url}api/content/${name}`;
 	}
 
