@@ -29,6 +29,11 @@ export default function Preview($props) {
 	}
 
 	@style {
+		.profile-page {
+			max-width: 220px;
+			text-align: center;
+		}
+
 		.profile-image {
 			height: 200px;
 			width: 200px;
