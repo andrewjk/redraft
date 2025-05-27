@@ -1,6 +1,6 @@
 {
 	"name": "@redraft/create-site",
-	"version": "0.0.4",
+	"version": "0.0.5",
 	"description": "A starter template for building a social site with Redraft",
 	"publishConfig": {
 		"access": "public"
