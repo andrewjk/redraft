@@ -8,6 +8,13 @@ const path = require("path");
 // The first argument will be the project name
 const projectName = process.argv[2];
 
+// The second argument may be the hosting site, but if not we default to Node
+const supportedSites = ["--node", "--cloudflare"];
+let hostingSite = process.argv[2];
+if (!supportedSites.includes(hostingSite)) {
+	hostingSite = "--node";
+}
+
 // Create a project directory with the project name
 const currentDir = process.cwd();
 const projectDir = path.resolve(currentDir, projectName);
@@ -31,6 +38,23 @@ const projectPackageJson = require(path.join(projectDir, "package.json"));
 // Update the project's package.json with the new project name
 projectPackageJson.name = projectName;
 
+// Remove incompatible scripts and dependencies
+for (let key in projectPackageJson.scripts) {
+	if (key.startsWith("--") && !key.startsWith(hostingSite)) {
+		delete projectPackageJson.scripts[key];
+	}
+}
+for (let key in projectPackageJson.dependencies) {
+	if (key.startsWith("--") && !key.startsWith(hostingSite)) {
+		delete projectPackageJson.dependencies[key];
+	}
+}
+for (let key in projectPackageJson.devDependencies) {
+	if (key.startsWith("--") && !key.startsWith(hostingSite)) {
+		delete projectPackageJson.devDependencies[key];
+	}
+}
+
 fs.writeFileSync(
 	path.join(projectDir, "package.json"),
 	JSON.stringify(projectPackageJson, null, 2),
@@ -49,4 +73,6 @@ console.log();
 console.log(`Next steps:`);
 console.log(`cd ${projectName}`);
 console.log(`npm install`);
-console.log(`npm run dev`);
+if (hostingSite !== "--cloudflare") {
+	console.log(`npm run dev`);
+}

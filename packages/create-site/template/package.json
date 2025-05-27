@@ -7,19 +7,26 @@
 		"dev": "tb --dev",
 		"build": "tsc --noEmit && tb --build",
 		"preview": "tb --preview",
-		"check": "tsc --noEmit"
+		"check": "tsc --noEmit",
+		"--node:db:push": "drizzle-kit push",
+		"--cloudflare:db:list": "wrangler d1 migrations list DB --remote",
+		"--cloudflare:db:push": "wrangler d1 migrations apply DB --remote"
 	},
 	"keywords": [],
 	"author": "",
 	"license": "ISC",
 	"dependencies": {
-		"@redraft/adapter-node": "^0.0.1",
+		"--node:@redraft/adapter-node": "^0.0.3",
+		"--cloudflare:@redraft/adapter-cloudflare": "^0.0.7",
 		"@redraft/site": "^0.0.1",
-		"@torpor/adapter-node": "^0.0.9",
-		"@torpor/build": "^0.1.12",
+		"--node:@torpor/adapter-node": "^0.0.13",
+		"--cloudflare:@torpor/adapter-cloudflare": "^0.0.21",
+		"@torpor/build": "^0.1.20",
 		"dotenv": "^16.5.0"
 	},
 	"devDependencies": {
-		"typescript": "^5.8.3"
+		"--node:drizzle-kit": "^0.31.1",
+		"typescript": "^5.8.3",
+		"--cloudflare:wrangler": "^4.16.1"
 	}
 }
