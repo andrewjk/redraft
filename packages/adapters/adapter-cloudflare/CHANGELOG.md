@@ -1,5 +1,11 @@
 # @redraft/adapter-cloudflare
 
+## 0.0.6
+
+### Patch Changes
+
+- 1c0738f: Fix: use an R2 binding
+
 ## 0.0.5
 
 ### Patch Changes
