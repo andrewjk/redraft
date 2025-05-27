@@ -10,7 +10,7 @@ const projectName = process.argv[2];
 
 // The second argument may be the hosting site, but if not we default to Node
 const supportedSites = ["--node", "--cloudflare"];
-let hostingSite = process.argv[2];
+let hostingSite = process.argv[3];
 if (!supportedSites.includes(hostingSite)) {
 	hostingSite = "--node";
 }
@@ -48,6 +48,19 @@ fs.writeFileSync(
 	JSON.stringify(projectPackageJson, null, 2),
 );
 
+for (let file of fs.readdirSync(projectDir)) {
+	if (file.startsWith("--")) {
+		if (file.startsWith(hostingSite)) {
+			fs.renameSync(
+				path.join(projectDir, file),
+				path.join(projectDir, file.substring(hostingSite.length + 1)),
+			);
+		} else {
+			fs.unlinkSync(path.join(projectDir, file));
+		}
+	}
+}
+
 // Run `npm install` in the project directory to install the dependencies. We
 // are using a third-party library called `cross-spawn` for cross-platform
 // support. (Node has issues spawning child processes in Windows)
@@ -68,10 +81,13 @@ if (hostingSite !== "--cloudflare") {
 
 function fixScriptsAndDependencies(obj, hostingSite) {
 	for (let key in obj) {
-		if (key.startsWith(hostingSite)) {
-			obj[key] = obj[key].substring(hostingSite.length);
-		} else {
+		if (key.startsWith("--")) {
+			const value = obj[key];
 			delete obj[key];
+			if (key.startsWith(hostingSite)) {
+				key = key.substring(hostingSite.length + 1);
+				obj[key] = value;
+			}
 		}
 	}
 }

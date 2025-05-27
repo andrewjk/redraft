@@ -1,0 +1,16 @@
+name = "<NAME>"
+
+compatibility_flags = [ "nodejs_compat" ]
+compatibility_date = "2024-09-23"
+
+pages_build_output_dir = "dist/cloudflare"
+
+[[ d1_databases ]]
+binding = "DB"
+database_name = "<DB_NAME>"
+database_id = "<DB_ID>"
+migrations_dir = "node_modules/@redraft/site/src/data/migrations"
+
+[[r2_buckets]]
+binding = "STORAGE"
+bucket_name = "<BUCKET_NAME>"

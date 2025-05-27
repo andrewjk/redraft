@@ -5,6 +5,9 @@
 	"publishConfig": {
 		"access": "public"
 	},
+	"scripts": {
+		"test": "node ./index.js test-social --cloudflare"
+	},
 	"bin": {
 		"create-site": "./index.js"
 	},
