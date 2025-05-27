@@ -39,21 +39,9 @@ const projectPackageJson = require(path.join(projectDir, "package.json"));
 projectPackageJson.name = projectName;
 
 // Remove incompatible scripts and dependencies
-for (let key in projectPackageJson.scripts) {
-	if (key.startsWith("--") && !key.startsWith(hostingSite)) {
-		delete projectPackageJson.scripts[key];
-	}
-}
-for (let key in projectPackageJson.dependencies) {
-	if (key.startsWith("--") && !key.startsWith(hostingSite)) {
-		delete projectPackageJson.dependencies[key];
-	}
-}
-for (let key in projectPackageJson.devDependencies) {
-	if (key.startsWith("--") && !key.startsWith(hostingSite)) {
-		delete projectPackageJson.devDependencies[key];
-	}
-}
+fixScriptsAndDependencies(projectPackageJson.scripts, hostingSite);
+fixScriptsAndDependencies(projectPackageJson.dependencies, hostingSite);
+fixScriptsAndDependencies(projectPackageJson.devDependencies, hostingSite);
 
 fs.writeFileSync(
 	path.join(projectDir, "package.json"),
@@ -66,6 +54,7 @@ fs.writeFileSync(
 // spawn.sync("npm", ["install"], { stdio: "inherit" });
 
 let message = `Created '${projectName}' in '${projectDir}'`;
+console.log();
 console.log("=".repeat(message.length));
 console.log(message);
 console.log("=".repeat(message.length));
@@ -75,4 +64,14 @@ console.log(`cd ${projectName}`);
 console.log(`npm install`);
 if (hostingSite !== "--cloudflare") {
 	console.log(`npm run dev`);
+}
+
+function fixScriptsAndDependencies(obj, hostingSite) {
+	for (let key in obj) {
+		if (key.startsWith(hostingSite)) {
+			obj[key] = obj[key].substring(hostingSite.length);
+		} else {
+			delete obj[key];
+		}
+	}
 }
