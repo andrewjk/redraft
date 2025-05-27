@@ -4,7 +4,7 @@ https://redraft.social
 
 An experiment.
 
-Social media × blogs × newsletters
+Social media × blogging × newsletters
 
 🚧 WARNING: WORK IN PROGRESS 🚧
 
@@ -12,7 +12,7 @@ Social media × blogs × newsletters
 - All your data in a single file that you can take anywhere
 - Make short status posts, or lengthy article posts
 - Follow anyone and/or be followed by anyone with their own site
-- Comment, like, react
+- Comment, like, react (with a web extension)
 
 ## Setup
 
@@ -36,7 +36,7 @@ npm run dev
 - Run `npm run dev` to create the database
 - Deploy the site
 - Go to SITE_LOCATION/account/setup to create your account
-- Regularly run `npm update`
+- Regularly run `npm update` and `npm run db:generate`
 
 ### Full customization
 
@@ -56,15 +56,22 @@ npm run dev
 
 ### Hosted
 
-If the above sounds annoying, you can pay for a hosted account at https://redraft.social for $5 per month. At any time, you can take your data and move to a self-hosted solution.
+If the above sounds like too much work, you can pay for a hosted account at https://redraft.social for $4.99 per month. At any time, you can take your data and move to a self-hosted solution.
 
 ## How following works
 
-- From the /follow page
-- Enter someone's url which sends them a request with our url and a secret key
-- Their site confirms from our /url/check and gets our profile name and image
-- If they approve, their site sends us a message and we can then login on their site with the secret key
-- Any posts they make will be sent to us with the secret key and saved into our database
+- Your site sends the user you want to follow a request with your url and a secret key
+  - If you have the web extension installed, sending a follow request is as simple as hitting the `Follow` button on the other user's site
+  - Otherwise, you will need to go to your `/follow/request` page and enter the other user's url
+- Their site confirms that you sent the request by hitting your `/url/check` endpoint
+- Your `/url/check` endpoint sends your profile name and image
+- If the other user approves your request, any posts they make will be sent to you
+- Your site will check the secret key and save the post into your database if it matches
+- To comment on their posts, you will need to install the web extension (see below)
+
+## The web extension
+
+// TODO:
 
 ## Things to do
 
@@ -85,7 +92,9 @@ If the above sounds annoying, you can pay for a hosted account at https://redraf
 - [x] Images attached to status
 - [x] Links attached to status
 - [ ] Posts attached to status? Not sure about this one...
-- [ ] Stories/disappearing posts -- would need to withold from the feed
+- [ ] Stories/disappearing posts
+  - Would need to withold from the feed
+  - Maybe display in an iframe??
 - [ ] Multi status "threads"
   - [ ] Post count
 - [x] Republishing a post to move it back up to the top
@@ -140,7 +149,7 @@ If the above sounds annoying, you can pay for a hosted account at https://redraf
 - etc
 - [ ] Need a way to deal with out-of-date followers, where their api/db may not be compatible
 
-### Extended functionality
+### Extended functionality?
 
 - [ ] More communication types
   - [ ] Chat
