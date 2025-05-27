@@ -25,14 +25,14 @@ export default function PostInput($props) {
 	@render {
 		<form class="post-input" method="POST" enctype="multipart/form-data">
 			<input type="hidden" name="id" value={post.id} />
-			<input type="hidden" name="type" :value={post.type} />
+			<input type="hidden" name="type" &value={post.type} />
 
 			@if (post.type === ARTICLE_POST_TYPE) {
 				<input type="hidden" name="articleId" value={post.articleId} />
 				<div class="form-row">
 					<input
 						name="title"
-						:value={post.title}
+						&value={post.title}
 						required
 						placeholder="Title"
 					/>
@@ -43,7 +43,7 @@ export default function PostInput($props) {
 				<textarea
 					class="full-width"
 					name="text"
-					:value={post.text}
+					&value={post.text}
 					placeholder={post.type === ARTICLE_POST_TYPE ? "Description" : "Post something..."}
 					rows="3"
 				/>
@@ -53,7 +53,7 @@ export default function PostInput($props) {
 				<div class="form-row">
 					<textarea
 						class="full-width"
-						:value={post.articleText}
+						&value={post.articleText}
 						name="articleText"
 						placeholder="Article text"
 					/>
@@ -70,7 +70,7 @@ export default function PostInput($props) {
 						id="url-input"
 						type="url"
 						name="url"
-						:value={post.url}
+						&value={post.url}
 						class="full-width"
 						placeholder="Link URL"
 						oninput={async (e) => {
@@ -96,13 +96,13 @@ export default function PostInput($props) {
 			
 			@if ($state.showTags) {
 				<div class="form-row">
-					<input id="tags-input" name="tags" :value={post.tags} placeholder="Tags (separate with semicolons)" />
+					<input id="tags-input" name="tags" &value={post.tags} placeholder="Tags (separate with semicolons)" />
 				</div>
 			}
 
 			@if ($state.showVisibility) {
 				<div class="form-row">
-					<select name="visibility" :value={post.visibility}>
+					<select name="visibility" &value={post.visibility}>
 						<option value="0">Public</option>
 						<option value="1">Followers</option>
 						<option value="2">Private</option>

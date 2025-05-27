@@ -23,12 +23,12 @@
 	"license": "ISC",
 	"packageManager": "pnpm@10.9.0",
 	"dependencies": {
-		"@torpor/build": "^0.1.18",
+		"@torpor/build": "^0.1.20",
 		"drizzle-orm": "^0.43.1"
 	},
 	"devDependencies": {
 		"prettier": "^3.5.3",
-		"tsup": "^8.4.0",
+		"tsup": "^8.5.0",
 		"typescript": "^5.8.3"
 	}
 }
