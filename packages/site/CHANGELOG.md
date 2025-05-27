@@ -1,5 +1,18 @@
 # @redraft/site
 
+## 0.0.13
+
+### Patch Changes
+
+- 742851b: Feat: strip protocol and slash from display urls
+- f7953ab: Feat: show follow instructions to visitors
+- 63e30a5: UI: max-width for the index profile
+- d51ba8a: Feat: add a storage interface to adapters
+- 82da6b1: Fix: link previews
+- Updated dependencies [d51ba8a]
+  - @redraft/adapter-core@0.0.3
+  - @redraft/adapter-node@0.0.3
+
 ## 0.0.12
 
 ### Patch Changes

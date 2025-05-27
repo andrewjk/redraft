@@ -1,5 +1,13 @@
 # @redraft/adapter-cloudflare
 
+## 0.0.5
+
+### Patch Changes
+
+- d51ba8a: Feat: add a storage interface to adapters
+- Updated dependencies [d51ba8a]
+  - @redraft/adapter-core@0.0.3
+
 ## 0.0.4
 
 ### Patch Changes
