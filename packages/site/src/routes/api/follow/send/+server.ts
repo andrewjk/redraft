@@ -1,6 +1,6 @@
 import type { ServerEndPoint } from "@torpor/build";
 import { unauthorized } from "@torpor/build/response";
-import followSend from "../../../lib/follow/followSend";
+import followRequest from "../../../../lib/follow/followRequest";
 
 export default {
 	post: async ({ appData, request }) => {
@@ -9,6 +9,6 @@ export default {
 			return unauthorized();
 		}
 
-		return await followSend(request, user.code);
+		return await followRequest(request, user.code);
 	},
 } satisfies ServerEndPoint;

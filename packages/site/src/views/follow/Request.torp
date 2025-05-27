@@ -1,0 +1,42 @@
+//import { enhance } from '$app/forms';
+import FormErrors from '../FormErrors.torp';
+
+export default function Index() {
+	@render {
+		<div class="vstack centered">
+			<div class="follow-page">
+				<:head>
+					<title>Follow • Redraft</title>
+				</:head>
+
+				<h2>Follow</h2>
+
+				<FormErrors errors={$props.form?.errors} />
+
+				<form use:enhance method="POST">
+					<div class="form-row">
+						<label for="url-input">Url</label>
+						<input
+							id="url-input"
+							name="url"
+							type="url"
+							required
+						/>
+					</div>
+					<div class="form-footer">
+						<button type="submit">
+							Send request
+						</button>
+					</div>
+				</form>
+			</div>
+		</div>
+	}
+
+	@style {
+		.follow-page {						
+			max-width: 60rem;
+			width: 100%;
+		}
+	}
+}

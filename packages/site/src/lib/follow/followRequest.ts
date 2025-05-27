@@ -15,7 +15,7 @@ export type FollowModel = {
 /**
  * Sends a follow request to another user.
  */
-export default async function followSend(request: Request, code: string) {
+export default async function followRequest(request: Request, code: string) {
 	try {
 		const db = database();
 
