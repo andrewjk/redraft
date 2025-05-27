@@ -1,5 +1,11 @@
 # @redraft/create-site
 
+## 0.0.4
+
+### Patch Changes
+
+- 96c8db6: Feat: support different hosting options
+
 ## 0.0.3
 
 ### Patch Changes
