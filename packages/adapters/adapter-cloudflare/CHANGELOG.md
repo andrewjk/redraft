@@ -1,5 +1,11 @@
 # @redraft/adapter-cloudflare
 
+## 0.0.7
+
+### Patch Changes
+
+- 89fcefc: Fix: don't access env() globally
+
 ## 0.0.6
 
 ### Patch Changes
