@@ -1,21 +1,22 @@
 import type { Storage } from "@redraft/adapter-core";
 import env from "./env";
 
-const bucket = env().STORAGE;
-
 const storage: Storage = {
 	uploadFile: async (file: File, name: string): Promise<void> => {
+		const bucket = env().STORAGE;
 		await bucket.put(name, file);
 	},
 
 	deleteFile: async (name: string): Promise<void> => {
 		name = normalizeName(name);
+		const bucket = env().STORAGE;
 		await bucket.delete(name);
 	},
 
 	getFile: async (name: string): Promise<Response> => {
 		name = normalizeName(name);
 
+		const bucket = env().STORAGE;
 		const object = await bucket.get(name);
 		if (object === null) {
 			return new Response("Object Not Found", { status: 404 });
