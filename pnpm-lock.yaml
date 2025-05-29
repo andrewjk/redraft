@@ -31,18 +31,18 @@ importers:
         specifier: workspace:^
         version: link:../adapter-core
       '@torpor/adapter-cloudflare':
-        specifier: ^0.0.24
-        version: 0.0.24(@types/node@22.15.24)(esbuild@0.25.5)(jiti@2.4.2)(rollup@4.41.1)(terser@5.39.0)(tsx@4.19.4)(typescript@5.8.3)
+        specifier: ^0.0.25
+        version: 0.0.25(@types/node@22.15.24)(esbuild@0.25.5)(jiti@2.4.2)(rollup@4.41.1)(terser@5.39.0)(tsx@4.19.4)(typescript@5.8.3)
       '@torpor/build':
         specifier: ^0.1.23
         version: 0.1.23(@types/node@22.15.24)(esbuild@0.25.5)(jiti@2.4.2)(rollup@4.41.1)(terser@5.39.0)(tsx@4.19.4)(typescript@5.8.3)
       drizzle-orm:
         specifier: ^0.44.0
-        version: 0.44.0(@cloudflare/workers-types@4.20250528.0)(@libsql/client@0.15.7)(gel@2.0.2)
+        version: 0.44.0(@cloudflare/workers-types@4.20250529.0)(@libsql/client@0.15.7)(gel@2.0.2)
     devDependencies:
       '@cloudflare/workers-types':
-        specifier: ^4.20250528.0
-        version: 4.20250528.0
+        specifier: ^4.20250529.0
+        version: 4.20250529.0
       '@types/node':
         specifier: ^22.15.24
         version: 22.15.24
@@ -51,7 +51,7 @@ importers:
         version: 3.5.3
       tsup:
         specifier: ^8.5.0
-        version: 8.5.0(jiti@2.4.2)(postcss@8.5.3)(tsx@4.19.4)(typescript@5.8.3)
+        version: 8.5.0(jiti@2.4.2)(postcss@8.5.4)(tsx@4.19.4)(typescript@5.8.3)
       typescript:
         specifier: ^5.8.3
         version: 5.8.3
@@ -63,14 +63,14 @@ importers:
         version: 0.1.23(@types/node@22.15.24)(esbuild@0.25.5)(jiti@2.4.2)(rollup@4.41.1)(terser@5.39.0)(tsx@4.19.4)(typescript@5.8.3)
       drizzle-orm:
         specifier: ^0.44.0
-        version: 0.44.0(@cloudflare/workers-types@4.20250528.0)(@libsql/client@0.15.7)(gel@2.0.2)
+        version: 0.44.0(@cloudflare/workers-types@4.20250529.0)(@libsql/client@0.15.7)(gel@2.0.2)
     devDependencies:
       prettier:
         specifier: ^3.5.3
         version: 3.5.3
       tsup:
         specifier: ^8.5.0
-        version: 8.5.0(jiti@2.4.2)(postcss@8.5.3)(tsx@4.19.4)(typescript@5.8.3)
+        version: 8.5.0(jiti@2.4.2)(postcss@8.5.4)(tsx@4.19.4)(typescript@5.8.3)
       typescript:
         specifier: ^5.8.3
         version: 5.8.3
@@ -88,7 +88,7 @@ importers:
         version: 0.1.23(@types/node@22.15.24)(esbuild@0.25.5)(jiti@2.4.2)(rollup@4.41.1)(terser@5.39.0)(tsx@4.19.4)(typescript@5.8.3)
       drizzle-orm:
         specifier: ^0.44.0
-        version: 0.44.0(@cloudflare/workers-types@4.20250528.0)(@libsql/client@0.15.7)(gel@2.0.2)
+        version: 0.44.0(@cloudflare/workers-types@4.20250529.0)(@libsql/client@0.15.7)(gel@2.0.2)
     devDependencies:
       '@types/node':
         specifier: ^22.15.24
@@ -98,7 +98,7 @@ importers:
         version: 3.5.3
       tsup:
         specifier: ^8.5.0
-        version: 8.5.0(jiti@2.4.2)(postcss@8.5.3)(tsx@4.19.4)(typescript@5.8.3)
+        version: 8.5.0(jiti@2.4.2)(postcss@8.5.4)(tsx@4.19.4)(typescript@5.8.3)
       typescript:
         specifier: ^5.8.3
         version: 5.8.3
@@ -130,10 +130,10 @@ importers:
         version: 16.5.0
       drizzle-orm:
         specifier: ^0.44.0
-        version: 0.44.0(@cloudflare/workers-types@4.20250528.0)(@libsql/client@0.15.7)(gel@2.0.2)
+        version: 0.44.0(@cloudflare/workers-types@4.20250529.0)(@libsql/client@0.15.7)(gel@2.0.2)
       drizzle-valibot:
         specifier: ^0.4.2
-        version: 0.4.2(drizzle-orm@0.44.0(@cloudflare/workers-types@4.20250528.0)(@libsql/client@0.15.7)(gel@2.0.2))(valibot@1.1.0(typescript@5.8.3))
+        version: 0.4.2(drizzle-orm@0.44.0(@cloudflare/workers-types@4.20250529.0)(@libsql/client@0.15.7)(gel@2.0.2))(valibot@1.1.0(typescript@5.8.3))
       grab-page-info:
         specifier: ^1.0.1
         version: 1.0.1
@@ -197,7 +197,7 @@ importers:
         version: 2.17.0
       tsup:
         specifier: ^8.5.0
-        version: 8.5.0(jiti@2.4.2)(postcss@8.5.3)(tsx@4.19.4)(typescript@5.8.3)
+        version: 8.5.0(jiti@2.4.2)(postcss@8.5.4)(tsx@4.19.4)(typescript@5.8.3)
       tsx:
         specifier: ^4.19.4
         version: 4.19.4
@@ -314,8 +314,8 @@ packages:
   '@changesets/write@0.4.0':
     resolution: {integrity: sha512-CdTLvIOPiCNuH71pyDu3rA+Q0n65cmAbXnwWH84rKGiFumFzkmHNT8KHTMEchcxN+Kl8I54xGUhJ7l3E7X396Q==}
 
-  '@cloudflare/workers-types@4.20250528.0':
-    resolution: {integrity: sha512-q4yNRSw7At9nm1GsN+KUGfbrl5nGuiS+q/1esbhcXL/FQUDUZbVdutbPBMtJLaXAd5PCLdOST/nZni8GzJkaYg==}
+  '@cloudflare/workers-types@4.20250529.0':
+    resolution: {integrity: sha512-l6tVFpI6MUChMD0wK+Jhikb+aCbrmIR58CVpV/BhRT4THjl+nFhTT5N5ZqX42FDXdE3hCPLjueBMpPRhPUOB2A==}
 
   '@csstools/color-helpers@5.0.2':
     resolution: {integrity: sha512-JqWH1vsgdGcw2RR6VliXXdA0/59LttzlU8UlRT/iUUsEeWfYq8I+K0yhihEUTTHLRm1EXvpsCx3083EU15ecsA==}
@@ -866,8 +866,8 @@ packages:
     peerDependencies:
       '@testing-library/dom': '>=7.21.4'
 
-  '@torpor/adapter-cloudflare@0.0.24':
-    resolution: {integrity: sha512-poyP/y1B108VTi1qaclZaAZ9f1JMj6Ece9mgR2YTW7U+w/RANoE1j1tc8pR69zj0hlirC31hg16O+D3RYMmKJw==}
+  '@torpor/adapter-cloudflare@0.0.25':
+    resolution: {integrity: sha512-NVMPuN+DbcPDjrFh4dqxsg8gK7d34pEKKrFho9dVvbsXQOB9/4W60PWOmnOS9bqZbeI/Y/Q3NNaFMulniMC51w==}
 
   '@torpor/adapter-node@0.0.21':
     resolution: {integrity: sha512-MppZhm6iXISHmXDbJAEXnE2kRnv2XbDTD0o0qQG1K9OM30FueQKcyeo/GMyEi+BGoJ8PaAAGOUeluhoZR8exgA==}
@@ -1878,8 +1878,8 @@ packages:
       yaml:
         optional: true
 
-  postcss@8.5.3:
-    resolution: {integrity: sha512-dle9A3yYxlBSrt8Fu+IpjGT8SY8hN0mlaA6GY8t0P5PjIOZemULz/E2Bnm/2dcUOena75OTNkHI76uZBNUUq3A==}
+  postcss@8.5.4:
+    resolution: {integrity: sha512-QSa9EBe+uwlGTFmHsPKokv3B/oEMQZxfqW0QqNCyhpa6mB1afzulwn8hihglqAb2pOw+BJgNlmXQ8la2VeHB7w==}
     engines: {node: ^10 || ^12 || >=14}
 
   prettier@2.8.8:
@@ -2541,7 +2541,7 @@ snapshots:
       human-id: 4.1.1
       prettier: 2.8.8
 
-  '@cloudflare/workers-types@4.20250528.0': {}
+  '@cloudflare/workers-types@4.20250529.0': {}
 
   '@csstools/color-helpers@5.0.2':
     optional: true
@@ -2936,7 +2936,7 @@ snapshots:
     dependencies:
       '@testing-library/dom': 10.4.0
 
-  '@torpor/adapter-cloudflare@0.0.24(@types/node@22.15.24)(esbuild@0.25.5)(jiti@2.4.2)(rollup@4.41.1)(terser@5.39.0)(tsx@4.19.4)(typescript@5.8.3)':
+  '@torpor/adapter-cloudflare@0.0.25(@types/node@22.15.24)(esbuild@0.25.5)(jiti@2.4.2)(rollup@4.41.1)(terser@5.39.0)(tsx@4.19.4)(typescript@5.8.3)':
     dependencies:
       '@torpor/build': 0.1.23(@types/node@22.15.24)(esbuild@0.25.5)(jiti@2.4.2)(rollup@4.41.1)(terser@5.39.0)(tsx@4.19.4)(typescript@5.8.3)
       vite: 6.3.5(@types/node@22.15.24)(jiti@2.4.2)(terser@5.39.0)(tsx@4.19.4)
@@ -3299,15 +3299,15 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
-  drizzle-orm@0.44.0(@cloudflare/workers-types@4.20250528.0)(@libsql/client@0.15.7)(gel@2.0.2):
+  drizzle-orm@0.44.0(@cloudflare/workers-types@4.20250529.0)(@libsql/client@0.15.7)(gel@2.0.2):
     optionalDependencies:
-      '@cloudflare/workers-types': 4.20250528.0
+      '@cloudflare/workers-types': 4.20250529.0
       '@libsql/client': 0.15.7
       gel: 2.0.2
 
-  drizzle-valibot@0.4.2(drizzle-orm@0.44.0(@cloudflare/workers-types@4.20250528.0)(@libsql/client@0.15.7)(gel@2.0.2))(valibot@1.1.0(typescript@5.8.3)):
+  drizzle-valibot@0.4.2(drizzle-orm@0.44.0(@cloudflare/workers-types@4.20250529.0)(@libsql/client@0.15.7)(gel@2.0.2))(valibot@1.1.0(typescript@5.8.3)):
     dependencies:
-      drizzle-orm: 0.44.0(@cloudflare/workers-types@4.20250528.0)(@libsql/client@0.15.7)(gel@2.0.2)
+      drizzle-orm: 0.44.0(@cloudflare/workers-types@4.20250529.0)(@libsql/client@0.15.7)(gel@2.0.2)
       valibot: 1.1.0(typescript@5.8.3)
 
   eastasianwidth@0.2.0: {}
@@ -4001,15 +4001,15 @@ snapshots:
       mlly: 1.7.4
       pathe: 2.0.3
 
-  postcss-load-config@6.0.1(jiti@2.4.2)(postcss@8.5.3)(tsx@4.19.4):
+  postcss-load-config@6.0.1(jiti@2.4.2)(postcss@8.5.4)(tsx@4.19.4):
     dependencies:
       lilconfig: 3.1.3
     optionalDependencies:
       jiti: 2.4.2
-      postcss: 8.5.3
+      postcss: 8.5.4
       tsx: 4.19.4
 
-  postcss@8.5.3:
+  postcss@8.5.4:
     dependencies:
       nanoid: 3.3.11
       picocolors: 1.1.1
@@ -4097,7 +4097,7 @@ snapshots:
       htmlparser2: 8.0.2
       is-plain-object: 5.0.0
       parse-srcset: 1.0.2
-      postcss: 8.5.3
+      postcss: 8.5.4
 
   saxes@6.0.0:
     dependencies:
@@ -4259,7 +4259,7 @@ snapshots:
     optionalDependencies:
       typescript: 5.8.3
 
-  tsup@8.5.0(jiti@2.4.2)(postcss@8.5.3)(tsx@4.19.4)(typescript@5.8.3):
+  tsup@8.5.0(jiti@2.4.2)(postcss@8.5.4)(tsx@4.19.4)(typescript@5.8.3):
     dependencies:
       bundle-require: 5.1.0(esbuild@0.25.5)
       cac: 6.7.14
@@ -4270,7 +4270,7 @@ snapshots:
       fix-dts-default-cjs-exports: 1.0.1
       joycon: 3.1.1
       picocolors: 1.1.1
-      postcss-load-config: 6.0.1(jiti@2.4.2)(postcss@8.5.3)(tsx@4.19.4)
+      postcss-load-config: 6.0.1(jiti@2.4.2)(postcss@8.5.4)(tsx@4.19.4)
       resolve-from: 5.0.0
       rollup: 4.41.1
       source-map: 0.8.0-beta.0
@@ -4279,7 +4279,7 @@ snapshots:
       tinyglobby: 0.2.14
       tree-kill: 1.2.2
     optionalDependencies:
-      postcss: 8.5.3
+      postcss: 8.5.4
       typescript: 5.8.3
     transitivePeerDependencies:
       - jiti
@@ -4349,7 +4349,7 @@ snapshots:
       esbuild: 0.25.5
       fdir: 6.4.5(picomatch@4.0.2)
       picomatch: 4.0.2
-      postcss: 8.5.3
+      postcss: 8.5.4
       rollup: 4.41.1
       tinyglobby: 0.2.14
     optionalDependencies:
