@@ -8,7 +8,7 @@ export default function FollowingList($props) {
 	@render {
 		<div class="vstack centered">
 			<h2>Following</h2>
-			<FollowMenu section="Following" base={$props.data.base} />
+			<FollowMenu section="Following" {$props.data.base} />
 			<div class="follow-list centered">
 				@if ($props.data.following.length === 0) {
 					<div class="card">
@@ -17,7 +17,7 @@ export default function FollowingList($props) {
 				} else {
 					@for (let follow of $props.data.following) {
 						@key = follow.id
-						<FollowPreview {follow} user={$props.data.user} />
+						<FollowPreview {follow} {$props.data.user} />
 					}
 				}
 			</div>

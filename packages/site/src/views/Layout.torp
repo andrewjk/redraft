@@ -11,10 +11,7 @@ export default function Layout() {
 				<meta name="social-follow-image" content={$props.data.viewing.image} />
 			</:head>
 
-			<Nav
-				user={$props.data.user}
-				follower={$props.data.follower}
-				viewing={$props.data.viewing} />
+			<Nav {$props.data.user} {$props.data.follower} {$props.data.viewing} />
 
 			<main>
 				<:slot />

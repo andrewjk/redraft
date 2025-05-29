@@ -137,7 +137,7 @@ export default function PostView() {
 			</div>
 
 			<div class="post-view-comments-container">
-				<CommentList {post} {user} {follower} comments={post.comments}/>
+				<CommentList {post} {user} {follower} {post.comments}/>
 			</div>
 		</div>
 	}

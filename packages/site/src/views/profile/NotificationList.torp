@@ -15,7 +15,7 @@ export default function NotificationList($props) {
 				} else {
 					@for (let notification of $props.data.notifications) {
 						@key = notification.id
-						<NotificationPreview {notification} user={$props.data.user} />
+						<NotificationPreview {notification} {$props.data.user} />
 					}
 				}
 			</div>

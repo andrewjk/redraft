@@ -11,7 +11,7 @@ export default function Setup() {
 
 				<h2>Setup</h2>
 
-				<FormErrors errors={$props.form?.errors} />
+				<FormErrors {$props.form?.errors} />
 
 				<form use:enhance enctype="multipart/form-data" method="POST">
 					<div class="form-row">

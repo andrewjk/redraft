@@ -8,7 +8,7 @@ export default function FollowedByList($props) {
 	@render {
 		<div class="vstack centered">
 			<h2>Followed by</h2>
-			<FollowMenu section="FollowedBy" base={$props.data.base} />
+			<FollowMenu section="FollowedBy" {$props.data.base} />
 			<div class="follow-list centered">
 				@if ($props.data.followedBy.length === 0) {
 					<div class="card">
@@ -19,7 +19,7 @@ export default function FollowedByList($props) {
 						@key = follow.id
 						<div class="hstack spaced full-width">
 							<div class="grow">
-								<FollowPreview {follow} user={$props.data.user} />
+								<FollowPreview {follow} {$props.data.user} />
 							</div>
 							<form use:enhance method="POST" action="?/block">
 								<input type="hidden" name="id" value={follow.id} />

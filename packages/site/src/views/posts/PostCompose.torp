@@ -17,7 +17,7 @@ export default function PostCompose() {
 
 				<h2>Compose</h2>
 
-				<FormErrors errors={$props.form?.errors} />
+				<FormErrors {$props.form?.errors} />
 
 				<PostInput {post} {user} />
 			</div>

@@ -11,7 +11,7 @@ export default function Login() {
 
 				<h2>Login</h2>
 
-				<FormErrors errors={$props.form?.errors} />
+				<FormErrors {$props.form?.errors} />
 
 				<form use:enhance method="POST">
 					<div class="form-row">

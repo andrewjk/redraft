@@ -18,7 +18,7 @@ export default function Index($props) {
 				<h2>{$props.data.profile.name}</h2>
 
 				@if ($props.data.user) {
-					<FollowMenu base={$props.data.base} />
+					<FollowMenu {$props.data.base} />
 
 					<div class="hstack spaced">
 						<a href="{$props.data.base}profile/edit" class="hstack centered spaced-text">

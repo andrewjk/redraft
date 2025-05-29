@@ -16,12 +16,12 @@ export default function Index() {
 			</:head>
 
 			<h2>Saved</h2>
-			<FeedMenu section="Saved" base={$props.data.base} />
+			<FeedMenu section="Saved" {$props.data.base} />
 			@if ($props.data.user) {
-				<PostInput user={$props.data.user} />
+				<PostInput {$props.data.user} />
 			}
-			<FeedList feed={$props.data.feed} user={$props.data.user} follower={$props.data.follower} />
-			<Pagination pageCount={$props.data.pageCount} page={$state.page} href={(p) => `/?page=${p}`} />
+			<FeedList {$props.data.feed} {$props.data.user} {$props.data.follower} />
+			<Pagination {$props.data.pageCount} {$state.page} href={(p) => `/?page=${p}`} />
 		</div>
 	}
 }

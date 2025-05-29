@@ -18,15 +18,15 @@ export default function Index() {
 				<div class="grow" />
 
 				<div class="vstack spaced centered">
-					<Profile profile={$props.data.profile} user={$props.data.user} base={$props.data.base} />
+					<Profile {$props.data.profile} {$props.data.user} {$props.data.base} />
 				</div>
 
 				<div class="vstack spaced centered grow">
 					<h2>Recent posts</h2>
 					@if ($props.data.user) {
-						<PostInput user={$props.data.user} />
+						<PostInput {$props.data.user} />
 					}
-					<PostList posts={$props.data.posts} user={$props.data.user} follower={$props.data.follower} />
+					<PostList {$props.data.posts} {$props.data.user} {$props.data.follower} />
 					@if ($props.data.posts.length) {
 						<a href="{$props.data.base}posts">All posts</a>
 					}
