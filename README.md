@@ -1,8 +1,8 @@
 # Redraft
 
-https://redraft.social
-
 An experiment.
+
+https://redraft.social
 
 Social media × blogging × newsletters
 
@@ -52,7 +52,7 @@ npm run dev
   - Set `JWT_SECRET` to a random passphrase for encrypting your user token
 - Run `npm run db:push` to create the database
 - Deploy the site
-- Go to SITE_LOCATION/account/setup to create your account
+- Go to `SITE_LOCATION/account/setup` to create your account
 
 ### Hosted
 
@@ -71,7 +71,9 @@ If the above sounds like too much work, you can pay for a hosted account at http
 
 ## The web extension
 
-// TODO:
+You will have to use this unpacked for now. It's inside the `/extension` folder
+
+// TODO: get this approved
 
 ## Things to do
 
