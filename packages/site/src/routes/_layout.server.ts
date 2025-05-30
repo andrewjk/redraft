@@ -2,6 +2,7 @@ import type { PageServerEndPoint } from "@torpor/build";
 import { ok } from "@torpor/build/response";
 import database from "../data/database";
 import env from "../lib/env";
+import ensureSlash from "../lib/utils/ensureSlash";
 
 export default {
 	load: async ({ appData, params }) => {
@@ -17,17 +18,17 @@ export default {
 			username: params.user,
 			base: params.user ? `/${params.user}/` : "/",
 			user: user && {
-				url: user.url,
+				url: ensureSlash(user.url),
 				name: user.name,
 				image: user.image,
 			},
 			follower: follower && {
-				url: follower.url,
+				url: ensureSlash(follower.url),
 				name: follower.name,
 				image: follower.image,
 			},
 			viewing: {
-				url: env().SITE_LOCATION,
+				url: ensureSlash(env().SITE_LOCATION),
 				name: currentUser?.name,
 				image: currentUser?.image,
 			},

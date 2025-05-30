@@ -1,6 +1,7 @@
 import env from "../lib/env";
+import ensureSlash from "./utils/ensureSlash";
 
-const base = `${env().SITE_LOCATION}api/`;
+const base = `${ensureSlash(env().SITE_LOCATION)}api/`;
 
 type SendOptions = {
 	method: "GET" | "POST" | "PUT" | "DELETE";

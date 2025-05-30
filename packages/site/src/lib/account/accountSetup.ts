@@ -5,6 +5,7 @@ import { usersTable } from "../../data/schema";
 import { userTokensTable } from "../../data/schema/userTokensTable";
 import env from "../env";
 import createUserToken from "../utils/createUserToken";
+import ensureSlash from "../utils/ensureSlash";
 import getErrorMessage from "../utils/getErrorMessage";
 import { compareWithHash, hashPassword } from "../utils/hashPasswords";
 import uuid from "../utils/uuid";
@@ -53,7 +54,7 @@ export default async function accountSetup(request: Request) {
 			email: model.email.trim(),
 			username: model.username.trim(),
 			// TODO: Get this from the request headers?
-			url: env().SITE_LOCATION!,
+			url: ensureSlash(env().SITE_LOCATION),
 			password,
 			name: model.name.trim(),
 			bio: model.bio ?? "",

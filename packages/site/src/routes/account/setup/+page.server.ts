@@ -3,6 +3,7 @@ import { seeOther, unprocessable } from "@torpor/build/response";
 import * as api from "../../../lib/api";
 import env from "../../../lib/env";
 import storage from "../../../lib/storage";
+import ensureSlash from "../../../lib/utils/ensureSlash";
 import formDataToObject from "../../../lib/utils/formDataToObject";
 import setUserToken from "../../../lib/utils/setUserToken";
 import uuid from "../../../lib/utils/uuid";
@@ -26,7 +27,7 @@ export default {
 			if (model.imagefile?.name) {
 				let name = uuid() + "." + model.imagefile.name.split(".").at(-1);
 				await store.uploadFile(model.imagefile, name);
-				model.image = `${env().SITE_LOCATION}api/content/${name}`;
+				model.image = `${ensureSlash(env().SITE_LOCATION)}api/content/${name}`;
 			}
 
 			const result = await api.post("account/setup", params, model);
