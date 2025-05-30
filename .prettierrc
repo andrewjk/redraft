@@ -4,5 +4,13 @@
 	"trailingComma": "all",
 	"plugins": ["@trivago/prettier-plugin-sort-imports"],
 	"importOrder": ["^[../]", "^[./]"],
-	"importOrderSortSpecifiers": true
+	"importOrderSortSpecifiers": true,
+	"overrides": [
+		{
+			"files": ["*.json", "*.jsonc"],
+			"options": {
+				"trailingComma": "none"
+			}
+		}
+	]
 }
