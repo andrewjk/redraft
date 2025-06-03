@@ -1,7 +1,7 @@
 {
 	"name": "@redraft/adapter-cloudflare",
 	"version": "0.0.9",
-	"description": "A Redraft adapter for deploying to Cloudflare Pages",
+	"description": "A Redraft adapter for deploying to Cloudflare Workers",
 	"type": "module",
 	"main": "dist/index.cjs",
 	"module": "dist/index.js",
