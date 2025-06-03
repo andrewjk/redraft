@@ -4,7 +4,7 @@ import { node } from "@torpor/adapter-node";
 import { Site } from "@torpor/build";
 import { runTest } from "@torpor/build/test";
 import { eq } from "drizzle-orm";
-import type { LibSQLDatabase } from "drizzle-orm/libsql";
+import { type LibSQLDatabase } from "drizzle-orm/libsql";
 import fs from "node:fs";
 import { afterAll, beforeAll, expect, test } from "vitest";
 import { vi } from "vitest";

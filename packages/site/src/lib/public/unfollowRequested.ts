@@ -4,7 +4,7 @@ import database from "../../data/database";
 import { followedByTable } from "../../data/schema";
 import getErrorMessage from "../utils/getErrorMessage";
 
-export type UnfollowRequestModel = {
+export type UnfollowRequestedModel = {
 	url: string;
 	sharedKey: string;
 };
@@ -16,7 +16,7 @@ export default async function followRequested(request: Request) {
 	try {
 		const db = database();
 
-		const model: UnfollowRequestModel = await request.json();
+		const model: UnfollowRequestedModel = await request.json();
 
 		// Get the current (only) user
 		const user = await db.query.usersTable.findFirst();

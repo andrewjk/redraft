@@ -2,7 +2,7 @@ import "@testing-library/jest-dom/vitest";
 import { Site } from "@torpor/build";
 import { ok } from "@torpor/build/response";
 import { eq } from "drizzle-orm";
-import type { LibSQLDatabase } from "drizzle-orm/libsql";
+import { type LibSQLDatabase } from "drizzle-orm/libsql";
 import { afterAll, beforeAll, expect, test } from "vitest";
 import * as schema from "../../src/data/schema/index";
 import followRequest, { type FollowModel } from "../../src/lib/follow/followRequest";

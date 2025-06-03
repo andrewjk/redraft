@@ -5,7 +5,7 @@ import { followingTable } from "../../data/schema";
 import { notificationsTable } from "../../data/schema/notificationsTable";
 import getErrorMessage from "../utils/getErrorMessage";
 
-export type FollowConfirmModel = {
+export type FollowConfirmedModel = {
 	sharedKey: string;
 };
 
@@ -16,7 +16,7 @@ export default async function followConfirmed(request: Request) {
 	try {
 		const db = database();
 
-		const model: FollowConfirmModel = await request.json();
+		const model: FollowConfirmedModel = await request.json();
 
 		// Get the current (only) user
 		const user = await db.query.usersTable.findFirst();

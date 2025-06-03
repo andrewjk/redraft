@@ -4,14 +4,14 @@ import { followedByTable } from "../../data/schema";
 import { notificationsTable } from "../../data/schema/notificationsTable";
 import { postPublic } from "../public";
 import getErrorMessage from "../utils/getErrorMessage";
-import { FollowCheckModel, FollowCheckResponseModel } from "./followCheck";
+import { type FollowCheckModel, type FollowCheckResponseModel } from "./followCheck";
 
-export type FollowRequestModel = {
+export type FollowRequestedModel = {
 	url: string;
 	sharedKey: string;
 };
 
-export type FollowRequestResponseModel = {
+export type FollowRequestedResponseModel = {
 	name: string;
 	image: string;
 };
@@ -23,7 +23,7 @@ export default async function followRequested(request: Request) {
 	try {
 		const db = database();
 
-		const model: FollowRequestModel = await request.json();
+		const model: FollowRequestedModel = await request.json();
 
 		// Check that this request actually came from the url claimed by hitting /follow/check
 		let sendUrl = `${model.url}api/public/follow/check`;
@@ -60,7 +60,7 @@ export default async function followRequested(request: Request) {
 			updated_at: new Date(),
 		});
 
-		const data: FollowRequestResponseModel = {
+		const data: FollowRequestedResponseModel = {
 			name: user.name,
 			image: user.image,
 		};

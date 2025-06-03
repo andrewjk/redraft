@@ -5,7 +5,7 @@ import { followedByTable, postReactionsTable, postsTable } from "../../data/sche
 import { notificationsTable } from "../../data/schema/notificationsTable";
 import getErrorMessage from "../utils/getErrorMessage";
 
-export type PostLikeModel = {
+export type PostLikedModel = {
 	slug: string;
 	sharedKey: string;
 	liked: boolean;
@@ -15,7 +15,7 @@ export default async function postLiked(request: Request) {
 	try {
 		const db = database();
 
-		const model: PostLikeModel = await request.json();
+		const model: PostLikedModel = await request.json();
 
 		// Get the user
 		const user = await db.query.usersTable.findFirst();

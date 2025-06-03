@@ -3,7 +3,7 @@ import { eq } from "drizzle-orm";
 import database from "../../data/database";
 import { followedByTable, postsTable } from "../../data/schema";
 import { postPublic } from "../public";
-import { CommentedModel } from "../public/commentReceived";
+import { type CommentReceivedModel } from "../public/commentReceived";
 import getErrorMessage from "../utils/getErrorMessage";
 
 export type CommentSendModel = {
@@ -36,7 +36,7 @@ export default async function commentSend(request: Request) {
 		for (let follower of followers) {
 			try {
 				let sendUrl = `${follower.url}api/public/commented`;
-				let sendData: CommentedModel = {
+				let sendData: CommentReceivedModel = {
 					sharedKey: follower.shared_key,
 					slug: post.slug,
 					commentCount: post.comment_count,

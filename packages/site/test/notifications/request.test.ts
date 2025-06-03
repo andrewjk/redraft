@@ -2,10 +2,10 @@ import "@testing-library/jest-dom/vitest";
 import { Site } from "@torpor/build";
 import { ok } from "@torpor/build/response";
 import { eq } from "drizzle-orm";
-import type { LibSQLDatabase } from "drizzle-orm/libsql";
+import { type LibSQLDatabase } from "drizzle-orm/libsql";
 import { afterAll, assert, beforeAll, expect, test } from "vitest";
 import * as schema from "../../src/data/schema/index";
-import followRequested, { type FollowRequestModel } from "../../src/lib/public/followRequested";
+import followRequested, { type FollowRequestedModel } from "../../src/lib/public/followRequested";
 import mockFetch from "../mockFetch";
 import { cleanUpSiteTest, prepareSiteTest } from "../prepareSiteTest";
 
@@ -31,7 +31,7 @@ test("notification from request", async () => {
 			}))(),
 	);
 
-	const model: FollowRequestModel = {
+	const model: FollowRequestedModel = {
 		url: "http://localhost/cara/",
 		sharedKey: "yyy-cara",
 	};

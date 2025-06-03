@@ -3,7 +3,10 @@ import { and, eq, isNull } from "drizzle-orm";
 import database from "../../data/database";
 import { followingTable, usersTable } from "../../data/schema";
 import { postPublic } from "../public";
-import { FollowRequestModel, FollowRequestResponseModel } from "../public/followRequested";
+import {
+	type FollowRequestedModel,
+	type FollowRequestedResponseModel,
+} from "../public/followRequested";
 import getErrorMessage from "../utils/getErrorMessage";
 import userIdQuery from "../utils/userIdQuery";
 import uuid from "../utils/uuid";
@@ -59,11 +62,11 @@ export default async function followRequest(request: Request, code: string) {
 
 			// Send off a request to the url, and hopefully receive the name and image
 			let sendUrl = `${model.url}api/public/follow/request`;
-			let sendData: FollowRequestModel = {
+			let sendData: FollowRequestedModel = {
 				url: currentUser.url,
 				sharedKey,
 			};
-			let requestData = (await postPublic(sendUrl, sendData)) as FollowRequestResponseModel;
+			let requestData = (await postPublic(sendUrl, sendData)) as FollowRequestedResponseModel;
 
 			// Update the following record with the name and image
 			let record2 = {

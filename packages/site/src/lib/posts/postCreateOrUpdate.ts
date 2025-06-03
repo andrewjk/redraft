@@ -6,7 +6,7 @@ import { Tag } from "../../data/schema/tagsTable";
 import { ARTICLE_POST_TYPE } from "../constants";
 import sluggify from "../utils/sluggify";
 import uuid from "../utils/uuid";
-import { PostEditModel } from "./postEdit";
+import { type PostEditModel } from "./postEdit";
 
 export default async function postCreateOrUpdate(model: PostEditModel): Promise<{
 	op: "create" | "update";

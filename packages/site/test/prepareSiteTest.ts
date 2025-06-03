@@ -1,6 +1,6 @@
 import { node } from "@torpor/adapter-node";
-import type { Site } from "@torpor/build";
-import type { LibSQLDatabase } from "drizzle-orm/libsql";
+import { Site } from "@torpor/build";
+import { type LibSQLDatabase } from "drizzle-orm/libsql";
 import fs from "node:fs";
 import { vi } from "vitest";
 import * as schema from "../src/data/schema/index";

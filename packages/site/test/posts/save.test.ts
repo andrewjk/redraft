@@ -1,12 +1,12 @@
 import "@testing-library/jest-dom/vitest";
 import { Site } from "@torpor/build";
 import { eq } from "drizzle-orm";
-import type { LibSQLDatabase } from "drizzle-orm/libsql";
+import { type LibSQLDatabase } from "drizzle-orm/libsql";
 import { afterAll, beforeAll, expect, test } from "vitest";
 import * as schema from "../../src/data/schema/index";
 import { PUBLIC_POST_VISIBILITY, TEXT_POST_TYPE } from "../../src/lib/constants";
-import type { PostEditModel } from "../../src/lib/posts/postEdit";
-import type { PostPreview } from "../../src/lib/posts/postPreview";
+import { type PostEditModel } from "../../src/lib/posts/postEdit";
+import { type PostPreview } from "../../src/lib/posts/postPreview";
 import postSave from "../../src/lib/posts/postSave";
 import { cleanUpSiteTest, prepareSiteTest } from "../prepareSiteTest";
 

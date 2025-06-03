@@ -3,7 +3,7 @@ import { eq } from "drizzle-orm";
 import database from "../../data/database";
 import { feedTable, followingTable, usersTable } from "../../data/schema";
 import { postPublic } from "../public";
-import { UnfollowRequestModel } from "../public/unfollowRequested";
+import { type UnfollowRequestedModel } from "../public/unfollowRequested";
 import getErrorMessage from "../utils/getErrorMessage";
 import userIdQuery from "../utils/userIdQuery";
 
@@ -39,7 +39,7 @@ export default async function unfollowSend(request: Request, code: string) {
 		if (!record.deleted_at) {
 			// Send off a request to the url
 			let sendUrl = `${model.url}api/public/unfollow/request`;
-			let sendData: UnfollowRequestModel = {
+			let sendData: UnfollowRequestedModel = {
 				url: currentUser.url,
 				sharedKey: record.shared_key,
 			};

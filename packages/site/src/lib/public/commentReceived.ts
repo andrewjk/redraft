@@ -4,7 +4,7 @@ import database from "../../data/database";
 import { feedTable, followingTable } from "../../data/schema";
 import getErrorMessage from "../utils/getErrorMessage";
 
-export type CommentedModel = {
+export type CommentReceivedModel = {
 	sharedKey: string;
 	slug: string;
 	commentCount: number;
@@ -15,7 +15,7 @@ export default async function commentReceived(request: Request) {
 	try {
 		const db = database();
 
-		const model: CommentedModel = await request.json();
+		const model: CommentReceivedModel = await request.json();
 
 		const user = await db.query.followingTable.findFirst({
 			where: eq(followingTable.shared_key, model.sharedKey),

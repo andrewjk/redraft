@@ -3,7 +3,7 @@ import { and, eq, isNull } from "drizzle-orm";
 import database from "../../data/database";
 import { followedByTable, postsTable, usersTable } from "../../data/schema";
 import { postPublic } from "../public";
-import { FeedReceivedModel } from "../public/feedReceived";
+import { type FeedReceivedModel } from "../public/feedReceived";
 import getErrorMessage from "../utils/getErrorMessage";
 import userIdQuery from "../utils/userIdQuery";
 

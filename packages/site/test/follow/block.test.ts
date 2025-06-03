@@ -1,7 +1,7 @@
 import "@testing-library/jest-dom/vitest";
 import { Site } from "@torpor/build";
 import { eq, isNull } from "drizzle-orm";
-import type { LibSQLDatabase } from "drizzle-orm/libsql";
+import { type LibSQLDatabase } from "drizzle-orm/libsql";
 import { afterAll, beforeAll, expect, test } from "vitest";
 import * as schema from "../../src/data/schema/index";
 import followBlock, { type BlockModel } from "../../src/lib/follow/followBlock";

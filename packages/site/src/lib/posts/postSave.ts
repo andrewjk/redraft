@@ -5,7 +5,7 @@ import { usersTable } from "../../data/schema";
 import getErrorMessage from "../utils/getErrorMessage";
 import userIdQuery from "../utils/userIdQuery";
 import postCreateOrUpdate from "./postCreateOrUpdate";
-import { PostEditModel } from "./postEdit";
+import { type PostEditModel } from "./postEdit";
 import postPreview from "./postPreview";
 
 export default async function postSave(request: Request, code: string) {

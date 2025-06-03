@@ -8,7 +8,7 @@ import { FOLLOWER_POST_VISIBILITY, PUBLIC_POST_VISIBILITY } from "../constants";
 import getErrorMessage from "../utils/getErrorMessage";
 import userIdQuery from "../utils/userIdQuery";
 import postCreateOrUpdate from "./postCreateOrUpdate";
-import { PostEditModel } from "./postEdit";
+import { type PostEditModel } from "./postEdit";
 import postPreview from "./postPreview";
 
 export default async function postPublish(

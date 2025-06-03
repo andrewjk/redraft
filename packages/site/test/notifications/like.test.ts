@@ -1,10 +1,10 @@
 import "@testing-library/jest-dom/vitest";
 import { Site } from "@torpor/build";
 import { eq } from "drizzle-orm";
-import type { LibSQLDatabase } from "drizzle-orm/libsql";
+import { type LibSQLDatabase } from "drizzle-orm/libsql";
 import { afterAll, assert, beforeAll, expect, test } from "vitest";
 import * as schema from "../../src/data/schema/index";
-import type { PostLikeModel } from "../../src/lib/public/postLiked";
+import { type PostLikedModel } from "../../src/lib/public/postLiked";
 import postLiked from "../../src/lib/public/postLiked";
 import { cleanUpSiteTest, prepareSiteTest } from "../prepareSiteTest";
 
@@ -24,7 +24,7 @@ test("notification from like", async () => {
 		where: eq(schema.postsTable.slug, "post-1"),
 	}))!;
 
-	const model: PostLikeModel = {
+	const model: PostLikedModel = {
 		slug: post.slug,
 		sharedKey: "yyy-bob",
 		liked: true,
