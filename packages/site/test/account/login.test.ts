@@ -21,6 +21,8 @@ afterAll(() => {
 
 test("login get", async () => {
 	const response = await runTest(site, "/account/login");
+	expect(response.status).toBe(200);
+
 	const html = await response.text();
 
 	const div = document.createElement("div");

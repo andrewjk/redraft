@@ -2,18 +2,14 @@ import { queryByText } from "@testing-library/dom";
 import "@testing-library/jest-dom/vitest";
 import { Site } from "@torpor/build";
 import { runTest } from "@torpor/build/test";
-import type { LibSQLDatabase } from "drizzle-orm/libsql";
 import { afterAll, beforeAll, expect, test } from "vitest";
-import * as schema from "../../src/data/schema/index";
-import { draftMediaList } from "../../src/lib/media/mediaList";
-import mockFetch from "../mockFetch";
+import buildTestEvent from "../buildTestEvent";
 import { cleanUpSiteTest, prepareSiteTest } from "../prepareSiteTest";
 
-let db: LibSQLDatabase<typeof schema>;
 const site: Site = new Site();
 
 beforeAll(async () => {
-	db = await prepareSiteTest(site, "media-drafts");
+	await prepareSiteTest(site, "media-drafts");
 });
 
 afterAll(() => {
@@ -21,9 +17,11 @@ afterAll(() => {
 });
 
 test("media drafts get", async () => {
-	mockFetch(fetch, draftMediaList("xxx-alice"));
+	let ev = await buildTestEvent(`http://localhost/media/drafts`, "xxx-alice");
 
-	const response = await runTest(site, "/media");
+	const response = await runTest(site, "/media/drafts", ev);
+	expect(response.status).toBe(200);
+
 	const html = await response.text();
 
 	const div = document.createElement("div");
@@ -37,7 +35,10 @@ test("media drafts get", async () => {
 });
 
 test("media drafts get with bad code", async () => {
-	mockFetch(fetch, draftMediaList("xxx-bob"));
+	let ev = await buildTestEvent(`http://localhost/media/drafts`, "xxx-bob");
 
-	await expect(runTest(site, "/media")).rejects.toThrowError("401");
+	//const response = await runTest(site, "/media/drafts", ev);
+	//expect(response.status).toBe(401);
+
+	await expect(runTest(site, "/media", ev)).rejects.toThrowError("401");
 });

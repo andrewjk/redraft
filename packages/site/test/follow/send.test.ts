@@ -5,7 +5,7 @@ import { eq } from "drizzle-orm";
 import type { LibSQLDatabase } from "drizzle-orm/libsql";
 import { afterAll, beforeAll, expect, test } from "vitest";
 import * as schema from "../../src/data/schema/index";
-import followSend, { type FollowModel } from "../../src/lib/follow/followSend";
+import followRequest, { type FollowModel } from "../../src/lib/follow/followRequest";
 import mockFetch from "../mockFetch";
 import { cleanUpSiteTest, prepareSiteTest } from "../prepareSiteTest";
 
@@ -39,7 +39,7 @@ test("follow send", async () => {
 		method: "POST",
 		body: JSON.stringify(model),
 	});
-	const response = await followSend(request, "xxx-alice");
+	const response = await followRequest(request, "xxx-alice");
 	expect(response.status).toBe(200);
 
 	const followingCount2 = await db.$count(schema.followingTable);
@@ -60,7 +60,7 @@ test("follow send", async () => {
 		method: "POST",
 		body: JSON.stringify(model),
 	});
-	const response2 = await followSend(request2, "xxx-alice");
+	const response2 = await followRequest(request2, "xxx-alice");
 	expect(response2.status).toBe(200);
 
 	const followingCount3 = await db.$count(schema.followingTable);
@@ -76,12 +76,12 @@ test("follow send", async () => {
 
 test("follow send with bad code", async () => {
 	const model: FollowModel = {
-		url: "http://localhost/cara",
+		url: "http://localhost/cara/",
 	};
 	const request = new Request("http://localhost", {
 		method: "POST",
 		body: JSON.stringify(model),
 	});
-	const response = await followSend(request, "xxx-dan");
+	const response = await followRequest(request, "xxx-dan");
 	expect(response.status).toBe(401);
 });

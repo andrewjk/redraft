@@ -5,6 +5,7 @@ import storage from "../../../lib/storage";
 import formDataToObject from "../../../lib/utils/formDataToObject";
 import setUserToken from "../../../lib/utils/setUserToken";
 import uuid from "../../../lib/utils/uuid";
+import profileEdit from "../../api/profile/edit/+server";
 
 export default {
 	load: async ({ appData, params }) => {
@@ -13,7 +14,7 @@ export default {
 			return unauthorized();
 		}
 
-		const result = await api.get("profile/edit", params, user.token);
+		const result = await api.get("profile/edit", profileEdit, params, user.token);
 		if (result.errors) {
 			return unprocessable(result);
 		}
@@ -43,12 +44,12 @@ export default {
 				model.image = `${user.url}api/content/${name}`;
 			}
 
-			const result = await api.post("profile/edit", params, model, user.token);
+			const result = await api.post("profile/edit", profileEdit, params, model, user.token);
 			if (result.errors) {
 				return unprocessable(result);
 			}
 
-			setUserToken(cookies, {
+			await setUserToken(cookies, {
 				url: result.url,
 				username: user.username,
 				name: result.name,

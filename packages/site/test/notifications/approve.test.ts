@@ -1,12 +1,10 @@
 import "@testing-library/jest-dom/vitest";
 import { Site } from "@torpor/build";
-import { ok } from "@torpor/build/response";
 import { eq } from "drizzle-orm";
 import type { LibSQLDatabase } from "drizzle-orm/libsql";
 import { afterAll, assert, beforeAll, expect, test } from "vitest";
 import * as schema from "../../src/data/schema/index";
 import followConfirmed, { type FollowConfirmModel } from "../../src/lib/public/followConfirmed";
-import mockFetch from "../mockFetch";
 import { cleanUpSiteTest, prepareSiteTest } from "../prepareSiteTest";
 
 let db: LibSQLDatabase<typeof schema>;
@@ -21,8 +19,6 @@ afterAll(() => {
 });
 
 test("notification from approve", async () => {
-	mockFetch(fetch, (async () => ok())());
-
 	const model: FollowConfirmModel = {
 		sharedKey: "yyy-freya",
 	};

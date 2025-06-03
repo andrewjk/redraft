@@ -30,5 +30,8 @@ export async function prepareSiteTest(
 }
 
 export function cleanUpSiteTest(dbname: string): void {
-	fs.rmSync(`./test/data/${dbname}.db`);
+	const file = `./test/data/${dbname}.db`;
+	if (fs.existsSync(file)) {
+		fs.rmSync(file);
+	}
 }

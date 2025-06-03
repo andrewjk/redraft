@@ -2,6 +2,7 @@ import { type PageServerEndPoint } from "@torpor/build";
 import { ok, unauthorized } from "@torpor/build/response";
 import * as api from "../../../lib/api";
 import { PAGE_SIZE } from "../../../lib/constants";
+import feedList from "../../api/feed/+server";
 import likeFeedPost from "../../feed/_actions/likeFeedPost";
 import reactToFeedPost from "../../feed/_actions/reactToFeedPost";
 import saveFeedPost from "../../feed/_actions/saveFeedPost";
@@ -25,7 +26,7 @@ export default {
 		search.set("saved", "");
 
 		const [{ feed, feedCount }] = await Promise.all([
-			api.get(`feed?${search}`, params, user?.token),
+			api.get(`feed?${search}`, feedList, params, user?.token),
 		]);
 
 		const pageCount = Math.ceil(feedCount / PAGE_SIZE);

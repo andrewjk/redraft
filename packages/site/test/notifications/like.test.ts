@@ -1,13 +1,11 @@
 import "@testing-library/jest-dom/vitest";
 import { Site } from "@torpor/build";
-import { ok } from "@torpor/build/response";
 import { eq } from "drizzle-orm";
 import type { LibSQLDatabase } from "drizzle-orm/libsql";
 import { afterAll, assert, beforeAll, expect, test } from "vitest";
 import * as schema from "../../src/data/schema/index";
 import type { PostLikeModel } from "../../src/lib/public/postLiked";
 import postLiked from "../../src/lib/public/postLiked";
-import mockFetch from "../mockFetch";
 import { cleanUpSiteTest, prepareSiteTest } from "../prepareSiteTest";
 
 let db: LibSQLDatabase<typeof schema>;
@@ -22,9 +20,6 @@ afterAll(() => {
 });
 
 test("notification from like", async () => {
-	// Just mock the send by returning ok
-	mockFetch(fetch, new Promise<Response>(() => ok()));
-
 	const post = (await db.query.postsTable.findFirst({
 		where: eq(schema.postsTable.slug, "post-1"),
 	}))!;

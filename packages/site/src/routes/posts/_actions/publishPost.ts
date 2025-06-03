@@ -4,6 +4,7 @@ import * as api from "../../../lib/api";
 import storage from "../../../lib/storage";
 import formDataToObject from "../../../lib/utils/formDataToObject";
 import uuid from "../../../lib/utils/uuid";
+import postsPublish from "../../api/posts/publish/+server";
 
 export default async function publishPost({ appData, request, params }: ServerLoadEvent) {
 	const user = appData.user;
@@ -24,7 +25,7 @@ export default async function publishPost({ appData, request, params }: ServerLo
 		model.image = `${user.url}api/content/${name}`;
 	}
 
-	const result = await api.post(`posts/publish`, params, model, user.token);
+	const result = await api.post(`posts/publish`, postsPublish, params, model, user.token);
 	if (result.errors) {
 		return unprocessable(result);
 	}

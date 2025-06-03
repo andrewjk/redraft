@@ -9,6 +9,7 @@ import {
 	usersTable,
 } from "../../data/schema";
 import { notificationsTable } from "../../data/schema/notificationsTable";
+import commentsSend from "../../routes/api/comments/send/+server";
 import * as api from "../api";
 import getErrorMessage from "../utils/getErrorMessage";
 import userIdQuery from "../utils/userIdQuery";
@@ -133,7 +134,7 @@ export default async function commentCreate(
 
 		// Send an update to all followers
 		// This could take some time, so send it off to be done in an endpoint without awaiting it
-		api.post(`comments/send`, params, { post_id: post.id }, token);
+		api.post(`comments/send`, commentsSend, params, { post_id: post.id }, token);
 
 		// Return
 		const view = commentPreview(newComment, currentUser, []);

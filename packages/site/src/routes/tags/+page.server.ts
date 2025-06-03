@@ -2,6 +2,7 @@ import { type PageServerEndPoint } from "@torpor/build";
 import { ok } from "@torpor/build/response";
 import * as api from "../../lib/api";
 import { PAGE_SIZE } from "../../lib/constants";
+import tagsList from "../api/tags/+server";
 
 export default {
 	load: async ({ url, params }) => {
@@ -19,7 +20,7 @@ export default {
 		search.set("limit", PAGE_SIZE.toString());
 		search.set("offset", ((page - 1) * PAGE_SIZE).toString());
 
-		const { tags, tagsCount } = await api.get(`tags?${search}`, params);
+		const { tags, tagsCount } = await api.get(`tags?${search}`, tagsList, params);
 
 		const pageCount = Math.ceil(tagsCount / PAGE_SIZE);
 

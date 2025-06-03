@@ -33,7 +33,7 @@ beforeAll(async () => {
 
 	// Stub environment variables
 	vi.stubEnv("JWT_SECRET", "blah");
-	vi.stubEnv("SITE_LOCATION", "http://localhost/cara");
+	vi.stubEnv("SITE_LOCATION", "http://localhost/cara/");
 	vi.stubEnv("USERNAME", "cara");
 	vi.stubEnv("PASSWORD", "cara's password");
 
@@ -79,7 +79,7 @@ test("setup post", async () => {
 
 	const data = (await response.json()) as SetupResponseModel;
 
-	expect(data.url).toEqual("http://localhost/cara");
+	expect(data.url).toEqual("http://localhost/cara/");
 	expect(data.username).toEqual("cara");
 	expect(data.name).toEqual("Cara Z");
 	expect(data.image).toEqual("cara.png");

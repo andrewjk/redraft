@@ -2,6 +2,7 @@ import { type PageServerEndPoint } from "@torpor/build";
 import { ok, unauthorized } from "@torpor/build/response";
 import * as api from "../../../lib/api";
 import { PAGE_SIZE } from "../../../lib/constants";
+import postsDrafts from "../../api/posts/drafts/+server";
 import publishPost from "../../posts/_actions/publishPost";
 import savePost from "../../posts/_actions/savePost";
 
@@ -20,7 +21,12 @@ export default {
 		search.set("limit", PAGE_SIZE.toString());
 		search.set("offset", ((page - 1) * PAGE_SIZE).toString());
 
-		const { posts, postsCount } = await api.get(`posts/drafts?${search}`, params, user.token);
+		const { posts, postsCount } = await api.get(
+			`posts/drafts?${search}`,
+			postsDrafts,
+			params,
+			user.token,
+		);
 
 		const pageCount = Math.ceil(postsCount / PAGE_SIZE);
 

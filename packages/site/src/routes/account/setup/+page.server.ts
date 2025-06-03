@@ -7,6 +7,7 @@ import ensureSlash from "../../../lib/utils/ensureSlash";
 import formDataToObject from "../../../lib/utils/formDataToObject";
 import setUserToken from "../../../lib/utils/setUserToken";
 import uuid from "../../../lib/utils/uuid";
+import accountSetup from "../../../routes/api/account/setup/+server";
 
 export default {
 	load: async ({ appData, params }) => {
@@ -30,12 +31,12 @@ export default {
 				model.image = `${ensureSlash(env().SITE_LOCATION)}api/content/${name}`;
 			}
 
-			const result = await api.post("account/setup", params, model);
+			const result = await api.post("account/setup", accountSetup, params, model);
 			if (result.errors) {
 				return unprocessable(result);
 			}
 
-			setUserToken(cookies, {
+			await setUserToken(cookies, {
 				url: result.url,
 				username: result.username,
 				name: result.name,

@@ -2,6 +2,7 @@ import { type PageServerEndPoint } from "@torpor/build";
 import { ok } from "@torpor/build/response";
 import * as api from "../../lib/api";
 import { PAGE_SIZE } from "../../lib/constants";
+import postsList from "../api/posts/+server";
 import publishPost from "../posts/_actions/publishPost";
 import savePost from "../posts/_actions/savePost";
 
@@ -20,6 +21,7 @@ export default {
 
 		const { posts, postsCount } = await api.get(
 			`posts?${search}`,
+			postsList,
 			params,
 			user?.token || follower?.token,
 		);

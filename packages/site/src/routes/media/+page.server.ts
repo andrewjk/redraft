@@ -2,6 +2,7 @@ import { type PageServerEndPoint } from "@torpor/build";
 import { ok } from "@torpor/build/response";
 import * as api from "../../lib/api";
 import { PAGE_SIZE } from "../../lib/constants";
+import mediaList from "../api/media/+server";
 
 export default {
 	load: async ({ url, params }) => {
@@ -19,7 +20,7 @@ export default {
 		search.set("limit", PAGE_SIZE.toString());
 		search.set("offset", ((page - 1) * PAGE_SIZE).toString());
 
-		const { posts, postsCount } = await api.get(`media?${search}`, params);
+		const { posts, postsCount } = await api.get(`media?${search}`, mediaList, params);
 
 		const pageCount = Math.ceil(postsCount / PAGE_SIZE);
 

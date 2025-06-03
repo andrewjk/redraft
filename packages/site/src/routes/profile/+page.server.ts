@@ -4,10 +4,12 @@ import * as api from "../../lib/api";
 import formDataToObject from "../../lib/utils/formDataToObject";
 import setUserToken from "../../lib/utils/setUserToken";
 import logout from "../account/_actions/logout";
+import profileGet from "../api/profile/+server";
+import profileEdit from "../api/profile/edit/+server";
 
 export default {
 	load: async ({ params }) => {
-		const result = await api.get("profile", params);
+		const result = await api.get("profile", profileGet, params);
 		if (result.errors) {
 			return unprocessable(result);
 		}
@@ -25,12 +27,12 @@ export default {
 			const data = await request.formData();
 			const model = formDataToObject(data);
 
-			const result = await api.post("profile/edit", params, model, user.token);
+			const result = await api.post("profile/edit", profileEdit, params, model, user.token);
 			if (result.errors) {
 				return unprocessable(result);
 			}
 
-			setUserToken(cookies, {
+			await setUserToken(cookies, {
 				url: result.url,
 				username: user.username,
 				name: result.name,

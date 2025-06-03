@@ -3,8 +3,7 @@ import "@testing-library/jest-dom/vitest";
 import { Site } from "@torpor/build";
 import { runTest } from "@torpor/build/test";
 import { afterAll, beforeAll, expect, test } from "vitest";
-import { draftPostList } from "../../src/lib/posts/postList";
-import mockFetch from "../mockFetch";
+import buildTestEvent from "../buildTestEvent";
 import { cleanUpSiteTest, prepareSiteTest } from "../prepareSiteTest";
 
 const site: Site = new Site();
@@ -18,9 +17,11 @@ afterAll(() => {
 });
 
 test("post drafts get", async () => {
-	mockFetch(fetch, draftPostList("xxx-alice"));
+	let ev = await buildTestEvent(`http://localhost/posts/drafts`, "xxx-alice");
 
-	const response = await runTest(site, "/posts");
+	const response = await runTest(site, "/posts/drafts", ev);
+	expect(response.status).toBe(200);
+
 	const html = await response.text();
 
 	const div = document.createElement("div");
@@ -34,7 +35,10 @@ test("post drafts get", async () => {
 });
 
 test("post drafts get with bad code", async () => {
-	mockFetch(fetch, draftPostList("xxx-bob", undefined, undefined));
+	let ev = await buildTestEvent(`http://localhost/posts/drafts`, "xxx-bob");
 
-	await expect(runTest(site, "/posts")).rejects.toThrowError("401");
+	//const response = await runTest(site, "/posts/drafts", ev);
+	//expect(response.status).toBe(401);
+
+	await expect(runTest(site, "/posts/drafts", ev)).rejects.toThrowError("401");
 });

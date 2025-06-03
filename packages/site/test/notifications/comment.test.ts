@@ -1,12 +1,10 @@
 import "@testing-library/jest-dom/vitest";
 import { Site } from "@torpor/build";
-import { ok } from "@torpor/build/response";
 import { eq } from "drizzle-orm";
 import type { LibSQLDatabase } from "drizzle-orm/libsql";
 import { afterAll, assert, beforeAll, expect, test } from "vitest";
 import * as schema from "../../src/data/schema/index";
 import commentCreate, { type CommentCreateModel } from "../../src/lib/comments/commentCreate";
-import mockFetch from "../mockFetch";
 import { cleanUpSiteTest, prepareSiteTest } from "../prepareSiteTest";
 
 let db: LibSQLDatabase<typeof schema>;
@@ -21,9 +19,6 @@ afterAll(() => {
 });
 
 test("no notification from user comment", async () => {
-	// Just mock the send by returning ok
-	mockFetch(fetch, new Promise<Response>(() => ok()));
-
 	const post = (await db.query.postsTable.findFirst({
 		where: eq(schema.postsTable.slug, "post-1"),
 	}))!;
@@ -48,9 +43,6 @@ test("no notification from user comment", async () => {
 });
 
 test("notification from follower comment", async () => {
-	// Just mock the send by returning ok
-	mockFetch(fetch, new Promise<Response>(() => ok()));
-
 	const post = (await db.query.postsTable.findFirst({
 		where: eq(schema.postsTable.slug, "image-1"),
 	}))!;

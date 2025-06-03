@@ -1,6 +1,7 @@
 import { type PageServerEndPoint } from "@torpor/build";
 import { ok, unprocessable } from "@torpor/build/response";
 import * as api from "../../../../lib/api";
+import tagsDrafts from "../../../api/tags/[slug]/drafts/+server";
 
 export default {
 	load: async ({ params }) => {
@@ -10,7 +11,7 @@ export default {
 		//	return unauthorized();
 		//}
 
-		const result = await api.get(`tags/${params.slug}/drafts`, params);
+		const result = await api.get(`tags/[slug=${params.slug}]/drafts`, tagsDrafts, params);
 		if (result.errors) {
 			return unprocessable(result);
 		}

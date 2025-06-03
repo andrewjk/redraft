@@ -1,12 +1,10 @@
 import "@testing-library/jest-dom/vitest";
 import { Site } from "@torpor/build";
-import { ok } from "@torpor/build/response";
 import { eq, isNull } from "drizzle-orm";
 import type { LibSQLDatabase } from "drizzle-orm/libsql";
 import { afterAll, beforeAll, expect, test } from "vitest";
 import * as schema from "../../src/data/schema/index";
 import followBlock, { type BlockModel } from "../../src/lib/follow/followBlock";
-import mockFetch from "../mockFetch";
 import { cleanUpSiteTest, prepareSiteTest } from "../prepareSiteTest";
 
 let db: LibSQLDatabase<typeof schema>;
@@ -20,16 +18,7 @@ afterAll(() => {
 	cleanUpSiteTest("follow-block");
 });
 
-async function dummyResponse() {
-	return ok({
-		name: "Cara Z",
-		image: "",
-	});
-}
-
 test("follow block", async () => {
-	mockFetch(fetch, dummyResponse());
-
 	const followedByCount = await db.$count(
 		schema.followedByTable,
 		isNull(schema.followedByTable.blocked_at),
@@ -60,8 +49,6 @@ test("follow block", async () => {
 	expect(followedBy).not.toBeUndefined();
 	expect(followedBy!.blocked_at).not.toBeNull();
 	// etc
-
-	mockFetch(fetch, dummyResponse());
 
 	// Doing it twice should leave the existing record as-is
 	const request2 = new Request("http://localhost", {

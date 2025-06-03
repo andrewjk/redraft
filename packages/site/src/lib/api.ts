@@ -1,4 +1,7 @@
+import { ServerEndPoint, ServerLoadEvent } from "@torpor/build";
+import { CookieHelper, HeaderHelper } from "@torpor/build/server";
 import env from "../lib/env";
+import hook from "../routes/api/_hook.server";
 import ensureSlash from "./utils/ensureSlash";
 
 const base = `${ensureSlash(env().SITE_LOCATION)}api/`;
@@ -6,6 +9,7 @@ const base = `${ensureSlash(env().SITE_LOCATION)}api/`;
 type SendOptions = {
 	method: "GET" | "POST" | "PUT" | "DELETE";
 	path: string;
+	endpoint: ServerEndPoint;
 	params: Record<string, string>;
 	data?: any;
 	token?: string;
@@ -13,7 +17,7 @@ type SendOptions = {
 
 // TODO: Make this all type-safe etc
 
-async function send({ method, path, data, token }: SendOptions) {
+async function send({ method, path, endpoint, data, token }: SendOptions) {
 	console.log("getting api data from", path);
 
 	type RequestOptions = {
@@ -36,29 +40,89 @@ async function send({ method, path, data, token }: SendOptions) {
 		options.headers.append("Authorization", `Token ${token}`);
 	}
 
-	const result = await fetch(`${base}${path}`, options);
+	// Don't fetch -- we can call the endpoints directly
+	//const result = await fetch(`${base}${path}`, options);
 
-	if (result.ok || result.status === 422) {
-		const text = await result.text();
-		const data = text ? JSON.parse(text) : {};
-		return data;
+	// Parse out params from the path, in the form of e.g. `[slug=123]`
+	let params: Record<string, string> = {};
+	let pathParts = path.split("/");
+	for (let i = 0; i < pathParts.length; i++) {
+		if (pathParts[i].startsWith("[") && pathParts[i].endsWith("]") && pathParts[i].includes("=")) {
+			const parts = pathParts[i].split("=");
+			params[parts[0]] = parts[1];
+			pathParts[i] = `[${parts[0]}]`;
+		}
+	}
+	path = pathParts.join("/");
+
+	const url = new URL(`${base}${path}`);
+	const request = new Request(url, options);
+	const ev: ServerLoadEvent = {
+		url,
+		params,
+		appData: {},
+		request,
+		cookies: new CookieHelper(request),
+		headers: new HeaderHelper(request),
+		adapter: {},
+	};
+	hook.handle(ev);
+	const response =
+		method === "GET"
+			? await endpoint.get!(ev)
+			: method === "POST"
+				? await endpoint.post!(ev)
+				: method === "PUT"
+					? await endpoint.put!(ev)
+					: method === "DELETE"
+						? await endpoint.del!(ev)
+						: undefined;
+
+	if (response) {
+		if (response.ok || response.status === 422) {
+			const text = await response.text();
+			const data = text ? JSON.parse(text) : {};
+			return data;
+		}
 	}
 
-	throw new Error(result.status.toString());
+	throw new Error(response?.status.toString());
 }
 
-export function get(path: string, params: Record<string, string>, token?: string) {
-	return send({ method: "GET", path, params, token });
+export function get(
+	path: string,
+	endpoint: ServerEndPoint,
+	params: Record<string, string>,
+	token?: string,
+) {
+	return send({ method: "GET", path, endpoint, params, token });
 }
 
-export function del(path: string, params: Record<string, string>, token?: string) {
-	return send({ method: "DELETE", path, params, token });
+export function del(
+	path: string,
+	endpoint: ServerEndPoint,
+	params: Record<string, string>,
+	token?: string,
+) {
+	return send({ method: "DELETE", path, endpoint, params, token });
 }
 
-export function post(path: string, params: Record<string, string>, data: any, token?: string) {
-	return send({ method: "POST", path, data, params, token });
+export function post(
+	path: string,
+	endpoint: ServerEndPoint,
+	params: Record<string, string>,
+	data: any,
+	token?: string,
+) {
+	return send({ method: "POST", path, endpoint, data, params, token });
 }
 
-export function put(path: string, params: Record<string, string>, data: any, token?: string) {
-	return send({ method: "PUT", path, data, params, token });
+export function put(
+	path: string,
+	endpoint: ServerEndPoint,
+	params: Record<string, string>,
+	data: any,
+	token?: string,
+) {
+	return send({ method: "PUT", path, endpoint, data, params, token });
 }

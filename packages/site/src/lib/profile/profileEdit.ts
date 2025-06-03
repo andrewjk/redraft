@@ -2,6 +2,7 @@ import { ok, serverError, unauthorized } from "@torpor/build/response";
 import { eq } from "drizzle-orm";
 import database from "../../data/database";
 import { userLinksTable, usersTable } from "../../data/schema";
+import profileSend from "../../routes/api/profile/send/+server";
 import * as api from "../api";
 import getErrorMessage from "../utils/getErrorMessage";
 import userIdQuery from "../utils/userIdQuery";
@@ -89,7 +90,7 @@ export default async function profileEdit(
 
 		// Send an update to all followers/followed by
 		// This could take some time, so send it off to be done in an endpoint without awaiting it
-		api.post(`profile/send`, params, null, token);
+		api.post(`profile/send`, profileSend, params, null, token);
 
 		return ok({
 			url: currentUser.url,
