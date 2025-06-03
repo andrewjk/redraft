@@ -1,5 +1,16 @@
 # @redraft/site
 
+## 0.0.14
+
+### Patch Changes
+
+- e83002a: Chore: update dependencies
+- 97c3d65: Fix: call API endpoints directly
+- 71439e5: Fix: ensure that SITE_LOCATION ends with a slash
+- Updated dependencies [e83002a]
+  - @redraft/adapter-core@0.0.4
+  - @redraft/adapter-node@0.0.4
+
 ## 0.0.13
 
 ### Patch Changes

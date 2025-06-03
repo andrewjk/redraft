@@ -1,5 +1,13 @@
 # @redraft/adapter-node
 
+## 0.0.4
+
+### Patch Changes
+
+- e83002a: Chore: update dependencies
+- Updated dependencies [e83002a]
+  - @redraft/adapter-core@0.0.4
+
 ## 0.0.3
 
 ### Patch Changes
