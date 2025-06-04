@@ -1,5 +1,12 @@
 # @redraft/adapter-cloudflare
 
+## 0.0.10
+
+### Patch Changes
+
+- ef9513d: Fix: move from Cloudflare Pages to Workers
+- 7595929: Fix: auto build the adapter code
+
 ## 0.0.9
 
 ### Patch Changes

@@ -1,5 +1,11 @@
 # @redraft/create-site
 
+## 0.0.8
+
+### Patch Changes
+
+- ef9513d: Fix: move from Cloudflare Pages to Workers
+
 ## 0.0.7
 
 ### Patch Changes

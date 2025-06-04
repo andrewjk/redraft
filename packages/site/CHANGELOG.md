@@ -1,5 +1,11 @@
 # @redraft/site
 
+## 0.0.15
+
+### Patch Changes
+
+- 66c86e4: Fix: properly parse api params
+
 ## 0.0.14
 
 ### Patch Changes
