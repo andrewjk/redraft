@@ -48,7 +48,7 @@ async function send({ method, path, endpoint, data, token }: SendOptions) {
 	let pathParts = path.split("/");
 	for (let i = 0; i < pathParts.length; i++) {
 		if (pathParts[i].startsWith("[") && pathParts[i].endsWith("]") && pathParts[i].includes("=")) {
-			const parts = pathParts[i].split("=");
+			const parts = pathParts[i].substring(1, pathParts[i].length - 1).split("=");
 			params[parts[0]] = parts[1];
 			pathParts[i] = `[${parts[0]}]`;
 		}
