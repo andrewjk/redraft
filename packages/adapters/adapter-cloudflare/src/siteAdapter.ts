@@ -44,17 +44,13 @@ async function postbuild(site: Site) {
 	//const adapterFile = path.resolve(site.root, "./dist/cloudflare/adapter.server.js");
 	const adapterFile = path.resolve(
 		site.root,
-		"./node_modules/@redraft/adapter-cloudflare/src/adapter.server.js",
+		"./node_modules/@redraft/adapter-cloudflare/src/adapter.global.js",
 	);
 	const adapterCode = fs.readFileSync(adapterFile, "utf-8");
 
 	const workerFile = path.resolve(site.root, "./dist/cloudflare/_worker.js");
 	let workerCode = fs.readFileSync(workerFile, "utf-8");
-	workerCode += `
-(() => {
-${adapterCode}
-})();
- `;
+	workerCode += "\n" + adapterCode;
 
 	fs.writeFileSync(workerFile, workerCode);
 }
