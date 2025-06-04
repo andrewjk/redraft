@@ -4975,5 +4975,8 @@ params: ${params}`);
     database,
     storage: storage_default
   };
+
+  // src/iife.ts
+  globalThis.socialAdapter = adapter_default;
 })();
-//# sourceMappingURL=adapter.global.js.map
+//# sourceMappingURL=iife.global.js.map
