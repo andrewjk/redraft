@@ -1,5 +1,4 @@
-import { node as socialAdapter } from "@redraft/adapter-node";
-import { node as siteAdapter } from "@torpor/adapter-node";
+import { node, siteAdapter } from "@redraft/adapter-node";
 import { Site } from "@torpor/build";
 
 const site: Site = new Site();
@@ -11,6 +10,6 @@ await site.addRouteFolder("./src/routes");
 // (not bundled), so we're just setting globalThis.socialAdapter and checking
 // the db on every call for now
 // @ts-ignore
-globalThis.socialAdapter = socialAdapter;
+globalThis.socialAdapter = node;
 
 export default site;
