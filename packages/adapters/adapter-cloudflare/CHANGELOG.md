@@ -1,5 +1,11 @@
 # @redraft/adapter-cloudflare
 
+## 0.0.11
+
+### Patch Changes
+
+- 85e565c: Fix: auto build the adapter code, take 2
+
 ## 0.0.10
 
 ### Patch Changes
