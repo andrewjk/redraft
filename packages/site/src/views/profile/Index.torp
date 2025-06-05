@@ -11,7 +11,7 @@ export default function Index($props) {
 	@render {
 		<div class="profile-page">
 			<:head>
-				<title>Profile • Redraft</title>
+				<title>{$props.data.viewing.name} • Profile • Redraft</title>
 			</:head>
 
 			<div class="vstack centered spaced profile-details">

@@ -11,7 +11,7 @@ export default function Index() {
 	@render {
 		<div class="home-page">
 			<:head>
-				<title>Redraft</title>
+				<title>{$props.data.viewing.name} • Redraft</title>
 			</:head>
 
 			<div class="hstack spaced collapse full-width" style="column-gap: 2.8rem">

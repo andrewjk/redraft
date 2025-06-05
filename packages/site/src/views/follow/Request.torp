@@ -6,7 +6,7 @@ export default function Index() {
 		<div class="vstack centered">
 			<div class="follow-page">
 				<:head>
-					<title>Follow • Redraft</title>
+					<title>{$props.data.viewing.name} • Follow • Redraft</title>
 				</:head>
 
 				<h2>Follow</h2>

@@ -12,7 +12,7 @@ export default function TagPosts() {
 	@render {
 		<div class="vstack centered">
 			<:head>
-				<title>{$props.data.tag.text} • Redraft</title>
+				<title>{$props.data.viewing.name} • {$props.data.tag.text} • Redraft</title>
 			</:head>
 
 			<h2>{$props.data.tag.text}</h2>

@@ -12,7 +12,7 @@ export default function Index() {
 	@render {
 		<div class="vstack centered">
 			<:head>
-				<title>Posts • Redraft</title>
+				<title>{$props.data.viewing.name} • Posts • Redraft</title>
 			</:head>
 
 			<h2>Posts</h2>
