@@ -22,7 +22,7 @@ export default {
 				return unprocessable(result);
 			}
 
-			await setUserToken(cookies, {
+			setUserToken(cookies, {
 				url: result.url,
 				username: result.username,
 				name: result.name,
