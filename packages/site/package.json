@@ -48,7 +48,7 @@
 		"@torpor/build": "^0.1.25",
 		"@torpor/unplugin": "^0.1.12",
 		"@trivago/prettier-plugin-sort-imports": "^5.2.2",
-		"@types/node": "^22.15.29",
+		"@types/node": "^22.15.30",
 		"@types/sanitize-html": "^2.16.0",
 		"dotenv-cli": "^8.0.0",
 		"drizzle-kit": "^0.31.1",
@@ -60,6 +60,6 @@
 		"typescript": "^5.8.3",
 		"vite": "^6.3.5",
 		"vite-tsconfig-paths": "^5.1.4",
-		"vitest": "^3.2.1"
+		"vitest": "^3.2.2"
 	}
 }
