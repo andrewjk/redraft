@@ -24,10 +24,10 @@ export default {
 			const model = formDataToObject(data);
 
 			// Save the image if it's been uploaded
-			model.imagefile = data.get("imagefile");
-			if (model.imagefile?.name) {
-				let name = uuid() + "." + model.imagefile.name.split(".").at(-1);
-				await store.uploadFile(model.imagefile, name);
+			const imagefile = data.get("imagefile") as File;
+			if (imagefile?.name) {
+				let name = uuid() + "." + imagefile.name.split(".").at(-1);
+				await store.uploadFile(imagefile, name);
 				model.image = `${ensureSlash(env().SITE_LOCATION)}api/content/${name}`;
 			}
 
