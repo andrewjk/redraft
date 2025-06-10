@@ -9,11 +9,12 @@ export type FeedReceivedModel = {
 	slug: string;
 	text: string;
 	visibility: number;
-	type: number;
 	image: string | null;
-	url: string | null;
-	title: string | null;
-	publication: string | null;
+	isArticle: boolean;
+	linkUrl: string | null;
+	linkTitle: string | null;
+	linkImage: string | null;
+	linkPublication: string | null;
 	publishedAt: Date;
 	republishedAt: Date | null;
 };
@@ -38,11 +39,12 @@ export default async function feedReceived(request: Request) {
 			slug: model.slug,
 			text: model.text,
 			visibility: model.visibility,
-			type: model.type,
 			image: model.image,
-			url: model.url,
-			title: model.title,
-			publication: model.publication,
+			is_article: model.isArticle,
+			link_url: model.linkUrl,
+			link_title: model.linkTitle,
+			link_image: model.linkImage,
+			link_publication: model.linkPublication,
 			// TODO: Should receive posted_at, edited_at etc
 			published_at: new Date(model.publishedAt),
 			republished_at: model.republishedAt ? new Date(model.republishedAt) : undefined,

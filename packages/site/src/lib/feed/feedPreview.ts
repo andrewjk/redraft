@@ -22,11 +22,12 @@ export type FeedPreview = {
 	republishedAt: Date | null;
 	commentCount: number;
 	visibility: number;
-	type: number;
 	image: string | null;
-	url: string | null;
-	title: string | null;
-	publication: string | null;
+	isArticle: boolean;
+	linkUrl: string | null;
+	linkTitle: string | null;
+	linkImage: string | null;
+	linkPublication: string | null;
 };
 
 export default function feedPreview(
@@ -56,10 +57,11 @@ export default function feedPreview(
 		republishedAt: feed.republished_at,
 		commentCount: feed.comment_count,
 		visibility: feed.visibility,
-		type: feed.type,
 		image: feed.image,
-		url: feed.url,
-		title: feed.title,
-		publication: feed.publication,
+		isArticle: feed.is_article,
+		linkUrl: feed.link_url,
+		linkTitle: feed.link_title,
+		linkImage: feed.link_image,
+		linkPublication: feed.link_publication,
 	};
 }

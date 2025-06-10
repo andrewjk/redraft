@@ -3,7 +3,7 @@ import { createSelectSchema } from "drizzle-valibot";
 import { InferOutput } from "valibot";
 
 /**
- * Article text, linked from the posts table when the post type is ARTICLE_POST_TYPE
+ * Article text, linked from the posts table when is_article is true
  */
 export const articlesTable = sqliteTable("articles", {
 	id: int().primaryKey({ autoIncrement: true }),

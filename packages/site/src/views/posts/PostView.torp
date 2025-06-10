@@ -5,7 +5,6 @@ import relativeTimeSince from "../../lib/utils/relativeTimeSince"
 import stripProtocol from "../../lib/utils/stripProtocol";
 import CommentList from "../comments/CommentList.torp"
 import LinkPreview from './LinkPreview.torp';
-import { ARTICLE_POST_TYPE, IMAGE_POST_TYPE, LINK_POST_TYPE } from "../../lib/constants";
 import ChatCircle from "phosphor-torpor/lib/ChatCircle";
 import Heart from "phosphor-torpor/lib/Heart";
 
@@ -30,8 +29,8 @@ export default function PostView() {
 				<meta property="og:type" content="article" />
 				@// <meta property="og:locale" content="en_US" />
 				<meta property="og:site_name" content="Redraft" />
-				<meta property="og:title" content={post.type === ARTICLE_POST_TYPE ? post.title : "Redraft post"} />
-				<meta property="og:description" content={post.text} />
+				<meta property="og:title" content={post.isArticle ? post.linkTitle : "Redraft post"} />
+				<meta property="og:description" content={post.isArticle ? "" : post.text} />
 				<meta property="og:url" content="{post.author.url}posts/${post.slug}" />
 				@// <meta property="og:image" content="" />
 				@// <meta property="og:image:width" content="1152" />
@@ -77,22 +76,18 @@ export default function PostView() {
 						</div>
 
 						<div class="post-view-body">
-							@switch (post.type) {
-								case ARTICLE_POST_TYPE: {
-									<h3>{post.title}</h3>
-									<p style="color: gray">{post.text}</p>
-									@html(post.articleText)
+							@if (post.isArticle) {
+								<h3>{post.linkTitle}</h3>
+								@html(post.articleText)
+							} else {
+								<p>{post.text}</p>
+								@if (post.image) {
+									<p>
+										<img src={post.image} />
+									</p>
 								}
-								case IMAGE_POST_TYPE: {
-									<p>{post.text}</p>
-									<img src={post.image} />
-								}
-								case LINK_POST_TYPE: {
-									<p>{post.text}</p>
+								@if (post.linkUrl) {
 									<LinkPreview link={post} />
-								}
-								default: {
-									<p>{post.text}</p>
 								}
 							}
 						</div>

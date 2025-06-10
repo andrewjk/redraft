@@ -30,15 +30,19 @@ export const feedTable = sqliteTable("feed", {
 	 * 2 = article
 	 * 3 = link
 	 */
-	type: int().notNull().default(0),
-	/** Image link for image */
+	//type: int().notNull().default(0),
+	/** Url for image */
 	image: text(),
-	/** Url for link */
-	url: text(),
-	/** Title for article or link */
-	title: text(),
+	/** Whether this is an article (as opposed to an external link) */
+	is_article: int({ mode: "boolean" }).notNull().default(false),
+	/** Url for link or article */
+	link_url: text(),
+	/** Title for link or article */
+	link_title: text(),
+	/** Image for link or article */
+	link_image: text(),
 	/** Publication for link */
-	publication: text(),
+	link_publication: text(),
 	/** When this post was published */
 	published_at: int({ mode: "timestamp" }).notNull(),
 	/** When this post was re-published, if applicable */

@@ -6,7 +6,7 @@ import database from "../../data/database";
 import { articlesTable, commentsTable, postsTable } from "../../data/schema";
 import { User } from "../../data/schema/usersTable";
 import commentPreview from "../comments/commentPreview";
-import { ARTICLE_POST_TYPE, FOLLOWER_POST_VISIBILITY, PUBLIC_POST_VISIBILITY } from "../constants";
+import { FOLLOWER_POST_VISIBILITY, PUBLIC_POST_VISIBILITY } from "../constants";
 import getErrorMessage from "../utils/getErrorMessage";
 
 export default async function postGet(user: User, follower: User, slug: string) {
@@ -59,7 +59,7 @@ export default async function postGet(user: User, follower: User, slug: string) 
 
 		// If it's an article, get the article text
 		let articleText;
-		if (post.type === ARTICLE_POST_TYPE && post.article_id) {
+		if (post.article_id) {
 			const article = await db.query.articlesTable.findFirst({
 				where: eq(articlesTable.id, post.article_id),
 			});
@@ -76,13 +76,14 @@ export default async function postGet(user: User, follower: User, slug: string) 
 		let childComments = post.comments.filter((c) => c.parent_id !== null);
 		const view = {
 			slug: post.slug,
-			type: post.type,
 			text: post.text,
 			image: post.image,
-			url: post.url,
-			title: post.title,
-			publication: post.publication,
+			isArticle: post.is_article,
 			articleText: articleText,
+			linkUrl: post.link_url,
+			linkTitle: post.link_title,
+			linkImage: post.link_image,
+			linkPublication: post.link_publication,
 			author: {
 				image: currentUser.image,
 				name: currentUser.name,

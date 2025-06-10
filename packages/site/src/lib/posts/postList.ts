@@ -3,7 +3,13 @@ import { and, desc, eq, isNotNull, isNull, or } from "drizzle-orm";
 import database from "../../data/database";
 import { postsTable } from "../../data/schema";
 import { User, usersTable } from "../../data/schema/usersTable";
-import { FOLLOWER_POST_VISIBILITY, PUBLIC_POST_VISIBILITY } from "../constants";
+import {
+	ARTICLE_POST_TYPE,
+	FOLLOWER_POST_VISIBILITY,
+	IMAGE_POST_TYPE,
+	LINK_POST_TYPE,
+	PUBLIC_POST_VISIBILITY,
+} from "../constants";
 import getErrorMessage from "../utils/getErrorMessage";
 import userIdQuery from "../utils/userIdQuery";
 import postPreview, { type PostPreview } from "./postPreview";
@@ -56,7 +62,13 @@ export async function getPosts(
 
 		const condition = and(
 			drafts ? isNull(postsTable.published_at) : isNotNull(postsTable.published_at),
-			type ? eq(postsTable.type, type) : undefined,
+			type === IMAGE_POST_TYPE ? isNotNull(postsTable.image) : undefined,
+			type === ARTICLE_POST_TYPE
+				? and(isNotNull(postsTable.link_url), eq(postsTable.is_article, true))
+				: undefined,
+			type === LINK_POST_TYPE
+				? and(isNotNull(postsTable.link_url), eq(postsTable.is_article, false))
+				: undefined,
 			// Logged in users can see any post
 			// Logged in followers can see public or follower posts
 			// Non-logged in users can only see public posts

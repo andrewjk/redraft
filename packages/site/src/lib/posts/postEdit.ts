@@ -2,7 +2,6 @@ import { notFound, ok, serverError, unauthorized } from "@torpor/build/response"
 import { eq } from "drizzle-orm";
 import database from "../../data/database";
 import { articlesTable, postsTable, usersTable } from "../../data/schema";
-import { ARTICLE_POST_TYPE } from "../constants";
 import getErrorMessage from "../utils/getErrorMessage";
 import userIdQuery from "../utils/userIdQuery";
 
@@ -11,13 +10,16 @@ export type PostEditModel = {
 	published: boolean;
 	text: string;
 	visibility: number;
-	type: number;
+	hasImage: boolean;
 	image: string | null;
+	isArticle: boolean;
 	articleId: number | null;
-	url: string | null;
-	title: string | null;
-	publication: string | null;
 	articleText: string | null;
+	hasLink: boolean;
+	linkUrl: string | null;
+	linkTitle: string | null;
+	linkImage: string | null;
+	linkPublication: string | null;
 	tags: string | null;
 };
 
@@ -50,7 +52,7 @@ export default async function postEdit(slug: string, code: string) {
 
 		// If it's an article, get the article text
 		let article;
-		if (post.type === ARTICLE_POST_TYPE && post.article_id) {
+		if (post.is_article && post.article_id) {
 			article = await db.query.articlesTable.findFirst({
 				where: eq(articlesTable.id, post.article_id),
 			});
@@ -62,13 +64,16 @@ export default async function postEdit(slug: string, code: string) {
 			published: !!post.published_at,
 			text: post.text,
 			visibility: post.visibility,
-			type: post.type,
 			image: post.image,
-			url: post.url,
-			title: post.title,
-			publication: post.publication,
+			hasImage: !!post.image,
+			isArticle: post.is_article,
 			articleId: article ? article.id : null,
 			articleText: article ? article.text : null,
+			hasLink: !!post.link_url,
+			linkUrl: post.link_url,
+			linkImage: post.link_image,
+			linkTitle: post.link_title,
+			linkPublication: post.link_publication,
 			tags: post.postTags.map((pt) => pt.tag.text).join("; "),
 		};
 

@@ -4,7 +4,6 @@ import pluralize from "../../lib/utils/pluralize"
 import relativeTimeSince from "../../lib/utils/relativeTimeSince"
 import stripProtocol from "../../lib/utils/stripProtocol";
 import LinkPreview from '../posts/LinkPreview.torp';
-import { IMAGE_POST_TYPE, ARTICLE_POST_TYPE, LINK_POST_TYPE } from "../../lib/constants";
 import ChatCircle from "phosphor-torpor/lib/ChatCircle";
 import Heart from "phosphor-torpor/lib/Heart";
 import BookmarkSimple from "phosphor-torpor/lib/BookmarkSimple";
@@ -141,33 +140,23 @@ export default function FeedPreview() {
 
 					<div class="feed-preview-body">
 						<a class="feed-preview-link" href="{feed.author.url}posts/{feed.slug}">
-							@switch (feed.type) {
-								case ARTICLE_POST_TYPE: {
-									<h4>{feed.title}</h4>
-									@html(feed.text)
-								}
-								case IMAGE_POST_TYPE: {
-									@html(feed.text)
+							@html(feed.text)
+							@if (feed.image) {
+								<p>
 									<img class="feed-preview-image" src={feed.image} alt={feed.imageAlt} />
-								}
-								case LINK_POST_TYPE: {
-									@html(feed.text)
-								}
-								default: {
-									@html(feed.text)
-								}
+								</p>
 							}
 						</a>
 						@// NOTE: This has to go outside of the feed anchor
-						@if (feed.type === LINK_POST_TYPE) {
+						@if (feed.linkUrl) {
 							<LinkPreview link={feed} />
 						}
 					</div>
 
 					<div class="feed-preview-footer hstack centered">
-						@if (feed.type === ARTICLE_POST_TYPE) {
+						@if (feed.isArticle) {
 							<a href="{feed.author.url}posts/{feed.slug}">
-								Read
+								Read article
 							</a>
 						} else {
 							<a href="{feed.author.url}posts/{feed.slug}">

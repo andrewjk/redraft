@@ -21,11 +21,12 @@ export type PostPreview = {
 	emojiSecond: string | null;
 	emojiThird: string | null;
 	visibility: number;
-	type: number;
 	image: string | null;
-	url: string | null;
-	title: string | null;
-	publication: string | null;
+	isArticle: boolean;
+	linkUrl: string | null;
+	linkImage: string | null;
+	linkTitle: string | null;
+	linkPublication: string | null;
 };
 
 export default function postPreview(
@@ -55,10 +56,11 @@ export default function postPreview(
 		emojiSecond: post.emoji_second,
 		emojiThird: post.emoji_third,
 		visibility: post.visibility,
-		type: post.type,
 		image: post.image,
-		url: post.url,
-		title: post.title,
-		publication: post.publication,
+		isArticle: post.is_article,
+		linkUrl: post.link_url,
+		linkTitle: post.link_title,
+		linkImage: post.link_image,
+		linkPublication: post.link_publication,
 	};
 }

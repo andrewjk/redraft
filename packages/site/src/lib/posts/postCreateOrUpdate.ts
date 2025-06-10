@@ -3,7 +3,6 @@ import database from "../../data/database";
 import { articlesTable, postTagsTable, tagsTable } from "../../data/schema";
 import { Post, postsTable } from "../../data/schema/postsTable";
 import { Tag } from "../../data/schema/tagsTable";
-import { ARTICLE_POST_TYPE } from "../constants";
 import sluggify from "../utils/sluggify";
 import uuid from "../utils/uuid";
 import { type PostEditModel } from "./postEdit";
@@ -41,7 +40,7 @@ export default async function postCreateOrUpdate(model: PostEditModel): Promise<
 	}
 
 	// Create or update the article, if applicable
-	if (model.type === ARTICLE_POST_TYPE) {
+	if (model.isArticle) {
 		if (!model.articleId && model.articleId !== 0) {
 			model.articleId = (
 				await db
@@ -71,15 +70,16 @@ export default async function postCreateOrUpdate(model: PostEditModel): Promise<
 			await db
 				.insert(postsTable)
 				.values({
-					slug: model.type === ARTICLE_POST_TYPE ? sluggify(model.title!) : uuid(),
+					slug: model.isArticle ? sluggify(model.linkTitle!) : uuid(),
 					text: model.text,
 					visibility: model.visibility || 0,
-					type: model.type || 0,
-					image: model.image,
-					article_id: model.articleId,
-					url: model.url,
-					title: model.title,
-					publication: model.publication,
+					image: model.hasImage ? model.image : null,
+					is_article: model.isArticle,
+					article_id: model.isArticle ? model.articleId : null,
+					link_url: model.hasLink || model.isArticle ? model.linkUrl : null,
+					link_title: model.hasLink || model.isArticle ? model.linkTitle : null,
+					link_image: model.hasLink || model.isArticle ? model.linkImage : null,
+					link_publication: model.hasLink || model.isArticle ? model.linkPublication : null,
 					created_at: new Date(),
 					updated_at: new Date(),
 				})
@@ -99,15 +99,16 @@ export default async function postCreateOrUpdate(model: PostEditModel): Promise<
 			await db
 				.update(postsTable)
 				.set({
-					slug: model.type === ARTICLE_POST_TYPE ? sluggify(model.title!) : undefined,
+					slug: model.isArticle ? sluggify(model.linkTitle!) : undefined,
 					text: model.text,
 					visibility: model.visibility || 0,
-					type: model.type || 0,
-					image: model.image,
-					article_id: model.articleId,
-					url: model.url,
-					title: model.title,
-					publication: model.publication,
+					image: model.hasImage ? model.image : null,
+					is_article: model.isArticle,
+					article_id: model.isArticle ? model.articleId : null,
+					link_url: model.hasLink || model.isArticle ? model.linkUrl : null,
+					link_title: model.hasLink || model.isArticle ? model.linkTitle : null,
+					link_image: model.hasLink || model.isArticle ? model.linkImage : null,
+					link_publication: model.hasLink || model.isArticle ? model.linkPublication : null,
 					updated_at: new Date(),
 				})
 				.where(eq(postsTable.id, model.id))

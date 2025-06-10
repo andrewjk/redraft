@@ -5,15 +5,23 @@
 export default function LinkPreview() {
 	let { link } = $props;
 
+	function maybeHost(url: string) {
+		try {
+			return (new URL(link.linkUrl)).host;
+		} catch {
+			return "";
+		}
+	}
+
 	@render {
 		<a class="link-preview vstack" href={link.url}>
-			<img class="link-preview-image" src={link.image} />
+			<img class="link-preview-image" src={link.linkImage} />
 			<div class="link-preview-background vstack">
-				<h4 class="link-preview-title">{link.title}</h4>
+				<h4 class="link-preview-title">{link.linkTitle}</h4>
 				<div class="spacer" />
 				<div class="link-preview-publication vstack">
-					<span>{link.publication}</span>
-					<span class="link-preview-host">({(new URL(link.url)).host})</span>
+					<span>{link.linkPublication}</span>
+					<span class="link-preview-host">({maybeHost(link.linkUrl)})</span>
 				</div>
 			</div>
 		</a>

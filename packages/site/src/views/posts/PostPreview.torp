@@ -5,7 +5,6 @@ import pluralize from "../../lib/utils/pluralize"
 import relativeTimeSince from "../../lib/utils/relativeTimeSince"
 import stripProtocol from "../../lib/utils/stripProtocol";
 import LinkPreview from './LinkPreview.torp';
-import { ARTICLE_POST_TYPE, IMAGE_POST_TYPE, LINK_POST_TYPE } from "../../lib/constants";
 import PushPin from "phosphor-torpor/lib/PushPin";
 import PushPinSlash from "phosphor-torpor/lib/PushPinSlash";
 import ChatCircle from "phosphor-torpor/lib/ChatCircle";
@@ -128,33 +127,23 @@ export default function PostPreview() {
 
 					<div class="post-preview-body">
 						<a class="post-preview-link" href="{post.author.url}posts/{post.slug}">
-							@switch (post.type) {
-								case ARTICLE_POST_TYPE: {
-									<h4>{post.title}</h4>
-									@html(post.text)
-								}
-								case IMAGE_POST_TYPE: {
-									@html(post.text)
+							@html(post.text)
+							@if (post.image) {
+								<p>
 									<img class="post-preview-image" src={post.image} alt={post.imageAlt} />
-								}
-								case LINK_POST_TYPE: {
-									@html(post.text)
-								}
-								default: {
-									@html(post.text)
-								}
+								</p>
 							}
 						</a>
 						@// NOTE: This has to go outside of the feed anchor
-						@if (post.type === LINK_POST_TYPE) {
+						@if (post.linkUrl) {
 							<LinkPreview link={post} />
 						}
 					</div>
 
 					<div class="post-preview-footer hstack centered">
-						@if (post.type === ARTICLE_POST_TYPE) {
+						@if (post.isArticle) {
 							<a href="{post.author.url}posts/{post.slug}">
-								Read
+								Read article
 							</a>
 						} else {
 							<a href="{post.author.url}posts/{post.slug}">

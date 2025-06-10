@@ -1,7 +1,6 @@
 //import { enhance } from '$app/forms';
 import ImageUpload from '../ImageUpload.torp';
 import LinkPreview from './LinkPreview.torp';
-import { TEXT_POST_TYPE, IMAGE_POST_TYPE, ARTICLE_POST_TYPE, LINK_POST_TYPE } from "../../lib/constants";
 import Image from "phosphor-torpor/lib/Image";
 import Link from "phosphor-torpor/lib/Link";
 import Article from "phosphor-torpor/lib/Article";
@@ -17,7 +16,7 @@ export default function PostInput($props) {
 	let post = $watch($props.post ?? { id: -1, type: 0, visibility: 0 });
 	let $state = $watch({
 		linkLoading: false,
-		linkLoaded: post.type === LINK_POST_TYPE,
+		linkLoaded: !!post.linkUrl,
 		showTags: !!post.tags,
 		showVisibility: !!post.visibility,
 	});
@@ -25,31 +24,33 @@ export default function PostInput($props) {
 	@render {
 		<form class="post-input" method="POST" enctype="multipart/form-data">
 			<input type="hidden" name="id" value={post.id} />
-			<input type="hidden" name="type" &value={post.type} />
-
-			@if (post.type === ARTICLE_POST_TYPE) {
-				<input type="hidden" name="articleId" value={post.articleId} />
-				<div class="form-row">
-					<input
-						name="title"
-						&value={post.title}
-						required
-						placeholder="Title"
-					/>
-				</div>
-			}
+			<input type="hidden" name="hasImage" value={post.hasImage} />
+			<input type="hidden" name="hasLink" value={post.hasLink} />
+			<input type="hidden" name="isArticle" value={post.isArticle} />
 
 			<div class="post-input-row">
 				<textarea
 					class="full-width"
 					name="text"
 					&value={post.text}
-					placeholder={post.type === ARTICLE_POST_TYPE ? "Description" : "Post something..."}
+					placeholder="Post something..."
 					rows="3"
 				/>
 			</div>
 
-			@if (post.type === ARTICLE_POST_TYPE) {
+			@if (post.isArticle) {
+				<input type="hidden" name="articleId" value={post.articleId} />
+				<input type="hidden" name="linkPublication" value={user.name} />
+
+				<div class="form-row">
+					<input
+						name="linkTitle"
+						&value={post.linkTitle}
+						required
+						placeholder="Title"
+					/>
+				</div>
+				<ImageUpload image={post.linkImage} class="full-width" />
 				<div class="form-row">
 					<textarea
 						class="full-width"
@@ -58,19 +59,25 @@ export default function PostInput($props) {
 						placeholder="Article text"
 					/>
 				</div>
-			} else if (post.type === IMAGE_POST_TYPE) {
+			} 
+
+			@// HACK: Nested ifs are broken...
+
+			@if (!post.isArticle && post.hasImage) {
 				<ImageUpload image={post.image} class="full-width" />
-			} else if (post.type === LINK_POST_TYPE) {
-				<input type="hidden" name="image" value={post.image} />
-				<input type="hidden" name="title" value={post.title} />
-				<input type="hidden" name="publication" value={post.publication} />
+			}
+
+			@if (!post.isArticle && post.hasLink) {
+				<input type="hidden" name="linkImage" value={post.linkImage} />
+				<input type="hidden" name="linkTitle" value={post.linkTitle} />
+				<input type="hidden" name="linkPublication" value={post.linkPublication} />
 
 				<div class="form-row">
 					<input
 						id="url-input"
 						type="url"
-						name="url"
-						&value={post.url}
+						name="linkUrl"
+						&value={post.linkUrl}
 						class="full-width"
 						placeholder="Link URL"
 						oninput={async (e) => {
@@ -81,9 +88,9 @@ export default function PostInput($props) {
 							if (info) {
 								$state.linkLoading = false;
 								$state.linkLoaded = true;
-								post.image = info.image;
-								post.title = info.title;
-								post.publication = info.publication;
+								post.linkTitle = info.title;
+								post.linkImage = info.image;
+								post.linkPublication = info.publication;
 							}
 						}} />
 				</div>
@@ -112,20 +119,37 @@ export default function PostInput($props) {
 
 			<div class="hstack spaced centered post-input-footer">
 				<div class="spacer" />
-				@if (post.type) {
+				@/* 
+					// TODO: Need to have stack icons
 					<button type="button" class="link icon" onclick={() => post.type = TEXT_POST_TYPE}>
 						<XCircle weight="bold" />
 					</button>
-				} else {
-					<button type="button" class="link icon" onclick={() => post.type = IMAGE_POST_TYPE}>
+				*/
+				<button type="button" class="link icon" disabled={post.isArticle} onclick={() => post.hasImage = !post.hasImage}>
+					@if (post.hasImage) {
 						<Image weight="bold" />
-					</button>
-					<button type="button" class="link icon" onclick={() => post.type = LINK_POST_TYPE}>
+					} else {
+						<Image weight="bold" />
+					}
+				</button>
+				<button type="button" class="link icon" disabled={post.isArticle} onclick={() => post.hasLink = !post.hasLink}>
+					@if (post.hasLink) {
 						<Link weight="bold" />
-					</button>
-					<button type="button" class="link icon" onclick={() => post.type = ARTICLE_POST_TYPE}>
-						<Article weight="bold" />
-					</button>
+					} else {
+						<Link weight="bold" />
+					}
+				</button>
+				<button type="button" class="link icon" disabled={post.hasImage || post.hasLink} onclick={toggleArticle}>
+					<Article weight="bold" />
+				</button>
+				@function toggleArticle() {
+					// TODO: Should probably have separate fields, and merge them into the DB
+					post.hasLink = false;
+					post.linkUrl = null;
+					post.linkTitle = null;
+					post.linkImage = null;
+					post.linkPublication = null;
+					post.isArticle = !post.isArticle
 				}
 				<button type="button" class="link icon" onclick={() => $state.showTags = !$state.showTags}>
 					<Tag weight="bold" />

@@ -193,8 +193,12 @@ button.link {
 	cursor: pointer;
 }
 
-button.link:hover {
+button.link:enabled:hover {
 	text-decoration: underline;
+}
+
+button.link:disabled {
+	color: gray !important;
 }
 
 button.link.icon {
@@ -204,7 +208,7 @@ button.link.icon {
 	border-radius: var(--brad);
 }
 
-button.link.icon:hover {
+button.link.icon:enabled:hover {
 	background: #f0f2f6;
 }
 
