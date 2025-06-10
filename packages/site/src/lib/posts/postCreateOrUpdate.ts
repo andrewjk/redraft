@@ -105,10 +105,10 @@ export default async function postCreateOrUpdate(model: PostEditModel): Promise<
 					image: model.hasImage ? model.image : null,
 					is_article: model.isArticle,
 					article_id: model.isArticle ? model.articleId : null,
-					link_url: model.hasLink || model.isArticle ? model.linkUrl : null,
+					link_url: model.hasLink ? model.linkUrl : null,
 					link_title: model.hasLink || model.isArticle ? model.linkTitle : null,
 					link_image: model.hasLink || model.isArticle ? model.linkImage : null,
-					link_publication: model.hasLink || model.isArticle ? model.linkPublication : null,
+					link_publication: model.hasLink ? model.linkPublication : null,
 					updated_at: new Date(),
 				})
 				.where(eq(postsTable.id, model.id))

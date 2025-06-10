@@ -3,6 +3,7 @@ import { micromark } from "micromark";
 import { type Feed } from "../../data/schema/feedTable";
 import { type Following } from "../../data/schema/followingTable";
 import { type User } from "../../data/schema/usersTable";
+import ensureSlash from "../utils/ensureSlash";
 
 type FeedAuthor = {
 	name: string;
@@ -59,9 +60,11 @@ export default function feedPreview(
 		visibility: feed.visibility,
 		image: feed.image,
 		isArticle: feed.is_article,
-		linkUrl: feed.link_url,
+		linkUrl: feed.is_article
+			? `${ensureSlash((feed.user ?? currentUser).url)}articles/${feed.slug}`
+			: feed.link_url,
 		linkTitle: feed.link_title,
 		linkImage: feed.link_image,
-		linkPublication: feed.link_publication,
+		linkPublication: feed.is_article ? currentUser.name : feed.link_publication,
 	};
 }

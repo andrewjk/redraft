@@ -14,7 +14,7 @@ export default function LinkPreview() {
 	}
 
 	@render {
-		<a class="link-preview vstack" href={link.url}>
+		<a class="link-preview vstack" href={link.linkUrl}>
 			<img class="link-preview-image" src={link.linkImage} />
 			<div class="link-preview-background vstack">
 				<h4 class="link-preview-title">{link.linkTitle}</h4>

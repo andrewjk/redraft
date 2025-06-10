@@ -1,14 +1,16 @@
 import { notFound, ok, serverError } from "@torpor/build/response";
 import { and, eq, isNull, or } from "drizzle-orm";
+import { micromark } from "micromark";
+import { gfm, gfmHtml } from "micromark-extension-gfm";
 import database from "../../data/database";
-import { commentsTable, postsTable } from "../../data/schema";
+import { articlesTable, commentsTable, postsTable } from "../../data/schema";
 import { User } from "../../data/schema/usersTable";
 import commentPreview from "../comments/commentPreview";
 import { FOLLOWER_POST_VISIBILITY, PUBLIC_POST_VISIBILITY } from "../constants";
 import ensureSlash from "../utils/ensureSlash";
 import getErrorMessage from "../utils/getErrorMessage";
 
-export default async function postGet(user: User, follower: User, slug: string) {
+export default async function articleGet(user: User, follower: User, slug: string) {
 	try {
 		const db = database();
 
@@ -56,6 +58,20 @@ export default async function postGet(user: User, follower: User, slug: string) 
 			return notFound();
 		}
 
+		// If it's an article, get the article text
+		let articleText;
+		if (post.article_id) {
+			const article = await db.query.articlesTable.findFirst({
+				where: eq(articlesTable.id, post.article_id),
+			});
+			if (article) {
+				articleText = micromark(article.text, {
+					extensions: [gfm()],
+					htmlExtensions: [gfmHtml()],
+				});
+			}
+		}
+
 		// Create the view
 		let parentComments = post.comments.filter((c) => c.parent_id === null);
 		let childComments = post.comments.filter((c) => c.parent_id !== null);
@@ -64,7 +80,7 @@ export default async function postGet(user: User, follower: User, slug: string) 
 			text: post.text,
 			image: post.image,
 			isArticle: post.is_article,
-			articleText: "",
+			articleText: articleText,
 			linkUrl: post.is_article
 				? `${ensureSlash(currentUser.url)}articles/${post.slug}`
 				: post.link_url,

@@ -63,9 +63,7 @@ export async function getPosts(
 		const condition = and(
 			drafts ? isNull(postsTable.published_at) : isNotNull(postsTable.published_at),
 			type === IMAGE_POST_TYPE ? isNotNull(postsTable.image) : undefined,
-			type === ARTICLE_POST_TYPE
-				? and(isNotNull(postsTable.link_url), eq(postsTable.is_article, true))
-				: undefined,
+			type === ARTICLE_POST_TYPE ? eq(postsTable.is_article, true) : undefined,
 			type === LINK_POST_TYPE
 				? and(isNotNull(postsTable.link_url), eq(postsTable.is_article, false))
 				: undefined,

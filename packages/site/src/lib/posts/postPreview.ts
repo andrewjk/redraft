@@ -1,6 +1,7 @@
 import { micromark } from "micromark";
 import { type Post } from "../../data/schema/postsTable";
 import { type User } from "../../data/schema/usersTable";
+import ensureSlash from "../utils/ensureSlash";
 
 type PostAuthor = {
 	name: string;
@@ -58,9 +59,11 @@ export default function postPreview(
 		visibility: post.visibility,
 		image: post.image,
 		isArticle: post.is_article,
-		linkUrl: post.link_url,
+		linkUrl: post.is_article
+			? `${ensureSlash(currentUser.url)}articles/${post.slug}`
+			: post.link_url,
 		linkTitle: post.link_title,
 		linkImage: post.link_image,
-		linkPublication: post.link_publication,
+		linkPublication: post.is_article ? currentUser.name : post.link_publication,
 	};
 }
