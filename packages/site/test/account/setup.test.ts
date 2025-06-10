@@ -4,8 +4,8 @@ import { node } from "@torpor/adapter-node";
 import { Site } from "@torpor/build";
 import { runTest } from "@torpor/build/test";
 import { eq } from "drizzle-orm";
-import { type LibSQLDatabase } from "drizzle-orm/libsql";
-import fs from "node:fs";
+import { LibSQLDatabase, drizzle } from "drizzle-orm/libsql";
+import { migrate } from "drizzle-orm/libsql/migrator";
 import { afterAll, beforeAll, expect, test } from "vitest";
 import { vi } from "vitest";
 import * as schema from "../../src/data/schema/index";
@@ -24,8 +24,9 @@ beforeAll(async () => {
 	site.adapter = node;
 	await site.addRouteFolder("./src/routes");
 
-	// Copy the database here and create a social adapter that gets it
-	fs.copyFileSync("./test/data/empty.db", `./test/data/setup.db`);
+	// Create setup.db and create a social adapter that gets it
+	const setupdb = drizzle("file:./test/data/setup.db", { schema });
+	await migrate(setupdb, { migrationsFolder: "./src/data/migrations" });
 
 	const adapter = testAdapter(`./test/data/setup.db`);
 	// @ts-ignore

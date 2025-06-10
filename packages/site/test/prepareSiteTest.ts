@@ -1,6 +1,6 @@
 import { node } from "@torpor/adapter-node";
 import { Site } from "@torpor/build";
-import { type LibSQLDatabase } from "drizzle-orm/libsql";
+import { LibSQLDatabase } from "drizzle-orm/libsql";
 import fs from "node:fs";
 import { vi } from "vitest";
 import * as schema from "../src/data/schema/index";
@@ -14,7 +14,7 @@ export async function prepareSiteTest(
 	await site.addRouteFolder("./src/routes");
 
 	// Copy the database here and create a social adapter that gets it
-	fs.copyFileSync("./test/data/filled.db", `./test/data/${dbname}.db`);
+	fs.copyFileSync("./test/data/testdata.db", `./test/data/${dbname}.db`);
 
 	const adapter = testAdapter(`./test/data/${dbname}.db`);
 	// @ts-ignore

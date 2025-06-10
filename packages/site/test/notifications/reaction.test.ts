@@ -1,7 +1,7 @@
 import "@testing-library/jest-dom/vitest";
 import { Site } from "@torpor/build";
 import { eq } from "drizzle-orm";
-import { type LibSQLDatabase } from "drizzle-orm/libsql";
+import { LibSQLDatabase } from "drizzle-orm/libsql";
 import { afterAll, assert, beforeAll, expect, test } from "vitest";
 import * as schema from "../../src/data/schema/index";
 import { type PostReactionModel } from "../../src/lib/public/postReaction";

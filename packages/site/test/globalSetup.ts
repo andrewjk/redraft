@@ -1,15 +1,15 @@
 import { LibSQLDatabase, drizzle } from "drizzle-orm/libsql";
+import { migrate } from "drizzle-orm/libsql/migrator";
 import fs from "node:fs";
 import * as schema from "../src/data/schema/index";
 import { ARTICLE_POST_TYPE, IMAGE_POST_TYPE, TEXT_POST_TYPE } from "../src/lib/constants";
 import { hashPassword } from "../src/lib/utils/hashPasswords";
 
 export async function setup(): Promise<void> {
-	// Copy empty.db to filled.db
-	fs.copyFileSync("./test/data/empty.db", "./test/data/filled.db");
+	// Create and fill testdata.db with some test data
+	const db = drizzle("file:./test/data/testdata.db", { schema });
+	await migrate(db, { migrationsFolder: "./src/data/migrations" });
 
-	// Fill filled.db with some test data
-	const db = drizzle("file:./test/data/filled.db", { schema });
 	await insertUser(db);
 	await insertFollowedBy(db);
 	await insertFollowing(db);
@@ -230,5 +230,5 @@ async function insertNotifications(db: LibSQLDatabase<typeof schema>) {
 	]);
 }
 export async function teardown(): Promise<void> {
-	fs.rmSync("./test/data/filled.db");
+	fs.rmSync("./test/data/testdata.db");
 }
