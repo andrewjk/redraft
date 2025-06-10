@@ -6,7 +6,7 @@ import Link from "phosphor-torpor/lib/Link";
 import Article from "phosphor-torpor/lib/Article";
 import Tag from "phosphor-torpor/lib/Tag";
 import UsersThree from "phosphor-torpor/lib/UsersThree";
-import XCircle from "phosphor-torpor/lib/XCircle";
+import X from "phosphor-torpor/lib/X";
 
 /**
  * Allows creating a post.
@@ -122,28 +122,40 @@ export default function PostInput($props) {
 				@/* 
 					// TODO: Need to have stack icons
 					<button type="button" class="link icon" onclick={() => post.type = TEXT_POST_TYPE}>
-						<XCircle weight="bold" />
+						<X weight="bold" />
 					</button>
 				*/
 				<button type="button" class="link icon" disabled={post.isArticle} onclick={() => post.hasImage = !post.hasImage}>
 					@if (post.hasImage) {
-						<Image weight="bold" />
+						<div class="zstack">
+							<X size="28px" />
+							<Image weight="bold" />
+						</div>
 					} else {
 						<Image weight="bold" />
 					}
 				</button>
 				<button type="button" class="link icon" disabled={post.isArticle} onclick={() => post.hasLink = !post.hasLink}>
 					@if (post.hasLink) {
-						<Link weight="bold" />
+						<div class="zstack">
+							<X size="28px" />
+							<Link weight="bold" />
+						</div>
 					} else {
 						<Link weight="bold" />
 					}
 				</button>
 				<button type="button" class="link icon" disabled={post.hasImage || post.hasLink} onclick={toggleArticle}>
-					<Article weight="bold" />
+					@if (post.isArticle) {
+						<div class="zstack">
+							<X size="28px" />
+							<Article weight="bold" />
+						</div>
+					} else {
+						<Article weight="bold" />
+					}
 				</button>
 				@function toggleArticle() {
-					// TODO: Should probably have separate fields, and merge them into the DB
 					post.hasLink = false;
 					post.linkUrl = null;
 					post.linkTitle = null;
@@ -152,10 +164,24 @@ export default function PostInput($props) {
 					post.isArticle = !post.isArticle
 				}
 				<button type="button" class="link icon" onclick={() => $state.showTags = !$state.showTags}>
-					<Tag weight="bold" />
+					@if ($state.showTags) {
+						<div class="zstack">
+							<X size="28px" />
+							<Tag weight="bold" />
+						</div>
+					} else {
+						<Tag weight="bold" />
+					}
 				</button>
 				<button type="button" class="link icon" onclick={() => $state.showVisibility = !$state.showVisibility}>
-					<UsersThree weight="bold" />
+					@if ($state.showVisibility) {
+						<div class="zstack">
+							<X size="28px" />
+							<UsersThree weight="bold" />
+						</div>
+					} else {
+						<UsersThree weight="bold" />
+					}
 				</button>
 
 				<button type="submit" formaction="?/savePost">

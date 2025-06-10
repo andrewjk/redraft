@@ -118,6 +118,16 @@ a:hover {
 	}
 }
 
+.zstack {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+
+	* {
+		position: absolute;
+	}
+}
+
 .spacer {
 	flex: 1 1 0;
 }
@@ -202,8 +212,8 @@ button.link:disabled {
 }
 
 button.link.icon {
-	width: 2.4rem;
-	height: 2.4rem;
+	min-width: 2.4rem;
+	min-height: 2.4rem;
 	padding: 0.4rem;
 	border-radius: var(--brad);
 }
