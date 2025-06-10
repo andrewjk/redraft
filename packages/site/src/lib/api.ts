@@ -4,8 +4,6 @@ import env from "../lib/env";
 import hook from "../routes/api/_hook.server";
 import ensureSlash from "./utils/ensureSlash";
 
-const base = `${ensureSlash(env().SITE_LOCATION)}api/`;
-
 type SendOptions = {
 	method: "GET" | "POST" | "PUT" | "DELETE";
 	path: string;
@@ -19,6 +17,8 @@ type SendOptions = {
 
 async function send({ method, path, endpoint, data, token }: SendOptions) {
 	console.log("getting api data from", path);
+
+	const base = `${ensureSlash(env().SITE_LOCATION)}api/`;
 
 	type RequestOptions = {
 		method: string;
