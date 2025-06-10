@@ -220,6 +220,10 @@ export default function PostPreview() {
 			color: gray;
 		}
 
+		.post-preview-image {
+			margin: 0 auto;
+		}
+
 		.post-preview-footer {
 			color: gray;
 		}
