@@ -6,7 +6,6 @@ import getErrorMessage from "../utils/getErrorMessage";
 import userIdQuery from "../utils/userIdQuery";
 import postCreateOrUpdate from "./postCreateOrUpdate";
 import { type PostEditModel } from "./postEdit";
-import postPreview from "./postPreview";
 
 export default async function postSave(request: Request, code: string) {
 	try {
@@ -22,9 +21,9 @@ export default async function postSave(request: Request, code: string) {
 			return unauthorized();
 		}
 
-		const result = await postCreateOrUpdate(model);
-		const view = postPreview(result.post, currentUser);
-		return ok(view);
+		await postCreateOrUpdate(model);
+
+		return ok();
 	} catch (error) {
 		const message = getErrorMessage(error).message;
 		return serverError(message);

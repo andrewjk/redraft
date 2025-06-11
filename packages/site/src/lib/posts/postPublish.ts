@@ -9,7 +9,6 @@ import getErrorMessage from "../utils/getErrorMessage";
 import userIdQuery from "../utils/userIdQuery";
 import postCreateOrUpdate from "./postCreateOrUpdate";
 import { type PostEditModel } from "./postEdit";
-import postPreview from "./postPreview";
 
 export default async function postPublish(
 	request: Request,
@@ -78,9 +77,7 @@ export default async function postPublish(
 			api.post(`posts/send`, postsSend, params, { id: post.id }, token);
 		}
 
-		// Return
-		const view = postPreview(post, currentUser);
-		return created(view);
+		return created();
 	} catch (error) {
 		const message = getErrorMessage(error).message;
 		return serverError(message);

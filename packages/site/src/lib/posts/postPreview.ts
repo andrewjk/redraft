@@ -1,5 +1,6 @@
 import { micromark } from "micromark";
 import { type Post } from "../../data/schema/postsTable";
+import { Tag } from "../../data/schema/tagsTable";
 import { type User } from "../../data/schema/usersTable";
 import ensureSlash from "../utils/ensureSlash";
 
@@ -29,10 +30,14 @@ export type PostPreview = {
 	linkImage: string | null;
 	linkTitle: string | null;
 	linkPublication: string | null;
+	tags: {
+		slug: string;
+		text: string;
+	}[];
 };
 
 export default function postPreview(
-	post: Post & { user?: PostAuthor | null },
+	post: Post & { user?: PostAuthor | null; postTags: { tag: Tag }[] },
 	currentUser: User,
 ): PostPreview {
 	return {
@@ -67,5 +72,9 @@ export default function postPreview(
 		linkTitle: post.link_title,
 		linkImage: post.link_image,
 		linkPublication: post.is_article ? currentUser.name : post.link_publication,
+		tags: post.postTags.map((pt) => ({
+			slug: pt.tag.slug,
+			text: pt.tag.text,
+		})),
 	};
 }

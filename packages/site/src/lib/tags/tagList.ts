@@ -1,7 +1,7 @@
 import { notFound, ok, serverError } from "@torpor/build/response";
-import { desc, isNull } from "drizzle-orm";
+import { desc, isNull, sql } from "drizzle-orm";
 import database from "../../data/database";
-import { tagsTable } from "../../data/schema";
+import { postTagsTable, tagsTable } from "../../data/schema";
 import getErrorMessage from "../utils/getErrorMessage";
 
 export type TagPreview = {
@@ -33,9 +33,10 @@ export default async function tagList(limit?: number, offset?: number): Promise<
 			where: condition,
 			orderBy: desc(tagsTable.updated_at),
 			// TODO: Put this back when the Drizzle alias bug is fixed
-			//extras: {
-			//	count: db.$count(postTagsTable, eq(postTagsTable.tag_id, tagsTable.id)).as("count"),
-			//},
+			extras: {
+				//count: db.$count(postTagsTable, eq(postTagsTable.tag_id, tagsTable.id)).as("count"),
+				count: db.$count(postTagsTable, sql`"post_tags"."tag_id" = "tagsTable"."id"`).as("count"),
+			},
 		});
 
 		// Get the total tag count
@@ -45,7 +46,7 @@ export default async function tagList(limit?: number, offset?: number): Promise<
 		const tags = dbtags.map((tag) => ({
 			slug: tag.slug,
 			text: tag.text,
-			count: /* tag.count */ 0,
+			count: tag.count,
 		}));
 
 		return ok({

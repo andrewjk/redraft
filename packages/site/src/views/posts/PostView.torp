@@ -111,19 +111,6 @@ export default function PostView() {
 							}
 						}
 
-						@/*
-						@if (post.tags.length) {
-							<div class="post-view-tags-container">
-								@for (let [i, tag] of post.tags.entries()) {
-									@if (i > 0) {
-										<span class="separator" />
-									}
-									<a href="{$props.data.base}tags/{tag}">{tag}</a>
-								}
-							</div>
-						}
-						*/
-
 						<div class="post-view-footer hstack centered">
 							<span class="hstack centered spaced-text">
 								<ChatCircle weight="bold" />
@@ -142,9 +129,13 @@ export default function PostView() {
 							@if (post.emojiThird) {
 								<span>{post.emojiThird}</span>
 							}
-							@for (let tag of post.tags) {
-								<a href="{$props.data.base}tags/{tag.slug}">{tag.text}</a>
-							}
+							<div class="hstack spaced-text">
+								@for (let tag of post.tags) {
+									<a href="{$props.data.base}tags/{tag.slug}" class="post-view-tag">
+										{tag.text}
+									</a>
+								}
+							</div>
 						</div>
 					</div>
 				</div>
@@ -230,6 +221,19 @@ export default function PostView() {
 			background-color: #fcfcfc;
 			border-radius: var(--brad);
 			font-size: 85%;
+		}
+
+		.post-view-tag {
+			background-color: var(--link);
+			border-radius: 0.4rem;
+			color: white;
+			font-size: 90%;
+			font-weight: bold;
+			padding: 0.2rem 1rem;
+		}
+
+		.post-view-tag:hover {
+			text-decoration: none;
 		}
 	}
 }

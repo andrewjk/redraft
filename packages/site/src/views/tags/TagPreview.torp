@@ -7,15 +7,24 @@ export default function TagPreview() {
 	@render {
 		<div class="tag-preview card">
 			<div class="tag-preview-header hstack centered spaced">
-				<a href="{$props.base}tags/{$props.tag.slug}">{$props.tag.text}</a>
-				<span class="separator" />
+				<a href="{$props.base}tags/{$props.tag.slug}" class="tag-preview-item">{$props.tag.text}</a>
 				<span>{pluralize($props.tag.count, "post")}</span>
 			</div>
 		</div>
 	}
 
 	@style {
-		.tag-preview {
+		.tag-preview-item {
+			background-color: var(--link);
+			border-radius: 0.4rem;
+			color: white;
+			font-size: 90%;
+			font-weight: bold;
+			padding: 0.2rem 1rem;
+		}
+
+		.tag-preview-item:hover {
+			text-decoration: none;
 		}
 	}
 }

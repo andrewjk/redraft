@@ -17,7 +17,15 @@ export default async function commentGet(slug: string) {
 		const comment = await db.query.commentsTable.findFirst({
 			where: eq(commentsTable.slug, slug),
 			with: {
-				post: true,
+				post: {
+					with: {
+						postTags: {
+							with: {
+								tag: true,
+							},
+						},
+					},
+				},
 				user: true,
 			},
 		});

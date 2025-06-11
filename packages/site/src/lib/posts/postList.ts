@@ -87,6 +87,13 @@ export async function getPosts(
 			offset,
 			where: condition,
 			orderBy: [desc(postsTable.pinned), desc(postsTable.updated_at)],
+			with: {
+				postTags: {
+					with: {
+						tag: true,
+					},
+				},
+			},
 		});
 
 		// Get the total post count

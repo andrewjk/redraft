@@ -51,7 +51,15 @@ export default async function tagPostList(
 			// HACK: Should be ordering by post date...
 			orderBy: desc(postTagsTable.post_id),
 			with: {
-				post: true,
+				post: {
+					with: {
+						postTags: {
+							with: {
+								tag: true,
+							},
+						},
+					},
+				},
 			},
 		});
 

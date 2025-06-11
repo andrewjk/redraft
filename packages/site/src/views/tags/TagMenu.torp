@@ -26,7 +26,7 @@ export default function TagMenu($props: { tag: string, section: string, user: an
 				</a>
 			}
 			<span class="menu-separator" />
-			<a href="tags">
+			<a href="{$props.base}tags">
 				All tags
 			</a>
 		</div>

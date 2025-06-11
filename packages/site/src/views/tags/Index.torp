@@ -14,7 +14,7 @@ export default function Index() {
 			</:head>
 
 			<h2>Tags</h2>
-			<TagList {$props.data.tags} {$props.data.user} {$props.data.follower} />
+			<TagList {$props.data.tags} {$props.data.user} {$props.data.follower} {$props.data.base} />
 			<Pagination {$props.data.pageCount} {$state.page} href={(p) => `/?page=${p}`} />
 		</div>
 	}

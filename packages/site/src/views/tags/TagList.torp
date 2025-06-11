@@ -13,7 +13,7 @@ export default function TagList() {
 			} else {
 				@for (let tag of $props.tags) {
 					@key = tag.slug
-					<TagPreview {tag} {$props.user} {$props.follower} {$props.data.base} />
+					<TagPreview {tag} {$props.user} {$props.follower} {$props.base} />
 				}
 			}
 		</div>

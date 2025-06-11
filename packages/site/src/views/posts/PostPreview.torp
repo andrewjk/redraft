@@ -175,6 +175,13 @@ export default function PostPreview() {
 						@if (post.emojiThird) {
 							<span>{post.emojiThird}</span>
 						}
+						<div class="hstack spaced-text">
+							@for (let tag of post.tags) {
+								<a href="{user.url}tags/{tag.slug}" class="post-preview-tag">
+									{tag.text}
+								</a>
+							}
+						</div>
 					</div>
 				</div>
 			</div>
@@ -234,6 +241,19 @@ export default function PostPreview() {
 
 		.post-preview-footer {
 			color: gray;
+		}
+
+		.post-preview-tag {
+			background-color: var(--link);
+			border-radius: 0.4rem;
+			color: white;
+			font-size: 90%;
+			font-weight: bold;
+			padding: 0.2rem 1rem;
+		}
+
+		.post-preview-tag:hover {
+			text-decoration: none;
 		}
 
 		.separator {
