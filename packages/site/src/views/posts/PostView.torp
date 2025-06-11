@@ -7,6 +7,7 @@ import CommentList from "../comments/CommentList.torp"
 import LinkPreview from './LinkPreview.torp';
 import ChatCircle from "phosphor-torpor/lib/ChatCircle";
 import Heart from "phosphor-torpor/lib/Heart";
+import Pencil from "phosphor-torpor/lib/Pencil";
 
 /**
  * Shows a post's full details.
@@ -68,7 +69,9 @@ export default function PostView() {
 									{relativeTimeSince(new Date(post.publishedAt))}
 								</div>
 								@if (user?.url === post.author.url) {
-									<a href="{$props.data.base}posts/edit/{post.slug}">Edit</a>
+									<a href="{$props.data.base}posts/edit/{post.slug}" class="icon">
+										<Pencil weight="bold" />
+									</a>
 								} else {
 									<span>&nbsp;</span>
 								}
@@ -86,6 +89,27 @@ export default function PostView() {
 								<LinkPreview link={post} />
 							}
 						</div>
+
+						@if (post.children?.length > 0) {
+							@for (let child of post.children) {
+								<div class="child-post-body">
+									@if (new Date(child.publishedAt).getTime() - new Date(post.publishedAt).getTime() > 30000) {
+										<div class="child-post-time" title={fmt.format(new Date(child.publishedAt))}>
+											{relativeTimeSince(new Date(child.publishedAt))}
+										</div>
+									}
+									<p>{child.text}</p>
+									@if (child.image) {
+										<p>
+											<img src={child.image} />
+										</p>
+									}
+									@if (child.linkUrl) {
+										<LinkPreview link={child} />
+									}
+								</div>
+							}
+						}
 
 						@/*
 						@if (post.tags.length) {
@@ -161,6 +185,18 @@ export default function PostView() {
 
 		.post-view-body {
 			padding: 1rem 0;
+		}
+
+		.child-post-body {
+			border-top: 1px solid #efefef;
+			padding: 1rem 0;
+		}
+
+		.child-post-time {
+			color: gray;
+			font-size: 90%;
+			line-height: 1.4;
+			text-align: right;
 		}
 
 		.post-view-link {

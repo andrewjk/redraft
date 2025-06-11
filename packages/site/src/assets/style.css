@@ -273,14 +273,16 @@ button.link:disabled {
 	color: gray !important;
 }
 
-button.link.icon {
+button.link.icon,
+a.icon {
 	min-width: 2.4rem;
 	min-height: 2.4rem;
 	padding: 0.4rem;
 	border-radius: var(--brad);
 }
 
-button.link.icon:enabled:hover {
+button.link.icon:enabled:hover,
+a.icon:hover {
 	background: #f0f2f6;
 }
 

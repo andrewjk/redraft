@@ -9,6 +9,7 @@ import PushPin from "phosphor-torpor/lib/PushPin";
 import PushPinSlash from "phosphor-torpor/lib/PushPinSlash";
 import ChatCircle from "phosphor-torpor/lib/ChatCircle";
 import Heart from "phosphor-torpor/lib/Heart";
+import Pencil from "phosphor-torpor/lib/Pencil";
 
 /**
  * Shows a post preview for display in a list.
@@ -77,8 +78,11 @@ export default function PostPreview() {
 							<div class="post-preview-time" title={fmt.format(new Date(post.publishedAt))}>
 								{relativeTimeSince(new Date(post.publishedAt))}
 							</div>
-							<div class="hstack spaced-text">
+							<div class="hstack spaced-text centered">
 								@if (user?.url === post.author.url) {
+									<a href="{post.author.url}posts/edit/{post.slug}" class="icon">
+										<Pencil weight="bold" />
+									</a>
 									<form use:enhance method="POST" action="?/pinPost">
 										<input type="hidden" name="slug" value={post.slug} />
 										<input type="hidden" name="pinned" value={!post.pinned} />
@@ -143,7 +147,11 @@ export default function PostPreview() {
 					<div class="post-preview-footer hstack centered">
 						@if (post.isArticle) {
 							<a href="{post.author.url}posts/{post.slug}">
-								Read article
+								Read
+							</a>
+						} else if (post.childCount > 0) {
+							<a href="{post.author.url}posts/{post.slug}">
+								{post.childCount + 1} posts
 							</a>
 						} else {
 							<a href="{post.author.url}posts/{post.slug}">

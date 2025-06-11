@@ -29,6 +29,13 @@
       "when": 1749187088417,
       "tag": "0003_blue_gauntlet",
       "breakpoints": true
+    },
+    {
+      "idx": 4,
+      "version": "6",
+      "when": 1749541048245,
+      "tag": "0004_serious_paibok",
+      "breakpoints": true
     }
   ]
 }

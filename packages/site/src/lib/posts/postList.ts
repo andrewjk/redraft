@@ -61,6 +61,7 @@ export async function getPosts(
 		}
 
 		const condition = and(
+			isNull(postsTable.parent_id),
 			drafts ? isNull(postsTable.published_at) : isNotNull(postsTable.published_at),
 			type === IMAGE_POST_TYPE ? isNotNull(postsTable.image) : undefined,
 			type === ARTICLE_POST_TYPE ? eq(postsTable.is_article, true) : undefined,

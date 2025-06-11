@@ -1,7 +1,10 @@
 import { notFound, ok, serverError, unauthorized } from "@torpor/build/response";
-import { eq } from "drizzle-orm";
+import { and, eq, isNull } from "drizzle-orm";
 import database from "../../data/database";
 import { articlesTable, postsTable, usersTable } from "../../data/schema";
+import { Article } from "../../data/schema/articlesTable";
+import { Post } from "../../data/schema/postsTable";
+import { Tag } from "../../data/schema/tagsTable";
 import getErrorMessage from "../utils/getErrorMessage";
 import userIdQuery from "../utils/userIdQuery";
 
@@ -20,7 +23,8 @@ export type PostEditModel = {
 	linkTitle: string | null;
 	linkImage: string | null;
 	linkPublication: string | null;
-	tags: string | null;
+	children?: PostEditModel[];
+	tags?: string;
 };
 
 export default async function postEdit(slug: string, code: string) {
@@ -58,28 +62,45 @@ export default async function postEdit(slug: string, code: string) {
 			});
 		}
 
+		// If it has children, get them
+		let children: Post[] = [];
+		if (post.child_count) {
+			children = await db.query.postsTable.findMany({
+				where: and(eq(postsTable.parent_id, post.id), isNull(postsTable.deleted_at)),
+			});
+		}
+
 		// Create the view
-		const view: PostEditModel = {
-			id: post.id,
-			published: !!post.published_at,
-			text: post.text,
-			visibility: post.visibility,
-			image: post.image,
-			hasImage: !!post.image,
-			isArticle: post.is_article,
-			articleId: article ? article.id : null,
-			articleText: article ? article.text : null,
-			hasLink: !!post.link_url,
-			linkUrl: post.link_url,
-			linkImage: post.link_image,
-			linkTitle: post.link_title,
-			linkPublication: post.link_publication,
-			tags: post.postTags.map((pt) => pt.tag.text).join("; "),
-		};
+		const view = createView(post, article, children);
 
 		return ok(view);
 	} catch (error) {
 		const message = getErrorMessage(error).message;
 		return serverError(message);
 	}
+}
+
+function createView(
+	post: Post & { postTags?: { tag: Tag }[] },
+	article?: Article,
+	children?: Post[],
+): PostEditModel {
+	return {
+		id: post.id,
+		published: !!post.published_at,
+		text: post.text,
+		visibility: post.visibility,
+		image: post.image,
+		hasImage: !!post.image,
+		isArticle: post.is_article,
+		articleId: article ? article.id : null,
+		articleText: article ? article.text : null,
+		hasLink: !!post.link_url,
+		linkUrl: post.link_url,
+		linkImage: post.link_image,
+		linkTitle: post.link_title,
+		linkPublication: post.link_publication,
+		children: children?.map((c) => createView(c)),
+		tags: post.postTags?.map((pt) => pt.tag.text).join("; "),
+	} satisfies PostEditModel;
 }

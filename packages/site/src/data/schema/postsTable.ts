@@ -52,6 +52,10 @@ export const postsTable = sqliteTable("posts", {
 	link_image: text(),
 	/** Publication for link */
 	link_publication: text(),
+	/** Id of the parent post, or null if this is not a child */
+	parent_id: int(),
+	/** The count of child posts */
+	child_count: int().notNull().default(0),
 	/** Whether this post is pinned at the top of the list */
 	pinned: int({ mode: "boolean" }).notNull().default(false),
 	/** When this post was published, or null if it's still in draft */

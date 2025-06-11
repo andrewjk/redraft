@@ -21,6 +21,7 @@ export type FeedPreview = {
 	emoji: string | null;
 	publishedAt: Date;
 	republishedAt: Date | null;
+	childCount: number;
 	commentCount: number;
 	visibility: number;
 	image: string | null;
@@ -56,6 +57,7 @@ export default function feedPreview(
 		emoji: feed.emoji,
 		publishedAt: feed.published_at,
 		republishedAt: feed.republished_at,
+		childCount: feed.child_count,
 		commentCount: feed.comment_count,
 		visibility: feed.visibility,
 		image: feed.image,

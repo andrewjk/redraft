@@ -2,11 +2,52 @@ import { notFound, ok, serverError } from "@torpor/build/response";
 import { and, eq, isNull, or } from "drizzle-orm";
 import database from "../../data/database";
 import { commentsTable, postsTable } from "../../data/schema";
+import { Post } from "../../data/schema/postsTable";
 import { User } from "../../data/schema/usersTable";
-import commentPreview from "../comments/commentPreview";
+import commentPreview, { CommentPreview } from "../comments/commentPreview";
 import { FOLLOWER_POST_VISIBILITY, PUBLIC_POST_VISIBILITY } from "../constants";
 import ensureSlash from "../utils/ensureSlash";
 import getErrorMessage from "../utils/getErrorMessage";
+
+interface PostViewModel {
+	slug: string;
+	text: string;
+	//visibility: number;
+	image: string | null;
+	isArticle: boolean;
+	articleText: string | null;
+	linkUrl: string | null;
+	linkTitle: string | null;
+	linkImage: string | null;
+	linkPublication: string | null;
+	author: {
+		image: string;
+		name: string;
+		url: string;
+	};
+	commentCount: number;
+	likeCount: number;
+	emojiFirst: string | null;
+	emojiSecond: string | null;
+	emojiThird: string | null;
+	childCount: number;
+	children: {
+		text: string;
+		//visibility: number;
+		image: string | null;
+		linkUrl: string | null;
+		linkTitle: string | null;
+		linkImage: string | null;
+		linkPublication: string | null;
+	}[];
+	publishedAt: Date;
+	republishedAt: Date | null;
+	tags: {
+		slug: string;
+		text: string;
+	}[];
+	comments: CommentPreview[];
+}
 
 export default async function postGet(user: User, follower: User, slug: string) {
 	try {
@@ -56,10 +97,18 @@ export default async function postGet(user: User, follower: User, slug: string) 
 			return notFound();
 		}
 
+		// If it has children, get them
+		let children: Post[] = [];
+		if (post.child_count) {
+			children = await db.query.postsTable.findMany({
+				where: and(eq(postsTable.parent_id, post.id), isNull(postsTable.deleted_at)),
+			});
+		}
+
 		// Create the view
 		let parentComments = post.comments.filter((c) => c.parent_id === null);
 		let childComments = post.comments.filter((c) => c.parent_id !== null);
-		const view = {
+		const view: PostViewModel = {
 			slug: post.slug,
 			text: post.text,
 			image: post.image,
@@ -81,6 +130,16 @@ export default async function postGet(user: User, follower: User, slug: string) 
 			emojiFirst: post.emoji_first,
 			emojiSecond: post.emoji_second,
 			emojiThird: post.emoji_third,
+			childCount: post.child_count,
+			children: children.map((c) => ({
+				text: c.text,
+				image: c.image,
+				linkUrl: c.link_url,
+				linkTitle: c.link_title,
+				linkImage: c.link_image,
+				linkPublication: c.link_publication,
+				publishedAt: c.published_at ?? c.created_at,
+			})),
 			publishedAt: post.published_at ?? post.created_at,
 			republishedAt: post.republished_at,
 			tags: post.postTags.map((pt) => ({ slug: pt.tag.slug, text: pt.tag.text })),

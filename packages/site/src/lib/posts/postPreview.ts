@@ -16,6 +16,7 @@ export type PostPreview = {
 	pinned: boolean;
 	publishedAt: Date;
 	republishedAt: Date | null;
+	childCount: number;
 	commentCount: number;
 	likeCount: number;
 	emojiFirst: string | null;
@@ -51,6 +52,7 @@ export default function postPreview(
 		pinned: post.pinned,
 		publishedAt: post.published_at ?? post.updated_at,
 		republishedAt: post.republished_at,
+		childCount: post.child_count,
 		commentCount: post.comment_count,
 		likeCount: post.like_count,
 		emojiFirst: post.emoji_first,

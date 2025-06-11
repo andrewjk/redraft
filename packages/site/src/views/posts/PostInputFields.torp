@@ -1,0 +1,235 @@
+//import { enhance } from '$app/forms';
+import ImageUpload from '../ImageUpload.torp';
+import LinkPreview from './LinkPreview.torp';
+import Image from "phosphor-torpor/lib/Image";
+import Link from "phosphor-torpor/lib/Link";
+import Article from "phosphor-torpor/lib/Article";
+import Tag from "phosphor-torpor/lib/Tag";
+import UsersThree from "phosphor-torpor/lib/UsersThree";
+import StackPlus from "phosphor-torpor/lib/StackPlus";
+import Stack from "phosphor-torpor/lib/Stack";
+import X from "phosphor-torpor/lib/X";
+
+/**
+ * Allows creating a post.
+ */
+export default function PostInput($props) {
+	let user = $props.user;
+	let post = $watch($props.child ?? $props.post ?? newPost());
+	let child = $props.child;
+	let prefix = $props.child ? `children[${$props.i}]` : "";
+
+	let $state = $watch({
+		linkLoading: false,
+		linkLoaded: !!post.linkUrl,
+		showTags: !!post.tags,
+		showVisibility: !!post.visibility,
+	});
+
+	function newPost() {
+		return { id: -1, type: 0, visibility: 0, children: [] };
+	}
+
+	@render {
+		<div style="display: contents;">
+			<input type="hidden" name={`${prefix}id`} value={post.id} />
+			<input type="hidden" name={`${prefix}hasImage`} value={post.hasImage} />
+			<input type="hidden" name={`${prefix}hasLink`} value={post.hasLink} />
+			<input type="hidden" name={`${prefix}isArticle`} value={post.isArticle} />
+
+			<div class="post-input-row">
+				<textarea
+					class="full-width"
+					name={`${prefix}text`}
+					&value={post.text}
+					placeholder="Post something..."
+					rows="3"
+				/>
+			</div>
+
+			@if (post.isArticle) {
+				<input type="hidden" name={`${prefix}articleId`} value={post.articleId} />
+				<input type="hidden" name={`${prefix}linkPublication`} value={user.name} />
+
+				<div class="form-row">
+					<input
+						name={`${prefix}linkTitle`}
+						&value={post.linkTitle}
+						required
+						placeholder="Title"
+					/>
+				</div>
+				<ImageUpload image={post.linkImage} class="full-width" />
+				<div class="form-row">
+					<textarea
+						class="full-width"
+						&value={post.articleText}
+						name={`${prefix}articleText`}
+						placeholder="Article text"
+					/>
+				</div>
+			} 
+
+			@// HACK: Nested ifs are broken...
+
+			@if (!post.isArticle && post.hasImage) {
+				<ImageUpload image={post.image} class="full-width" />
+			}
+
+			@if (!post.isArticle && post.hasLink) {
+				<input type="hidden" name={`${prefix}linkImage`} value={post.linkImage} />
+				<input type="hidden" name={`${prefix}linkTitle`} value={post.linkTitle} />
+				<input type="hidden" name={`${prefix}linkPublication`} value={post.linkPublication} />
+
+				<div class="form-row">
+					<input
+						id="url-input"
+						type="url"
+						name={`${prefix}linkUrl`}
+						&value={post.linkUrl}
+						class="full-width"
+						placeholder="Link URL"
+						oninput={async (e) => {
+							// TODO: Debounce
+							$state.linkLoading = true;
+							const response = await fetch(`/api/posts/link-info?url=${e.target.value}`, { credentials: 'same-origin' });
+							const info = await response.json()
+							if (info) {
+								$state.linkLoading = false;
+								$state.linkLoaded = true;
+								post.linkTitle = info.title;
+								post.linkImage = info.image;
+								post.linkPublication = info.publication;
+							}
+						}} />
+				</div>
+				@if ($state.linkLoading) {
+					<div>Loading...</div>
+				} else if ($state.linkLoaded) {
+					<LinkPreview link={post} />
+				}
+			}
+			
+			@if ($state.showTags) {
+				<div class="form-row">
+					<input id="tags-input" name="tags" &value={post.tags} placeholder="Tags (separate with semicolons)" />
+				</div>
+			}
+
+			@if ($state.showVisibility) {
+				<div class="form-row">
+					<select name="visibility" &value={post.visibility}>
+						<option value="0">Public</option>
+						<option value="1">Followers</option>
+						<option value="2">Private</option>
+					</select>
+				</div>
+			}
+
+			<div class="hstack spaced centered post-input-footer">
+				<div class="spacer" />
+				<button type="button" class="link icon" disabled={post.isArticle} onclick={() => post.hasImage = !post.hasImage}>
+					@if (post.hasImage) {
+						<div class="zstack">
+							<X size="28px" />
+							<Image weight="bold" />
+						</div>
+					} else {
+						<Image weight="bold" />
+					}
+				</button>
+				<button type="button" class="link icon" disabled={post.isArticle} onclick={() => post.hasLink = !post.hasLink}>
+					@if (post.hasLink) {
+						<div class="zstack">
+							<X size="28px" />
+							<Link weight="bold" />
+						</div>
+					} else {
+						<Link weight="bold" />
+					}
+				</button>
+				@if (!child) {
+					<button type="button" class="link icon" disabled={post.hasImage || post.hasLink || post.children.length > 0} onclick={toggleArticle}>
+						@if (post.isArticle) {
+							<div class="zstack">
+								<X size="28px" />
+								<Article weight="bold" />
+							</div>
+						} else {
+							<Article weight="bold" />
+						}
+					</button>
+				}
+				@// TODO: Move this into the @if
+				@function toggleArticle() {
+					post.hasLink = false;
+					post.linkUrl = null;
+					post.linkTitle = null;
+					post.linkImage = null;
+					post.linkPublication = null;
+					post.isArticle = !post.isArticle
+				}
+				@/* TODO: fix these!
+				@if (child) {
+					<button type="button" class="link icon" onclick={removeChild}>
+						<div class="zstack">
+							<X size="28px" />
+							<Stack weight="bold" />
+						</div>
+					</button>
+				}
+				*/
+				<button type="button" class="link icon" disabled={post.isArticle} onclick={addChild}>
+					<StackPlus weight="bold" />
+				</button>
+				@function addChild() {
+					let i = $props.i !== undefined ? $props.i + 1 : 0;
+					$props.post.children.splice(i, 0, newPost());
+				}
+				@function removeChild() {
+					let i = $props.i !== undefined ? $props.i : 0;
+					$props.post.children.splice(i, 1);
+				}
+				@if (!child) {
+					<button type="button" class="link icon" onclick={() => $state.showTags = !$state.showTags}>
+						@if ($state.showTags) {
+							<div class="zstack">
+								<X size="28px" />
+								<Tag weight="bold" />
+							</div>
+						} else {
+							<Tag weight="bold" />
+						}
+					</button>
+					<button type="button" class="link icon" onclick={() => $state.showVisibility = !$state.showVisibility}>
+						@if ($state.showVisibility) {
+							<div class="zstack">
+								<X size="28px" />
+								<UsersThree weight="bold" />
+							</div>
+						} else {
+							<UsersThree weight="bold" />
+						}
+					</button>
+				}
+
+				@if (!child) {
+					<button type="submit" formaction="?/savePost">
+						{post.published ? "Save" : "Save draft"}
+					</button>
+					<button type="submit" formaction="?/publishPost">
+						{post.published ? "Republish" : "Publish"}
+					</button>
+				}
+			</div>
+		</div>
+	}
+
+	@style {
+		.post-input {
+			margin-bottom: 1rem;
+			max-width: 60rem;
+			width: 100%;
+		}
+	}
+}

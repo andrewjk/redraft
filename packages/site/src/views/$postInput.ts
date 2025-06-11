@@ -7,6 +7,7 @@ const $postInput = $watch({
 	id: -1,
 	type: 0,
 	visibility: 0,
+	children: [],
 });
 
 export default $postInput;

@@ -8,6 +8,7 @@ import ChatCircle from "phosphor-torpor/lib/ChatCircle";
 import Heart from "phosphor-torpor/lib/Heart";
 import BookmarkSimple from "phosphor-torpor/lib/BookmarkSimple";
 import HandWaving from "phosphor-torpor/lib/HandWaving";
+import Pencil from "phosphor-torpor/lib/Pencil";
 import XCircle from "phosphor-torpor/lib/XCircle";
 
 /**
@@ -75,8 +76,12 @@ export default function FeedPreview() {
 							<div class="feed-preview-time" title={fmt.format(new Date(feed.publishedAt))}>
 								{relativeTimeSince(new Date(feed.publishedAt))}
 							</div>
-							<div class="hstack spaced-text">
-								@if (user?.url !== feed.author.url) {
+							<div class="hstack spaced-text centered">
+								@if (user?.url === feed.author.url) {
+									<a href="{feed.author.url}posts/edit/{feed.slug}" class="icon">
+										<Pencil weight="bold" />
+									</a>
+								} else {
 									<form use:enhance method="POST" action="?/likeFeedPost">
 										<input type="hidden" name="slug" value={feed.slug} />
 										<input type="hidden" name="authorUrl" value={feed.author.url} />
@@ -116,8 +121,6 @@ export default function FeedPreview() {
 											<HandWaving weight="bold" />
 										</button>
 									}
-								} else {
-									<span>&nbsp;</span>
 								}
 							</div>
 						</div>
@@ -155,8 +158,12 @@ export default function FeedPreview() {
 
 					<div class="feed-preview-footer hstack centered">
 						@if (feed.isArticle) {
+							<a href="{feed.author.url}articles/{feed.slug}">
+								Read
+							</a>
+						} else if (feed.childCount > 0) {
 							<a href="{feed.author.url}posts/{feed.slug}">
-								Read article
+								{feed.childCount + 1} posts
 							</a>
 						} else {
 							<a href="{feed.author.url}posts/{feed.slug}">
