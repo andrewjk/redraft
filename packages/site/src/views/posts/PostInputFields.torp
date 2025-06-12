@@ -53,6 +53,7 @@ export default function PostInput($props) {
 
 				<div class="form-row">
 					<input
+						class="post-input-article-title"
 						name={`${prefix}linkTitle`}
 						&value={post.linkTitle}
 						required
@@ -240,6 +241,10 @@ export default function PostInput($props) {
 			margin-bottom: 1rem;
 			max-width: 60rem;
 			width: 100%;
+		}
+
+		.post-input-article-title {
+			font-size: x-large;
 		}
 	}
 }

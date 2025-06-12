@@ -70,7 +70,7 @@ export default async function postCreateOrUpdate(model: PostEditModel): Promise<
 			await db
 				.insert(postsTable)
 				.values({
-					slug: model.isArticle ? sluggify(model.linkTitle!) : uuid(),
+					slug: model.isArticle ? sluggify(model.linkTitle!, true) : uuid(),
 					text: model.text,
 					visibility: model.visibility || 0,
 					image: model.hasImage ? model.image : null,
@@ -124,7 +124,7 @@ export default async function postCreateOrUpdate(model: PostEditModel): Promise<
 			await db
 				.update(postsTable)
 				.set({
-					slug: model.isArticle ? sluggify(model.linkTitle!) : undefined,
+					slug: model.isArticle ? sluggify(model.linkTitle!, true) : undefined,
 					text: model.text,
 					visibility: model.visibility || 0,
 					image: model.hasImage ? model.image : null,
