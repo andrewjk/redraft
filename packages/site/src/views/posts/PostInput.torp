@@ -1,14 +1,5 @@
 //import { enhance } from '$app/forms';
 import PostInputFields from './PostInputFields.torp';
-import ImageUpload from '../ImageUpload.torp';
-import LinkPreview from './LinkPreview.torp';
-import Image from "phosphor-torpor/lib/Image";
-import Link from "phosphor-torpor/lib/Link";
-import Article from "phosphor-torpor/lib/Article";
-import Tag from "phosphor-torpor/lib/Tag";
-import UsersThree from "phosphor-torpor/lib/UsersThree";
-import StackPlus from "phosphor-torpor/lib/StackPlus";
-import X from "phosphor-torpor/lib/X";
 
 /**
  * Allows creating a post.

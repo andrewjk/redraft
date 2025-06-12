@@ -1,4 +1,5 @@
 //import { enhance } from '$app/forms';
+import placeholdify from "../../lib/utils/placeholdify";
 import FormErrors from '../FormErrors.torp';
 
 export default function Setup() {
@@ -51,7 +52,7 @@ export default function Setup() {
 					<div class="form-row">
 						<label for="image-input">Image</label
 						<div class="hstack spaced centered">
-							<div id="image-preview" />
+							<div id="image-preview" style={`background-image: url("${placeholdify()}")`}  />
 							<input
 								id="image-input"
 								name="imagefile"

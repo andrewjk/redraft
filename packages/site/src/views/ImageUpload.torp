@@ -1,5 +1,5 @@
 
-export default function ImageUpload($props: { image: string }) {
+export default function ImageUpload($props: { image: string, imageLoaded: boolean }) {
 	let img;
 
 	function fileSelected(e) {
@@ -10,19 +10,22 @@ export default function ImageUpload($props: { image: string }) {
 		const fileReader = new FileReader();
 		fileReader.readAsDataURL(image);
 		fileReader.onload = (ev) => {
-			img.src = ev.target.result
+			$props.image = ev.target.result;
+			$props.imageLoaded = true;
 		}
 	}
 
 	@render {
 		<div class="vstack spaced centered">
-			<input
-				class="full-width"
-				name="imagefile"
-				type="file"
-				accept="image/*"
-				onchange={fileSelected}
-			/>
+			@if (!$props.imageLoaded) {
+				<input
+					class="full-width"
+					name="imagefile"
+					type="file"
+					accept="image/*"
+					onchange={fileSelected}
+				/>
+			}
 			<img &ref={img} src={$props.image} />
 		</div>
 	}

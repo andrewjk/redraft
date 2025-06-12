@@ -74,7 +74,11 @@ export default function PostInput($props) {
 			@// HACK: Nested ifs are broken...
 
 			@if (!post.isArticle && post.hasImage) {
-				<ImageUpload image={post.image} class="full-width" />
+				<ImageUpload
+					&image={post.image}
+					&imageLoaded={$state.imageLoaded}
+					class="full-width"
+				/>
 			}
 
 			@if (!post.isArticle && post.hasLink) {
@@ -85,35 +89,37 @@ export default function PostInput($props) {
 				<input type="hidden" name={`${prefix}linkEmbedWidth`} value={post.linkEmbedWidth} />
 				<input type="hidden" name={`${prefix}linkEmbedHeight`} value={post.linkEmbedHeight} />
 
-				<div class="form-row">
-					<input
-						id="url-input"
-						type="url"
-						name={`${prefix}linkUrl`}
-						&value={post.linkUrl}
-						class="full-width"
-						placeholder="Link URL"
-						oninput={async (e) => {
-							// TODO: Debounce
-							$state.linkLoading = true;
-							$state.linkLoaded = false;
-							const response = await fetch(`/api/posts/link-info?url=${e.target.value}`, { credentials: 'same-origin' });
-							const info = await response.json()
-							$state.linkLoading = false;
-							if (info) {
-								$state.linkLoaded = true;
-								post.linkTitle = info.title;
-								post.linkImage = info.image;
-								post.linkPublication = info.publication;
-								post.linkEmbedSrc = info.embedSrc;
-								post.linkEmbedWidth = info.embedWidth;
-								post.linkEmbedHeight = info.embedHeight;
-							}
-						}} />
-				</div>
+				@if (!$state.linkLoaded) {
+					<div class="form-row">
+						<input
+							id="url-input"
+							type="url"
+							name={`${prefix}linkUrl`}
+							&value={post.linkUrl}
+							class="full-width"
+							placeholder="Link URL"
+							oninput={async (e) => {
+								// TODO: Debounce
+								$state.linkLoading = true;
+								$state.linkLoaded = false;
+								const response = await fetch(`/api/posts/link-info?url=${e.target.value}`, { credentials: 'same-origin' });
+								const info = await response.json()
+								$state.linkLoading = false;
+								if (info) {
+									$state.linkLoaded = true;
+									post.linkTitle = info.title;
+									post.linkImage = info.image;
+									post.linkPublication = info.publication;
+									post.linkEmbedSrc = info.embedSrc;
+									post.linkEmbedWidth = info.embedWidth;
+									post.linkEmbedHeight = info.embedHeight;
+								}
+							}} />
+					</div>
+				}
 				@if ($state.linkLoading) {
 					<div>Loading...</div>
-				} else if ($state.linkLoaded) {
+				} else if (post.linkUrl) {
 					<LinkPreview link={post} />
 				}
 			}
@@ -136,7 +142,7 @@ export default function PostInput($props) {
 
 			<div class="hstack spaced centered post-input-footer">
 				<div class="spacer" />
-				<button type="button" class="link icon" disabled={post.isArticle} onclick={() => post.hasImage = !post.hasImage}>
+				<button type="button" class="link icon" disabled={post.isArticle} onclick={toggleImage}>
 					@if (post.hasImage) {
 						<div class="zstack">
 							<X size="28px" />
@@ -146,7 +152,13 @@ export default function PostInput($props) {
 						<Image weight="bold" />
 					}
 				</button>
-				<button type="button" class="link icon" disabled={post.isArticle} onclick={() => post.hasLink = !post.hasLink}>
+				@function toggleImage() {
+					post.hasImage = !post.hasImage;
+					if (post.hasImage) {
+						$state.imageLoaded = false;
+					}
+				}
+				<button type="button" class="link icon" disabled={post.isArticle} onclick={toggleLink}>
 					@if (post.hasLink) {
 						<div class="zstack">
 							<X size="28px" />
@@ -156,6 +168,12 @@ export default function PostInput($props) {
 						<Link weight="bold" />
 					}
 				</button>
+				@function toggleLink() {
+					post.hasLink = !post.hasLink;
+					if (post.hasLink) {
+						$state.linkLoaded = false;
+					}
+				}
 				@if (!child) {
 					<button type="button" class="link icon" disabled={post.hasImage || post.hasLink || post.children.length > 0} onclick={toggleArticle}>
 						@if (post.isArticle) {
