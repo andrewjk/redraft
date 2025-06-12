@@ -23,6 +23,9 @@ export type PostEditModel = {
 	linkTitle: string | null;
 	linkImage: string | null;
 	linkPublication: string | null;
+	linkEmbedSrc: string | null;
+	linkEmbedWidth: number | null;
+	linkEmbedHeight: number | null;
 	children?: PostEditModel[];
 	tags?: string;
 };
@@ -100,6 +103,9 @@ function createView(
 		linkImage: post.link_image,
 		linkTitle: post.link_title,
 		linkPublication: post.link_publication,
+		linkEmbedSrc: post.link_embed_src,
+		linkEmbedWidth: post.link_embed_width,
+		linkEmbedHeight: post.link_embed_height,
 		children: children?.map((c) => createView(c)),
 		tags: post.postTags?.map((pt) => pt.tag.text).join("; "),
 	} satisfies PostEditModel;

@@ -30,6 +30,9 @@ export type FeedPreview = {
 	linkTitle: string | null;
 	linkImage: string | null;
 	linkPublication: string | null;
+	linkEmbedSrc: string | null;
+	linkEmbedWidth: number | null;
+	linkEmbedHeight: number | null;
 };
 
 export default function feedPreview(
@@ -68,5 +71,8 @@ export default function feedPreview(
 		linkTitle: feed.link_title,
 		linkImage: feed.link_image,
 		linkPublication: feed.is_article ? currentUser.name : feed.link_publication,
+		linkEmbedSrc: feed.link_embed_src,
+		linkEmbedWidth: feed.link_embed_width,
+		linkEmbedHeight: feed.link_embed_height,
 	};
 }

@@ -54,6 +54,9 @@ export default async function postSend(request: Request, code: string) {
 					linkTitle: post.link_title,
 					linkImage: post.link_image,
 					linkPublication: post.link_publication,
+					linkEmbedSrc: post.link_embed_src,
+					linkEmbedWidth: post.link_embed_width,
+					linkEmbedHeight: post.link_embed_height,
 					publishedAt: post.published_at!,
 					republishedAt: post.republished_at,
 				};

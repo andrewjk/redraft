@@ -43,6 +43,10 @@ export const feedTable = sqliteTable("feed", {
 	link_image: text(),
 	/** Publication for link */
 	link_publication: text(),
+	/** Embed info for link */
+	link_embed_src: text(),
+	link_embed_width: int(),
+	link_embed_height: int(),
 	/** The count of child items */
 	child_count: int().notNull().default(0),
 	/** When this post was published */

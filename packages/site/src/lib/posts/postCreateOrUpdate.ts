@@ -80,6 +80,10 @@ export default async function postCreateOrUpdate(model: PostEditModel): Promise<
 					link_title: model.hasLink || model.isArticle ? model.linkTitle : null,
 					link_image: model.hasLink || model.isArticle ? model.linkImage : null,
 					link_publication: model.hasLink || model.isArticle ? model.linkPublication : null,
+					link_embed_src:
+						model.hasLink && model.linkEmbedSrc?.startsWith("https://") ? model.linkEmbedSrc : null,
+					link_embed_width: model.hasLink ? model.linkEmbedWidth : null,
+					link_embed_height: model.hasLink ? model.linkEmbedHeight : null,
 					child_count: model.children?.length ?? 0,
 					created_at: new Date(),
 					updated_at: new Date(),
@@ -96,6 +100,10 @@ export default async function postCreateOrUpdate(model: PostEditModel): Promise<
 					link_title: child.hasLink ? child.linkTitle : null,
 					link_image: child.hasLink ? child.linkImage : null,
 					link_publication: child.hasLink ? child.linkPublication : null,
+					link_embed_src:
+						child.hasLink && child.linkEmbedSrc?.startsWith("https://") ? child.linkEmbedSrc : null,
+					link_embed_width: child.hasLink ? child.linkEmbedWidth : null,
+					link_embed_height: child.hasLink ? child.linkEmbedHeight : null,
 					parent_id: newPost.id,
 					created_at: new Date(),
 					updated_at: new Date(),
@@ -126,6 +134,10 @@ export default async function postCreateOrUpdate(model: PostEditModel): Promise<
 					link_title: model.hasLink || model.isArticle ? model.linkTitle : null,
 					link_image: model.hasLink || model.isArticle ? model.linkImage : null,
 					link_publication: model.hasLink ? model.linkPublication : null,
+					link_embed_src:
+						model.hasLink && model.linkEmbedSrc?.startsWith("https://") ? model.linkEmbedSrc : null,
+					link_embed_width: model.hasLink ? model.linkEmbedWidth : null,
+					link_embed_height: model.hasLink ? model.linkEmbedHeight : null,
 					child_count: model.children?.length ?? 0,
 					updated_at: new Date(),
 				})
@@ -163,6 +175,12 @@ export default async function postCreateOrUpdate(model: PostEditModel): Promise<
 								link_title: child.hasLink ? child.linkTitle : null,
 								link_image: child.hasLink ? child.linkImage : null,
 								link_publication: child.hasLink ? child.linkPublication : null,
+								link_embed_src:
+									child.hasLink && child.linkEmbedSrc?.startsWith("https://")
+										? child.linkEmbedSrc
+										: null,
+								link_embed_width: child.hasLink ? child.linkEmbedWidth : null,
+								link_embed_height: child.hasLink ? child.linkEmbedHeight : null,
 								updated_at: new Date(),
 							})
 							.where(eq(postsTable.id, child.id)),
@@ -179,6 +197,12 @@ export default async function postCreateOrUpdate(model: PostEditModel): Promise<
 							link_title: child.hasLink ? child.linkTitle : null,
 							link_image: child.hasLink ? child.linkImage : null,
 							link_publication: child.hasLink ? child.linkPublication : null,
+							link_embed_src:
+								child.hasLink && child.linkEmbedSrc?.startsWith("https://")
+									? child.linkEmbedSrc
+									: null,
+							link_embed_width: child.hasLink ? child.linkEmbedWidth : null,
+							link_embed_height: child.hasLink ? child.linkEmbedHeight : null,
 							parent_id: newPost.id,
 							created_at: new Date(),
 							updated_at: new Date(),

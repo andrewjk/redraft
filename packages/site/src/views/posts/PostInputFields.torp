@@ -80,6 +80,9 @@ export default function PostInput($props) {
 				<input type="hidden" name={`${prefix}linkImage`} value={post.linkImage} />
 				<input type="hidden" name={`${prefix}linkTitle`} value={post.linkTitle} />
 				<input type="hidden" name={`${prefix}linkPublication`} value={post.linkPublication} />
+				<input type="hidden" name={`${prefix}linkEmbedSrc`} value={post.linkEmbedSrc} />
+				<input type="hidden" name={`${prefix}linkEmbedWidth`} value={post.linkEmbedWidth} />
+				<input type="hidden" name={`${prefix}linkEmbedHeight`} value={post.linkEmbedHeight} />
 
 				<div class="form-row">
 					<input
@@ -92,14 +95,18 @@ export default function PostInput($props) {
 						oninput={async (e) => {
 							// TODO: Debounce
 							$state.linkLoading = true;
+							$state.linkLoaded = false;
 							const response = await fetch(`/api/posts/link-info?url=${e.target.value}`, { credentials: 'same-origin' });
 							const info = await response.json()
+							$state.linkLoading = false;
 							if (info) {
-								$state.linkLoading = false;
 								$state.linkLoaded = true;
 								post.linkTitle = info.title;
 								post.linkImage = info.image;
 								post.linkPublication = info.publication;
+								post.linkEmbedSrc = info.embedSrc;
+								post.linkEmbedWidth = info.embedWidth;
+								post.linkEmbedHeight = info.embedHeight;
 							}
 						}} />
 				</div>
@@ -167,6 +174,9 @@ export default function PostInput($props) {
 					post.linkTitle = null;
 					post.linkImage = null;
 					post.linkPublication = null;
+					post.linkEmbedSrc = null;
+					post.linkEmbedWidth = null;
+					post.linkEmbedHeight = null;
 					post.isArticle = !post.isArticle
 				}
 				@/* TODO: fix these!

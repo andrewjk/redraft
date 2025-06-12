@@ -15,6 +15,9 @@ export type FeedReceivedModel = {
 	linkTitle: string | null;
 	linkImage: string | null;
 	linkPublication: string | null;
+	linkEmbedSrc: string | null;
+	linkEmbedWidth: number | null;
+	linkEmbedHeight: number | null;
 	publishedAt: Date;
 	republishedAt: Date | null;
 };
@@ -45,6 +48,9 @@ export default async function feedReceived(request: Request) {
 			link_title: model.linkTitle,
 			link_image: model.linkImage,
 			link_publication: model.linkPublication,
+			link_embed_src: model.linkEmbedSrc?.startsWith("https://") ? model.linkEmbedSrc : null,
+			link_embed_width: model.linkEmbedWidth,
+			link_embed_height: model.linkEmbedHeight,
 			// TODO: Should receive posted_at, edited_at etc
 			published_at: new Date(model.publishedAt),
 			republished_at: model.republishedAt ? new Date(model.republishedAt) : undefined,

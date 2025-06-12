@@ -20,6 +20,9 @@ interface PostViewModel {
 	linkTitle: string | null;
 	linkImage: string | null;
 	linkPublication: string | null;
+	linkEmbedSrc: string | null;
+	linkEmbedWidth: number | null;
+	linkEmbedHeight: number | null;
 	author: {
 		image: string;
 		name: string;
@@ -39,6 +42,9 @@ interface PostViewModel {
 		linkTitle: string | null;
 		linkImage: string | null;
 		linkPublication: string | null;
+		linkEmbedSrc: string | null;
+		linkEmbedWidth: number | null;
+		linkEmbedHeight: number | null;
 	}[];
 	publishedAt: Date;
 	republishedAt: Date | null;
@@ -120,6 +126,9 @@ export default async function postGet(user: User, follower: User, slug: string) 
 			linkTitle: post.link_title,
 			linkImage: post.link_image,
 			linkPublication: post.is_article ? currentUser.name : post.link_publication,
+			linkEmbedSrc: post.link_embed_src,
+			linkEmbedWidth: post.link_embed_width,
+			linkEmbedHeight: post.link_embed_height,
 			author: {
 				image: currentUser.image,
 				name: currentUser.name,
@@ -138,6 +147,9 @@ export default async function postGet(user: User, follower: User, slug: string) 
 				linkTitle: c.link_title,
 				linkImage: c.link_image,
 				linkPublication: c.link_publication,
+				linkEmbedSrc: c.link_embed_src,
+				linkEmbedWidth: c.link_embed_width,
+				linkEmbedHeight: c.link_embed_height,
 				publishedAt: c.published_at ?? c.created_at,
 			})),
 			publishedAt: post.published_at ?? post.created_at,

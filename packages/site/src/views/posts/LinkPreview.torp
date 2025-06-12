@@ -15,15 +15,31 @@ export default function LinkPreview() {
 
 	@render {
 		<a class="link-preview vstack" href={link.linkUrl}>
-			<img class="link-preview-image" src={link.linkImage} />
-			<div class="link-preview-background vstack">
-				<h4 class="link-preview-title">{link.linkTitle}</h4>
-				<div class="spacer" />
-				<div class="link-preview-publication vstack">
-					<span>{link.linkPublication}</span>
-					<span class="link-preview-host">({maybeHost(link.linkUrl)})</span>
+			@if (link.linkEmbedSrc) {
+				<iframe
+					src={link.linkEmbedSrc}
+					:style={{
+						width: "100%",
+						"aspect-ratio": parseInt(link.linkEmbedWidth) && parseInt(link.linkEmbedHeight) ? `${link.linkEmbedWidth} / ${link.linkEmbedHeight}` : undefined
+					}}
+					height={!(parseInt(link.linkEmbedWidth) && parseInt(link.linkEmbedHeight)) ? link.linkEmbedHeight : undefined}
+					frameborder="0"
+					allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; fullscreen; picture-in-picture; web-share"
+					referrerpolicy="strict-origin-when-cross-origin"
+					allowfullscreen
+				>
+				</iframe>
+			} else {
+				<img class="link-preview-image" src={link.linkImage} />
+				<div class="link-preview-background vstack">
+					<h4 class="link-preview-title">{link.linkTitle}</h4>
+					<div class="spacer" />
+					<div class="link-preview-publication vstack">
+						<span>{link.linkPublication}</span>
+						<span class="link-preview-host">({maybeHost(link.linkUrl)})</span>
+					</div>
 				</div>
-			</div>
+			}
 		</a>
 	}
 

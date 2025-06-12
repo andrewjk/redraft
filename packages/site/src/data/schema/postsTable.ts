@@ -52,6 +52,10 @@ export const postsTable = sqliteTable("posts", {
 	link_image: text(),
 	/** Publication for link */
 	link_publication: text(),
+	/** Embed info for link */
+	link_embed_src: text(),
+	link_embed_width: int(),
+	link_embed_height: int(),
 	/** Id of the parent post, or null if this is not a child */
 	parent_id: int(),
 	/** The count of child posts */
