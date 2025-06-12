@@ -25,6 +25,7 @@ export type FeedPreview = {
 	commentCount: number;
 	visibility: number;
 	image: string | null;
+	imageAltText: string | null;
 	isArticle: boolean;
 	linkUrl: string | null;
 	linkTitle: string | null;
@@ -64,6 +65,7 @@ export default function feedPreview(
 		commentCount: feed.comment_count,
 		visibility: feed.visibility,
 		image: feed.image,
+		imageAltText: feed.image_alt_text,
 		isArticle: feed.is_article,
 		linkUrl: feed.is_article
 			? `${ensureSlash((feed.user ?? currentUser).url)}articles/${feed.slug}`

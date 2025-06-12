@@ -33,6 +33,8 @@ export const feedTable = sqliteTable("feed", {
 	//type: int().notNull().default(0),
 	/** Url for image */
 	image: text(),
+	/** Alt text for describing the image to screen reader users */
+	image_alt_text: text(),
 	/** Whether this is an article (as opposed to an external link) */
 	is_article: int({ mode: "boolean" }).notNull().default(false),
 	/** Url for link or article */

@@ -14,6 +14,7 @@ interface PostViewModel {
 	text: string;
 	//visibility: number;
 	image: string | null;
+	imageAltText: string | null;
 	isArticle: boolean;
 	articleText: string | null;
 	linkUrl: string | null;
@@ -38,6 +39,7 @@ interface PostViewModel {
 		text: string;
 		//visibility: number;
 		image: string | null;
+		imageAltText: string | null;
 		linkUrl: string | null;
 		linkTitle: string | null;
 		linkImage: string | null;
@@ -118,6 +120,7 @@ export default async function postGet(user: User, follower: User, slug: string) 
 			slug: post.slug,
 			text: post.text,
 			image: post.image,
+			imageAltText: post.image_alt_text,
 			isArticle: post.is_article,
 			articleText: "",
 			linkUrl: post.is_article
@@ -143,6 +146,7 @@ export default async function postGet(user: User, follower: User, slug: string) 
 			children: children.map((c) => ({
 				text: c.text,
 				image: c.image,
+				imageAltText: c.image_alt_text,
 				linkUrl: c.link_url,
 				linkTitle: c.link_title,
 				linkImage: c.link_image,

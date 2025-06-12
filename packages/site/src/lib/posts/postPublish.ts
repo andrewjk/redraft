@@ -52,6 +52,7 @@ export default async function postPublish(
 			text: model.text,
 			visibility: model.visibility,
 			image: model.hasImage ? model.image : null,
+			image_alt_text: model.hasImage ? model.imageAltText : null,
 			is_article: model.isArticle,
 			link_url: model.hasLink ? model.linkUrl : null,
 			link_title: model.hasLink || model.isArticle ? model.linkTitle : null,

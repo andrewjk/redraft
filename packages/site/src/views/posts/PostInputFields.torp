@@ -19,7 +19,10 @@ export default function PostInput($props) {
 	let child = $props.child;
 	let prefix = $props.child ? `children[${$props.i}]` : "";
 
+	let img;
+
 	let $state = $watch({
+		imageLoaded: !!post.image,
 		linkLoading: false,
 		linkLoaded: !!post.linkUrl,
 		showTags: !!post.tags,
@@ -74,11 +77,33 @@ export default function PostInput($props) {
 			@// HACK: Nested ifs are broken...
 
 			@if (!post.isArticle && post.hasImage) {
-				<ImageUpload
-					&image={post.image}
-					&imageLoaded={$state.imageLoaded}
+				<input
 					class="full-width"
+					:style={{ display: $state.imageLoaded ? "none" : undefined }}
+					name={`${prefix}imagefile`}
+					type="file"
+					accept="image/*"
+					onchange={imageSelected}
 				/>
+				@if (post.image) {
+					<img &ref={img} src={post.image} />
+					<input
+						name={`${prefix}imageAltText`}
+						&value={post.imageAltText}
+						placeholder="Image alt text" />
+				}
+			}
+			@function imageSelected(e) {
+				const image = e.target.files[0];
+				if (!image.type.includes("image")) {
+					return;
+				}
+				const fileReader = new FileReader();
+				fileReader.readAsDataURL(image);
+				fileReader.onload = (ev) => {
+					post.image = ev.target.result;
+					$state.imageLoaded = true;
+				}
 			}
 
 			@if (!post.isArticle && post.hasLink) {
@@ -89,34 +114,30 @@ export default function PostInput($props) {
 				<input type="hidden" name={`${prefix}linkEmbedWidth`} value={post.linkEmbedWidth} />
 				<input type="hidden" name={`${prefix}linkEmbedHeight`} value={post.linkEmbedHeight} />
 
-				@if (!$state.linkLoaded) {
-					<div class="form-row">
-						<input
-							id="url-input"
-							type="url"
-							name={`${prefix}linkUrl`}
-							&value={post.linkUrl}
-							class="full-width"
-							placeholder="Link URL"
-							oninput={async (e) => {
-								// TODO: Debounce
-								$state.linkLoading = true;
-								$state.linkLoaded = false;
-								const response = await fetch(`/api/posts/link-info?url=${e.target.value}`, { credentials: 'same-origin' });
-								const info = await response.json()
-								$state.linkLoading = false;
-								if (info) {
-									$state.linkLoaded = true;
-									post.linkTitle = info.title;
-									post.linkImage = info.image;
-									post.linkPublication = info.publication;
-									post.linkEmbedSrc = info.embedSrc;
-									post.linkEmbedWidth = info.embedWidth;
-									post.linkEmbedHeight = info.embedHeight;
-								}
-							}} />
-					</div>
-				}
+				<input
+					type="url"
+					name={`${prefix}linkUrl`}
+					&value={post.linkUrl}
+					class="full-width"
+					:style={{ display: $state.linkLoaded ? "none" : undefined }}
+					placeholder="Link URL"
+					oninput={async (e) => {
+						// TODO: Debounce
+						$state.linkLoading = true;
+						$state.linkLoaded = false;
+						const response = await fetch(`/api/posts/link-info?url=${e.target.value}`, { credentials: 'same-origin' });
+						const info = await response.json()
+						$state.linkLoading = false;
+						if (info) {
+							$state.linkLoaded = true;
+							post.linkTitle = info.title;
+							post.linkImage = info.image;
+							post.linkPublication = info.publication;
+							post.linkEmbedSrc = info.embedSrc;
+							post.linkEmbedWidth = info.embedWidth;
+							post.linkEmbedHeight = info.embedHeight;
+						}
+					}} />
 				@if ($state.linkLoading) {
 					<div>Loading...</div>
 				} else if (post.linkUrl) {
@@ -126,7 +147,7 @@ export default function PostInput($props) {
 			
 			@if ($state.showTags) {
 				<div class="form-row">
-					<input id="tags-input" name="tags" &value={post.tags} placeholder="Tags (separate with semicolons)" />
+					<input name="tags" &value={post.tags} placeholder="Tags (separate with semicolons)" />
 				</div>
 			}
 

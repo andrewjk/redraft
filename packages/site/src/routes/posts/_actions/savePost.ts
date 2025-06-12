@@ -19,6 +19,7 @@ export default async function savePost({ appData, request, params }: ServerLoadE
 
 	// Save the image if it's been uploaded
 	const imagefile = data.get("imagefile") as File;
+	console.log("IMAGE FILE", imagefile);
 	if (imagefile?.name) {
 		let name = uuid() + "." + imagefile.name.split(".").at(-1);
 		await store.uploadFile(imagefile, name);

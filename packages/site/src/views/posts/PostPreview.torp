@@ -134,7 +134,7 @@ export default function PostPreview() {
 							@html(post.text)
 							@if (post.image) {
 								<p>
-									<img class="post-preview-image" src={post.image} alt={post.imageAlt} />
+									<img class="post-preview-image" src={post.image} alt={post.imageAltText} />
 								</p>
 							}
 						</a>

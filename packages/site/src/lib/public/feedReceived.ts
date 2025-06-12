@@ -10,6 +10,7 @@ export type FeedReceivedModel = {
 	text: string;
 	visibility: number;
 	image: string | null;
+	imageAltText: string | null;
 	isArticle: boolean;
 	linkUrl: string | null;
 	linkTitle: string | null;
@@ -43,6 +44,7 @@ export default async function feedReceived(request: Request) {
 			text: model.text,
 			visibility: model.visibility,
 			image: model.image,
+			image_alt_text: model.imageAltText,
 			is_article: model.isArticle,
 			link_url: model.linkUrl,
 			link_title: model.linkTitle,

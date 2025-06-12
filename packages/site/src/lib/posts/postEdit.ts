@@ -15,6 +15,7 @@ export type PostEditModel = {
 	visibility: number;
 	hasImage: boolean;
 	image: string | null;
+	imageAltText: string | null;
 	isArticle: boolean;
 	articleId: number | null;
 	articleText: string | null;
@@ -93,8 +94,9 @@ function createView(
 		published: !!post.published_at,
 		text: post.text,
 		visibility: post.visibility,
-		image: post.image,
 		hasImage: !!post.image,
+		image: post.image,
+		imageAltText: post.image_alt_text,
 		isArticle: post.is_article,
 		articleId: article ? article.id : null,
 		articleText: article ? article.text : null,

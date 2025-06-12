@@ -49,6 +49,7 @@ export default async function postSend(request: Request, code: string) {
 					text: post.text,
 					visibility: post.visibility,
 					image: post.image,
+					imageAltText: post.image_alt_text,
 					isArticle: post.is_article,
 					linkUrl: post.link_url,
 					linkTitle: post.link_title,

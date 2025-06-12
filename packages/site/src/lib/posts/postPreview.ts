@@ -25,6 +25,7 @@ export type PostPreview = {
 	emojiThird: string | null;
 	visibility: number;
 	image: string | null;
+	imageAltText: string | null;
 	isArticle: boolean;
 	linkUrl: string | null;
 	linkImage: string | null;
@@ -68,6 +69,7 @@ export default function postPreview(
 		emojiThird: post.emoji_third,
 		visibility: post.visibility,
 		image: post.image,
+		imageAltText: post.image_alt_text,
 		isArticle: post.is_article,
 		linkUrl: post.is_article
 			? `${ensureSlash(currentUser.url)}articles/${post.slug}`
