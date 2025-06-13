@@ -1,5 +1,5 @@
 import { $page } from "@torpor/build/state";
-import post from "../$postInput";
+import post from "./$postInput";
 import PostInput from "./posts/PostInput.torp";
 import PostList from "./posts/PostList.torp";
 import Profile from "./profile/Preview.torp";
