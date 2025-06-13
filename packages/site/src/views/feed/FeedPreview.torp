@@ -34,7 +34,7 @@ export default function FeedPreview() {
 			<div class="feed-preview-status hstack spaced-text"}>
 				@if (feed.republishedAt) {
 					<div title={fmt.format(new Date(feed.republishedAt))}>
-						Republished {relativeTimeSince(new Date(feed.republishedAt))}
+						Republished {relativeTimeSince(new Date(feed.republishedAt)).toLowerCase()}
 					</div>
 				}
 				@if (feed.republishedAt && feed.visibility) {
