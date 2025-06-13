@@ -2,6 +2,7 @@ import { created, forbidden, serverError } from "@torpor/build/response";
 import { eq } from "drizzle-orm";
 import database from "../../data/database";
 import { usersTable } from "../../data/schema";
+import { activityTable } from "../../data/schema/activityTable";
 import { userTokensTable } from "../../data/schema/userTokensTable";
 import env from "../env";
 import createUserToken from "../utils/createUserToken";
@@ -96,6 +97,14 @@ export default async function accountSetup(request: Request) {
 			token,
 			code,
 		};
+
+		// Create an activity record
+		await db.insert(activityTable).values({
+			url: user.url,
+			text: "You set up your account",
+			created_at: new Date(),
+			updated_at: new Date(),
+		});
 
 		return created(response);
 	} catch (error) {

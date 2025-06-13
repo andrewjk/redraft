@@ -2,6 +2,7 @@ import { notFound, ok, serverError, unauthorized } from "@torpor/build/response"
 import { eq } from "drizzle-orm";
 import database from "../../data/database";
 import { feedTable, followingTable, usersTable } from "../../data/schema";
+import { activityTable } from "../../data/schema/activityTable";
 import { postPublic } from "../public";
 import { type UnfollowRequestedModel } from "../public/unfollowRequested";
 import getErrorMessage from "../utils/getErrorMessage";
@@ -54,6 +55,14 @@ export default async function unfollowSend(request: Request, code: string) {
 				.update(followingTable)
 				.set({ deleted_at: new Date() })
 				.where(eq(followingTable.id, record.id));
+
+			// Create an activity record
+			await db.insert(activityTable).values({
+				url: model.url,
+				text: `You unfollowed ${record.name}`,
+				created_at: new Date(),
+				updated_at: new Date(),
+			});
 		}
 
 		return ok();

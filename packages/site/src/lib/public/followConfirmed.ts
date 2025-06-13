@@ -2,6 +2,7 @@ import { notFound, ok, serverError } from "@torpor/build/response";
 import { eq } from "drizzle-orm";
 import database from "../../data/database";
 import { followingTable } from "../../data/schema";
+import { activityTable } from "../../data/schema/activityTable";
 import { notificationsTable } from "../../data/schema/notificationsTable";
 import getErrorMessage from "../utils/getErrorMessage";
 
@@ -38,6 +39,14 @@ export default async function followConfirmed(request: Request) {
 
 		// Create a notification
 		await db.insert(notificationsTable).values({
+			url: record.url,
+			text: `${record.name} has approved your follow request`,
+			created_at: new Date(),
+			updated_at: new Date(),
+		});
+
+		// Create an activity record
+		await db.insert(activityTable).values({
 			url: record.url,
 			text: `${record.name} has approved your follow request`,
 			created_at: new Date(),

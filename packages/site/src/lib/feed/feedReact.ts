@@ -2,6 +2,7 @@ import { ok, serverError, unauthorized } from "@torpor/build/response";
 import { eq } from "drizzle-orm";
 import database from "../../data/database";
 import { feedTable, usersTable } from "../../data/schema";
+import { activityTable } from "../../data/schema/activityTable";
 import { postPublic } from "../public";
 import { type PostReactionModel } from "../public/postReaction";
 import getErrorMessage from "../utils/getErrorMessage";
@@ -44,6 +45,14 @@ export default async function feedReact(request: Request, code: string) {
 			emoji: model.emoji,
 		};
 		await postPublic(sendUrl, sendData);
+
+		// Create an activity record
+		await db.insert(activityTable).values({
+			url: `${currentUser.url}feed/${model.slug}`,
+			text: `You reacted to a post with ${model.emoji}`,
+			created_at: new Date(),
+			updated_at: new Date(),
+		});
 
 		return ok();
 	} catch (error) {

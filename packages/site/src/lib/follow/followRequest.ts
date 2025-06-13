@@ -2,6 +2,7 @@ import { ok, serverError, unauthorized } from "@torpor/build/response";
 import { and, eq, isNull } from "drizzle-orm";
 import database from "../../data/database";
 import { followingTable, usersTable } from "../../data/schema";
+import { activityTable } from "../../data/schema/activityTable";
 import { postPublic } from "../public";
 import {
 	type FollowRequestedModel,
@@ -75,6 +76,14 @@ export default async function followRequest(request: Request, code: string) {
 				updated_at: new Date(),
 			};
 			await db.update(followingTable).set(record2).where(eq(followingTable.id, recordId));
+
+			// Create an activity record
+			await db.insert(activityTable).values({
+				url: model.url,
+				text: `You requested to follow ${record.name}`,
+				created_at: new Date(),
+				updated_at: new Date(),
+			});
 		}
 
 		return ok();

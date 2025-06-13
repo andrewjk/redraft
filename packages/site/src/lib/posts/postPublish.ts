@@ -1,7 +1,7 @@
 import { created, serverError, unauthorized } from "@torpor/build/response";
 import { eq } from "drizzle-orm";
 import database from "../../data/database";
-import { feedTable, postsTable, usersTable } from "../../data/schema";
+import { activityTable, feedTable, postsTable, usersTable } from "../../data/schema";
 import postsSend from "../../routes/api/posts/send/+server";
 import * as api from "../api";
 import { FOLLOWER_POST_VISIBILITY, PUBLIC_POST_VISIBILITY } from "../constants";
@@ -81,6 +81,14 @@ export default async function postPublish(
 			// This could take some time, so send it off to be done in an endpoint without awaiting it
 			api.post(`posts/send`, postsSend, params, { id: post.id }, token);
 		}
+
+		// Create an activity record
+		await db.insert(activityTable).values({
+			url: `${currentUser.url}posts/${post.slug}`,
+			text: `You published a post`,
+			created_at: new Date(),
+			updated_at: new Date(),
+		});
 
 		return created();
 	} catch (error) {

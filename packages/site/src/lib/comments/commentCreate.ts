@@ -8,9 +8,12 @@ import {
 	postsTable,
 	usersTable,
 } from "../../data/schema";
+import { activityTable } from "../../data/schema/activityTable";
 import { notificationsTable } from "../../data/schema/notificationsTable";
 import commentsSend from "../../routes/api/comments/send/+server";
 import * as api from "../api";
+import { postPublic } from "../public";
+import { ActivityReceivedModel } from "../public/activityReceived";
 import getErrorMessage from "../utils/getErrorMessage";
 import userIdQuery from "../utils/userIdQuery";
 import uuid from "../utils/uuid";
@@ -121,12 +124,28 @@ export default async function commentCreate(
 			.where(eq(feedTable.slug, model.postSlug));
 		await Promise.all([updatePosts, updateFeed]);
 
-		// Create a notification if it's a comment created by a follower
-		// (you don't need to know about the comments you've made!)
+		// Create a notification if it's a comment created by a follower, and an
+		// activity record otherwise
 		if (isFollower) {
 			await db.insert(notificationsTable).values({
 				url: `${user.url}posts/${post.slug}`,
 				text: `${currentUser.name} commented on your post`,
+				created_at: new Date(),
+				updated_at: new Date(),
+			});
+
+			// Send the activity off to be created in the follower's database
+			let sendUrl = `${currentUser.url}api/public/activity`;
+			let sendData: ActivityReceivedModel = {
+				sharedKey,
+				url: `${user.url}posts/${post.slug}`,
+				type: "commented",
+			};
+			/*await*/ postPublic(sendUrl, sendData);
+		} else {
+			await db.insert(activityTable).values({
+				url: `${user.url}posts/${post.slug}`,
+				text: "You commented on your post",
 				created_at: new Date(),
 				updated_at: new Date(),
 			});

@@ -1,0 +1,35 @@
+import ActivityPreview from './ActivityPreview.torp';
+
+/**
+ * Shows a list of the current user's activity.
+ */
+export default function ActivityList($props) {
+	@render {
+		<div class="vstack centered">
+			<h2>Activity</h2>
+			<div class="activity-list centered">
+				@if ($props.data.activity.length === 0) {
+					<div class="card">
+						You have no activity yet.
+					</div>
+				} else {
+					@for (let activity of $props.data.activity) {
+						@key = activity.id
+						<ActivityPreview {activity} {$props.data.user} />
+					}
+				}
+			</div>
+		</div>
+	}
+
+	@style {
+		.activity-list {
+			display: flex;
+			flex-direction: column;
+			gap: 0.5rem;
+			
+			max-width: 60rem;
+			width: 100%;
+		}
+	}
+}

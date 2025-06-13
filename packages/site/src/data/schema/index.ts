@@ -1,3 +1,4 @@
+import { activityTable } from "./activityTable";
 import { articlesTable } from "./articlesTable";
 import { commentsRelations, commentsTable } from "./commentsTable";
 import { contentTable } from "./contentTable";
@@ -22,6 +23,7 @@ export {
 	followedByTable,
 	followingTable,
 	followingRelations,
+	activityTable,
 	notificationsTable,
 	postsTable,
 	postsRelations,
