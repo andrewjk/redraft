@@ -78,7 +78,15 @@ export default function Edit() {
 							name="location"
 						/>
 					</div>
-
+					<div class="form-row">
+						<label for="bio-input">About</label
+						<textarea
+							id="about-input"
+							&value={$profile.about}
+							name="about"
+						/>
+					</div>
+					
 					<h3>Links</h3>
 					@for (let [i, link] of $profile.links.entries()) {
 						<input type="hidden" name="links[{i}].id" value={link.id} />

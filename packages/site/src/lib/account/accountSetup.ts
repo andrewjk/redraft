@@ -59,6 +59,7 @@ export default async function accountSetup(request: Request) {
 			password,
 			name: model.name.trim(),
 			bio: model.bio ?? "",
+			about: "",
 			location: model.location ?? "",
 			image: model.image ?? "",
 			created_at: new Date(),

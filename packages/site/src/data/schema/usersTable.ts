@@ -15,6 +15,7 @@ export const usersTable = sqliteTable("users", {
 	name: text().notNull(),
 	bio: text().notNull(),
 	location: text().notNull(),
+	about: text().notNull().default(""),
 	image: text().notNull(),
 	created_at: int({ mode: "timestamp" }).notNull(),
 	updated_at: int({ mode: "timestamp" }).notNull(),

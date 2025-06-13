@@ -12,6 +12,7 @@ export type ProfileEdit = {
 	password: string;
 	name: string;
 	bio: string;
+	about: string;
 	location: string;
 	image: string;
 	links: {
@@ -49,6 +50,7 @@ export default async function profileEdit(
 			email: model.email,
 			name: model.name,
 			bio: model.bio,
+			about: model.about,
 			location: model.location,
 			image: model.image,
 			updated_at: new Date(),

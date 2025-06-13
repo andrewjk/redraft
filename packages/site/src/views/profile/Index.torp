@@ -53,6 +53,11 @@ export default function Index($props) {
 						</div>
 					}
 				</div>
+				@if ($props.data.profile.about) {
+					<hr />
+					@html($props.data.profile.about)
+					<hr />
+				}
 				@if ($props.data.profile.links.length) {
 					<div class="hstack spaced">
 						@for (let link of $props.data.profile.links) {

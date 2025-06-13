@@ -1,0 +1,1 @@
+ALTER TABLE `users` ADD `about` text DEFAULT '' NOT NULL;
