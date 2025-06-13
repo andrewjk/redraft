@@ -8,12 +8,20 @@ export default function FollowingList($props) {
 	@render {
 		<div class="vstack centered">
 			<h2>Following</h2>
-			<FollowMenu section="Following" {$props.data.base} />
+			@if ($props.data.user) {
+				<FollowMenu section="Following" {$props.data.base} />
+			}
 			<div class="follow-list centered">
 				@if ($props.data.following.length === 0) {
-					<div class="card">
-						You are not following anyone yet.
-					</div>
+					@if ($props.data.user) {
+						<div class="card">
+							You are not following anyone yet.
+						</div>
+					} else {
+						<div class="card">
+							This user is not following anyone yet.
+						</div>
+					}
 				} else {
 					@for (let follow of $props.data.following) {
 						@key = follow.id

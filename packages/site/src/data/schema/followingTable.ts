@@ -4,8 +4,6 @@ import { createSelectSchema } from "drizzle-valibot";
 import { InferOutput } from "valibot";
 import { feedTable } from "./feedTable";
 
-// TODO: Separate out following/followedby user fields into a new table?
-
 /**
  * The people we are following, who we will receive posts etc from
  */

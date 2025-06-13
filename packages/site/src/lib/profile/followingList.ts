@@ -1,9 +1,8 @@
-import { ok, serverError, unauthorized } from "@torpor/build/response";
+import { ok, serverError } from "@torpor/build/response";
 import { and, desc, eq, isNull } from "drizzle-orm";
 import database from "../../data/database";
-import { followingTable, usersTable } from "../../data/schema";
+import { followingTable } from "../../data/schema";
 import getErrorMessage from "../utils/getErrorMessage";
-import userIdQuery from "../utils/userIdQuery";
 
 export type FollowingPreview = {
 	name: string;
@@ -16,20 +15,21 @@ export type FollowingList = {
 };
 
 export default async function followingList(
-	code: string,
+	// @ts-ignore we may use this to allow setting following to private
+	code?: string,
 	limit?: number,
 	offset?: number,
 ): Promise<Response> {
 	try {
 		const db = database();
 
-		// Get the current user
-		const currentUser = await db.query.usersTable.findFirst({
-			where: eq(usersTable.id, userIdQuery(code)),
-		});
-		if (!currentUser) {
-			return unauthorized();
-		}
+		//// Get the current user
+		//const currentUser = await db.query.usersTable.findFirst({
+		//	where: eq(usersTable.id, userIdQuery(code)),
+		//});
+		//if (!currentUser) {
+		//	return unauthorized();
+		//}
 
 		// Get the follows from the database
 		const dbfollowing = await db.query.followingTable.findMany({
@@ -46,7 +46,7 @@ export default async function followingList(
 		const following = dbfollowing.map((f) => {
 			return {
 				id: f.id,
-				url: f.url, // `${f.url}api/follow/login?sharedkey=${f.shared_key}`,
+				url: f.url,
 				name: f.name,
 				image: f.image,
 				bio: f.bio,
