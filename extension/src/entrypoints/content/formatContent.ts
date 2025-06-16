@@ -1,21 +1,13 @@
-if (typeof browser === "undefined") {
-	var browser = chrome;
-}
+import { browser } from "wxt/browser";
+import type { Message, MessageResponse } from "../../types/Message";
+import type { Storage } from "../../types/Storage";
 
-browser.runtime.onMessage.addListener((request, sender, sendResponse) => {
-	formatContent().then((res) => sendResponse(res));
-	return true;
-});
-
-formatContent();
-initializeObserver();
-
-async function formatContent() {
+export async function formatContent(): Promise<void> {
 	let location = document.location.toString();
 	if (!location.endsWith("/")) location += "/";
 
 	// Get authenticated, following list and url from storage
-	let localStorage = await browser.storage.local.get();
+	let localStorage = await browser.storage.local.get<Storage>();
 	let authenticated = localStorage.authenticated ?? false;
 	let following = localStorage.following ?? [];
 	let url = localStorage.url ?? "--";
@@ -27,18 +19,18 @@ async function formatContent() {
 	const followingUser = following.find((f) => location.startsWith(f.url));
 
 	// Is this the site of a user that we can follow?
-	const followEl = document.head.querySelector("meta[name='social-follow-url']");
+	const followEl = getMetaElement("social-follow-url");
 	if (followEl) {
 		await browser.storage.local.set({
 			followUrl: followEl.content,
-			followName: document.head.querySelector("meta[name='social-follow-name']").content,
-			followImage: document.head.querySelector("meta[name='social-follow-image']").content,
+			followName: getMetaElement("social-follow-name")?.content,
+			followImage: getMetaElement("social-follow-image")?.content,
 		});
 
 		// Maybe update the follow form/link
 		if (authenticated) {
-			const formEl = document.getElementById("social-follow-form");
-			const linkEl = document.getElementById("social-follow-link");
+			const formEl = document.getElementById("social-follow-form") as HTMLFormElement | null;
+			const linkEl = document.getElementById("social-follow-link") as HTMLLinkElement | null;
 			if (formEl && linkEl) {
 				if (followingUser) {
 					formEl.action = `${url}unfollow`;
@@ -52,13 +44,13 @@ async function formatContent() {
 	}
 
 	// Look for <input name="followerUrl"> and set our url (for following another user)
-	for (let el of document.body.querySelectorAll("input[name='followerUrl']")) {
+	for (let el of getInputElements("followerUrl")) {
 		el.value = url;
 	}
 
 	// Look for <input name="followerSharedKey"> and set the shared value (for commenting etc)
 	if (followingUser) {
-		for (let el of document.body.querySelectorAll("input[name='followerSharedKey']")) {
+		for (let el of getInputElements("followerSharedKey")) {
 			el.value = followingUser.shared_key;
 		}
 	}
@@ -74,30 +66,27 @@ async function formatContent() {
 	await browser.storage.local.set({ showFollow, showInfo });
 
 	// Set the icon color
-	let iconPrefix = "";
+	let prefix = "";
 	if (showAccount) {
 		// We're logged in on our site
-		iconPrefix = "-blue";
+		prefix = "-blue";
 	} else if (showFollow) {
 		// We're logged in and the user can be followed
-		iconPrefix = "-yellow";
+		prefix = "-yellow";
 	} else if (showInfo) {
 		// We're logged in and already following this user (should this be green??)
-		iconPrefix = "-green";
+		prefix = "-green";
 	}
-	browser.runtime.sendMessage({
-		query: "social-icon",
-		iconPrefix,
+	browser.runtime.sendMessage<Message, MessageResponse>({
+		name: "set-icon",
+		data: { prefix: prefix },
 	});
 }
 
-function initializeObserver() {
-	// HACK: We don't currently send <:head> elements with SSR, so we need to
-	// listen for changes from when the page is hydrated. This may change...
-	const targetNode = document.head;
-	const config = { childList: true };
-	const observer = new MutationObserver((mutationList, observer) => {
-		formatContent();
-	});
-	observer.observe(targetNode, config);
+function getMetaElement(name: string): HTMLMetaElement | null {
+	return document.head.querySelector<HTMLMetaElement>(`meta[name='${name}']`);
+}
+
+function getInputElements(name: string): NodeListOf<HTMLInputElement> {
+	return document.head.querySelectorAll<HTMLInputElement>(`input[name='${name}']`);
 }
