@@ -177,7 +177,7 @@ export default function PostPreview() {
 						}
 						<div class="hstack spaced-text">
 							@for (let tag of post.tags) {
-								<a href="{user.url}tags/{tag.slug}" class="post-preview-tag">
+								<a href="{post.author.url}tags/{tag.slug}" class="post-preview-tag">
 									{tag.text}
 								</a>
 							}
