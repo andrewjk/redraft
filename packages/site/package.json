@@ -27,9 +27,9 @@
 		"@libsql/client": "^0.15.9",
 		"@redraft/adapter-core": "workspace:^",
 		"@redraft/adapter-node": "workspace:^",
-		"@torpor/adapter-node": "^0.0.26",
-		"@torpor/ui": "^0.1.2",
-		"@torpor/view": "^0.1.2",
+		"@torpor/adapter-node": "^0.0.29",
+		"@torpor/ui": "^0.1.5",
+		"@torpor/view": "^0.1.5",
 		"bcryptjs": "^3.0.2",
 		"dotenv": "^16.5.0",
 		"drizzle-orm": "^0.44.2",
@@ -46,8 +46,8 @@
 		"@testing-library/dom": "^10.4.0",
 		"@testing-library/jest-dom": "^6.6.3",
 		"@testing-library/user-event": "^14.6.1",
-		"@torpor/build": "^0.1.28",
-		"@torpor/unplugin": "^0.1.13",
+		"@torpor/build": "^0.1.31",
+		"@torpor/unplugin": "^0.1.16",
 		"@trivago/prettier-plugin-sort-imports": "^5.2.2",
 		"@types/node": "^24.0.3",
 		"@types/sanitize-html": "^2.16.0",
@@ -61,6 +61,6 @@
 		"typescript": "^5.8.3",
 		"vite": "^6.3.5",
 		"vite-tsconfig-paths": "^5.1.4",
-		"vitest": "^3.2.3"
+		"vitest": "^3.2.4"
 	}
 }
