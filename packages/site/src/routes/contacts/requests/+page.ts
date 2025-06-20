@@ -1,5 +1,5 @@
 import { type PageEndPoint } from "@torpor/build";
-import component from "../../../views/profile/FollowRequestList.torp";
+import component from "../../../views/contacts/FollowRequestList.torp";
 
 export default {
 	component,

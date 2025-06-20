@@ -1,6 +1,13 @@
 import { $page, $navigation } from "@torpor/build/state";
+import { NavMenu, NavMenuLink, NavMenuButton, NavMenuPopout, NavMenuPopoutButton, NavMenuPopoutContent, NavMenuSeparator } from "@torpor/ui/NavMenu";
+import Bell from "phosphor-torpor/lib/Bell";
+//import DotsThreeOutlineVertical from "phosphor-torpor/lib/DotsThreeOutlineVertical";
+//import SignOut from "phosphor-torpor/lib/SignOut";
+import Profile from "./profile/ProfilePreview.torp";
 import placeholdify from "../lib/utils/placeholdify";
 import stripProtocol from "../lib/utils/stripProtocol";
+
+// Only load logged out posts in home page, even if logged in
 
 export default function Layout() {
 	@render {
@@ -11,10 +18,26 @@ export default function Layout() {
 				<meta name="social-follow-image" content={$props.data.viewing.image} />
 			</:head>
 
-			<Nav {$props.data.user} {$props.data.follower} {$props.data.viewing} />
+			@if ($props.data.user) {
+				<Nav {$props.data.user} {$props.data.follower} {$props.data.viewing} />
+			}
 
 			<main>
-				<:slot />
+				<div class="hstack spaced collapse full-width" style="column-gap: 2.8rem">
+					<div class="grow" />
+
+					<div class="vstack centered spaced no-shrink">
+						<Profile profile={$props.data.viewing} {$props.data.user} {$props.data.base} />
+					</div>
+
+					<div class="vstack centered page-outer">
+						<div class="page-inner">
+							<:slot />
+						</div>
+					</div>
+
+					<div class="grow" />
+				</div>
 			</main>
 		</div>
 	}
@@ -24,109 +47,120 @@ export default function Layout() {
 			padding: 1rem;
 			margin: 0 auto;
 		}
+
+		.page-outer {
+			width: 100%;
+		}
+
+		@media screen and (min-width: 768px) {
+			.page-outer {
+				max-width: 60rem;
+			}		
+		}
+
+		.page-inner {
+			max-width: 60rem;
+			width: 100%;
+		}
 	}
 }
 
 function Nav() {
 	@render {
-		<nav class="nav-bar">
-			<ul class="plain hstack centered full-width">
-				@if ($props.user) {
-					<li class="nav-item">
-						<a
-						  :class={{ "nav-link": true, active: $page.url.pathname.startsWith("/feed") }}
-						  href="/feed">
-							Feed
-						</a>
-					</li>
-				} else {
-					<li class="nav-item">
-						<a
-						:class={{ "nav-link hstack spaced text": true, active: $page.url.pathname === "/" }}
-						href="/">
-							<img class="profile-image" src={placeholdify($props.viewing.image)} alt={`${$props.viewing.name} (${stripProtocol($props.viewing.url)})`} />
-							{$props.viewing.name}
-						</a>
-					</li>
-					<li class="nav-item">
-						@if ($props.follower) {
-							<form use:enhance method="POST" action={`${$props.follower.url}unfollow`}>
-								<input type="hidden" name="url" value={$props.viewing.url} />
-								<button>Unfollow</button>
-							</form>
-						} else {
-							@// NOTE: These might get updated by the web extension
-							<form id="social-follow-form" use:enhance method="POST" style="display: none"}>
-								<input type="hidden" name="url" value={$props.viewing.url} />
-								<button>Follow</button>
-							</form>
-							<a id="social-follow-link" class="nav-link" href="/follow">
-								Follow
-							</a>
-						}
-					</li>
-				}
+		<NavMenu class="nav-bar">
+			<ul class="plain hstack centered full-width nav-list">
+				<li class="nav-item">
+					<NavMenuLink
+						:class={{ "nav-link": true, active: $page.url.pathname.startsWith("/feed") }}
+						href="/feed"
+					>
+						Feed
+					</NavMenuLink>
+				</li>
 
 				<div class="spacer" />
 
 				<li class="nav-item">
-					<a
-					  :class={{ "nav-link": true, active: $page.url.pathname.startsWith("/posts") }}
-					  href="/posts">
-						Posts
-					</a>
+					<NavMenuLink
+						:class={{ "nav-link hstack spaced-nr": true, active: $page.url.pathname.startsWith("/profile") }}
+						href="/profile"
+					>
+						<img class="profile-image" src={placeholdify($props.viewing.image)} alt={`${$props.viewing.name} (${stripProtocol($props.viewing.url)})`} />
+						<div>{$props.viewing.name}</div>
+					</NavMenuLink>
 				</li>
 
 				<li class="nav-item">
-					<a
-					  :class={{ "nav-link": true, active: $page.url.pathname.startsWith("/articles") }}
-					  href="/articles">
-						Articles
-					</a>
+					<NavMenuLink
+						:class={{ "nav-link nav-icon": true, active: $page.url.pathname.startsWith("/notifications") }}
+						href="/profile/notifications"
+					>
+						<Bell weight="bold" size="1.6rem" />
+					</NavMenuLink>
 				</li>
 
-				<li class="nav-item">
-					<a
-					  :class={{ "nav-link": true, active: $page.url.pathname.startsWith("/media") }}
-					  href="/media">
-						Media
-					</a>
-				</li>
-
-				<li class="nav-item">
-					<a
-						:class={{ "nav-link": true, active: $page.url.pathname.startsWith("/profile") }}
-						href="/profile">
-						Profile
-					</a>
-				</li>
-
-				@if (!$props.user && !$props.follower) {
-					<li class="nav-item">
-						<a
-						  :class={{ "nav-link": true, active: $page.url.pathname.startsWith("/account/login") }}
-						  href="/account/login">
-							Login
-						</a>
-					</li>
-				}
+				@//<li class="nav-item">
+				@//	<NavMenuPopout>
+				@//		<NavMenuPopoutButton class="nav-button nav-icon">
+				@//			<DotsThreeOutlineVertical weight="bold" size="1.6rem" />
+				@//		</NavMenuPopoutButton>
+				@//		<NavMenuPopoutContent>
+				@//			<NavMenu class="nav-popout" orientation="vertical">
+				@//				<NavMenuLink class="nav-link" href="/profile/notifications">
+				@//					Notifications
+				@//				</NavMenuLink>
+				@//				<NavMenuLink class="nav-link" href="/profile/activity">
+				@//					Activity
+				@//				</NavMenuLink>
+				@//				<NavMenuSeparator class="nav-separator" />
+				@//				<NavMenuLink class="nav-link" href="/">
+				@//					Home Page
+				@//				</NavMenuLink>
+				@//				<NavMenuSeparator class="nav-separator" />
+				@//				@/*
+				@//				<form use:enhance method="POST" action="?/logout">
+				@//					<NavMenuButton class="nav-link hstack centered spaced-nr">
+				@//						<SignOut weight="bold" />
+				@//						Log out
+				@//					</NavMenuButton>
+				@//				</form>
+				@//				*/
+				@//			</NavMenu>
+				@//		</NavMenuPopoutContent>
+				@//	</NavMenuPopout>
+				@//</li>
 			</ul>
-		</nav>
+		</NavMenu>
 	}
 
 	@style {
 		nav {
 			background-color: #fff;
-			border-bottom: 1px solid #efefef;
+			border-bottom: 1px solid var(--border-color);
 			box-shadow: 0 0.2rem 0.4rem #eee;
 		}
 
 		.nav-link {
-			display: inline-block;
+			display: flex;
+			align-items: center;
+			user-select: none;
+			white-space: nowrap;
 			padding: 1rem;
 		}
 
-		.nav-link:hover {
+		.nav-button {
+			all: unset;
+			color: var(--link);
+			cursor: pointer;
+			display: flex;
+			align-items: center;
+			user-select: none;
+			white-space: nowrap;
+			padding: 1rem;
+		}
+
+		.nav-link:hover,
+		.nav-button:hover {
 			background: #f0f2f6;
 			text-decoration: none;
 		}
@@ -134,13 +168,30 @@ function Nav() {
 		.nav-link.active {
 			border-top: 2px solid #fff0;
 			border-bottom: 2px solid orange;
-			padding:  calc(1rem - 2px) 1rem;
+			padding: calc(1rem - 2px) 1rem;
+		}
+		
+		.nav-popout {
+			background-color: #fff;
+			border: 1px solid var(--border-color);
+			border-bottom: 1px solid var(--border-color);
+			box-shadow: 0 0.2rem 0.4rem #eee;
+		}
+
+		.nav-separator {
+			width: 100%;
+			border-top: 1px solid var(--border-color);
+			//margin: 0 1rem;
+		}
+
+		.nav-icon {
+			padding: 1.4rem;
 		}
 
 		.profile-image {
 			height: 20px;
 			width: 20px;
-			border: 1px solid #efefef;
+			border: 1px solid var(--border-color);
 			border-radius: 50%;
 			box-shadow: 0 0.2rem 0.4rem #eee;
 

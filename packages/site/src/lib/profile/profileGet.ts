@@ -18,7 +18,7 @@ export default async function profileGet(forEditing = false) {
 		}
 
 		// Create the profile view
-		const view = profileView(user);
+		const view = profileView(user, forEditing);
 
 		if (forEditing && !view.links.length) {
 			view.links.push({ id: -1, text: "", url: "" });

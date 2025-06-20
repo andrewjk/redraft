@@ -11,14 +11,13 @@ export default function Index() {
 	})
 
 	@render {
-		<div class="vstack centered">
+		<div class="vstack spaced article-drafts-page">
 			<:head>
-				<title>{$props.data.viewing.name} • Article Drafts • Redraft</title>
+				<title>{$props.data.viewing.name} • Article drafts • Redraft</title>
 			</:head>
 
-			<h2>Article Drafts</h2>
+			<ArticleMenu section="Drafts" {$props.data.user} {$props.data.base} />
 			@if ($props.data.user) {
-				<ArticleMenu section="Drafts" {$props.data.user} {$props.data.base} />
 				<PostInput {post} {$props.data.user} />
 			}
 			<PostList {$props.data.posts} {$props.data.user} {$props.data.follower} />

@@ -30,8 +30,8 @@ export default function FeedPreview() {
 	});
 
 	@render {
-		<div class="feed-preview card">
-			<div class="feed-preview-status hstack spaced-text"}>
+		<div class="card full-width feed-preview">
+			<div class="feed-preview-status hstack spaced-nr secondary"}>
 				@if (feed.republishedAt) {
 					<div title={fmt.format(new Date(feed.republishedAt))}>
 						Republished {relativeTimeSince(new Date(feed.republishedAt)).toLowerCase()}
@@ -61,22 +61,22 @@ export default function FeedPreview() {
 					</a>
 				</div>
 				<div style="flex: 1 1 auto">
-					<div class="feed-preview-header hstack centered spaced">
+					<div class="feed-preview-header hstack centered spaced font-sm">
 						<a class="feed-preview-link hstack spaced grow" href={feed.author.url}>
 							<div class="vstack">
 								<div class="feed-preview-name">
 									{feed.author.name}
 								</div>
-								<div class="feed-preview-url">
+								<div class="feed-preview-url secondary">
 									{stripProtocol(feed.author.url)}
 								</div>
 							</div>
 						</a>
 						<div class="vstack align-end">
-							<div class="feed-preview-time" title={fmt.format(new Date(feed.publishedAt))}>
+							<div class="feed-preview-time secondary" title={fmt.format(new Date(feed.publishedAt))}>
 								{relativeTimeSince(new Date(feed.publishedAt))}
 							</div>
-							<div class="hstack spaced-text centered">
+							<div class="hstack spaced-nr centered">
 								@if (user?.url === feed.author.url) {
 									<a href="{feed.author.url}posts/edit/{feed.slug}" class="icon">
 										<Pencil weight="bold" />
@@ -156,7 +156,7 @@ export default function FeedPreview() {
 						}
 					</div>
 
-					<div class="feed-preview-footer hstack centered">
+					<div class="feed-preview-footer hstack centered font-sm secondary">
 						@if (feed.isArticle) {
 							<a href="{feed.author.url}articles/{feed.slug}">
 								Read
@@ -170,7 +170,7 @@ export default function FeedPreview() {
 								View
 							</a>
 						}
-						<span class="hstack centered spaced-text">
+						<span class="hstack centered spaced-nr">
 							<ChatCircle weight="bold" />
 							{feed.commentCount}
 						</span>
@@ -185,16 +185,9 @@ export default function FeedPreview() {
 		}
 
 		.feed-preview-status {
-			color: gray;
 			font-size: 75%;
 			font-weight: bold;
 			margin: -0.5rem 0 0.5rem 0;
-		}
-
-		.feed-preview-header,
-		.feed-preview-footer {
-			font-size: 90%;
-			line-height: 1.4;
 		}
 
 		.feed-preview-footer {
@@ -213,22 +206,13 @@ export default function FeedPreview() {
 		.feed-preview-author-image {
 			height: 40px;
 			width: 40px;
-			border: 1px solid #efefef;
+			border: 1px solid var(--border-color);
 			border-radius: 50%;
 			box-shadow: 0 0.2rem 0.4rem #eee;
 		}
 
 		.feed-preview-name {
 			font-weight: bold;
-		}
-
-		.feed-preview-url,
-		.feed-preview-time {
-			color: gray;
-		}
-
-		.feed-preview-footer {
-			color: gray;
 		}
 	}
 }

@@ -3,40 +3,31 @@ import FormErrors from '../FormErrors.torp';
 
 export default function Index() {
 	@render {
-		<div class="vstack centered">
-			<div class="follow-page">
-				<:head>
-					<title>{$props.data.viewing.name} • Follow • Redraft</title>
-				</:head>
+		<div class="vstack spaced full-width follow-request-page">
+			<:head>
+				<title>{$props.data.viewing.name} • Follow • Redraft</title>
+			</:head>
 
-				<h2>Follow</h2>
+			<h2>Follow</h2>
 
-				<FormErrors {$props.form?.errors} />
+			<FormErrors {$props.form?.errors} />
 
-				<form use:enhance method="POST">
-					<div class="form-row">
-						<label for="url-input">Url</label>
-						<input
-							id="url-input"
-							name="url"
-							type="url"
-							required
-						/>
-					</div>
-					<div class="form-footer">
-						<button type="submit">
-							Send request
-						</button>
-					</div>
-				</form>
-			</div>
+			<form use:enhance method="POST">
+				<div class="form-row">
+					<label for="url-input">Url</label>
+					<input
+						id="url-input"
+						name="url"
+						type="url"
+						required
+					/>
+				</div>
+				<div class="form-footer">
+					<button type="submit">
+						Send request
+					</button>
+				</div>
+			</form>
 		</div>
-	}
-
-	@style {
-		.follow-page {						
-			max-width: 60rem;
-			width: 100%;
-		}
 	}
 }

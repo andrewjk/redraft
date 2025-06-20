@@ -18,7 +18,7 @@ export default function FollowPreview() {
 	});
 
 	@render {
-		<div class="follow-preview card">
+		<div class="card full-width follow-preview">
 			<div class="hstack spaced">
 				<div style="flex: 0 0 auto">
 					<a href={follow.url}>
@@ -32,7 +32,7 @@ export default function FollowPreview() {
 								<div class="follow-preview-name">
 									{follow.name}
 								</div>
-								<div class="follow-preview-url">
+								<div class="follow-preview-url secondary">
 									{stripProtocol(follow.url)}
 								</div>
 							</div>
@@ -68,18 +68,13 @@ export default function FollowPreview() {
 		.follow-preview-image {
 			height: 40px;
 			width: 40px;
-			border: 1px solid #efefef;
+			border: 1px solid var(--border-color);
 			border-radius: 50%;
 			box-shadow: 0 0.2rem 0.4rem #eee;
 		}
 
 		.follow-preview-name {
 			font-weight: bold;
-		}
-
-		.follow-preview-url,
-		.follow-preview-time {
-			color: gray;
 		}
 	}
 }

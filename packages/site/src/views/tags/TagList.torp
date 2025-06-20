@@ -5,7 +5,7 @@ import TagPreview from './TagPreview.torp';
  */
 export default function TagList() {
 	@render {
-		<div class="tag-list centered">
+		<div class="vstack spaced-nr full-width tag-list">
 			@if ($props.tags.length === 0) {
 				<div class="card">
 					No tags here yet.
@@ -17,16 +17,5 @@ export default function TagList() {
 				}
 			}
 		</div>
-	}
-
-	@style {
-		.tag-list {
-			display: flex;
-			flex-direction: column;
-			gap: 0.5rem;
-
-			max-width: 60rem;
-			width: 100%;
-		}
 	}
 }

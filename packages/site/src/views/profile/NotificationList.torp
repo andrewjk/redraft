@@ -1,3 +1,4 @@
+import NotificationMenu from './NotificationMenu.torp';
 import NotificationPreview from './NotificationPreview.torp';
 
 /**
@@ -5,9 +6,14 @@ import NotificationPreview from './NotificationPreview.torp';
  */
 export default function NotificationList($props) {
 	@render {
-		<div class="vstack centered">
-			<h2>Notifications</h2>
-			<div class="notification-list centered">
+		<div class="vstack centered spaced notification-page">
+			<:head>
+				<title>{$props.data.viewing.name} • Notifications • Redraft</title>
+			</:head>
+
+			<NotificationMenu section="Notifications" {$props.data.user} {$props.data.base} />
+
+			<div class="vstack spaced-nr full-width">
 				@if ($props.data.notifications.length === 0) {
 					<div class="card">
 						You have no notifications yet.
@@ -20,16 +26,5 @@ export default function NotificationList($props) {
 				}
 			</div>
 		</div>
-	}
-
-	@style {
-		.notification-list {
-			display: flex;
-			flex-direction: column;
-			gap: 0.5rem;
-			
-			max-width: 60rem;
-			width: 100%;
-		}
 	}
 }

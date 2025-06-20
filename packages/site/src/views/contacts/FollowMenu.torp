@@ -1,0 +1,36 @@
+/**
+ * Shows a menu for selecting Following/Followed by/Requests.
+ */
+export default function FollowMenu($props: { section: string }) {
+	@render {
+		<div class="hstack full-width subnav-menu follow-menu">
+			@if ($props.section === "Following") {
+				<h1>Following</h1>
+			} else if ($props.section === "FollowedBy") {
+				<h1>Followed by</h1>
+			} else if ($props.section === "Requests") {
+				<h1>Requests</h1>
+			}
+
+			@if ($props.user) {
+				<div class="spacer" />
+
+				@if ($props.section !== "Following") {
+					<a class="subnav-link" href="{$props.base}contacts/following">
+						Following
+					</a>
+				}
+				@if ($props.section !== "FollowedBy") {
+					<a class="subnav-link" href="{$props.base}contacts/followed-by">
+						Followed by
+					</a>
+				}
+				@if ($props.section !== "Requests") {
+					<a class="subnav-link" href="{$props.base}contacts/requests">
+						Requests
+					</a>
+				}
+			}
+		</div>
+	}
+}

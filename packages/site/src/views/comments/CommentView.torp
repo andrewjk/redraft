@@ -22,7 +22,7 @@ export default function CommentView() {
 
 	@render {
 		<div class="card comment-view">
-			<div class="comment-view-header hstack centered spaced">
+			<div class="comment-view-header hstack centered spaced font-sm">
 				<a href={comment.author.url}>
 					<img class="comment-view-image" src={placeholdify(comment.author.image)} alt={`${comment.author.name} (${stripProtocol(comment.author.url)})`} />
 				</a>
@@ -31,13 +31,13 @@ export default function CommentView() {
 						<div class="comment-view-name">
 							{comment.author.name}
 						</div>
-						<div class="comment-view-url">
+						<div class="comment-view-url secondary">
 							{stripProtocol(comment.author.url)}
 						</div>
 					</div>
 				</a>
 				<div class="vstack align-end">
-					<div class="comment-view-time" title={fmt.format(new Date(comment.createdAt))}>
+					<div class="comment-view-time secondary" title={fmt.format(new Date(comment.createdAt))}>
 						{relativeTimeSince(new Date(comment.createdAt))}
 					</div>
 					@if (!$props.parent && (user || follower) && !$state.replying) {
@@ -57,7 +57,7 @@ export default function CommentView() {
 			</div>
 
 			@if ($state.replying) {
-				<div class="comment-view-footer hstack spaced">
+				<div class="comment-view-footer hstack spaced font-sm">
 					<CommentInput {post} parent={comment.slug} />
 				</div>
 			}
@@ -77,12 +77,6 @@ export default function CommentView() {
 			margin: 0.6rem 0;
 		}
 
-		.comment-view-header,
-		.comment-view-footer {
-			font-size: 90%;
-			line-height: 1.4;
-		}
-
 		.comment-view-body {
 			padding: 0.4rem 0;
 		}
@@ -95,18 +89,13 @@ export default function CommentView() {
 		.comment-view-image {
 			height: 40px;
 			width: 40px;
-			border: 1px solid #efefef;
+			border: 1px solid var(--border-color);
 			border-radius: 50%;
 			box-shadow: 0 0.2rem 0.4rem #eee;
 		}
 
 		.comment-view-name {
 			font-weight: bold;
-		}
-
-		.comment-view-url,
-		.comment-view-time {
-			color: gray;
 		}
 
 		.comment-view-children {

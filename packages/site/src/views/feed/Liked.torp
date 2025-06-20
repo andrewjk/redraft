@@ -11,16 +11,13 @@ export default function Index() {
 	})
 
 	@render {
-		<div class="vstack centered">
+		<div class="vstack spaced feed-liked-page">
 			<:head>
 				<title>{$props.data.viewing.name} • Liked • Redraft</title>
 			</:head>
 
-			<h2>Liked</h2>
-			@if ($props.data.user) {
-				<FeedMenu section="Liked" {$props.data.base} />
-				<PostInput {post} {$props.data.user} />
-			}
+			<FeedMenu section="Liked" {$props.data.base} />
+			<PostInput {post} {$props.data.user} />
 			<FeedList {$props.data.feed} {$props.data.user} {$props.data.follower} />
 			<Pagination {$props.data.pageCount} {$state.page} href={(p) => `/?page=${p}`} />
 		</div>

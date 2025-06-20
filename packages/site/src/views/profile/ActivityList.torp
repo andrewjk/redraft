@@ -1,3 +1,4 @@
+import NotificationMenu from './NotificationMenu.torp';
 import ActivityPreview from './ActivityPreview.torp';
 
 /**
@@ -5,9 +6,14 @@ import ActivityPreview from './ActivityPreview.torp';
  */
 export default function ActivityList($props) {
 	@render {
-		<div class="vstack centered">
-			<h2>Activity</h2>
-			<div class="activity-list centered">
+		<div class="vstack centered spaced activity-page">
+			<:head>
+				<title>{$props.data.viewing.name} • Activity • Redraft</title>
+			</:head>
+
+			<NotificationMenu section="Activity" {$props.data.user} {$props.data.base} />
+
+			<div class="vstack spaced-nr full-width">
 				@if ($props.data.activity.length === 0) {
 					<div class="card">
 						You have no activity yet.
@@ -20,16 +26,5 @@ export default function ActivityList($props) {
 				}
 			</div>
 		</div>
-	}
-
-	@style {
-		.activity-list {
-			display: flex;
-			flex-direction: column;
-			gap: 0.5rem;
-			
-			max-width: 60rem;
-			width: 100%;
-		}
 	}
 }

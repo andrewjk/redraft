@@ -16,7 +16,7 @@ export default function ActivityPreview() {
 	});
 
 	@render {
-		<div class="activity-preview card">
+		<div class="card full-width activity-preview">
 			<a href={activity.url}>
 				{activity.text}
 			</a>

@@ -19,7 +19,7 @@ export default function PostInput($props) {
 	}
 
 	@render {
-		<form class="post-input" method="POST" enctype="multipart/form-data">
+		<form class="full-width post-input" method="POST" enctype="multipart/form-data">
 			<PostInputFields {post} {user} />
 			@for (let [i, child] of post.children.entries()) {
 				<PostInputFields {post} {user} {child} {i} />
@@ -30,8 +30,6 @@ export default function PostInput($props) {
 	@style {
 		.post-input {
 			margin-bottom: 1rem;
-			max-width: 60rem;
-			width: 100%;
 		}
 	}
 }

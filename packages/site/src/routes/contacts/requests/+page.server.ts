@@ -2,8 +2,8 @@ import { type PageServerEndPoint } from "@torpor/build";
 import { ok, unauthorized, unprocessable } from "@torpor/build/response";
 import * as api from "../../../lib/api";
 import formDataToObject from "../../../lib/utils/formDataToObject";
-import followBlock from "../../api/follow/block/+server";
-import followedBy from "../../api/profile/followed-by/+server";
+import followRequests from "../../api/contacts/requests/+server";
+import followApprove from "../../api/follow/approve/+server";
 
 export default {
 	load: async ({ appData, params }) => {
@@ -12,7 +12,7 @@ export default {
 			return unauthorized();
 		}
 
-		const result = await api.get("profile/followed-by", followedBy, params, user.token);
+		const result = await api.get("contacts/requests", followRequests, params, user.token);
 		if (result.errors) {
 			return unprocessable(result);
 		}
@@ -20,7 +20,7 @@ export default {
 		return ok(result);
 	},
 	actions: {
-		block: async ({ request, params, appData }) => {
+		approve: async ({ request, params, appData }) => {
 			const user = appData.user;
 			if (!user) {
 				return unauthorized();
@@ -29,7 +29,7 @@ export default {
 			const data = await request.formData();
 			const model = formDataToObject(data);
 
-			const result = await api.post("follow/block", followBlock, params, model, user.token);
+			const result = await api.post("follow/approve", followApprove, params, model, user.token);
 			if (result.errors) {
 				return unprocessable(result);
 			}

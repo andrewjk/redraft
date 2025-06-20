@@ -5,7 +5,7 @@ import pluralize from "../../lib/utils/pluralize"
  */
 export default function TagPreview() {
 	@render {
-		<div class="tag-preview card">
+		<div class="card full-width tag-preview">
 			<div class="tag-preview-header hstack centered spaced">
 				<a href="{$props.base}tags/{$props.tag.slug}" class="tag-preview-item">{$props.tag.text}</a>
 				<span>{pluralize($props.tag.count, "post")}</span>

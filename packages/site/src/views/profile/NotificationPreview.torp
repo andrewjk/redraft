@@ -16,7 +16,7 @@ export default function NotificationPreview() {
 	});
 
 	@render {
-		<div class="notification-preview card">
+		<div class="card full-width notification-preview">
 			<a href={notification.url}>
 				{notification.text}
 			</a>

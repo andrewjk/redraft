@@ -19,16 +19,21 @@ export type ProfileView = {
 	links: LinkView[];
 };
 
-export default function profileView(user: User & { links: UserLink[] }): ProfileView {
+export default function profileView(
+	user: User & { links: UserLink[] },
+	forEditing = false,
+): ProfileView {
 	return {
 		url: user.url,
 		email: user.email,
 		name: user.name,
 		bio: user.bio,
-		about: micromark(user.about, {
-			extensions: [gfm()],
-			htmlExtensions: [gfmHtml()],
-		}),
+		about: forEditing
+			? user.about
+			: micromark(user.about, {
+					extensions: [gfm()],
+					htmlExtensions: [gfmHtml()],
+				}),
 		location: user.location,
 		image: user.image,
 		links: user.links.map((l) => ({

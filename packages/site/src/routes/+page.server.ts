@@ -7,7 +7,6 @@ import savePost from "../routes/feed/_actions/saveFeedPost";
 import pinPost from "../routes/posts/_actions/pinPost";
 import publishPost from "../routes/posts/_actions/publishPost";
 import postsList from "./api/posts/+server";
-import profilePreview from "./api/profile/preview/+server";
 
 export default {
 	load: async ({ appData, params }) => {
@@ -17,11 +16,13 @@ export default {
 		// Load the user's profile and 5ish latest posts
 		const search = new URLSearchParams();
 		search.set("limit", FRONT_PAGE_SIZE.toString());
-		const [profile, { posts }] = await Promise.all([
-			api.get("profile/preview", profilePreview, params),
-			api.get(`posts?${search}`, postsList, params, user?.token || follower?.token),
-		]);
-		return ok({ profile, posts });
+		const posts = await api.get(
+			`posts?${search}`,
+			postsList,
+			params,
+			user?.token || follower?.token,
+		);
+		return ok(posts);
 	},
 	actions: {
 		savePost,

@@ -4,105 +4,98 @@ import FormErrors from '../FormErrors.torp';
 
 export default function Setup() {
 	@render {
-		<div class="vstack centered">
-			<div class="setup-page">
-				<:head>
-					<title>Setup • Redraft</title>
-				</:head>
+		<div class="vstack spaced full-width setup-page">
+			<:head>
+				<title>Setup • Redraft</title>
+			</:head>
 
-				<h2>Setup</h2>
+			<h2>Setup</h2>
 
-				<FormErrors {$props.form?.errors} />
+			<FormErrors {$props.form?.errors} />
 
-				<form use:enhance enctype="multipart/form-data" method="POST">
-					<div class="form-row">
-						<label for="username-input">Username</label>
+			<form use:enhance enctype="multipart/form-data" method="POST">
+				<div class="form-row">
+					<label for="username-input">Username</label>
+					<input
+						id="username-input"
+						name="username"
+						required
+					/>
+				</div>
+				<div class="form-row">
+					<label for="password-input">Password</label>
+					<input
+						id="password-input"
+						name="password"
+						type="password"
+						required
+					/>
+				</div>
+				<div class="form-row">
+					<label for="email-input">Email</label>
+					<input
+						id="email-input"
+						name="email"
+						type="email"
+						required
+					/>
+				</div>
+				<div class="form-row">
+					<label for="name-input">Name</label>
+					<input
+						id="name-input"
+						name="name"
+						required
+					/>
+				</div>
+				<div class="form-row">
+					<label for="image-input">Image</label
+					<div class="hstack centered spaced">
+						<div id="image-preview" class="no-shrink" style={`background-image: url("${placeholdify()}")`}  />
 						<input
-							id="username-input"
-							name="username"
-							required
+							id="image-input"
+							name="imagefile"
+							type="file"
+							accept="image/*"
+							onchange={fileSelected}
 						/>
 					</div>
-					<div class="form-row">
-						<label for="password-input">Password</label>
-						<input
-							id="password-input"
-							name="password"
-							type="password"
-							required
-						/>
-					</div>
-					<div class="form-row">
-						<label for="email-input">Email</label>
-						<input
-							id="email-input"
-							name="email"
-							type="email"
-							required
-						/>
-					</div>
-					<div class="form-row">
-						<label for="name-input">Name</label>
-						<input
-							id="name-input"
-							name="name"
-							required
-						/>
-					</div>
-					<div class="form-row">
-						<label for="image-input">Image</label
-						<div class="hstack spaced centered">
-							<div id="image-preview" style={`background-image: url("${placeholdify()}")`}  />
-							<input
-								id="image-input"
-								name="imagefile"
-								type="file"
-								accept="image/*"
-								onchange={fileSelected}
-							/>
-						</div>
-					</div>
-					@function fileSelected(e) {
-						const image = e.target.files[0];
-						if (!image.type.includes("image")) {
-							return;
-						}
-						const fileReader = new FileReader();
-						fileReader.readAsDataURL(image);
-						fileReader.onload = (ev) => {
-							const preview = document.getElementById("image-preview");
-							preview.style.backgroundImage = `url('${ev.target.result}')`;
-						}
+				</div>
+				@function fileSelected(e) {
+					const image = e.target.files[0];
+					if (!image.type.includes("image")) {
+						return;
 					}
-					<div class="form-row">
-						<label for="bio-input">Bio</label>
-						<input id="bio-input" name="bio" />
-					</div>
-					<div class="form-row">
-						<label for="location-input">Location</label>
-						<input id="location-input" name="location" />
-					</div>
-					<div class="form-footer">
-						<button type="submit">
-							Setup
-						</button>
-					</div>
-				</form>
-			</div>
+					const fileReader = new FileReader();
+					fileReader.readAsDataURL(image);
+					fileReader.onload = (ev) => {
+						const preview = document.getElementById("image-preview");
+						preview.style.backgroundImage = `url('${ev.target.result}')`;
+					}
+				}
+				<div class="form-row">
+					<label for="bio-input">Bio</label>
+					<input id="bio-input" name="bio" />
+				</div>
+				<div class="form-row">
+					<label for="location-input">Location</label>
+					<input id="location-input" name="location" />
+				</div>
+				<div class="form-footer">
+					<button type="submit">
+						Setup
+					</button>
+				</div>
+			</form>
 		</div>
 	}
 
 	@style {
-		.setup-page {
-			max-width: 60rem;
-			width: 100%;
-		}
-
 		#image-preview {
 			height: 100px;
 			width: 100px;
 			background-size: cover;
-			border: 1px solid #efefef;
+			border: 1px solid var(--border-color);
 			border-radius: 50%;
 			box-shadow: 0 0.2rem 0.4rem #eee;
 		}

@@ -1,4 +1,5 @@
 //import { enhance } from '$app/forms';
+import PostMenu from './PostMenu.torp';
 import FormErrors from '../FormErrors.torp';
 import PostInput from './PostInput.torp';
 
@@ -9,25 +10,21 @@ export default function PostCompose() {
 	let { user, post } = $props.data;
 
 	@render {
-		<div class="vstack centered">
-			<div class="compose-page">
-				<:head>
-					<title>Compose • Redraft</title>
-				</:head>
+		<div class="vstack spaced full-width post-compose-page">
+			<:head>
+				<title>Compose • Redraft</title>
+			</:head>
 
-				<h2>Compose</h2>
+			<PostMenu section="Compose" {$props.data.user} {$props.data.base} />
 
-				<FormErrors {$props.form?.errors} />
+			<FormErrors {$props.form?.errors} />
 
-				<PostInput {post} {user} />
-			</div>
+			<PostInput {post} {user} />
 		</div>
 	}
 
 	@style {
 		.compose-page {
-			width: 100%;
-			max-width: 60rem;
 		}
 	}
 }

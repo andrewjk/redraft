@@ -24,7 +24,7 @@ export default function ArticleView() {
 	});
 
 	@render {
-		<div class="post-view card">
+		<div class="card full-width article-view">
 			<:head>
 				<meta name="description" content={post.text} />
 				<meta property="og:type" content="article" />
@@ -45,27 +45,27 @@ export default function ArticleView() {
 				}
 			</:head>
 
-			<div class="post-view-container">
+			<div class="article-view-container">
 				<div class="hstack spaced">
 					<div style="flex: 0 0 auto">
 						<a href={post.author.url}>
-							<img class="post-view-image" src={placeholdify(post.author.image)} alt="{post.author.name} ({stripProtocol(post.author.url)})" />
+							<img class="article-view-image" src={placeholdify(post.author.image)} alt="{post.author.name} ({stripProtocol(post.author.url)})" />
 						</a>
 					</div>
 					<div style="flex: 1 1 auto">
-						<div class="post-view-header hstack centered spaced">
-							<a class="post-view-link hstack spaced grow" href={post.author.url}>
+						<div class="article-view-header hstack centered spaced font-sm">
+							<a class="article-view-link hstack spaced grow" href={post.author.url}>
 								<div class="vstack">
-									<div class="post-view-name">
+									<div class="article-view-name">
 										{post.author.name}
 									</div>
-									<div class="post-view-url">
+									<div class="article-view-url secondary">
 										{stripProtocol(post.author.url)}
 									</div>
 								</div>
 							</a>
 							<div class="vstack align-end">
-								<div class="post-view-time" title={fmt.format(new Date(post.publishedAt))}>
+								<div class="article-view-time secondary" title={fmt.format(new Date(post.publishedAt))}>
 									{relativeTimeSince(new Date(post.publishedAt))}
 								</div>
 								@if (user?.url === post.author.url) {
@@ -78,14 +78,14 @@ export default function ArticleView() {
 							</div>
 						</div>
 
-						<div class="post-view-body">
+						<div class="article-view-body">
 							<h3>{post.linkTitle}</h3>
 							@html(post.articleText)
 						</div>
 
 						@/*
 						@if (post.tags.length) {
-							<div class="post-view-tags-container">
+							<div class="article-view-tags-container">
 								@for (let [i, tag] of post.tags.entries()) {
 									@if (i > 0) {
 										<span class="separator" />
@@ -96,12 +96,12 @@ export default function ArticleView() {
 						}
 						*/
 
-						<div class="post-view-footer hstack centered">
-							<span class="hstack centered spaced-text">
+						<div class="article-view-footer hstack centered font-sm secondary">
+							<span class="hstack centered spaced-nr">
 								<ChatCircle weight="bold" />
 								{post.commentCount}
 							</span>
-							<span class="hstack centered spaced-text">
+							<span class="hstack centered spaced-nr">
 								<Heart weight="bold" />
 								{post.likeCount}
 							</span>
@@ -122,73 +122,59 @@ export default function ArticleView() {
 				</div>
 			</div>
 
-			<div class="post-view-comments-container">
+			<div class="article-view-comments-container">
 				<CommentList {post} {user} {follower} {post.comments}/>
 			</div>
 		</div>
 	}
 
 	@style {
-		.post-view {
+		.article-view {
 			margin: 0 auto;
-			max-width: 60rem;
 			padding: 0;
-			width: 100%;
 		}
 
-		.post-view-container,
-		.post-view-comments-container {
+		.article-view-container,
+		.article-view-comments-container {
 			padding: 1rem;
 		}
 
-		.post-view-container {
-			border-bottom: 1px solid #efefef;
+		.article-view-container {
+			border-bottom: 1px solid var(--border-color);
 		}
 
-		.post-view-header,
-		.post-view-footer {
-			font-size: 90%;
-			line-height: 1.4;
-		}
-
-		.post-view-footer {
+		.article-view-footer {
 			gap: 2rem;
 		}
 
-		.post-view-body {
+		.article-view-body {
 			padding: 1rem 0;
 		}
 
-		.post-view-link {
+		.article-view-link {
 			color: inherit;
 			text-decoration: none;
 		}
 
-		.post-view-image {
+		.article-view-image {
 			height: 40px;
 			width: 40px;
-			border: 1px solid #efefef;
+			border: 1px solid var(--border-color);
 			border-radius: 50%;
 			box-shadow: 0 0.2rem 0.4rem #eee;
 		}
 
-		.post-view-name {
+		.article-view-name {
 			font-weight: bold;
-		}
-
-		.post-view-url,
-		.post-view-time,
-		.post-view-footer {
-			color: gray;
 		}
 
 		.separator {
 			margin: 0 0.5rem;
 		}
 
-		.post-view-comments-container {
+		.article-view-comments-container {
 			background-color: #fcfcfc;
-			border-radius: var(--brad);
+			border-radius: var(--border-radius);
 			font-size: 85%;
 		}
 	}

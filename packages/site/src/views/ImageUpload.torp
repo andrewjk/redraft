@@ -16,7 +16,7 @@ export default function ImageUpload($props: { image: string, imageLoaded: boolea
 	}
 
 	@render {
-		<div class="vstack spaced centered">
+		<div class="vstack spaced image-upload">
 			@if (!$props.imageLoaded) {
 				<input
 					class="full-width"

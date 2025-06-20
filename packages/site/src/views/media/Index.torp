@@ -11,14 +11,13 @@ export default function Index() {
 	})
 
 	@render {
-		<div class="vstack centered">
+		<div class="vstack centered spaced media-page">
 			<:head>
 				<title>{$props.data.viewing.name} • Media • Redraft</title>
 			</:head>
 
-			<h2>Media</h2>
+			<MediaMenu section="Media" {$props.data.user} {$props.data.base} />
 			@if ($props.data.user) {
-				<MediaMenu section="Media" {$props.data.user} {$props.data.base} />
 				<PostInput {post} {$props.data.user} />
 			}
 			<PostList {$props.data.posts} {$props.data.user} {$props.data.follower} />

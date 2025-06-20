@@ -24,7 +24,7 @@ export default function PostView() {
 	});
 
 	@render {
-		<div class="post-view card">
+		<div class="card full-width post-view">
 			<:head>
 				<meta name="description" content={post.text} />
 				<meta property="og:type" content="article" />
@@ -53,19 +53,19 @@ export default function PostView() {
 						</a>
 					</div>
 					<div style="flex: 1 1 auto">
-						<div class="post-view-header hstack centered spaced">
+						<div class="post-view-header hstack centered spaced font-sm">
 							<a class="post-view-link hstack spaced grow" href={post.author.url}>
 								<div class="vstack">
 									<div class="post-view-name">
 										{post.author.name}
 									</div>
-									<div class="post-view-url">
+									<div class="post-view-url secondary">
 										{stripProtocol(post.author.url)}
 									</div>
 								</div>
 							</a>
 							<div class="vstack align-end">
-								<div class="post-view-time" title={fmt.format(new Date(post.publishedAt))}>
+								<div class="post-view-time secondary" title={fmt.format(new Date(post.publishedAt))}>
 									{relativeTimeSince(new Date(post.publishedAt))}
 								</div>
 								@if (user?.url === post.author.url) {
@@ -94,7 +94,7 @@ export default function PostView() {
 							@for (let child of post.children) {
 								<div class="child-post-body">
 									@if (new Date(child.publishedAt).getTime() - new Date(post.publishedAt).getTime() > 30000) {
-										<div class="child-post-time" title={fmt.format(new Date(child.publishedAt))}>
+										<div class="child-post-time font-sm secondary" title={fmt.format(new Date(child.publishedAt))}>
 											{relativeTimeSince(new Date(child.publishedAt))}
 										</div>
 									}
@@ -111,12 +111,12 @@ export default function PostView() {
 							}
 						}
 
-						<div class="post-view-footer hstack centered">
-							<span class="hstack centered spaced-text">
+						<div class="post-view-footer hstack centered font-sm secondary">
+							<span class="hstack centered spaced-nr">
 								<ChatCircle weight="bold" />
 								{post.commentCount}
 							</span>
-							<span class="hstack centered spaced-text">
+							<span class="hstack centered spaced-nr">
 								<Heart weight="bold" />
 								{post.likeCount}
 							</span>
@@ -129,7 +129,7 @@ export default function PostView() {
 							@if (post.emojiThird) {
 								<span>{post.emojiThird}</span>
 							}
-							<div class="hstack spaced-text">
+							<div class="hstack spaced-nr">
 								@for (let tag of post.tags) {
 									<a href="{$props.data.base}tags/{tag.slug}" class="post-view-tag">
 										{tag.text}
@@ -150,9 +150,7 @@ export default function PostView() {
 	@style {
 		.post-view {
 			margin: 0 auto;
-			max-width: 60rem;
 			padding: 0;
-			width: 100%;
 		}
 
 		.post-view-container,
@@ -161,13 +159,7 @@ export default function PostView() {
 		}
 
 		.post-view-container {
-			border-bottom: 1px solid #efefef;
-		}
-
-		.post-view-header,
-		.post-view-footer {
-			font-size: 90%;
-			line-height: 1.4;
+			border-bottom: 1px solid var(--border-color);
 		}
 
 		.post-view-footer {
@@ -179,15 +171,12 @@ export default function PostView() {
 		}
 
 		.child-post-body {
-			border-top: 1px solid #efefef;
+			border-top: 1px solid var(--border-color);
 			padding: 1rem 0;
 		}
 
 		.child-post-time {
-			color: gray;
-			font-size: 90%;
-			line-height: 1.4;
-			text-align: right;
+			text-align: end;
 		}
 
 		.post-view-link {
@@ -198,7 +187,7 @@ export default function PostView() {
 		.post-view-image {
 			height: 40px;
 			width: 40px;
-			border: 1px solid #efefef;
+			border: 1px solid var(--border-color);
 			border-radius: 50%;
 			box-shadow: 0 0.2rem 0.4rem #eee;
 		}
@@ -207,19 +196,13 @@ export default function PostView() {
 			font-weight: bold;
 		}
 
-		.post-view-url,
-		.post-view-time,
-		.post-view-footer {
-			color: gray;
-		}
-
 		.separator {
 			margin: 0 0.5rem;
 		}
 
 		.post-view-comments-container {
 			background-color: #fcfcfc;
-			border-radius: var(--brad);
+			border-radius: var(--border-radius);
 			font-size: 85%;
 		}
 

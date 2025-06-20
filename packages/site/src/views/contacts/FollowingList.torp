@@ -6,12 +6,14 @@ import FollowMenu from './FollowMenu.torp';
  */
 export default function FollowingList($props) {
 	@render {
-		<div class="vstack centered">
-			<h2>Following</h2>
-			@if ($props.data.user) {
-				<FollowMenu section="Following" {$props.data.base} />
-			}
-			<div class="follow-list centered">
+		<div class="vstack spaced following-list">
+			<:head>
+				<title>{$props.data.viewing.name} • Following • Redraft</title>
+			</:head>
+
+			<FollowMenu section="Following" {$props.data.user} {$props.data.base} />
+
+			<div class="vstack spaced-nr full-width">
 				@if ($props.data.following.length === 0) {
 					@if ($props.data.user) {
 						<div class="card">
@@ -30,16 +32,5 @@ export default function FollowingList($props) {
 				}
 			</div>
 		</div>
-	}
-
-	@style {
-		.follow-list {
-			display: flex;
-			flex-direction: column;
-			gap: 0.5rem;
-			
-			max-width: 60rem;
-			width: 100%;
-		}
 	}
 }

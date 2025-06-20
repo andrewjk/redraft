@@ -3,14 +3,14 @@ import FormErrors from '../FormErrors.torp';
 
 export default function Index() {
 	@render {
-		<div class="vstack centered">
-			<div class="follow-page">
-				<:head>
-					<title>{$props.data.viewing.name} • Follow • Redraft</title>
-				</:head>
+		<div class="vstack spaced full-width follow-page">
+			<:head>
+				<title>{$props.data.viewing.name} • Follow • Redraft</title>
+			</:head>
 
-				<h2>Follow</h2>
+			<h2>Follow</h2>
 
+			<div class="full-width">
 				<p>
 					To follow me you will need a Redraft site or account.
 				</p>
@@ -30,12 +30,5 @@ export default function Index() {
 				</p>
 			</div>
 		</div>
-	}
-
-	@style {
-		.follow-page {						
-			max-width: 60rem;
-			width: 100%;
-		}
 	}
 }

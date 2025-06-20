@@ -1,36 +1,32 @@
 /**
- * Shows a menu for selecting Media or Drafts.
+ * Shows a menu for selecting Media or drafts.
  */
 export default function MediaMenu($props: { section: string, user: any }) {
 	@render {
-		<div class="hstack spaced post-menu">
-			@if ($props.section === "Posts") {
-				<span>Posts</span>
-			} else {
-				<a href="{$props.base}media">
-					Posts
-				</a>
+		<div class="hstack full-width subnav-menu media-menu">
+			@if ($props.section === "Media") {
+				<h1>Media</h1>
+			} else if ($props.section === "Drafts") {
+				<h1>Media drafts</h1>
 			}
+
 			@if ($props.user) {
-				<span class="menu-separator" />
-				@if ($props.section === "Drafts") {
-					<span>Drafts</span>
-				} else {
-					<a href="{$props.base}media/drafts">
+				<div class="spacer" />
+
+				@if ($props.section === "Media") {
+					<a class="subnav-link" href="{$props.base}media/drafts">
 						Drafts
 					</a>
+				} else if ($props.section === "Drafts") {
+					<a class="subnav-link" href="{$props.base}media">
+						Media
+					</a>
 				}
-				<span class="menu-separator" />
-				<a href="{$props.base}posts/compose">
+
+				<a class="subnav-link" href="{$props.base}posts/compose">
 					Compose
 				</a>
 			}
 		</div>
-	}
-
-	@style {
-		.post-menu {
-			margin-bottom: 1rem;
-		}
 	}
 }

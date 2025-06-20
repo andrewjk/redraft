@@ -34,13 +34,13 @@ export default function CommentPreview() {
 								<div class="comment-preview-name">
 									{comment.author.name}
 								</div>
-								<div class="comment-preview-url">
+								<div class="comment-preview-url secondary">
 									{stripProtocol(comment.author.url)}
 								</div>
 							</div>
 						</a>
 						<div class="vstack align-end">
-							<div class="comment-preview-time" title={fmt.format(new Date(comment.createdAt))}>
+							<div class="comment-preview-time secondary" title={fmt.format(new Date(comment.createdAt))}>
 								{relativeTimeSince(new Date(comment.createdAt))}
 							</div>
 							@if (!$props.parent && (user || follower) && !$state.replying) {
@@ -99,18 +99,13 @@ export default function CommentPreview() {
 		.comment-preview-image {
 			height: 40px;
 			width: 40px;
-			border: 1px solid #efefef;
+			border: 1px solid var(--border-color);
 			border-radius: 50%;
 			box-shadow: 0 0.2rem 0.4rem #eee;
 		}
 
 		.comment-preview-name {
 			font-weight: bold;
-		}
-
-		.comment-preview-url,
-		.comment-preview-time {
-			color: gray;
 		}
 	}
 }

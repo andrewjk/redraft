@@ -5,7 +5,7 @@ import FeedPreview from './FeedPreview.torp';
  */
 export default function FeedList() {
 	@render {
-		<div class="feed-list centered">
+		<div class="vstack spaced-nr full-width feed-list">
 			@if ($props.feed.length === 0) {
 				<div class="card">
 					No posts here yet.
@@ -17,16 +17,5 @@ export default function FeedList() {
 				}
 			}
 		</div>
-	}
-
-	@style {
-		.feed-list {
-			display: flex;
-			flex-direction: column;
-			gap: 0.5rem;
-
-			max-width: 60rem;
-			width: 100%;
-		}
 	}
 }

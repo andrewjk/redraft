@@ -11,13 +11,12 @@ export default function TagPosts() {
 	})
 
 	@render {
-		<div class="vstack centered">
+		<div class="vstack spaced tag-posts-page">
 			<:head>
 				<title>{$props.data.viewing.name} • {$props.data.tag.text} • Redraft</title>
 			</:head>
 
-			<h2>“{$props.data.tag.text}”</h2>
-			<TagMenu tag={$props.data.tag.slug} section="Posts" {$props.data.user} {$props.data.base} />
+			<TagMenu tag={$props.data.tag} section="Posts" {$props.data.user} {$props.data.base} />
 			@if ($props.data.user) {
 				<PostInput {post} {$props.data.user} />
 			}

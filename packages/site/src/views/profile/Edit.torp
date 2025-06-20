@@ -1,26 +1,26 @@
 //import { enhance } from '$app/forms';
 import placeholdify from "../../lib/utils/placeholdify";
+import ProfileMenu from "./ProfileMenu.torp";
 import FormErrors from '../FormErrors.torp';
 
 export default function Edit() {
 	let $profile = $watch($props.data.profile)
 
 	@render {
-		<div class="vstack centered">
-			<div class="profile-edit-page">
+			<div class="full-width profile-edit-page">
 				<:head>
 					<title>Edit Profile • Redraft</title>
 				</:head>
 
-				<h2>Edit Profile</h2>
+				<ProfileMenu section="Edit" {$props.data.user} {$props.data.base} />
 
 				<FormErrors {$props.form?.errors} />
 
 				<form use:enhance enctype="multipart/form-data" method="POST">
 					<div class="form-row">
 						<label for="image-input">Image</label
-						<div class="hstack spaced centered">
-							<div id="image-preview" style={`background-image: url("${placeholdify($props.data.profile.image)}")`} />
+						<div class="hstack centered spaced">
+							<div id="image-preview" class="no-shrink" style={`background-image: url("${placeholdify($props.data.profile.image)}")`} />
 							<input
 								id="image-input"
 								&value={$props.data.profile.imagefile}
@@ -117,20 +117,17 @@ export default function Edit() {
 					</div>
 				</form>
 			</div>
-		</div>
 	}
 
 	@style {
-		.profile-edit-page {						
-			max-width: 60rem;
-			width: 100%;
+		.profile-edit-page {
 		}
 
 		#image-preview {
 			height: 100px;
 			width: 100px;
 			background-size: cover;
-			border: 1px solid #efefef;
+			border: 1px solid var(--border-color);
 			border-radius: 50%;
 			box-shadow: 0 0.2rem 0.4rem #eee;
 		}

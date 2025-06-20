@@ -1,8 +1,8 @@
 import { $page } from "@torpor/build/state";
 import post from "./$postInput";
+import HomeMenu from "./HomeMenu.torp";
 import PostInput from "./posts/PostInput.torp";
 import PostList from "./posts/PostList.torp";
-import Profile from "./profile/Preview.torp";
 
 export default function Index() {
 	let $state = $watch({
@@ -10,38 +10,16 @@ export default function Index() {
 	})
 
 	@render {
-		<div class="home-page">
+		<div class="vstack spaced home-page">
 			<:head>
 				<title>{$props.data.viewing.name} • Redraft</title>
 			</:head>
 
-			<div class="hstack spaced collapse full-width" style="column-gap: 2.8rem">
-				<div class="grow" />
-
-				<div class="vstack spaced centered">
-					<Profile {$props.data.profile} {$props.data.user} {$props.data.base} />
-				</div>
-
-				<div class="vstack spaced centered grow">
-					<h2>Recent posts</h2>
-					@if ($props.data.user) {
-						<PostInput {post} {$props.data.user} />
-					}
-					<PostList {$props.data.posts} {$props.data.user} {$props.data.follower} />
-					@if ($props.data.posts.length) {
-						<a href="{$props.data.base}posts">All posts</a>
-					}
-				</div>
-
-				<div class="grow" />
-			</div>
+			<HomeMenu section="Home" {$props.data.user} {$props.data.base} />
+			@if ($props.data.user) {
+				<PostInput {post} {$props.data.user} />
+			}
+			<PostList {$props.data.posts} {$props.data.user} {$props.data.follower} />
 		</div>
-	}
-
-	@style {
-		.home-page {
-			display: flex;
-			justify-content: center;
-		}
 	}
 }

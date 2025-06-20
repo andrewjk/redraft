@@ -1,7 +1,7 @@
 import { type PageServerEndPoint } from "@torpor/build";
 import { ok, unprocessable } from "@torpor/build/response";
 import * as api from "../../../lib/api";
-import profileFollowing from "../../api/profile/following/+server";
+import profileFollowing from "../../api/contacts/following/+server";
 
 export default {
 	load: async ({ appData, params }) => {
@@ -10,7 +10,7 @@ export default {
 		//	return unauthorized();
 		//}
 
-		const result = await api.get("profile/following", profileFollowing, params, user?.token);
+		const result = await api.get("contacts/following", profileFollowing, params, user?.token);
 		if (result.errors) {
 			return unprocessable(result);
 		}

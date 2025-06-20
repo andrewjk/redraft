@@ -1,18 +1,21 @@
 import type { PageServerEndPoint } from "@torpor/build";
-import { ok } from "@torpor/build/response";
+import { ok, seeOther } from "@torpor/build/response";
 import database from "../data/database";
 import env from "../lib/env";
 import ensureSlash from "../lib/utils/ensureSlash";
 
 export default {
-	load: async ({ appData, params }) => {
+	load: async ({ appData, url, params }) => {
 		const user = appData.user;
 		const follower = appData.follower;
 
 		const db = database();
 		const currentUser = await db.query.usersTable.findFirst({
-			columns: { name: true, image: true },
+			columns: { name: true, image: true, bio: true, location: true },
 		});
+		if (!currentUser && url.pathname !== "/account/setup") {
+			return seeOther("/account/setup");
+		}
 
 		return ok({
 			username: params.user,
@@ -31,6 +34,8 @@ export default {
 				url: ensureSlash(env().SITE_LOCATION),
 				name: currentUser?.name,
 				image: currentUser?.image,
+				bio: currentUser?.bio,
+				location: currentUser?.location,
 			},
 		});
 	},

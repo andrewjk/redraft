@@ -26,8 +26,8 @@ export default function PostPreview() {
 	});
 
 	@render {
-		<div class="post-preview card">
-			<div class="post-preview-status hstack spaced-text">
+		<div class="card full-width post-preview">
+			<div class="post-preview-status hstack spaced-nr secondary">
 				@if (post.pinned) {
 					<div>Pinned</div>
 				}
@@ -63,22 +63,22 @@ export default function PostPreview() {
 					</a>
 				</div>
 				<div style="flex: 1 1 auto">
-					<div class="post-preview-header hstack centered spaced">
+					<div class="post-preview-header hstack centered spaced font-sm">
 						<a class="post-preview-link hstack spaced grow" href={post.author.url}>
 							<div class="vstack">
 								<div class="post-preview-name">
 									{post.author.name}
 								</div>
-								<div class="post-preview-url">
+								<div class="post-preview-url secondary">
 									{stripProtocol(post.author.url)}
 								</div>
 							</div>
 						</a>
 						<div class="vstack align-end">
-							<div class="post-preview-time" title={fmt.format(new Date(post.publishedAt))}>
+							<div class="post-preview-time secondary" title={fmt.format(new Date(post.publishedAt))}>
 								{relativeTimeSince(new Date(post.publishedAt))}
 							</div>
-							<div class="hstack spaced-text centered">
+							<div class="hstack spaced-nr centered">
 								@if (user?.url === post.author.url) {
 									<a href="{post.author.url}posts/edit/{post.slug}" class="icon">
 										<Pencil weight="bold" />
@@ -95,7 +95,7 @@ export default function PostPreview() {
 										</button>
 									</form>
 								} else if (post.pinned) {
-									<span class="post-preview-time">
+									<span class="secondary">
 										<PushPin weight="fill" />
 									</span>
 									@/*
@@ -104,7 +104,7 @@ export default function PostPreview() {
 									}
 									*/
 								} else {
-									<span class="post-preview-time">&nbsp;</span>
+									<span class="secondary">&nbsp;</span>
 								}
 								@// TODO: How would we do this? We would need to post from the other user's site back to our site??
 								@// Maybe this needs to wait until we have a browser plugin
@@ -144,7 +144,7 @@ export default function PostPreview() {
 						}
 					</div>
 
-					<div class="post-preview-footer hstack centered">
+					<div class="post-preview-footer hstack centered font-sm secondary">
 						@if (post.isArticle) {
 							<a href="{post.author.url}posts/{post.slug}">
 								Read
@@ -158,11 +158,11 @@ export default function PostPreview() {
 								View
 							</a>
 						}
-						<span class="hstack centered spaced-text">
+						<span class="hstack centered spaced-nr">
 							<ChatCircle weight="bold" />
 							{post.commentCount}
 						</span>
-						<span class="hstack centered spaced-text">
+						<span class="hstack centered spaced-nr">
 							<Heart weight="bold" />
 							{post.likeCount}
 						</span>
@@ -175,7 +175,7 @@ export default function PostPreview() {
 						@if (post.emojiThird) {
 							<span>{post.emojiThird}</span>
 						}
-						<div class="hstack spaced-text">
+						<div class="hstack spaced-nr">
 							@for (let tag of post.tags) {
 								<a href="{post.author.url}tags/{tag.slug}" class="post-preview-tag">
 									{tag.text}
@@ -193,16 +193,9 @@ export default function PostPreview() {
 		}
 
 		.post-preview-status {
-			color: gray;
 			font-size: 75%;
 			font-weight: bold;
 			margin: -0.5rem 0 0.5rem 0;
-		}
-
-		.post-preview-header,
-		.post-preview-footer {
-			font-size: 90%;
-			line-height: 1.4;
 		}
 
 		.post-preview-footer {
@@ -221,7 +214,7 @@ export default function PostPreview() {
 		.post-preview-author-image {
 			height: 40px;
 			width: 40px;
-			border: 1px solid #efefef;
+			border: 1px solid var(--border-color);
 			border-radius: 50%;
 			box-shadow: 0 0.2rem 0.4rem #eee;
 		}
@@ -230,17 +223,8 @@ export default function PostPreview() {
 			font-weight: bold;
 		}
 
-		.post-preview-url,
-		.post-preview-time {
-			color: gray;
-		}
-
 		.post-preview-image {
 			margin: 0 auto;
-		}
-
-		.post-preview-footer {
-			color: gray;
 		}
 
 		.post-preview-tag {
@@ -257,7 +241,7 @@ export default function PostPreview() {
 		}
 
 		.separator {
-			color: gray;
+			color: #808080;
 		}
 	}
 }

@@ -1,7 +1,7 @@
 import { $page } from '@torpor/build/state';
 import placeholdify from "../../lib/utils/placeholdify";
 import stripProtocol from "../../lib/utils/stripProtocol";
-import FollowMenu from './FollowMenu.torp';
+import ProfileMenu from './ProfileMenu.torp';
 import MapPin from "phosphor-torpor/lib/MapPin";
 import Link from "phosphor-torpor/lib/Link";
 import Pencil from "phosphor-torpor/lib/Pencil";
@@ -9,74 +9,38 @@ import SignOut from "phosphor-torpor/lib/SignOut";
 
 export default function Index($props) {
 	@render {
-		<div class="profile-page">
+		<div class="vstack spaced profile-page">
 			<:head>
 				<title>{$props.data.viewing.name} • Profile • Redraft</title>
 			</:head>
 
-			<div class="vstack centered spaced profile-details">
-				<h2>{$props.data.profile.name}</h2>
+			<ProfileMenu section="Profile" {$props.data.user} {$props.data.base} />
 
-				@if ($props.data.user) {
-					<FollowMenu {$props.data.base} {$props.data.user} />
-				} else {
-					<a href="{$props.data.base}profile/following">
-						Following
-					</a>
-				}
+			@if ($props.data.profile.about) {
+				<hr />
+				@html($props.data.profile.about)
+			}
 
-				@if ($props.data.user) {
-					<div class="hstack spaced">
-						<a href="{$props.data.base}profile/edit" class="hstack centered spaced-text">
-							<Pencil weight="bold" />
-							Edit profile
+			@if ($props.data.profile.links.length) {
+				<hr />
+				<div class="hstack spaced">
+					@for (let link of $props.data.profile.links) {
+						<a href={link.url} class="hstack centered spaced-nr">
+							<Link weight="bold" />
+							{link.text}
 						</a>
-						<span class="menu-separator" />
-						<form use:enhance method="POST" action="?/logout">
-							<button class="link hstack centered spaced-text">
-								<SignOut weight="bold" />
-								Log out
-							</button>
-						</form>
-					</div>
-				}
-
-				<img src={placeholdify($props.data.profile.image)} class="profile-image" alt="{$props.data.profile.name} ({stripProtocol($props.data.profile.url)})" />
-				<div class="vstack spaced centered">
-					@if ($props.data.profile.bio) {
-						<div>{$props.data.profile.bio}</div>
-					}
-					@if ($props.data.profile.location) {
-						<div class="hstack centered spaced-text">
-							<MapPin weight="bold" />
-							{$props.data.profile.location}
-						</div>
 					}
 				</div>
-				@if ($props.data.profile.about) {
-					<hr />
-					@html($props.data.profile.about)
-					<hr />
-				}
-				@if ($props.data.profile.links.length) {
-					<div class="hstack spaced">
-						@for (let link of $props.data.profile.links) {
-							<a href={link.url} class="hstack centered spaced-text">
-								<Link weight="bold" />
-								{link.text}
-							</a>
-						}
-					</div>
-				}
-			</div>
+			}
 		</div>
 	}
 
 	@style {
+
 		.profile-image {
 			height: 200px;
 			width: 200px;
-			border: 1px solid #efefef;
+			border: 1px solid var(--border-color);
 			border-radius: 50%;
 			box-shadow: 0 0.2rem 0.4rem #eee;
 		}

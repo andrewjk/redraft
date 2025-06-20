@@ -8,7 +8,7 @@ export default function CommentList() {
 	let { post, comments, user, follower } = $props;
 
 	@render {
-		<div class="comment-list centered">
+		<div class="vstack spaced-nr full-width comment-list">
 			@for (let comment of comments) {
 				@key = comment.id
 				<CommentPreview {post} {comment} {user} {follower} />
@@ -17,16 +17,5 @@ export default function CommentList() {
 				<CommentInput {post} />
 			}
 		</div>
-	}
-
-	@style {
-		.comment-list {
-			display: flex;
-			flex-direction: column;
-			gap: 0.5rem;
-
-			max-width: 60rem;
-			width: 100%;
-		}
 	}
 }

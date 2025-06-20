@@ -161,7 +161,7 @@ export default function PostInput($props) {
 				</div>
 			}
 
-			<div class="hstack spaced centered post-input-footer">
+			<div class="hstack centered spaced post-input-footer">
 				<div class="spacer" />
 				<button type="button" class="link icon" disabled={post.isArticle} onclick={toggleImage}>
 					@if (post.hasImage) {
@@ -276,12 +276,6 @@ export default function PostInput($props) {
 	}
 
 	@style {
-		.post-input {
-			margin-bottom: 1rem;
-			max-width: 60rem;
-			width: 100%;
-		}
-
 		.post-input-article-title {
 			font-size: x-large;
 		}

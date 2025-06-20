@@ -1,0 +1,165 @@
+import { $page } from '@torpor/build/state';
+import MapPin from "phosphor-torpor/lib/MapPin";
+import Pencil from "phosphor-torpor/lib/Pencil";
+import SignOut from "phosphor-torpor/lib/SignOut";
+import placeholdify from "../../lib/utils/placeholdify";
+import stripProtocol from "../../lib/utils/stripProtocol";
+
+export default function ProfilePreview($props) {
+	@render {
+		<div class="profile-preview">
+			<div class="vstack centered spaced">
+				<div class="vstack centered spaced grow">
+					<div class="vstack collapse centered spaced">
+						<div class="no-shrink">
+							<a href="{$props.base}profile">
+								<img src={placeholdify($props.profile.image)} class="profile-preview-image" alt="{$props.profile.name} ({stripProtocol($props.profile.url)})" />
+							</a>
+						</div>
+						<div class="profile-preview-user">
+							<div class="profile-preview-name">{$props.profile.name}</div>
+							<div class="profile-preview-url secondary">{stripProtocol($props.profile.url)}</div>
+							@if (!$props.user) {
+								@if ($props.follower) {
+									<form use:enhance method="POST" action={`${$props.follower.url}unfollow`}>
+										<input type="hidden" name="url" value={$props.profile.url} />
+										<button>Unfollow</button>
+									</form>
+								} else {
+									@// NOTE: These might get updated by the web extension
+									<form id="social-follow-form" use:enhance method="POST" style="display: none"}>
+										<input type="hidden" name="url" value={$props.profile.url} />
+										<button>Follow</button>
+									</form>
+									<a id="social-follow-link" class="nav-link" href="/follow">
+										Follow
+									</a>
+								}
+							}
+						</div>
+					</div>
+					<div class="vstack centered spaced profile-preview-details">
+						@if ($props.profile.bio) {
+							<p>{$props.profile.bio}</p>
+						}
+					</div>
+				</div>
+				<div class="vstack collapse centered grow full-width profile-preview-menu">
+					<div class="spacer" />
+					@/*
+					@const homeLink = $props.base
+					<a
+						:class={{ "subnav-link": true, active: $page.url.pathname === homeLink }}
+						href={homeLink}
+					>
+						Home
+					</a>
+					*/
+					@const postsLink = `${$props.base}posts`
+					<a
+						:class={{ "subnav-link": true, active: $page.url.pathname.startsWith(postsLink) }}
+						href={postsLink}
+					>
+						Posts
+					</a>
+					@const articlesLink = `${$props.base}articles`
+					<a
+						:class={{ "subnav-link": true, active: $page.url.pathname.startsWith(articlesLink) }}
+						href={articlesLink}
+					>
+						Articles
+					</a>
+					@const mediaLink = `${$props.base}media`
+					<a
+						:class={{ "subnav-link": true, active: $page.url.pathname.startsWith(mediaLink) }}
+						href={mediaLink}
+					>
+						Media
+					</a>
+					@const contactsLink = `${$props.base}contacts`
+					<a
+						:class={{ "subnav-link": true, active: $page.url.pathname.startsWith(contactsLink) }}
+						href="{contactsLink}/following"
+					>
+						Contacts
+					</a>
+					@const profileLink = `${$props.base}profile`
+					<a
+						:class={{ "subnav-link": true, active: $page.url.pathname.startsWith(profileLink) }}
+						href={profileLink}
+					>
+						Profile
+					</a>
+					<div class="spacer" />
+				</div>
+			</div>
+		</div>
+	}
+
+	@style {
+		.profile-preview {
+			font-size: 1.5rem;
+			text-align: center;
+			width: 100%;
+		}
+
+		.profile-preview-image {
+			height: 80px;
+			width: 80px;
+			border: 1px solid var(--border-color);
+			border-radius: 50%;
+			box-shadow: 0 0.2rem 0.4rem #eee;
+		}
+
+		.subnav-link {
+			//border: 2px solid #fff0;
+			//padding: calc(1rem - 2px) 1rem;
+		}
+
+		.subnav-link.active {
+			border-top: 2px solid #fff0;
+			border-bottom: 2px solid orange;
+			padding: calc(1rem - 2px) 1rem;
+		}
+
+		.profile-preview-user {
+			text-align: start;
+		}
+
+		@media screen and (min-width: 768px) {
+			.profile-preview {
+				max-width: 180px;
+			}
+
+			.profile-preview-image {
+				height: 160px;
+				width: 160px;
+			}
+
+			.profile-preview-user {
+				text-align: inherit;
+			}
+
+			.subnav-link,
+			.subnav-button {
+				width: 100%;
+				padding: calc(1rem - 2px);
+			}
+
+			.subnav-link.active {
+				border: 0;
+				border-right: 2px solid #fff0;
+				border-left: 2px solid orange;
+			}
+		}
+
+		.profile-preview-name {
+			font-weight: bold;
+		}
+
+		.profile-preview-menu {
+			border: 1px solid rgba(0, 0, 0, 0.1);
+			border-width: 1px 0;
+		}
+	}
+}

@@ -1,0 +1,16 @@
+/**
+ * Shows a menu for the Home screen.
+ */
+export default function HomeMenu($props: { section: string, user: any }) {
+	@render {
+		<div class="hstack full-width subnav-menu home-menu">
+			<h1>Home</h1>
+
+			<div class="spacer" />
+
+			<a class="subnav-link" href="{$props.base}posts">
+				All posts
+			</a>
+		</div>
+	}
+}

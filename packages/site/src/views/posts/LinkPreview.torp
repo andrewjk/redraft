@@ -14,7 +14,7 @@ export default function LinkPreview() {
 	}
 
 	@render {
-		<a class="link-preview vstack" href={link.linkUrl}>
+		<a class="vstack link-preview" href={link.linkUrl}>
 			@if (link.linkEmbedSrc) {
 				<iframe
 					src={link.linkEmbedSrc}
@@ -71,7 +71,7 @@ export default function LinkPreview() {
 		}
 
 		.link-preview-host {
-			color: #efefef;
+			color: var(--border-color);
 		}
 	}
 }

@@ -14,6 +14,7 @@ export default {
 			id: -1,
 			type: 0,
 			text: "",
+			children: [],
 		};
 
 		return ok({ post: model });
