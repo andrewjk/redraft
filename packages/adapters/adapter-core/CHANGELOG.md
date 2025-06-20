@@ -1,5 +1,14 @@
 # @redraft/adapter-core
 
+## 0.0.5
+
+### Patch Changes
+
+- b6f7605: Chore: update dependencies
+- 0a3876b: Chore: update dependencies
+- 759d2b9: Chore: update dependencies
+- a117353: Chore: update dependencies
+
 ## 0.0.4
 
 ### Patch Changes

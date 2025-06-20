@@ -1,5 +1,41 @@
 # @redraft/site
 
+## 0.1.0
+
+### Minor Changes
+
+- 7ffe153: UI: moved things around quite a lot!
+- bd519db: !Feat: allow having text, images and links together
+
+### Patch Changes
+
+- 84370ed: Feat: change the post icon to reflect its state
+- 5cdaec3: Feat: user activity
+- 2d98997: Feat: alt text for images
+- 9875f02: Fix: don't need to await setUserToken
+- bb77b90: Feat: show the viewed user name in the header
+- 2239a72: Feat: add profile `about` field
+- c8ac7bf: Feat: store the post input outside the view
+- 2b8024d: Feat: links with oembed (for YouTube, Spotify, etc)
+- c9c8515: Feat: make follows public
+- cbca818: UI: hide image and link input fields after load
+- 4f8f87e: Fix: prepend sluggified article title with the date
+- 7466929: Feat: separate post and article views
+- b6f7605: Chore: update dependencies
+- 672a6b1: Feat: multi-part posts
+- 1645cbe: Fix: show tags in post lists
+- 35a19ea: UI: center post images
+- 0a3876b: Chore: update dependencies
+- 759d2b9: Chore: update dependencies
+- a117353: Chore: update dependencies
+- 401cc24: Fix: show tags when the user is logged out
+- Updated dependencies [b6f7605]
+- Updated dependencies [0a3876b]
+- Updated dependencies [759d2b9]
+- Updated dependencies [a117353]
+  - @redraft/adapter-core@0.0.5
+  - @redraft/adapter-node@0.0.5
+
 ## 0.0.15
 
 ### Patch Changes

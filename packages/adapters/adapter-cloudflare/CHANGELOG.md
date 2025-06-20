@@ -1,5 +1,19 @@
 # @redraft/adapter-cloudflare
 
+## 0.0.12
+
+### Patch Changes
+
+- b6f7605: Chore: update dependencies
+- 0a3876b: Chore: update dependencies
+- 759d2b9: Chore: update dependencies
+- a117353: Chore: update dependencies
+- Updated dependencies [b6f7605]
+- Updated dependencies [0a3876b]
+- Updated dependencies [759d2b9]
+- Updated dependencies [a117353]
+  - @redraft/adapter-core@0.0.5
+
 ## 0.0.11
 
 ### Patch Changes
