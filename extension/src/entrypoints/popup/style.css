@@ -1,10 +1,13 @@
 :root {
-	--bg: #fafbfc;
+	--background: #fafbfc;
 	--header: #222233;
 	--text: #222222;
+	--text-secondary: #808080;
+	--text-disabled: #808080;
 	--panel-back: #f3f6f9;
 	--code-back: #e3e6e9;
-	--brad: 0.4rem;
+	--border-radius: 0.4rem;
+	--border-color: #efefef;
 	--link: #0066cc;
 }
 
@@ -14,7 +17,7 @@ html {
 
 body {
 	color: var(--text);
-	background-color: var(--bg);
+	background-color: var(--background);
 }
 
 h1,
@@ -104,11 +107,6 @@ a:hover {
 	gap: 1rem;
 }
 
-.hstack.spaced-text,
-.vstack.spaced-text {
-	gap: 0.6rem;
-}
-
 .hstack.equal,
 .vstack.equal {
 	* {
@@ -148,7 +146,7 @@ a:hover {
 
 table {
 	border-spacing: 0;
-	text-align: left;
+	text-align: start;
 }
 
 th,
@@ -182,14 +180,15 @@ form {
 }
 
 label {
+	color: var(--text-secondary);
 	display: block;
-	color: gray;
+	margin-bottom: 0.4rem;
 }
 
 textarea,
 input {
 	border: 1px solid lightgray;
-	border-radius: var(--brad);
+	border-radius: var(--border-radius);
 	padding: 0.2rem 0.6rem;
 }
 
@@ -216,7 +215,7 @@ button.link:enabled:hover {
 }
 
 button.link:disabled {
-	color: gray !important;
+	color: var(--text-disabled) !important;
 }
 
 button.link.icon,
@@ -224,7 +223,7 @@ a.icon {
 	min-width: 2.4rem;
 	min-height: 2.4rem;
 	padding: 0.4rem;
-	border-radius: var(--brad);
+	border-radius: var(--border-radius);
 }
 
 button.link.icon:enabled:hover,
@@ -236,7 +235,7 @@ a.icon:hover {
 
 .warning {
 	border: 1px solid red;
-	border-radius: var(--brad);
+	border-radius: var(--border-radius);
 	background-color: #fbe6e5;
 	padding: 0.5rem 1rem;
 }
@@ -244,17 +243,26 @@ a.icon:hover {
 .card {
 	padding: 1rem;
 	background-color: #fff;
-	border: 1px solid #efefef;
-	border-radius: var(--brad);
+	border: 1px solid var(--border-color);
+	border-radius: var(--border-radius);
 	box-shadow: 0 0.2rem 0.4rem #eee;
 }
 
 .separator::after {
-	color: gray;
+	color: #808080;
 	content: "·";
 }
 
 .menu-separator::after {
-	color: gray;
+	color: #808080;
 	content: "•";
+}
+
+.font-sm {
+	font-size: 1.45rem;
+	line-height: 1.4;
+}
+
+.secondary {
+	color: var(--text-secondary);
 }

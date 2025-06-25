@@ -7,7 +7,9 @@ export async function login(data: LoginData): Promise<MessageResponse> {
 	let { url, email, password } = data;
 
 	// Send them to the url to login
-	if (!url.endsWith("/")) url += "/";
+	if (!url.endsWith("/")) {
+		url += "/";
+	}
 	const loginResponse = await fetch(`${url}api/account/login`, {
 		method: "POST",
 		body: JSON.stringify({ email, password }),

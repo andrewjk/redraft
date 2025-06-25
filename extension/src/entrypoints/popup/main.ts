@@ -18,6 +18,8 @@ async function loadInterface(): Promise<void> {
 	let authenticated = localStorage.authenticated ?? false;
 	let showFollow = localStorage.showFollow;
 	let showInfo = localStorage.showInfo;
+	let following = localStorage.following;
+
 	getElement("login-panel").style.display = !authenticated ? "block" : "none";
 	getElement("follow-panel").style.display = showFollow ? "block" : "none";
 	getElement("info-panel").style.display = showInfo ? "block" : "none";
@@ -28,6 +30,8 @@ async function loadInterface(): Promise<void> {
 		getElement<HTMLImageElement>("profile-image").src = profile.image || placeholder;
 		getElement("profile-name").innerText = profile.name;
 		getElement<HTMLLinkElement>("profile-url").href = profile.url;
+		getElement<HTMLParagraphElement>("follow-count").innerText =
+			`Following ${following.length} account${following.length === 1 ? "" : "s"}`;
 	}
 
 	if (showFollow) {
