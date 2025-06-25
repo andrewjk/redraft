@@ -1,7 +1,7 @@
 {
-	"name": "@redraft/extension",
+	"name": "Redraft",
 	"version": "0.0.1",
-	"description": "",
+	"description": "The Redraft social web extension",
 	"main": "index.js",
 	"scripts": {
 		"dev": "wxt",
