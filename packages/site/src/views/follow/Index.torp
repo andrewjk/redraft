@@ -16,7 +16,7 @@ export default function Index() {
 				</p>
 				<p>
 					If you already have a Redraft site or account, my follow URL is
-					<code>{$props.data.url}</code>
+					<code>{$props.data.viewing.url}</code>
 				</p>
 				<p>
 					<button type="button" onclick={

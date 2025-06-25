@@ -27,7 +27,7 @@ export default function Layout() {
 					<div class="grow" />
 
 					<div class="vstack centered spaced no-shrink">
-						<Profile profile={$props.data.viewing} {$props.data.user} {$props.data.base} />
+						<Profile profile={$props.data.viewing} {$props.data.user} {$props.data.follower} {$props.data.base} />
 					</div>
 
 					<div class="vstack centered page-outer">

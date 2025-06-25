@@ -21,17 +21,22 @@ export default function ProfilePreview($props) {
 							<div class="profile-preview-url secondary">{stripProtocol($props.profile.url)}</div>
 							@if (!$props.user) {
 								@if ($props.follower) {
-									<form use:enhance method="POST" action={`${$props.follower.url}unfollow`}>
+									<form use:enhance method="POST" action="{$props.follower.url}unfollow">
 										<input type="hidden" name="url" value={$props.profile.url} />
 										<button>Unfollow</button>
 									</form>
-								} else {
-									@// NOTE: These might get updated by the web extension
-									<form id="social-follow-form" use:enhance method="POST" style="display: none"}>
+								} else if ($props.account) {
+									<form use:enhance method="POST" action="{$props.account.url}follow/request">
 										<input type="hidden" name="url" value={$props.profile.url} />
 										<button>Follow</button>
 									</form>
-									<a id="social-follow-link" class="nav-link" href="/follow">
+								} else {
+									@// NOTE: These might get updated by the web extension
+									<form id="social-follow-form" use:enhance method="POST" style="display: none">
+										<input type="hidden" name="url" value={$props.profile.url} />
+										<button>Follow</button>
+									</form>
+									<a id="social-follow-link" class="nav-link" href="{$props.base}follow">
 										Follow
 									</a>
 								}
