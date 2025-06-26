@@ -12,11 +12,21 @@ const ONE_DAY = 60 * 60 * 24;
 const ONE_WEEK = 60 * 60 * 24 * 7;
 
 // Adapted from https://stackoverflow.com/a/23352499
-export default function relativeTimeSince(datetime: Date) {
+
+/**
+ * Gets an English language description of a date relative to the current time
+ * e.g. "5 minutes ago".
+ *
+ * @param date The date.
+ * @param sentenced Whether the date is in a sentence (and shouldn't be
+ * capitalized).
+ * @returns The relative date description.
+ */
+export default function relativeTimeSince(date: Date, sentenced = false) {
 	let now = new Date();
-	let secondsPast = (now.getTime() - datetime.getTime()) / 1000;
+	let secondsPast = (now.getTime() - date.getTime()) / 1000;
 	if (secondsPast < ONE_MINUTE) {
-		return "Just now";
+		return `${sentenced ? "j" : "J"}ust now`;
 	}
 	if (secondsPast < ONE_HOUR) {
 		let minutes = Math.floor(secondsPast / ONE_MINUTE);
@@ -31,13 +41,8 @@ export default function relativeTimeSince(datetime: Date) {
 		return `${pluralize(days, "day")} ago`;
 	}
 	if (secondsPast > ONE_WEEK) {
-		//let day = datetime.getDate();
-		//let month = datetime
-		//	.toDateString()
-		//	.match(/ [a-zA-Z]*/)![0]
-		//	.replace(" ", "");
-		//let year = datetime.getFullYear() == now.getFullYear() ? "" : " " + datetime.getFullYear();
-		//return day + " " + month + year;
-		return fmt.format(datetime);
+		// Just return the date in `d MMM yyyy` format, because e.g. "5 weeks
+		// ago" isn't that useful
+		return fmt.format(date);
 	}
 }
