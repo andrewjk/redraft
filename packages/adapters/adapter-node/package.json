@@ -32,12 +32,12 @@
 	"dependencies": {
 		"@redraft/adapter-core": "workspace:^",
 		"@torpor/adapter-node": "^0.0.29",
-		"@torpor/build": "^0.1.31",
+		"@torpor/build": "^0.1.32",
 		"drizzle-orm": "^0.44.2"
 	},
 	"devDependencies": {
-		"@types/node": "^24.0.3",
-		"prettier": "^3.5.3",
+		"@types/node": "^24.0.4",
+		"prettier": "^3.6.1",
 		"tsup": "^8.5.0",
 		"typescript": "^5.8.3"
 	}
