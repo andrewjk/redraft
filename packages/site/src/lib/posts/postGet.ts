@@ -165,7 +165,7 @@ export default async function postGet(user: User, follower: User, slug: string) 
 					comments: parentComments.map((c) => commentPreview(c, currentUser, childComments)),
 				};
 
-				return ok(view);
+				return ok({ post: view });
 			} catch (error) {
 				errorMessage = getErrorMessage(error).message;
 				tx.rollback();
