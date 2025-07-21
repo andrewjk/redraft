@@ -18,37 +18,45 @@ export type FollowCheckResponseModel = {
  * Checks that a follow request was sent by this user.
  */
 export default async function followCheck(request: Request) {
+	let errorMessage: string | undefined;
+
 	try {
 		const db = database();
+		return await db.transaction(async (tx) => {
+			try {
+				const model: FollowCheckModel = await request.json();
 
-		const model: FollowCheckModel = await request.json();
+				// Get the current (only) user
+				const user = await tx.query.usersTable.findFirst();
+				if (!user) {
+					return notFound();
+				}
 
-		// Get the current (only) user
-		const user = await db.query.usersTable.findFirst();
-		if (!user) {
-			return notFound();
-		}
+				// Check that a following record exists with this URL
+				const record = await tx.query.followingTable.findFirst({
+					columns: { id: true },
+					where: eq(followingTable.shared_key, model.sharedKey),
+				});
+				if (!record) {
+					return notFound();
+				}
 
-		// Check that a following record exists with this URL
-		const record = await db.query.followingTable.findFirst({
-			columns: { id: true },
-			where: eq(followingTable.shared_key, model.sharedKey),
+				// Return the name and image
+				// TODO: and the canonical url?
+				const data: FollowCheckResponseModel = {
+					name: user.name,
+					image: user.image,
+					bio: user.bio,
+				};
+
+				return ok(data);
+			} catch (error) {
+				errorMessage = getErrorMessage(error).message;
+				tx.rollback();
+			}
 		});
-		if (!record) {
-			return notFound();
-		}
-
-		// Return the name and image
-		// TODO: and the canonical url?
-		const data: FollowCheckResponseModel = {
-			name: user.name,
-			image: user.image,
-			bio: user.bio,
-		};
-
-		return ok(data);
 	} catch (error) {
-		const message = getErrorMessage(error).message;
+		const message = errorMessage || getErrorMessage(error).message;
 		return serverError(message);
 	}
 }

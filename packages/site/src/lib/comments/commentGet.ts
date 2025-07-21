@@ -7,49 +7,57 @@ import getErrorMessage from "../utils/getErrorMessage";
 import commentPreview from "./commentPreview";
 
 export default async function commentGet(slug: string) {
+	let errorMessage: string | undefined;
+
 	try {
 		const db = database();
+		return await db.transaction(async (tx) => {
+			try {
+				// Get the user
+				const user = await tx.query.usersTable.findFirst();
 
-		// Get the user
-		const user = await db.query.usersTable.findFirst();
-
-		// Get the comment from the database
-		const comment = await db.query.commentsTable.findFirst({
-			where: eq(commentsTable.slug, slug),
-			with: {
-				post: {
+				// Get the comment from the database
+				const comment = await tx.query.commentsTable.findFirst({
+					where: eq(commentsTable.slug, slug),
 					with: {
-						postTags: {
+						post: {
 							with: {
-								tag: true,
+								postTags: {
+									with: {
+										tag: true,
+									},
+								},
 							},
 						},
+						user: true,
 					},
-				},
-				user: true,
-			},
-		});
-		if (!comment) {
-			return notFound();
-		}
+				});
+				if (!comment) {
+					return notFound();
+				}
 
-		// Get the child comments
-		const children = await db.query.commentsTable.findMany({
-			where: eq(commentsTable.parent_id, comment.id),
-			with: {
-				user: true,
-			},
-		});
+				// Get the child comments
+				const children = await tx.query.commentsTable.findMany({
+					where: eq(commentsTable.parent_id, comment.id),
+					with: {
+						user: true,
+					},
+				});
 
-		// Create the view
-		//const view = commentPreview(comment, user, children);
+				// Create the view
+				//const view = commentPreview(comment, user, children);
 
-		return ok({
-			post: postPreview(comment.post, user!),
-			comment: commentPreview(comment, user!, children),
+				return ok({
+					post: postPreview(comment.post, user!),
+					comment: commentPreview(comment, user!, children),
+				});
+			} catch (error) {
+				errorMessage = getErrorMessage(error).message;
+				tx.rollback();
+			}
 		});
 	} catch (error) {
-		const message = getErrorMessage(error).message;
+		const message = errorMessage || getErrorMessage(error).message;
 		return serverError(message);
 	}
 }

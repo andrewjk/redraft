@@ -13,39 +13,47 @@ export type UnfollowRequestedModel = {
  * Receives a follow request from another user.
  */
 export default async function followRequested(request: Request) {
+	let errorMessage: string | undefined;
+
 	try {
 		const db = database();
+		return await db.transaction(async (tx) => {
+			try {
+				const model: UnfollowRequestedModel = await request.json();
 
-		const model: UnfollowRequestedModel = await request.json();
+				// Get the current (only) user
+				const user = await tx.query.usersTable.findFirst();
+				if (!user) {
+					return notFound();
+				}
 
-		// Get the current (only) user
-		const user = await db.query.usersTable.findFirst();
-		if (!user) {
-			return notFound();
-		}
+				// Get the followed by record
+				const record = await tx.query.followedByTable.findFirst({
+					where: and(
+						eq(followedByTable.url, model.url),
+						eq(followedByTable.shared_key, model.sharedKey),
+					),
+				});
 
-		// Get the followed by record
-		const record = await db.query.followedByTable.findFirst({
-			where: and(
-				eq(followedByTable.url, model.url),
-				eq(followedByTable.shared_key, model.sharedKey),
-			),
+				// NOTE: Return ok even if the record was not found, to avoid leaking info
+
+				if (record) {
+					await tx
+						.update(followedByTable)
+						.set({
+							deleted_at: new Date(),
+						})
+						.where(eq(followedByTable.id, record.id));
+				}
+
+				return ok();
+			} catch (error) {
+				errorMessage = getErrorMessage(error).message;
+				tx.rollback();
+			}
 		});
-
-		// NOTE: Return ok even if the record was not found, to avoid leaking info
-
-		if (record) {
-			await db
-				.update(followedByTable)
-				.set({
-					deleted_at: new Date(),
-				})
-				.where(eq(followedByTable.id, record.id));
-		}
-
-		return ok();
 	} catch (error) {
-		const message = getErrorMessage(error).message;
+		const message = errorMessage || getErrorMessage(error).message;
 		return serverError(message);
 	}
 }

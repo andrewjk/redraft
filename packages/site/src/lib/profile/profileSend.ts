@@ -10,50 +10,58 @@ import userIdQuery from "../utils/userIdQuery";
 // TODO: Should only send the data that has changed
 
 export default async function profileSend(code: string) {
+	let errorMessage: string | undefined;
+
 	try {
 		const db = database();
-
-		// Get the current user
-		const currentUser = await db.query.usersTable.findFirst({
-			where: eq(usersTable.id, userIdQuery(code)),
-		});
-		if (!currentUser) {
-			return unauthorized();
-		}
-
-		// Load the followers and followed by
-		const users = await Promise.all([
-			db.query.followedByTable.findMany({
-				where: eq(followedByTable.approved, true),
-			}),
-			db.query.followingTable.findMany({
-				where: eq(followingTable.approved, true),
-			}),
-		]);
-		const allusers = users.flatMap((u) => u);
-
-		// TODO: Insert a queue record for each follower/followed by and set it
-		// to sent when success. Then delete all handled records at the end.
-		// Allow doing something with failed records
-
-		for (let user of allusers) {
+		return await db.transaction(async (tx) => {
 			try {
-				let sendUrl = `${user.url}api/public/profile`;
-				let sendData: ProfileUpdatedModel = {
-					sharedKey: user.shared_key,
-					name: currentUser.name,
-					image: currentUser.image,
-					bio: currentUser.bio,
-				};
-				await postPublic(sendUrl, sendData);
-			} catch {
-				// TODO: as above
-			}
-		}
+				// Get the current user
+				const currentUser = await tx.query.usersTable.findFirst({
+					where: eq(usersTable.id, userIdQuery(code)),
+				});
+				if (!currentUser) {
+					return unauthorized();
+				}
 
-		return ok();
+				// Load the followers and followed by
+				const users = await Promise.all([
+					tx.query.followedByTable.findMany({
+						where: eq(followedByTable.approved, true),
+					}),
+					tx.query.followingTable.findMany({
+						where: eq(followingTable.approved, true),
+					}),
+				]);
+				const allusers = users.flatMap((u) => u);
+
+				// TODO: Insert a queue record for each follower/followed by and set it
+				// to sent when success. Then delete all handled records at the end.
+				// Allow doing something with failed records
+
+				for (let user of allusers) {
+					try {
+						let sendUrl = `${user.url}api/public/profile`;
+						let sendData: ProfileUpdatedModel = {
+							sharedKey: user.shared_key,
+							name: currentUser.name,
+							image: currentUser.image,
+							bio: currentUser.bio,
+						};
+						await postPublic(sendUrl, sendData);
+					} catch {
+						// TODO: as above
+					}
+				}
+
+				return ok();
+			} catch (error) {
+				errorMessage = getErrorMessage(error).message;
+				tx.rollback();
+			}
+		});
 	} catch (error) {
-		const message = getErrorMessage(error).message;
+		const message = errorMessage || getErrorMessage(error).message;
 		return serverError(message);
 	}
 }

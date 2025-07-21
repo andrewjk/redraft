@@ -18,40 +18,53 @@ export default async function feedList(
 	liked?: boolean,
 	saved?: boolean,
 ): Promise<Response> {
+	let errorMessage: string | undefined;
+
 	try {
 		const db = database();
+		return await db.transaction(async (tx) => {
+			try {
+				// Get the current user
+				const currentUser = await tx.query.usersTable.findFirst({
+					where: eq(usersTable.id, userIdQuery(code)),
+				});
+				if (!currentUser) {
+					return unauthorized();
+				}
 
-		// Get the current user
-		const currentUser = await db.query.usersTable.findFirst({
-			where: eq(usersTable.id, userIdQuery(code)),
-		});
-		if (!currentUser) {
-			return unauthorized();
-		}
+				const where = liked
+					? eq(feedTable.liked, true)
+					: saved
+						? eq(feedTable.saved, true)
+						: undefined;
 
-		const where = liked ? eq(feedTable.liked, true) : saved ? eq(feedTable.saved, true) : undefined;
+				// Get the feed from the database
+				const dbfeeds = await tx.query.feedTable.findMany({
+					limit,
+					offset,
+					orderBy: desc(feedTable.updated_at),
+					with: { user: true },
+					where,
+				});
 
-		// Get the feed from the database
-		const dbfeeds = await db.query.feedTable.findMany({
-			limit,
-			offset,
-			orderBy: desc(feedTable.updated_at),
-			with: { user: true },
-			where,
-		});
+				// Get the total post count
+				const feedCount = await tx.$count(feedTable, where);
 
-		// Get the total post count
-		const feedCount = await db.$count(feedTable, where);
+				// Create post previews
+				const feed = dbfeeds.map((post) => feedPreview(post, currentUser!));
 
-		// Create post previews
-		const feed = dbfeeds.map((post) => feedPreview(post, currentUser!));
-
-		return ok({
-			feed,
-			feedCount,
+				return ok({
+					feed,
+					feedCount,
+				});
+			} catch (error) {
+				errorMessage = getErrorMessage(error).message;
+				tx.rollback();
+				return serverError(errorMessage);
+			}
 		});
 	} catch (error) {
-		const message = getErrorMessage(error).message;
+		const message = errorMessage || getErrorMessage(error).message;
 		return serverError(message);
 	}
 }

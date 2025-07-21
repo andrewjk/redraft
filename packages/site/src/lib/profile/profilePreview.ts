@@ -3,26 +3,34 @@ import database from "../../data/database";
 import getErrorMessage from "../utils/getErrorMessage";
 
 export default async function profilePreview() {
+	let errorMessage: string | undefined;
+
 	try {
 		const db = database();
+		return await db.transaction(async (tx) => {
+			try {
+				// Get the current (only) user
+				const user = await tx.query.usersTable.findFirst();
+				if (!user) {
+					return notFound();
+				}
 
-		// Get the current (only) user
-		const user = await db.query.usersTable.findFirst();
-		if (!user) {
-			return notFound();
-		}
+				const view = {
+					url: user.url,
+					name: user.name,
+					bio: user.bio,
+					location: user.location,
+					image: user.image,
+				};
 
-		const view = {
-			url: user.url,
-			name: user.name,
-			bio: user.bio,
-			location: user.location,
-			image: user.image,
-		};
-
-		return ok(view);
+				return ok(view);
+			} catch (error) {
+				errorMessage = getErrorMessage(error).message;
+				tx.rollback();
+			}
+		});
 	} catch (error) {
-		const message = getErrorMessage(error).message;
+		const message = errorMessage || getErrorMessage(error).message;
 		return serverError(message);
 	}
 }

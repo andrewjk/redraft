@@ -15,41 +15,49 @@ export type ApproveModel = {
  * Approves a follow request from another user.
  */
 export default async function followApprove(request: Request, code: string) {
+	let errorMessage: string | undefined;
+
 	try {
 		const db = database();
+		return await db.transaction(async (tx) => {
+			try {
+				const model: ApproveModel = await request.json();
 
-		const model: ApproveModel = await request.json();
+				// Get the current user
+				const currentUser = await tx.query.usersTable.findFirst({
+					where: eq(usersTable.id, userIdQuery(code)),
+				});
+				if (!currentUser) {
+					return unauthorized();
+				}
 
-		// Get the current user
-		const currentUser = await db.query.usersTable.findFirst({
-			where: eq(usersTable.id, userIdQuery(code)),
+				// Set approved in the followed by record
+				const record = (
+					await tx
+						.update(followedByTable)
+						.set({
+							approved: true,
+							updated_at: new Date(),
+						})
+						.where(eq(followedByTable.id, model.id))
+						.returning()
+				)[0];
+
+				// Send the confirmation
+				let sendUrl = `${record.url}api/public/follow/confirm`;
+				let sendData: FollowConfirmedModel = {
+					sharedKey: record.shared_key,
+				};
+				await postPublic(sendUrl, sendData);
+
+				return ok();
+			} catch (error) {
+				errorMessage = getErrorMessage(error).message;
+				tx.rollback();
+			}
 		});
-		if (!currentUser) {
-			return unauthorized();
-		}
-
-		// Set approved in the followed by record
-		const record = (
-			await db
-				.update(followedByTable)
-				.set({
-					approved: true,
-					updated_at: new Date(),
-				})
-				.where(eq(followedByTable.id, model.id))
-				.returning()
-		)[0];
-
-		// Send the confirmation
-		let sendUrl = `${record.url}api/public/follow/confirm`;
-		let sendData: FollowConfirmedModel = {
-			sharedKey: record.shared_key,
-		};
-		await postPublic(sendUrl, sendData);
-
-		return ok();
 	} catch (error) {
-		const message = getErrorMessage(error).message;
+		const message = errorMessage || getErrorMessage(error).message;
 		return serverError(message);
 	}
 }

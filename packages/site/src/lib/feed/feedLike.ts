@@ -16,47 +16,55 @@ export type FeedLikeModel = {
 };
 
 export default async function feedLike(request: Request, code: string) {
+	let errorMessage: string | undefined;
+
 	try {
 		const db = database();
+		return await db.transaction(async (tx) => {
+			try {
+				const model: FeedLikeModel = await request.json();
 
-		const model: FeedLikeModel = await request.json();
+				// Get the current user
+				const currentUser = await tx.query.usersTable.findFirst({
+					where: eq(usersTable.id, userIdQuery(code)),
+				});
+				if (!currentUser) {
+					return unauthorized();
+				}
 
-		// Get the current user
-		const currentUser = await db.query.usersTable.findFirst({
-			where: eq(usersTable.id, userIdQuery(code)),
+				// Update the feed
+				await tx
+					.update(feedTable)
+					.set({
+						liked: model.liked,
+					})
+					.where(eq(feedTable.slug, model.slug));
+
+				// Send the like so the count can be updated
+				let sendUrl = `${model.authorUrl}api/public/post/like`;
+				let sendData: PostLikedModel = {
+					slug: model.slug,
+					sharedKey: model.sharedKey,
+					liked: model.liked,
+				};
+				await postPublic(sendUrl, sendData);
+
+				// Create an activity record
+				await tx.insert(activityTable).values({
+					url: `${currentUser.url}feed/${model.slug}`,
+					text: `You ${model.liked ? "liked" : "unliked"} a post`,
+					created_at: new Date(),
+					updated_at: new Date(),
+				});
+
+				return ok();
+			} catch (error) {
+				errorMessage = getErrorMessage(error).message;
+				tx.rollback();
+			}
 		});
-		if (!currentUser) {
-			return unauthorized();
-		}
-
-		// Update the feed
-		await db
-			.update(feedTable)
-			.set({
-				liked: model.liked,
-			})
-			.where(eq(feedTable.slug, model.slug));
-
-		// Send the like so the count can be updated
-		let sendUrl = `${model.authorUrl}api/public/post/like`;
-		let sendData: PostLikedModel = {
-			slug: model.slug,
-			sharedKey: model.sharedKey,
-			liked: model.liked,
-		};
-		await postPublic(sendUrl, sendData);
-
-		// Create an activity record
-		await db.insert(activityTable).values({
-			url: `${currentUser.url}feed/${model.slug}`,
-			text: `You ${model.liked ? "liked" : "unliked"} a post`,
-			created_at: new Date(),
-			updated_at: new Date(),
-		});
-
-		return ok();
 	} catch (error) {
-		const message = getErrorMessage(error).message;
+		const message = errorMessage || getErrorMessage(error).message;
 		return serverError(message);
 	}
 }

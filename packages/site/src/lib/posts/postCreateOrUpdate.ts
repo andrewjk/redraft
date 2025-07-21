@@ -1,5 +1,5 @@
 import { and, eq, inArray } from "drizzle-orm";
-import database from "../../data/database";
+import { type DatabaseTransaction } from "../../data/database";
 import { articlesTable, postTagsTable, tagsTable } from "../../data/schema";
 import { Post, postsTable } from "../../data/schema/postsTable";
 import { Tag } from "../../data/schema/tagsTable";
@@ -7,24 +7,25 @@ import sluggify from "../utils/sluggify";
 import uuid from "../utils/uuid";
 import { type PostEditModel } from "./postEdit";
 
-export default async function postCreateOrUpdate(model: PostEditModel): Promise<{
+export default async function postCreateOrUpdate(
+	tx: DatabaseTransaction,
+	model: PostEditModel,
+): Promise<{
 	op: "create" | "update";
 	post: Post;
 }> {
-	const db = database();
-
 	// Create tags, if applicable
 	let dbtags: Tag[] = [];
 	if (model.tags) {
 		let tags = model.tags.split(";").map((t) => t.trim());
-		dbtags = await db.query.tagsTable.findMany({
+		dbtags = await tx.query.tagsTable.findMany({
 			where: inArray(tagsTable.text, tags),
 		});
 		for (let tag of tags) {
 			if (!dbtags.find((t) => t.text === tag)) {
 				dbtags.push(
 					(
-						await db
+						await tx
 							.insert(tagsTable)
 							.values({
 								slug: sluggify(tag),
@@ -43,7 +44,7 @@ export default async function postCreateOrUpdate(model: PostEditModel): Promise<
 	if (model.isArticle) {
 		if (!model.articleId && model.articleId !== 0) {
 			model.articleId = (
-				await db
+				await tx
 					.insert(articlesTable)
 					.values({
 						text: model.articleText!,
@@ -53,7 +54,7 @@ export default async function postCreateOrUpdate(model: PostEditModel): Promise<
 					.returning({ id: articlesTable.id })
 			)[0].id;
 		} else {
-			await db
+			await tx
 				.update(articlesTable)
 				.set({
 					text: model.articleText!,
@@ -67,7 +68,7 @@ export default async function postCreateOrUpdate(model: PostEditModel): Promise<
 	// Create or update the post
 	if (model.id < 0) {
 		const newPost = (
-			await db
+			await tx
 				.insert(postsTable)
 				.values({
 					slug: model.isArticle ? sluggify(model.linkTitle!, true) : uuid(),
@@ -93,7 +94,7 @@ export default async function postCreateOrUpdate(model: PostEditModel): Promise<
 		)[0];
 		if (model.children?.length) {
 			for (let child of model.children) {
-				await db.insert(postsTable).values({
+				await tx.insert(postsTable).values({
 					slug: uuid(),
 					text: child.text,
 					image: child.hasImage ? child.image : null,
@@ -112,7 +113,7 @@ export default async function postCreateOrUpdate(model: PostEditModel): Promise<
 			}
 		}
 		if (dbtags.length) {
-			await db
+			await tx
 				.insert(postTagsTable)
 				.values(dbtags.map((t) => ({ post_id: newPost.id, tag_id: t.id })));
 		}
@@ -122,7 +123,7 @@ export default async function postCreateOrUpdate(model: PostEditModel): Promise<
 		};
 	} else {
 		const newPost = (
-			await db
+			await tx
 				.update(postsTable)
 				.set({
 					slug: model.isArticle ? sluggify(model.linkTitle!, true) : undefined,
@@ -148,14 +149,14 @@ export default async function postCreateOrUpdate(model: PostEditModel): Promise<
 		)[0];
 		if (model.children?.length) {
 			// Update the children in the database
-			const currentChildren = await db.query.postsTable.findMany({
+			const currentChildren = await tx.query.postsTable.findMany({
 				where: eq(postsTable.parent_id, newPost.id),
 			});
 			let updates = [];
 			for (let child of currentChildren) {
 				if (!model.children.find((c) => c.id === child.id)) {
 					updates.push(
-						db
+						tx
 							.update(postsTable)
 							.set({ deleted_at: new Date() })
 							.where(eq(postsTable.id, child.id)),
@@ -166,7 +167,7 @@ export default async function postCreateOrUpdate(model: PostEditModel): Promise<
 				const dbchild = currentChildren.find((c) => c.id === child.id);
 				if (dbchild) {
 					updates.push(
-						db
+						tx
 							.update(postsTable)
 							.set({
 								text: child.text,
@@ -189,7 +190,7 @@ export default async function postCreateOrUpdate(model: PostEditModel): Promise<
 					);
 				} else {
 					updates.push(
-						db.insert(postsTable).values({
+						tx.insert(postsTable).values({
 							slug: uuid(),
 							text: child.text,
 							// TODO: Allow hiding child posts
@@ -216,14 +217,14 @@ export default async function postCreateOrUpdate(model: PostEditModel): Promise<
 		}
 		if (dbtags.length) {
 			// Update the post's tags in the database
-			const currentTags = await db.query.postTagsTable.findMany({
+			const currentTags = await tx.query.postTagsTable.findMany({
 				where: eq(postTagsTable.post_id, newPost.id),
 			});
 			let updates = [];
 			for (let tag of currentTags) {
 				if (!dbtags.find((t) => t.id === tag.tag_id)) {
 					updates.push(
-						db
+						tx
 							.delete(postTagsTable)
 							.where(
 								and(eq(postTagsTable.post_id, tag.post_id), eq(postTagsTable.tag_id, tag.tag_id)),
@@ -233,7 +234,7 @@ export default async function postCreateOrUpdate(model: PostEditModel): Promise<
 			}
 			for (let tag of dbtags) {
 				if (!currentTags.find((t) => t.tag_id === tag.id)) {
-					updates.push(db.insert(postTagsTable).values({ post_id: newPost.id, tag_id: tag.id }));
+					updates.push(tx.insert(postTagsTable).values({ post_id: newPost.id, tag_id: tag.id }));
 				}
 			}
 			await Promise.all(updates);

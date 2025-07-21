@@ -12,32 +12,40 @@ export type CommentReceivedModel = {
 };
 
 export default async function commentReceived(request: Request) {
+	let errorMessage: string | undefined;
+
 	try {
 		const db = database();
+		return await db.transaction(async (tx) => {
+			try {
+				const model: CommentReceivedModel = await request.json();
 
-		const model: CommentReceivedModel = await request.json();
+				const user = await tx.query.followingTable.findFirst({
+					where: eq(followingTable.shared_key, model.sharedKey),
+				});
+				if (!user) {
+					return notFound();
+				}
 
-		const user = await db.query.followingTable.findFirst({
-			where: eq(followingTable.shared_key, model.sharedKey),
+				// Update the feed record
+				await tx
+					.update(feedTable)
+					.set({
+						comment_count: model.commentCount,
+						last_comment_at: model.lastCommentAt,
+					})
+					.where(eq(feedTable.slug, model.slug));
+
+				// TODO: Create a notification if this post has been commented on by the current user
+
+				return ok();
+			} catch (error) {
+				errorMessage = getErrorMessage(error).message;
+				tx.rollback();
+			}
 		});
-		if (!user) {
-			return notFound();
-		}
-
-		// Update the feed record
-		await db
-			.update(feedTable)
-			.set({
-				comment_count: model.commentCount,
-				last_comment_at: model.lastCommentAt,
-			})
-			.where(eq(feedTable.slug, model.slug));
-
-		// TODO: Create a notification if this post has been commented on by the current user
-
-		return ok();
 	} catch (error) {
-		const message = getErrorMessage(error).message;
+		const message = errorMessage || getErrorMessage(error).message;
 		return serverError(message);
 	}
 }

@@ -16,58 +16,66 @@ export type UnfollowModel = {
  * Sends an unfollow request to another user.
  */
 export default async function unfollowSend(request: Request, code: string) {
+	let errorMessage: string | undefined;
+
 	try {
 		const db = database();
+		return await db.transaction(async (tx) => {
+			try {
+				const model: UnfollowModel = await request.json();
 
-		const model: UnfollowModel = await request.json();
+				// Get the current user
+				const currentUser = await tx.query.usersTable.findFirst({
+					where: eq(usersTable.id, userIdQuery(code)),
+				});
+				if (!currentUser) {
+					return unauthorized();
+				}
 
-		// Get the current user
-		const currentUser = await db.query.usersTable.findFirst({
-			where: eq(usersTable.id, userIdQuery(code)),
+				const record = await tx.query.followingTable.findFirst({
+					where: eq(followingTable.url, model.url),
+				});
+				if (!record) {
+					return notFound();
+				}
+
+				// If this user has already been unfollowed, just return ok
+				if (!record.deleted_at) {
+					// Send off a request to the url
+					let sendUrl = `${model.url}api/public/unfollow/request`;
+					let sendData: UnfollowRequestedModel = {
+						url: currentUser.url,
+						sharedKey: record.shared_key,
+					};
+					await postPublic(sendUrl, sendData);
+
+					// Update the feed and following tables with a deleted_at value
+					await tx
+						.update(feedTable)
+						.set({ deleted_at: new Date() })
+						.where(eq(feedTable.user_id, record.id));
+					await tx
+						.update(followingTable)
+						.set({ deleted_at: new Date() })
+						.where(eq(followingTable.id, record.id));
+
+					// Create an activity record
+					await tx.insert(activityTable).values({
+						url: model.url,
+						text: `You unfollowed ${record.name}`,
+						created_at: new Date(),
+						updated_at: new Date(),
+					});
+				}
+
+				return ok();
+			} catch (error) {
+				errorMessage = getErrorMessage(error).message;
+				tx.rollback();
+			}
 		});
-		if (!currentUser) {
-			return unauthorized();
-		}
-
-		const record = await db.query.followingTable.findFirst({
-			where: eq(followingTable.url, model.url),
-		});
-		if (!record) {
-			return notFound();
-		}
-
-		// If this user has already been unfollowed, just return ok
-		if (!record.deleted_at) {
-			// Send off a request to the url
-			let sendUrl = `${model.url}api/public/unfollow/request`;
-			let sendData: UnfollowRequestedModel = {
-				url: currentUser.url,
-				sharedKey: record.shared_key,
-			};
-			await postPublic(sendUrl, sendData);
-
-			// Update the feed and following tables with a deleted_at value
-			await db
-				.update(feedTable)
-				.set({ deleted_at: new Date() })
-				.where(eq(feedTable.user_id, record.id));
-			await db
-				.update(followingTable)
-				.set({ deleted_at: new Date() })
-				.where(eq(followingTable.id, record.id));
-
-			// Create an activity record
-			await db.insert(activityTable).values({
-				url: model.url,
-				text: `You unfollowed ${record.name}`,
-				created_at: new Date(),
-				updated_at: new Date(),
-			});
-		}
-
-		return ok();
 	} catch (error) {
-		const message = getErrorMessage(error).message;
+		const message = errorMessage || getErrorMessage(error).message;
 		return serverError(message);
 	}
 }

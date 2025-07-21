@@ -11,46 +11,54 @@ export type CommentSendModel = {
 };
 
 export default async function commentSend(request: Request) {
+	let errorMessage: string | undefined;
+
 	try {
 		const db = database();
-
-		const model: CommentSendModel = await request.json();
-
-		// Load the post
-		const post = await db.query.postsTable.findFirst({
-			where: eq(postsTable.id, model.post_id),
-		});
-		if (!post) {
-			return notFound();
-		}
-
-		// Load the followers
-		const followers = await db.query.followedByTable.findMany({
-			where: eq(followedByTable.approved, true),
-		});
-
-		// TODO: Insert a queue record for each follower and set it to sent when
-		// success. Then delete all handled records at the end. Allow doing
-		// something with failed records
-
-		for (let follower of followers) {
+		return await db.transaction(async (tx) => {
 			try {
-				let sendUrl = `${follower.url}api/public/commented`;
-				let sendData: CommentReceivedModel = {
-					sharedKey: follower.shared_key,
-					slug: post.slug,
-					commentCount: post.comment_count,
-					lastCommentAt: post.last_comment_at!,
-				};
-				await postPublic(sendUrl, sendData);
-			} catch {
-				// TODO: as above
-			}
-		}
+				const model: CommentSendModel = await request.json();
 
-		return ok();
+				// Load the post
+				const post = await tx.query.postsTable.findFirst({
+					where: eq(postsTable.id, model.post_id),
+				});
+				if (!post) {
+					return notFound();
+				}
+
+				// Load the followers
+				const followers = await tx.query.followedByTable.findMany({
+					where: eq(followedByTable.approved, true),
+				});
+
+				// TODO: Insert a queue record for each follower and set it to sent when
+				// success. Then delete all handled records at the end. Allow doing
+				// something with failed records
+
+				for (let follower of followers) {
+					try {
+						let sendUrl = `${follower.url}api/public/commented`;
+						let sendData: CommentReceivedModel = {
+							sharedKey: follower.shared_key,
+							slug: post.slug,
+							commentCount: post.comment_count,
+							lastCommentAt: post.last_comment_at!,
+						};
+						await postPublic(sendUrl, sendData);
+					} catch {
+						// TODO: as above
+					}
+				}
+
+				return ok();
+			} catch (error) {
+				errorMessage = getErrorMessage(error).message;
+				tx.rollback();
+			}
+		});
 	} catch (error) {
-		const message = getErrorMessage(error).message;
+		const message = errorMessage || getErrorMessage(error).message;
 		return serverError(message);
 	}
 }

@@ -20,41 +20,50 @@ export default async function notificationList(
 	limit?: number,
 	offset?: number,
 ): Promise<Response> {
+	let errorMessage: string | undefined;
+
 	try {
 		const db = database();
+		return await db.transaction(async (tx) => {
+			try {
+				// Get the current user
+				const currentUser = await tx.query.usersTable.findFirst({
+					where: eq(usersTable.id, userIdQuery(code)),
+				});
+				if (!currentUser) {
+					return unauthorized();
+				}
 
-		// Get the current user
-		const currentUser = await db.query.usersTable.findFirst({
-			where: eq(usersTable.id, userIdQuery(code)),
-		});
-		if (!currentUser) {
-			return unauthorized();
-		}
+				// Get the follows from the database
+				const dbnotifications = await tx.query.notificationsTable.findMany({
+					limit,
+					offset,
+					orderBy: desc(notificationsTable.updated_at),
+				});
 
-		// Get the follows from the database
-		const dbnotifications = await db.query.notificationsTable.findMany({
-			limit,
-			offset,
-			orderBy: desc(notificationsTable.updated_at),
-		});
+				// Get the total count
+				const notificationsCount = await tx.$count(notificationsTable);
 
-		// Get the total count
-		const notificationsCount = await db.$count(notificationsTable);
+				// Create views
+				const notifications = dbnotifications.map((f) => {
+					return {
+						url: f.url,
+						text: f.text,
+					};
+				});
 
-		// Create views
-		const notifications = dbnotifications.map((f) => {
-			return {
-				url: f.url,
-				text: f.text,
-			};
-		});
-
-		return ok({
-			notifications,
-			notificationsCount: notificationsCount,
+				return ok({
+					notifications,
+					notificationsCount: notificationsCount,
+				});
+			} catch (error) {
+				errorMessage = getErrorMessage(error).message;
+				tx.rollback();
+				return serverError(errorMessage);
+			}
 		});
 	} catch (error) {
-		const message = getErrorMessage(error).message;
+		const message = errorMessage || getErrorMessage(error).message;
 		return serverError(message);
 	}
 }

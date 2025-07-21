@@ -23,45 +23,54 @@ export default async function followRequestList(
 	limit?: number,
 	offset?: number,
 ): Promise<Response> {
+	let errorMessage: string | undefined;
+
 	try {
 		const db = database();
+		return await db.transaction(async (tx) => {
+			try {
+				// Get the current user
+				const currentUser = await tx.query.usersTable.findFirst({
+					where: eq(usersTable.id, userIdQuery(code)),
+				});
+				if (!currentUser) {
+					return unauthorized();
+				}
 
-		// Get the current user
-		const currentUser = await db.query.usersTable.findFirst({
-			where: eq(usersTable.id, userIdQuery(code)),
-		});
-		if (!currentUser) {
-			return unauthorized();
-		}
+				// Get the follows from the database
+				const dbawaiting = await tx.query.followedByTable.findMany({
+					limit,
+					offset,
+					orderBy: desc(followedByTable.updated_at),
+					where: eq(followedByTable.approved, false),
+				});
 
-		// Get the follows from the database
-		const dbawaiting = await db.query.followedByTable.findMany({
-			limit,
-			offset,
-			orderBy: desc(followedByTable.updated_at),
-			where: eq(followedByTable.approved, false),
-		});
+				// Get the total count
+				const requestCount = await tx.$count(followedByTable);
 
-		// Get the total count
-		const requestCount = await db.$count(followedByTable);
+				// Create views
+				const requests = dbawaiting.map((f) => {
+					return {
+						id: f.id,
+						url: f.url,
+						name: f.name,
+						image: f.image,
+						bio: f.bio,
+					};
+				});
 
-		// Create views
-		const requests = dbawaiting.map((f) => {
-			return {
-				id: f.id,
-				url: f.url,
-				name: f.name,
-				image: f.image,
-				bio: f.bio,
-			};
-		});
-
-		return ok({
-			requests,
-			requestCount,
+				return ok({
+					requests,
+					requestCount,
+				});
+			} catch (error) {
+				errorMessage = getErrorMessage(error).message;
+				tx.rollback();
+				return serverError(errorMessage);
+			}
 		});
 	} catch (error) {
-		const message = getErrorMessage(error).message;
+		const message = errorMessage || getErrorMessage(error).message;
 		return serverError(message);
 	}
 }
