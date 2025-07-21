@@ -5,7 +5,10 @@ import { eq } from "drizzle-orm";
 import { LibSQLDatabase } from "drizzle-orm/libsql";
 import { afterAll, assert, beforeAll, expect, test } from "vitest";
 import * as schema from "../../src/data/schema/index";
-import followRequested, { type FollowRequestedModel } from "../../src/lib/public/followRequested";
+import followRequested, {
+	FOLLOW_REQUESTED_VERSION,
+	type FollowRequestedModel,
+} from "../../src/lib/public/followRequested";
 import mockFetch from "../mockFetch";
 import { cleanUpSiteTest, prepareSiteTest } from "../prepareSiteTest";
 
@@ -34,6 +37,7 @@ test("notification from request", async () => {
 	const model: FollowRequestedModel = {
 		url: "http://localhost/cara/",
 		sharedKey: "yyy-cara",
+		version: FOLLOW_REQUESTED_VERSION,
 	};
 
 	const request = new Request("http://localhost", {

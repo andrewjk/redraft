@@ -37,8 +37,8 @@ test("media drafts get", async () => {
 test("media drafts get with bad code", async () => {
 	let ev = await buildTestEvent(`http://localhost/media/drafts`, "xxx-bob");
 
-	//const response = await runTest(site, "/media/drafts", ev);
-	//expect(response.status).toBe(401);
+	const response = await runTest(site, "/media/drafts", ev);
+	expect(response.status).toBe(401);
 
-	await expect(runTest(site, "/media", ev)).rejects.toThrowError("401");
+	//await expect(runTest(site, "/media", ev)).rejects.toThrowError("401");
 });

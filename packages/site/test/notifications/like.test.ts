@@ -4,7 +4,7 @@ import { eq } from "drizzle-orm";
 import { LibSQLDatabase } from "drizzle-orm/libsql";
 import { afterAll, assert, beforeAll, expect, test } from "vitest";
 import * as schema from "../../src/data/schema/index";
-import { type PostLikedModel } from "../../src/lib/public/postLiked";
+import { POST_LIKED_VERSION, type PostLikedModel } from "../../src/lib/public/postLiked";
 import postLiked from "../../src/lib/public/postLiked";
 import { cleanUpSiteTest, prepareSiteTest } from "../prepareSiteTest";
 
@@ -28,6 +28,7 @@ test("notification from like", async () => {
 		slug: post.slug,
 		sharedKey: "yyy-bob",
 		liked: true,
+		version: POST_LIKED_VERSION,
 	};
 
 	const request = new Request("http://localhost", {

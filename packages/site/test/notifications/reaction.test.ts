@@ -4,7 +4,7 @@ import { eq } from "drizzle-orm";
 import { LibSQLDatabase } from "drizzle-orm/libsql";
 import { afterAll, assert, beforeAll, expect, test } from "vitest";
 import * as schema from "../../src/data/schema/index";
-import { type PostReactionModel } from "../../src/lib/public/postReaction";
+import { POST_REACTION_VERSION, type PostReactionModel } from "../../src/lib/public/postReaction";
 import postReaction from "../../src/lib/public/postReaction";
 import { cleanUpSiteTest, prepareSiteTest } from "../prepareSiteTest";
 
@@ -28,6 +28,7 @@ test("notification from reaction", async () => {
 		slug: post.slug,
 		sharedKey: "yyy-bob",
 		emoji: "🔥",
+		version: POST_REACTION_VERSION,
 	};
 
 	const request = new Request("http://localhost", {

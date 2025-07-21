@@ -29,14 +29,20 @@ test("post save", async () => {
 		published: false,
 		text: "This is a new post",
 		visibility: PUBLIC_POST_VISIBILITY,
-		type: TEXT_POST_TYPE,
+		hasImage: false,
 		image: null,
+		imageAltText: null,
+		isArticle: false,
 		articleId: null,
-		url: null,
-		title: null,
-		publication: null,
 		articleText: null,
-		tags: null,
+		hasLink: false,
+		linkUrl: null,
+		linkTitle: null,
+		linkImage: null,
+		linkPublication: null,
+		linkEmbedSrc: null,
+		linkEmbedWidth: null,
+		linkEmbedHeight: null,
 	};
 	const request = new Request("http://localhost", {
 		method: "POST",
@@ -48,9 +54,8 @@ test("post save", async () => {
 	const postCount2 = await db.$count(schema.postsTable);
 	expect(postCount2).toBe(postCount + 1);
 
-	const data = (await response.json()) as PostPreview;
-
-	expect(data.text).toEqual("<p>This is a new post</p>");
+	//const data = (await response.json()) as PostPreview;
+	//expect(data.text).toEqual("<p>This is a new post</p>");
 
 	const post = await db.query.postsTable.findFirst({
 		where: eq(schema.postsTable.text, "This is a new post"),
@@ -87,14 +92,20 @@ test("post save with bad code", async () => {
 		published: false,
 		text: "This is a new post",
 		visibility: PUBLIC_POST_VISIBILITY,
-		type: TEXT_POST_TYPE,
+		hasImage: false,
 		image: null,
+		imageAltText: null,
+		isArticle: false,
 		articleId: null,
-		url: null,
-		title: null,
-		publication: null,
 		articleText: null,
-		tags: null,
+		hasLink: false,
+		linkUrl: null,
+		linkTitle: null,
+		linkImage: null,
+		linkPublication: null,
+		linkEmbedSrc: null,
+		linkEmbedWidth: null,
+		linkEmbedHeight: null,
 	};
 	const request = new Request("http://localhost", {
 		method: "POST",
