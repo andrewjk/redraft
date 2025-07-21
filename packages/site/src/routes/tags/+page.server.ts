@@ -20,7 +20,11 @@ export default {
 		search.set("limit", PAGE_SIZE.toString());
 		search.set("offset", ((page - 1) * PAGE_SIZE).toString());
 
-		const { tags, tagsCount } = await api.get(`tags?${search}`, tagsList, params);
+		const result = await api.get(`tags?${search}`, tagsList, params);
+		if (!result.ok) {
+			return result;
+		}
+		const { tags, tagsCount } = await result.json();
 
 		const pageCount = Math.ceil(tagsCount / PAGE_SIZE);
 

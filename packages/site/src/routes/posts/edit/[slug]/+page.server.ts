@@ -1,5 +1,5 @@
 import { type PageServerEndPoint } from "@torpor/build";
-import { ok, unauthorized, unprocessable } from "@torpor/build/response";
+import { unauthorized } from "@torpor/build/response";
 import * as api from "../../../../lib/api";
 import postsEdit from "../../../api/posts/edit/[slug]/+server";
 import publishPost from "../../../posts/_actions/publishPost";
@@ -12,12 +12,7 @@ export default {
 			return unauthorized();
 		}
 
-		const result = await api.get(`posts/edit/[slug=${params.slug}]`, postsEdit, params, user.token);
-		if (result.errors) {
-			return unprocessable(result);
-		}
-
-		return ok({ post: result });
+		return await api.get(`posts/edit/[slug=${params.slug}]`, postsEdit, params, user.token);
 	},
 	actions: {
 		savePost,

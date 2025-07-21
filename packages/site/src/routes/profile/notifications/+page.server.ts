@@ -1,5 +1,5 @@
 import { type PageServerEndPoint } from "@torpor/build";
-import { ok, unauthorized, unprocessable } from "@torpor/build/response";
+import { unauthorized } from "@torpor/build/response";
 import * as api from "../../../lib/api";
 import profileNotifications from "../../api/profile/notifications/+server";
 
@@ -10,11 +10,6 @@ export default {
 			return unauthorized();
 		}
 
-		const result = await api.get("profile/notifications", profileNotifications, params, user.token);
-		if (result.errors) {
-			return unprocessable(result);
-		}
-
-		return ok(result);
+		return await api.get("profile/notifications", profileNotifications, params, user.token);
 	},
 } satisfies PageServerEndPoint;

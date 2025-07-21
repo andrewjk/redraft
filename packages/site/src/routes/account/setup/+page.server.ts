@@ -1,5 +1,5 @@
 import { type PageServerEndPoint } from "@torpor/build";
-import { seeOther, unprocessable } from "@torpor/build/response";
+import { seeOther } from "@torpor/build/response";
 import * as api from "../../../lib/api";
 import env from "../../../lib/env";
 import storage from "../../../lib/storage";
@@ -32,17 +32,18 @@ export default {
 			}
 
 			const result = await api.post("account/setup", accountSetup, params, model);
-			if (result.errors) {
-				return unprocessable(result);
+			if (!result.ok) {
+				return result;
 			}
+			const user = await result.json();
 
 			setUserToken(cookies, {
-				url: result.url,
-				username: result.username,
-				name: result.name,
-				image: result.image,
-				token: result.token,
-				code: result.code,
+				url: user.url,
+				username: user.username,
+				name: user.name,
+				image: user.image,
+				token: user.token,
+				code: user.code,
 			});
 
 			return seeOther(params.user ? `/${params.user}/feed` : "/feed");

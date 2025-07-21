@@ -1,5 +1,5 @@
 import { type ServerLoadEvent } from "@torpor/build";
-import { seeOther, unauthorized, unprocessable } from "@torpor/build/response";
+import { seeOther, unauthorized } from "@torpor/build/response";
 import * as api from "../../../lib/api";
 import storage from "../../../lib/storage";
 import formDataToObject from "../../../lib/utils/formDataToObject";
@@ -26,8 +26,8 @@ export default async function publishPost({ appData, request, params }: ServerLo
 	}
 
 	const result = await api.post(`posts/publish`, postsPublish, params, model, user.token);
-	if (result.errors) {
-		return unprocessable(result);
+	if (!result.ok) {
+		return result;
 	}
 
 	return seeOther(params.user ? `/${params.user}/posts` : "/posts");

@@ -1,4 +1,5 @@
 import { ServerEndPoint, ServerLoadEvent } from "@torpor/build";
+import { ok } from "@torpor/build/response";
 import { CookieHelper, HeaderHelper } from "@torpor/build/server";
 import env from "../lib/env";
 import hook from "../routes/api/_hook.server";
@@ -15,7 +16,7 @@ type SendOptions = {
 
 // TODO: Make this all type-safe etc
 
-async function send({ method, path, endpoint, data, token }: SendOptions) {
+async function send({ method, path, endpoint, data, token }: SendOptions): Promise<Response> {
 	console.log("getting api data from", path);
 
 	const base = `${ensureSlash(env().SITE_LOCATION)}api/`;
@@ -78,15 +79,8 @@ async function send({ method, path, endpoint, data, token }: SendOptions) {
 						? await endpoint.del!(ev)
 						: undefined;
 
-	if (response) {
-		if (response.ok || response.status === 422) {
-			const text = await response.text();
-			const data = text ? JSON.parse(text) : {};
-			return data;
-		}
-	}
-
-	throw new Error(response?.status.toString());
+	// No response is a good response?
+	return response ?? ok();
 }
 
 export function get(
@@ -94,7 +88,7 @@ export function get(
 	endpoint: ServerEndPoint,
 	params: Record<string, string>,
 	token?: string,
-) {
+): Promise<Response> {
 	return send({ method: "GET", path, endpoint, params, token });
 }
 
@@ -103,7 +97,7 @@ export function del(
 	endpoint: ServerEndPoint,
 	params: Record<string, string>,
 	token?: string,
-) {
+): Promise<Response> {
 	return send({ method: "DELETE", path, endpoint, params, token });
 }
 
@@ -113,7 +107,7 @@ export function post(
 	params: Record<string, string>,
 	data: any,
 	token?: string,
-) {
+): Promise<Response> {
 	return send({ method: "POST", path, endpoint, data, params, token });
 }
 
@@ -123,6 +117,6 @@ export function put(
 	params: Record<string, string>,
 	data: any,
 	token?: string,
-) {
+): Promise<Response> {
 	return send({ method: "PUT", path, endpoint, data, params, token });
 }

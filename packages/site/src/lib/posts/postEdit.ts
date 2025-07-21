@@ -77,7 +77,7 @@ export default async function postEdit(slug: string, code: string) {
 		// Create the view
 		const view = createView(post, article, children);
 
-		return ok(view);
+		return ok({ post: view });
 	} catch (error) {
 		const message = getErrorMessage(error).message;
 		return serverError(message);

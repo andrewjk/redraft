@@ -1,5 +1,5 @@
 import { type ServerLoadEvent } from "@torpor/build";
-import { seeOther, unauthorized, unprocessable } from "@torpor/build/response";
+import { seeOther, unauthorized } from "@torpor/build/response";
 import * as api from "../../../lib/api";
 import accountLogout from "../../api/account/logout/+server";
 
@@ -10,8 +10,8 @@ export default async function logout({ appData, cookies, params }: ServerLoadEve
 	}
 
 	const result = await api.post("account/logout", accountLogout, params, null, user.token);
-	if (result.errors) {
-		return unprocessable(result);
+	if (!result.ok) {
+		return result;
 	}
 
 	cookies.delete("jwt", { path: "/" });

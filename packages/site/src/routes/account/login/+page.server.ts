@@ -1,5 +1,5 @@
 import { type PageServerEndPoint } from "@torpor/build";
-import { seeOther, unprocessable } from "@torpor/build/response";
+import { seeOther } from "@torpor/build/response";
 import * as api from "../../../lib/api";
 import formDataToObject from "../../../lib/utils/formDataToObject";
 import setUserToken from "../../../lib/utils/setUserToken";
@@ -18,17 +18,19 @@ export default {
 			const model = formDataToObject(data);
 
 			const result = await api.post("account/login", accountLogin, params, model);
-			if (result.errors) {
-				return unprocessable(result);
+			console.log("LOGIN RESULT", result.status);
+			if (!result.ok) {
+				return result;
 			}
+			const user = await result.json();
 
 			setUserToken(cookies, {
-				url: result.url,
-				username: result.username,
-				name: result.name,
-				image: result.image,
-				token: result.token,
-				code: result.code,
+				url: user.url,
+				username: user.username,
+				name: user.name,
+				image: user.image,
+				token: user.token,
+				code: user.code,
 			});
 
 			return seeOther(params.user ? `/${params.user}/feed` : "/feed");

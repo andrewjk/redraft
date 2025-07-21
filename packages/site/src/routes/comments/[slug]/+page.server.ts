@@ -1,5 +1,4 @@
 import { type PageServerEndPoint } from "@torpor/build";
-import { ok, unprocessable } from "@torpor/build/response";
 import * as api from "../../../lib/api";
 import commentsGet from "../../api/comments/[slug]/+server";
 
@@ -11,11 +10,6 @@ export default {
 		//	return unauthorized();
 		//}
 
-		const result = await api.get(`comments/[slug=${params.slug}]`, commentsGet, params);
-		if (result.errors) {
-			return unprocessable(result);
-		}
-
-		return ok(result);
+		return await api.get(`comments/[slug=${params.slug}]`, commentsGet, params);
 	},
 } satisfies PageServerEndPoint;

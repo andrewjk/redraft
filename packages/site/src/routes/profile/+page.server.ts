@@ -1,5 +1,5 @@
 import { type PageServerEndPoint } from "@torpor/build";
-import { ok, unauthorized, unprocessable } from "@torpor/build/response";
+import { unauthorized } from "@torpor/build/response";
 import * as api from "../../lib/api";
 import formDataToObject from "../../lib/utils/formDataToObject";
 import setUserToken from "../../lib/utils/setUserToken";
@@ -9,12 +9,7 @@ import profileEdit from "../api/profile/edit/+server";
 
 export default {
 	load: async ({ params }) => {
-		const result = await api.get("profile", profileGet, params);
-		if (result.errors) {
-			return unprocessable(result);
-		}
-
-		return ok({ profile: result });
+		return await api.get("profile", profileGet, params);
 	},
 	actions: {
 		logout,
@@ -28,20 +23,21 @@ export default {
 			const model = formDataToObject(data);
 
 			const result = await api.post("profile/edit", profileEdit, params, model, user.token);
-			if (result.errors) {
-				return unprocessable(result);
+			if (!result.ok) {
+				return result;
 			}
+			const newUser = await result.json();
 
 			setUserToken(cookies, {
 				url: result.url,
 				username: user.username,
-				name: result.name,
-				image: result.image,
+				name: newUser.name,
+				image: newUser.image,
 				token: user.token,
 				code: user.code,
 			});
 
-			appData.user = result;
+			appData.user = newUser;
 		},
 	},
 } satisfies PageServerEndPoint;

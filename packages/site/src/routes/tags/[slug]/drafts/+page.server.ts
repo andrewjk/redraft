@@ -1,5 +1,5 @@
 import { type PageServerEndPoint } from "@torpor/build";
-import { ok, unauthorized, unprocessable } from "@torpor/build/response";
+import { unauthorized } from "@torpor/build/response";
 import * as api from "../../../../lib/api";
 import { PAGE_SIZE } from "../../../../lib/constants";
 import tagsDrafts from "../../../api/tags/[slug]/drafts/+server";
@@ -19,16 +19,11 @@ export default {
 		search.set("limit", PAGE_SIZE.toString());
 		search.set("offset", ((page - 1) * PAGE_SIZE).toString());
 
-		const result = await api.get(
+		return await api.get(
 			`tags/[slug=${params.slug}]/drafts?${search}`,
 			tagsDrafts,
 			params,
 			user.token,
 		);
-		if (result.errors) {
-			return unprocessable(result);
-		}
-
-		return ok(result);
 	},
 } satisfies PageServerEndPoint;

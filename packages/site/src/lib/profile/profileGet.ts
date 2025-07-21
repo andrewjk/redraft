@@ -24,7 +24,7 @@ export default async function profileGet(forEditing = false) {
 			view.links.push({ id: -1, text: "", url: "" });
 		}
 
-		return ok(view);
+		return ok({ profile: view });
 	} catch (error) {
 		const message = getErrorMessage(error).message;
 		return serverError(message);

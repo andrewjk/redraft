@@ -103,7 +103,7 @@ export default async function articleGet(user: User, follower: User, slug: strin
 			comments: parentComments.map((c) => commentPreview(c, currentUser, childComments)),
 		};
 
-		return ok(view);
+		return ok({ post: view });
 	} catch (error) {
 		const message = getErrorMessage(error).message;
 		return serverError(message);

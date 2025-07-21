@@ -1,5 +1,4 @@
 import { type PageServerEndPoint } from "@torpor/build";
-import { ok } from "@torpor/build/response";
 import * as api from "../lib/api";
 import { FRONT_PAGE_SIZE } from "../lib/constants";
 import logout from "../routes/account/_actions/logout";
@@ -16,13 +15,7 @@ export default {
 		// Load the user's profile and 5ish latest posts
 		const search = new URLSearchParams();
 		search.set("limit", FRONT_PAGE_SIZE.toString());
-		const posts = await api.get(
-			`posts?${search}`,
-			postsList,
-			params,
-			user?.token || follower?.token,
-		);
-		return ok(posts);
+		return await api.get(`posts?${search}`, postsList, params, user?.token || follower?.token);
 	},
 	actions: {
 		savePost,
