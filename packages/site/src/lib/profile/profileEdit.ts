@@ -32,7 +32,7 @@ export default async function profileEdit(
 
 	try {
 		const db = database();
-		return await db.transaction(async (tx) => {
+		const result = await db.transaction(async (tx) => {
 			try {
 				const model: ProfileEdit = await request.json();
 
@@ -93,10 +93,6 @@ export default async function profileEdit(
 				}
 				await Promise.all(updates);
 
-				// Send an update to all followers/followed by
-				// This could take some time, so send it off to be done in an endpoint without awaiting it
-				api.post(`profile/send`, profileSend, params, null, token);
-
 				return ok({
 					url: currentUser.url,
 					name: model.name,
@@ -109,6 +105,13 @@ export default async function profileEdit(
 				return serverError(errorMessage);
 			}
 		});
+
+		// Send an update to all followers/followed by
+		// This could take some time, so send it off to be done in an endpoint without awaiting it
+		// It has to be done outside of the transaction
+		api.post(`profile/send`, profileSend, params, null, token);
+
+		return result;
 	} catch (error) {
 		const message = errorMessage || getErrorMessage(error).message;
 		return serverError(message);

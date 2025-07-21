@@ -19,8 +19,11 @@ export default async function postPublish(
 	let errorMessage: string | undefined;
 
 	try {
+		let postId: number | undefined;
+		let postVisibility: number | undefined;
+
 		const db = database();
-		return await db.transaction(async (tx) => {
+		const result = await db.transaction(async (tx) => {
 			try {
 				const model: PostEditModel = await request.json();
 
@@ -33,6 +36,8 @@ export default async function postPublish(
 				}
 
 				const { post } = await postCreateOrUpdate(tx, model);
+				postId = post.id;
+				postVisibility = post.visibility;
 
 				// Set the new publish dates
 				if (post.published_at) {
@@ -76,15 +81,6 @@ export default async function postPublish(
 					await tx.insert(feedTable).values(record);
 				}
 
-				if (
-					post.visibility === PUBLIC_POST_VISIBILITY ||
-					post.visibility === FOLLOWER_POST_VISIBILITY
-				) {
-					// Send it to all followers
-					// This could take some time, so send it off to be done in an endpoint without awaiting it
-					api.post(`posts/send`, postsSend, params, { id: post.id }, token);
-				}
-
 				// Create an activity record
 				await tx.insert(activityTable).values({
 					url: `${currentUser.url}posts/${post.slug}`,
@@ -100,6 +96,20 @@ export default async function postPublish(
 				return serverError(errorMessage);
 			}
 		});
+
+		if (postId !== undefined) {
+			if (
+				postVisibility === PUBLIC_POST_VISIBILITY ||
+				postVisibility === FOLLOWER_POST_VISIBILITY
+			) {
+				// Send it to all followers
+				// This could take some time, so send it off to be done in an endpoint without awaiting it
+				// It has to be done outside of the transaction
+				api.post(`posts/send`, postsSend, params, { id: postId }, token);
+			}
+		}
+
+		return result;
 	} catch (error) {
 		const message = errorMessage || getErrorMessage(error).message;
 		return serverError(message);

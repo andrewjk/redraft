@@ -36,8 +36,9 @@ export default async function commentCreate(
 	let errorMessage: string | undefined;
 
 	try {
+		let postId: number | undefined;
 		const db = database();
-		return await db.transaction(async (tx) => {
+		const result = await db.transaction(async (tx) => {
 			try {
 				const model: CommentCreateModel = await request.json();
 
@@ -84,6 +85,7 @@ export default async function commentCreate(
 				if (!post) {
 					return notFound();
 				}
+				postId = post.id;
 
 				// Get the parent id
 				let parentId: number | undefined;
@@ -155,10 +157,6 @@ export default async function commentCreate(
 					});
 				}
 
-				// Send an update to all followers
-				// This could take some time, so send it off to be done in an endpoint without awaiting it
-				api.post(`comments/send`, commentsSend, params, { post_id: post.id }, token);
-
 				// Return
 				const view = commentPreview(newComment, currentUser, []);
 				return created(view);
@@ -168,6 +166,15 @@ export default async function commentCreate(
 				return serverError(errorMessage);
 			}
 		});
+
+		if (postId !== undefined) {
+			// Send an update to all followers
+			// This could take some time, so send it off to be done in an endpoint without awaiting it
+			// It has to be done outside of the transaction
+			api.post(`comments/send`, commentsSend, params, { post_id: postId }, token);
+		}
+
+		return result;
 	} catch (error) {
 		const message = errorMessage || getErrorMessage(error).message;
 		return serverError(message);
