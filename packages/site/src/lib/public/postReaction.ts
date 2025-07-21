@@ -94,7 +94,7 @@ export default async function postReaction(request: Request) {
 				}
 
 				// Update the post's popular emojis
-				const emojiCounts = await db
+				const emojiCounts = await tx
 					.select({
 						value: postReactionsTable.emoji,
 						count: count(postReactionsTable.id).as("count"),
