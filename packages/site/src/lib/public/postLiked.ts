@@ -1,14 +1,18 @@
-import { notFound, ok, serverError, unauthorized } from "@torpor/build/response";
+import { notFound, ok, serverError, unauthorized, unprocessable } from "@torpor/build/response";
 import { and, eq } from "drizzle-orm";
 import database from "../../data/database";
 import { followedByTable, postReactionsTable, postsTable } from "../../data/schema";
 import { notificationsTable } from "../../data/schema/notificationsTable";
 import getErrorMessage from "../utils/getErrorMessage";
 
+// IMPORTANT! Update this when the model changes
+export const POST_LIKED_VERSION = 1;
+
 export type PostLikedModel = {
 	slug: string;
 	sharedKey: string;
 	liked: boolean;
+	version: number;
 };
 
 export default async function postLiked(request: Request) {
@@ -19,6 +23,11 @@ export default async function postLiked(request: Request) {
 		return await db.transaction(async (tx) => {
 			try {
 				const model: PostLikedModel = await request.json();
+				if (model.version !== POST_LIKED_VERSION) {
+					return unprocessable(
+						`Incompatible version (received ${model.version}, expected ${POST_LIKED_VERSION})`,
+					);
+				}
 
 				// Get the user
 				const user = await tx.query.usersTable.findFirst();

@@ -1,14 +1,22 @@
-import { notFound, ok, serverError } from "@torpor/build/response";
+import { notFound, ok, serverError, unprocessable } from "@torpor/build/response";
 import database from "../../data/database";
 import { followedByTable } from "../../data/schema";
 import { notificationsTable } from "../../data/schema/notificationsTable";
 import { postPublic } from "../public";
 import getErrorMessage from "../utils/getErrorMessage";
-import { type FollowCheckModel, type FollowCheckResponseModel } from "./followCheck";
+import {
+	FOLLOW_CHECK_VERSION,
+	type FollowCheckModel,
+	type FollowCheckResponseModel,
+} from "./followCheck";
+
+// IMPORTANT! Update this when the model changes
+export const FOLLOW_REQUESTED_VERSION = 1;
 
 export type FollowRequestedModel = {
 	url: string;
 	sharedKey: string;
+	version: number;
 };
 
 export type FollowRequestedResponseModel = {
@@ -27,6 +35,11 @@ export default async function followRequested(request: Request) {
 		return await db.transaction(async (tx) => {
 			try {
 				const model: FollowRequestedModel = await request.json();
+				if (model.version !== FOLLOW_REQUESTED_VERSION) {
+					return unprocessable(
+						`Incompatible version (received ${model.version}, expected ${FOLLOW_REQUESTED_VERSION})`,
+					);
+				}
 
 				// Check that this request actually came from the url claimed by hitting /follow/check
 				let sendUrl = `${model.url}api/public/follow/check`;

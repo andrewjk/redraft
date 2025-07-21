@@ -3,7 +3,7 @@ import { eq } from "drizzle-orm";
 import database from "../../data/database";
 import { followedByTable, followingTable, usersTable } from "../../data/schema";
 import { postPublic } from "../public";
-import { type ProfileUpdatedModel } from "../public/profileUpdated";
+import { PROFILE_UPDATED_VERSION, type ProfileUpdatedModel } from "../public/profileUpdated";
 import getErrorMessage from "../utils/getErrorMessage";
 import userIdQuery from "../utils/userIdQuery";
 
@@ -47,6 +47,7 @@ export default async function profileSend(code: string) {
 							name: currentUser.name,
 							image: currentUser.image,
 							bio: currentUser.bio,
+							version: PROFILE_UPDATED_VERSION,
 						};
 						await postPublic(sendUrl, sendData);
 					} catch {

@@ -5,6 +5,7 @@ import { followingTable, usersTable } from "../../data/schema";
 import { activityTable } from "../../data/schema/activityTable";
 import { postPublic } from "../public";
 import {
+	FOLLOW_REQUESTED_VERSION,
 	type FollowRequestedModel,
 	type FollowRequestedResponseModel,
 } from "../public/followRequested";
@@ -69,6 +70,7 @@ export default async function followRequest(request: Request, code: string) {
 					let sendData: FollowRequestedModel = {
 						url: currentUser.url,
 						sharedKey,
+						version: FOLLOW_REQUESTED_VERSION,
 					};
 					let requestData = (await postPublic(sendUrl, sendData)) as FollowRequestedResponseModel;
 

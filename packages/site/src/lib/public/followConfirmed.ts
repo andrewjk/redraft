@@ -1,4 +1,4 @@
-import { notFound, ok, serverError } from "@torpor/build/response";
+import { notFound, ok, serverError, unprocessable } from "@torpor/build/response";
 import { eq } from "drizzle-orm";
 import database from "../../data/database";
 import { followingTable } from "../../data/schema";
@@ -6,8 +6,12 @@ import { activityTable } from "../../data/schema/activityTable";
 import { notificationsTable } from "../../data/schema/notificationsTable";
 import getErrorMessage from "../utils/getErrorMessage";
 
+// IMPORTANT! Update this when the model changes
+export const FOLLOW_CONFIRMED_VERSION = 1;
+
 export type FollowConfirmedModel = {
 	sharedKey: string;
+	version: number;
 };
 
 /**
@@ -21,6 +25,11 @@ export default async function followConfirmed(request: Request) {
 		return await db.transaction(async (tx) => {
 			try {
 				const model: FollowConfirmedModel = await request.json();
+				if (model.version !== FOLLOW_CONFIRMED_VERSION) {
+					return unprocessable(
+						`Incompatible version (received ${model.version}, expected ${FOLLOW_CONFIRMED_VERSION})`,
+					);
+				}
 
 				// Get the current (only) user
 				const user = await tx.query.usersTable.findFirst();

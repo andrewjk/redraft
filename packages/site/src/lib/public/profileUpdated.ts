@@ -1,15 +1,19 @@
-import { ok, serverError } from "@torpor/build/response";
+import { ok, serverError, unprocessable } from "@torpor/build/response";
 import { eq } from "drizzle-orm";
-import database from "../../data/database";
+import database, { type DatabaseTransaction } from "../../data/database";
 import { followedByTable, followingTable } from "../../data/schema";
 import { notificationsTable } from "../../data/schema/notificationsTable";
 import getErrorMessage from "../utils/getErrorMessage";
+
+// IMPORTANT! Update this when the model changes
+export const PROFILE_UPDATED_VERSION = 1;
 
 export type ProfileUpdatedModel = {
 	sharedKey: string;
 	name: string;
 	image: string;
 	bio: string;
+	version: number;
 };
 
 export default async function profileUpdated(request: Request) {
@@ -20,6 +24,11 @@ export default async function profileUpdated(request: Request) {
 		return await db.transaction(async (tx) => {
 			try {
 				const model: ProfileUpdatedModel = await request.json();
+				if (model.version !== PROFILE_UPDATED_VERSION) {
+					return unprocessable(
+						`Incompatible version (received ${model.version}, expected ${PROFILE_UPDATED_VERSION})`,
+					);
+				}
 
 				await Promise.all([updateFollowingTable(tx, model), updateFollowedByTable(tx, model)]);
 

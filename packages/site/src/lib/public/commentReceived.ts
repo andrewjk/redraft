@@ -1,14 +1,18 @@
-import { notFound, ok, serverError } from "@torpor/build/response";
+import { notFound, ok, serverError, unprocessable } from "@torpor/build/response";
 import { eq } from "drizzle-orm";
 import database from "../../data/database";
 import { feedTable, followingTable } from "../../data/schema";
 import getErrorMessage from "../utils/getErrorMessage";
+
+// IMPORTANT! Update this when the model changes
+export const COMMENT_RECEIVED_VERSION = 1;
 
 export type CommentReceivedModel = {
 	sharedKey: string;
 	slug: string;
 	commentCount: number;
 	lastCommentAt: Date;
+	version: number;
 };
 
 export default async function commentReceived(request: Request) {
@@ -19,6 +23,11 @@ export default async function commentReceived(request: Request) {
 		return await db.transaction(async (tx) => {
 			try {
 				const model: CommentReceivedModel = await request.json();
+				if (model.version !== COMMENT_RECEIVED_VERSION) {
+					return unprocessable(
+						`Incompatible version (received ${model.version}, expected ${COMMENT_RECEIVED_VERSION})`,
+					);
+				}
 
 				const user = await tx.query.followingTable.findFirst({
 					where: eq(followingTable.shared_key, model.sharedKey),

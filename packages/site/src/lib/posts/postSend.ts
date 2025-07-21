@@ -3,7 +3,7 @@ import { and, eq, isNull } from "drizzle-orm";
 import database from "../../data/database";
 import { followedByTable, postsTable, usersTable } from "../../data/schema";
 import { postPublic } from "../public";
-import { type FeedReceivedModel } from "../public/feedReceived";
+import { FEED_RECEIVED_VERSION, type FeedReceivedModel } from "../public/feedReceived";
 import getErrorMessage from "../utils/getErrorMessage";
 import userIdQuery from "../utils/userIdQuery";
 
@@ -63,6 +63,7 @@ export default async function postSend(request: Request, code: string) {
 							linkEmbedHeight: post.link_embed_height,
 							publishedAt: post.published_at!,
 							republishedAt: post.republished_at,
+							version: FEED_RECEIVED_VERSION,
 						};
 						await postPublic(sendUrl, sendData);
 					} catch {

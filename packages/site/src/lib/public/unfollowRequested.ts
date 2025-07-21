@@ -1,12 +1,16 @@
-import { notFound, ok, serverError } from "@torpor/build/response";
+import { notFound, ok, serverError, unprocessable } from "@torpor/build/response";
 import { and, eq } from "drizzle-orm";
 import database from "../../data/database";
 import { followedByTable } from "../../data/schema";
 import getErrorMessage from "../utils/getErrorMessage";
 
+// IMPORTANT! Update this when the model changes
+export const UNFOLLOW_REQUESTED_VERSION = 1;
+
 export type UnfollowRequestedModel = {
 	url: string;
 	sharedKey: string;
+	version: number;
 };
 
 /**
@@ -20,6 +24,11 @@ export default async function followRequested(request: Request) {
 		return await db.transaction(async (tx) => {
 			try {
 				const model: UnfollowRequestedModel = await request.json();
+				if (model.version !== UNFOLLOW_REQUESTED_VERSION) {
+					return unprocessable(
+						`Incompatible version (received ${model.version}, expected ${UNFOLLOW_REQUESTED_VERSION})`,
+					);
+				}
 
 				// Get the current (only) user
 				const user = await tx.query.usersTable.findFirst();

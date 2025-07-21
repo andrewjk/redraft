@@ -1,8 +1,11 @@
-import { notFound, ok, serverError } from "@torpor/build/response";
+import { notFound, ok, serverError, unprocessable } from "@torpor/build/response";
 import { eq } from "drizzle-orm";
 import database from "../../data/database";
 import { feedTable, followingTable } from "../../data/schema";
 import getErrorMessage from "../utils/getErrorMessage";
+
+// IMPORTANT! Update this when the model changes
+export const FEED_RECEIVED_VERSION = 1;
 
 export type FeedReceivedModel = {
 	sharedKey: string;
@@ -21,6 +24,7 @@ export type FeedReceivedModel = {
 	linkEmbedHeight: number | null;
 	publishedAt: Date;
 	republishedAt: Date | null;
+	version: number;
 };
 
 export default async function feedReceived(request: Request) {
@@ -31,6 +35,11 @@ export default async function feedReceived(request: Request) {
 		return await db.transaction(async (tx) => {
 			try {
 				const model: FeedReceivedModel = await request.json();
+				if (model.version !== FEED_RECEIVED_VERSION) {
+					return unprocessable(
+						`Incompatible version (received ${model.version}, expected ${FEED_RECEIVED_VERSION})`,
+					);
+				}
 
 				const user = await tx.query.followingTable.findFirst({
 					where: eq(followingTable.shared_key, model.sharedKey),

@@ -1,14 +1,18 @@
-import { notFound, ok, serverError } from "@torpor/build/response";
+import { notFound, ok, serverError, unprocessable } from "@torpor/build/response";
 import { eq } from "drizzle-orm";
 import database from "../../data/database";
 import { followingTable } from "../../data/schema";
 import { activityTable } from "../../data/schema/activityTable";
 import getErrorMessage from "../utils/getErrorMessage";
 
+// IMPORTANT! Update this when the model changes
+export const ACTIVITY_RECEIVED_VERSION = 1;
+
 export type ActivityReceivedModel = {
 	sharedKey: string;
 	url: string;
 	type: "commented" | "liked" | "unliked" | "reacted";
+	version: number;
 };
 
 export default async function activityReceived(request: Request) {
@@ -19,6 +23,11 @@ export default async function activityReceived(request: Request) {
 		return await db.transaction(async (tx) => {
 			try {
 				const model: ActivityReceivedModel = await request.json();
+				if (model.version !== ACTIVITY_RECEIVED_VERSION) {
+					return unprocessable(
+						`Incompatible version (received ${model.version}, expected ${ACTIVITY_RECEIVED_VERSION})`,
+					);
+				}
 
 				const user = await tx.query.followingTable.findFirst({
 					where: eq(followingTable.shared_key, model.sharedKey),

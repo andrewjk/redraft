@@ -3,7 +3,7 @@ import { eq } from "drizzle-orm";
 import database from "../../data/database";
 import { followedByTable, usersTable } from "../../data/schema";
 import { postPublic } from "../public";
-import { type FollowConfirmedModel } from "../public/followConfirmed";
+import { FOLLOW_CONFIRMED_VERSION, type FollowConfirmedModel } from "../public/followConfirmed";
 import getErrorMessage from "../utils/getErrorMessage";
 import userIdQuery from "../utils/userIdQuery";
 
@@ -47,6 +47,7 @@ export default async function followApprove(request: Request, code: string) {
 				let sendUrl = `${record.url}api/public/follow/confirm`;
 				let sendData: FollowConfirmedModel = {
 					sharedKey: record.shared_key,
+					version: FOLLOW_CONFIRMED_VERSION,
 				};
 				await postPublic(sendUrl, sendData);
 

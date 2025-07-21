@@ -1,14 +1,18 @@
-import { notFound, ok, serverError, unauthorized } from "@torpor/build/response";
+import { notFound, ok, serverError, unauthorized, unprocessable } from "@torpor/build/response";
 import { and, count, desc, eq } from "drizzle-orm";
 import database from "../../data/database";
 import { followedByTable, postReactionsTable, postsTable } from "../../data/schema";
 import { notificationsTable } from "../../data/schema/notificationsTable";
 import getErrorMessage from "../utils/getErrorMessage";
 
+// IMPORTANT! Update this when the model changes
+export const POST_REACTION_VERSION = 1;
+
 export type PostReactionModel = {
 	slug: string;
 	sharedKey: string;
 	emoji: string;
+	version: number;
 };
 
 export default async function postReaction(request: Request) {
@@ -19,6 +23,11 @@ export default async function postReaction(request: Request) {
 		return await db.transaction(async (tx) => {
 			try {
 				const model: PostReactionModel = await request.json();
+				if (model.version !== POST_REACTION_VERSION) {
+					return unprocessable(
+						`Incompatible version (received ${model.version}, expected ${POST_REACTION_VERSION})`,
+					);
+				}
 
 				// Get the user
 				const user = await tx.query.usersTable.findFirst();

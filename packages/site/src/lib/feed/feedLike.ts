@@ -4,7 +4,7 @@ import database from "../../data/database";
 import { feedTable, usersTable } from "../../data/schema";
 import { activityTable } from "../../data/schema/activityTable";
 import { postPublic } from "../public";
-import { type PostLikedModel } from "../public/postLiked";
+import { POST_LIKED_VERSION, type PostLikedModel } from "../public/postLiked";
 import getErrorMessage from "../utils/getErrorMessage";
 import userIdQuery from "../utils/userIdQuery";
 
@@ -46,6 +46,7 @@ export default async function feedLike(request: Request, code: string) {
 					slug: model.slug,
 					sharedKey: model.sharedKey,
 					liked: model.liked,
+					version: POST_LIKED_VERSION,
 				};
 				await postPublic(sendUrl, sendData);
 

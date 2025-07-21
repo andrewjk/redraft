@@ -3,7 +3,7 @@ import { eq } from "drizzle-orm";
 import database from "../../data/database";
 import { followedByTable, postsTable } from "../../data/schema";
 import { postPublic } from "../public";
-import { type CommentReceivedModel } from "../public/commentReceived";
+import { COMMENT_RECEIVED_VERSION, type CommentReceivedModel } from "../public/commentReceived";
 import getErrorMessage from "../utils/getErrorMessage";
 
 export type CommentSendModel = {
@@ -44,6 +44,7 @@ export default async function commentSend(request: Request) {
 							slug: post.slug,
 							commentCount: post.comment_count,
 							lastCommentAt: post.last_comment_at!,
+							version: COMMENT_RECEIVED_VERSION,
 						};
 						await postPublic(sendUrl, sendData);
 					} catch {

@@ -4,7 +4,7 @@ import database from "../../data/database";
 import { feedTable, usersTable } from "../../data/schema";
 import { activityTable } from "../../data/schema/activityTable";
 import { postPublic } from "../public";
-import { type PostReactionModel } from "../public/postReaction";
+import { POST_REACTION_VERSION, type PostReactionModel } from "../public/postReaction";
 import getErrorMessage from "../utils/getErrorMessage";
 import userIdQuery from "../utils/userIdQuery";
 
@@ -46,6 +46,7 @@ export default async function feedReact(request: Request, code: string) {
 					slug: model.slug,
 					sharedKey: model.sharedKey,
 					emoji: model.emoji,
+					version: POST_REACTION_VERSION,
 				};
 				await postPublic(sendUrl, sendData);
 

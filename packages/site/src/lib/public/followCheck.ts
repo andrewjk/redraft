@@ -1,11 +1,15 @@
-import { notFound, ok, serverError } from "@torpor/build/response";
+import { notFound, ok, serverError, unprocessable } from "@torpor/build/response";
 import { eq } from "drizzle-orm";
 import database from "../../data/database";
 import { followingTable } from "../../data/schema";
 import getErrorMessage from "../utils/getErrorMessage";
 
+// IMPORTANT! Update this when the model changes
+export const FOLLOW_CHECK_VERSION = 1;
+
 export type FollowCheckModel = {
 	sharedKey: string;
+	version: number;
 };
 
 export type FollowCheckResponseModel = {
@@ -25,6 +29,11 @@ export default async function followCheck(request: Request) {
 		return await db.transaction(async (tx) => {
 			try {
 				const model: FollowCheckModel = await request.json();
+				if (model.version !== FOLLOW_CHECK_VERSION) {
+					return unprocessable(
+						`Incompatible version (received ${model.version}, expected ${FOLLOW_CHECK_VERSION})`,
+					);
+				}
 
 				// Get the current (only) user
 				const user = await tx.query.usersTable.findFirst();

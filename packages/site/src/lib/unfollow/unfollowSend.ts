@@ -4,7 +4,10 @@ import database from "../../data/database";
 import { feedTable, followingTable, usersTable } from "../../data/schema";
 import { activityTable } from "../../data/schema/activityTable";
 import { postPublic } from "../public";
-import { type UnfollowRequestedModel } from "../public/unfollowRequested";
+import {
+	UNFOLLOW_REQUESTED_VERSION,
+	type UnfollowRequestedModel,
+} from "../public/unfollowRequested";
 import getErrorMessage from "../utils/getErrorMessage";
 import userIdQuery from "../utils/userIdQuery";
 
@@ -46,6 +49,7 @@ export default async function unfollowSend(request: Request, code: string) {
 					let sendData: UnfollowRequestedModel = {
 						url: currentUser.url,
 						sharedKey: record.shared_key,
+						version: UNFOLLOW_REQUESTED_VERSION,
 					};
 					await postPublic(sendUrl, sendData);
 
