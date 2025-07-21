@@ -15,7 +15,7 @@ export default defineConfig(({ mode }) => ({
 		// HACK: this is needed to process *.ts routes??
 		server: {
 			deps: {
-				inline: ["@torpor/build"],
+				inline: ["@torpor/build", "@torpor/ui"],
 			},
 		},
 	},
