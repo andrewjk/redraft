@@ -72,7 +72,11 @@ export default async function followRequest(request: Request, code: string) {
 						sharedKey,
 						version: FOLLOW_REQUESTED_VERSION,
 					};
-					let requestData = (await postPublic(sendUrl, sendData)) as FollowRequestedResponseModel;
+					let response = await postPublic(sendUrl, sendData);
+					if (!response.ok) {
+						return response;
+					}
+					let requestData = (await response.json()) as FollowRequestedResponseModel;
 
 					// Update the following record with the name and image
 					let record2 = {

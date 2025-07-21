@@ -48,7 +48,11 @@ export default async function followRequested(request: Request) {
 					sharedKey: model.sharedKey,
 					version: FOLLOW_CHECK_VERSION,
 				};
-				const confirmData = (await postPublic(sendUrl, sendData)) as FollowCheckResponseModel;
+				const response = await postPublic(sendUrl, sendData);
+				if (!response.ok) {
+					return response;
+				}
+				const confirmData = (await response.json()) as FollowCheckResponseModel;
 
 				// Get the current (only) user
 				const user = await tx.query.usersTable.findFirst();

@@ -1,3 +1,5 @@
+import { ok } from "@torpor/build/response";
+
 type SendOptions = {
 	method: "GET" | "POST" | "PUT" | "DELETE";
 	path: string;
@@ -6,7 +8,7 @@ type SendOptions = {
 
 // TODO: Make this all type-safe etc
 
-async function send({ method, path, data }: SendOptions) {
+async function send({ method, path, data }: SendOptions): Promise<Response> {
 	console.log("sending data to", path);
 
 	type RequestOptions = {
@@ -25,28 +27,24 @@ async function send({ method, path, data }: SendOptions) {
 		options.body = JSON.stringify(data);
 	}
 
-	const result = await fetch(path, options);
+	const response = await fetch(path, options);
 
-	if (result.ok || result.status === 422) {
-		const text = await result.text();
-		return text ? JSON.parse(text) : {};
-	}
-
-	throw new Error(result.status.toString());
+	// No response is a good response?
+	return response ?? ok();
 }
 
-export function getPublic(path: string) {
+export function getPublic(path: string): Promise<Response> {
 	return send({ method: "GET", path });
 }
 
-export function delPublic(path: string) {
+export function delPublic(path: string): Promise<Response> {
 	return send({ method: "DELETE", path });
 }
 
-export function postPublic(path: string, data: any) {
+export function postPublic(path: string, data: any): Promise<Response> {
 	return send({ method: "POST", path, data });
 }
 
-export function putPublic(path: string, data: any) {
+export function putPublic(path: string, data: any): Promise<Response> {
 	return send({ method: "PUT", path, data });
 }
