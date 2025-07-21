@@ -97,6 +97,7 @@ export default async function postPublish(
 			} catch (error) {
 				errorMessage = getErrorMessage(error).message;
 				tx.rollback();
+				return serverError(errorMessage);
 			}
 		});
 	} catch (error) {

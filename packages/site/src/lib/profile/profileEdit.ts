@@ -106,6 +106,7 @@ export default async function profileEdit(
 			} catch (error) {
 				errorMessage = getErrorMessage(error).message;
 				tx.rollback();
+				return serverError(errorMessage);
 			}
 		});
 	} catch (error) {

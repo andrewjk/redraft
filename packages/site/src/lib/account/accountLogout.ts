@@ -42,6 +42,7 @@ export default async function accountLogout(code: string) {
 			} catch (error) {
 				errorMessage = getErrorMessage(error).message;
 				tx.rollback();
+				return serverError(errorMessage);
 			}
 		});
 	} catch (error) {

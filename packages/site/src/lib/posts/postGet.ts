@@ -169,6 +169,7 @@ export default async function postGet(user: User, follower: User, slug: string) 
 			} catch (error) {
 				errorMessage = getErrorMessage(error).message;
 				tx.rollback();
+				return serverError(errorMessage);
 			}
 		});
 	} catch (error) {

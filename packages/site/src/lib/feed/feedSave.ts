@@ -48,6 +48,7 @@ export default async function feedSave(request: Request, code: string) {
 			} catch (error) {
 				errorMessage = getErrorMessage(error).message;
 				tx.rollback();
+				return serverError(errorMessage);
 			}
 		});
 	} catch (error) {

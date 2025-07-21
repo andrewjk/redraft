@@ -54,6 +54,7 @@ export default async function commentGet(slug: string) {
 			} catch (error) {
 				errorMessage = getErrorMessage(error).message;
 				tx.rollback();
+				return serverError(errorMessage);
 			}
 		});
 	} catch (error) {

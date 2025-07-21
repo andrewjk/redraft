@@ -31,6 +31,7 @@ export default async function extensionProfile(code: string) {
 			} catch (error) {
 				errorMessage = getErrorMessage(error).message;
 				tx.rollback();
+				return serverError(errorMessage);
 			}
 		});
 	} catch (error) {

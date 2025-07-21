@@ -49,6 +49,7 @@ export default async function extensionFollowing(code: string, limit?: number, o
 			} catch (error) {
 				errorMessage = getErrorMessage(error).message;
 				tx.rollback();
+				return serverError(errorMessage);
 			}
 		});
 	} catch (error) {

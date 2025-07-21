@@ -110,6 +110,7 @@ export default async function articleGet(user: User, follower: User, slug: strin
 			} catch (error) {
 				errorMessage = getErrorMessage(error).message;
 				tx.rollback();
+				return serverError(errorMessage);
 			}
 		});
 	} catch (error) {

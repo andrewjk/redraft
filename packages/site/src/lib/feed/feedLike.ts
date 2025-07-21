@@ -62,6 +62,7 @@ export default async function feedLike(request: Request, code: string) {
 			} catch (error) {
 				errorMessage = getErrorMessage(error).message;
 				tx.rollback();
+				return serverError(errorMessage);
 			}
 		});
 	} catch (error) {
