@@ -86,7 +86,7 @@ export default function Edit() {
 							name="about"
 						/>
 					</div>
-					
+
 					<h3>Links</h3>
 					@for (let [i, link] of $profile.links.entries()) {
 						<input type="hidden" name="links[{i}].id" value={link.id} />

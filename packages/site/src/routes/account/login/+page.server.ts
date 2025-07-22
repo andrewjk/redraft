@@ -18,7 +18,6 @@ export default {
 			const model = formDataToObject(data);
 
 			const result = await api.post("account/login", accountLogin, params, model);
-			console.log("LOGIN RESULT", result.status);
 			if (!result.ok) {
 				return result;
 			}

@@ -55,7 +55,7 @@ export default function Layout() {
 		@media screen and (min-width: 768px) {
 			.page-outer {
 				max-width: 60rem;
-			}		
+			}
 		}
 
 		.page-inner {
@@ -170,7 +170,7 @@ function Nav() {
 			border-bottom: 2px solid orange;
 			padding: calc(1rem - 2px) 1rem;
 		}
-		
+
 		.nav-popout {
 			background-color: #fff;
 			border: 1px solid var(--border-color);

@@ -144,7 +144,7 @@ export default function PostInput($props) {
 					<LinkPreview link={post} />
 				}
 			}
-			
+
 			@if ($state.showTags) {
 				<div class="form-row">
 					<input name="tags" &value={post.tags} placeholder="Tags (separate with semicolons)" />
