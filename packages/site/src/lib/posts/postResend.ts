@@ -1,5 +1,5 @@
 import { notFound, ok, serverError, unauthorized } from "@torpor/build/response";
-import { eq, sql } from "drizzle-orm";
+import { eq } from "drizzle-orm";
 import database from "../../data/database";
 import { notificationsTable, postsQueueTable, postsTable, usersTable } from "../../data/schema";
 import { postPublic } from "../public";
@@ -8,18 +8,18 @@ import getErrorMessage from "../utils/getErrorMessage";
 import pluralize from "../utils/pluralize";
 import userIdQuery from "../utils/userIdQuery";
 
-export type PostSendModel = {
+export type PostResendModel = {
 	id: number;
 };
 
-export default async function postSend(request: Request, code: string) {
+export default async function postResend(request: Request, code: string) {
 	let errorMessage: string | undefined;
 
 	try {
 		const db = database();
 		return await db.transaction(async (tx) => {
 			try {
-				const model: PostSendModel = await request.json();
+				const model: PostResendModel = await request.json();
 
 				// Get the current user
 				const currentUser = await tx.query.usersTable.findFirst({
@@ -34,14 +34,6 @@ export default async function postSend(request: Request, code: string) {
 				if (!post) {
 					return notFound();
 				}
-
-				// Insert a queue record for each follower and delete it on
-				// success. If there are any failures, add a notification, with
-				// a resend option
-				await tx.run(sql`
-					insert into posts_queue (post_id, user_id, created_at, updated_at)
-					select ${post.id}, id, current_timestamp, current_timestamp
-					from followed_by_table`);
 
 				// Load the queue
 				const queue = await tx.query.postsQueueTable.findMany({
@@ -92,7 +84,7 @@ export default async function postSend(request: Request, code: string) {
 					// Create a notification
 					await tx.insert(notificationsTable).values({
 						url: `${currentUser.url}posts/${post.slug}/status`,
-						text: `Failed to send ${failureCount} ${pluralize(failureCount, "post")}`,
+						text: `Failed to resend ${failureCount} ${pluralize(failureCount, "post")}`,
 						created_at: new Date(),
 						updated_at: new Date(),
 					});

@@ -64,6 +64,13 @@
       "when": 1749793878701,
       "tag": "0008_true_oracle",
       "breakpoints": true
+    },
+    {
+      "idx": 9,
+      "version": "6",
+      "when": 1753164522566,
+      "tag": "0009_skinny_blue_blade",
+      "breakpoints": true
     }
   ]
 }
