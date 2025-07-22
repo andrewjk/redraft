@@ -17,29 +17,30 @@ export default async function followBlock(request: Request, code: string) {
 
 	try {
 		const db = database();
-		return await db.transaction(async (tx) => {
-			try {
-				const model: BlockModel = await request.json();
 
-				// Get the current user
-				const currentUser = await tx.query.usersTable.findFirst({
-					where: eq(usersTable.id, userIdQuery(code)),
-				});
-				if (!currentUser) {
-					return unauthorized();
-				}
+		const model: BlockModel = await request.json();
 
-				// Get the followed by user
-				const record = await tx.query.followedByTable.findFirst({
-					where: eq(followedByTable.id, model.id),
-					columns: { id: true, blocked_at: true },
-				});
-				if (!record) {
-					return notFound();
-				}
+		// Get the current user
+		const currentUser = await db.query.usersTable.findFirst({
+			where: eq(usersTable.id, userIdQuery(code)),
+		});
+		if (!currentUser) {
+			return unauthorized();
+		}
 
-				// If this user has already been blocked, just return ok
-				if (!record.blocked_at) {
+		// Get the followed by user
+		const record = await db.query.followedByTable.findFirst({
+			where: eq(followedByTable.id, model.id),
+			columns: { id: true, blocked_at: true },
+		});
+		if (!record) {
+			return notFound();
+		}
+
+		// If this user has already been blocked, just return ok
+		if (!record.blocked_at) {
+			await db.transaction(async (tx) => {
+				try {
 					// Set block date in the followed by record
 					await tx
 						.update(followedByTable)
@@ -57,23 +58,22 @@ export default async function followBlock(request: Request, code: string) {
 							updated_at: new Date(),
 						})
 						.where(eq(commentsTable.user_id, record.id));
-
-					// TODO: Allow the user to send a message with the block
-					// Send the confirmation
-					//let sendUrl = `${record.url}api/public/follow/confirm`;
-					//let sendData: FollowConfirmModel = {
-					//	sharedKey: record.shared_key,
-					//};
-					//await postPublic(sendUrl, sendData);
+				} catch (error) {
+					errorMessage = getErrorMessage(error).message;
+					tx.rollback();
 				}
+			});
+		}
 
-				return ok();
-			} catch (error) {
-				errorMessage = getErrorMessage(error).message;
-				tx.rollback();
-				return serverError(errorMessage);
-			}
-		});
+		// TODO: Allow the user to send a message with the block
+		// Send the confirmation
+		//let sendUrl = `${record.url}api/public/follow/confirm`;
+		//let sendData: FollowConfirmModel = {
+		//	sharedKey: record.shared_key,
+		//};
+		//await postPublic(sendUrl, sendData);
+
+		return ok();
 	} catch (error) {
 		const message = errorMessage || getErrorMessage(error).message;
 		return serverError(message);

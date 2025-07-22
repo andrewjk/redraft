@@ -32,21 +32,22 @@ export default async function profileEdit(
 
 	try {
 		const db = database();
-		const result = await db.transaction(async (tx) => {
+
+		const model: ProfileEdit = await request.json();
+
+		// Get the current user
+		const currentUser = await db.query.usersTable.findFirst({
+			where: eq(usersTable.id, userIdQuery(code)),
+			with: {
+				links: true,
+			},
+		});
+		if (!currentUser) {
+			return unauthorized();
+		}
+
+		await db.transaction(async (tx) => {
 			try {
-				const model: ProfileEdit = await request.json();
-
-				// Get the current user
-				const currentUser = await tx.query.usersTable.findFirst({
-					where: eq(usersTable.id, userIdQuery(code)),
-					with: {
-						links: true,
-					},
-				});
-				if (!currentUser) {
-					return unauthorized();
-				}
-
 				// Update the user in the database
 				const user = {
 					id: currentUser.id,
@@ -92,17 +93,9 @@ export default async function profileEdit(
 					}
 				}
 				await Promise.all(updates);
-
-				return ok({
-					url: currentUser.url,
-					name: model.name,
-					image: model.image,
-					token,
-				});
 			} catch (error) {
 				errorMessage = getErrorMessage(error).message;
 				tx.rollback();
-				return serverError(errorMessage);
 			}
 		});
 
@@ -111,7 +104,12 @@ export default async function profileEdit(
 		// It has to be done outside of the transaction
 		api.post(`profile/send`, profileSend, params, null, token);
 
-		return result;
+		return ok({
+			url: currentUser.url,
+			name: model.name,
+			image: model.image,
+			token,
+		});
 	} catch (error) {
 		const message = errorMessage || getErrorMessage(error).message;
 		return serverError(message);

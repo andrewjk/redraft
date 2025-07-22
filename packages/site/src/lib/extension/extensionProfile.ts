@@ -10,29 +10,22 @@ export default async function extensionProfile(code: string) {
 
 	try {
 		const db = database();
-		return await db.transaction(async (tx) => {
-			try {
-				// Get the current user
-				const user = await tx.query.usersTable.findFirst({
-					where: eq(usersTable.id, userIdQuery(code)),
-				});
-				if (!user) {
-					return unauthorized();
-				}
 
-				return ok({
-					url: user.url,
-					email: user.email,
-					name: user.name,
-					bio: user.bio,
-					location: user.location,
-					image: user.image,
-				});
-			} catch (error) {
-				errorMessage = getErrorMessage(error).message;
-				tx.rollback();
-				return serverError(errorMessage);
-			}
+		// Get the current user
+		const user = await db.query.usersTable.findFirst({
+			where: eq(usersTable.id, userIdQuery(code)),
+		});
+		if (!user) {
+			return unauthorized();
+		}
+
+		return ok({
+			url: user.url,
+			email: user.email,
+			name: user.name,
+			bio: user.bio,
+			location: user.location,
+			image: user.image,
 		});
 	} catch (error) {
 		const message = errorMessage || getErrorMessage(error).message;

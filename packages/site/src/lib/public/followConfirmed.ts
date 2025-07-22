@@ -22,21 +22,22 @@ export default async function followConfirmed(request: Request) {
 
 	try {
 		const db = database();
-		return await db.transaction(async (tx) => {
+
+		const model: FollowConfirmedModel = await request.json();
+		if (model.version !== FOLLOW_CONFIRMED_VERSION) {
+			return unprocessable(
+				`Incompatible version (received ${model.version}, expected ${FOLLOW_CONFIRMED_VERSION})`,
+			);
+		}
+
+		// Get the current (only) user
+		const user = await db.query.usersTable.findFirst();
+		if (!user) {
+			return notFound();
+		}
+
+		await db.transaction(async (tx) => {
 			try {
-				const model: FollowConfirmedModel = await request.json();
-				if (model.version !== FOLLOW_CONFIRMED_VERSION) {
-					return unprocessable(
-						`Incompatible version (received ${model.version}, expected ${FOLLOW_CONFIRMED_VERSION})`,
-					);
-				}
-
-				// Get the current (only) user
-				const user = await tx.query.usersTable.findFirst();
-				if (!user) {
-					return notFound();
-				}
-
 				// Set approved in the following record
 				const record = (
 					await tx
@@ -64,14 +65,13 @@ export default async function followConfirmed(request: Request) {
 					created_at: new Date(),
 					updated_at: new Date(),
 				});
-
-				return ok();
 			} catch (error) {
 				errorMessage = getErrorMessage(error).message;
 				tx.rollback();
-				return serverError(errorMessage);
 			}
 		});
+
+		return ok();
 	} catch (error) {
 		const message = errorMessage || getErrorMessage(error).message;
 		return serverError(message);

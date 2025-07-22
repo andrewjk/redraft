@@ -11,51 +11,44 @@ export default async function commentGet(slug: string) {
 
 	try {
 		const db = database();
-		return await db.transaction(async (tx) => {
-			try {
-				// Get the user
-				const user = await tx.query.usersTable.findFirst();
 
-				// Get the comment from the database
-				const comment = await tx.query.commentsTable.findFirst({
-					where: eq(commentsTable.slug, slug),
+		// Get the user
+		const user = await db.query.usersTable.findFirst();
+
+		// Get the comment from the database
+		const comment = await db.query.commentsTable.findFirst({
+			where: eq(commentsTable.slug, slug),
+			with: {
+				post: {
 					with: {
-						post: {
+						postTags: {
 							with: {
-								postTags: {
-									with: {
-										tag: true,
-									},
-								},
+								tag: true,
 							},
 						},
-						user: true,
 					},
-				});
-				if (!comment) {
-					return notFound();
-				}
+				},
+				user: true,
+			},
+		});
+		if (!comment) {
+			return notFound();
+		}
 
-				// Get the child comments
-				const children = await tx.query.commentsTable.findMany({
-					where: eq(commentsTable.parent_id, comment.id),
-					with: {
-						user: true,
-					},
-				});
+		// Get the child comments
+		const children = await db.query.commentsTable.findMany({
+			where: eq(commentsTable.parent_id, comment.id),
+			with: {
+				user: true,
+			},
+		});
 
-				// Create the view
-				//const view = commentPreview(comment, user, children);
+		// Create the view
+		//const view = commentPreview(comment, user, children);
 
-				return ok({
-					post: postPreview(comment.post, user!),
-					comment: commentPreview(comment, user!, children),
-				});
-			} catch (error) {
-				errorMessage = getErrorMessage(error).message;
-				tx.rollback();
-				return serverError(errorMessage);
-			}
+		return ok({
+			post: postPreview(comment.post, user!),
+			comment: commentPreview(comment, user!, children),
 		});
 	} catch (error) {
 		const message = errorMessage || getErrorMessage(error).message;

@@ -26,45 +26,38 @@ export default async function followCheck(request: Request) {
 
 	try {
 		const db = database();
-		return await db.transaction(async (tx) => {
-			try {
-				const model: FollowCheckModel = await request.json();
-				if (model.version !== FOLLOW_CHECK_VERSION) {
-					return unprocessable(
-						`Incompatible version (received ${model.version}, expected ${FOLLOW_CHECK_VERSION})`,
-					);
-				}
 
-				// Get the current (only) user
-				const user = await tx.query.usersTable.findFirst();
-				if (!user) {
-					return notFound();
-				}
+		const model: FollowCheckModel = await request.json();
+		if (model.version !== FOLLOW_CHECK_VERSION) {
+			return unprocessable(
+				`Incompatible version (received ${model.version}, expected ${FOLLOW_CHECK_VERSION})`,
+			);
+		}
 
-				// Check that a following record exists with this URL
-				const record = await tx.query.followingTable.findFirst({
-					columns: { id: true },
-					where: eq(followingTable.shared_key, model.sharedKey),
-				});
-				if (!record) {
-					return notFound();
-				}
+		// Get the current (only) user
+		const user = await db.query.usersTable.findFirst();
+		if (!user) {
+			return notFound();
+		}
 
-				// Return the name and image
-				// TODO: and the canonical url?
-				const data: FollowCheckResponseModel = {
-					name: user.name,
-					image: user.image,
-					bio: user.bio,
-				};
-
-				return ok(data);
-			} catch (error) {
-				errorMessage = getErrorMessage(error).message;
-				tx.rollback();
-				return serverError(errorMessage);
-			}
+		// Check that a following record exists with this URL
+		const record = await db.query.followingTable.findFirst({
+			columns: { id: true },
+			where: eq(followingTable.shared_key, model.sharedKey),
 		});
+		if (!record) {
+			return notFound();
+		}
+
+		// Return the name and image
+		// TODO: and the canonical url?
+		const data: FollowCheckResponseModel = {
+			name: user.name,
+			image: user.image,
+			bio: user.bio,
+		};
+
+		return ok(data);
 	} catch (error) {
 		const message = errorMessage || getErrorMessage(error).message;
 		return serverError(message);

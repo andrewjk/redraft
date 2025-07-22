@@ -20,18 +20,19 @@ export default async function feedLike(request: Request, code: string) {
 
 	try {
 		const db = database();
-		return await db.transaction(async (tx) => {
+
+		const model: FeedLikeModel = await request.json();
+
+		// Get the current user
+		const currentUser = await db.query.usersTable.findFirst({
+			where: eq(usersTable.id, userIdQuery(code)),
+		});
+		if (!currentUser) {
+			return unauthorized();
+		}
+
+		await db.transaction(async (tx) => {
 			try {
-				const model: FeedLikeModel = await request.json();
-
-				// Get the current user
-				const currentUser = await tx.query.usersTable.findFirst({
-					where: eq(usersTable.id, userIdQuery(code)),
-				});
-				if (!currentUser) {
-					return unauthorized();
-				}
-
 				// Update the feed
 				await tx
 					.update(feedTable)
@@ -40,16 +41,6 @@ export default async function feedLike(request: Request, code: string) {
 					})
 					.where(eq(feedTable.slug, model.slug));
 
-				// Send the like so the count can be updated
-				let sendUrl = `${model.authorUrl}api/public/post/like`;
-				let sendData: PostLikedModel = {
-					slug: model.slug,
-					sharedKey: model.sharedKey,
-					liked: model.liked,
-					version: POST_LIKED_VERSION,
-				};
-				await postPublic(sendUrl, sendData);
-
 				// Create an activity record
 				await tx.insert(activityTable).values({
 					url: `${currentUser.url}feed/${model.slug}`,
@@ -57,14 +48,23 @@ export default async function feedLike(request: Request, code: string) {
 					created_at: new Date(),
 					updated_at: new Date(),
 				});
-
-				return ok();
 			} catch (error) {
 				errorMessage = getErrorMessage(error).message;
 				tx.rollback();
-				return serverError(errorMessage);
 			}
 		});
+
+		// Send the like so the count can be updated
+		let sendUrl = `${model.authorUrl}api/public/post/like`;
+		let sendData: PostLikedModel = {
+			slug: model.slug,
+			sharedKey: model.sharedKey,
+			liked: model.liked,
+			version: POST_LIKED_VERSION,
+		};
+		await postPublic(sendUrl, sendData);
+
+		return ok();
 	} catch (error) {
 		const message = errorMessage || getErrorMessage(error).message;
 		return serverError(message);

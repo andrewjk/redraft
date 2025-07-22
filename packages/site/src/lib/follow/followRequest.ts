@@ -25,31 +25,45 @@ export default async function followRequest(request: Request, code: string) {
 
 	try {
 		const db = database();
-		return await db.transaction(async (tx) => {
-			try {
-				const model: FollowModel = await request.json();
 
-				// Get the current user
-				const currentUser = await tx.query.usersTable.findFirst({
-					where: eq(usersTable.id, userIdQuery(code)),
-				});
-				if (!currentUser) {
-					return unauthorized();
-				}
+		const model: FollowModel = await request.json();
 
-				// Find the following record
-				const follow = await tx.query.followingTable.findFirst({
-					where: and(eq(followingTable.url, model.url), isNull(followingTable.deleted_at)),
-					columns: { id: true },
-				});
+		// Get the current user
+		const currentUser = await db.query.usersTable.findFirst({
+			where: eq(usersTable.id, userIdQuery(code)),
+		});
+		if (!currentUser) {
+			return unauthorized();
+		}
 
-				// If this user has already been requested, just return ok
-				if (!follow) {
-					// Create the shared key that we will use to authenticate ourselves when
-					// commenting etc, and which the other user will use to authenticate
-					// themselves when sending us posts etc
-					const sharedKey = uuid();
+		// Find the following record
+		const follow = await db.query.followingTable.findFirst({
+			where: and(eq(followingTable.url, model.url), isNull(followingTable.deleted_at)),
+			columns: { id: true },
+		});
 
+		// If this user has already been requested, just return ok
+		if (!follow) {
+			// Create the shared key that we will use to authenticate ourselves when
+			// commenting etc, and which the other user will use to authenticate
+			// themselves when sending us posts etc
+			const sharedKey = uuid();
+
+			// Send off a request to the url, and hopefully receive the name and image
+			let sendUrl = `${model.url}api/public/follow/request`;
+			let sendData: FollowRequestedModel = {
+				url: currentUser.url,
+				sharedKey,
+				version: FOLLOW_REQUESTED_VERSION,
+			};
+			let response = await postPublic(sendUrl, sendData);
+			if (!response.ok) {
+				return response;
+			}
+			let requestData = (await response.json()) as FollowRequestedResponseModel;
+
+			await db.transaction(async (tx) => {
+				try {
 					// Create the following record, with approved = false
 					let record = {
 						approved: false,
@@ -64,19 +78,6 @@ export default async function followRequest(request: Request, code: string) {
 					const recordId = (
 						await tx.insert(followingTable).values(record).returning({ id: followingTable.id })
 					)[0].id;
-
-					// Send off a request to the url, and hopefully receive the name and image
-					let sendUrl = `${model.url}api/public/follow/request`;
-					let sendData: FollowRequestedModel = {
-						url: currentUser.url,
-						sharedKey,
-						version: FOLLOW_REQUESTED_VERSION,
-					};
-					let response = await postPublic(sendUrl, sendData);
-					if (!response.ok) {
-						return response;
-					}
-					let requestData = (await response.json()) as FollowRequestedResponseModel;
 
 					// Update the following record with the name and image
 					let record2 = {
@@ -93,15 +94,14 @@ export default async function followRequest(request: Request, code: string) {
 						created_at: new Date(),
 						updated_at: new Date(),
 					});
+				} catch (error) {
+					errorMessage = getErrorMessage(error).message;
+					tx.rollback();
 				}
+			});
+		}
 
-				return ok();
-			} catch (error) {
-				errorMessage = getErrorMessage(error).message;
-				tx.rollback();
-				return serverError(errorMessage);
-			}
-		});
+		return ok();
 	} catch (error) {
 		const message = errorMessage || getErrorMessage(error).message;
 		return serverError(message);

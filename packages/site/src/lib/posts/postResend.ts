@@ -17,86 +17,81 @@ export default async function postResend(request: Request, code: string) {
 
 	try {
 		const db = database();
-		return await db.transaction(async (tx) => {
-			try {
-				const model: PostResendModel = await request.json();
 
-				// Get the current user
-				const currentUser = await tx.query.usersTable.findFirst({
-					where: eq(usersTable.id, userIdQuery(code)),
-				});
-				if (!currentUser) {
-					return unauthorized();
-				}
+		const model: PostResendModel = await request.json();
 
-				// Load the post
-				const post = await tx.query.postsTable.findFirst({ where: eq(postsTable.id, model.id) });
-				if (!post) {
-					return notFound();
-				}
-
-				// Load the queue
-				const queue = await tx.query.postsQueueTable.findMany({
-					where: eq(postsQueueTable.post_id, post.id),
-				});
-
-				let failureCount = 0;
-
-				for (let follower of queue) {
-					try {
-						let sendUrl = `${follower.url}api/public/feed`;
-						let sendData: FeedReceivedModel = {
-							sharedKey: follower.shared_key,
-							slug: post.slug,
-							text: post.text,
-							visibility: post.visibility,
-							image: post.image,
-							imageAltText: post.image_alt_text,
-							isArticle: post.is_article,
-							linkUrl: post.link_url,
-							linkTitle: post.link_title,
-							linkImage: post.link_image,
-							linkPublication: post.link_publication,
-							linkEmbedSrc: post.link_embed_src,
-							linkEmbedWidth: post.link_embed_width,
-							linkEmbedHeight: post.link_embed_height,
-							publishedAt: post.published_at!,
-							republishedAt: post.republished_at,
-							version: FEED_RECEIVED_VERSION,
-						};
-						await postPublic(sendUrl, sendData);
-						await tx.delete(postsQueueTable).where(eq(postsQueueTable.id, follower.id));
-					} catch {
-						// It failed, so increment the failure count in the
-						// table and for notifications
-						await tx
-							.update(postsQueueTable)
-							.set({
-								failure_count: follower.failure_count + 1,
-								retry_at: follower.failure_count === 0 ? oneHourFromNow() : oneDayFromNow(),
-							})
-							.where(eq(postsQueueTable.id, follower.id));
-						failureCount++;
-					}
-				}
-
-				if (failureCount) {
-					// Create a notification
-					await tx.insert(notificationsTable).values({
-						url: `${currentUser.url}posts/${post.slug}/status`,
-						text: `Failed to resend ${failureCount} ${pluralize(failureCount, "post")}`,
-						created_at: new Date(),
-						updated_at: new Date(),
-					});
-				}
-
-				return ok();
-			} catch (error) {
-				errorMessage = getErrorMessage(error).message;
-				tx.rollback();
-				return serverError(errorMessage);
-			}
+		// Get the current user
+		const currentUser = await db.query.usersTable.findFirst({
+			where: eq(usersTable.id, userIdQuery(code)),
 		});
+		if (!currentUser) {
+			return unauthorized();
+		}
+
+		// Load the post
+		const post = await db.query.postsTable.findFirst({ where: eq(postsTable.id, model.id) });
+		if (!post) {
+			return notFound();
+		}
+
+		// Load the queue
+		const queue = await db.query.postsQueueTable.findMany({
+			where: eq(postsQueueTable.post_id, post.id),
+		});
+
+		let failureCount = 0;
+
+		// NOTE: Don't use a transaction here, we want each operation to be atomic
+
+		for (let follower of queue) {
+			try {
+				let sendUrl = `${follower.url}api/public/feed`;
+				let sendData: FeedReceivedModel = {
+					sharedKey: follower.shared_key,
+					slug: post.slug,
+					text: post.text,
+					visibility: post.visibility,
+					image: post.image,
+					imageAltText: post.image_alt_text,
+					isArticle: post.is_article,
+					linkUrl: post.link_url,
+					linkTitle: post.link_title,
+					linkImage: post.link_image,
+					linkPublication: post.link_publication,
+					linkEmbedSrc: post.link_embed_src,
+					linkEmbedWidth: post.link_embed_width,
+					linkEmbedHeight: post.link_embed_height,
+					publishedAt: post.published_at!,
+					republishedAt: post.republished_at,
+					version: FEED_RECEIVED_VERSION,
+				};
+				await postPublic(sendUrl, sendData);
+				await db.delete(postsQueueTable).where(eq(postsQueueTable.id, follower.id));
+			} catch {
+				// It failed, so increment the failure count in the
+				// table and for notifications
+				await db
+					.update(postsQueueTable)
+					.set({
+						failure_count: follower.failure_count + 1,
+						retry_at: follower.failure_count === 0 ? oneHourFromNow() : oneDayFromNow(),
+					})
+					.where(eq(postsQueueTable.id, follower.id));
+				failureCount++;
+			}
+		}
+
+		if (failureCount) {
+			// Create a notification
+			await db.insert(notificationsTable).values({
+				url: `${currentUser.url}posts/${post.slug}/status`,
+				text: `Failed to resend ${failureCount} ${pluralize(failureCount, "post")}`,
+				created_at: new Date(),
+				updated_at: new Date(),
+			});
+		}
+
+		return ok();
 	} catch (error) {
 		const message = errorMessage || getErrorMessage(error).message;
 		return serverError(message);

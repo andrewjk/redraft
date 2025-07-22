@@ -20,42 +20,43 @@ export default async function activityReceived(request: Request) {
 
 	try {
 		const db = database();
-		return await db.transaction(async (tx) => {
+
+		const model: ActivityReceivedModel = await request.json();
+		if (model.version !== ACTIVITY_RECEIVED_VERSION) {
+			return unprocessable(
+				`Incompatible version (received ${model.version}, expected ${ACTIVITY_RECEIVED_VERSION})`,
+			);
+		}
+
+		const user = await db.query.followingTable.findFirst({
+			where: eq(followingTable.shared_key, model.sharedKey),
+		});
+		if (!user) {
+			return notFound();
+		}
+
+		let message = "Unknown activity";
+		switch (model.type) {
+			case "commented": {
+				message = "You commented on a post";
+				break;
+			}
+			case "liked": {
+				message = "You liked a post";
+				break;
+			}
+			case "unliked": {
+				message = "You unliked a post";
+				break;
+			}
+			case "reacted": {
+				message = "You reacted to a post";
+				break;
+			}
+		}
+
+		await db.transaction(async (tx) => {
 			try {
-				const model: ActivityReceivedModel = await request.json();
-				if (model.version !== ACTIVITY_RECEIVED_VERSION) {
-					return unprocessable(
-						`Incompatible version (received ${model.version}, expected ${ACTIVITY_RECEIVED_VERSION})`,
-					);
-				}
-
-				const user = await tx.query.followingTable.findFirst({
-					where: eq(followingTable.shared_key, model.sharedKey),
-				});
-				if (!user) {
-					return notFound();
-				}
-
-				let message = "Unknown activity";
-				switch (model.type) {
-					case "commented": {
-						message = "You commented on a post";
-						break;
-					}
-					case "liked": {
-						message = "You liked a post";
-						break;
-					}
-					case "unliked": {
-						message = "You unliked a post";
-						break;
-					}
-					case "reacted": {
-						message = "You reacted to a post";
-						break;
-					}
-				}
-
 				// Create an activity record
 				await tx.insert(activityTable).values({
 					// Concat the urls for a bit of extra security (so someone can't
@@ -65,14 +66,13 @@ export default async function activityReceived(request: Request) {
 					created_at: new Date(),
 					updated_at: new Date(),
 				});
-
-				return ok();
 			} catch (error) {
 				errorMessage = getErrorMessage(error).message;
 				tx.rollback();
-				return serverError(errorMessage);
 			}
 		});
+
+		return ok();
 	} catch (error) {
 		const message = errorMessage || getErrorMessage(error).message;
 		return serverError(message);

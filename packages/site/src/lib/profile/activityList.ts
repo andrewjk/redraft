@@ -24,43 +24,36 @@ export default async function activityList(
 
 	try {
 		const db = database();
-		return await db.transaction(async (tx) => {
-			try {
-				// Get the current user
-				const currentUser = await tx.query.usersTable.findFirst({
-					where: eq(usersTable.id, userIdQuery(code)),
-				});
-				if (!currentUser) {
-					return unauthorized();
-				}
 
-				// Get the follows from the database
-				const dbactivity = await tx.query.activityTable.findMany({
-					limit,
-					offset,
-					orderBy: desc(activityTable.updated_at),
-				});
+		// Get the current user
+		const currentUser = await db.query.usersTable.findFirst({
+			where: eq(usersTable.id, userIdQuery(code)),
+		});
+		if (!currentUser) {
+			return unauthorized();
+		}
 
-				// Get the total count
-				const activityCount = await tx.$count(activityTable);
+		// Get the follows from the database
+		const dbactivity = await db.query.activityTable.findMany({
+			limit,
+			offset,
+			orderBy: desc(activityTable.updated_at),
+		});
 
-				// Create views
-				const activity = dbactivity.map((f) => {
-					return {
-						url: f.url,
-						text: f.text,
-					};
-				});
+		// Get the total count
+		const activityCount = await db.$count(activityTable);
 
-				return ok({
-					activity,
-					activityCount: activityCount,
-				});
-			} catch (error) {
-				errorMessage = getErrorMessage(error).message;
-				tx.rollback();
-				return serverError(errorMessage);
-			}
+		// Create views
+		const activity = dbactivity.map((f) => {
+			return {
+				url: f.url,
+				text: f.text,
+			};
+		});
+
+		return ok({
+			activity,
+			activityCount: activityCount,
 		});
 	} catch (error) {
 		const message = errorMessage || getErrorMessage(error).message;

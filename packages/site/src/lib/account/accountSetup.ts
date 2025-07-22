@@ -35,40 +35,45 @@ export default async function accountSetup(request: Request) {
 
 	try {
 		const db = database();
-		return await db.transaction(async (tx) => {
+
+		const model: SetupModel = await request.json();
+
+		// Make sure a different user doesn't already exist
+		const currentUser = await db.query.usersTable.findFirst();
+		if (currentUser) {
+			if (!compareWithHash(model.password.trim(), currentUser.password)) {
+				return forbidden();
+			}
+		}
+
+		// Make sure the name and password match the env variables
+		if (model.username !== env().USERNAME || model.password !== env().PASSWORD) {
+			return forbidden();
+		}
+
+		// Create the user
+		const password = hashPassword(model.password.trim());
+		const user = {
+			email: model.email.trim(),
+			username: model.username.trim(),
+			// TODO: Get this from the request headers?
+			url: ensureSlash(env().SITE_LOCATION),
+			password,
+			name: model.name.trim(),
+			bio: model.bio ?? "",
+			about: "",
+			location: model.location ?? "",
+			image: model.image ?? "",
+			created_at: new Date(),
+			updated_at: new Date(),
+		};
+
+		// TODO: Send them to the login page instead
+		const code = uuid().toString();
+		const sevenDays = 7 * 24 * 60 * 60;
+
+		await db.transaction(async (tx) => {
 			try {
-				const model: SetupModel = await request.json();
-
-				// Make sure a different user doesn't already exist
-				const currentUser = await tx.query.usersTable.findFirst();
-				if (currentUser) {
-					if (!compareWithHash(model.password.trim(), currentUser.password)) {
-						return forbidden();
-					}
-				}
-
-				// Make sure the name and password match the env variables
-				if (model.username !== env().USERNAME || model.password !== env().PASSWORD) {
-					return forbidden();
-				}
-
-				// Create the user
-				const password = hashPassword(model.password.trim());
-				const user = {
-					email: model.email.trim(),
-					username: model.username.trim(),
-					// TODO: Get this from the request headers?
-					url: ensureSlash(env().SITE_LOCATION),
-					password,
-					name: model.name.trim(),
-					bio: model.bio ?? "",
-					about: "",
-					location: model.location ?? "",
-					image: model.image ?? "",
-					created_at: new Date(),
-					updated_at: new Date(),
-				};
-
 				// Insert the user into the database
 				const newUser = currentUser
 					? (
@@ -81,26 +86,11 @@ export default async function accountSetup(request: Request) {
 					: (await tx.insert(usersTable).values(user).returning({ id: usersTable.id }))[0];
 
 				// Create a user token
-				// TODO: Send them to the login page instead
-				const code = uuid().toString();
-				const sevenDays = 7 * 24 * 60 * 60;
 				await tx.insert(userTokensTable).values({
 					user_id: newUser.id,
 					code: code,
 					expires_at: new Date(new Date().getTime() + sevenDays * 1000),
 				});
-
-				// Create the authentication token for future use
-				const token = await createUserToken(user, code);
-
-				const response: SetupResponseModel = {
-					url: user.url,
-					username: user.username,
-					name: user.name,
-					image: user.image,
-					token,
-					code,
-				};
 
 				// Create an activity record
 				await tx.insert(activityTable).values({
@@ -109,14 +99,25 @@ export default async function accountSetup(request: Request) {
 					created_at: new Date(),
 					updated_at: new Date(),
 				});
-
-				return created(response);
 			} catch (error) {
 				errorMessage = getErrorMessage(error).message;
 				tx.rollback();
-				return serverError(errorMessage);
 			}
 		});
+
+		// Create the authentication token for future use
+		const token = await createUserToken(user, code);
+
+		const response: SetupResponseModel = {
+			url: user.url,
+			username: user.username,
+			name: user.name,
+			image: user.image,
+			token,
+			code,
+		};
+
+		return created(response);
 	} catch (error) {
 		const message = errorMessage || getErrorMessage(error).message;
 		return serverError(message);

@@ -2,6 +2,8 @@ import { ok, serverError, unprocessable } from "@torpor/build/response";
 import { eq } from "drizzle-orm";
 import database, { type DatabaseTransaction } from "../../data/database";
 import { followedByTable, followingTable } from "../../data/schema";
+import { FollowedBy } from "../../data/schema/followedByTable";
+import { Following } from "../../data/schema/followingTable";
 import { notificationsTable } from "../../data/schema/notificationsTable";
 import getErrorMessage from "../utils/getErrorMessage";
 
@@ -21,34 +23,46 @@ export default async function profileUpdated(request: Request) {
 
 	try {
 		const db = database();
-		return await db.transaction(async (tx) => {
+
+		const model: ProfileUpdatedModel = await request.json();
+		if (model.version !== PROFILE_UPDATED_VERSION) {
+			return unprocessable(
+				`Incompatible version (received ${model.version}, expected ${PROFILE_UPDATED_VERSION})`,
+			);
+		}
+
+		// Get the following and followed by users
+		const following = await db.query.followingTable.findFirst({
+			where: eq(followingTable.shared_key, model.sharedKey),
+		});
+		const followedBy = await db.query.followedByTable.findFirst({
+			where: eq(followedByTable.shared_key, model.sharedKey),
+		});
+
+		await db.transaction(async (tx) => {
 			try {
-				const model: ProfileUpdatedModel = await request.json();
-				if (model.version !== PROFILE_UPDATED_VERSION) {
-					return unprocessable(
-						`Incompatible version (received ${model.version}, expected ${PROFILE_UPDATED_VERSION})`,
-					);
-				}
-
-				await Promise.all([updateFollowingTable(tx, model), updateFollowedByTable(tx, model)]);
-
-				return ok();
+				await Promise.all([
+					updateFollowingTable(model, tx, following),
+					updateFollowedByTable(model, tx, followedBy),
+				]);
 			} catch (error) {
 				errorMessage = getErrorMessage(error).message;
 				tx.rollback();
-				return serverError(errorMessage);
 			}
 		});
+
+		return ok();
 	} catch (error) {
 		const message = errorMessage || getErrorMessage(error).message;
 		return serverError(message);
 	}
 }
 
-async function updateFollowingTable(tx: DatabaseTransaction, model: ProfileUpdatedModel) {
-	const user = await tx.query.followingTable.findFirst({
-		where: eq(followingTable.shared_key, model.sharedKey),
-	});
+async function updateFollowingTable(
+	model: ProfileUpdatedModel,
+	tx: DatabaseTransaction,
+	user?: Following,
+) {
 	if (user) {
 		await tx
 			.update(followingTable)
@@ -69,10 +83,11 @@ async function updateFollowingTable(tx: DatabaseTransaction, model: ProfileUpdat
 	}
 }
 
-async function updateFollowedByTable(tx: DatabaseTransaction, model: ProfileUpdatedModel) {
-	const user = await tx.query.followedByTable.findFirst({
-		where: eq(followedByTable.shared_key, model.sharedKey),
-	});
+async function updateFollowedByTable(
+	model: ProfileUpdatedModel,
+	tx: DatabaseTransaction,
+	user?: FollowedBy,
+) {
 	if (user) {
 		await tx
 			.update(followedByTable)

@@ -36,80 +36,80 @@ export default async function commentCreate(
 	let errorMessage: string | undefined;
 
 	try {
-		let postId: number | undefined;
 		const db = database();
+
+		const model: CommentCreateModel = await request.json();
+
+		// Get the user
+		const user = await db.query.usersTable.findFirst();
+		if (!user) {
+			return notFound();
+		}
+
+		// Get the user who created this comment, from url and shared key
+		let isFollower = true;
+		let currentUser = await db.query.followedByTable.findFirst({
+			where: and(eq(followedByTable.url, url), eq(followedByTable.shared_key, sharedKey)),
+			columns: {
+				id: true,
+				url: true,
+				image: true,
+				name: true,
+			},
+		});
+
+		if (!currentUser) {
+			// Get the current user, from url and code
+			isFollower = false;
+			currentUser = await db.query.usersTable.findFirst({
+				where: and(eq(usersTable.url, url), eq(usersTable.id, userIdQuery(code))),
+				columns: {
+					id: true,
+					url: true,
+					image: true,
+					name: true,
+				},
+			});
+		}
+		if (!currentUser) {
+			return unauthorized();
+		}
+
+		// Get the post id
+		const post = await db.query.postsTable.findFirst({
+			where: eq(postsTable.slug, model.postSlug),
+			columns: { id: true, slug: true },
+		});
+		if (!post) {
+			return notFound();
+		}
+
+		// Get the parent id
+		let parentId: number | undefined;
+		if (model.parentSlug) {
+			const parent = await db.query.commentsTable.findFirst({
+				where: eq(commentsTable.slug, model.parentSlug),
+				columns: { id: true },
+			});
+			if (!parent) {
+				return notFound();
+			}
+			parentId = parent.id;
+		}
+
+		// Create the comment
+		const comment = {
+			user_id: isFollower ? currentUser.id : null,
+			post_id: post.id,
+			parent_id: parentId,
+			slug: uuid(),
+			text: model.text,
+			created_at: new Date(),
+			updated_at: new Date(),
+		};
+
 		const result = await db.transaction(async (tx) => {
 			try {
-				const model: CommentCreateModel = await request.json();
-
-				// Get the user
-				const user = await tx.query.usersTable.findFirst();
-				if (!user) {
-					return notFound();
-				}
-
-				// Get the user who created this comment, from url and shared key
-				let isFollower = true;
-				let currentUser = await tx.query.followedByTable.findFirst({
-					where: and(eq(followedByTable.url, url), eq(followedByTable.shared_key, sharedKey)),
-					columns: {
-						id: true,
-						url: true,
-						image: true,
-						name: true,
-					},
-				});
-
-				if (!currentUser) {
-					// Get the current user, from url and code
-					isFollower = false;
-					currentUser = await tx.query.usersTable.findFirst({
-						where: and(eq(usersTable.url, url), eq(usersTable.id, userIdQuery(code))),
-						columns: {
-							id: true,
-							url: true,
-							image: true,
-							name: true,
-						},
-					});
-				}
-				if (!currentUser) {
-					return unauthorized();
-				}
-
-				// Get the post id
-				const post = await tx.query.postsTable.findFirst({
-					where: eq(postsTable.slug, model.postSlug),
-					columns: { id: true, slug: true },
-				});
-				if (!post) {
-					return notFound();
-				}
-				postId = post.id;
-
-				// Get the parent id
-				let parentId: number | undefined;
-				if (model.parentSlug) {
-					const parent = await tx.query.commentsTable.findFirst({
-						where: eq(commentsTable.slug, model.parentSlug),
-						columns: { id: true },
-					});
-					if (!parent) {
-						return notFound();
-					}
-					parentId = parent.id;
-				}
-
-				// Create the comment
-				const comment = {
-					user_id: isFollower ? currentUser.id : null,
-					post_id: post.id,
-					parent_id: parentId,
-					slug: uuid(),
-					text: model.text,
-					created_at: new Date(),
-					updated_at: new Date(),
-				};
 				const newComment = (await tx.insert(commentsTable).values(comment).returning())[0];
 
 				// Update the post and feed tables
@@ -163,16 +163,13 @@ export default async function commentCreate(
 			} catch (error) {
 				errorMessage = getErrorMessage(error).message;
 				tx.rollback();
-				return serverError(errorMessage);
 			}
 		});
 
-		if (postId !== undefined) {
-			// Send an update to all followers
-			// This could take some time, so send it off to be done in an endpoint without awaiting it
-			// It has to be done outside of the transaction
-			api.post(`comments/send`, commentsSend, params, { post_id: postId }, token);
-		}
+		// Send an update to all followers
+		// This could take some time, so send it off to be done in an endpoint without awaiting it
+		// It has to be done outside of the transaction
+		api.post(`comments/send`, commentsSend, params, { post_id: post.id }, token);
 
 		return result;
 	} catch (error) {

@@ -21,47 +21,46 @@ export default async function followRequested(request: Request) {
 
 	try {
 		const db = database();
-		return await db.transaction(async (tx) => {
-			try {
-				const model: UnfollowRequestedModel = await request.json();
-				if (model.version !== UNFOLLOW_REQUESTED_VERSION) {
-					return unprocessable(
-						`Incompatible version (received ${model.version}, expected ${UNFOLLOW_REQUESTED_VERSION})`,
-					);
-				}
+		const model: UnfollowRequestedModel = await request.json();
+		if (model.version !== UNFOLLOW_REQUESTED_VERSION) {
+			return unprocessable(
+				`Incompatible version (received ${model.version}, expected ${UNFOLLOW_REQUESTED_VERSION})`,
+			);
+		}
 
-				// Get the current (only) user
-				const user = await tx.query.usersTable.findFirst();
-				if (!user) {
-					return notFound();
-				}
+		// Get the current (only) user
+		const user = await db.query.usersTable.findFirst();
+		if (!user) {
+			return notFound();
+		}
 
-				// Get the followed by record
-				const record = await tx.query.followedByTable.findFirst({
-					where: and(
-						eq(followedByTable.url, model.url),
-						eq(followedByTable.shared_key, model.sharedKey),
-					),
-				});
+		// Get the followed by record
+		const record = await db.query.followedByTable.findFirst({
+			where: and(
+				eq(followedByTable.url, model.url),
+				eq(followedByTable.shared_key, model.sharedKey),
+			),
+		});
 
-				// NOTE: Return ok even if the record was not found, to avoid leaking info
+		// NOTE: Return ok even if the record was not found, to avoid leaking info
 
-				if (record) {
+		if (record) {
+			await db.transaction(async (tx) => {
+				try {
 					await tx
 						.update(followedByTable)
 						.set({
 							deleted_at: new Date(),
 						})
 						.where(eq(followedByTable.id, record.id));
+				} catch (error) {
+					errorMessage = getErrorMessage(error).message;
+					tx.rollback();
 				}
+			});
+		}
 
-				return ok();
-			} catch (error) {
-				errorMessage = getErrorMessage(error).message;
-				tx.rollback();
-				return serverError(errorMessage);
-			}
-		});
+		return ok();
 	} catch (error) {
 		const message = errorMessage || getErrorMessage(error).message;
 		return serverError(message);

@@ -36,57 +36,50 @@ export default async function postEdit(slug: string, code: string) {
 
 	try {
 		const db = database();
-		return await db.transaction(async (tx) => {
-			try {
-				// Get the current user
-				const currentUser = await tx.query.usersTable.findFirst({
-					where: eq(usersTable.id, userIdQuery(code)),
-				});
-				if (!currentUser) {
-					return unauthorized();
-				}
 
-				// Get the post from the database
-				const post = await tx.query.postsTable.findFirst({
-					where: eq(postsTable.slug, slug),
-					with: {
-						postTags: {
-							with: {
-								tag: true,
-							},
-						},
-					},
-				});
-				if (!post) {
-					return notFound();
-				}
-
-				// If it's an article, get the article text
-				let article;
-				if (post.is_article && post.article_id) {
-					article = await tx.query.articlesTable.findFirst({
-						where: eq(articlesTable.id, post.article_id),
-					});
-				}
-
-				// If it has children, get them
-				let children: Post[] = [];
-				if (post.child_count) {
-					children = await tx.query.postsTable.findMany({
-						where: and(eq(postsTable.parent_id, post.id), isNull(postsTable.deleted_at)),
-					});
-				}
-
-				// Create the view
-				const view = createView(post, article, children);
-
-				return ok({ post: view });
-			} catch (error) {
-				errorMessage = getErrorMessage(error).message;
-				tx.rollback();
-				return serverError(errorMessage);
-			}
+		// Get the current user
+		const currentUser = await db.query.usersTable.findFirst({
+			where: eq(usersTable.id, userIdQuery(code)),
 		});
+		if (!currentUser) {
+			return unauthorized();
+		}
+
+		// Get the post from the database
+		const post = await db.query.postsTable.findFirst({
+			where: eq(postsTable.slug, slug),
+			with: {
+				postTags: {
+					with: {
+						tag: true,
+					},
+				},
+			},
+		});
+		if (!post) {
+			return notFound();
+		}
+
+		// If it's an article, get the article text
+		let article;
+		if (post.is_article && post.article_id) {
+			article = await db.query.articlesTable.findFirst({
+				where: eq(articlesTable.id, post.article_id),
+			});
+		}
+
+		// If it has children, get them
+		let children: Post[] = [];
+		if (post.child_count) {
+			children = await db.query.postsTable.findMany({
+				where: and(eq(postsTable.parent_id, post.id), isNull(postsTable.deleted_at)),
+			});
+		}
+
+		// Create the view
+		const view = createView(post, article, children);
+
+		return ok({ post: view });
 	} catch (error) {
 		const message = errorMessage || getErrorMessage(error).message;
 		return serverError(message);

@@ -46,74 +46,67 @@ export async function getPosts(
 
 	try {
 		const db = database();
-		return await db.transaction(async (tx) => {
-			try {
-				// Get the current (only) user
-				const currentUser = await tx.query.usersTable.findFirst();
-				if (!currentUser) {
-					return notFound();
-				}
 
-				if (drafts) {
-					const draftsUser = await tx.query.usersTable.findFirst({
-						where: eq(usersTable.id, userIdQuery(code!)),
-					});
-					if (!draftsUser) {
-						return unauthorized();
-					}
-				}
+		// Get the current (only) user
+		const currentUser = await db.query.usersTable.findFirst();
+		if (!currentUser) {
+			return notFound();
+		}
 
-				const condition = and(
-					isNull(postsTable.parent_id),
-					drafts ? isNull(postsTable.published_at) : isNotNull(postsTable.published_at),
-					type === IMAGE_POST_TYPE ? isNotNull(postsTable.image) : undefined,
-					type === ARTICLE_POST_TYPE ? eq(postsTable.is_article, true) : undefined,
-					type === LINK_POST_TYPE
-						? and(isNotNull(postsTable.link_url), eq(postsTable.is_article, false))
-						: undefined,
-					// Logged in users can see any post
-					// Logged in followers can see public or follower posts
-					// Non-logged in users can only see public posts
-					user
-						? undefined
-						: follower
-							? or(
-									eq(postsTable.visibility, PUBLIC_POST_VISIBILITY),
-									eq(postsTable.visibility, FOLLOWER_POST_VISIBILITY),
-								)
-							: eq(postsTable.visibility, PUBLIC_POST_VISIBILITY),
-				);
-
-				// Get the posts from the database
-				const dbposts = await tx.query.postsTable.findMany({
-					limit,
-					offset,
-					where: condition,
-					orderBy: [desc(postsTable.pinned), desc(postsTable.updated_at)],
-					with: {
-						postTags: {
-							with: {
-								tag: true,
-							},
-						},
-					},
-				});
-
-				// Get the total post count
-				const postsCount = await tx.$count(postsTable, condition);
-
-				// Create post previews
-				const posts = dbposts.map((post) => postPreview(post, currentUser!));
-
-				return ok({
-					posts,
-					postsCount,
-				});
-			} catch (error) {
-				errorMessage = getErrorMessage(error).message;
-				tx.rollback();
-				return serverError(errorMessage);
+		if (drafts) {
+			const draftsUser = await db.query.usersTable.findFirst({
+				where: eq(usersTable.id, userIdQuery(code!)),
+			});
+			if (!draftsUser) {
+				return unauthorized();
 			}
+		}
+
+		const condition = and(
+			isNull(postsTable.parent_id),
+			drafts ? isNull(postsTable.published_at) : isNotNull(postsTable.published_at),
+			type === IMAGE_POST_TYPE ? isNotNull(postsTable.image) : undefined,
+			type === ARTICLE_POST_TYPE ? eq(postsTable.is_article, true) : undefined,
+			type === LINK_POST_TYPE
+				? and(isNotNull(postsTable.link_url), eq(postsTable.is_article, false))
+				: undefined,
+			// Logged in users can see any post
+			// Logged in followers can see public or follower posts
+			// Non-logged in users can only see public posts
+			user
+				? undefined
+				: follower
+					? or(
+							eq(postsTable.visibility, PUBLIC_POST_VISIBILITY),
+							eq(postsTable.visibility, FOLLOWER_POST_VISIBILITY),
+						)
+					: eq(postsTable.visibility, PUBLIC_POST_VISIBILITY),
+		);
+
+		// Get the posts from the database
+		const dbposts = await db.query.postsTable.findMany({
+			limit,
+			offset,
+			where: condition,
+			orderBy: [desc(postsTable.pinned), desc(postsTable.updated_at)],
+			with: {
+				postTags: {
+					with: {
+						tag: true,
+					},
+				},
+			},
+		});
+
+		// Get the total post count
+		const postsCount = await db.$count(postsTable, condition);
+
+		// Create post previews
+		const posts = dbposts.map((post) => postPreview(post, currentUser!));
+
+		return ok({
+			posts,
+			postsCount,
 		});
 	} catch (error) {
 		const message = errorMessage || getErrorMessage(error).message;

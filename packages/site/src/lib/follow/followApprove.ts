@@ -1,4 +1,4 @@
-import { ok, serverError, unauthorized } from "@torpor/build/response";
+import { notFound, ok, serverError, unauthorized } from "@torpor/build/response";
 import { eq } from "drizzle-orm";
 import database from "../../data/database";
 import { followedByTable, usersTable } from "../../data/schema";
@@ -19,45 +19,50 @@ export default async function followApprove(request: Request, code: string) {
 
 	try {
 		const db = database();
-		return await db.transaction(async (tx) => {
+
+		const model: ApproveModel = await request.json();
+
+		// Get the current user
+		const currentUser = await db.query.usersTable.findFirst({
+			where: eq(usersTable.id, userIdQuery(code)),
+		});
+		if (!currentUser) {
+			return unauthorized();
+		}
+
+		// Get the record
+		const followedBy = await db.query.followedByTable.findFirst({
+			where: eq(followedByTable.id, model.id),
+		});
+		if (!followedBy) {
+			return notFound();
+		}
+
+		await db.transaction(async (tx) => {
 			try {
-				const model: ApproveModel = await request.json();
-
-				// Get the current user
-				const currentUser = await tx.query.usersTable.findFirst({
-					where: eq(usersTable.id, userIdQuery(code)),
-				});
-				if (!currentUser) {
-					return unauthorized();
-				}
-
 				// Set approved in the followed by record
-				const record = (
-					await tx
-						.update(followedByTable)
-						.set({
-							approved: true,
-							updated_at: new Date(),
-						})
-						.where(eq(followedByTable.id, model.id))
-						.returning()
-				)[0];
-
-				// Send the confirmation
-				let sendUrl = `${record.url}api/public/follow/confirm`;
-				let sendData: FollowConfirmedModel = {
-					sharedKey: record.shared_key,
-					version: FOLLOW_CONFIRMED_VERSION,
-				};
-				await postPublic(sendUrl, sendData);
-
-				return ok();
+				await tx
+					.update(followedByTable)
+					.set({
+						approved: true,
+						updated_at: new Date(),
+					})
+					.where(eq(followedByTable.id, model.id));
 			} catch (error) {
 				errorMessage = getErrorMessage(error).message;
 				tx.rollback();
-				return serverError(errorMessage);
 			}
 		});
+
+		// Send the confirmation
+		let sendUrl = `${followedBy.url}api/public/follow/confirm`;
+		let sendData: FollowConfirmedModel = {
+			sharedKey: followedBy.shared_key,
+			version: FOLLOW_CONFIRMED_VERSION,
+		};
+		await postPublic(sendUrl, sendData);
+
+		return ok();
 	} catch (error) {
 		const message = errorMessage || getErrorMessage(error).message;
 		return serverError(message);

@@ -19,22 +19,23 @@ export default async function postPublish(
 	let errorMessage: string | undefined;
 
 	try {
+		const db = database();
+
+		const model: PostEditModel = await request.json();
+
+		// Get the current user
+		const currentUser = await db.query.usersTable.findFirst({
+			where: eq(usersTable.id, userIdQuery(code)),
+		});
+		if (!currentUser) {
+			return unauthorized();
+		}
+
 		let postId: number | undefined;
 		let postVisibility: number | undefined;
 
-		const db = database();
-		const result = await db.transaction(async (tx) => {
+		await db.transaction(async (tx) => {
 			try {
-				const model: PostEditModel = await request.json();
-
-				// Get the current user
-				const currentUser = await tx.query.usersTable.findFirst({
-					where: eq(usersTable.id, userIdQuery(code)),
-				});
-				if (!currentUser) {
-					return unauthorized();
-				}
-
 				const { post } = await postCreateOrUpdate(tx, model);
 				postId = post.id;
 				postVisibility = post.visibility;
@@ -88,12 +89,9 @@ export default async function postPublish(
 					created_at: new Date(),
 					updated_at: new Date(),
 				});
-
-				return created();
 			} catch (error) {
 				errorMessage = getErrorMessage(error).message;
 				tx.rollback();
-				return serverError(errorMessage);
 			}
 		});
 
@@ -109,7 +107,7 @@ export default async function postPublish(
 			}
 		}
 
-		return result;
+		return created();
 	} catch (error) {
 		const message = errorMessage || getErrorMessage(error).message;
 		return serverError(message);

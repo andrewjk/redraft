@@ -32,22 +32,23 @@ export default async function feedReceived(request: Request) {
 
 	try {
 		const db = database();
-		return await db.transaction(async (tx) => {
+
+		const model: FeedReceivedModel = await request.json();
+		if (model.version !== FEED_RECEIVED_VERSION) {
+			return unprocessable(
+				`Incompatible version (received ${model.version}, expected ${FEED_RECEIVED_VERSION})`,
+			);
+		}
+
+		const user = await db.query.followingTable.findFirst({
+			where: eq(followingTable.shared_key, model.sharedKey),
+		});
+		if (!user) {
+			return notFound();
+		}
+
+		await db.transaction(async (tx) => {
 			try {
-				const model: FeedReceivedModel = await request.json();
-				if (model.version !== FEED_RECEIVED_VERSION) {
-					return unprocessable(
-						`Incompatible version (received ${model.version}, expected ${FEED_RECEIVED_VERSION})`,
-					);
-				}
-
-				const user = await tx.query.followingTable.findFirst({
-					where: eq(followingTable.shared_key, model.sharedKey),
-				});
-				if (!user) {
-					return notFound();
-				}
-
 				// Create or update the feed record
 				const feed = await tx.query.feedTable.findFirst({ where: eq(feedTable.slug, model.slug) });
 				const record = {
@@ -76,14 +77,13 @@ export default async function feedReceived(request: Request) {
 				} else {
 					await tx.insert(feedTable).values(record);
 				}
-
-				return ok();
 			} catch (error) {
 				errorMessage = getErrorMessage(error).message;
 				tx.rollback();
-				return serverError(errorMessage);
 			}
 		});
+
+		return ok();
 	} catch (error) {
 		const message = errorMessage || getErrorMessage(error).message;
 		return serverError(message);

@@ -15,18 +15,19 @@ export default async function postPin(request: Request, code: string) {
 
 	try {
 		const db = database();
-		return await db.transaction(async (tx) => {
+
+		const model: PostPinModel = await request.json();
+
+		// Get the current user
+		const currentUser = await db.query.usersTable.findFirst({
+			where: eq(usersTable.id, userIdQuery(code)),
+		});
+		if (!currentUser) {
+			return unauthorized();
+		}
+
+		await db.transaction(async (tx) => {
 			try {
-				const model: PostPinModel = await request.json();
-
-				// Get the current user
-				const currentUser = await tx.query.usersTable.findFirst({
-					where: eq(usersTable.id, userIdQuery(code)),
-				});
-				if (!currentUser) {
-					return unauthorized();
-				}
-
 				// Update the post
 				await tx
 					.update(postsTable)
@@ -42,14 +43,13 @@ export default async function postPin(request: Request, code: string) {
 					created_at: new Date(),
 					updated_at: new Date(),
 				});
-
-				return ok();
 			} catch (error) {
 				errorMessage = getErrorMessage(error).message;
 				tx.rollback();
-				return serverError(errorMessage);
 			}
 		});
+
+		return ok();
 	} catch (error) {
 		const message = errorMessage || getErrorMessage(error).message;
 		return serverError(message);

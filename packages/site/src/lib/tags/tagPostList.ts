@@ -21,67 +21,60 @@ export default async function tagPostList(
 
 	try {
 		const db = database();
-		return await db.transaction(async (tx) => {
-			try {
-				// Get the current (only) user
-				const user = await tx.query.usersTable.findFirst();
-				if (!user) {
-					return notFound();
-				}
 
-				const tag = await tx.query.tagsTable.findFirst({ where: eq(tagsTable.slug, slug) });
-				if (!tag) {
-					return notFound();
-				}
+		// Get the current (only) user
+		const user = await db.query.usersTable.findFirst();
+		if (!user) {
+			return notFound();
+		}
 
-				const condition = and(
-					eq(postTagsTable.tag_id, tag!.id),
-					// HACK: Can't filter directly by one-to-one relations with Drizzle
-					inArray(
-						postTagsTable.post_id,
-						db
-							.select({ id: postsTable.id })
-							.from(postsTable)
-							.where(drafts ? isNull(postsTable.published_at) : isNotNull(postsTable.published_at)),
-					),
-				);
+		const tag = await db.query.tagsTable.findFirst({ where: eq(tagsTable.slug, slug) });
+		if (!tag) {
+			return notFound();
+		}
 
-				// Get the posts from the database
-				const dbposttags = await tx.query.postTagsTable.findMany({
-					limit,
-					offset,
-					where: condition,
-					// HACK: Should be ordering by post date...
-					orderBy: desc(postTagsTable.post_id),
+		const condition = and(
+			eq(postTagsTable.tag_id, tag!.id),
+			// HACK: Can't filter directly by one-to-one relations with Drizzle
+			inArray(
+				postTagsTable.post_id,
+				db
+					.select({ id: postsTable.id })
+					.from(postsTable)
+					.where(drafts ? isNull(postsTable.published_at) : isNotNull(postsTable.published_at)),
+			),
+		);
+
+		// Get the posts from the database
+		const dbposttags = await db.query.postTagsTable.findMany({
+			limit,
+			offset,
+			where: condition,
+			// HACK: Should be ordering by post date...
+			orderBy: desc(postTagsTable.post_id),
+			with: {
+				post: {
 					with: {
-						post: {
+						postTags: {
 							with: {
-								postTags: {
-									with: {
-										tag: true,
-									},
-								},
+								tag: true,
 							},
 						},
 					},
-				});
+				},
+			},
+		});
 
-				// Get the total post count
-				const postsCount = await tx.$count(postTagsTable, condition);
+		// Get the total post count
+		const postsCount = await db.$count(postTagsTable, condition);
 
-				// Create post previews
-				const posts = dbposttags.map((pt) => postPreview(pt.post, user!));
+		// Create post previews
+		const posts = dbposttags.map((pt) => postPreview(pt.post, user!));
 
-				return ok({
-					tag: { slug: tag!.slug, text: tag!.text },
-					posts,
-					postsCount,
-				});
-			} catch (error) {
-				errorMessage = getErrorMessage(error).message;
-				tx.rollback();
-				return serverError(errorMessage);
-			}
+		return ok({
+			tag: { slug: tag!.slug, text: tag!.text },
+			posts,
+			postsCount,
 		});
 	} catch (error) {
 		const message = errorMessage || getErrorMessage(error).message;

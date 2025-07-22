@@ -32,34 +32,35 @@ export default async function followRequested(request: Request) {
 
 	try {
 		const db = database();
-		return await db.transaction(async (tx) => {
+
+		const model: FollowRequestedModel = await request.json();
+		if (model.version !== FOLLOW_REQUESTED_VERSION) {
+			return unprocessable(
+				`Incompatible version (received ${model.version}, expected ${FOLLOW_REQUESTED_VERSION})`,
+			);
+		}
+
+		// Check that this request actually came from the url claimed by hitting /follow/check
+		let sendUrl = `${model.url}api/public/follow/check`;
+		let sendData: FollowCheckModel = {
+			//url: model.url,
+			sharedKey: model.sharedKey,
+			version: FOLLOW_CHECK_VERSION,
+		};
+		const response = await postPublic(sendUrl, sendData);
+		if (!response.ok) {
+			return response;
+		}
+		const confirmData = (await response.json()) as FollowCheckResponseModel;
+
+		// Get the current (only) user
+		const user = await db.query.usersTable.findFirst();
+		if (!user) {
+			return notFound();
+		}
+
+		await db.transaction(async (tx) => {
 			try {
-				const model: FollowRequestedModel = await request.json();
-				if (model.version !== FOLLOW_REQUESTED_VERSION) {
-					return unprocessable(
-						`Incompatible version (received ${model.version}, expected ${FOLLOW_REQUESTED_VERSION})`,
-					);
-				}
-
-				// Check that this request actually came from the url claimed by hitting /follow/check
-				let sendUrl = `${model.url}api/public/follow/check`;
-				let sendData: FollowCheckModel = {
-					//url: model.url,
-					sharedKey: model.sharedKey,
-					version: FOLLOW_CHECK_VERSION,
-				};
-				const response = await postPublic(sendUrl, sendData);
-				if (!response.ok) {
-					return response;
-				}
-				const confirmData = (await response.json()) as FollowCheckResponseModel;
-
-				// Get the current (only) user
-				const user = await tx.query.usersTable.findFirst();
-				if (!user) {
-					return notFound();
-				}
-
 				// Create the followed by record, with approved = false
 				const record = {
 					approved: false,
@@ -80,19 +81,17 @@ export default async function followRequested(request: Request) {
 					created_at: new Date(),
 					updated_at: new Date(),
 				});
-
-				const data: FollowRequestedResponseModel = {
-					name: user.name,
-					image: user.image,
-				};
-
-				return ok(data);
 			} catch (error) {
 				errorMessage = getErrorMessage(error).message;
 				tx.rollback();
-				return serverError(errorMessage);
 			}
 		});
+
+		const data: FollowRequestedResponseModel = {
+			name: user.name,
+			image: user.image,
+		};
+		return ok(data);
 	} catch (error) {
 		const message = errorMessage || getErrorMessage(error).message;
 		return serverError(message);
