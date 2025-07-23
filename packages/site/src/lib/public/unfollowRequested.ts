@@ -29,18 +29,20 @@ export default async function followRequested(request: Request) {
 		}
 
 		// Get the current (only) user
-		const user = await db.query.usersTable.findFirst();
-		if (!user) {
-			return notFound();
-		}
+		const userQuery = db.query.usersTable.findFirst();
 
 		// Get the followed by record
-		const record = await db.query.followedByTable.findFirst({
+		const recordQuery = db.query.followedByTable.findFirst({
 			where: and(
 				eq(followedByTable.url, model.url),
 				eq(followedByTable.shared_key, model.sharedKey),
 			),
 		});
+
+		const [user, record] = await Promise.all([userQuery, recordQuery]);
+		if (!user) {
+			return notFound();
+		}
 
 		// NOTE: Return ok even if the record was not found, to avoid leaking info
 

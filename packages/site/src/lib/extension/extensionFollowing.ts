@@ -13,16 +13,13 @@ export default async function extensionFollowing(code: string, limit?: number, o
 		const db = database();
 
 		// Get the current user
-		const currentUser = await db.query.usersTable.findFirst({
+		const currentUserQuery = db.query.usersTable.findFirst({
 			where: eq(usersTable.id, userIdQuery(code)),
 		});
-		if (!currentUser) {
-			return unauthorized();
-		}
 
 		// Get the users that the user is following from the database
 		// TODO: Maybe we should chunk this, and check only for updated users
-		const followingData = await db.query.followingTable.findMany({
+		const followingQuery = db.query.followingTable.findMany({
 			limit,
 			offset,
 			where: and(eq(followingTable.approved, true), isNull(followingTable.deleted_at)),
@@ -31,6 +28,11 @@ export default async function extensionFollowing(code: string, limit?: number, o
 				shared_key: true,
 			},
 		});
+
+		const [currentUser, followingData] = await Promise.all([currentUserQuery, followingQuery]);
+		if (!currentUser) {
+			return unauthorized();
+		}
 
 		const following = await Promise.all(
 			followingData.map(async (f) => ({

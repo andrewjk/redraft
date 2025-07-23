@@ -13,10 +13,10 @@ export default async function commentGet(slug: string) {
 		const db = database();
 
 		// Get the user
-		const user = await db.query.usersTable.findFirst();
+		const userQuery = db.query.usersTable.findFirst();
 
 		// Get the comment from the database
-		const comment = await db.query.commentsTable.findFirst({
+		const commentQuery = db.query.commentsTable.findFirst({
 			where: eq(commentsTable.slug, slug),
 			with: {
 				post: {
@@ -31,6 +31,8 @@ export default async function commentGet(slug: string) {
 				user: true,
 			},
 		});
+
+		const [user, comment] = await Promise.all([userQuery, commentQuery]);
 		if (!comment) {
 			return notFound();
 		}
@@ -42,9 +44,6 @@ export default async function commentGet(slug: string) {
 				user: true,
 			},
 		});
-
-		// Create the view
-		//const view = commentPreview(comment, user, children);
 
 		return ok({
 			post: postPreview(comment.post, user!),

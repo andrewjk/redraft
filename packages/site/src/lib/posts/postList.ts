@@ -47,12 +47,6 @@ export async function getPosts(
 	try {
 		const db = database();
 
-		// Get the current (only) user
-		const currentUser = await db.query.usersTable.findFirst();
-		if (!currentUser) {
-			return notFound();
-		}
-
 		if (drafts) {
 			const draftsUser = await db.query.usersTable.findFirst({
 				where: eq(usersTable.id, userIdQuery(code!)),
@@ -61,6 +55,9 @@ export async function getPosts(
 				return unauthorized();
 			}
 		}
+
+		// Get the current (only) user
+		const currentUserQuery = db.query.usersTable.findFirst();
 
 		const condition = and(
 			isNull(postsTable.parent_id),
@@ -84,7 +81,7 @@ export async function getPosts(
 		);
 
 		// Get the posts from the database
-		const dbposts = await db.query.postsTable.findMany({
+		const postsQuery = db.query.postsTable.findMany({
 			limit,
 			offset,
 			where: condition,
@@ -99,10 +96,19 @@ export async function getPosts(
 		});
 
 		// Get the total post count
-		const postsCount = await db.$count(postsTable, condition);
+		const postsCountQuery = db.$count(postsTable, condition);
+
+		const [currentUser, postsData, postsCount] = await Promise.all([
+			currentUserQuery,
+			postsQuery,
+			postsCountQuery,
+		]);
+		if (!currentUser) {
+			return notFound();
+		}
 
 		// Create post previews
-		const posts = dbposts.map((post) => postPreview(post, currentUser!));
+		const posts = postsData.map((post) => postPreview(post, currentUser!));
 
 		return ok({
 			posts,

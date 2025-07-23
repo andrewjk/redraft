@@ -32,12 +32,13 @@ export default async function profileUpdated(request: Request) {
 		}
 
 		// Get the following and followed by users
-		const following = await db.query.followingTable.findFirst({
+		const followingQuery = db.query.followingTable.findFirst({
 			where: eq(followingTable.shared_key, model.sharedKey),
 		});
-		const followedBy = await db.query.followedByTable.findFirst({
+		const followedByQuery = db.query.followedByTable.findFirst({
 			where: eq(followedByTable.shared_key, model.sharedKey),
 		});
+		const [following, followedBy] = await Promise.all([followingQuery, followedByQuery]);
 
 		await db.transaction(async (tx) => {
 			try {

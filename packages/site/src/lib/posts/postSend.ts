@@ -21,15 +21,17 @@ export default async function postSend(request: Request, code: string) {
 		const model: PostSendModel = await request.json();
 
 		// Get the current user
-		const currentUser = await db.query.usersTable.findFirst({
+		const currentUserQuery = db.query.usersTable.findFirst({
 			where: eq(usersTable.id, userIdQuery(code)),
 		});
+
+		// Load the post
+		const postQuery = db.query.postsTable.findFirst({ where: eq(postsTable.id, model.id) });
+
+		const [currentUser, post] = await Promise.all([currentUserQuery, postQuery]);
 		if (!currentUser) {
 			return unauthorized();
 		}
-
-		// Load the post
-		const post = await db.query.postsTable.findFirst({ where: eq(postsTable.id, model.id) });
 		if (!post) {
 			return notFound();
 		}

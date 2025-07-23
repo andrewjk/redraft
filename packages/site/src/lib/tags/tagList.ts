@@ -21,15 +21,12 @@ export default async function tagList(limit?: number, offset?: number): Promise<
 		const db = database();
 
 		// Get the current (only) user
-		const user = await db.query.usersTable.findFirst();
-		if (!user) {
-			return notFound();
-		}
+		const userQuery = db.query.usersTable.findFirst();
 
 		const condition = isNull(tagsTable.deleted_at);
 
 		// Get the tags from the database
-		const dbtags = await db.query.tagsTable.findMany({
+		const tagsQuery = db.query.tagsTable.findMany({
 			limit,
 			offset,
 			where: condition,
@@ -42,10 +39,15 @@ export default async function tagList(limit?: number, offset?: number): Promise<
 		});
 
 		// Get the total tag count
-		const tagsCount = await db.$count(tagsTable, condition);
+		const tagsCountQuery = db.$count(tagsTable, condition);
+
+		const [user, tagsData, tagsCount] = await Promise.all([userQuery, tagsQuery, tagsCountQuery]);
+		if (!user) {
+			return notFound();
+		}
 
 		// Create tag previews
-		const tags = dbtags.map((tag) => ({
+		const tags = tagsData.map((tag) => ({
 			slug: tag.slug,
 			text: tag.text,
 			count: tag.count,

@@ -35,17 +35,19 @@ export default async function followCheck(request: Request) {
 		}
 
 		// Get the current (only) user
-		const user = await db.query.usersTable.findFirst();
-		if (!user) {
-			return notFound();
-		}
+		const userQuery = db.query.usersTable.findFirst();
 
 		// Check that a following record exists with this URL
-		const record = await db.query.followingTable.findFirst({
+		const followQuery = db.query.followingTable.findFirst({
 			columns: { id: true },
 			where: eq(followingTable.shared_key, model.sharedKey),
 		});
-		if (!record) {
+
+		const [user, follow] = await Promise.all([userQuery, followQuery]);
+		if (!user) {
+			return notFound();
+		}
+		if (!follow) {
 			return notFound();
 		}
 

@@ -64,10 +64,7 @@ export default async function postGet(user: User, follower: User, slug: string) 
 		const db = database();
 
 		// Get the current (only) user
-		const currentUser = await db.query.usersTable.findFirst();
-		if (!currentUser) {
-			return notFound();
-		}
+		const currentUserQuery = db.query.usersTable.findFirst();
 
 		const condition = and(
 			eq(postsTable.slug, slug),
@@ -85,7 +82,7 @@ export default async function postGet(user: User, follower: User, slug: string) 
 		);
 
 		// Get the post from the database
-		const post = await db.query.postsTable.findFirst({
+		const postQuery = db.query.postsTable.findFirst({
 			where: condition,
 			with: {
 				postTags: {
@@ -103,6 +100,11 @@ export default async function postGet(user: User, follower: User, slug: string) 
 				},
 			},
 		});
+
+		const [currentUser, post] = await Promise.all([currentUserQuery, postQuery]);
+		if (!currentUser) {
+			return notFound();
+		}
 		if (!post) {
 			return notFound();
 		}

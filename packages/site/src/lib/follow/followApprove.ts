@@ -23,17 +23,19 @@ export default async function followApprove(request: Request, code: string) {
 		const model: ApproveModel = await request.json();
 
 		// Get the current user
-		const currentUser = await db.query.usersTable.findFirst({
+		const currentUserQuery = db.query.usersTable.findFirst({
 			where: eq(usersTable.id, userIdQuery(code)),
 		});
+
+		// Get the record
+		const followedByQuery = db.query.followedByTable.findFirst({
+			where: eq(followedByTable.id, model.id),
+		});
+
+		const [currentUser, followedBy] = await Promise.all([currentUserQuery, followedByQuery]);
 		if (!currentUser) {
 			return unauthorized();
 		}
-
-		// Get the record
-		const followedBy = await db.query.followedByTable.findFirst({
-			where: eq(followedByTable.id, model.id),
-		});
 		if (!followedBy) {
 			return notFound();
 		}

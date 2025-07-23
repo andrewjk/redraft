@@ -19,17 +19,19 @@ export default async function commentSend(request: Request) {
 		const model: CommentSendModel = await request.json();
 
 		// Load the post
-		const post = await db.query.postsTable.findFirst({
+		const postQuery = db.query.postsTable.findFirst({
 			where: eq(postsTable.id, model.post_id),
 		});
+
+		// Load the followers
+		const followersQuery = db.query.followedByTable.findMany({
+			where: eq(followedByTable.approved, true),
+		});
+
+		const [post, followers] = await Promise.all([postQuery, followersQuery]);
 		if (!post) {
 			return notFound();
 		}
-
-		// Load the followers
-		const followers = await db.query.followedByTable.findMany({
-			where: eq(followedByTable.approved, true),
-		});
 
 		// TODO: Insert a queue record for each follower and set it to sent when
 		// success. Then delete all handled records at the end. Allow doing

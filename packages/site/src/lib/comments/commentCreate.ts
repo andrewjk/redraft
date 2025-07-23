@@ -41,14 +41,11 @@ export default async function commentCreate(
 		const model: CommentCreateModel = await request.json();
 
 		// Get the user
-		const user = await db.query.usersTable.findFirst();
-		if (!user) {
-			return notFound();
-		}
+		const userQuery = db.query.usersTable.findFirst();
 
 		// Get the user who created this comment, from url and shared key
 		let isFollower = true;
-		let currentUser = await db.query.followedByTable.findFirst({
+		let currentUserQuery = db.query.followedByTable.findFirst({
 			where: and(eq(followedByTable.url, url), eq(followedByTable.shared_key, sharedKey)),
 			columns: {
 				id: true,
@@ -57,6 +54,20 @@ export default async function commentCreate(
 				name: true,
 			},
 		});
+
+		// Get the post id
+		const postQuery = db.query.postsTable.findFirst({
+			where: eq(postsTable.slug, model.postSlug),
+			columns: { id: true, slug: true },
+		});
+
+		let [user, currentUser, post] = await Promise.all([userQuery, currentUserQuery, postQuery]);
+		if (!user) {
+			return notFound();
+		}
+		if (!post) {
+			return notFound();
+		}
 
 		if (!currentUser) {
 			// Get the current user, from url and code
@@ -73,15 +84,6 @@ export default async function commentCreate(
 		}
 		if (!currentUser) {
 			return unauthorized();
-		}
-
-		// Get the post id
-		const post = await db.query.postsTable.findFirst({
-			where: eq(postsTable.slug, model.postSlug),
-			columns: { id: true, slug: true },
-		});
-		if (!post) {
-			return notFound();
 		}
 
 		// Get the parent id
@@ -163,6 +165,7 @@ export default async function commentCreate(
 			} catch (error) {
 				errorMessage = getErrorMessage(error).message;
 				tx.rollback();
+				return serverError(errorMessage);
 			}
 		});
 

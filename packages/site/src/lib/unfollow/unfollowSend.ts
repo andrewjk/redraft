@@ -27,16 +27,18 @@ export default async function unfollowSend(request: Request, code: string) {
 		const model: UnfollowModel = await request.json();
 
 		// Get the current user
-		const currentUser = await db.query.usersTable.findFirst({
+		const currentUserQuery = db.query.usersTable.findFirst({
 			where: eq(usersTable.id, userIdQuery(code)),
 		});
+
+		const recordQuery = db.query.followingTable.findFirst({
+			where: eq(followingTable.url, model.url),
+		});
+
+		const [currentUser, record] = await Promise.all([currentUserQuery, recordQuery]);
 		if (!currentUser) {
 			return unauthorized();
 		}
-
-		const record = await db.query.followingTable.findFirst({
-			where: eq(followingTable.url, model.url),
-		});
 		if (!record) {
 			return notFound();
 		}

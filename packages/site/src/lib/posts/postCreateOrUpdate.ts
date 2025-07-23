@@ -164,8 +164,8 @@ export default async function postCreateOrUpdate(
 				}
 			}
 			for (let child of model.children) {
-				const dbchild = currentChildren.find((c) => c.id === child.id);
-				if (dbchild) {
+				const currentChild = currentChildren.find((c) => c.id === child.id);
+				if (currentChild) {
 					updates.push(
 						tx
 							.update(postsTable)

@@ -23,12 +23,16 @@ export default async function tagPostList(
 		const db = database();
 
 		// Get the current (only) user
-		const user = await db.query.usersTable.findFirst();
+		const userQuery = db.query.usersTable.findFirst();
+
+		// Get the tags
+		const tagQuery = db.query.tagsTable.findFirst({ where: eq(tagsTable.slug, slug) });
+
+		const [user, tag] = await Promise.all([userQuery, tagQuery]);
+
 		if (!user) {
 			return notFound();
 		}
-
-		const tag = await db.query.tagsTable.findFirst({ where: eq(tagsTable.slug, slug) });
 		if (!tag) {
 			return notFound();
 		}
@@ -46,7 +50,7 @@ export default async function tagPostList(
 		);
 
 		// Get the posts from the database
-		const dbposttags = await db.query.postTagsTable.findMany({
+		const tagPostsQuery = db.query.postTagsTable.findMany({
 			limit,
 			offset,
 			where: condition,
@@ -66,10 +70,12 @@ export default async function tagPostList(
 		});
 
 		// Get the total post count
-		const postsCount = await db.$count(postTagsTable, condition);
+		const postsCountQuery = db.$count(postTagsTable, condition);
+
+		const [tagPosts, postsCount] = await Promise.all([tagPostsQuery, postsCountQuery]);
 
 		// Create post previews
-		const posts = dbposttags.map((pt) => postPreview(pt.post, user!));
+		const posts = tagPosts.map((pt) => postPreview(pt.post, user!));
 
 		return ok({
 			tag: { slug: tag!.slug, text: tag!.text },

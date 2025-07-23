@@ -26,25 +26,31 @@ export default async function notificationList(
 		const db = database();
 
 		// Get the current user
-		const currentUser = await db.query.usersTable.findFirst({
+		const currentUserQuery = db.query.usersTable.findFirst({
 			where: eq(usersTable.id, userIdQuery(code)),
 		});
-		if (!currentUser) {
-			return unauthorized();
-		}
 
 		// Get the follows from the database
-		const dbnotifications = await db.query.notificationsTable.findMany({
+		const notificationsQuery = db.query.notificationsTable.findMany({
 			limit,
 			offset,
 			orderBy: desc(notificationsTable.updated_at),
 		});
 
 		// Get the total count
-		const notificationsCount = await db.$count(notificationsTable);
+		const notificationsCountQuery = db.$count(notificationsTable);
+
+		const [currentUser, notificationsData, notificationsCount] = await Promise.all([
+			currentUserQuery,
+			notificationsQuery,
+			notificationsCountQuery,
+		]);
+		if (!currentUser) {
+			return unauthorized();
+		}
 
 		// Create views
-		const notifications = dbnotifications.map((f) => {
+		const notifications = notificationsData.map((f) => {
 			return {
 				url: f.url,
 				text: f.text,

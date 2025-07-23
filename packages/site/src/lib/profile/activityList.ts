@@ -26,25 +26,31 @@ export default async function activityList(
 		const db = database();
 
 		// Get the current user
-		const currentUser = await db.query.usersTable.findFirst({
+		const currentUserQuery = db.query.usersTable.findFirst({
 			where: eq(usersTable.id, userIdQuery(code)),
 		});
-		if (!currentUser) {
-			return unauthorized();
-		}
 
 		// Get the follows from the database
-		const dbactivity = await db.query.activityTable.findMany({
+		const activityQuery = db.query.activityTable.findMany({
 			limit,
 			offset,
 			orderBy: desc(activityTable.updated_at),
 		});
 
 		// Get the total count
-		const activityCount = await db.$count(activityTable);
+		const activityCountQuery = db.$count(activityTable);
+
+		const [currentUser, activityData, activityCount] = await Promise.all([
+			currentUserQuery,
+			activityQuery,
+			activityCountQuery,
+		]);
+		if (!currentUser) {
+			return unauthorized();
+		}
 
 		// Create views
-		const activity = dbactivity.map((f) => {
+		const activity = activityData.map((f) => {
 			return {
 				url: f.url,
 				text: f.text,

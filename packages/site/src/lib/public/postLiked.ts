@@ -29,31 +29,33 @@ export default async function postLiked(request: Request) {
 		}
 
 		// Get the user
-		const user = await db.query.usersTable.findFirst();
-		if (!user) {
-			return notFound();
-		}
+		const userQuery = db.query.usersTable.findFirst();
 
 		// Get the user who liked the post
-		let currentUser = await db.query.followedByTable.findFirst({
+		const currentUserQuery = db.query.followedByTable.findFirst({
 			where: eq(followedByTable.shared_key, model.sharedKey),
 			columns: { id: true, name: true },
 		});
-		if (!currentUser) {
-			return unauthorized();
-		}
 
 		// Get the post
-		let post = await db.query.postsTable.findFirst({
+		const postQuery = db.query.postsTable.findFirst({
 			where: eq(postsTable.slug, model.slug),
 			columns: { id: true, slug: true },
 		});
+
+		const [user, currentUser, post] = await Promise.all([userQuery, currentUserQuery, postQuery]);
+		if (!user) {
+			return notFound();
+		}
+		if (!currentUser) {
+			return unauthorized();
+		}
 		if (!post) {
 			return notFound();
 		}
 
 		// Get the reaction if it's already been added
-		let reaction = await db.query.postReactionsTable.findFirst({
+		const reaction = await db.query.postReactionsTable.findFirst({
 			where: and(
 				eq(postReactionsTable.user_id, currentUser.id),
 				eq(postReactionsTable.post_id, post.id),

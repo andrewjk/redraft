@@ -24,17 +24,14 @@ export default async function feedList(
 		const db = database();
 
 		// Get the current user
-		const currentUser = await db.query.usersTable.findFirst({
+		const currentUserQuery = db.query.usersTable.findFirst({
 			where: eq(usersTable.id, userIdQuery(code)),
 		});
-		if (!currentUser) {
-			return unauthorized();
-		}
 
 		const where = liked ? eq(feedTable.liked, true) : saved ? eq(feedTable.saved, true) : undefined;
 
 		// Get the feed from the database
-		const dbfeeds = await db.query.feedTable.findMany({
+		const feedsQuery = db.query.feedTable.findMany({
 			limit,
 			offset,
 			orderBy: desc(feedTable.updated_at),
@@ -43,10 +40,19 @@ export default async function feedList(
 		});
 
 		// Get the total post count
-		const feedCount = await db.$count(feedTable, where);
+		const feedCountQuery = db.$count(feedTable, where);
+
+		const [currentUser, feeds, feedCount] = await Promise.all([
+			currentUserQuery,
+			feedsQuery,
+			feedCountQuery,
+		]);
+		if (!currentUser) {
+			return unauthorized();
+		}
 
 		// Create post previews
-		const feed = dbfeeds.map((post) => feedPreview(post, currentUser!));
+		const feed = feeds.map((post) => feedPreview(post, currentUser!));
 
 		return ok({
 			feed,

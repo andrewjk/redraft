@@ -38,15 +38,12 @@ export default async function postEdit(slug: string, code: string) {
 		const db = database();
 
 		// Get the current user
-		const currentUser = await db.query.usersTable.findFirst({
+		const currentUserQuery = db.query.usersTable.findFirst({
 			where: eq(usersTable.id, userIdQuery(code)),
 		});
-		if (!currentUser) {
-			return unauthorized();
-		}
 
 		// Get the post from the database
-		const post = await db.query.postsTable.findFirst({
+		const postQuery = db.query.postsTable.findFirst({
 			where: eq(postsTable.slug, slug),
 			with: {
 				postTags: {
@@ -56,6 +53,11 @@ export default async function postEdit(slug: string, code: string) {
 				},
 			},
 		});
+
+		const [currentUser, post] = await Promise.all([currentUserQuery, postQuery]);
+		if (!currentUser) {
+			return unauthorized();
+		}
 		if (!post) {
 			return notFound();
 		}

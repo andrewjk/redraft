@@ -34,7 +34,7 @@ export default async function followingList(
 		//}
 
 		// Get the follows from the database
-		const dbfollowing = await db.query.followingTable.findMany({
+		const followingQuery = db.query.followingTable.findMany({
 			limit,
 			offset,
 			orderBy: desc(followingTable.updated_at),
@@ -42,10 +42,15 @@ export default async function followingList(
 		});
 
 		// Get the total count
-		const followingCount = await db.$count(followingTable);
+		const followingCountQuery = db.$count(followingTable);
+
+		const [followingData, followingCount] = await Promise.all([
+			followingQuery,
+			followingCountQuery,
+		]);
 
 		// Create views
-		const following = dbfollowing.map((f) => {
+		const following = followingData.map((f) => {
 			return {
 				id: f.id,
 				url: f.url,

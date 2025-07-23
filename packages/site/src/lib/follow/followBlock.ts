@@ -21,24 +21,26 @@ export default async function followBlock(request: Request, code: string) {
 		const model: BlockModel = await request.json();
 
 		// Get the current user
-		const currentUser = await db.query.usersTable.findFirst({
+		const currentUserQuery = db.query.usersTable.findFirst({
 			where: eq(usersTable.id, userIdQuery(code)),
 		});
-		if (!currentUser) {
-			return unauthorized();
-		}
 
 		// Get the followed by user
-		const record = await db.query.followedByTable.findFirst({
+		const followedByQuery = db.query.followedByTable.findFirst({
 			where: eq(followedByTable.id, model.id),
 			columns: { id: true, blocked_at: true },
 		});
-		if (!record) {
+
+		const [currentUser, followedBy] = await Promise.all([currentUserQuery, followedByQuery]);
+		if (!currentUser) {
+			return unauthorized();
+		}
+		if (!followedBy) {
 			return notFound();
 		}
 
 		// If this user has already been blocked, just return ok
-		if (!record.blocked_at) {
+		if (!followedBy.blocked_at) {
 			await db.transaction(async (tx) => {
 				try {
 					// Set block date in the followed by record
@@ -48,7 +50,7 @@ export default async function followBlock(request: Request, code: string) {
 							blocked_at: new Date(),
 							updated_at: new Date(),
 						})
-						.where(eq(followedByTable.id, record.id));
+						.where(eq(followedByTable.id, followedBy.id));
 
 					// Set block date in the comments
 					await tx
@@ -57,7 +59,7 @@ export default async function followBlock(request: Request, code: string) {
 							blocked_at: new Date(),
 							updated_at: new Date(),
 						})
-						.where(eq(commentsTable.user_id, record.id));
+						.where(eq(commentsTable.user_id, followedBy.id));
 				} catch (error) {
 					errorMessage = getErrorMessage(error).message;
 					tx.rollback();

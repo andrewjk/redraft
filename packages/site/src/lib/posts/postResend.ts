@@ -21,23 +21,25 @@ export default async function postResend(request: Request, code: string) {
 		const model: PostResendModel = await request.json();
 
 		// Get the current user
-		const currentUser = await db.query.usersTable.findFirst({
+		const currentUserQuery = db.query.usersTable.findFirst({
 			where: eq(usersTable.id, userIdQuery(code)),
 		});
+
+		// Load the post
+		const postQuery = db.query.postsTable.findFirst({ where: eq(postsTable.id, model.id) });
+
+		// Load the queue
+		const queueQuery = await db.query.postsQueueTable.findMany({
+			where: eq(postsQueueTable.post_id, model.id),
+		});
+
+		const [currentUser, post, queue] = await Promise.all([currentUserQuery, postQuery, queueQuery]);
 		if (!currentUser) {
 			return unauthorized();
 		}
-
-		// Load the post
-		const post = await db.query.postsTable.findFirst({ where: eq(postsTable.id, model.id) });
 		if (!post) {
 			return notFound();
 		}
-
-		// Load the queue
-		const queue = await db.query.postsQueueTable.findMany({
-			where: eq(postsQueueTable.post_id, post.id),
-		});
 
 		let failureCount = 0;
 

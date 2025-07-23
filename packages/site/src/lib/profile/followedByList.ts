@@ -26,15 +26,12 @@ export default async function followedByList(
 		const db = database();
 
 		// Get the current user
-		const currentUser = await db.query.usersTable.findFirst({
+		const currentUserQuery = db.query.usersTable.findFirst({
 			where: eq(usersTable.id, userIdQuery(code)),
 		});
-		if (!currentUser) {
-			return unauthorized();
-		}
 
 		// Get the follows from the database
-		const dbfollowedBy = await db.query.followedByTable.findMany({
+		const followedByQuery = db.query.followedByTable.findMany({
 			limit,
 			offset,
 			orderBy: desc(followedByTable.updated_at),
@@ -46,10 +43,19 @@ export default async function followedByList(
 		});
 
 		// Get the total count
-		const followedByCount = await db.$count(followedByTable);
+		const followedByCountQuery = db.$count(followedByTable);
+
+		const [currentUser, followedByData, followedByCount] = await Promise.all([
+			currentUserQuery,
+			followedByQuery,
+			followedByCountQuery,
+		]);
+		if (!currentUser) {
+			return unauthorized();
+		}
 
 		// Create views
-		const followedBy = dbfollowedBy.map((f) => {
+		const followedBy = followedByData.map((f) => {
 			return {
 				id: f.id,
 				url: f.url,

@@ -29,18 +29,20 @@ export default async function followRequest(request: Request, code: string) {
 		const model: FollowModel = await request.json();
 
 		// Get the current user
-		const currentUser = await db.query.usersTable.findFirst({
+		const currentUserQuery = db.query.usersTable.findFirst({
 			where: eq(usersTable.id, userIdQuery(code)),
 		});
-		if (!currentUser) {
-			return unauthorized();
-		}
 
 		// Find the following record
-		const follow = await db.query.followingTable.findFirst({
+		const followQuery = db.query.followingTable.findFirst({
 			where: and(eq(followingTable.url, model.url), isNull(followingTable.deleted_at)),
 			columns: { id: true },
 		});
+
+		const [currentUser, follow] = await Promise.all([currentUserQuery, followQuery]);
+		if (!currentUser) {
+			return unauthorized();
+		}
 
 		// If this user has already been requested, just return ok
 		if (!follow) {
