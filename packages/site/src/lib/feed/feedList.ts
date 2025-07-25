@@ -1,5 +1,5 @@
 import { ok, serverError, unauthorized } from "@torpor/build/response";
-import { desc, eq } from "drizzle-orm";
+import { and, desc, eq, isNull } from "drizzle-orm";
 import database from "../../data/database";
 import { feedTable, usersTable } from "../../data/schema";
 import getErrorMessage from "../utils/getErrorMessage";
@@ -28,7 +28,10 @@ export default async function feedList(
 			where: eq(usersTable.id, userIdQuery(code)),
 		});
 
-		const where = liked ? eq(feedTable.liked, true) : saved ? eq(feedTable.saved, true) : undefined;
+		const condition = and(
+			liked ? eq(feedTable.liked, true) : saved ? eq(feedTable.saved, true) : undefined,
+			isNull(feedTable.deleted_at),
+		);
 
 		// Get the feed from the database
 		const feedsQuery = db.query.feedTable.findMany({
@@ -36,11 +39,11 @@ export default async function feedList(
 			offset,
 			orderBy: desc(feedTable.updated_at),
 			with: { user: true },
-			where,
+			where: condition,
 		});
 
 		// Get the total post count
-		const feedCountQuery = db.$count(feedTable, where);
+		const feedCountQuery = db.$count(feedTable, condition);
 
 		const [currentUser, feeds, feedCount] = await Promise.all([
 			currentUserQuery,

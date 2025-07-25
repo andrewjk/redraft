@@ -93,7 +93,7 @@ export default async function postGet(user: User, follower: User, slug: string) 
 				// TODO: Async (all/child) load comments when scrolled to?
 				comments: {
 					//where: isNull(commentsTable.parent_id),
-					where: isNull(commentsTable.blocked_at),
+					where: isNull(commentsTable.deleted_at),
 					with: {
 						user: true,
 					},

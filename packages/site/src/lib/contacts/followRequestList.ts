@@ -1,5 +1,5 @@
 import { ok, serverError, unauthorized } from "@torpor/build/response";
-import { desc, eq } from "drizzle-orm";
+import { and, desc, eq, isNull } from "drizzle-orm";
 import database from "../../data/database";
 import { followedByTable, usersTable } from "../../data/schema";
 import getErrorMessage from "../utils/getErrorMessage";
@@ -34,16 +34,18 @@ export default async function followRequestList(
 			where: eq(usersTable.id, userIdQuery(code)),
 		});
 
+		const condition = and(eq(followedByTable.approved, false), isNull(followedByTable.deleted_at));
+
 		// Get the follows from the database
 		const requestQuery = db.query.followedByTable.findMany({
 			limit,
 			offset,
 			orderBy: desc(followedByTable.updated_at),
-			where: eq(followedByTable.approved, false),
+			where: condition,
 		});
 
 		// Get the total count
-		const requestCountQuery = db.$count(followedByTable);
+		const requestCountQuery = db.$count(followedByTable, condition);
 
 		const [currentUser, requestData, requestCount] = await Promise.all([
 			currentUserQuery,

@@ -1,5 +1,5 @@
 import { ok, serverError, unauthorized } from "@torpor/build/response";
-import { desc, eq } from "drizzle-orm";
+import { desc, eq, isNull } from "drizzle-orm";
 import database from "../../data/database";
 import { activityTable, usersTable } from "../../data/schema";
 import getErrorMessage from "../utils/getErrorMessage";
@@ -30,15 +30,18 @@ export default async function activityList(
 			where: eq(usersTable.id, userIdQuery(code)),
 		});
 
+		const condition = isNull(activityTable.deleted_at);
+
 		// Get the follows from the database
 		const activityQuery = db.query.activityTable.findMany({
 			limit,
 			offset,
 			orderBy: desc(activityTable.updated_at),
+			where: condition,
 		});
 
 		// Get the total count
-		const activityCountQuery = db.$count(activityTable);
+		const activityCountQuery = db.$count(activityTable, condition);
 
 		const [currentUser, activityData, activityCount] = await Promise.all([
 			currentUserQuery,

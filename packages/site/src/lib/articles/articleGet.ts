@@ -46,7 +46,7 @@ export default async function articleGet(user: User, follower: User, slug: strin
 				// TODO: Async (all/child) load comments when scrolled to?
 				comments: {
 					//where: isNull(commentsTable.parent_id),
-					where: isNull(commentsTable.blocked_at),
+					where: isNull(commentsTable.deleted_at),
 					with: {
 						user: true,
 					},

@@ -1,5 +1,5 @@
 import { ok, serverError, unauthorized } from "@torpor/build/response";
-import { desc, eq } from "drizzle-orm";
+import { desc, eq, isNull } from "drizzle-orm";
 import database from "../../data/database";
 import { notificationsTable, usersTable } from "../../data/schema";
 import getErrorMessage from "../utils/getErrorMessage";
@@ -30,15 +30,18 @@ export default async function notificationList(
 			where: eq(usersTable.id, userIdQuery(code)),
 		});
 
+		const condition = isNull(notificationsTable.deleted_at);
+
 		// Get the follows from the database
 		const notificationsQuery = db.query.notificationsTable.findMany({
 			limit,
 			offset,
 			orderBy: desc(notificationsTable.updated_at),
+			where: condition,
 		});
 
 		// Get the total count
-		const notificationsCountQuery = db.$count(notificationsTable);
+		const notificationsCountQuery = db.$count(notificationsTable, condition);
 
 		const [currentUser, notificationsData, notificationsCount] = await Promise.all([
 			currentUserQuery,

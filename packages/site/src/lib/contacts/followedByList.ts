@@ -32,20 +32,22 @@ export default async function followedByList(
 			where: eq(usersTable.id, userIdQuery(code)),
 		});
 
+		const condition = and(
+			eq(followedByTable.approved, true),
+			isNull(followedByTable.blocked_at),
+			isNull(followedByTable.deleted_at),
+		);
+
 		// Get the follows from the database
 		const followedByQuery = db.query.followedByTable.findMany({
 			limit,
 			offset,
 			orderBy: desc(followedByTable.updated_at),
-			where: and(
-				eq(followedByTable.approved, true),
-				isNull(followedByTable.blocked_at),
-				isNull(followedByTable.deleted_at),
-			),
+			where: condition,
 		});
 
 		// Get the total count
-		const followedByCountQuery = db.$count(followedByTable);
+		const followedByCountQuery = db.$count(followedByTable, condition);
 
 		const [currentUser, followedByData, followedByCount] = await Promise.all([
 			currentUserQuery,

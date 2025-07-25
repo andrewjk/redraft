@@ -32,16 +32,18 @@ export default async function listsList(
 			where: eq(usersTable.id, userIdQuery(code)),
 		});
 
+		const condition = isNull(listsTable.deleted_at);
+
 		// Get the lists from the database
 		const listsQuery = db.query.listsTable.findMany({
 			limit,
 			offset,
 			orderBy: listsTable.name,
-			where: isNull(listsTable.deleted_at),
+			where: condition,
 		});
 
 		// Get the total count
-		const listsCountQuery = db.$count(listsTable);
+		const listsCountQuery = db.$count(listsTable, condition);
 
 		const [currentUser, listsData, listsCount] = await Promise.all([
 			currentUserQuery,
