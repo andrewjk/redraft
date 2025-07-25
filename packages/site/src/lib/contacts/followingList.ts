@@ -5,8 +5,10 @@ import { followingTable } from "../../data/schema";
 import getErrorMessage from "../utils/getErrorMessage";
 
 export type FollowingPreview = {
+	url: string;
 	name: string;
 	image: string;
+	bio: string;
 };
 
 export type FollowingList = {
@@ -52,18 +54,19 @@ export default async function followingList(
 		// Create views
 		const following = followingData.map((f) => {
 			return {
-				id: f.id,
 				url: f.url,
 				name: f.name,
 				image: f.image,
 				bio: f.bio,
-			};
+			} satisfies FollowingPreview;
 		});
 
-		return ok({
+		const result = {
 			following,
 			followingCount,
-		});
+		} satisfies FollowingList;
+
+		return ok(result);
 	} catch (error) {
 		const message = errorMessage || getErrorMessage(error).message;
 		return serverError(message);

@@ -5,14 +5,15 @@ import { followedByTable, usersTable } from "../../data/schema";
 import getErrorMessage from "../utils/getErrorMessage";
 import userIdQuery from "../utils/userIdQuery";
 
-export type FollowingRequest = {
-	id: number;
+export type FollowRequestPreview = {
+	url: string;
 	name: string;
 	image: string;
+	bio: string;
 };
 
 export type FollowRequestList = {
-	requests: FollowingRequest[];
+	requests: FollowRequestPreview[];
 	requestCount: number;
 };
 
@@ -56,18 +57,19 @@ export default async function followRequestList(
 		// Create views
 		const requests = requestData.map((f) => {
 			return {
-				id: f.id,
 				url: f.url,
 				name: f.name,
 				image: f.image,
 				bio: f.bio,
-			};
+			} satisfies FollowRequestPreview;
 		});
 
-		return ok({
+		const result = {
 			requests,
 			requestCount,
-		});
+		} satisfies FollowRequestList;
+
+		return ok(result);
 	} catch (error) {
 		const message = errorMessage || getErrorMessage(error).message;
 		return serverError(message);

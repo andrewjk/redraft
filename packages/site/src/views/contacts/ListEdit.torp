@@ -1,0 +1,83 @@
+//import { enhance } from '$app/forms';
+import placeholdify from "../../lib/utils/placeholdify";
+import stripProtocol from "../../lib/utils/stripProtocol";
+import FollowMenu from "./FollowMenu.torp";
+import FormErrors from '../FormErrors.torp';
+
+export default function ListEdit() {
+	let $list = $watch($props.data.list)
+
+	@render {
+		<div class="full-width list-edit-page">
+			<:head>
+				<title>{$list.id < 0 ? "Create" : "Edit"} List • Redraft</title>
+			</:head>
+
+			<FollowMenu section="Lists" {$props.data.user} {$props.data.base} />
+
+			<FormErrors {$props.form?.errors} />
+
+			<form use:enhance enctype="multipart/form-data" method="POST">
+				<input type="hidden" name="id" value={$list.id} />
+				<div class="form-row">
+					<label for="name-input">Name</label
+					<input
+						id="name-input"
+						&value={$list.name}
+						name="name"
+						required
+					/>
+				</div>
+				<div class="form-row">
+					<label for="description-input">Description</label
+					<textarea
+						id="description-input"
+						&value={$list.description}
+						name="description"
+					/>
+				</div>
+
+				<h3>Followers</h3>
+				@for (let [i, user] of $list.users.entries()) {
+					<input type="hidden" name="users[{i}].id" value={user.id} />
+					<div class="hstack centered spaced">
+						<div>
+							<input
+								id="users[{i}].included"
+								type="checkbox"
+								&checked={user.included}
+								name="users[{i}].included"
+							/>
+						</div>
+						<div class="grow">
+							<label for="users[{i}].included" style="color: inherit">
+								<div class="hstack centered spaced">
+									<div class="no-shrink">
+										<img class="user-preview-image" src={placeholdify(user.image)} alt="{user.name} ({stripProtocol(user.url)})" />
+									</div>
+									<div class="grow">
+										<div class="user-preview-header hstack centered spaced">
+											<div class="grow vstack">
+												<div class="user-preview-name">
+													{user.name}
+												</div>
+												<div class="user-preview-url secondary">
+													{stripProtocol(user.url)}
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+							</label>
+						</div>
+					</div>
+				}
+				<div class="form-footer">
+					<button type="submit">
+						Save
+					</button>
+				</div>
+			</form>
+		</div>
+	}
+}

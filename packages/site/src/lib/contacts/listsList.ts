@@ -1,0 +1,75 @@
+import { ok, serverError, unauthorized } from "@torpor/build/response";
+import { eq, isNull } from "drizzle-orm";
+import database from "../../data/database";
+import { listsTable, usersTable } from "../../data/schema";
+import getErrorMessage from "../utils/getErrorMessage";
+import userIdQuery from "../utils/userIdQuery";
+
+export type ListPreview = {
+	id: number;
+	slug: string;
+	name: string;
+	description: string;
+};
+
+export type ListsList = {
+	lists: ListPreview[];
+	listsCount: number;
+};
+
+export default async function listsList(
+	code: string,
+	limit?: number,
+	offset?: number,
+): Promise<Response> {
+	let errorMessage: string | undefined;
+
+	try {
+		const db = database();
+
+		// Get the current user
+		const currentUserQuery = db.query.usersTable.findFirst({
+			where: eq(usersTable.id, userIdQuery(code)),
+		});
+
+		// Get the lists from the database
+		const listsQuery = db.query.listsTable.findMany({
+			limit,
+			offset,
+			orderBy: listsTable.name,
+			where: isNull(listsTable.deleted_at),
+		});
+
+		// Get the total count
+		const listsCountQuery = db.$count(listsTable);
+
+		const [currentUser, listsData, listsCount] = await Promise.all([
+			currentUserQuery,
+			listsQuery,
+			listsCountQuery,
+		]);
+		if (!currentUser) {
+			return unauthorized();
+		}
+
+		// Create views
+		const lists = listsData.map((l) => {
+			return {
+				id: l.id,
+				slug: l.slug,
+				name: l.name,
+				description: l.description,
+			} satisfies ListPreview;
+		});
+
+		const result = {
+			lists,
+			listsCount,
+		};
+
+		return ok(result);
+	} catch (error) {
+		const message = errorMessage || getErrorMessage(error).message;
+		return serverError(message);
+	}
+}

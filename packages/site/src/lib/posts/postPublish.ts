@@ -7,8 +7,8 @@ import * as api from "../api";
 import { FOLLOWER_POST_VISIBILITY, PUBLIC_POST_VISIBILITY } from "../constants";
 import getErrorMessage from "../utils/getErrorMessage";
 import userIdQuery from "../utils/userIdQuery";
+import { type PostEditModel } from "./PostEditModel";
 import postCreateOrUpdate from "./postCreateOrUpdate";
-import { type PostEditModel } from "./postEdit";
 
 export default async function postPublish(
 	request: Request,

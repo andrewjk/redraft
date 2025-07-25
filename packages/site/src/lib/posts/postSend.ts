@@ -38,13 +38,20 @@ export default async function postSend(request: Request, code: string) {
 
 		// NOTE: Don't use a transaction here, we want each operation to be atomic
 
-		// Insert a queue record for each follower and delete it on
-		// success. If there are any failures, add a notification, with
-		// a resend option
-		await db.run(sql`
+		// Insert a queue record for each follower and delete it on success. If
+		// there are any failures, add a notification, with a resend option
+		if (post.list_id) {
+			await db.run(sql`
+					insert into posts_queue (post_id, user_id, created_at, updated_at)
+					select ${post.id}, user_id, current_timestamp, current_timestamp
+					from lists_table
+					where id = ${post.list_id}`);
+		} else {
+			await db.run(sql`
 					insert into posts_queue (post_id, user_id, created_at, updated_at)
 					select ${post.id}, id, current_timestamp, current_timestamp
 					from followed_by_table`);
+		}
 
 		// Load the queue
 		const queue = await db.query.postsQueueTable.findMany({

@@ -1,5 +1,5 @@
 import type { ServerEndPoint } from "@torpor/build";
-import followingList from "../../../../lib/profile/followingList";
+import followingList from "../../../../lib/contacts/followingList";
 
 export default {
 	get: async ({ appData, url }) => {

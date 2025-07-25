@@ -27,6 +27,7 @@ export default function PostInput($props) {
 		linkLoaded: !!post.linkUrl,
 		showTags: !!post.tags,
 		showVisibility: !!post.visibility,
+		lists: []
 	});
 
 	function newPost() {
@@ -154,11 +155,38 @@ export default function PostInput($props) {
 			@if ($state.showVisibility) {
 				<div class="form-row">
 					<select name="visibility" &value={post.visibility}>
-						<option value="0">Public</option>
-						<option value="1">Followers</option>
-						<option value="2">Private</option>
+						<option value={0}>Public</option>
+						<option value={1}>Followers</option>
+						<option value={2}>Private</option>
+						<option value={3}>Recipient list</option>
 					</select>
 				</div>
+
+				@if (parseInt(post.visibility) === 3) {
+					@await loadLists() {
+						<p>Loading...</p>
+					} then {
+						<div class="form-row">
+							<select name="listId" &value={post.listId}>
+								@for (let list of $state.lists) {
+									<option value={list.id}>{list.name}</option>
+								}
+							</select>
+						</div>
+					} catch {
+						<p>Something went wrong...</p>
+					}
+					@async function loadLists() {
+						const url = `${$props.base}contacts/lists/~server`;
+						const response = await fetch(url, { credentials: "same-origin" });
+						if (response.ok) {
+							const data = await response.json();
+							$state.lists = data.lists;
+						} else {
+							throw new Error();
+						}
+					}
+				}
 			}
 
 			<div class="hstack centered spaced post-input-footer">

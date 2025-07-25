@@ -50,7 +50,7 @@
 - [x] Saving
 - [ ] Sharing / reposting
 - [x] Post visibility
-  - [ ] Recipient lists
+  - [x] Recipient lists
 - [x] Editing posts
   - [x] Re-publishing posts
 - [ ] Deleting your posts
@@ -72,11 +72,13 @@
   - [ ] Custom ToS, legal pages etc
   - [ ] Default post visibility
 - etc
-- [ ] Need a way to deal with out-of-date followers, where their api/db may not be compatible
-
+- [x] Need a way to deal with out-of-date followers, where their api/db may not be compatible
+  - [ ] Show failed posts
+  
 ### Extended functionality?
 
 - [ ] More communication types
+  - [ ] Messages
   - [ ] Chat
   - [ ] Audio
   - [ ] Video

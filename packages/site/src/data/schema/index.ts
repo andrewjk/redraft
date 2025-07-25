@@ -5,6 +5,8 @@ import { contentTable } from "./contentTable";
 import { feedRelations, feedTable } from "./feedTable";
 import { followedByTable } from "./followedByTable";
 import { followingRelations, followingTable } from "./followingTable";
+import { listUsersRelations, listUsersTable } from "./listUsersTable";
+import { listsRelations, listsTable } from "./listsTable";
 import { notificationsTable } from "./notificationsTable";
 import { postReactionsRelations, postReactionsTable } from "./postReactionsTable";
 import { postTagsRelations, postTagsTable } from "./postTagsTable";
@@ -24,6 +26,10 @@ export {
 	followedByTable,
 	followingTable,
 	followingRelations,
+	listsTable,
+	listsRelations,
+	listUsersTable,
+	listUsersRelations,
 	activityTable,
 	notificationsTable,
 	postsTable,

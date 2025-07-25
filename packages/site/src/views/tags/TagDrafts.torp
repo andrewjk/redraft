@@ -18,7 +18,7 @@ export default function TagDrafts() {
 
 			<TagMenu tag={$props.data.tag} section="Drafts" {$props.data.user} {$props.data.base} />
 			@if ($props.data.user) {
-				<PostInput {post} {$props.data.user} />
+				<PostInput {post} {$props.data.user} {$props.data.base} />
 			}
 			<PostList {$props.data.posts} {$props.data.user} {$props.data.follower} />
 			<Pagination {$props.data.pageCount} {$state.page} href={(p) => `/?page=${p}`} />

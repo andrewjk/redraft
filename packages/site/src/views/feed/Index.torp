@@ -17,7 +17,7 @@ export default function Index() {
 			</:head>
 
 			<FeedMenu section="Feed" {$props.data.base} />
-			<PostInput {post} {$props.data.user} />
+			<PostInput {post} {$props.data.user} {$props.data.base} />
 			<FeedList {$props.data.feed} {$props.data.user} {$props.data.follower} />
 			<Pagination {$props.data.pageCount} {$state.page} href={(p) => `/?page=${p}`} />
 		</div>

@@ -20,9 +20,9 @@ export default function PostInput($props) {
 
 	@render {
 		<form class="full-width post-input" method="POST" enctype="multipart/form-data">
-			<PostInputFields {post} {user} />
+			<PostInputFields {post} {user} {$props.base} />
 			@for (let [i, child] of post.children.entries()) {
-				<PostInputFields {post} {user} {child} {i} />
+				<PostInputFields {post} {user} {$props.base} {child} {i} />
 			}
 		</form>
 	}

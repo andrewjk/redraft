@@ -30,14 +30,8 @@ export const postsTable = sqliteTable("posts", {
 	 * 3 = custom list
 	 */
 	visibility: int().notNull().default(0),
-	/**
-	 * The type of the post, which affects the way it is displayed
-	 * 0 = normal
-	 * 1 = image
-	 * 2 = article
-	 * 3 = link
-	 */
-	//type: int().notNull().default(0),
+	/** If the visibility is set to `custom list`, this is the list's id */
+	list_id: int(),
 	/** Url for image */
 	image: text(),
 	/** Alt text for describing the image to screen reader users */

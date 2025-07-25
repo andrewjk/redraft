@@ -5,7 +5,7 @@ import { Post, postsTable } from "../../data/schema/postsTable";
 import { Tag } from "../../data/schema/tagsTable";
 import sluggify from "../utils/sluggify";
 import uuid from "../utils/uuid";
-import { type PostEditModel } from "./postEdit";
+import { type PostEditModel } from "./PostEditModel";
 
 export default async function postCreateOrUpdate(
 	tx: DatabaseTransaction,
@@ -74,6 +74,7 @@ export default async function postCreateOrUpdate(
 					slug: model.isArticle ? sluggify(model.linkTitle!, true) : uuid(),
 					text: model.text,
 					visibility: model.visibility || 0,
+					list_id: model.listId,
 					image: model.hasImage ? model.image : null,
 					image_alt_text: model.hasImage ? model.imageAltText : null,
 					is_article: model.isArticle,
@@ -129,6 +130,7 @@ export default async function postCreateOrUpdate(
 					slug: model.isArticle ? sluggify(model.linkTitle!, true) : undefined,
 					text: model.text,
 					visibility: model.visibility || 0,
+					list_id: model.listId,
 					image: model.hasImage ? model.image : null,
 					image_alt_text: model.hasImage ? model.imageAltText : null,
 					is_article: model.isArticle,

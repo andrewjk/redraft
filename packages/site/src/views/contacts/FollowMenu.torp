@@ -10,6 +10,8 @@ export default function FollowMenu($props: { section: string }) {
 				<h1>Followed by</h1>
 			} else if ($props.section === "Requests") {
 				<h1>Requests</h1>
+			} else if ($props.section === "Lists") {
+				<h1>Lists</h1>
 			}
 
 			@if ($props.user) {
@@ -28,6 +30,11 @@ export default function FollowMenu($props: { section: string }) {
 				@if ($props.section !== "Requests") {
 					<a class="subnav-link" href="{$props.base}contacts/requests">
 						Requests
+					</a>
+				}
+				@if ($props.section !== "Lists") {
+					<a class="subnav-link" href="{$props.base}contacts/lists">
+						Lists
 					</a>
 				}
 			}

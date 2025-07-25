@@ -44,14 +44,14 @@ export default function PostPreview() {
 				}
 				@if (post.visibility) {
 					<div>
-						Visibility {visibilityText()}
+						{visibilityText()}
 					</div>
 					@function visibilityText() {
 						switch (post.visibility) {
-							case 0: return "public";
-							case 1: return "followers";
-							case 2: return "private";
-							case 3: return "recipients";
+							case 0: return "Public";
+							case 1: return "Sent to followers";
+							case 2: return "Private";
+							case 3: return "Sent to a list";
 						}
 					}
 				}

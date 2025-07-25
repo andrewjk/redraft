@@ -4,8 +4,8 @@ import database from "../../data/database";
 import { activityTable, usersTable } from "../../data/schema";
 import getErrorMessage from "../utils/getErrorMessage";
 import userIdQuery from "../utils/userIdQuery";
+import { type PostEditModel } from "./PostEditModel";
 import postCreateOrUpdate from "./postCreateOrUpdate";
-import { type PostEditModel } from "./postEdit";
 
 export default async function postSave(request: Request, code: string) {
 	let errorMessage: string | undefined;

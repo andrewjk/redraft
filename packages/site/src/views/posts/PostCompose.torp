@@ -7,7 +7,7 @@ import PostInput from './PostInput.torp';
  * Allows composing a post.
  */
 export default function PostCompose() {
-	let { user, post } = $props.data;
+	let { post } = $props.data;
 
 	@render {
 		<div class="vstack spaced full-width post-compose-page">
@@ -19,12 +19,12 @@ export default function PostCompose() {
 
 			<FormErrors {$props.form?.errors} />
 
-			<PostInput {post} {user} />
+			<PostInput {post} {$props.data.user} {$props.data.base} />
 		</div>
 	}
 
 	@style {
-		.compose-page {
+		.post-compose-page {
 		}
 	}
 }

@@ -1,0 +1,45 @@
+import ListPreview from './ListPreview.torp';
+import FollowMenu from './FollowMenu.torp';
+
+/**
+ * Shows a list of the lists that have been created.
+ */
+export default function ListsList($props) {
+	@render {
+		<div class="vstack spaced lists-list">
+			<:head>
+				<title>{$props.data.viewing.name} • Followed by • Redraft</title>
+			</:head>
+
+			<FollowMenu section="Lists" {$props.data.user} {$props.data.base} />
+
+			<p>
+				Lists allow you to group people to send posts to. For example, you
+				may have a “good friends” list for content that you don't want to
+				send to everyone who follows you.
+			</p>
+
+			<div class="vstack spaced-nr full-width">
+				@if ($props.data.lists.length === 0) {
+					<div class="card">
+						You haven't created any lists.
+					</div>
+				} else {
+					@for (let list of $props.data.lists) {
+						@key = list.id
+						<div class="hstack spaced full-width">
+							<div class="grow">
+								<ListPreview {list} {$props.data.user} {$props.data.base} />
+							</div>
+						</div>
+					}
+				}
+			</div>
+			<p>
+				<a href="{$props.data.base}contacts/lists/create">
+					Create a list
+				</a>
+			</p>
+		</div>
+	}
+}

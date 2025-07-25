@@ -7,29 +7,7 @@ import { Post } from "../../data/schema/postsTable";
 import { Tag } from "../../data/schema/tagsTable";
 import getErrorMessage from "../utils/getErrorMessage";
 import userIdQuery from "../utils/userIdQuery";
-
-export type PostEditModel = {
-	id: number;
-	published: boolean;
-	text: string;
-	visibility: number;
-	hasImage: boolean;
-	image: string | null;
-	imageAltText: string | null;
-	isArticle: boolean;
-	articleId: number | null;
-	articleText: string | null;
-	hasLink: boolean;
-	linkUrl: string | null;
-	linkTitle: string | null;
-	linkImage: string | null;
-	linkPublication: string | null;
-	linkEmbedSrc: string | null;
-	linkEmbedWidth: number | null;
-	linkEmbedHeight: number | null;
-	children?: PostEditModel[];
-	tags?: string;
-};
+import { PostEditModel } from "./PostEditModel";
 
 export default async function postEdit(slug: string, code: string) {
 	let errorMessage: string | undefined;
@@ -98,6 +76,7 @@ function createView(
 		published: !!post.published_at,
 		text: post.text,
 		visibility: post.visibility,
+		listId: post.list_id,
 		hasImage: !!post.image,
 		image: post.image,
 		imageAltText: post.image_alt_text,

@@ -1,0 +1,23 @@
+export type PostEditModel = {
+	id: number;
+	published: boolean;
+	text: string;
+	visibility: number;
+	listId: number | null;
+	hasImage: boolean;
+	image: string | null;
+	imageAltText: string | null;
+	isArticle: boolean;
+	articleId: number | null;
+	articleText: string | null;
+	hasLink: boolean;
+	linkUrl: string | null;
+	linkTitle: string | null;
+	linkImage: string | null;
+	linkPublication: string | null;
+	linkEmbedSrc: string | null;
+	linkEmbedWidth: number | null;
+	linkEmbedHeight: number | null;
+	children?: PostEditModel[];
+	tags?: string;
+};
