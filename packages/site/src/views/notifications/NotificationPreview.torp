@@ -17,9 +17,14 @@ export default function NotificationPreview() {
 
 	@render {
 		<div class="card full-width notification-preview">
-			<a href={notification.url}>
-				{notification.text}
-			</a>
+			<div class="hstack centered spaced">
+				<a href={notification.url} class="grow">
+					{notification.text}
+				</a>
+				<div class="align-end secondary font-sm" title={fmt.format(new Date(notification.createdAt))}>
+					{relativeTimeSince(new Date(notification.createdAt))}
+				</div>
+			</div>
 		</div>
 	}
 

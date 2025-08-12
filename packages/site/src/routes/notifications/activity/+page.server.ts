@@ -1,7 +1,7 @@
 import { type PageServerEndPoint } from "@torpor/build";
 import { unauthorized } from "@torpor/build/response";
 import * as api from "../../../lib/api";
-import profileNotifications from "../../api/profile/notifications/+server";
+import profileActivity from "../../api/notifications/activity/+server";
 
 export default {
 	load: async ({ appData, params }) => {
@@ -10,6 +10,6 @@ export default {
 			return unauthorized();
 		}
 
-		return await api.get("profile/notifications", profileNotifications, params, user.token);
+		return await api.get("notifications/activity", profileActivity, params, user.token);
 	},
 } satisfies PageServerEndPoint;

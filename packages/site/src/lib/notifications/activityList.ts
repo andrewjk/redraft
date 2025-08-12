@@ -1,21 +1,21 @@
 import { ok, serverError, unauthorized } from "@torpor/build/response";
 import { desc, eq, isNull } from "drizzle-orm";
 import database from "../../data/database";
-import { notificationsTable, usersTable } from "../../data/schema";
+import { activityTable, usersTable } from "../../data/schema";
 import getErrorMessage from "../utils/getErrorMessage";
 import userIdQuery from "../utils/userIdQuery";
 
-export type NotificationPreview = {
+export type ActivityPreview = {
 	name: string;
 	image: string;
 };
 
-export type NotificationList = {
-	notifications: NotificationPreview[];
-	notificationsCount: number;
+export type ActivityList = {
+	activity: ActivityPreview[];
+	activityCount: number;
 };
 
-export default async function notificationList(
+export default async function activityList(
 	code: string,
 	limit?: number,
 	offset?: number,
@@ -30,39 +30,40 @@ export default async function notificationList(
 			where: eq(usersTable.id, userIdQuery(code)),
 		});
 
-		const condition = isNull(notificationsTable.deleted_at);
+		const condition = isNull(activityTable.deleted_at);
 
 		// Get the follows from the database
-		const notificationsQuery = db.query.notificationsTable.findMany({
+		const activityQuery = db.query.activityTable.findMany({
 			limit,
 			offset,
-			orderBy: desc(notificationsTable.updated_at),
+			orderBy: desc(activityTable.updated_at),
 			where: condition,
 		});
 
 		// Get the total count
-		const notificationsCountQuery = db.$count(notificationsTable, condition);
+		const activityCountQuery = db.$count(activityTable, condition);
 
-		const [currentUser, notificationsData, notificationsCount] = await Promise.all([
+		const [currentUser, activityData, activityCount] = await Promise.all([
 			currentUserQuery,
-			notificationsQuery,
-			notificationsCountQuery,
+			activityQuery,
+			activityCountQuery,
 		]);
 		if (!currentUser) {
 			return unauthorized();
 		}
 
 		// Create views
-		const notifications = notificationsData.map((f) => {
+		const activity = activityData.map((f) => {
 			return {
 				url: f.url,
 				text: f.text,
+				createdAt: f.created_at,
 			};
 		});
 
 		return ok({
-			notifications,
-			notificationsCount: notificationsCount,
+			activity,
+			activityCount: activityCount,
 		});
 	} catch (error) {
 		const message = errorMessage || getErrorMessage(error).message;

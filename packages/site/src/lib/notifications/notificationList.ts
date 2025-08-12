@@ -1,21 +1,21 @@
 import { ok, serverError, unauthorized } from "@torpor/build/response";
 import { desc, eq, isNull } from "drizzle-orm";
 import database from "../../data/database";
-import { activityTable, usersTable } from "../../data/schema";
+import { notificationsTable, usersTable } from "../../data/schema";
 import getErrorMessage from "../utils/getErrorMessage";
 import userIdQuery from "../utils/userIdQuery";
 
-export type ActivityPreview = {
+export type NotificationPreview = {
 	name: string;
 	image: string;
 };
 
-export type ActivityList = {
-	activity: ActivityPreview[];
-	activityCount: number;
+export type NotificationList = {
+	notifications: NotificationPreview[];
+	notificationsCount: number;
 };
 
-export default async function activityList(
+export default async function notificationList(
 	code: string,
 	limit?: number,
 	offset?: number,
@@ -30,39 +30,40 @@ export default async function activityList(
 			where: eq(usersTable.id, userIdQuery(code)),
 		});
 
-		const condition = isNull(activityTable.deleted_at);
+		const condition = isNull(notificationsTable.deleted_at);
 
 		// Get the follows from the database
-		const activityQuery = db.query.activityTable.findMany({
+		const notificationsQuery = db.query.notificationsTable.findMany({
 			limit,
 			offset,
-			orderBy: desc(activityTable.updated_at),
+			orderBy: desc(notificationsTable.updated_at),
 			where: condition,
 		});
 
 		// Get the total count
-		const activityCountQuery = db.$count(activityTable, condition);
+		const notificationsCountQuery = db.$count(notificationsTable, condition);
 
-		const [currentUser, activityData, activityCount] = await Promise.all([
+		const [currentUser, notificationsData, notificationsCount] = await Promise.all([
 			currentUserQuery,
-			activityQuery,
-			activityCountQuery,
+			notificationsQuery,
+			notificationsCountQuery,
 		]);
 		if (!currentUser) {
 			return unauthorized();
 		}
 
 		// Create views
-		const activity = activityData.map((f) => {
+		const notifications = notificationsData.map((f) => {
 			return {
 				url: f.url,
 				text: f.text,
+				createdAt: f.created_at,
 			};
 		});
 
 		return ok({
-			activity,
-			activityCount: activityCount,
+			notifications,
+			notificationsCount: notificationsCount,
 		});
 	} catch (error) {
 		const message = errorMessage || getErrorMessage(error).message;

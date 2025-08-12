@@ -13,12 +13,12 @@ export default function NotificationMenu($props: { section: string, user: any })
 			<div class="spacer" />
 
 			@if ($props.section !== "Notifications") {
-				<a class="subnav-link" href="{$props.base}profile/notifications">
+				<a class="subnav-link" href="{$props.base}notifications">
 					Notifications
 				</a>
 			}
 			@if ($props.section !== "Activity") {
-				<a class="subnav-link" href="{$props.base}profile/activity">
+				<a class="subnav-link" href="{$props.base}notifications/activity">
 					Activity
 				</a>
 			}

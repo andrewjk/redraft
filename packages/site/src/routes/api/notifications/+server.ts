@@ -1,6 +1,6 @@
 import type { ServerEndPoint } from "@torpor/build";
 import { unauthorized } from "@torpor/build/response";
-import notificationList from "../../../../lib/profile/notificationList";
+import notificationList from "../../../lib/notifications/notificationList";
 
 export default {
 	get: async ({ appData, url }) => {

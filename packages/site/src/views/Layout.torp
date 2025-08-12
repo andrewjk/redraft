@@ -103,7 +103,7 @@ function Nav() {
 				<li class="nav-item">
 					<NavMenuLink
 						:class={{ "nav-link nav-icon": true, active: $page.url.pathname.startsWith("/notifications") }}
-						href="/profile/notifications"
+						href="/notifications"
 					>
 						<Bell weight="bold" size="1.6rem" />
 					</NavMenuLink>
@@ -116,10 +116,10 @@ function Nav() {
 				@//		</NavMenuPopoutButton>
 				@//		<NavMenuPopoutContent>
 				@//			<NavMenu class="nav-popout" orientation="vertical">
-				@//				<NavMenuLink class="nav-link" href="/profile/notifications">
+				@//				<NavMenuLink class="nav-link" href="/notifications">
 				@//					Notifications
 				@//				</NavMenuLink>
-				@//				<NavMenuLink class="nav-link" href="/profile/activity">
+				@//				<NavMenuLink class="nav-link" href="/notifications/activity">
 				@//					Activity
 				@//				</NavMenuLink>
 				@//				<NavMenuSeparator class="nav-separator" />

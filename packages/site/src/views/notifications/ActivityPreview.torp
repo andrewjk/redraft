@@ -17,9 +17,14 @@ export default function ActivityPreview() {
 
 	@render {
 		<div class="card full-width activity-preview">
-			<a href={activity.url}>
-				{activity.text}
-			</a>
+			<div class="hstack centered spaced">
+				<a href={activity.url} class="grow">
+					{activity.text}
+				</a>
+				<div class="align-end secondary font-sm" title={fmt.format(new Date(activity.createdAt))}>
+					{relativeTimeSince(new Date(activity.createdAt))}
+				</div>
+			</div>
 		</div>
 	}
 

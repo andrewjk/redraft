@@ -17,9 +17,9 @@ afterAll(() => {
 });
 
 test("notifications get", async () => {
-	let ev = await buildTestEvent(`http://localhost/profile/notifications`, "xxx-alice");
+	let ev = await buildTestEvent(`http://localhost/notifications`, "xxx-alice");
 
-	const response = await runTest(site, "/profile/notifications", ev);
+	const response = await runTest(site, "/notifications", ev);
 	expect(response.status).toBe(200);
 
 	const html = await response.text();
