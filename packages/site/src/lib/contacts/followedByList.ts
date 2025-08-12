@@ -4,8 +4,10 @@ import database from "../../data/database";
 import { followedByTable, usersTable } from "../../data/schema";
 import getErrorMessage from "../utils/getErrorMessage";
 import userIdQuery from "../utils/userIdQuery";
+import uuid from "../utils/uuid";
 
 export type FollowedByPreview = {
+	slug: string;
 	url: string;
 	name: string;
 	image: string;
@@ -58,9 +60,18 @@ export default async function followedByList(
 			return unauthorized();
 		}
 
+		// HACK: set slugs if they haven't been set -- this can be removed in a few versions
+		for (let f of followedByData) {
+			if (!f.slug) {
+				f.slug = uuid();
+				await db.update(followedByTable).set({ slug: f.slug }).where(eq(followedByTable.id, f.id));
+			}
+		}
+
 		// Create views
 		const followedBy = followedByData.map((f) => {
 			return {
+				slug: f.slug,
 				url: f.url,
 				name: f.name,
 				image: f.image,

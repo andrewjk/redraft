@@ -23,7 +23,7 @@ export default function FollowedByList($props) {
 						@key = follow.id
 						<div class="hstack spaced full-width">
 							<div class="grow">
-								<FollowPreview {follow} {$props.data.user} />
+								<FollowPreview {follow} {$props.data.user} {$props.data.base} canMessage />
 							</div>
 							<form use:enhance method="POST" action="?/block">
 								<input type="hidden" name="id" value={follow.id} />

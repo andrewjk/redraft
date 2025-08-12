@@ -17,6 +17,8 @@ export const followingTable = sqliteTable("following", {
 	name: text().notNull(),
 	image: text().notNull(),
 	bio: text().notNull(),
+	// For messaging
+	slug: text().notNull().default(""),
 	created_at: int({ mode: "timestamp" }).notNull(),
 	updated_at: int({ mode: "timestamp" }).notNull(),
 	deleted_at: int({ mode: "timestamp" }),

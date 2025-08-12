@@ -1,0 +1,72 @@
+import placeholdify from "../../lib/utils/placeholdify";
+import relativeTimeSince from "../../lib/utils/relativeTimeSince"
+import stripProtocol from "../../lib/utils/stripProtocol";
+import MessageView from './MessageView.torp';
+import MessageInput from './MessageInput.torp';
+
+/**
+ * Shows a list of message groups.
+ */
+export default function MessageList($props) {
+	const { messageGroup } = $props.data;
+
+	@render {
+		<div class="vstack spaced message-list">
+			<:head>
+				<title>{$props.data.viewing.name} • Messages • Redraft</title>
+			</:head>
+
+			<div class="vstack spaced-nr full-width">
+				<div class="card">
+					<div class="hstack spaced">
+						<div style="flex: 0 0 auto">
+							<a href={messageGroup.url}>
+								<img class="message-list-image" src={placeholdify(messageGroup.image)} alt="{messageGroup.name} ({stripProtocol(messageGroup.url)})" />
+							</a>
+						</div>
+						<div style="flex: 1 1 auto">
+							<div class="message-list-header hstack centered spaced font-sm">
+								<a class="message-list-link grow hstack spaced" href={messageGroup.url}>
+									<div class="grow vstack">
+										<div class="message-list-name">
+											{messageGroup.name}
+										</div>
+										<div class="message-list-url secondary">
+											{stripProtocol(messageGroup.url)}
+										</div>
+									</div>
+								</a>
+							</div>
+						</div>
+					</div>
+				</div>
+
+				@for (let message of $props.data.messages) {
+					@key = message.id
+					<div class="hstack spaced full-width">
+						<div class="grow">
+							<MessageView {messageGroup} {message} {$props.data.user} />
+						</div>
+					</div>
+				}
+
+				<MessageInput {messageGroup.slug} />
+			</div>
+		</div>
+	}
+
+	@style {
+		.message-list-image {
+			height: 40px;
+			width: 40px;
+			border: 1px solid var(--border-color);
+			border-radius: 50%;
+			box-shadow: 0 0.2rem 0.4rem #eee;
+		}
+
+		.message-list-name {
+			font-weight: bold;
+		}
+
+	}
+}

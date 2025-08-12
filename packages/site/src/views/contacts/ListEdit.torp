@@ -56,7 +56,7 @@ export default function ListEdit() {
 										<img class="user-preview-image" src={placeholdify(user.image)} alt="{user.name} ({stripProtocol(user.url)})" />
 									</div>
 									<div class="grow">
-										<div class="user-preview-header hstack centered spaced">
+										<div class="user-preview-header hstack centered spaced font-sm">
 											<div class="grow vstack">
 												<div class="user-preview-name">
 													{user.name}

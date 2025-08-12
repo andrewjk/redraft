@@ -3,8 +3,10 @@ import { and, desc, eq, isNull } from "drizzle-orm";
 import database from "../../data/database";
 import { followingTable } from "../../data/schema";
 import getErrorMessage from "../utils/getErrorMessage";
+import uuid from "../utils/uuid";
 
 export type FollowingPreview = {
+	slug: string;
 	url: string;
 	name: string;
 	image: string;
@@ -53,9 +55,18 @@ export default async function followingList(
 			followingCountQuery,
 		]);
 
+		// HACK: set slugs if they haven't been set -- this can be removed in a few versions
+		for (let f of followingData) {
+			if (!f.slug) {
+				f.slug = uuid();
+				await db.update(followingTable).set({ slug: f.slug }).where(eq(followingTable.id, f.id));
+			}
+		}
+
 		// Create views
 		const following = followingData.map((f) => {
 			return {
+				slug: f.slug,
 				url: f.url,
 				name: f.name,
 				image: f.image,

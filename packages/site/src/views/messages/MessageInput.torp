@@ -1,0 +1,43 @@
+//import { enhance } from '$app/forms';
+
+/**
+ * Allows creating a message.
+ */
+export default function MessageInput($props) {
+	let user = $props.user;
+	let message = $watch({
+		text: ""
+	});
+
+	@render {
+		<form class="full-width message-input" method="POST" enctype="multipart/form-data">
+			<input type="hidden" name="slug" value={$props.slug} />
+
+			<div class="message-input-row">
+				<textarea
+					class="full-width"
+					name="text"
+					&value={message.text}
+					placeholder="Type a message..."
+					rows="3"
+				/>
+			</div>
+
+			<div class="message-input-footer">
+				<button type="submit">
+					Submit
+				</button>
+			</div>
+		</form>
+	}
+
+	@style {
+		.message-input {
+			margin-bottom: 1rem;
+		}
+
+		.message-input-footer {
+			text-align: end;
+		}
+	}
+}

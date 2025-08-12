@@ -1,0 +1,31 @@
+import MessagePreview from './MessagePreview.torp';
+
+/**
+ * Shows a list of message groups.
+ */
+export default function MessageGroupList($props) {
+	@render {
+		<div class="vstack spaced message-group-list">
+			<:head>
+				<title>{$props.data.viewing.name} • Messages • Redraft</title>
+			</:head>
+
+			<div class="vstack spaced-nr full-width">
+				@if ($props.data.messages.length === 0) {
+					<div class="card">
+						You have no messages.
+					</div>
+				} else {
+					@for (let message of $props.data.messages) {
+						@key = message.id
+						<div class="hstack spaced full-width">
+							<div class="grow">
+								<MessagePreview {message} {$props.data.user} {$props.data.base} />
+							</div>
+						</div>
+					}
+				}
+			</div>
+		</div>
+	}
+}

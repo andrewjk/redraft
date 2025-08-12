@@ -27,7 +27,7 @@ export default function FollowingList($props) {
 				} else {
 					@for (let follow of $props.data.following) {
 						@key = follow.id
-						<FollowPreview {follow} {$props.data.user} />
+						<FollowPreview {follow} {$props.data.user} {$props.data.base} />
 					}
 				}
 			</div>

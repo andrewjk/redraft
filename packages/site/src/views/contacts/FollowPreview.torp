@@ -7,7 +7,7 @@ import stripProtocol from "../../lib/utils/stripProtocol";
  * Shows a follow(er/ing) preview for display in a list.
  */
 export default function FollowPreview() {
-	let { follow, user } = $props;
+	let { follow, user, canMessage } = $props;
 
 	let fmt = new Intl.DateTimeFormat(undefined, {
 		day: "numeric",
@@ -26,7 +26,7 @@ export default function FollowPreview() {
 					</a>
 				</div>
 				<div style="flex: 1 1 auto">
-					<div class="follow-preview-header hstack centered spaced">
+					<div class="follow-preview-header hstack centered spaced font-sm">
 						<a class="follow-preview-link grow hstack spaced" href={follow.url}>
 							<div class="grow vstack">
 								<div class="follow-preview-name">
@@ -42,6 +42,12 @@ export default function FollowPreview() {
 					<div class="follow-preview-body">
 						<p>{follow.bio}</p>
 					</div>
+
+					@if (canMessage && user) {
+						<div class="follow-preview-message">
+							<a href="{$props.base}messages/create/{follow.slug}">Message</a>
+						</div>
+					}
 				</div>
 			</div>
 		</div>

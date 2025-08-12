@@ -1,0 +1,92 @@
+//import { enhance } from '$app/forms';
+import placeholdify from "../../lib/utils/placeholdify";
+import relativeTimeSince from "../../lib/utils/relativeTimeSince"
+import stripProtocol from "../../lib/utils/stripProtocol";
+
+/**
+ * Shows a message preview for display in a list.
+ */
+export default function MessagePreview() {
+	let { message, user } = $props;
+
+	let fmt = new Intl.DateTimeFormat(undefined, {
+		day: "numeric",
+		month: "short",
+		year: "numeric",
+		hour: "numeric",
+		minute: "numeric"
+	});
+
+	@render {
+		<div class="card full-width message-preview">
+			<div class="hstack spaced">
+				<div style="flex: 0 0 auto">
+					<a href={message.url}>
+						<img class="message-preview-image" src={placeholdify(message.image)} alt="{message.name} ({stripProtocol(message.url)})" />
+					</a>
+				</div>
+				<div style="flex: 1 1 auto">
+					<div class="message-preview-header hstack centered spaced font-sm">
+						<a class="message-preview-link grow hstack spaced" href={message.url}>
+							<div class="grow vstack">
+								<div class="message-preview-name">
+									{message.name}
+								</div>
+								<div class="message-preview-url secondary">
+									{stripProtocol(message.url)}
+								</div>
+							</div>
+						</a>
+						<div class="vstack align-end">
+							<div class="message-preview-time secondary" title={fmt.format(new Date(message.newestAt))}>
+								{relativeTimeSince(new Date(message.newestAt))}
+							</div>
+							@if (message.delivered) {
+								<div>&nbsp;</div>
+							} else {
+								<div style="color: red">Send failed</div>
+							}
+						</div>
+					</div>
+
+					<div class="message-preview-body">
+						<a class="message-preview-link" href="{$props.base}messages/groups/{message.slug}">
+							<p>{message.text}</p>
+						</a>
+					</div>
+				</div>
+			</div>
+		</div>
+	}
+
+	@style {
+		.message-preview {
+		}
+
+		.message-preview-header,
+		.message-preview-footer {
+			line-height: 1.4;
+		}
+
+		.message-preview-body {
+			padding: 0.4rem 0;
+		}
+
+		.message-preview-link {
+			color: inherit;
+			text-decoration: none;
+		}
+
+		.message-preview-image {
+			height: 40px;
+			width: 40px;
+			border: 1px solid var(--border-color);
+			border-radius: 50%;
+			box-shadow: 0 0.2rem 0.4rem #eee;
+		}
+
+		.message-preview-name {
+			font-weight: bold;
+		}
+	}
+}

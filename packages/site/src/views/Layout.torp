@@ -1,6 +1,7 @@
 import { $page, $navigation } from "@torpor/build/state";
 import { NavMenu, NavMenuLink, NavMenuButton, NavMenuPopout, NavMenuPopoutButton, NavMenuPopoutContent, NavMenuSeparator } from "@torpor/ui/NavMenu";
 import Bell from "phosphor-torpor/lib/Bell";
+import Envelope from "phosphor-torpor/lib/Envelope";
 //import DotsThreeOutlineVertical from "phosphor-torpor/lib/DotsThreeOutlineVertical";
 //import SignOut from "phosphor-torpor/lib/SignOut";
 import Profile from "./profile/ProfilePreview.torp";
@@ -87,6 +88,15 @@ function Nav() {
 					>
 						<img class="profile-image" src={placeholdify($props.viewing.image)} alt={`${$props.viewing.name} (${stripProtocol($props.viewing.url)})`} />
 						<div>{$props.viewing.name}</div>
+					</NavMenuLink>
+				</li>
+
+				<li class="nav-item">
+					<NavMenuLink
+						:class={{ "nav-link nav-icon": true, active: $page.url.pathname.startsWith("/messages") }}
+						href="/messages"
+					>
+						<Envelope weight="bold" size="1.6rem" />
 					</NavMenuLink>
 				</li>
 
