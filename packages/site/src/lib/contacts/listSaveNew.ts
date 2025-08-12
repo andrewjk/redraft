@@ -7,7 +7,7 @@ import userIdQuery from "../utils/userIdQuery";
 import uuid from "../utils/uuid";
 import type { ListEditModel } from "./ListEditModel";
 
-export default async function listsSaveNew(request: Request, code: string) {
+export default async function listSaveNew(request: Request, code: string) {
 	let errorMessage: string | undefined;
 
 	try {

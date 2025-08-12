@@ -6,7 +6,7 @@ import getErrorMessage from "../utils/getErrorMessage";
 import userIdQuery from "../utils/userIdQuery";
 import type { ListEditModel } from "./ListEditModel";
 
-export default async function listsSave(request: Request, code: string) {
+export default async function listSave(request: Request, code: string) {
 	let errorMessage: string | undefined;
 
 	try {

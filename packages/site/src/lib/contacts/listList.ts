@@ -17,7 +17,7 @@ export type ListsList = {
 	listsCount: number;
 };
 
-export default async function listsList(
+export default async function listList(
 	code: string,
 	limit?: number,
 	offset?: number,

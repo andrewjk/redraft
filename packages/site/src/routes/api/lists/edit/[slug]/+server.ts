@@ -1,7 +1,7 @@
 import type { ServerEndPoint } from "@torpor/build";
 import { seeOther, unauthorized } from "@torpor/build/response";
-import listGet from "../../../../../../lib/contacts/listGet";
-import listSave from "../../../../../../lib/contacts/listSave";
+import listGet from "../../../../../lib/contacts/listGet";
+import listSave from "../../../../../lib/contacts/listSave";
 
 export default {
 	get: async ({ appData, params }) => {

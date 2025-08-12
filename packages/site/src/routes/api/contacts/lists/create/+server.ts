@@ -1,7 +1,7 @@
 import type { ServerEndPoint } from "@torpor/build";
 import { seeOther, unauthorized } from "@torpor/build/response";
-import listsGetNew from "../../../../../lib/contacts/listsGetNew";
-import listsSaveNew from "../../../../../lib/contacts/listsSaveNew";
+import listGetNew from "../../../../../lib/contacts/listGetNew";
+import listSaveNew from "../../../../../lib/contacts/listSaveNew";
 
 export default {
 	get: async ({ appData }) => {
@@ -10,7 +10,7 @@ export default {
 			return unauthorized();
 		}
 
-		return await listsGetNew(user.code);
+		return await listGetNew(user.code);
 	},
 	post: async ({ request, appData, params }) => {
 		const user = appData.user;
@@ -18,7 +18,7 @@ export default {
 			return unauthorized();
 		}
 
-		const result = await listsSaveNew(request, user.code);
+		const result = await listSaveNew(request, user.code);
 		if (!result.ok) {
 			return result;
 		}
