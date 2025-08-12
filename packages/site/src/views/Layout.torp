@@ -194,6 +194,10 @@ function Nav() {
 			//margin: 0 1rem;
 		}
 
+		.nav-link.nav-icon.active {
+			padding:  calc(1.4rem - 2px) 1.4rem;
+		}
+
 		.nav-icon {
 			padding: 1.4rem;
 		}
