@@ -1,7 +1,7 @@
 import placeholdify from "../../lib/utils/placeholdify";
 import relativeTimeSince from "../../lib/utils/relativeTimeSince"
 import stripProtocol from "../../lib/utils/stripProtocol";
-import MessageView from './MessageView.torp';
+import MessagePreview from './MessagePreview.torp';
 import MessageInput from './MessageInput.torp';
 
 /**
@@ -45,7 +45,7 @@ export default function MessageList($props) {
 					@key = message.id
 					<div class="hstack spaced full-width">
 						<div class="grow">
-							<MessageView {messageGroup} {message} {$props.data.user} />
+							<MessagePreview {messageGroup} {message} {$props.data.user} />
 						</div>
 					</div>
 				}

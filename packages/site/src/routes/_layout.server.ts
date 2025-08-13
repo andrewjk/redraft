@@ -11,7 +11,14 @@ export default {
 
 		const db = database();
 		const currentUser = await db.query.usersTable.findFirst({
-			columns: { name: true, image: true, bio: true, location: true },
+			columns: {
+				name: true,
+				image: true,
+				bio: true,
+				location: true,
+				message_count: true,
+				notification_count: true,
+			},
 		});
 		if (!currentUser && url.pathname !== "/account/setup") {
 			return seeOther("/account/setup");
@@ -24,6 +31,8 @@ export default {
 				url: ensureSlash(user.url),
 				name: user.name,
 				image: user.image,
+				notificationCount: currentUser?.notification_count,
+				messageCount: currentUser?.message_count,
 			},
 			follower: follower && {
 				url: ensureSlash(follower.url),

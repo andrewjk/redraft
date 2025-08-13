@@ -1,8 +1,8 @@
 import { notFound, ok, serverError, unprocessable } from "@torpor/build/response";
 import database from "../../data/database";
 import { followedByTable } from "../../data/schema";
-import { notificationsTable } from "../../data/schema/notificationsTable";
 import { postPublic } from "../public";
+import createNotification from "../utils/createNotification";
 import getErrorMessage from "../utils/getErrorMessage";
 import {
 	FOLLOW_CHECK_VERSION,
@@ -75,12 +75,7 @@ export default async function followRequested(request: Request) {
 				await tx.insert(followedByTable).values(record);
 
 				// Create a notification
-				await tx.insert(notificationsTable).values({
-					url: model.url,
-					text: `${confirmData.name} has requested to follow you`,
-					created_at: new Date(),
-					updated_at: new Date(),
-				});
+				await createNotification(tx, model.url, `${confirmData.name} has requested to follow you`);
 			} catch (error) {
 				errorMessage = getErrorMessage(error).message;
 				tx.rollback();

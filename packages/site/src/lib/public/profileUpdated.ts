@@ -4,7 +4,7 @@ import database, { type DatabaseTransaction } from "../../data/database";
 import { followedByTable, followingTable } from "../../data/schema";
 import { FollowedBy } from "../../data/schema/followedByTable";
 import { Following } from "../../data/schema/followingTable";
-import { notificationsTable } from "../../data/schema/notificationsTable";
+import createNotification from "../utils/createNotification";
 import getErrorMessage from "../utils/getErrorMessage";
 
 // IMPORTANT! Update this when the model changes
@@ -75,12 +75,7 @@ async function updateFollowingTable(
 			.where(eq(followingTable.id, user.id));
 
 		// Create a notification for the users you are following only
-		await tx.insert(notificationsTable).values({
-			url: user.url,
-			text: `${user.name} has changed their profile`,
-			created_at: new Date(),
-			updated_at: new Date(),
-		});
+		await createNotification(tx, user.url, `${user.name} has changed their profile`);
 	}
 }
 

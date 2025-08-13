@@ -13,6 +13,7 @@ export type MessagePreview = {
 	newestAt: Date;
 	text: string;
 	sent: boolean;
+	unreadCount: number;
 };
 
 export type MessagesList = {
@@ -72,6 +73,7 @@ export default async function messageGroupList(
 				newestAt: l.newest_at,
 				text: l.newest?.text ?? "",
 				sent: l.newest?.sent ?? false,
+				unreadCount: l.unread_count,
 			} satisfies MessagePreview;
 		});
 

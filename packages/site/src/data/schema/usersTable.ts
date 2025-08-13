@@ -17,6 +17,8 @@ export const usersTable = sqliteTable("users", {
 	location: text().notNull(),
 	about: text().notNull().default(""),
 	image: text().notNull(),
+	message_count: int().notNull().default(0),
+	notification_count: int().notNull().default(0),
 	created_at: int({ mode: "timestamp" }).notNull(),
 	updated_at: int({ mode: "timestamp" }).notNull(),
 	deleted_at: int({ mode: "timestamp" }),

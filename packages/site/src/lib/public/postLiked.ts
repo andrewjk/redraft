@@ -2,7 +2,7 @@ import { notFound, ok, serverError, unauthorized, unprocessable } from "@torpor/
 import { and, eq } from "drizzle-orm";
 import database from "../../data/database";
 import { followedByTable, postReactionsTable, postsTable } from "../../data/schema";
-import { notificationsTable } from "../../data/schema/notificationsTable";
+import createNotification from "../utils/createNotification";
 import getErrorMessage from "../utils/getErrorMessage";
 
 // IMPORTANT! Update this when the model changes
@@ -108,12 +108,11 @@ export default async function postLiked(request: Request) {
 					.where(eq(postsTable.slug, model.slug));
 
 				// Create a notification
-				await tx.insert(notificationsTable).values({
-					url: `${user.url}posts/${post.slug}`,
-					text: `${currentUser.name} liked your post`,
-					created_at: new Date(),
-					updated_at: new Date(),
-				});
+				await createNotification(
+					tx,
+					`${user.url}posts/${post.slug}`,
+					`${currentUser.name} liked your post`,
+				);
 			} catch (error) {
 				errorMessage = getErrorMessage(error).message;
 				tx.rollback();

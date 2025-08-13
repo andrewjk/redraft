@@ -4,10 +4,12 @@ import relativeTimeSince from "../../lib/utils/relativeTimeSince"
 import stripProtocol from "../../lib/utils/stripProtocol";
 
 /**
- * Shows a message preview for display in a list.
+ * Shows a message for display in a list.
  */
 export default function MessagePreview() {
-	let { message, user } = $props;
+	let { messageGroup, message, user } = $props;
+
+	let { image, url, name } = message.sent ? user : message;
 
 	let fmt = new Intl.DateTimeFormat(undefined, {
 		day: "numeric",
@@ -18,28 +20,28 @@ export default function MessagePreview() {
 	});
 
 	@render {
-		<div class="card full-width message-preview">
+		<div :class={["card full-width message-preview", { received: !message.sent }]}>
 			<div class="hstack spaced">
 				<div style="flex: 0 0 auto">
-					<a href={message.url}>
-						<img class="message-preview-image" src={placeholdify(message.image)} alt="{message.name} ({stripProtocol(message.url)})" />
+					<a href={url}>
+						<img class="message-preview-image" src={placeholdify(image)} alt="{name} ({stripProtocol(messageGroup.url)})" />
 					</a>
 				</div>
 				<div style="flex: 1 1 auto">
 					<div class="message-preview-header hstack centered spaced font-sm">
-						<a class="message-preview-link grow hstack spaced" href={message.url}>
+						<a class="message-preview-link grow hstack spaced" href={url}>
 							<div class="grow vstack">
 								<div class="message-preview-name">
-									{message.name}
+									{name}
 								</div>
 								<div class="message-preview-url secondary">
-									{stripProtocol(message.url)}
+									{stripProtocol(url)}
 								</div>
 							</div>
 						</a>
 						<div class="vstack align-end">
-							<div class="message-preview-time secondary" title={fmt.format(new Date(message.newestAt))}>
-								{relativeTimeSince(new Date(message.newestAt))}
+							<div class="message-preview-time secondary" title={fmt.format(new Date(message.sentAt))}>
+								{relativeTimeSince(new Date(message.sentAt))}
 							</div>
 							@if (message.delivered) {
 								<div>&nbsp;</div>
@@ -50,9 +52,7 @@ export default function MessagePreview() {
 					</div>
 
 					<div class="message-preview-body">
-						<a class="message-preview-link" href="{$props.base}messages/groups/{message.slug}">
-							<p>{message.text}</p>
-						</a>
+						<p>{message.text}</p>
 					</div>
 				</div>
 			</div>
@@ -61,6 +61,10 @@ export default function MessagePreview() {
 
 	@style {
 		.message-preview {
+		}
+
+		.message-preview.received {
+			border: 1px solid var(--link);
 		}
 
 		.message-preview-header,

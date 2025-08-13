@@ -1,8 +1,8 @@
 import { notFound, ok, serverError, unauthorized } from "@torpor/build/response";
 import { and, desc, eq, isNotNull, isNull, or } from "drizzle-orm";
 import database from "../../data/database";
-import { postsTable } from "../../data/schema";
-import { User, usersTable } from "../../data/schema/usersTable";
+import { postsTable, usersTable } from "../../data/schema";
+import { User } from "../../data/schema/usersTable";
 import {
 	ARTICLE_POST_TYPE,
 	FOLLOWER_POST_VISIBILITY,

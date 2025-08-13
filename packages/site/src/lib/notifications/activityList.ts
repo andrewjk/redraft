@@ -2,12 +2,14 @@ import { ok, serverError, unauthorized } from "@torpor/build/response";
 import { desc, eq, isNull } from "drizzle-orm";
 import database from "../../data/database";
 import { activityTable, usersTable } from "../../data/schema";
+import createNotification from "../utils/createNotification";
 import getErrorMessage from "../utils/getErrorMessage";
 import userIdQuery from "../utils/userIdQuery";
 
 export type ActivityPreview = {
-	name: string;
-	image: string;
+	url: string;
+	text: string;
+	createdAt: Date;
 };
 
 export type ActivityList = {
@@ -32,7 +34,7 @@ export default async function activityList(
 
 		const condition = isNull(activityTable.deleted_at);
 
-		// Get the follows from the database
+		// Get the activity from the database
 		const activityQuery = db.query.activityTable.findMany({
 			limit,
 			offset,
@@ -53,12 +55,12 @@ export default async function activityList(
 		}
 
 		// Create views
-		const activity = activityData.map((f) => {
+		const activity = activityData.map((a) => {
 			return {
-				url: f.url,
-				text: f.text,
-				createdAt: f.created_at,
-			};
+				url: a.url,
+				text: a.text,
+				createdAt: a.created_at,
+			} as ActivityPreview;
 		});
 
 		return ok({

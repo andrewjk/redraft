@@ -4,12 +4,10 @@ import relativeTimeSince from "../../lib/utils/relativeTimeSince"
 import stripProtocol from "../../lib/utils/stripProtocol";
 
 /**
- * Shows a message for display in a list.
+ * Shows a message preview for display in a list.
  */
-export default function MessageView() {
-	let { messageGroup, message, user } = $props;
-
-	let { image, url, name } = message.sent ? user : message;
+export default function MessageGroupPreview() {
+	let { message, user } = $props;
 
 	let fmt = new Intl.DateTimeFormat(undefined, {
 		day: "numeric",
@@ -20,39 +18,41 @@ export default function MessageView() {
 	});
 
 	@render {
-		<div :class={["card full-width message-preview", { received: !message.sent }]}>
+		<div class="card full-width message-preview">
 			<div class="hstack spaced">
 				<div style="flex: 0 0 auto">
-					<a href={url}>
-						<img class="message-preview-image" src={placeholdify(image)} alt="{name} ({stripProtocol(messageGroup.url)})" />
+					<a href={message.url}>
+						<img class="message-preview-image" src={placeholdify(message.image)} alt="{message.name} ({stripProtocol(message.url)})" />
 					</a>
 				</div>
 				<div style="flex: 1 1 auto">
 					<div class="message-preview-header hstack centered spaced font-sm">
-						<a class="message-preview-link grow hstack spaced" href={url}>
+						<a class="message-preview-link grow hstack spaced" href={message.url}>
 							<div class="grow vstack">
 								<div class="message-preview-name">
-									{name}
+									{message.name}
 								</div>
 								<div class="message-preview-url secondary">
-									{stripProtocol(url)}
+									{stripProtocol(message.url)}
 								</div>
 							</div>
 						</a>
 						<div class="vstack align-end">
-							<div class="message-preview-time secondary" title={fmt.format(new Date(message.sentAt))}>
-								{relativeTimeSince(new Date(message.sentAt))}
+							<div class="message-preview-time secondary" title={fmt.format(new Date(message.newestAt))}>
+								{relativeTimeSince(new Date(message.newestAt))}
 							</div>
-							@if (message.delivered) {
-								<div>&nbsp;</div>
+							@if (message.unreadCount) {
+								<div class="message-preview-unread">{message.unreadCount}</div>
 							} else {
-								<div style="color: red">Send failed</div>
+								<div>&nbsp;</div>
 							}
 						</div>
 					</div>
 
 					<div class="message-preview-body">
-						<p>{message.text}</p>
+						<a class="message-preview-link" href="{$props.base}messages/groups/{message.slug}">
+							<p>{message.text}</p>
+						</a>
 					</div>
 				</div>
 			</div>
@@ -61,10 +61,6 @@ export default function MessageView() {
 
 	@style {
 		.message-preview {
-		}
-
-		.message-preview.received {
-			border: 1px solid var(--link);
 		}
 
 		.message-preview-header,
@@ -91,6 +87,15 @@ export default function MessageView() {
 
 		.message-preview-name {
 			font-weight: bold;
+		}
+
+		.message-preview-unread {
+			border-radius: 500px;
+			background-color: red;
+			color: white;
+			font-weight: bold;
+			font-size: 80%;
+			padding: 0 0.5rem;
 		}
 	}
 }

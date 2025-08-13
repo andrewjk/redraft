@@ -6,8 +6,11 @@ import getErrorMessage from "../utils/getErrorMessage";
 import userIdQuery from "../utils/userIdQuery";
 
 export type NotificationPreview = {
-	name: string;
-	image: string;
+	id: number;
+	url: string;
+	text: string;
+	read: boolean;
+	createdAt: Date;
 };
 
 export type NotificationList = {
@@ -32,7 +35,7 @@ export default async function notificationList(
 
 		const condition = isNull(notificationsTable.deleted_at);
 
-		// Get the follows from the database
+		// Get the notifications from the database
 		const notificationsQuery = db.query.notificationsTable.findMany({
 			limit,
 			offset,
@@ -53,12 +56,14 @@ export default async function notificationList(
 		}
 
 		// Create views
-		const notifications = notificationsData.map((f) => {
+		const notifications = notificationsData.map((n) => {
 			return {
-				url: f.url,
-				text: f.text,
-				createdAt: f.created_at,
-			};
+				id: n.id,
+				url: n.url,
+				text: n.text,
+				read: n.read,
+				createdAt: n.created_at,
+			} as NotificationPreview;
 		});
 
 		return ok({

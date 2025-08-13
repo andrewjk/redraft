@@ -1,9 +1,7 @@
 import { created, forbidden, serverError } from "@torpor/build/response";
 import { eq } from "drizzle-orm";
 import database from "../../data/database";
-import { usersTable } from "../../data/schema";
-import { activityTable } from "../../data/schema/activityTable";
-import { userTokensTable } from "../../data/schema/userTokensTable";
+import { activityTable, userTokensTable, usersTable } from "../../data/schema";
 import env from "../env";
 import createUserToken from "../utils/createUserToken";
 import ensureSlash from "../utils/ensureSlash";

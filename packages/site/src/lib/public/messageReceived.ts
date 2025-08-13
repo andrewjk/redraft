@@ -1,13 +1,14 @@
 import { notFound, ok, serverError, unprocessable } from "@torpor/build/response";
-import { eq, or } from "drizzle-orm";
+import { and, eq, or } from "drizzle-orm";
 import database from "../../data/database";
 import {
 	followedByTable,
 	followingTable,
 	messageGroupsTable,
 	messagesTable,
-	notificationsTable,
+	usersTable,
 } from "../../data/schema";
+import createNotification from "../utils/createNotification";
 import getErrorMessage from "../utils/getErrorMessage";
 
 // IMPORTANT! Update this when the model changes
@@ -101,16 +102,23 @@ export default async function messageReceived(request: Request) {
 						newest_id: messageId,
 						newest_sent: false,
 						newest_at: new Date(),
+						unread_count: tx.$count(
+							messagesTable,
+							and(eq(messagesTable.group_id, messageGroup.id), eq(messagesTable.read, false)),
+						),
 					})
 					.where(eq(messageGroupsTable.id, messageGroup.id));
 
-				// TODO: Create a notification
-				await db.insert(notificationsTable).values({
-					url: `${user.url}messages/${messageGroup.slug}`,
-					text: `Message received from ${followedBy?.name ?? following?.name}`,
-					created_at: new Date(),
-					updated_at: new Date(),
-				});
+				await db
+					.update(usersTable)
+					.set({ message_count: db.$count(messagesTable, eq(messagesTable.read, false)) });
+
+				// Create a notification
+				await createNotification(
+					tx,
+					`${user.url}messages/${messageGroup.slug}`,
+					`Message received from ${followedBy?.name ?? following?.name}`,
+				);
 			} catch (error) {
 				errorMessage = getErrorMessage(error).message;
 				tx.rollback();

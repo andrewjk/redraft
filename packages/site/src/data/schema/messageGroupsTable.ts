@@ -19,6 +19,7 @@ export const messageGroupsTable = sqliteTable("message_groups", {
 	newest_id: int(), //.references(() => messagesTable.id),
 	newest_sent: int({ mode: "boolean" }).notNull(),
 	newest_at: int({ mode: "timestamp" }).notNull(),
+	unread_count: int().notNull().default(0),
 	created_at: int({ mode: "timestamp" }).notNull(),
 	updated_at: int({ mode: "timestamp" }).notNull(),
 	deleted_at: int({ mode: "timestamp" }),

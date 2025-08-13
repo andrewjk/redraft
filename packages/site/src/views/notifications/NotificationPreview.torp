@@ -24,6 +24,15 @@ export default function NotificationPreview() {
 				<div class="align-end secondary font-sm" title={fmt.format(new Date(notification.createdAt))}>
 					{relativeTimeSince(new Date(notification.createdAt))}
 				</div>
+				<div class="align-end">
+					<form use:enhance method="POST" action="?/markRead">
+						<input type="hidden" name="id" value={notification.id} />
+						<input type="hidden" name="read" value={!notification.read} />
+						<button type="submit">
+							{notification.read ? "Mark unread" : "Mark read"}
+						</button>
+					</form>
+				</div>
 			</div>
 		</div>
 	}

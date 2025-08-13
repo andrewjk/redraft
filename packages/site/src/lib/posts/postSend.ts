@@ -1,9 +1,10 @@
 import { notFound, ok, serverError, unauthorized } from "@torpor/build/response";
 import { eq, sql } from "drizzle-orm";
 import database from "../../data/database";
-import { notificationsTable, postsQueueTable, postsTable, usersTable } from "../../data/schema";
+import { postsQueueTable, postsTable, usersTable } from "../../data/schema";
 import { postPublic } from "../public";
 import { FEED_RECEIVED_VERSION, type FeedReceivedModel } from "../public/feedReceived";
+import createNotification from "../utils/createNotification";
 import getErrorMessage from "../utils/getErrorMessage";
 import pluralize from "../utils/pluralize";
 import userIdQuery from "../utils/userIdQuery";
@@ -100,12 +101,11 @@ export default async function postSend(request: Request, code: string) {
 
 		if (failureCount) {
 			// Create a notification
-			await db.insert(notificationsTable).values({
-				url: `${currentUser.url}posts/${post.slug}/status`,
-				text: `Failed to send ${failureCount} ${pluralize(failureCount, "post")}`,
-				created_at: new Date(),
-				updated_at: new Date(),
-			});
+			await createNotification(
+				db,
+				`${currentUser.url}posts/${post.slug}/status`,
+				`Failed to send ${failureCount} ${pluralize(failureCount, "post")}`,
+			);
 		}
 
 		return ok();

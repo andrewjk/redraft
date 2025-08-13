@@ -1,9 +1,8 @@
 import { notFound, ok, serverError, unprocessable } from "@torpor/build/response";
 import { eq } from "drizzle-orm";
 import database from "../../data/database";
-import { followingTable } from "../../data/schema";
-import { activityTable } from "../../data/schema/activityTable";
-import { notificationsTable } from "../../data/schema/notificationsTable";
+import { activityTable, followingTable } from "../../data/schema";
+import createNotification from "../utils/createNotification";
 import getErrorMessage from "../utils/getErrorMessage";
 
 // IMPORTANT! Update this when the model changes
@@ -51,12 +50,7 @@ export default async function followConfirmed(request: Request) {
 				)[0];
 
 				// Create a notification
-				await tx.insert(notificationsTable).values({
-					url: record.url,
-					text: `${record.name} has approved your follow request`,
-					created_at: new Date(),
-					updated_at: new Date(),
-				});
+				await createNotification(tx, record.url, `${record.name} has approved your follow request`);
 
 				// Create an activity record
 				await tx.insert(activityTable).values({

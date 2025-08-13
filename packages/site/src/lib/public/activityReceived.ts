@@ -1,8 +1,7 @@
 import { notFound, ok, serverError, unprocessable } from "@torpor/build/response";
 import { eq } from "drizzle-orm";
 import database from "../../data/database";
-import { followingTable } from "../../data/schema";
-import { activityTable } from "../../data/schema/activityTable";
+import { activityTable, followingTable } from "../../data/schema";
 import getErrorMessage from "../utils/getErrorMessage";
 
 // IMPORTANT! Update this when the model changes

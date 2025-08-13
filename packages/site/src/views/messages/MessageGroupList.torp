@@ -1,4 +1,4 @@
-import MessagePreview from './MessagePreview.torp';
+import MessageGroupPreview from './MessageGroupPreview.torp';
 
 /**
  * Shows a list of message groups.
@@ -20,7 +20,7 @@ export default function MessageGroupList($props) {
 						@key = message.id
 						<div class="hstack spaced full-width">
 							<div class="grow">
-								<MessagePreview {message} {$props.data.user} {$props.data.base} />
+								<MessageGroupPreview {message} {$props.data.user} {$props.data.base} />
 							</div>
 						</div>
 					}

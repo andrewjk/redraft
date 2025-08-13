@@ -1,8 +1,7 @@
 import { notFound, ok, serverError, unauthorized } from "@torpor/build/response";
 import { eq } from "drizzle-orm";
 import database from "../../data/database";
-import { feedTable, followingTable, usersTable } from "../../data/schema";
-import { activityTable } from "../../data/schema/activityTable";
+import { activityTable, feedTable, followingTable, usersTable } from "../../data/schema";
 import { postPublic } from "../public";
 import {
 	UNFOLLOW_REQUESTED_VERSION,

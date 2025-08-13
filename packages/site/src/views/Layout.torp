@@ -96,7 +96,12 @@ function Nav() {
 						:class={{ "nav-link nav-icon": true, active: $page.url.pathname.startsWith("/messages") }}
 						href="/messages"
 					>
-						<Envelope weight="bold" size="1.6rem" />
+						<div class="badge-container">
+							<Envelope weight="bold" size="1.6rem" />
+							@if ($props.user.messageCount) {
+								<span class="badge">{$props.user.messageCount}</span>
+							}
+						</div>
 					</NavMenuLink>
 				</li>
 
@@ -105,7 +110,12 @@ function Nav() {
 						:class={{ "nav-link nav-icon": true, active: $page.url.pathname.startsWith("/notifications") }}
 						href="/notifications"
 					>
-						<Bell weight="bold" size="1.6rem" />
+						<div class="badge-container">
+							<Bell weight="bold" size="1.6rem" />
+							@if ($props.user.notificationCount) {
+								<span class="badge">{$props.user.notificationCount}</span>
+							}
+						</div>
 					</NavMenuLink>
 				</li>
 
@@ -211,6 +221,23 @@ function Nav() {
 
 			display: inline-block;
 			vertical-align: top;
+		}
+
+		.badge-container {
+			position: relative;
+		}
+
+		.badge {
+			border-radius: 500px;
+			background-color: red;
+			color: white;
+			font-weight: bold;
+			font-size: 70%;
+			padding: 0 0.5rem;
+
+			position: absolute;
+			top: -1rem;
+			right: -1rem;
 		}
 	}
 }

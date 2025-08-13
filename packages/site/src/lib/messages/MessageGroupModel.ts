@@ -8,6 +8,7 @@ export type MessageGroupModel = {
 	messages: {
 		id: number;
 		text: string;
+		read: boolean;
 		sent: boolean;
 		sentAt: Date;
 		delivered: boolean;

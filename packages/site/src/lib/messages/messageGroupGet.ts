@@ -1,7 +1,7 @@
 import { notFound, ok, serverError, unauthorized } from "@torpor/build/response";
 import { eq } from "drizzle-orm";
 import database from "../../data/database";
-import { messageGroupsTable, usersTable } from "../../data/schema";
+import { messageGroupsTable, messagesTable, usersTable } from "../../data/schema";
 import getErrorMessage from "../utils/getErrorMessage";
 import userIdQuery from "../utils/userIdQuery";
 import type { MessageGroupModel } from "./MessageGroupModel";
@@ -36,6 +36,19 @@ export default async function messageGroupGet(slug: string, code: string) {
 			return notFound();
 		}
 
+		// Set all messages in this group to read
+		await db
+			.update(messagesTable)
+			.set({ read: true })
+			.where(eq(messagesTable.group_id, messageGroup.id));
+		await db
+			.update(messageGroupsTable)
+			.set({ unread_count: 0 })
+			.where(eq(messagesTable.group_id, messageGroup.id));
+		await db
+			.update(usersTable)
+			.set({ message_count: db.$count(messagesTable, eq(messagesTable.read, false)) });
+
 		const result = {
 			messageGroup: {
 				slug: messageGroup.slug,
@@ -47,6 +60,7 @@ export default async function messageGroupGet(slug: string, code: string) {
 				return {
 					id: m.id,
 					text: m.text,
+					read: m.read,
 					sent: m.sent,
 					sentAt: m.created_at,
 					delivered: m.delivered,

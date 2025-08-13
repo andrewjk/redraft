@@ -2,18 +2,18 @@ import { created, notFound, serverError, unauthorized } from "@torpor/build/resp
 import { and, eq } from "drizzle-orm";
 import database from "../../data/database";
 import {
+	activityTable,
 	commentsTable,
 	feedTable,
 	followedByTable,
 	postsTable,
 	usersTable,
 } from "../../data/schema";
-import { activityTable } from "../../data/schema/activityTable";
-import { notificationsTable } from "../../data/schema/notificationsTable";
 import commentsSend from "../../routes/api/comments/send/+server";
 import * as api from "../api";
 import { postPublic } from "../public";
 import { ACTIVITY_RECEIVED_VERSION, ActivityReceivedModel } from "../public/activityReceived";
+import createNotification from "../utils/createNotification";
 import getErrorMessage from "../utils/getErrorMessage";
 import userIdQuery from "../utils/userIdQuery";
 import uuid from "../utils/uuid";
@@ -134,12 +134,11 @@ export default async function commentCreate(
 				// Create a notification if it's a comment created by a follower, and an
 				// activity record otherwise
 				if (isFollower) {
-					await tx.insert(notificationsTable).values({
-						url: `${user.url}posts/${post.slug}`,
-						text: `${currentUser.name} commented on your post`,
-						created_at: new Date(),
-						updated_at: new Date(),
-					});
+					await createNotification(
+						tx,
+						`${user.url}posts/${post.slug}`,
+						`${currentUser.name} commented on your post`,
+					);
 
 					// Send the activity off to be created in the follower's database
 					let sendUrl = `${currentUser.url}api/public/activity`;
