@@ -18,6 +18,9 @@ export type PostEditModel = {
 	linkEmbedSrc: string | null;
 	linkEmbedWidth: number | null;
 	linkEmbedHeight: number | null;
+	hasRating: boolean;
+	ratingValue: number | null;
+	ratingBound: number | null;
 	children?: PostEditModel[];
 	tags?: string;
 };

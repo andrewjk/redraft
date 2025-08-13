@@ -5,7 +5,7 @@ import { feedTable, followingTable } from "../../data/schema";
 import getErrorMessage from "../utils/getErrorMessage";
 
 // IMPORTANT! Update this when the model changes
-export const FEED_RECEIVED_VERSION = 1;
+export const FEED_RECEIVED_VERSION = 2;
 
 export type FeedReceivedModel = {
 	sharedKey: string;
@@ -22,6 +22,8 @@ export type FeedReceivedModel = {
 	linkEmbedSrc: string | null;
 	linkEmbedWidth: number | null;
 	linkEmbedHeight: number | null;
+	ratingValue: number | null;
+	ratingBound: number | null;
 	publishedAt: Date;
 	republishedAt: Date | null;
 	version: number;
@@ -66,6 +68,8 @@ export default async function feedReceived(request: Request) {
 					link_embed_src: model.linkEmbedSrc?.startsWith("https://") ? model.linkEmbedSrc : null,
 					link_embed_width: model.linkEmbedWidth,
 					link_embed_height: model.linkEmbedHeight,
+					rating_value: model.ratingValue,
+					rating_bound: model.ratingBound,
 					// TODO: Should receive posted_at, edited_at etc
 					published_at: new Date(model.publishedAt),
 					republished_at: model.republishedAt ? new Date(model.republishedAt) : undefined,

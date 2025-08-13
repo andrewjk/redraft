@@ -1,0 +1,108 @@
+import Star from "phosphor-torpor/lib/Star";
+
+/**
+ * Shows a rating preview for display in a post/feed.
+ */
+export default function RatingPreview() {
+	let { rating } = $props;
+
+	@render {
+		<div class="hstack centered spaced rating-preview">
+			<div class="hstack centered spaced-nr grow">
+				<RatingPreviewBlock number={1} {rating.ratingValue} {rating.ratingBound} />
+				<RatingPreviewBlock number={2} {rating.ratingValue} {rating.ratingBound} />
+				<RatingPreviewBlock number={3} {rating.ratingValue} {rating.ratingBound} />
+				<RatingPreviewBlock number={4} {rating.ratingValue} {rating.ratingBound} />
+				<RatingPreviewBlock number={5} {rating.ratingValue} {rating.ratingBound} />
+			</div>
+			<div class="align-end secondary">
+				<p>{rating.ratingValue} / { rating.ratingBound }</p>
+			</div>
+		</div>
+	}
+
+	@style {
+		.rating-preview {
+		}
+
+		.rating-preview-bound {
+			background: lightgray;
+		}
+
+		.rating-preview-value {
+			background: gold;
+			height: 1rem;
+		}
+	}
+}
+
+function RatingPreviewBlock() {
+	let { ratingValue, ratingBound, number } = $props;
+
+	let min = (number - 1) / 5;
+	let max = number / 5;
+
+	let ratio = ratingValue / ratingBound;
+	let fillRatio = ratio <= min
+		? 0
+		: ratio >= max
+			? 1
+			: (ratio - min) / 0.2;
+
+	@render {
+		<div class="rating-preview-block" title={`${ratingValue} / ${ratingBound}`}>
+			<div class="rating-preview-block-value" style="width: {fillRatio * 100}%">
+			</div>
+			<div class="rating-preview-block-icon">
+				<Star weight="fill" color="white" />
+			</div>
+		</div>
+		@/*
+		<div class="rating-preview-star" title={`${ratio}, ${fillRatio}, ${min}, ${max}`}>
+			<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256">
+				<defs>
+					<linearGradient id="half{number}">
+						<stop offset="{fillRatio * 100}%" stop-color="gold" />
+						<stop offset="{fillRatio * 100}%" stop-color="lightgray" />
+					</linearGradient>
+				</defs>
+				<rect width="256" height="256" fill="none"/>
+				<path
+					d="M128,189.09l54.72,33.65a8.4,8.4,0,0,0,12.52-9.17l-14.88-62.79,48.7-42A8.46,8.46,0,0,0,224.27,94L160.36,88.8,135.74,29.2a8.36,8.36,0,0,0-15.48,0L95.64,88.8,31.73,94a8.46,8.46,0,0,0-4.79,14.83l48.7,42L60.76,213.57a8.4,8.4,0,0,0,12.52,9.17Z"
+					fill="url(#half{number})"
+					stroke="lightgray"
+					stroke-linecap="round"
+					stroke-linejoin="round"
+					stroke-width="0"
+				/>
+			</svg>
+		</div>
+			*/
+	}
+
+	@style {
+		.rating-preview-block {
+			border-radius: 0.4rem;
+			background: lightgray;
+			height: 2rem;
+			width: 2rem;
+			position: relative;
+		}
+
+		.rating-preview-block-value {
+			border-radius: 0.4rem;
+			background: gold;
+			height: 2rem;
+			width: 2rem;
+		}
+
+		.rating-preview-block-icon {
+			position: absolute;
+			top: 0;
+			left: 0;
+			height: 1.6rem;
+			width: 1.6rem;
+			margin: 0.1rem 0.2rem;
+		}
+	}
+}

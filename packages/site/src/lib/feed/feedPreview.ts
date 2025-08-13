@@ -34,6 +34,8 @@ export type FeedPreview = {
 	linkEmbedSrc: string | null;
 	linkEmbedWidth: number | null;
 	linkEmbedHeight: number | null;
+	ratingValue: number | null;
+	ratingBound: number | null;
 };
 
 export default function feedPreview(
@@ -76,5 +78,7 @@ export default function feedPreview(
 		linkEmbedSrc: feed.link_embed_src,
 		linkEmbedWidth: feed.link_embed_width,
 		linkEmbedHeight: feed.link_embed_height,
+		ratingValue: feed.rating_value,
+		ratingBound: feed.rating_bound,
 	};
 }

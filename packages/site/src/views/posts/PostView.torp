@@ -5,6 +5,7 @@ import relativeTimeSince from "../../lib/utils/relativeTimeSince"
 import stripProtocol from "../../lib/utils/stripProtocol";
 import CommentList from "../comments/CommentList.torp"
 import LinkPreview from './LinkPreview.torp';
+import RatingPreview from './RatingPreview.torp';
 import ChatCircle from "phosphor-torpor/lib/ChatCircle";
 import Heart from "phosphor-torpor/lib/Heart";
 import Pencil from "phosphor-torpor/lib/Pencil";
@@ -88,6 +89,9 @@ export default function PostView() {
 							@if (post.linkUrl) {
 								<LinkPreview link={post} />
 							}
+							@if (post.ratingValue) {
+								<RatingPreview rating={post} />
+							}
 						</div>
 
 						@if (post.children?.length > 0) {
@@ -106,6 +110,9 @@ export default function PostView() {
 									}
 									@if (child.linkUrl) {
 										<LinkPreview link={child} />
+									}
+									@if (child.ratingValue) {
+										<RatingPreview rating={child} />
 									}
 								</div>
 							}

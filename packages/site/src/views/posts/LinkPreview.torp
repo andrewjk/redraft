@@ -53,6 +53,9 @@ export default function LinkPreview() {
 		.link-preview-image {
 			background-color: rgba(0, 0, 0, 0.5);
 			min-height: 100px;
+			aspect-ratio: 16 / 9;
+			object-fit: cover;
+			object-position: top;
 		}
 
 		.link-preview-background {

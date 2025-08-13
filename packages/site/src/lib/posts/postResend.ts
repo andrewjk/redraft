@@ -64,6 +64,8 @@ export default async function postResend(request: Request, code: string) {
 					linkEmbedSrc: post.link_embed_src,
 					linkEmbedWidth: post.link_embed_width,
 					linkEmbedHeight: post.link_embed_height,
+					ratingValue: post.rating_value,
+					ratingBound: post.rating_bound,
 					publishedAt: post.published_at!,
 					republishedAt: post.republished_at,
 					version: FEED_RECEIVED_VERSION,

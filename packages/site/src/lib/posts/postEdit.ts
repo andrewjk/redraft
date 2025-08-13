@@ -91,6 +91,9 @@ function createView(
 		linkEmbedSrc: post.link_embed_src,
 		linkEmbedWidth: post.link_embed_width,
 		linkEmbedHeight: post.link_embed_height,
+		hasRating: !!post.rating_value,
+		ratingValue: post.rating_value,
+		ratingBound: post.rating_bound,
 		children: children?.map((c) => createView(c)),
 		tags: post.postTags?.map((pt) => pt.tag.text).join("; "),
 	} satisfies PostEditModel;

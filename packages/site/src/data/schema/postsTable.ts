@@ -1,5 +1,5 @@
 import { relations } from "drizzle-orm";
-import { int, sqliteTable, text } from "drizzle-orm/sqlite-core";
+import { int, real, sqliteTable, text } from "drizzle-orm/sqlite-core";
 import { createSelectSchema } from "drizzle-valibot";
 import { InferOutput } from "valibot";
 import { commentsTable } from "./commentsTable";
@@ -52,6 +52,9 @@ export const postsTable = sqliteTable("posts", {
 	link_embed_src: text(),
 	link_embed_width: int(),
 	link_embed_height: int(),
+	/** The rating value/upper bound */
+	rating_value: real(),
+	rating_bound: int(),
 	/** Id of the parent post, or null if this is not a child */
 	parent_id: int(),
 	/** The count of child posts */

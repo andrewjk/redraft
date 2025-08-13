@@ -4,6 +4,7 @@ import pluralize from "../../lib/utils/pluralize"
 import relativeTimeSince from "../../lib/utils/relativeTimeSince"
 import stripProtocol from "../../lib/utils/stripProtocol";
 import LinkPreview from '../posts/LinkPreview.torp';
+import RatingPreview from '../posts/RatingPreview.torp';
 import ChatCircle from "phosphor-torpor/lib/ChatCircle";
 import Heart from "phosphor-torpor/lib/Heart";
 import BookmarkSimple from "phosphor-torpor/lib/BookmarkSimple";
@@ -153,6 +154,9 @@ export default function FeedPreview() {
 						@// NOTE: This has to go outside of the feed anchor
 						@if (feed.linkUrl) {
 							<LinkPreview link={feed} />
+						}
+						@if (feed.ratingValue) {
+							<RatingPreview rating={feed} />
 						}
 					</div>
 

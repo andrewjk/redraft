@@ -3,6 +3,7 @@ import ImageUpload from '../ImageUpload.torp';
 import LinkPreview from './LinkPreview.torp';
 import Image from "phosphor-torpor/lib/Image";
 import Link from "phosphor-torpor/lib/Link";
+import Star from "phosphor-torpor/lib/Star";
 import Article from "phosphor-torpor/lib/Article";
 import Tag from "phosphor-torpor/lib/Tag";
 import UsersThree from "phosphor-torpor/lib/UsersThree";
@@ -39,6 +40,7 @@ export default function PostInput($props) {
 			<input type="hidden" name={`${prefix}id`} value={post.id} />
 			<input type="hidden" name={`${prefix}hasImage`} value={post.hasImage} />
 			<input type="hidden" name={`${prefix}hasLink`} value={post.hasLink} />
+			<input type="hidden" name={`${prefix}hasRating`} value={post.hasRating} />
 			<input type="hidden" name={`${prefix}isArticle`} value={post.isArticle} />
 
 			<div class="post-input-row">
@@ -146,6 +148,29 @@ export default function PostInput($props) {
 				}
 			}
 
+			@if (!post.isArticle && post.hasRating) {
+				<div class="hstack centered spaced">
+					<span>Rating:</span>
+					<input
+						type="number"
+						class="grow post-input-rating-value"
+						name={`${prefix}ratingValue`}
+						&value={post.ratingValue}
+						required
+						placeholder="Value"
+					/>
+					<span>out of</span>
+					<input
+						type="number"
+						class="grow post-input-rating-bound"
+						name={`${prefix}ratingBound`}
+						&value={post.ratingBound}
+						required
+						placeholder="Max"
+					/>
+				</div>
+			}
+
 			@if ($state.showTags) {
 				<div class="form-row">
 					<input name="tags" &value={post.tags} placeholder="Tags (separate with semicolons)" />
@@ -223,8 +248,18 @@ export default function PostInput($props) {
 						$state.linkLoaded = false;
 					}
 				}
+				<button type="button" class="link icon" disabled={post.isArticle} onclick={() => post.hasRating = !post.hasRating}>
+					@if (post.hasRating) {
+						<div class="zstack">
+							<X size="28px" />
+							<Star weight="bold" />
+						</div>
+					} else {
+						<Star weight="bold" />
+					}
+				</button>
 				@if (!child) {
-					<button type="button" class="link icon" disabled={post.hasImage || post.hasLink || post.children.length > 0} onclick={toggleArticle}>
+					<button type="button" class="link icon" disabled={post.hasImage || post.hasLink || post.hasRating || post.children.length > 0} onclick={toggleArticle}>
 						@if (post.isArticle) {
 							<div class="zstack">
 								<X size="28px" />

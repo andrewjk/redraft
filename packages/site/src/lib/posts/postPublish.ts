@@ -71,6 +71,8 @@ export default async function postPublish(
 						model.hasLink && model.linkEmbedSrc?.startsWith("https://") ? model.linkEmbedSrc : null,
 					link_embed_width: model.hasLink ? model.linkEmbedWidth : null,
 					link_embed_height: model.hasLink ? model.linkEmbedHeight : null,
+					rating_value: model.hasRating ? model.ratingValue : null,
+					rating_bound: model.hasRating ? model.ratingBound : null,
 					published_at: post.published_at,
 					republished_at: post.republished_at,
 					created_at: feed?.created_at ?? new Date(),

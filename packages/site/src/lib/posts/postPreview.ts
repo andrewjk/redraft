@@ -34,6 +34,8 @@ export type PostPreview = {
 	linkEmbedSrc: string | null;
 	linkEmbedWidth: number | null;
 	linkEmbedHeight: number | null;
+	ratingValue: number | null;
+	ratingBound: number | null;
 	tags: {
 		slug: string;
 		text: string;
@@ -80,6 +82,8 @@ export default function postPreview(
 		linkEmbedSrc: post.link_embed_src,
 		linkEmbedWidth: post.link_embed_width,
 		linkEmbedHeight: post.link_embed_height,
+		ratingValue: post.rating_value,
+		ratingBound: post.rating_bound,
 		tags: post.postTags.map((pt) => ({
 			slug: pt.tag.slug,
 			text: pt.tag.text,

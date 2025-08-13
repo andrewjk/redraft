@@ -1,5 +1,5 @@
 import { relations } from "drizzle-orm";
-import { int, sqliteTable, text } from "drizzle-orm/sqlite-core";
+import { int, real, sqliteTable, text } from "drizzle-orm/sqlite-core";
 import { createSelectSchema } from "drizzle-valibot";
 import { InferOutput } from "valibot";
 import { followingTable } from "./followingTable";
@@ -41,6 +41,9 @@ export const feedTable = sqliteTable("feed", {
 	link_embed_src: text(),
 	link_embed_width: int(),
 	link_embed_height: int(),
+	/** The rating value/upper bound */
+	rating_value: real(),
+	rating_bound: int(),
 	/** The count of child items */
 	child_count: int().notNull().default(0),
 	/** When this post was published */
