@@ -2,10 +2,11 @@ import { notFound, ok, serverError, unprocessable } from "@torpor/build/response
 import { eq } from "drizzle-orm";
 import database from "../../data/database";
 import { feedTable, followingTable } from "../../data/schema";
+import { FeedInsert } from "../../data/schema/feedTable";
 import getErrorMessage from "../utils/getErrorMessage";
 
 // IMPORTANT! Update this when the model changes
-export const FEED_RECEIVED_VERSION = 2;
+export const FEED_RECEIVED_VERSION = 3;
 
 export type FeedReceivedModel = {
 	sharedKey: string;
@@ -14,7 +15,7 @@ export type FeedReceivedModel = {
 	visibility: number;
 	image: string | null;
 	imageAltText: string | null;
-	isArticle: boolean;
+	linkType: number | null;
 	linkUrl: string | null;
 	linkTitle: string | null;
 	linkImage: string | null;
@@ -53,14 +54,14 @@ export default async function feedReceived(request: Request) {
 			try {
 				// Create or update the feed record
 				const feed = await tx.query.feedTable.findFirst({ where: eq(feedTable.slug, model.slug) });
-				const record = {
+				const record: FeedInsert = {
 					user_id: user.id,
 					slug: model.slug,
 					text: model.text,
 					visibility: model.visibility,
 					image: model.image,
 					image_alt_text: model.imageAltText,
-					is_article: model.isArticle,
+					link_type: model.linkType,
 					link_url: model.linkUrl,
 					link_title: model.linkTitle,
 					link_image: model.linkImage,

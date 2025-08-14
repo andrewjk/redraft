@@ -1,65 +1,22 @@
 import { notFound, ok, serverError } from "@torpor/build/response";
 import { and, eq, isNull, or } from "drizzle-orm";
 import database from "../../data/database";
-import { commentsTable, postsTable } from "../../data/schema";
+import { articlesTable, commentsTable, eventsTable, postsTable } from "../../data/schema";
+import { Article } from "../../data/schema/articlesTable";
+import { Event } from "../../data/schema/eventsTable";
 import { Post } from "../../data/schema/postsTable";
 import { User } from "../../data/schema/usersTable";
-import commentPreview, { CommentPreview } from "../comments/commentPreview";
-import { FOLLOWER_POST_VISIBILITY, PUBLIC_POST_VISIBILITY } from "../constants";
+import commentPreview from "../comments/commentPreview";
+import {
+	ARTICLE_LINK_TYPE,
+	EVENT_LINK_TYPE,
+	FOLLOWER_POST_VISIBILITY,
+	LINK_LINK_TYPE,
+	PUBLIC_POST_VISIBILITY,
+} from "../constants";
 import ensureSlash from "../utils/ensureSlash";
 import getErrorMessage from "../utils/getErrorMessage";
-
-interface PostViewModel {
-	slug: string;
-	text: string;
-	//visibility: number;
-	image: string | null;
-	imageAltText: string | null;
-	isArticle: boolean;
-	articleText: string | null;
-	linkUrl: string | null;
-	linkTitle: string | null;
-	linkImage: string | null;
-	linkPublication: string | null;
-	linkEmbedSrc: string | null;
-	linkEmbedWidth: number | null;
-	linkEmbedHeight: number | null;
-	ratingValue: number | null;
-	ratingBound: number | null;
-	author: {
-		image: string;
-		name: string;
-		url: string;
-	};
-	commentCount: number;
-	likeCount: number;
-	emojiFirst: string | null;
-	emojiSecond: string | null;
-	emojiThird: string | null;
-	childCount: number;
-	children: {
-		text: string;
-		//visibility: number;
-		image: string | null;
-		imageAltText: string | null;
-		linkUrl: string | null;
-		linkTitle: string | null;
-		linkImage: string | null;
-		linkPublication: string | null;
-		linkEmbedSrc: string | null;
-		linkEmbedWidth: number | null;
-		linkEmbedHeight: number | null;
-		ratingValue: number | null;
-		ratingBound: number | null;
-	}[];
-	publishedAt: Date;
-	republishedAt: Date | null;
-	tags: {
-		slug: string;
-		text: string;
-	}[];
-	comments: CommentPreview[];
-}
+import { PostViewModel } from "./PostViewModel";
 
 export default async function postGet(user: User, follower: User, slug: string) {
 	let errorMessage: string | undefined;
@@ -113,13 +70,36 @@ export default async function postGet(user: User, follower: User, slug: string) 
 			return notFound();
 		}
 
-		// If it has children, get them
+		// Load other post things
 		let children: Post[] = [];
-		if (post.child_count) {
-			children = await db.query.postsTable.findMany({
-				where: and(eq(postsTable.parent_id, post.id), isNull(postsTable.deleted_at)),
-			});
-		}
+		let article: Article | undefined;
+		let event: Event | undefined;
+
+		const loadChildren = async () => {
+			if (post.child_count) {
+				children = await db.query.postsTable.findMany({
+					where: and(eq(postsTable.parent_id, post.id), isNull(postsTable.deleted_at)),
+				});
+			}
+		};
+
+		const loadArticle = async () => {
+			if (post.article_id) {
+				article = await db.query.articlesTable.findFirst({
+					where: eq(articlesTable.id, post.article_id),
+				});
+			}
+		};
+
+		const loadEvent = async () => {
+			if (post.event_id) {
+				event = await db.query.eventsTable.findFirst({
+					where: eq(eventsTable.id, post.event_id),
+				});
+			}
+		};
+
+		await Promise.all([loadChildren(), loadArticle(), loadEvent()]);
 
 		// Create the view
 		let parentComments = post.comments.filter((c) => c.parent_id === null);
@@ -129,14 +109,22 @@ export default async function postGet(user: User, follower: User, slug: string) 
 			text: post.text,
 			image: post.image,
 			imageAltText: post.image_alt_text,
-			isArticle: post.is_article,
-			articleText: "",
-			linkUrl: post.is_article
-				? `${ensureSlash(currentUser.url)}articles/${post.slug}`
-				: post.link_url,
+			isArticle: post.link_type === ARTICLE_LINK_TYPE,
+			articleText: article?.text ?? null,
+			isEvent: post.link_type === EVENT_LINK_TYPE,
+			eventText: event?.text ?? null,
+			eventLocation: event?.location ?? null,
+			eventStartsAt: event?.starts_at ?? null,
+			eventDuration: event?.duration ?? null,
+			linkUrl:
+				post.link_type === ARTICLE_LINK_TYPE
+					? `${ensureSlash(currentUser.url)}articles/${post.slug}`
+					: post.link_type === EVENT_LINK_TYPE
+						? `${ensureSlash(currentUser.url)}events/${post.slug}`
+						: post.link_url,
 			linkTitle: post.link_title,
 			linkImage: post.link_image,
-			linkPublication: post.is_article ? currentUser.name : post.link_publication,
+			linkPublication: post.link_type === LINK_LINK_TYPE ? post.link_publication : currentUser.name,
 			linkEmbedSrc: post.link_embed_src,
 			linkEmbedWidth: post.link_embed_width,
 			linkEmbedHeight: post.link_embed_height,

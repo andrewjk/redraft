@@ -1,0 +1,27 @@
+import { $page } from "@torpor/build/state";
+import post from "../$postInput";
+import EventMenu from "./EventMenu.torp";
+import PostInput from "../posts/PostInput.torp";
+import PostList from "../posts/PostList.torp";
+import Pagination from "../Pagination.torp";
+
+export default function Index() {
+	let $state = $watch({
+		page: +($page.url.searchParams.get("page") || 1),
+	})
+
+	@render {
+		<div class="vstack spaced events-page">
+			<:head>
+				<title>{$props.data.viewing.name} • Events • Redraft</title>
+			</:head>
+
+			<EventMenu section="Events" {$props.data.user} {$props.data.base} />
+			@if ($props.data.user) {
+				<PostInput {post} {$props.data.user} {$props.data.base} />
+			}
+			<PostList {$props.data.posts} {$props.data.user} {$props.data.follower} />
+			<Pagination {$props.data.pageCount} {$state.page} href={(p) => `/?page=${p}`} />
+		</div>
+	}
+}

@@ -165,6 +165,10 @@ export default function FeedPreview() {
 							<a href="{feed.author.url}articles/{feed.slug}">
 								Read
 							</a>
+						} else if (feed.isEvent) {
+							<a href="{feed.author.url}events/{feed.slug}">
+								View
+							</a>
 						} else if (feed.childCount > 0) {
 							<a href="{feed.author.url}posts/{feed.slug}">
 								{feed.childCount + 1} posts

@@ -36,15 +36,17 @@ export const postsTable = sqliteTable("posts", {
 	image: text(),
 	/** Alt text for describing the image to screen reader users */
 	image_alt_text: text(),
-	/** Id for viewing the post with the article text */
-	article_id: int(),
-	/** Whether this is an article (as opposed to an external link) */
-	is_article: int({ mode: "boolean" }).notNull().default(false),
-	/** Url for link or article */
+	/**
+	 * 0 - link
+	 * 1 - article
+	 * 2 - event
+	 */
+	link_type: int(),
+	/** Url for link or article or event */
 	link_url: text(),
-	/** Title for link or article */
+	/** Title for link or article or event */
 	link_title: text(),
-	/** Image for link or article */
+	/** Image for link or article or event */
 	link_image: text(),
 	/** Publication for link */
 	link_publication: text(),
@@ -52,6 +54,10 @@ export const postsTable = sqliteTable("posts", {
 	link_embed_src: text(),
 	link_embed_width: int(),
 	link_embed_height: int(),
+	/** Id for viewing the post with the article text */
+	article_id: int(),
+	/** Id for viewing the post with the event details */
+	event_id: int(),
 	/** The rating value/upper bound */
 	rating_value: real(),
 	rating_bound: int(),

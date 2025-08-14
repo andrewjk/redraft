@@ -1,8 +1,9 @@
 import { and, eq, inArray } from "drizzle-orm";
 import { type DatabaseTransaction } from "../../data/database";
-import { articlesTable, postTagsTable, tagsTable } from "../../data/schema";
+import { articlesTable, eventsTable, postTagsTable, tagsTable } from "../../data/schema";
 import { Post, postsTable } from "../../data/schema/postsTable";
 import { Tag } from "../../data/schema/tagsTable";
+import { ARTICLE_LINK_TYPE, EVENT_LINK_TYPE, LINK_LINK_TYPE } from "../constants";
 import sluggify from "../utils/sluggify";
 import uuid from "../utils/uuid";
 import { type PostEditModel } from "./PostEditModel";
@@ -58,10 +59,38 @@ export default async function postCreateOrUpdate(
 				.update(articlesTable)
 				.set({
 					text: model.articleText!,
-					created_at: new Date(),
 					updated_at: new Date(),
 				})
 				.where(eq(articlesTable.id, model.articleId!));
+		}
+	}
+
+	// Create or update the event, if applicable
+	if (model.isEvent) {
+		if (!model.eventId && model.eventId !== 0) {
+			model.eventId = (
+				await tx
+					.insert(eventsTable)
+					.values({
+						text: model.eventText!,
+						location: model.eventLocation,
+						starts_at: new Date(model.eventStartsAt!),
+						duration: model.eventDuration,
+						created_at: new Date(),
+						updated_at: new Date(),
+					})
+					.returning({ id: eventsTable.id })
+			)[0].id;
+		} else {
+			await tx
+				.update(eventsTable)
+				.set({
+					location: model.eventLocation,
+					starts_at: new Date(model.eventStartsAt!),
+					duration: model.eventDuration,
+					updated_at: new Date(),
+				})
+				.where(eq(eventsTable.id, model.eventId!));
 		}
 	}
 
@@ -77,12 +106,17 @@ export default async function postCreateOrUpdate(
 					list_id: model.listId,
 					image: model.hasImage ? model.image : null,
 					image_alt_text: model.hasImage ? model.imageAltText : null,
-					is_article: model.isArticle,
 					article_id: model.isArticle ? model.articleId : null,
-					link_url: model.hasLink || model.isArticle ? model.linkUrl : null,
-					link_title: model.hasLink || model.isArticle ? model.linkTitle : null,
-					link_image: model.hasLink || model.isArticle ? model.linkImage : null,
-					link_publication: model.hasLink || model.isArticle ? model.linkPublication : null,
+					event_id: model.isEvent ? model.eventId : null,
+					link_type: model.isArticle
+						? ARTICLE_LINK_TYPE
+						: model.isEvent
+							? EVENT_LINK_TYPE
+							: LINK_LINK_TYPE,
+					link_url: model.hasLink || model.isArticle || model.isEvent ? model.linkUrl : null,
+					link_title: model.hasLink || model.isArticle || model.isEvent ? model.linkTitle : null,
+					link_image: model.hasLink || model.isArticle || model.isEvent ? model.linkImage : null,
+					link_publication: model.hasLink ? model.linkPublication : null,
 					link_embed_src:
 						model.hasLink && model.linkEmbedSrc?.startsWith("https://") ? model.linkEmbedSrc : null,
 					link_embed_width: model.hasLink ? model.linkEmbedWidth : null,
@@ -101,6 +135,7 @@ export default async function postCreateOrUpdate(
 					slug: uuid(),
 					text: child.text,
 					image: child.hasImage ? child.image : null,
+					link_type: child.hasLink ? LINK_LINK_TYPE : null,
 					link_url: child.hasLink ? child.linkUrl : null,
 					link_title: child.hasLink ? child.linkTitle : null,
 					link_image: child.hasLink ? child.linkImage : null,
@@ -137,11 +172,16 @@ export default async function postCreateOrUpdate(
 					list_id: model.listId,
 					image: model.hasImage ? model.image : null,
 					image_alt_text: model.hasImage ? model.imageAltText : null,
-					is_article: model.isArticle,
 					article_id: model.isArticle ? model.articleId : null,
-					link_url: model.hasLink ? model.linkUrl : null,
-					link_title: model.hasLink || model.isArticle ? model.linkTitle : null,
-					link_image: model.hasLink || model.isArticle ? model.linkImage : null,
+					event_id: model.isEvent ? model.eventId : null,
+					link_type: model.isArticle
+						? ARTICLE_LINK_TYPE
+						: model.isEvent
+							? EVENT_LINK_TYPE
+							: LINK_LINK_TYPE,
+					link_url: model.hasLink || model.isArticle || model.isEvent ? model.linkUrl : null,
+					link_title: model.hasLink || model.isArticle || model.isEvent ? model.linkTitle : null,
+					link_image: model.hasLink || model.isArticle || model.isEvent ? model.linkImage : null,
 					link_publication: model.hasLink ? model.linkPublication : null,
 					link_embed_src:
 						model.hasLink && model.linkEmbedSrc?.startsWith("https://") ? model.linkEmbedSrc : null,
@@ -182,6 +222,7 @@ export default async function postCreateOrUpdate(
 								// TODO: Allow hiding child posts
 								//visibility: child.visibility || 0,
 								image: child.hasImage ? child.image : null,
+								link_type: child.hasLink ? LINK_LINK_TYPE : null,
 								link_url: child.hasLink ? child.linkUrl : null,
 								link_title: child.hasLink ? child.linkTitle : null,
 								link_image: child.hasLink ? child.linkImage : null,

@@ -3,6 +3,8 @@ import { ok, unauthorized } from "@torpor/build/response";
 import * as api from "../../../lib/api";
 import { PAGE_SIZE } from "../../../lib/constants";
 import articlesDrafts from "../../api/articles/drafts/+server";
+import publishPost from "../../posts/_actions/publishPost";
+import savePost from "../../posts/_actions/savePost";
 
 export default {
 	load: async ({ appData, url, params }) => {
@@ -28,5 +30,9 @@ export default {
 		const pageCount = Math.ceil(postsCount / PAGE_SIZE);
 
 		return ok({ posts, pageCount });
+	},
+	actions: {
+		savePost,
+		publishPost,
 	},
 } satisfies PageServerEndPoint;

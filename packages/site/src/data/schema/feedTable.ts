@@ -1,6 +1,6 @@
 import { relations } from "drizzle-orm";
 import { int, real, sqliteTable, text } from "drizzle-orm/sqlite-core";
-import { createSelectSchema } from "drizzle-valibot";
+import { createInsertSchema, createSelectSchema } from "drizzle-valibot";
 import { InferOutput } from "valibot";
 import { followingTable } from "./followingTable";
 
@@ -27,8 +27,12 @@ export const feedTable = sqliteTable("feed", {
 	image: text(),
 	/** Alt text for describing the image to screen reader users */
 	image_alt_text: text(),
-	/** Whether this is an article (as opposed to an external link) */
-	is_article: int({ mode: "boolean" }).notNull().default(false),
+	/**
+	 * 0 - link
+	 * 1 - article
+	 * 2 - event
+	 */
+	link_type: int(),
 	/** Url for link or article */
 	link_url: text(),
 	/** Title for link or article */
@@ -63,6 +67,9 @@ export const feedTable = sqliteTable("feed", {
 
 export const FeedSelectSchema = createSelectSchema(feedTable);
 export type Feed = InferOutput<typeof FeedSelectSchema>;
+
+export const FeedInsertSchema = createInsertSchema(feedTable);
+export type FeedInsert = InferOutput<typeof FeedInsertSchema>;
 
 export const feedRelations = relations(feedTable, ({ one }) => ({
 	user: one(followingTable, { fields: [feedTable.user_id], references: [followingTable.id] }),

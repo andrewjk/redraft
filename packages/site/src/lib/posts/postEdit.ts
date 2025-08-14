@@ -1,10 +1,12 @@
 import { notFound, ok, serverError, unauthorized } from "@torpor/build/response";
 import { and, eq, isNull } from "drizzle-orm";
 import database from "../../data/database";
-import { articlesTable, postsTable, usersTable } from "../../data/schema";
+import { articlesTable, eventsTable, postsTable, usersTable } from "../../data/schema";
 import { Article } from "../../data/schema/articlesTable";
+import { Event } from "../../data/schema/eventsTable";
 import { Post } from "../../data/schema/postsTable";
 import { Tag } from "../../data/schema/tagsTable";
+import { ARTICLE_LINK_TYPE, EVENT_LINK_TYPE } from "../constants";
 import getErrorMessage from "../utils/getErrorMessage";
 import userIdQuery from "../utils/userIdQuery";
 import { PostEditModel } from "./PostEditModel";
@@ -40,25 +42,40 @@ export default async function postEdit(slug: string, code: string) {
 			return notFound();
 		}
 
-		// If it's an article, get the article text
-		let article;
-		if (post.is_article && post.article_id) {
-			article = await db.query.articlesTable.findFirst({
-				where: eq(articlesTable.id, post.article_id),
-			});
-		}
-
-		// If it has children, get them
+		// Load other post things
 		let children: Post[] = [];
-		if (post.child_count) {
-			children = await db.query.postsTable.findMany({
-				where: and(eq(postsTable.parent_id, post.id), isNull(postsTable.deleted_at)),
-			});
-		}
+		let article: Article | undefined;
+		let event: Event | undefined;
+
+		const loadChildren = async () => {
+			if (post.child_count) {
+				children = await db.query.postsTable.findMany({
+					where: and(eq(postsTable.parent_id, post.id), isNull(postsTable.deleted_at)),
+				});
+			}
+		};
+
+		const loadArticle = async () => {
+			if (post.article_id) {
+				article = await db.query.articlesTable.findFirst({
+					where: eq(articlesTable.id, post.article_id),
+				});
+			}
+		};
+
+		const loadEvent = async () => {
+			if (post.event_id) {
+				event = await db.query.eventsTable.findFirst({
+					where: eq(eventsTable.id, post.event_id),
+				});
+			}
+		};
+
+		await Promise.all([loadChildren(), loadArticle(), loadEvent()]);
 
 		// Create the view
-		const view = createView(post, article, children);
-
+		const view = createView(post, article, event, children);
+		console.log(event);
 		return ok({ post: view });
 	} catch (error) {
 		const message = errorMessage || getErrorMessage(error).message;
@@ -69,6 +86,7 @@ export default async function postEdit(slug: string, code: string) {
 function createView(
 	post: Post & { postTags?: { tag: Tag }[] },
 	article?: Article,
+	event?: Event,
 	children?: Post[],
 ): PostEditModel {
 	return {
@@ -80,9 +98,15 @@ function createView(
 		hasImage: !!post.image,
 		image: post.image,
 		imageAltText: post.image_alt_text,
-		isArticle: post.is_article,
-		articleId: article ? article.id : null,
-		articleText: article ? article.text : null,
+		isArticle: post.link_type === ARTICLE_LINK_TYPE,
+		articleId: article?.id ?? null,
+		articleText: article?.text ?? null,
+		isEvent: post.link_type === EVENT_LINK_TYPE,
+		eventId: event?.id ?? null,
+		eventText: event?.text ?? null,
+		eventLocation: event?.location ?? null,
+		eventStartsAt: event?.starts_at ?? null,
+		eventDuration: event?.duration ?? null,
 		hasLink: !!post.link_url,
 		linkUrl: post.link_url,
 		linkImage: post.link_image,

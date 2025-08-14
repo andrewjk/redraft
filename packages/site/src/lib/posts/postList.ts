@@ -4,9 +4,13 @@ import database from "../../data/database";
 import { postsTable, usersTable } from "../../data/schema";
 import { User } from "../../data/schema/usersTable";
 import {
+	ARTICLE_LINK_TYPE,
 	ARTICLE_POST_TYPE,
+	EVENT_LINK_TYPE,
+	EVENT_POST_TYPE,
 	FOLLOWER_POST_VISIBILITY,
 	IMAGE_POST_TYPE,
+	LINK_LINK_TYPE,
 	LINK_POST_TYPE,
 	PUBLIC_POST_VISIBILITY,
 } from "../constants";
@@ -64,10 +68,9 @@ export async function getPosts(
 			isNull(postsTable.deleted_at),
 			drafts ? isNull(postsTable.published_at) : isNotNull(postsTable.published_at),
 			type === IMAGE_POST_TYPE ? isNotNull(postsTable.image) : undefined,
-			type === ARTICLE_POST_TYPE ? eq(postsTable.is_article, true) : undefined,
-			type === LINK_POST_TYPE
-				? and(isNotNull(postsTable.link_url), eq(postsTable.is_article, false))
-				: undefined,
+			type === ARTICLE_POST_TYPE ? eq(postsTable.link_type, ARTICLE_LINK_TYPE) : undefined,
+			type === EVENT_POST_TYPE ? eq(postsTable.link_type, EVENT_LINK_TYPE) : undefined,
+			type === LINK_POST_TYPE ? eq(postsTable.link_type, LINK_LINK_TYPE) : undefined,
 			// Logged in users can see any post
 			// Logged in followers can see public or follower posts
 			// Non-logged in users can only see public posts

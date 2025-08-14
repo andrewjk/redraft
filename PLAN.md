@@ -18,10 +18,10 @@
 - [x] Links attached to status
 - [ ] Posts attached to status? Not sure about this one...
 - [ ] Stories/disappearing posts
-  - Would need to withold from the feed
+  - Would need to withhold from the feed
   - Maybe display in an iframe??
-- [ ] Multi status "threads"
-  - [ ] Post count
+- [x] Multi status "threads"
+  - [x] Post count
 - [x] Republishing a post to move it back up to the top
 - [x] Draft posts
 - [x] Following
@@ -37,8 +37,8 @@
   - [ ] Expiring blocks
   - [ ] Unblocking
 - [x] Notifications
-  - [ ] Track read status
-  - [ ] Display unread count in the header
+  - [x] Track read status
+  - [x] Display unread count in the header
 - [ ] Realtime updates w/ sockets
 - [x] Editing profile should propagate to following/followers
 - [ ] Deploy
@@ -78,12 +78,20 @@
 ### Extended functionality?
 
 - [ ] More communication types
-  - [ ] Messages
+  - [x] Messages
+    - [ ] Privacy settings (none, followers, following, anyone)
+    - [ ] Allow resending failed messages
+    - [ ] Group messages
   - [ ] Chat
   - [ ] Audio
   - [ ] Video
   - [ ] Polls
-  - [ ] Events
+  - [x] Events
+    - [ ] Display in a calendar
+    - [ ] Allow adding to your own calendar
+    - [ ] RSVP (goes to the event creator only)
+    - [ ] Capped numbers (e.g. 30 spots, 5 spots left)
+    - [ ] Download as iCal
   - [ ] Groups
   - etc
 - [ ] Open Graph

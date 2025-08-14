@@ -1,0 +1,32 @@
+/**
+ * Shows a menu for selecting Events or drafts.
+ */
+export default function EventMenu($props: { section: string, user: any }) {
+	@render {
+		<div class="hstack full-width subnav-menu event-menu">
+			@if ($props.section === "Events") {
+				<h1>Events</h1>
+			} else if ($props.section === "Drafts") {
+				<h1>Event drafts</h1>
+			}
+
+			@if ($props.user) {
+				<div class="spacer" />
+
+				@if ($props.section === "Events") {
+					<a class="subnav-link" href="{$props.base}events/drafts">
+						Drafts
+					</a>
+				} else if ($props.section === "Drafts") {
+					<a class="subnav-link" href="{$props.base}events">
+						Events
+					</a>
+				}
+
+				<a class="subnav-link" href="{$props.base}posts/compose">
+					Compose
+				</a>
+			}
+		</div>
+	}
+}

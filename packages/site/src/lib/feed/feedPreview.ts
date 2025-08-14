@@ -3,6 +3,7 @@ import { micromark } from "micromark";
 import { type Feed } from "../../data/schema/feedTable";
 import { type Following } from "../../data/schema/followingTable";
 import { type User } from "../../data/schema/usersTable";
+import { ARTICLE_LINK_TYPE, EVENT_LINK_TYPE, LINK_LINK_TYPE } from "../constants";
 import ensureSlash from "../utils/ensureSlash";
 
 type FeedAuthor = {
@@ -27,6 +28,7 @@ export type FeedPreview = {
 	image: string | null;
 	imageAltText: string | null;
 	isArticle: boolean;
+	isEvent: boolean;
 	linkUrl: string | null;
 	linkTitle: string | null;
 	linkImage: string | null;
@@ -68,13 +70,17 @@ export default function feedPreview(
 		visibility: feed.visibility,
 		image: feed.image,
 		imageAltText: feed.image_alt_text,
-		isArticle: feed.is_article,
-		linkUrl: feed.is_article
-			? `${ensureSlash((feed.user ?? currentUser).url)}articles/${feed.slug}`
-			: feed.link_url,
+		isArticle: feed.link_type === ARTICLE_LINK_TYPE,
+		isEvent: feed.link_type === EVENT_LINK_TYPE,
+		linkUrl:
+			feed.link_type === ARTICLE_LINK_TYPE
+				? `${ensureSlash((feed.user ?? currentUser).url)}articles/${feed.slug}`
+				: feed.link_type === EVENT_LINK_TYPE
+					? `${ensureSlash((feed.user ?? currentUser).url)}events/${feed.slug}`
+					: feed.link_url,
 		linkTitle: feed.link_title,
 		linkImage: feed.link_image,
-		linkPublication: feed.is_article ? currentUser.name : feed.link_publication,
+		linkPublication: feed.link_type === LINK_LINK_TYPE ? feed.link_publication : currentUser.name,
 		linkEmbedSrc: feed.link_embed_src,
 		linkEmbedWidth: feed.link_embed_width,
 		linkEmbedHeight: feed.link_embed_height,

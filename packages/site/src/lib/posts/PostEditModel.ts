@@ -10,6 +10,12 @@ export type PostEditModel = {
 	isArticle: boolean;
 	articleId: number | null;
 	articleText: string | null;
+	isEvent: boolean;
+	eventId: number | null;
+	eventText: string | null;
+	eventLocation: string | null;
+	eventStartsAt: Date | null;
+	eventDuration: number | null;
 	hasLink: boolean;
 	linkUrl: string | null;
 	linkTitle: string | null;

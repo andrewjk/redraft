@@ -2,6 +2,7 @@ import { micromark } from "micromark";
 import { type Post } from "../../data/schema/postsTable";
 import { Tag } from "../../data/schema/tagsTable";
 import { type User } from "../../data/schema/usersTable";
+import { ARTICLE_LINK_TYPE, EVENT_LINK_TYPE, LINK_LINK_TYPE } from "../constants";
 import ensureSlash from "../utils/ensureSlash";
 
 type PostAuthor = {
@@ -27,6 +28,7 @@ export type PostPreview = {
 	image: string | null;
 	imageAltText: string | null;
 	isArticle: boolean;
+	isEvent: boolean;
 	linkUrl: string | null;
 	linkImage: string | null;
 	linkTitle: string | null;
@@ -72,13 +74,17 @@ export default function postPreview(
 		visibility: post.visibility,
 		image: post.image,
 		imageAltText: post.image_alt_text,
-		isArticle: post.is_article,
-		linkUrl: post.is_article
-			? `${ensureSlash(currentUser.url)}articles/${post.slug}`
-			: post.link_url,
+		isArticle: post.link_type === ARTICLE_LINK_TYPE,
+		isEvent: post.link_type === EVENT_LINK_TYPE,
+		linkUrl:
+			post.link_type === ARTICLE_LINK_TYPE
+				? `${ensureSlash(currentUser.url)}articles/${post.slug}`
+				: post.link_type === EVENT_LINK_TYPE
+					? `${ensureSlash(currentUser.url)}events/${post.slug}`
+					: post.link_url,
 		linkTitle: post.link_title,
 		linkImage: post.link_image,
-		linkPublication: post.is_article ? currentUser.name : post.link_publication,
+		linkPublication: post.link_type === LINK_LINK_TYPE ? post.link_publication : currentUser.name,
 		linkEmbedSrc: post.link_embed_src,
 		linkEmbedWidth: post.link_embed_width,
 		linkEmbedHeight: post.link_embed_height,

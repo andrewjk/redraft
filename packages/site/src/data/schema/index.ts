@@ -2,6 +2,7 @@ import { activityTable } from "./activityTable";
 import { articlesTable } from "./articlesTable";
 import { commentsRelations, commentsTable } from "./commentsTable";
 import { contentTable } from "./contentTable";
+import { eventsTable } from "./eventsTable";
 import { feedRelations, feedTable } from "./feedTable";
 import { followedByTable } from "./followedByTable";
 import { followingRelations, followingTable } from "./followingTable";
@@ -23,6 +24,7 @@ export {
 	commentsTable,
 	commentsRelations,
 	contentTable,
+	eventsTable,
 	feedTable,
 	feedRelations,
 	followedByTable,

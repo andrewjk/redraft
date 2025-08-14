@@ -5,6 +5,7 @@ import Image from "phosphor-torpor/lib/Image";
 import Link from "phosphor-torpor/lib/Link";
 import Star from "phosphor-torpor/lib/Star";
 import Article from "phosphor-torpor/lib/Article";
+import Calendar from "phosphor-torpor/lib/Calendar";
 import Tag from "phosphor-torpor/lib/Tag";
 import UsersThree from "phosphor-torpor/lib/UsersThree";
 import StackPlus from "phosphor-torpor/lib/StackPlus";
@@ -32,7 +33,7 @@ export default function PostInput($props) {
 	});
 
 	function newPost() {
-		return { id: -1, type: 0, visibility: 0, children: [] };
+		return { id: -1, visibility: 0, children: [] };
 	}
 
 	@render {
@@ -42,6 +43,7 @@ export default function PostInput($props) {
 			<input type="hidden" name={`${prefix}hasLink`} value={post.hasLink} />
 			<input type="hidden" name={`${prefix}hasRating`} value={post.hasRating} />
 			<input type="hidden" name={`${prefix}isArticle`} value={post.isArticle} />
+			<input type="hidden" name={`${prefix}isEvent`} value={post.isEvent} />
 
 			<div class="post-input-row">
 				<textarea
@@ -75,11 +77,49 @@ export default function PostInput($props) {
 						placeholder="Article text"
 					/>
 				</div>
-			} 
+			}
+
+			@if (post.isEvent) {
+				<input type="hidden" name={`${prefix}eventId`} value={post.eventId} />
+				<input type="hidden" name={`${prefix}linkPublication`} value={user.name} />
+
+				<div class="form-row">
+					<input
+						class="post-input-event-title"
+						name={`${prefix}linkTitle`}
+						&value={post.linkTitle}
+						required
+						placeholder="Title"
+					/>
+				</div>
+				<ImageUpload image={post.linkImage} class="full-width" />
+				<div class="form-row">
+					<textarea
+						class="full-width"
+						&value={post.eventText}
+						name={`${prefix}eventText`}
+						placeholder="Event description"
+					/>
+				</div>
+				<input
+					name={`${prefix}eventLocation`}
+					&value={post.eventLocation}
+					placeholder="Event location" />
+				<input
+					type="date"
+					name={`${prefix}eventStartsAt`}
+					&value={post.eventStartsAt}
+					placeholder="Event start" />
+				<input
+					type="number"
+					name={`${prefix}eventDuration`}
+					&value={post.eventDuration}
+					placeholder="Event duration" />
+			}
 
 			@// HACK: Nested ifs are broken...
 
-			@if (!post.isArticle && post.hasImage) {
+			@if (!post.isArticle && !post.isEvent && post.hasImage) {
 				<input
 					class="full-width"
 					:style={{ display: $state.imageLoaded ? "none" : undefined }}
@@ -109,7 +149,7 @@ export default function PostInput($props) {
 				}
 			}
 
-			@if (!post.isArticle && post.hasLink) {
+			@if (!post.isArticle && !post.isEvent && post.hasLink) {
 				<input type="hidden" name={`${prefix}linkImage`} value={post.linkImage} />
 				<input type="hidden" name={`${prefix}linkTitle`} value={post.linkTitle} />
 				<input type="hidden" name={`${prefix}linkPublication`} value={post.linkPublication} />
@@ -148,7 +188,7 @@ export default function PostInput($props) {
 				}
 			}
 
-			@if (!post.isArticle && post.hasRating) {
+			@if (!post.isArticle && !post.isEvent && post.hasRating) {
 				<div class="hstack centered spaced">
 					<span>Rating:</span>
 					<input
@@ -216,7 +256,7 @@ export default function PostInput($props) {
 
 			<div class="hstack centered spaced post-input-footer">
 				<div class="spacer" />
-				<button type="button" class="link icon" disabled={post.isArticle} onclick={toggleImage}>
+				<button type="button" class="link icon" disabled={post.isArticle || post.isEvent} onclick={toggleImage}>
 					@if (post.hasImage) {
 						<div class="zstack">
 							<X size="28px" />
@@ -232,7 +272,7 @@ export default function PostInput($props) {
 						$state.imageLoaded = false;
 					}
 				}
-				<button type="button" class="link icon" disabled={post.isArticle} onclick={toggleLink}>
+				<button type="button" class="link icon" disabled={post.isArticle || post.isEvent} onclick={toggleLink}>
 					@if (post.hasLink) {
 						<div class="zstack">
 							<X size="28px" />
@@ -248,7 +288,7 @@ export default function PostInput($props) {
 						$state.linkLoaded = false;
 					}
 				}
-				<button type="button" class="link icon" disabled={post.isArticle} onclick={() => post.hasRating = !post.hasRating}>
+				<button type="button" class="link icon" disabled={post.isArticle || post.isEvent} onclick={() => post.hasRating = !post.hasRating}>
 					@if (post.hasRating) {
 						<div class="zstack">
 							<X size="28px" />
@@ -269,6 +309,16 @@ export default function PostInput($props) {
 							<Article weight="bold" />
 						}
 					</button>
+					<button type="button" class="link icon" disabled={post.hasImage || post.hasLink || post.hasRating || post.children.length > 0} onclick={toggleEvent}>
+						@if (post.isEvent) {
+							<div class="zstack">
+								<X size="28px" />
+								<Calendar weight="bold" />
+							</div>
+						} else {
+							<Calendar weight="bold" />
+						}
+					</button>
 				}
 				@// TODO: Move this into the @if
 				@function toggleArticle() {
@@ -282,6 +332,18 @@ export default function PostInput($props) {
 					post.linkEmbedHeight = null;
 					post.isArticle = !post.isArticle
 				}
+				@// TODO: Move this into the @if
+				@function toggleEvent() {
+					post.hasLink = false;
+					post.linkUrl = null;
+					post.linkTitle = null;
+					post.linkImage = null;
+					post.linkPublication = null;
+					post.linkEmbedSrc = null;
+					post.linkEmbedWidth = null;
+					post.linkEmbedHeight = null;
+					post.isEvent = !post.isEvent
+				}
 				@/* TODO: fix these!
 				@if (child) {
 					<button type="button" class="link icon" onclick={removeChild}>
@@ -292,7 +354,7 @@ export default function PostInput($props) {
 					</button>
 				}
 				*/
-				<button type="button" class="link icon" disabled={post.isArticle} onclick={addChild}>
+				<button type="button" class="link icon" disabled={post.isArticle || post.isEvent} onclick={addChild}>
 					<StackPlus weight="bold" />
 				</button>
 				@function addChild() {

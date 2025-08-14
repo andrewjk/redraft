@@ -3,11 +3,11 @@
 //import { micromark } from "micromark";
 //import { gfm, gfmHtml } from "micromark-extension-gfm";
 //import database from "../../data/database";
-//import { articlesTable, commentsTable, eventsTable, postsTable } from "../../data/schema";
+//import { eventsTable, commentsTable, eventsTable, postsTable } from "../../data/schema";
 //import { User } from "../../data/schema/usersTable";
 //import commentPreview from "../comments/commentPreview";
 //import {
-//	ARTICLE_LINK_TYPE,
+//	EVENT_LINK_TYPE,
 //	EVENT_LINK_TYPE,
 //	FOLLOWER_POST_VISIBILITY,
 //	LINK_LINK_TYPE,
@@ -17,7 +17,7 @@
 //import ensureSlash from "../utils/ensureSlash";
 //import getErrorMessage from "../utils/getErrorMessage";
 //
-//export default async function articleGet(user: User, follower: User, slug: string) {
+//export default async function eventGet(user: User, follower: User, slug: string) {
 //	let errorMessage: string | undefined;
 //
 //	try {
@@ -76,16 +76,16 @@
 //			slug: post.slug,
 //			text: post.text,
 //			image: post.image,
-//			isArticle: post.link_type === ARTICLE_LINK_TYPE,
-//			//articleText: articleText,
+//			isEvent: post.link_type === EVENT_LINK_TYPE,
+//			//eventText: eventText,
 //			isEvent: post.link_type === EVENT_LINK_TYPE,
 //			//eventText: eventText,
 //			//eventLocation: eventLocation,
 //			//eventStartsAt: eventStartsAt,
 //			//eventDuration: eventDuration,
 //			linkUrl:
-//				post.link_type === ARTICLE_LINK_TYPE
-//					? `${ensureSlash(currentUser.url)}articles/${post.slug}`
+//				post.link_type === EVENT_LINK_TYPE
+//					? `${ensureSlash(currentUser.url)}events/${post.slug}`
 //					: post.link_type === EVENT_LINK_TYPE
 //						? `${ensureSlash(currentUser.url)}events/${post.slug}`
 //						: post.link_url,
@@ -108,13 +108,13 @@
 //			comments: parentComments.map((c) => commentPreview(c, currentUser, childComments)),
 //		};
 //
-//		// If it's an article, get the article text
-//		if (post.article_id) {
-//			const article = await db.query.articlesTable.findFirst({
-//				where: eq(articlesTable.id, post.article_id),
+//		// If it's an event, get the event text
+//		if (post.event_id) {
+//			const event = await db.query.eventsTable.findFirst({
+//				where: eq(eventsTable.id, post.event_id),
 //			});
-//			if (article) {
-//				view.articleText = micromark(article.text, {
+//			if (event) {
+//				view.eventText = micromark(event.text, {
 //					extensions: [gfm()],
 //					htmlExtensions: [gfmHtml()],
 //				});

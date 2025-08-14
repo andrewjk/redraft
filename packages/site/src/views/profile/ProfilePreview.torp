@@ -81,6 +81,13 @@ export default function ProfilePreview($props) {
 					>
 						Media
 					</a>
+					@const eventsLink = `${$props.base}events`
+					<a
+						:class={{ "subnav-link": true, active: $page.url.pathname.startsWith(eventsLink) }}
+						href={eventsLink}
+					>
+						Events
+					</a>
 					@const contactsLink = `${$props.base}contacts`
 					<a
 						:class={{ "subnav-link": true, active: $page.url.pathname.startsWith(contactsLink) }}
