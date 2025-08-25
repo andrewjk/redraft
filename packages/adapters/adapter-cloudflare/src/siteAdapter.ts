@@ -46,7 +46,7 @@ async function postbuild(site: Site) {
 		site.root,
 		"./node_modules/@redraft/adapter-cloudflare/src/adapter.global.js",
 	);
-	const adapterCode = fs.readFileSync(adapterFile, "utf-8");
+	const adapterCode = fs.readFileSync(adapterFile, "utf-8").replaceAll(/[ ]+\/\/.+\n/g, "");
 
 	const workerFile = path.resolve(site.root, "./dist/cloudflare/_worker.js");
 	let workerCode = fs.readFileSync(workerFile, "utf-8");
