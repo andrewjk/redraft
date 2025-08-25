@@ -1,7 +1,6 @@
 import { type PageServerEndPoint } from "@torpor/build";
 import { seeOther, unauthorized } from "@torpor/build/response";
 import * as api from "../../../../lib/api";
-import { type MessageCreatedModel } from "../../../../lib/messages/messageCreatePost";
 import formDataToObject from "../../../../lib/utils/formDataToObject";
 import messageCreate from "../../../api/messages/create/[slug]/+server";
 
@@ -40,7 +39,7 @@ export default {
 				return result;
 			}
 
-			const createdModel: MessageCreatedModel = await result.json();
+			const createdModel: { slug: string } = await result.json();
 
 			return seeOther(
 				params.user

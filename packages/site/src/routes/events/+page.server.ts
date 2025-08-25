@@ -3,6 +3,7 @@ import { ok } from "@torpor/build/response";
 import * as api from "../../lib/api";
 import { PAGE_SIZE } from "../../lib/constants";
 import eventsList from "../api/events/+server";
+import type PostListModel from "../posts/PostListModel";
 import publishPost from "../posts/_actions/publishPost";
 import savePost from "../posts/_actions/savePost";
 
@@ -26,7 +27,7 @@ export default {
 		if (!result.ok) {
 			return result;
 		}
-		const { posts, postsCount } = await result.json();
+		const { posts, postsCount }: PostListModel = await result.json();
 
 		const pageCount = Math.ceil(postsCount / PAGE_SIZE);
 

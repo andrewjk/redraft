@@ -3,6 +3,7 @@ import { ok } from "@torpor/build/response";
 import * as api from "../../lib/api";
 import { PAGE_SIZE } from "../../lib/constants";
 import tagsList from "../api/tags/+server";
+import type TagListModel from "./TagListModel";
 
 export default {
 	load: async ({ url, params }) => {
@@ -24,7 +25,7 @@ export default {
 		if (!result.ok) {
 			return result;
 		}
-		const { tags, tagsCount } = await result.json();
+		const { tags, tagsCount }: TagListModel = await result.json();
 
 		const pageCount = Math.ceil(tagsCount / PAGE_SIZE);
 

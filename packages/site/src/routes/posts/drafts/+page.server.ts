@@ -5,6 +5,7 @@ import { PAGE_SIZE } from "../../../lib/constants";
 import postsDrafts from "../../api/posts/drafts/+server";
 import publishPost from "../../posts/_actions/publishPost";
 import savePost from "../../posts/_actions/savePost";
+import type PostListModel from "../PostListModel";
 
 export default {
 	load: async ({ appData, url, params }) => {
@@ -25,7 +26,7 @@ export default {
 		if (!result.ok) {
 			return result;
 		}
-		const { posts, postsCount } = await result.json();
+		const { posts, postsCount }: PostListModel = await result.json();
 
 		const pageCount = Math.ceil(postsCount / PAGE_SIZE);
 

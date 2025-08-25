@@ -6,6 +6,7 @@ import formDataToObject from "../../../lib/utils/formDataToObject";
 import setUserToken from "../../../lib/utils/setUserToken";
 import uuid from "../../../lib/utils/uuid";
 import profileEdit from "../../api/profile/edit/+server";
+import type ProfileEditedModel from "../ProfileEditedModel";
 
 export default {
 	load: async ({ appData, params }) => {
@@ -43,7 +44,7 @@ export default {
 			if (!result.ok) {
 				return result;
 			}
-			const newUser = await result.json();
+			const newUser: ProfileEditedModel = await result.json();
 
 			setUserToken(cookies, {
 				url: newUser.url,

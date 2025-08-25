@@ -8,6 +8,7 @@ import reactToFeedPost from "../../feed/_actions/reactToFeedPost";
 import saveFeedPost from "../../feed/_actions/saveFeedPost";
 import publishPost from "../../posts/_actions/publishPost";
 import savePost from "../../posts/_actions/savePost";
+import type FeedListModel from "../FeedListModel";
 
 export default {
 	load: async ({ url, params, appData }) => {
@@ -29,7 +30,7 @@ export default {
 		if (!result.ok) {
 			return result;
 		}
-		const { feed, feedCount } = await result.json();
+		const { feed, feedCount }: FeedListModel = await result.json();
 
 		const pageCount = Math.ceil(feedCount / PAGE_SIZE);
 
