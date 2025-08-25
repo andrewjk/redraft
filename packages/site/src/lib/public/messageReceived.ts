@@ -8,7 +8,7 @@ import {
 	messagesTable,
 	usersTable,
 } from "../../data/schema";
-import createNotification from "../utils/createNotification";
+import createNotification from "../notifications/createNotification";
 import getErrorMessage from "../utils/getErrorMessage";
 
 // IMPORTANT! Update this when the model changes

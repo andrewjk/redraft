@@ -2,9 +2,9 @@ import { notFound, ok, serverError, unauthorized } from "@torpor/build/response"
 import { eq } from "drizzle-orm";
 import database from "../../data/database";
 import { postsQueueTable, postsTable, usersTable } from "../../data/schema";
+import createNotification from "../notifications/createNotification";
 import { postPublic } from "../public";
 import { FEED_RECEIVED_VERSION, type FeedReceivedModel } from "../public/feedReceived";
-import createNotification from "../utils/createNotification";
 import getErrorMessage from "../utils/getErrorMessage";
 import pluralize from "../utils/pluralize";
 import userIdQuery from "../utils/userIdQuery";

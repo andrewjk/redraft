@@ -4,7 +4,7 @@ import database, { type DatabaseTransaction } from "../../data/database";
 import { followedByTable, followingTable } from "../../data/schema";
 import { FollowedBy } from "../../data/schema/followedByTable";
 import { Following } from "../../data/schema/followingTable";
-import createNotification from "../utils/createNotification";
+import createNotification from "../notifications/createNotification";
 import getErrorMessage from "../utils/getErrorMessage";
 
 // IMPORTANT! Update this when the model changes

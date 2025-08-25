@@ -1,8 +1,8 @@
 import { notFound, ok, serverError, unprocessable } from "@torpor/build/response";
 import database from "../../data/database";
 import { followedByTable } from "../../data/schema";
+import createNotification from "../notifications/createNotification";
 import { postPublic } from "../public";
-import createNotification from "../utils/createNotification";
 import getErrorMessage from "../utils/getErrorMessage";
 import {
 	FOLLOW_CHECK_VERSION,

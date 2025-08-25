@@ -11,9 +11,9 @@ import {
 } from "../../data/schema";
 import commentsSend from "../../routes/api/comments/send/+server";
 import * as api from "../api";
+import createNotification from "../notifications/createNotification";
 import { postPublic } from "../public";
 import { ACTIVITY_RECEIVED_VERSION, ActivityReceivedModel } from "../public/activityReceived";
-import createNotification from "../utils/createNotification";
 import getErrorMessage from "../utils/getErrorMessage";
 import userIdQuery from "../utils/userIdQuery";
 import uuid from "../utils/uuid";
