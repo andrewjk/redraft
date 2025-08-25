@@ -1,6 +1,7 @@
 import { type PageServerEndPoint } from "@torpor/build";
-import { unauthorized } from "@torpor/build/response";
+import { seeOther, unauthorized } from "@torpor/build/response";
 import * as api from "../../../../lib/api";
+import { type MessageCreatedModel } from "../../../../lib/messages/messageCreatePost";
 import formDataToObject from "../../../../lib/utils/formDataToObject";
 import messageCreate from "../../../api/messages/create/[slug]/+server";
 
@@ -28,12 +29,23 @@ export default {
 			const data = await request.formData();
 			const model = formDataToObject(data);
 
-			return await api.post(
+			const result = await api.post(
 				`messages/create/[slug=${params.slug}]`,
 				messageCreate,
 				params,
 				model,
 				user.token,
+			);
+			if (!result.ok) {
+				return result;
+			}
+
+			const createdModel: MessageCreatedModel = await result.json();
+
+			return seeOther(
+				params.user
+					? `/${params.user}/messages/groups/${createdModel.slug}`
+					: `/messages/groups/${createdModel.slug}`,
 			);
 		},
 	},
