@@ -15,6 +15,10 @@ import userIdQuery from "../utils/userIdQuery";
 import uuid from "../utils/uuid";
 import type { MessageEditModel } from "./MessageEditModel";
 
+export type MessageCreatedModel = {
+	slug: string;
+};
+
 /**
  * Creates a message group with a message.
  */
@@ -33,12 +37,12 @@ export default async function messageCreatePost(request: Request, code: string) 
 
 		// Get the user with the supplied slug
 		const followedByQuery = db.query.followedByTable.findFirst({
-			where: eq(followedByTable.slug, model.slug),
+			where: eq(followedByTable.slug, model.userSlug),
 		});
 
 		// Get the user with the supplied slug
 		const followingQuery = db.query.followingTable.findFirst({
-			where: eq(followingTable.slug, model.slug),
+			where: eq(followingTable.slug, model.userSlug),
 		});
 
 		const [currentUser, followedBy, following] = await Promise.all([
@@ -53,26 +57,36 @@ export default async function messageCreatePost(request: Request, code: string) 
 			return notFound();
 		}
 
-		let messageGroupSlug = uuid();
+		// Maybe get the message group
+		let messageGroup = model.groupSlug
+			? await db.query.messageGroupsTable.findFirst({
+					where: eq(messageGroupsTable.slug, model.groupSlug),
+					columns: { id: true },
+				})
+			: undefined;
+
+		let messageGroupSlug = model.groupSlug || uuid();
 		let messageId = -1;
 
 		await db.transaction(async (tx) => {
 			try {
 				// Create the message group
-				let messageGroupId = (
-					await tx
-						.insert(messageGroupsTable)
-						.values({
-							slug: messageGroupSlug,
-							followed_by_id: followedBy?.id,
-							following_id: following?.id,
-							newest_at: new Date(),
-							newest_sent: true,
-							created_at: new Date(),
-							updated_at: new Date(),
-						})
-						.returning({ id: messagesTable.id })
-				)[0].id;
+				let messageGroupId = messageGroup
+					? messageGroup.id
+					: (
+							await tx
+								.insert(messageGroupsTable)
+								.values({
+									slug: messageGroupSlug,
+									followed_by_id: followedBy?.id,
+									following_id: following?.id,
+									newest_at: new Date(),
+									newest_sent: true,
+									created_at: new Date(),
+									updated_at: new Date(),
+								})
+								.returning({ id: messagesTable.id })
+						)[0].id;
 
 				// Create the message in the database
 				messageId = (
@@ -122,7 +136,9 @@ export default async function messageCreatePost(request: Request, code: string) 
 			})
 			.where(eq(messagesTable.id, messageId));
 
-		return ok();
+		const result: MessageCreatedModel = { slug: messageGroupSlug };
+
+		return ok(result);
 	} catch (error) {
 		const message = errorMessage || getErrorMessage(error).message;
 		return serverError(message);

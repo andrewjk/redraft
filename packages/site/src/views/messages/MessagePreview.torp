@@ -9,7 +9,7 @@ import stripProtocol from "../../lib/utils/stripProtocol";
 export default function MessagePreview() {
 	let { messageGroup, message, user } = $props;
 
-	let { image, url, name } = message.sent ? user : message;
+	let { image, url, name } = message.sent ? user : messageGroup;
 
 	let fmt = new Intl.DateTimeFormat(undefined, {
 		day: "numeric",

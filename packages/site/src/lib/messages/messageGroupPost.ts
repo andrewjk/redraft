@@ -26,7 +26,7 @@ export default async function messageGroupPost(request: Request, code: string) {
 
 		// Get the message group
 		const messageGroupQuery = db.query.messageGroupsTable.findFirst({
-			where: eq(messageGroupsTable.slug, model.slug),
+			where: eq(messageGroupsTable.slug, model.groupSlug),
 			with: {
 				followedBy: true,
 				following: true,

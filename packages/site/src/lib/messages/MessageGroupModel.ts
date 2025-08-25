@@ -1,6 +1,7 @@
 export type MessageGroupModel = {
 	messageGroup: {
-		slug: string;
+		groupSlug: string;
+		userSlug: string;
 		url: string;
 		image: string;
 		name: string;

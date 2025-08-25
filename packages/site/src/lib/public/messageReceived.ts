@@ -90,6 +90,7 @@ export default async function messageReceived(request: Request) {
 						.values({
 							group_id: messageGroup.id,
 							text: model.text,
+							delivered: true,
 							created_at: new Date(),
 							updated_at: new Date(),
 						})

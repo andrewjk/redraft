@@ -1,4 +1,5 @@
 export type MessageEditModel = {
-	slug: string;
+	groupSlug: string;
+	userSlug: string;
 	text: string;
 };

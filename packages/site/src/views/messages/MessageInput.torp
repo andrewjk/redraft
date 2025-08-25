@@ -11,7 +11,8 @@ export default function MessageInput($props) {
 
 	@render {
 		<form class="full-width message-input" method="POST" enctype="multipart/form-data">
-			<input type="hidden" name="slug" value={$props.slug} />
+			<input type="hidden" name="groupSlug" value={$props.groupSlug} />
+			<input type="hidden" name="userSlug" value={$props.userSlug} />
 
 			<div class="message-input-row">
 				<textarea

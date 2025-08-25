@@ -50,7 +50,7 @@ export default function MessageList($props) {
 					</div>
 				}
 
-				<MessageInput {messageGroup.slug} />
+				<MessageInput {messageGroup.groupSlug} {messageGroup.userSlug} />
 			</div>
 		</div>
 	}

@@ -1,7 +1,13 @@
 import { notFound, ok, serverError, unauthorized } from "@torpor/build/response";
-import { eq } from "drizzle-orm";
+import { eq, or } from "drizzle-orm";
 import database from "../../data/database";
-import { followedByTable, followingTable, usersTable } from "../../data/schema";
+import {
+	followedByTable,
+	followingTable,
+	messageGroupsTable,
+	messagesTable,
+	usersTable,
+} from "../../data/schema";
 import getErrorMessage from "../utils/getErrorMessage";
 import userIdQuery from "../utils/userIdQuery";
 import type { MessageGroupModel } from "./MessageGroupModel";
@@ -20,6 +26,30 @@ export default async function messageCreateGet(slug: string, code: string) {
 			where: eq(usersTable.id, userIdQuery(code)),
 		});
 
+		// Maybe get the existing message group
+		const messageGroupQuery = db.query.messageGroupsTable.findFirst({
+			where: or(
+				eq(
+					messageGroupsTable.followed_by_id,
+					db
+						.select({ id: followedByTable.id })
+						.from(followedByTable)
+						.where(eq(followedByTable.slug, slug)),
+				),
+				eq(
+					messageGroupsTable.following_id,
+					db
+						.select({ id: followingTable.id })
+						.from(followingTable)
+						.where(eq(followingTable.slug, slug)),
+				),
+			),
+			columns: { id: true, slug: true },
+			with: {
+				messages: true,
+			},
+		});
+
 		// Get the user with the supplied slug
 		const followedByQuery = db.query.followedByTable.findFirst({
 			where: eq(followedByTable.slug, slug),
@@ -30,8 +60,9 @@ export default async function messageCreateGet(slug: string, code: string) {
 			where: eq(followingTable.slug, slug),
 		});
 
-		const [user, followedBy, following] = await Promise.all([
+		const [user, messageGroup, followedBy, following] = await Promise.all([
 			userQuery,
+			messageGroupQuery,
 			followedByQuery,
 			followingQuery,
 		]);
@@ -43,14 +74,41 @@ export default async function messageCreateGet(slug: string, code: string) {
 			return notFound();
 		}
 
+		if (messageGroup) {
+			// Set all messages in this group to read
+			await db
+				.update(messagesTable)
+				.set({ read: true })
+				.where(eq(messagesTable.group_id, messageGroup.id));
+			await db
+				.update(messageGroupsTable)
+				.set({ unread_count: 0 })
+				.where(eq(messageGroupsTable.id, messageGroup.id));
+			await db
+				.update(usersTable)
+				.set({ message_count: db.$count(messagesTable, eq(messagesTable.read, false)) });
+		}
+
 		const result = {
 			messageGroup: {
-				slug: followedBy?.slug ?? following?.slug ?? "",
+				groupSlug: messageGroup?.slug ?? "",
+				userSlug: followedBy?.slug ?? following?.slug ?? "",
 				url: followedBy?.url ?? following?.url ?? "",
 				image: followedBy?.image ?? following?.image ?? "",
 				name: followedBy?.name ?? following?.name ?? "",
 			},
-			messages: [],
+			messages: messageGroup
+				? messageGroup.messages.map((m) => {
+						return {
+							id: m.id,
+							text: m.text,
+							read: m.read,
+							sent: m.sent,
+							sentAt: m.created_at,
+							delivered: m.delivered,
+						};
+					})
+				: [],
 		} satisfies MessageGroupModel;
 
 		return ok(result);

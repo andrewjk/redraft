@@ -44,14 +44,15 @@ export default async function messageGroupGet(slug: string, code: string) {
 		await db
 			.update(messageGroupsTable)
 			.set({ unread_count: 0 })
-			.where(eq(messagesTable.group_id, messageGroup.id));
+			.where(eq(messageGroupsTable.id, messageGroup.id));
 		await db
 			.update(usersTable)
 			.set({ message_count: db.$count(messagesTable, eq(messagesTable.read, false)) });
 
 		const result = {
 			messageGroup: {
-				slug: messageGroup.slug,
+				groupSlug: messageGroup.slug,
+				userSlug: messageGroup.followedBy?.slug ?? messageGroup.following?.slug ?? "",
 				url: messageGroup.followedBy?.url ?? messageGroup.following?.url ?? "",
 				image: messageGroup.followedBy?.image ?? messageGroup.following?.image ?? "",
 				name: messageGroup.followedBy?.name ?? messageGroup.following?.name ?? "",
