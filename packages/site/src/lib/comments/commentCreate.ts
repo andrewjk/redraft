@@ -12,6 +12,7 @@ import {
 import commentsSend from "../../routes/api/comments/send/+server";
 import * as api from "../api";
 import createNotification from "../notifications/createNotification";
+import updateNotificationCounts from "../notifications/updateNotificationCounts";
 import { postPublic } from "../public";
 import { ACTIVITY_RECEIVED_VERSION, ActivityReceivedModel } from "../public/activityReceived";
 import getErrorMessage from "../utils/getErrorMessage";
@@ -139,6 +140,7 @@ export default async function commentCreate(
 						`${user.url}posts/${post.slug}`,
 						`${currentUser.name} commented on your post`,
 					);
+					updateNotificationCounts(tx);
 
 					// Send the activity off to be created in the follower's database
 					let sendUrl = `${currentUser.url}api/public/activity`;

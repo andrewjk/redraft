@@ -3,6 +3,7 @@ import { eq } from "drizzle-orm";
 import database from "../../data/database";
 import { activityTable, followingTable } from "../../data/schema";
 import createNotification from "../notifications/createNotification";
+import updateNotificationCounts from "../notifications/updateNotificationCounts";
 import getErrorMessage from "../utils/getErrorMessage";
 
 // IMPORTANT! Update this when the model changes
@@ -51,6 +52,7 @@ export default async function followConfirmed(request: Request) {
 
 				// Create a notification
 				await createNotification(tx, record.url, `${record.name} has approved your follow request`);
+				updateNotificationCounts(tx);
 
 				// Create an activity record
 				await tx.insert(activityTable).values({

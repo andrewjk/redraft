@@ -8,7 +8,7 @@ import {
 	messagesTable,
 	usersTable,
 } from "../../data/schema";
-import createNotification from "../notifications/createNotification";
+import updateNotificationCounts from "../notifications/updateNotificationCounts";
 import getErrorMessage from "../utils/getErrorMessage";
 
 // IMPORTANT! Update this when the model changes
@@ -110,16 +110,11 @@ export default async function messageReceived(request: Request) {
 					})
 					.where(eq(messageGroupsTable.id, messageGroup.id));
 
-				await db
+				await tx
 					.update(usersTable)
-					.set({ message_count: db.$count(messagesTable, eq(messagesTable.read, false)) });
+					.set({ message_count: tx.$count(messagesTable, eq(messagesTable.read, false)) });
 
-				// Create a notification
-				await createNotification(
-					tx,
-					`${user.url}messages/${messageGroup.slug}`,
-					`Message received from ${followedBy?.name ?? following?.name}`,
-				);
+				updateNotificationCounts(tx);
 			} catch (error) {
 				errorMessage = getErrorMessage(error).message;
 				tx.rollback();

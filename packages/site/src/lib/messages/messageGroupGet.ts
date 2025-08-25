@@ -2,6 +2,7 @@ import { notFound, ok, serverError, unauthorized } from "@torpor/build/response"
 import { eq } from "drizzle-orm";
 import database from "../../data/database";
 import { messageGroupsTable, messagesTable, usersTable } from "../../data/schema";
+import updateNotificationCounts from "../notifications/updateNotificationCounts";
 import getErrorMessage from "../utils/getErrorMessage";
 import userIdQuery from "../utils/userIdQuery";
 import type { MessageGroupModel } from "./MessageGroupModel";
@@ -48,6 +49,7 @@ export default async function messageGroupGet(slug: string, code: string) {
 		await db
 			.update(usersTable)
 			.set({ message_count: db.$count(messagesTable, eq(messagesTable.read, false)) });
+		updateNotificationCounts(db);
 
 		const result = {
 			messageGroup: {

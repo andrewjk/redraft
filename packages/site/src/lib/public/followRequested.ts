@@ -2,6 +2,7 @@ import { notFound, ok, serverError, unprocessable } from "@torpor/build/response
 import database from "../../data/database";
 import { followedByTable } from "../../data/schema";
 import createNotification from "../notifications/createNotification";
+import updateNotificationCounts from "../notifications/updateNotificationCounts";
 import { postPublic } from "../public";
 import getErrorMessage from "../utils/getErrorMessage";
 import {
@@ -76,6 +77,7 @@ export default async function followRequested(request: Request) {
 
 				// Create a notification
 				await createNotification(tx, model.url, `${confirmData.name} has requested to follow you`);
+				updateNotificationCounts(tx);
 			} catch (error) {
 				errorMessage = getErrorMessage(error).message;
 				tx.rollback();

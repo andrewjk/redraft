@@ -5,6 +5,7 @@ import { followedByTable, followingTable } from "../../data/schema";
 import { FollowedBy } from "../../data/schema/followedByTable";
 import { Following } from "../../data/schema/followingTable";
 import createNotification from "../notifications/createNotification";
+import updateNotificationCounts from "../notifications/updateNotificationCounts";
 import getErrorMessage from "../utils/getErrorMessage";
 
 // IMPORTANT! Update this when the model changes
@@ -76,6 +77,7 @@ async function updateFollowingTable(
 
 		// Create a notification for the users you are following only
 		await createNotification(tx, user.url, `${user.name} has changed their profile`);
+		updateNotificationCounts(tx);
 	}
 }
 

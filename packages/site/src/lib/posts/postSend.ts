@@ -3,6 +3,7 @@ import { eq, sql } from "drizzle-orm";
 import database from "../../data/database";
 import { postsQueueTable, postsTable, usersTable } from "../../data/schema";
 import createNotification from "../notifications/createNotification";
+import updateNotificationCounts from "../notifications/updateNotificationCounts";
 import { postPublic } from "../public";
 import { FEED_RECEIVED_VERSION, type FeedReceivedModel } from "../public/feedReceived";
 import getErrorMessage from "../utils/getErrorMessage";
@@ -108,6 +109,7 @@ export default async function postSend(request: Request, code: string) {
 				`${currentUser.url}posts/${post.slug}/status`,
 				`Failed to send ${failureCount} ${pluralize(failureCount, "post")}`,
 			);
+			updateNotificationCounts(db);
 		}
 
 		return ok();

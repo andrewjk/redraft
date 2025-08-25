@@ -3,6 +3,7 @@ import { and, count, desc, eq } from "drizzle-orm";
 import database from "../../data/database";
 import { followedByTable, postReactionsTable, postsTable } from "../../data/schema";
 import createNotification from "../notifications/createNotification";
+import updateNotificationCounts from "../notifications/updateNotificationCounts";
 import getErrorMessage from "../utils/getErrorMessage";
 
 // IMPORTANT! Update this when the model changes
@@ -121,6 +122,7 @@ export default async function postReaction(request: Request) {
 					`${user.url}posts/${post.slug}`,
 					`${currentUser.name} reacted to your post with ${model.emoji}`,
 				);
+				updateNotificationCounts(tx);
 			} catch (error) {
 				errorMessage = getErrorMessage(error).message;
 				tx.rollback();
