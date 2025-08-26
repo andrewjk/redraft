@@ -5,10 +5,25 @@ import storage from "./storage";
 
 const images: Images = {
 	async getImage(name: string, width: number, height: number): Promise<Response> {
-		// If there are no transformations, just return the image from storage
-		if (!width && !height) {
+		let ext = name.split(".").at(-1);
+		if (ext === "jpg") {
+			ext = "jpeg";
+		}
+
+		// If there are no transformations, or it's an unsupported format, just
+		// return the image from storage
+		let formatOk =
+			ext === "jpeg" || ext === "png" || ext === "gif" || ext === "webp" || ext === "avif";
+		if ((!width && !height) || !formatOk) {
 			return storage.getFile(name);
 		}
+
+		const format = ("image/" + ext) as
+			| "image/jpeg"
+			| "image/png"
+			| "image/gif"
+			| "image/webp"
+			| "image/avif";
 
 		name = normalizeFileName(name);
 
@@ -28,9 +43,13 @@ const images: Images = {
 
 		const output = await img
 			.input(stream)
-			.transform({ width, height })
-			// @ts-ignore
-			.output({ format: "image/" + name.split(".").at(-1) });
+			.transform({
+				width,
+				height,
+			})
+			.output({
+				format,
+			});
 
 		return output.response();
 	},
