@@ -1,5 +1,11 @@
 # @redraft/adapter-cloudflare
 
+## 0.0.15
+
+### Patch Changes
+
+- 3916508: Fix: images
+
 ## 0.0.14
 
 ### Patch Changes
