@@ -4,10 +4,6 @@ import normalizeFileName from "./normalizeFileName";
 import storage from "./storage";
 
 const images: Images = {
-	//getUrl: (url: string, height: number, width: number): string => {
-	//	return url ? `https://cdn-cgi/image/height=${height},width=${width},fit=cover/${url}` : "";
-	//},
-
 	async getImage(name: string, width: number, height: number): Promise<Response> {
 		// If there are no transformations, just return the image from storage
 		if (!width && !height) {
@@ -22,11 +18,9 @@ const images: Images = {
 			return new Response("Object Not Found", { status: 404 });
 		}
 
-		//return object?.body;
 		const stream = object.body;
 
 		const img = env().IMAGES;
-		const info = await img.info(stream);
 
 		// HACK: limits
 		width = Math.min(width, 1000);
@@ -36,7 +30,7 @@ const images: Images = {
 			.input(stream)
 			.transform({ width, height })
 			// @ts-ignore
-			.output({ format: info.format });
+			.output({ format: "image/" + name.split(".").at(-1) });
 
 		return output.response();
 	},

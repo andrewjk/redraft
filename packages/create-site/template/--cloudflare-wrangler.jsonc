@@ -24,5 +24,9 @@
 			"binding": "STORAGE",
 			"bucket_name": "<BUCKET_NAME>"
 		}
-	]
+	],
+
+	"images": {
+		"binding": "IMAGES"
+	}
 }
