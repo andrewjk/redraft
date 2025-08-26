@@ -31,12 +31,12 @@ export default function commentPreview(
 		text: comment.text,
 		author: comment.user
 			? {
-					image: comment.user.image,
+					image: comment.user.image + "?w=80",
 					name: comment.user.name,
 					url: comment.user.url,
 				}
 			: {
-					image: currentUser.image,
+					image: currentUser.image + "?w=80",
 					name: currentUser.name,
 					url: currentUser.url,
 				},

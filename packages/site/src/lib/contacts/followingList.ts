@@ -69,7 +69,7 @@ export default async function followingList(
 				slug: f.slug,
 				url: f.url,
 				name: f.name,
-				image: f.image,
+				image: f.image + "?w=80",
 				bio: f.bio,
 			} satisfies FollowingPreview;
 		});

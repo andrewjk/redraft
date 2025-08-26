@@ -50,13 +50,13 @@ export default function feedPreview(
 		author: feed.user
 			? {
 					name: feed.user.name,
-					image: feed.user.image,
+					image: feed.user.image + "?w=80",
 					url: feed.user.url,
 					sharedKey: feed.user.shared_key,
 				}
 			: {
 					name: currentUser.name,
-					image: currentUser.image,
+					image: currentUser.image + "?w=80",
 					url: currentUser.url,
 					sharedKey: "",
 				},

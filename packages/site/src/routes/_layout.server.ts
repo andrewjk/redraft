@@ -30,19 +30,19 @@ export default {
 			user: user && {
 				url: ensureSlash(user.url),
 				name: user.name,
-				image: user.image,
+				image: user.image + "?w=160",
 				notificationCount: currentUser?.notification_count,
 				messageCount: currentUser?.message_count,
 			},
 			follower: follower && {
 				url: ensureSlash(follower.url),
 				name: follower.name,
-				image: follower.image,
+				image: follower.image + "?w=160",
 			},
 			viewing: {
 				url: ensureSlash(env().SITE_LOCATION),
 				name: currentUser?.name,
-				image: currentUser?.image,
+				image: currentUser?.image ? currentUser.image + "?w=160" : null,
 				bio: currentUser?.bio,
 				location: currentUser?.location,
 			},
