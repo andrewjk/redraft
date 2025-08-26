@@ -1,5 +1,12 @@
 # @redraft/adapter-core
 
+## 0.0.6
+
+### Patch Changes
+
+- 185a82a: Feat: add image resizing functionality to adapters
+- 163b160: Chore: update dependencies
+
 ## 0.0.5
 
 ### Patch Changes

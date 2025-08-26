@@ -1,5 +1,15 @@
 # @redraft/adapter-cloudflare
 
+## 0.0.13
+
+### Patch Changes
+
+- 185a82a: Feat: add image resizing functionality to adapters
+- 163b160: Chore: update dependencies
+- Updated dependencies [185a82a]
+- Updated dependencies [163b160]
+  - @redraft/adapter-core@0.0.6
+
 ## 0.0.12
 
 ### Patch Changes
