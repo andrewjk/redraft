@@ -4924,9 +4924,15 @@ params: ${params}`);
   // src/images.ts
   var images = {
     async getImage(name, width, height) {
-      if (!width && !height) {
+      let ext = name.split(".").at(-1);
+      if (ext === "jpg") {
+        ext = "jpeg";
+      }
+      let formatOk = ext === "jpeg" || ext === "png" || ext === "gif" || ext === "webp" || ext === "avif";
+      if (!width && !height || !formatOk) {
         return storage_default.getFile(name);
       }
+      const format = "image/" + ext;
       name = normalizeFileName(name);
       const bucket = env().STORAGE;
       const object = await bucket.get(name);
@@ -4937,7 +4943,12 @@ params: ${params}`);
       const img = env().IMAGES;
       width = Math.min(width, 1e3);
       height = Math.min(height, 1e3);
-      const output = await img.input(stream).transform({ width, height }).output({ format: "image/" + name.split(".").at(-1) });
+      const output = await img.input(stream).transform({
+        width,
+        height
+      }).output({
+        format
+      });
       return output.response();
     }
   };

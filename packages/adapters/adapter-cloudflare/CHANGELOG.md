@@ -1,5 +1,11 @@
 # @redraft/adapter-cloudflare
 
+## 0.0.16
+
+### Patch Changes
+
+- 7b84a52: Fix: check image format before resizing
+
 ## 0.0.15
 
 ### Patch Changes
