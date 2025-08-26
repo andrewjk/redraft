@@ -1,5 +1,11 @@
 # @redraft/create-site
 
+## 0.0.9
+
+### Patch Changes
+
+- c383a1a: Fix: images
+
 ## 0.0.8
 
 ### Patch Changes

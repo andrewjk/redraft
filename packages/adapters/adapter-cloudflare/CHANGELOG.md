@@ -1,5 +1,11 @@
 # @redraft/adapter-cloudflare
 
+## 0.0.14
+
+### Patch Changes
+
+- c383a1a: Fix: images
+
 ## 0.0.13
 
 ### Patch Changes

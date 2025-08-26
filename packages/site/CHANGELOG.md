@@ -1,5 +1,11 @@
 # @redraft/site
 
+## 0.1.2
+
+### Patch Changes
+
+- eda2edb: Feat: serve resized images
+
 ## 0.1.1
 
 ### Patch Changes
