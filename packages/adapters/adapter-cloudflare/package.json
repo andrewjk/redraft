@@ -23,7 +23,7 @@
 	},
 	"scripts": {
 		"check": "tsc --noEmit",
-		"build": "tsc --noEmit && tsup src/iife.ts --format iife && mv dist/iife.global.js src/adapter.global.js && tsup"
+		"build": "tsc --noEmit && tsup src/iife.ts --format iife && tsx ./scripts/process.ts && tsup"
 	},
 	"keywords": [],
 	"author": "",

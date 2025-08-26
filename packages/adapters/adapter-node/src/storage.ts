@@ -8,6 +8,7 @@
 import type { Storage } from "@redraft/adapter-core";
 import { promises as fs } from "node:fs";
 import path from "node:path";
+import bufferToArrayBuffer from "./bufferToArrayBuffer";
 
 const storage: Storage = {
 	uploadFile: async (file: File, name: string): Promise<void> => {
@@ -24,8 +25,16 @@ const storage: Storage = {
 	getFile: async (name: string): Promise<Response> => {
 		const filename = path.resolve(`./content/${name}`);
 		const content = await fs.readFile(filename);
-		return new Response(content);
+		return new Response(bufferToArrayBuffer(content));
 	},
+
+	/*
+	getStream: async (name: string): Promise<ReadableStream<any> | undefined> => {
+		const filename = path.resolve(`./content/${name}`);
+		const content = fs2.createReadStream(filename);
+		return new Promise((res) => res(Readable.toWeb(content)));
+	},
+	*/
 };
 
 export default storage;

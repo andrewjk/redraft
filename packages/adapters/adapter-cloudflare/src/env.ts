@@ -11,6 +11,7 @@ type Env = {
 
 	// For storage
 	STORAGE: R2Bucket;
+	IMAGES: ImagesBinding;
 
 	//R2_ACCOUNT_ID: string;
 	//R2_ACCESS_KEY_ID: string;

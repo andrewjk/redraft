@@ -1,5 +1,6 @@
 import type { Storage } from "@redraft/adapter-core";
 import env from "./env";
+import normalizeFileName from "./normalizeFileName";
 
 const storage: Storage = {
 	uploadFile: async (file: File, name: string): Promise<void> => {
@@ -8,13 +9,13 @@ const storage: Storage = {
 	},
 
 	deleteFile: async (name: string): Promise<void> => {
-		name = normalizeName(name);
+		name = normalizeFileName(name);
 		const bucket = env().STORAGE;
 		await bucket.delete(name);
 	},
 
 	getFile: async (name: string): Promise<Response> => {
-		name = normalizeName(name);
+		name = normalizeFileName(name);
 
 		const bucket = env().STORAGE;
 		const object = await bucket.get(name);
@@ -31,16 +32,5 @@ const storage: Storage = {
 		});
 	},
 };
-
-function normalizeName(name: string): string {
-	const contentPath = "/api/content/";
-	if (name.includes(contentPath)) {
-		name = name.substring(name.indexOf(contentPath) + contentPath.length);
-	}
-	if (name.startsWith("/")) {
-		name = name.substring(1);
-	}
-	return name;
-}
 
 export default storage;

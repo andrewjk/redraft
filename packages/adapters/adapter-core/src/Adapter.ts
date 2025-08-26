@@ -1,3 +1,4 @@
+import type Images from "./Images";
 import type Storage from "./Storage";
 
 export default interface Adapter {
@@ -6,6 +7,8 @@ export default interface Adapter {
 	database: (schema: any) => any;
 
 	storage: Storage;
+
+	images: Images;
 
 	// TODO: queue, emails
 }
