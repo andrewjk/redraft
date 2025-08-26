@@ -4923,9 +4923,6 @@ params: ${params}`);
 
   // src/images.ts
   var images = {
-    //getUrl: (url: string, height: number, width: number): string => {
-    //	return url ? `https://cdn-cgi/image/height=${height},width=${width},fit=cover/${url}` : "";
-    //},
     async getImage(name, width, height) {
       if (!width && !height) {
         return storage_default.getFile(name);
@@ -4938,10 +4935,9 @@ params: ${params}`);
       }
       const stream = object.body;
       const img = env().IMAGES;
-      const info = await img.info(stream);
       width = Math.min(width, 1e3);
       height = Math.min(height, 1e3);
-      const output = await img.input(stream).transform({ width, height }).output({ format: info.format });
+      const output = await img.input(stream).transform({ width, height }).output({ format: "image/" + name.split(".").at(-1) });
       return output.response();
     }
   };
