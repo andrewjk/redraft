@@ -35,8 +35,17 @@ npm run dev
   - Set `JWT_SECRET` to a random passphrase for encrypting your user token
 - Run `npm run dev` to create the database
 - Deploy the site
-- Go to SITE_LOCATION/account/setup to create your account
+- Go to `SITE_LOCATION/account/setup` to create your account
 - Regularly run `npm update` and `npm run db:generate`
+
+### Cloudflare Template
+
+If you have a Cloudflare account, you can use the button below. It should clone a site into your GitHub account, prompt you to configure project details, and build and deploy the Worker site.
+
+[![Deploy to Cloudflare](https://deploy.workers.cloudflare.com/button)](https://deploy.workers.cloudflare.com/?url=https%3A%2F%2Fgithub.com%2Fandrewjk%2Fredraft-template-cf)
+
+- Go to `SITE_LOCATION/account/setup` to create your account
+- Regularly run `npm update` and `npm run db:push`
 
 ### Full customization
 
@@ -71,6 +80,6 @@ If the above sounds like too much work, you can pay for a hosted account at http
 
 ## The web extension
 
-You will have to use this unpacked for now. It's inside the `/extension` folder
+The web extension is only available in Chrome for now. You can install it from the [Chrome Web Store](https://chromewebstore.google.com/detail/redraft/kjphhfhmicmfpeoecbhnibleaologghh?pli=1).
 
-// TODO: get this approved
+Alternatively, you can build and use it unpacked. The source code is inside the `/extension` folder.
