@@ -25,7 +25,7 @@ export default async function extensionProfile(code: string) {
 			name: user.name,
 			bio: user.bio,
 			location: user.location,
-			image: user.image + "?w=80",
+			image: user.image,
 		});
 	} catch (error) {
 		const message = errorMessage || getErrorMessage(error).message;

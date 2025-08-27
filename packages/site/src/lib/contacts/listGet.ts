@@ -50,7 +50,7 @@ export default async function listGet(slug: string, code: string) {
 					id: f.id,
 					url: f.url,
 					name: f.name,
-					image: f.image + "?w=80",
+					image: f.image,
 					included: !!list.users.find((u) => u.user_id === f.id),
 				};
 			}),

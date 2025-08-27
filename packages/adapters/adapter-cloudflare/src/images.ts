@@ -41,15 +41,14 @@ const images: Images = {
 		width = Math.min(width, 1000);
 		height = Math.min(height, 1000);
 
-		const output = await img
-			.input(stream)
-			.transform({
-				width,
-				height,
-			})
-			.output({
-				format,
-			});
+		let options = {
+			width: width || undefined,
+			height: height || undefined,
+		};
+
+		let output = await img.input(stream).transform(options).output({
+			format,
+		});
 
 		return output.response();
 	},

@@ -3,6 +3,7 @@ import placeholdify from "../../lib/utils/placeholdify";
 import stripProtocol from "../../lib/utils/stripProtocol";
 import pluralize from "../../lib/utils/pluralize"
 import relativeTimeSince from "../../lib/utils/relativeTimeSince"
+import sizeImage from "../../lib/utils/sizeImage";
 import stripProtocol from "../../lib/utils/stripProtocol";
 import LinkPreview from './LinkPreview.torp';
 import RatingPreview from './RatingPreview.torp';
@@ -135,7 +136,7 @@ export default function PostPreview() {
 							@html(post.text)
 							@if (post.image) {
 								<p>
-									<img class="post-preview-image" src={post.image} alt={post.imageAltText} />
+									<img class="post-preview-image" src={sizeImage(post.image, 800)} alt={post.imageAltText} />
 								</p>
 							}
 						</a>

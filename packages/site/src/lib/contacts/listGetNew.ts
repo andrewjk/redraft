@@ -39,7 +39,7 @@ export default async function listGetNew(code: string) {
 					id: f.id,
 					url: f.url,
 					name: f.name,
-					image: f.image + "?w=80",
+					image: f.image,
 					included: false,
 				};
 			}),

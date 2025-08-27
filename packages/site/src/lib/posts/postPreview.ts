@@ -54,12 +54,12 @@ export default function postPreview(
 		author: post.user
 			? {
 					name: post.user.name,
-					image: post.user.image + "?w=80",
+					image: post.user.image,
 					url: post.user.url,
 				}
 			: {
 					name: currentUser.name,
-					image: currentUser.image + "?w=80",
+					image: currentUser.image,
 					url: currentUser.url,
 				},
 		pinned: post.pinned,

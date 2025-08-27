@@ -61,7 +61,7 @@ export default async function followRequestList(
 			return {
 				url: f.url,
 				name: f.name,
-				image: f.image + "?w=80",
+				image: f.image,
 				bio: f.bio,
 			} satisfies FollowRequestPreview;
 		});

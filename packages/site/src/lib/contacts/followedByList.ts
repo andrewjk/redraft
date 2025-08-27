@@ -74,7 +74,7 @@ export default async function followedByList(
 				slug: f.slug,
 				url: f.url,
 				name: f.name,
-				image: f.image + "?w=80",
+				image: f.image,
 				bio: f.bio,
 			} satisfies FollowedByPreview;
 		});

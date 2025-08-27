@@ -2,6 +2,7 @@
 import placeholdify from "../../lib/utils/placeholdify";
 import pluralize from "../../lib/utils/pluralize"
 import relativeTimeSince from "../../lib/utils/relativeTimeSince"
+import sizeImage from "../../lib/utils/sizeImage";
 import stripProtocol from "../../lib/utils/stripProtocol";
 import LinkPreview from '../posts/LinkPreview.torp';
 import RatingPreview from '../posts/RatingPreview.torp';
@@ -147,7 +148,7 @@ export default function FeedPreview() {
 							@html(feed.text)
 							@if (feed.image) {
 								<p>
-									<img class="feed-preview-image" src={feed.image} alt={feed.imageAltText} />
+									<img class="feed-preview-image" src={sizeImage(feed.image, 800)} alt={feed.imageAltText} />
 								</p>
 							}
 						</a>

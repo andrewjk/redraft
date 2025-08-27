@@ -13,7 +13,7 @@ export default function ProfilePreview($props) {
 					<div class="vstack collapse centered spaced">
 						<div class="no-shrink">
 							<a href="{$props.base}profile">
-								<img src={placeholdify($props.profile.image)} class="profile-preview-image" alt="{$props.profile.name} ({stripProtocol($props.profile.url)})" />
+								<img src={placeholdify($props.profile.image, 320)} class="profile-preview-image" alt="{$props.profile.name} ({stripProtocol($props.profile.url)})" />
 							</a>
 						</div>
 						<div class="profile-preview-user">
