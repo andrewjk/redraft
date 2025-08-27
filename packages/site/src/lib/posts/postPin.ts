@@ -2,6 +2,7 @@ import { ok, serverError, unauthorized } from "@torpor/build/response";
 import { eq } from "drizzle-orm";
 import database from "../../data/database";
 import { activityTable, postsTable, usersTable } from "../../data/schema";
+import transaction from "../../data/transaction";
 import getErrorMessage from "../utils/getErrorMessage";
 import userIdQuery from "../utils/userIdQuery";
 
@@ -26,7 +27,7 @@ export default async function postPin(request: Request, code: string) {
 			return unauthorized();
 		}
 
-		await db.transaction(async (tx) => {
+		await transaction(db, async (tx) => {
 			try {
 				// Update the post
 				await tx
@@ -45,7 +46,7 @@ export default async function postPin(request: Request, code: string) {
 				});
 			} catch (error) {
 				errorMessage = getErrorMessage(error).message;
-				tx.rollback();
+				throw error;
 			}
 		});
 

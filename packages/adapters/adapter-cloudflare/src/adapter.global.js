@@ -4427,8 +4427,8 @@ params: ${params}`);
       }
       return this.session.values(sequel);
     }
-    transaction(transaction, config) {
-      return this.session.transaction(transaction, config);
+    transaction(transaction2, config) {
+      return this.session.transaction(transaction2, config);
     }
   };
 
@@ -4708,11 +4708,11 @@ params: ${params}`);
     extractRawValuesValueFromBatchResult(result) {
       return d1ToRawMapping(result.results);
     }
-    async transaction(transaction, config) {
+    async transaction(transaction2, config) {
       const tx = new D1Transaction("async", this.dialect, this, this.schema);
       await this.run(sql.raw(`begin${config?.behavior ? " " + config.behavior : ""}`));
       try {
-        const result = await transaction(tx);
+        const result = await transaction2(tx);
         await this.run(sql`commit`);
         return result;
       } catch (err) {
@@ -4723,12 +4723,12 @@ params: ${params}`);
   };
   var D1Transaction = class _D1Transaction extends SQLiteTransaction {
     static [entityKind] = "D1Transaction";
-    async transaction(transaction) {
+    async transaction(transaction2) {
       const savepointName = `sp${this.nestedIndex}`;
       const tx = new _D1Transaction("async", this.dialect, this.session, this.schema, this.nestedIndex + 1);
       await this.session.run(sql.raw(`savepoint ${savepointName}`));
       try {
-        const result = await transaction(tx);
+        const result = await transaction2(tx);
         await this.session.run(sql.raw(`release savepoint ${savepointName}`));
         return result;
       } catch (err) {
@@ -4955,9 +4955,15 @@ params: ${params}`);
   };
   var images_default = images;
 
+  // src/transaction.ts
+  async function transaction(db, fn) {
+    return await fn(db);
+  }
+
   // src/adapter.ts
   var adapter_default = {
     database,
+    transaction,
     storage: storage_default,
     images: images_default
   };

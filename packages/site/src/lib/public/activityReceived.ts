@@ -2,6 +2,7 @@ import { notFound, ok, serverError, unprocessable } from "@torpor/build/response
 import { eq } from "drizzle-orm";
 import database from "../../data/database";
 import { activityTable, followingTable } from "../../data/schema";
+import transaction from "../../data/transaction";
 import getErrorMessage from "../utils/getErrorMessage";
 
 // IMPORTANT! Update this when the model changes
@@ -54,7 +55,7 @@ export default async function activityReceived(request: Request) {
 			}
 		}
 
-		await db.transaction(async (tx) => {
+		await transaction(db, async (tx) => {
 			try {
 				// Create an activity record
 				await tx.insert(activityTable).values({
@@ -67,7 +68,7 @@ export default async function activityReceived(request: Request) {
 				});
 			} catch (error) {
 				errorMessage = getErrorMessage(error).message;
-				tx.rollback();
+				throw error;
 			}
 		});
 

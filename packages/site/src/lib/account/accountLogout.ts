@@ -2,6 +2,7 @@ import { forbidden, ok, serverError } from "@torpor/build/response";
 import { eq } from "drizzle-orm";
 import database from "../../data/database";
 import { activityTable, userTokensTable } from "../../data/schema";
+import transaction from "../../data/transaction";
 import getErrorMessage from "../utils/getErrorMessage";
 
 export default async function accountLogout(code: string) {
@@ -17,7 +18,7 @@ export default async function accountLogout(code: string) {
 
 		// NOTE: We don't actually care if they are logged in or not...
 
-		await db.transaction(async (tx) => {
+		await transaction(db, async (tx) => {
 			try {
 				// Remove the user token
 				// TODO: Allow logging out of all devices
@@ -32,7 +33,7 @@ export default async function accountLogout(code: string) {
 				});
 			} catch (error) {
 				errorMessage = getErrorMessage(error).message;
-				tx.rollback();
+				throw error;
 			}
 		});
 

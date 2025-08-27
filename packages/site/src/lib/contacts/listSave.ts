@@ -2,6 +2,7 @@ import { notFound, ok, serverError, unauthorized } from "@torpor/build/response"
 import { eq } from "drizzle-orm";
 import database from "../../data/database";
 import { listUsersTable, listsTable, usersTable } from "../../data/schema";
+import transaction from "../../data/transaction";
 import getErrorMessage from "../utils/getErrorMessage";
 import userIdQuery from "../utils/userIdQuery";
 import type { ListEditModel } from "./ListEditModel";
@@ -35,7 +36,7 @@ export default async function listSave(request: Request, code: string) {
 			return notFound();
 		}
 
-		await db.transaction(async (tx) => {
+		await transaction(db, async (tx) => {
 			try {
 				// Update the list in the database
 				await tx
@@ -70,7 +71,7 @@ export default async function listSave(request: Request, code: string) {
 				await Promise.all(updates);
 			} catch (error) {
 				errorMessage = getErrorMessage(error).message;
-				tx.rollback();
+				throw error;
 			}
 		});
 

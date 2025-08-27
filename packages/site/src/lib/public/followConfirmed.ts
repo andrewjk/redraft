@@ -2,6 +2,7 @@ import { notFound, ok, serverError, unprocessable } from "@torpor/build/response
 import { eq } from "drizzle-orm";
 import database from "../../data/database";
 import { activityTable, followingTable } from "../../data/schema";
+import transaction from "../../data/transaction";
 import createNotification from "../notifications/createNotification";
 import updateNotificationCounts from "../notifications/updateNotificationCounts";
 import getErrorMessage from "../utils/getErrorMessage";
@@ -36,7 +37,7 @@ export default async function followConfirmed(request: Request) {
 			return notFound();
 		}
 
-		await db.transaction(async (tx) => {
+		await transaction(db, async (tx) => {
 			try {
 				// Set approved in the following record
 				const record = (
@@ -52,7 +53,6 @@ export default async function followConfirmed(request: Request) {
 
 				// Create a notification
 				await createNotification(tx, record.url, `${record.name} has approved your follow request`);
-				updateNotificationCounts(tx);
 
 				// Create an activity record
 				await tx.insert(activityTable).values({
@@ -63,9 +63,11 @@ export default async function followConfirmed(request: Request) {
 				});
 			} catch (error) {
 				errorMessage = getErrorMessage(error).message;
-				tx.rollback();
+				throw error;
 			}
 		});
+
+		updateNotificationCounts(db);
 
 		return ok();
 	} catch (error) {

@@ -2,6 +2,7 @@ import { notFound, ok, serverError, unprocessable } from "@torpor/build/response
 import { eq } from "drizzle-orm";
 import database from "../../data/database";
 import { feedTable, followingTable } from "../../data/schema";
+import transaction from "../../data/transaction";
 import getErrorMessage from "../utils/getErrorMessage";
 
 // IMPORTANT! Update this when the model changes
@@ -35,7 +36,7 @@ export default async function commentReceived(request: Request) {
 			return notFound();
 		}
 
-		await db.transaction(async (tx) => {
+		await transaction(db, async (tx) => {
 			try {
 				// Update the feed record
 				await tx
@@ -47,7 +48,7 @@ export default async function commentReceived(request: Request) {
 					.where(eq(feedTable.slug, model.slug));
 			} catch (error) {
 				errorMessage = getErrorMessage(error).message;
-				tx.rollback();
+				throw error;
 			}
 		});
 

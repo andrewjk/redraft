@@ -2,6 +2,7 @@ import { notFound, ok, serverError, unauthorized } from "@torpor/build/response"
 import { eq } from "drizzle-orm";
 import database from "../../data/database";
 import { commentsTable, followedByTable, usersTable } from "../../data/schema";
+import transaction from "../../data/transaction";
 import getErrorMessage from "../utils/getErrorMessage";
 import userIdQuery from "../utils/userIdQuery";
 
@@ -41,7 +42,7 @@ export default async function followBlock(request: Request, code: string) {
 
 		// If this user has already been blocked, just return ok
 		if (!followedBy.blocked_at) {
-			await db.transaction(async (tx) => {
+			await transaction(db, async (tx) => {
 				try {
 					// Set block date in the followed by record
 					await tx
@@ -62,7 +63,7 @@ export default async function followBlock(request: Request, code: string) {
 						.where(eq(commentsTable.user_id, followedBy.id));
 				} catch (error) {
 					errorMessage = getErrorMessage(error).message;
-					tx.rollback();
+					throw error;
 				}
 			});
 		}

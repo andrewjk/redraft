@@ -2,6 +2,7 @@ import { notFound, ok, serverError, unauthorized } from "@torpor/build/response"
 import { eq } from "drizzle-orm";
 import database from "../../data/database";
 import { activityTable, feedTable, followingTable, usersTable } from "../../data/schema";
+import transaction from "../../data/transaction";
 import { postPublic } from "../public";
 import {
 	UNFOLLOW_REQUESTED_VERSION,
@@ -53,7 +54,7 @@ export default async function unfollowSend(request: Request, code: string) {
 			};
 			await postPublic(sendUrl, sendData);
 
-			await db.transaction(async (tx) => {
+			await transaction(db, async (tx) => {
 				try {
 					// Update the feed and following tables with a deleted_at value
 					await tx
@@ -74,7 +75,7 @@ export default async function unfollowSend(request: Request, code: string) {
 					});
 				} catch (error) {
 					errorMessage = getErrorMessage(error).message;
-					tx.rollback();
+					throw error;
 				}
 			});
 		}

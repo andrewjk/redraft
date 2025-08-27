@@ -1,5 +1,5 @@
 import { and, eq, inArray } from "drizzle-orm";
-import { type DatabaseTransaction } from "../../data/database";
+import { Database, type DatabaseTransaction } from "../../data/database";
 import { articlesTable, eventsTable, postTagsTable, tagsTable } from "../../data/schema";
 import { Post, postsTable } from "../../data/schema/postsTable";
 import { Tag } from "../../data/schema/tagsTable";
@@ -9,7 +9,7 @@ import uuid from "../utils/uuid";
 import { type PostEditModel } from "./PostEditModel";
 
 export default async function postCreateOrUpdate(
-	tx: DatabaseTransaction,
+	tx: Database | DatabaseTransaction,
 	model: PostEditModel,
 ): Promise<{
 	op: "create" | "update";

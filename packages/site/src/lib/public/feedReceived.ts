@@ -3,6 +3,7 @@ import { eq } from "drizzle-orm";
 import database from "../../data/database";
 import { feedTable, followingTable } from "../../data/schema";
 import { FeedInsert } from "../../data/schema/feedTable";
+import transaction from "../../data/transaction";
 import getErrorMessage from "../utils/getErrorMessage";
 
 // IMPORTANT! Update this when the model changes
@@ -50,7 +51,7 @@ export default async function feedReceived(request: Request) {
 			return notFound();
 		}
 
-		await db.transaction(async (tx) => {
+		await transaction(db, async (tx) => {
 			try {
 				// Create or update the feed record
 				const feed = await tx.query.feedTable.findFirst({ where: eq(feedTable.slug, model.slug) });
@@ -84,7 +85,7 @@ export default async function feedReceived(request: Request) {
 				}
 			} catch (error) {
 				errorMessage = getErrorMessage(error).message;
-				tx.rollback();
+				throw error;
 			}
 		});
 

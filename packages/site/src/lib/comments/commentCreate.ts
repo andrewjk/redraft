@@ -9,6 +9,7 @@ import {
 	postsTable,
 	usersTable,
 } from "../../data/schema";
+import transaction from "../../data/transaction";
 import commentsSend from "../../routes/api/comments/send/+server";
 import * as api from "../api";
 import createNotification from "../notifications/createNotification";
@@ -111,7 +112,7 @@ export default async function commentCreate(
 			updated_at: new Date(),
 		};
 
-		const result = await db.transaction(async (tx) => {
+		const result = await transaction(db, async (tx) => {
 			try {
 				const newComment = (await tx.insert(commentsTable).values(comment).returning())[0];
 
@@ -140,7 +141,6 @@ export default async function commentCreate(
 						`${user.url}posts/${post.slug}`,
 						`${currentUser.name} commented on your post`,
 					);
-					updateNotificationCounts(tx);
 
 					// Send the activity off to be created in the follower's database
 					let sendUrl = `${currentUser.url}api/public/activity`;
@@ -165,8 +165,7 @@ export default async function commentCreate(
 				return created(view);
 			} catch (error) {
 				errorMessage = getErrorMessage(error).message;
-				tx.rollback();
-				return serverError(errorMessage);
+				throw error;
 			}
 		});
 
@@ -174,6 +173,10 @@ export default async function commentCreate(
 		// This could take some time, so send it off to be done in an endpoint without awaiting it
 		// It has to be done outside of the transaction
 		api.post(`comments/send`, commentsSend, params, { post_id: post.id }, token);
+
+		if (isFollower) {
+			updateNotificationCounts(db);
+		}
 
 		return result;
 	} catch (error) {

@@ -8,6 +8,7 @@ import {
 	messagesTable,
 	usersTable,
 } from "../../data/schema";
+import transaction from "../../data/transaction";
 import updateNotificationCounts from "../notifications/updateNotificationCounts";
 import getErrorMessage from "../utils/getErrorMessage";
 
@@ -64,7 +65,7 @@ export default async function messageReceived(request: Request) {
 			),
 		});
 
-		await db.transaction(async (tx) => {
+		await transaction(db, async (tx) => {
 			try {
 				// Create the message group if it doesn't exist
 				if (!messageGroup) {
@@ -113,13 +114,13 @@ export default async function messageReceived(request: Request) {
 				await tx
 					.update(usersTable)
 					.set({ message_count: tx.$count(messagesTable, eq(messagesTable.read, false)) });
-
-				updateNotificationCounts(tx);
 			} catch (error) {
 				errorMessage = getErrorMessage(error).message;
-				tx.rollback();
+				throw error;
 			}
 		});
+
+		updateNotificationCounts(db);
 
 		return ok();
 	} catch (error) {

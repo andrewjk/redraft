@@ -2,6 +2,7 @@ import { notFound, ok, serverError, unauthorized } from "@torpor/build/response"
 import { eq } from "drizzle-orm";
 import database from "../../data/database";
 import { messageGroupsTable, messagesTable, usersTable } from "../../data/schema";
+import transaction from "../../data/transaction";
 import { postPublic } from "../public";
 import { MESSAGE_RECEIVED_VERSION, MessageReceivedModel } from "../public/messageReceived";
 import getErrorMessage from "../utils/getErrorMessage";
@@ -43,7 +44,7 @@ export default async function messageGroupPost(request: Request, code: string) {
 
 		let messageId = -1;
 
-		await db.transaction(async (tx) => {
+		await transaction(db, async (tx) => {
 			try {
 				// Create the message in the database
 				messageId = (
@@ -61,7 +62,7 @@ export default async function messageGroupPost(request: Request, code: string) {
 				)[0].id;
 			} catch (error) {
 				errorMessage = getErrorMessage(error).message;
-				tx.rollback();
+				throw error;
 			}
 		});
 

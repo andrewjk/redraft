@@ -3,6 +3,7 @@ import { eq } from "drizzle-orm";
 import database from "../../data/database";
 import { feedTable, usersTable } from "../../data/schema";
 import { activityTable } from "../../data/schema/activityTable";
+import transaction from "../../data/transaction";
 import getErrorMessage from "../utils/getErrorMessage";
 import userIdQuery from "../utils/userIdQuery";
 
@@ -27,7 +28,7 @@ export default async function feedSave(request: Request, code: string) {
 			return unauthorized();
 		}
 
-		await db.transaction(async (tx) => {
+		await transaction(db, async (tx) => {
 			try {
 				// Update the feed
 				await tx
@@ -46,7 +47,7 @@ export default async function feedSave(request: Request, code: string) {
 				});
 			} catch (error) {
 				errorMessage = getErrorMessage(error).message;
-				tx.rollback();
+				throw error;
 			}
 		});
 

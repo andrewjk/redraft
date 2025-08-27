@@ -3,6 +3,7 @@ import { eq } from "drizzle-orm";
 import database from "../../data/database";
 import { feedTable, usersTable } from "../../data/schema";
 import { activityTable } from "../../data/schema/activityTable";
+import transaction from "../../data/transaction";
 import { postPublic } from "../public";
 import { POST_LIKED_VERSION, type PostLikedModel } from "../public/postLiked";
 import getErrorMessage from "../utils/getErrorMessage";
@@ -31,7 +32,7 @@ export default async function feedLike(request: Request, code: string) {
 			return unauthorized();
 		}
 
-		await db.transaction(async (tx) => {
+		await transaction(db, async (tx) => {
 			try {
 				// Update the feed
 				await tx
@@ -50,7 +51,7 @@ export default async function feedLike(request: Request, code: string) {
 				});
 			} catch (error) {
 				errorMessage = getErrorMessage(error).message;
-				tx.rollback();
+				throw error;
 			}
 		});
 

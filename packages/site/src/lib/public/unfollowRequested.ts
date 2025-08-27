@@ -2,6 +2,7 @@ import { notFound, ok, serverError, unprocessable } from "@torpor/build/response
 import { and, eq } from "drizzle-orm";
 import database from "../../data/database";
 import { followedByTable } from "../../data/schema";
+import transaction from "../../data/transaction";
 import getErrorMessage from "../utils/getErrorMessage";
 
 // IMPORTANT! Update this when the model changes
@@ -47,7 +48,7 @@ export default async function followRequested(request: Request) {
 		// NOTE: Return ok even if the record was not found, to avoid leaking info
 
 		if (record) {
-			await db.transaction(async (tx) => {
+			await transaction(db, async (tx) => {
 				try {
 					await tx
 						.update(followedByTable)
@@ -57,7 +58,7 @@ export default async function followRequested(request: Request) {
 						.where(eq(followedByTable.id, record.id));
 				} catch (error) {
 					errorMessage = getErrorMessage(error).message;
-					tx.rollback();
+					throw error;
 				}
 			});
 		}

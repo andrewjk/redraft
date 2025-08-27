@@ -2,6 +2,7 @@ import { notFound, ok, serverError, unauthorized, unprocessable } from "@torpor/
 import { and, count, desc, eq } from "drizzle-orm";
 import database from "../../data/database";
 import { followedByTable, postReactionsTable, postsTable } from "../../data/schema";
+import transaction from "../../data/transaction";
 import createNotification from "../notifications/createNotification";
 import updateNotificationCounts from "../notifications/updateNotificationCounts";
 import getErrorMessage from "../utils/getErrorMessage";
@@ -63,7 +64,7 @@ export default async function postReaction(request: Request) {
 			),
 		});
 
-		await db.transaction(async (tx) => {
+		await transaction(db, async (tx) => {
 			try {
 				// Insert or delete the reaction
 				if (model.emoji) {
@@ -122,12 +123,13 @@ export default async function postReaction(request: Request) {
 					`${user.url}posts/${post.slug}`,
 					`${currentUser.name} reacted to your post with ${model.emoji}`,
 				);
-				updateNotificationCounts(tx);
 			} catch (error) {
 				errorMessage = getErrorMessage(error).message;
-				tx.rollback();
+				throw error;
 			}
 		});
+
+		updateNotificationCounts(db);
 
 		return ok();
 	} catch (error) {

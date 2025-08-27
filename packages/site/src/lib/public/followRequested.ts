@@ -1,6 +1,7 @@
 import { notFound, ok, serverError, unprocessable } from "@torpor/build/response";
 import database from "../../data/database";
 import { followedByTable } from "../../data/schema";
+import transaction from "../../data/transaction";
 import createNotification from "../notifications/createNotification";
 import updateNotificationCounts from "../notifications/updateNotificationCounts";
 import { postPublic } from "../public";
@@ -60,7 +61,7 @@ export default async function followRequested(request: Request) {
 			return notFound();
 		}
 
-		await db.transaction(async (tx) => {
+		await transaction(db, async (tx) => {
 			try {
 				// Create the followed by record, with approved = false
 				const record = {
@@ -77,12 +78,13 @@ export default async function followRequested(request: Request) {
 
 				// Create a notification
 				await createNotification(tx, model.url, `${confirmData.name} has requested to follow you`);
-				updateNotificationCounts(tx);
 			} catch (error) {
 				errorMessage = getErrorMessage(error).message;
-				tx.rollback();
+				throw error;
 			}
 		});
+
+		updateNotificationCounts(db);
 
 		const data: FollowRequestedResponseModel = {
 			name: user.name,

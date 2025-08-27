@@ -1,9 +1,10 @@
 import { ok, serverError, unprocessable } from "@torpor/build/response";
 import { eq } from "drizzle-orm";
-import database, { type DatabaseTransaction } from "../../data/database";
+import database, { Database, type DatabaseTransaction } from "../../data/database";
 import { followedByTable, followingTable } from "../../data/schema";
 import { FollowedBy } from "../../data/schema/followedByTable";
 import { Following } from "../../data/schema/followingTable";
+import transaction from "../../data/transaction";
 import createNotification from "../notifications/createNotification";
 import updateNotificationCounts from "../notifications/updateNotificationCounts";
 import getErrorMessage from "../utils/getErrorMessage";
@@ -41,7 +42,7 @@ export default async function profileUpdated(request: Request) {
 		});
 		const [following, followedBy] = await Promise.all([followingQuery, followedByQuery]);
 
-		await db.transaction(async (tx) => {
+		await transaction(db, async (tx) => {
 			try {
 				await Promise.all([
 					updateFollowingTable(model, tx, following),
@@ -49,9 +50,11 @@ export default async function profileUpdated(request: Request) {
 				]);
 			} catch (error) {
 				errorMessage = getErrorMessage(error).message;
-				tx.rollback();
+				throw error;
 			}
 		});
+
+		updateNotificationCounts(db);
 
 		return ok();
 	} catch (error) {
@@ -62,7 +65,7 @@ export default async function profileUpdated(request: Request) {
 
 async function updateFollowingTable(
 	model: ProfileUpdatedModel,
-	tx: DatabaseTransaction,
+	tx: Database | DatabaseTransaction,
 	user?: Following,
 ) {
 	if (user) {
@@ -77,13 +80,12 @@ async function updateFollowingTable(
 
 		// Create a notification for the users you are following only
 		await createNotification(tx, user.url, `${user.name} has changed their profile`);
-		updateNotificationCounts(tx);
 	}
 }
 
 async function updateFollowedByTable(
 	model: ProfileUpdatedModel,
-	tx: DatabaseTransaction,
+	tx: Database | DatabaseTransaction,
 	user?: FollowedBy,
 ) {
 	if (user) {

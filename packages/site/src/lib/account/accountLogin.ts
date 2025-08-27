@@ -2,6 +2,7 @@ import { forbidden, ok, serverError } from "@torpor/build/response";
 import { eq } from "drizzle-orm";
 import database from "../../data/database";
 import { activityTable, userTokensTable, usersTable } from "../../data/schema";
+import transaction from "../../data/transaction";
 import createUserToken from "../utils/createUserToken";
 import getErrorMessage from "../utils/getErrorMessage";
 import { compareWithHash } from "../utils/hashPasswords";
@@ -45,7 +46,7 @@ export default async function accountLogin(request: Request) {
 		const tenYears = 10 * 365 * 24 * 60 * 60;
 		const maxAge = model.rememberMe ? tenYears : sevenDays;
 
-		await db.transaction(async (tx) => {
+		await transaction(db, async (tx) => {
 			try {
 				// Create a user token
 				await tx.insert(userTokensTable).values({
@@ -63,7 +64,7 @@ export default async function accountLogin(request: Request) {
 				});
 			} catch (error) {
 				errorMessage = getErrorMessage(error).message;
-				tx.rollback();
+				throw error;
 			}
 		});
 

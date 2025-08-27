@@ -3,6 +3,7 @@ import { and, eq, isNull } from "drizzle-orm";
 import database from "../../data/database";
 import { followingTable, usersTable } from "../../data/schema";
 import { activityTable } from "../../data/schema/activityTable";
+import transaction from "../../data/transaction";
 import { postPublic } from "../public";
 import {
 	FOLLOW_REQUESTED_VERSION,
@@ -64,7 +65,7 @@ export default async function followRequest(request: Request, code: string) {
 			}
 			let requestData = (await response.json()) as FollowRequestedResponseModel;
 
-			await db.transaction(async (tx) => {
+			await transaction(db, async (tx) => {
 				try {
 					// Create the following record, with approved = false
 					let record = {
@@ -98,7 +99,7 @@ export default async function followRequest(request: Request, code: string) {
 					});
 				} catch (error) {
 					errorMessage = getErrorMessage(error).message;
-					tx.rollback();
+					throw error;
 				}
 			});
 		}

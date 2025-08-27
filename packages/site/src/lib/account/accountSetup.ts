@@ -2,6 +2,7 @@ import { created, forbidden, serverError } from "@torpor/build/response";
 import { eq } from "drizzle-orm";
 import database from "../../data/database";
 import { activityTable, userTokensTable, usersTable } from "../../data/schema";
+import transaction from "../../data/transaction";
 import env from "../env";
 import createUserToken from "../utils/createUserToken";
 import ensureSlash from "../utils/ensureSlash";
@@ -70,7 +71,7 @@ export default async function accountSetup(request: Request) {
 		const code = uuid().toString();
 		const sevenDays = 7 * 24 * 60 * 60;
 
-		await db.transaction(async (tx) => {
+		await transaction(db, async (tx) => {
 			try {
 				// Insert the user into the database
 				const newUser = currentUser
@@ -99,7 +100,7 @@ export default async function accountSetup(request: Request) {
 				});
 			} catch (error) {
 				errorMessage = getErrorMessage(error).message;
-				tx.rollback();
+				throw error;
 			}
 		});
 

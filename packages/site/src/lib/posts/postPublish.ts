@@ -3,6 +3,7 @@ import { eq } from "drizzle-orm";
 import database from "../../data/database";
 import { activityTable, feedTable, postsTable, usersTable } from "../../data/schema";
 import { FeedInsert } from "../../data/schema/feedTable";
+import transaction from "../../data/transaction";
 import postsSend from "../../routes/api/posts/send/+server";
 import * as api from "../api";
 import {
@@ -41,7 +42,7 @@ export default async function postPublish(
 		let postId: number | undefined;
 		let postVisibility: number | undefined;
 
-		await db.transaction(async (tx) => {
+		await transaction(db, async (tx) => {
 			try {
 				const { post } = await postCreateOrUpdate(tx, model);
 				postId = post.id;
@@ -106,7 +107,7 @@ export default async function postPublish(
 				});
 			} catch (error) {
 				errorMessage = getErrorMessage(error).message;
-				tx.rollback();
+				throw error;
 			}
 		});
 

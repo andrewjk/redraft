@@ -6,6 +6,9 @@ export default interface Adapter {
 	// we'll just have to cast it then
 	database: (schema: any) => any;
 
+	// Some databases (D1!) don't support transactions, so it has to be optional
+	transaction: (db: any, fn: (tx: any) => Promise<unknown>) => Promise<unknown>;
+
 	storage: Storage;
 
 	images: Images;

@@ -2,6 +2,7 @@ import { ok, serverError, unauthorized } from "@torpor/build/response";
 import { eq } from "drizzle-orm";
 import database from "../../data/database";
 import { notificationsTable, usersTable } from "../../data/schema";
+import transaction from "../../data/transaction";
 import getErrorMessage from "../utils/getErrorMessage";
 import userIdQuery from "../utils/userIdQuery";
 
@@ -26,7 +27,7 @@ export default async function notificationMarkRead(request: Request, code: strin
 			return unauthorized();
 		}
 
-		await db.transaction(async (tx) => {
+		await transaction(db, async (tx) => {
 			try {
 				// Mark the notification read
 				await tx
@@ -41,7 +42,7 @@ export default async function notificationMarkRead(request: Request, code: strin
 				});
 			} catch (error) {
 				errorMessage = getErrorMessage(error).message;
-				tx.rollback();
+				throw error;
 			}
 		});
 

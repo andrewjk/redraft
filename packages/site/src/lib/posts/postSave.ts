@@ -2,6 +2,7 @@ import { ok, serverError, unauthorized } from "@torpor/build/response";
 import { eq } from "drizzle-orm";
 import database from "../../data/database";
 import { activityTable, usersTable } from "../../data/schema";
+import transaction from "../../data/transaction";
 import getErrorMessage from "../utils/getErrorMessage";
 import userIdQuery from "../utils/userIdQuery";
 import { type PostEditModel } from "./PostEditModel";
@@ -23,7 +24,7 @@ export default async function postSave(request: Request, code: string) {
 			return unauthorized();
 		}
 
-		await db.transaction(async (tx) => {
+		await transaction(db, async (tx) => {
 			try {
 				const { post } = await postCreateOrUpdate(tx, model);
 
@@ -36,7 +37,7 @@ export default async function postSave(request: Request, code: string) {
 				});
 			} catch (error) {
 				errorMessage = getErrorMessage(error).message;
-				tx.rollback();
+				throw error;
 			}
 		});
 

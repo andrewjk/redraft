@@ -2,6 +2,7 @@ import { notFound, ok, serverError, unauthorized } from "@torpor/build/response"
 import { eq } from "drizzle-orm";
 import database from "../../data/database";
 import { followedByTable, usersTable } from "../../data/schema";
+import transaction from "../../data/transaction";
 import { postPublic } from "../public";
 import { FOLLOW_CONFIRMED_VERSION, type FollowConfirmedModel } from "../public/followConfirmed";
 import getErrorMessage from "../utils/getErrorMessage";
@@ -40,7 +41,7 @@ export default async function followApprove(request: Request, code: string) {
 			return notFound();
 		}
 
-		await db.transaction(async (tx) => {
+		await transaction(db, async (tx) => {
 			try {
 				// Set approved in the followed by record
 				await tx
@@ -52,7 +53,7 @@ export default async function followApprove(request: Request, code: string) {
 					.where(eq(followedByTable.id, model.id));
 			} catch (error) {
 				errorMessage = getErrorMessage(error).message;
-				tx.rollback();
+				throw error;
 			}
 		});
 

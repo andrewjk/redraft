@@ -8,6 +8,7 @@ import {
 	messagesTable,
 	usersTable,
 } from "../../data/schema";
+import transaction from "../../data/transaction";
 import { postPublic } from "../public";
 import { MESSAGE_RECEIVED_VERSION, MessageReceivedModel } from "../public/messageReceived";
 import getErrorMessage from "../utils/getErrorMessage";
@@ -68,7 +69,7 @@ export default async function messageCreatePost(request: Request, code: string) 
 		let messageGroupSlug = model.groupSlug || uuid();
 		let messageId = -1;
 
-		await db.transaction(async (tx) => {
+		await transaction(db, async (tx) => {
 			try {
 				// Create the message group
 				let messageGroupId = messageGroup
@@ -112,7 +113,7 @@ export default async function messageCreatePost(request: Request, code: string) 
 					.where(eq(messageGroupsTable.id, messageGroupId));
 			} catch (error) {
 				errorMessage = getErrorMessage(error).message;
-				tx.rollback();
+				throw error;
 			}
 		});
 
