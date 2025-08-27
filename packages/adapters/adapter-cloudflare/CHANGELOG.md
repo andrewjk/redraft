@@ -1,5 +1,13 @@
 # @redraft/adapter-cloudflare
 
+## 0.0.18
+
+### Patch Changes
+
+- a5743bb: Fix: some databases don't support transactions!
+- Updated dependencies [a5743bb]
+  - @redraft/adapter-core@0.0.7
+
 ## 0.0.17
 
 ### Patch Changes

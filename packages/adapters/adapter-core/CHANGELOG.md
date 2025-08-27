@@ -1,5 +1,11 @@
 # @redraft/adapter-core
 
+## 0.0.7
+
+### Patch Changes
+
+- a5743bb: Fix: some databases don't support transactions!
+
 ## 0.0.6
 
 ### Patch Changes
