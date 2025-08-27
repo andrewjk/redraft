@@ -1,5 +1,11 @@
 # @redraft/site
 
+## 0.1.3
+
+### Patch Changes
+
+- 923949d: Fix: request image sizing in UI
+
 ## 0.1.2
 
 ### Patch Changes

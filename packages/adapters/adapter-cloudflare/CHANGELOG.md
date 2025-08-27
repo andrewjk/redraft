@@ -1,5 +1,11 @@
 # @redraft/adapter-cloudflare
 
+## 0.0.17
+
+### Patch Changes
+
+- 923949d: Fix: request image sizing in UI
+
 ## 0.0.16
 
 ### Patch Changes

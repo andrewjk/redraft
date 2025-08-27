@@ -4943,10 +4943,11 @@ params: ${params}`);
       const img = env().IMAGES;
       width = Math.min(width, 1e3);
       height = Math.min(height, 1e3);
-      const output = await img.input(stream).transform({
-        width,
-        height
-      }).output({
+      let options = {
+        width: width || void 0,
+        height: height || void 0
+      };
+      let output = await img.input(stream).transform(options).output({
         format
       });
       return output.response();
