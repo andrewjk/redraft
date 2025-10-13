@@ -149,7 +149,7 @@ export default function PostPreview() {
 						}
 					</div>
 
-					<div class="post-preview-footer hstack centered font-sm secondary">
+					<div class="post-preview-footer hstack centered spaced font-sm secondary">
 						@if (post.isArticle) {
 							<a href="{post.author.url}articles/{post.slug}">
 								Read

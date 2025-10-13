@@ -6,117 +6,117 @@ import FormErrors from '../FormErrors.torp';
 export default function Edit() {
 	let $profile = $watch($props.data.profile)
 
+	@head {
+		<title>Edit Profile • Redraft</title>
+	}
+
 	@render {
-			<div class="full-width profile-edit-page">
-				<:head>
-					<title>Edit Profile • Redraft</title>
-				</:head>
+		<div class="full-width profile-edit-page">
+			<ProfileMenu section="Edit" {$props.data.user} {$props.data.base} />
 
-				<ProfileMenu section="Edit" {$props.data.user} {$props.data.base} />
+			<FormErrors {$props.form?.errors} />
 
-				<FormErrors {$props.form?.errors} />
-
-				<form use:enhance enctype="multipart/form-data" method="POST">
-					<div class="form-row">
-						<label for="image-input">Image</label
-						<div class="hstack centered spaced">
-							<div id="image-preview" class="no-shrink" style={`background-image: url("${placeholdify($props.data.profile.image)}")`} />
-							<input
-								id="image-input"
-								&value={$props.data.profile.imagefile}
-								name="imagefile"
-								type="file"
-								accept="image/*"
-								onchange={fileSelected}
-							/>
-						</div>
+			<form use:enhance enctype="multipart/form-data" method="POST">
+				<div class="form-row">
+					<label for="image-input">Image</label
+					<div class="hstack centered spaced">
+						<div id="image-preview" class="no-shrink" style={`background-image: url("${placeholdify($props.data.profile.image)}")`} />
+						<input
+							id="image-input"
+							&value={$props.data.profile.imagefile}
+							name="imagefile"
+							type="file"
+							accept="image/*"
+							onchange={fileSelected}
+						/>
 					</div>
-					@function fileSelected(e) {
-						const image = e.target.files[0];
-						if (!image.type.includes("image")) {
-							return;
-						}
-						const fileReader = new FileReader();
-						fileReader.readAsDataURL(image);
-						fileReader.onload = (ev) => {
-							const preview = document.getElementById("image-preview");
-							preview.style.backgroundImage = `url('${ev.target.result}')`;
-						}
+				</div>
+				@function fileSelected(e) {
+					const image = e.target.files[0];
+					if (!image.type.includes("image")) {
+						return;
 					}
-					<div class="form-row">
-						<label for="email-input">Email</label
-						<input
-							id="email-input"
-							&value={$profile.email}
-							name="email"
-							type="email"
-							required
-						/>
-					</div>
-					<div class="form-row">
-						<label for="name-input">Name</label
-						<input
-							id="name-input"
-							&value={$profile.name}
-							name="name"
-							required
-						/>
-					</div>
-					<div class="form-row">
-						<label for="bio-input">Bio</label
-						<textarea
-							id="bio-input"
-							&value={$profile.bio}
-							name="bio"
-						/>
-					</div>
-					<div class="form-row">
-						<label for="location-input">Location</label
-						<input
-							id="location-input"
-							&value={$profile.location}
-							name="location"
-						/>
-					</div>
-					<div class="form-row">
-						<label for="bio-input">About</label
-						<textarea
-							id="about-input"
-							&value={$profile.about}
-							name="about"
-						/>
-					</div>
-
-					<h3>Links</h3>
-					@for (let [i, link] of $profile.links.entries()) {
-						<input type="hidden" name="links[{i}].id" value={link.id} />
-						<div class="form-row">
-							<label for="links[{i}]-input">URL / Text</label>
-							<input
-								id="links[{i}]-input"
-								&value={link.url}
-								name="links[{i}].url"
-								style="margin-bottom: 0.4rem"
-							/>
-							<input
-								&value={link.text}
-								name="links[{i}].text"
-							/>
-						</div>
+					const fileReader = new FileReader();
+					fileReader.readAsDataURL(image);
+					fileReader.onload = (ev) => {
+						const preview = document.getElementById("image-preview");
+						preview.style.backgroundImage = `url('${ev.target.result}')`;
 					}
+				}
+				<div class="form-row">
+					<label for="email-input">Email</label
+					<input
+						id="email-input"
+						&value={$profile.email}
+						name="email"
+						type="email"
+						required
+					/>
+				</div>
+				<div class="form-row">
+					<label for="name-input">Name</label
+					<input
+						id="name-input"
+						&value={$profile.name}
+						name="name"
+						required
+					/>
+				</div>
+				<div class="form-row">
+					<label for="bio-input">Bio</label
+					<textarea
+						id="bio-input"
+						&value={$profile.bio}
+						name="bio"
+					/>
+				</div>
+				<div class="form-row">
+					<label for="location-input">Location</label
+					<input
+						id="location-input"
+						&value={$profile.location}
+						name="location"
+					/>
+				</div>
+				<div class="form-row">
+					<label for="bio-input">About</label
+					<textarea
+						id="about-input"
+						&value={$profile.about}
+						name="about"
+					/>
+				</div>
+
+				<h3>Links</h3>
+				@for (let [i, link] of $profile.links.entries()) {
+					<input type="hidden" name="links[{i}].id" value={link.id} />
 					<div class="form-row">
-						<button class="link" type="button" onclick={() => addLink()}>Add a link</button>
-						@function addLink() {
-							$profile.links.push({ id: -1, text: "", url: "" })
-						}
+						<label for="links[{i}]-input">URL / Text</label>
+						<input
+							id="links[{i}]-input"
+							&value={link.url}
+							name="links[{i}].url"
+							style="margin-bottom: 0.4rem"
+						/>
+						<input
+							&value={link.text}
+							name="links[{i}].text"
+						/>
 					</div>
-					<div class="form-footer">
-						<button type="submit">
-							Save
-						</button>
-					</div>
-				</form>
-			</div>
+				}
+				<div class="form-row">
+					<button class="link" type="button" onclick={() => addLink()}>Add a link</button>
+					@function addLink() {
+						$profile.links.push({ id: -1, text: "", url: "" })
+					}
+				</div>
+				<div class="form-footer">
+					<button type="submit">
+						Save
+					</button>
+				</div>
+			</form>
+		</div>
 	}
 
 	@style {

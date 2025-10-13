@@ -10,12 +10,12 @@ export default function Index() {
 		page: +($page.url.searchParams.get("page") || 1),
 	})
 
+	@head {
+		<title>{$props.data.viewing.name} • Liked • Redraft</title>
+	}
+
 	@render {
 		<div class="vstack spaced feed-liked-page">
-			<:head>
-				<title>{$props.data.viewing.name} • Liked • Redraft</title>
-			</:head>
-
 			<FeedMenu section="Liked" {$props.data.base} />
 			<PostInput {post} {$props.data.user} {$props.data.base} />
 			<FeedList {$props.data.feed} {$props.data.user} {$props.data.follower} />

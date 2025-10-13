@@ -10,12 +10,12 @@ export default function Index() {
 		page: +($page.url.searchParams.get("page") || 1),
 	})
 
+	@head {
+		<title>{$props.data.viewing.name} • Media drafts • Redraft</title>
+	}
+
 	@render {
 		<div class="vstack centered spaced media-drafts-page">
-			<:head>
-				<title>{$props.data.viewing.name} • Media drafts • Redraft</title>
-			</:head>
-
 			<MediaMenu section="Drafts" {$props.data.user} {$props.data.base} />
 			@if ($props.data.user) {
 				<PostInput {post} {$props.data.user} {$props.data.base} />

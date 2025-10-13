@@ -3,12 +3,12 @@ import placeholdify from "../../lib/utils/placeholdify";
 import FormErrors from '../FormErrors.torp';
 
 export default function Setup() {
+	@head {
+		<title>Setup • Redraft</title>
+	}
+
 	@render {
 		<div class="vstack spaced full-width setup-page">
-			<:head>
-				<title>Setup • Redraft</title>
-			</:head>
-
 			<h2>Setup</h2>
 
 			<FormErrors {$props.form?.errors} />

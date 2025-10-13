@@ -8,12 +8,12 @@ import Pencil from "phosphor-torpor/lib/Pencil";
 import SignOut from "phosphor-torpor/lib/SignOut";
 
 export default function Index($props) {
+	@head {
+		<title>{$props.data.viewing.name} • Profile • Redraft</title>
+	}
+
 	@render {
 		<div class="vstack spaced profile-page">
-			<:head>
-				<title>{$props.data.viewing.name} • Profile • Redraft</title>
-			</:head>
-
 			<ProfileMenu section="Profile" {$props.data.user} {$props.data.base} />
 
 			@if ($props.data.profile.about) {

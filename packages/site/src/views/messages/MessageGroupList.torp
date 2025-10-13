@@ -4,12 +4,12 @@ import MessageGroupPreview from './MessageGroupPreview.torp';
  * Shows a list of message groups.
  */
 export default function MessageGroupList($props) {
+	@head {
+		<title>{$props.data.viewing.name} • Messages • Redraft</title>
+	}
+
 	@render {
 		<div class="vstack spaced message-group-list">
-			<:head>
-				<title>{$props.data.viewing.name} • Messages • Redraft</title>
-			</:head>
-
 			<div class="vstack spaced-nr full-width">
 				@if ($props.data.messages.length === 0) {
 					<div class="card">

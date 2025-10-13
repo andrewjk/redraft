@@ -5,12 +5,12 @@ import FollowMenu from './FollowMenu.torp';
  * Shows a list of the lists that have been created.
  */
 export default function ListsList($props) {
+	@head {
+		<title>{$props.data.viewing.name} • Followed by • Redraft</title>
+	}
+
 	@render {
 		<div class="vstack spaced lists-list">
-			<:head>
-				<title>{$props.data.viewing.name} • Followed by • Redraft</title>
-			</:head>
-
 			<FollowMenu section="Lists" {$props.data.user} {$props.data.base} />
 
 			<p>

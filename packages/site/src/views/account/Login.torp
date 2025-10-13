@@ -2,12 +2,12 @@
 import FormErrors from '../FormErrors.torp';
 
 export default function Login() {
+	@head {
+		<title>Login • Redraft</title>
+	}
+
 	@render {
 		<div class="vstack spaced full-width login-page">
-			<:head>
-				<title>Login • Redraft</title>
-			</:head>
-
 			<h1>Login</h1>
 
 			<FormErrors {$props.form?.errors} />

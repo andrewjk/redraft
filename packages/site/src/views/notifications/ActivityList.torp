@@ -5,12 +5,12 @@ import ActivityPreview from './ActivityPreview.torp';
  * Shows a list of the current user's activity.
  */
 export default function ActivityList($props) {
+	@head {
+		<title>{$props.data.viewing.name} • Activity • Redraft</title>
+	}
+
 	@render {
 		<div class="vstack centered spaced activity-page">
-			<:head>
-				<title>{$props.data.viewing.name} • Activity • Redraft</title>
-			</:head>
-
 			<NotificationMenu section="Activity" {$props.data.user} {$props.data.base} />
 
 			<div class="vstack spaced-nr full-width">

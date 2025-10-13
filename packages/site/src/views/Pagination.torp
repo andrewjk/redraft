@@ -12,7 +12,7 @@ export default function Pagination($props: {
 				<nav>
 					<ul class="pagination">
 						@for (let i = 1; i < $props.pageCount; i++) {
-							<li :class={{ "page-item": true, active: i == $props.page }}><a class="page-link" href={$props.href(i)}>{i}</a></li>
+							<li class={{ "page-item": true, active: i == $props.page }}><a class="page-link" href={$props.href(i)}>{i}</a></li>
 						}
 					</ul>
 				</nav>

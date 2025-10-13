@@ -5,12 +5,12 @@ import FollowMenu from './FollowMenu.torp';
  * Shows a list of the users being followed.
  */
 export default function FollowedByList($props) {
+	@head {
+		<title>{$props.data.viewing.name} • Followed by • Redraft</title>
+	}
+
 	@render {
 		<div class="vstack spaced followed-by-list">
-			<:head>
-				<title>{$props.data.viewing.name} • Followed by • Redraft</title>
-			</:head>
-
 			<FollowMenu section="FollowedBy" {$props.data.user} {$props.data.base} />
 
 			<div class="vstack spaced-nr full-width">

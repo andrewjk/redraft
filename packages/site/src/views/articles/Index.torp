@@ -10,12 +10,12 @@ export default function Index() {
 		page: +($page.url.searchParams.get("page") || 1),
 	})
 
+	@head {
+		<title>{$props.data.viewing.name} • Articles • Redraft</title>
+	}
+
 	@render {
 		<div class="vstack spaced articles-page">
-			<:head>
-				<title>{$props.data.viewing.name} • Articles • Redraft</title>
-			</:head>
-
 			<ArticleMenu section="Articles" {$props.data.user} {$props.data.base} />
 			@if ($props.data.user) {
 				<PostInput {post} {$props.data.user} {$props.data.base} />

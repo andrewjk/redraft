@@ -11,14 +11,14 @@ import stripProtocol from "../lib/utils/stripProtocol";
 // Only load logged out posts in home page, even if logged in
 
 export default function Layout() {
+	@head {
+		<meta name="social-follow-url" content={$props.data.viewing.url} />
+		<meta name="social-follow-name" content={$props.data.viewing.name} />
+		<meta name="social-follow-image" content={$props.data.viewing.image} />
+	}
+
 	@render {
 		<div class="app-layout">
-			<:head>
-				<meta name="social-follow-url" content={$props.data.viewing.url} />
-				<meta name="social-follow-name" content={$props.data.viewing.name} />
-				<meta name="social-follow-image" content={$props.data.viewing.image} />
-			</:head>
-
 			@if ($props.data.user) {
 				<Nav {$props.data.user} {$props.data.follower} {$props.data.viewing} />
 			}
@@ -33,7 +33,7 @@ export default function Layout() {
 
 					<div class="vstack centered page-outer">
 						<div class="page-inner">
-							<:slot />
+							<slot />
 						</div>
 					</div>
 
@@ -72,7 +72,7 @@ function Nav() {
 			<ul class="plain hstack centered full-width nav-list">
 				<li class="nav-item">
 					<NavMenuLink
-						:class={{ "nav-link": true, active: $page.url.pathname.startsWith("/feed") }}
+						class={{ "nav-link": true, active: $page.url.pathname.startsWith("/feed") }}
 						href="/feed"
 					>
 						Feed
@@ -83,7 +83,7 @@ function Nav() {
 
 				<li class="nav-item">
 					<NavMenuLink
-						:class={{ "nav-link hstack spaced-nr": true, active: $page.url.pathname.startsWith("/profile") }}
+						class={{ "nav-link hstack spaced-nr": true, active: $page.url.pathname.startsWith("/profile") }}
 						href="/profile"
 					>
 						<img class="profile-image" src={placeholdify($props.viewing.image)} alt={`${$props.viewing.name} (${stripProtocol($props.viewing.url)})`} />
@@ -93,7 +93,7 @@ function Nav() {
 
 				<li class="nav-item">
 					<NavMenuLink
-						:class={{ "nav-link nav-icon": true, active: $page.url.pathname.startsWith("/messages") }}
+						class={{ "nav-link nav-icon": true, active: $page.url.pathname.startsWith("/messages") }}
 						href="/messages"
 					>
 						<div class="badge-container">
@@ -107,7 +107,7 @@ function Nav() {
 
 				<li class="nav-item">
 					<NavMenuLink
-						:class={{ "nav-link nav-icon": true, active: $page.url.pathname.startsWith("/notifications") }}
+						class={{ "nav-link nav-icon": true, active: $page.url.pathname.startsWith("/notifications") }}
 						href="/notifications"
 					>
 						<div class="badge-container">

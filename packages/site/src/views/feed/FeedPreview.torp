@@ -33,7 +33,7 @@ export default function FeedPreview() {
 
 	@render {
 		<div class="card full-width feed-preview">
-			<div class="feed-preview-status hstack spaced-nr secondary"}>
+			<div class="feed-preview-status hstack spaced-nr secondary">
 				@if (feed.republishedAt) {
 					<div title={fmt.format(new Date(feed.republishedAt))}>
 						Republished {relativeTimeSince(new Date(feed.republishedAt), true)}
@@ -161,7 +161,7 @@ export default function FeedPreview() {
 						}
 					</div>
 
-					<div class="feed-preview-footer hstack centered font-sm secondary">
+					<div class="feed-preview-footer hstack centered spaced font-sm secondary">
 						@if (feed.isArticle) {
 							<a href="{feed.author.url}articles/{feed.slug}">
 								Read

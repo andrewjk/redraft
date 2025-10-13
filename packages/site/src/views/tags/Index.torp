@@ -7,12 +7,12 @@ export default function Index() {
 		page: +($page.url.searchParams.get("page") || 1),
 	})
 
+	@head {
+		<title>{$props.data.viewing.name} • Tags • Redraft</title>
+	}
+
 	@render {
 		<div class="vstack spaced tags-page">
-			<:head>
-				<title>{$props.data.viewing.name} • Tags • Redraft</title>
-			</:head>
-
 			<h1>Tags</h1>
 
 			<TagList {$props.data.tags} {$props.data.user} {$props.data.follower} {$props.data.base} />

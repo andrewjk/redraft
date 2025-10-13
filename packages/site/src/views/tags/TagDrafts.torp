@@ -10,12 +10,12 @@ export default function TagDrafts() {
 		page: +($page.url.searchParams.get("page") || 1),
 	})
 
+	@head {
+		<title>{$props.data.viewing.name} • {$props.data.tag.text} • Redraft</title>
+	}
+
 	@render {
 		<div class="vstack centered spaced tag-drafts-page">
-			<:head>
-				<title>{$props.data.viewing.name} • {$props.data.tag.text} • Redraft</title>
-			</:head>
-
 			<TagMenu tag={$props.data.tag} section="Drafts" {$props.data.user} {$props.data.base} />
 			@if ($props.data.user) {
 				<PostInput {post} {$props.data.user} {$props.data.base} />

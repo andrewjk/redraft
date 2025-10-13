@@ -7,12 +7,12 @@ import FormErrors from '../FormErrors.torp';
 export default function ListEdit() {
 	let $list = $watch($props.data.list)
 
+	@head {
+		<title>{$list.id < 0 ? "Create" : "Edit"} List • Redraft</title>
+	}
+
 	@render {
 		<div class="full-width list-edit-page">
-			<:head>
-				<title>{$list.id < 0 ? "Create" : "Edit"} List • Redraft</title>
-			</:head>
-
 			<FollowMenu section="Lists" {$props.data.user} {$props.data.base} />
 
 			<FormErrors {$props.form?.errors} />

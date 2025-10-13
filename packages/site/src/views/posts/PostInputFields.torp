@@ -122,7 +122,7 @@ export default function PostInput($props) {
 			@if (!post.isArticle && !post.isEvent && post.hasImage) {
 				<input
 					class="full-width"
-					:style={{ display: $state.imageLoaded ? "none" : undefined }}
+					style={{ display: $state.imageLoaded ? "none" : undefined }}
 					name={`${prefix}imagefile`}
 					type="file"
 					accept="image/*"
@@ -162,7 +162,7 @@ export default function PostInput($props) {
 					name={`${prefix}linkUrl`}
 					&value={post.linkUrl}
 					class="full-width"
-					:style={{ display: $state.linkLoaded ? "none" : undefined }}
+					style={{ display: $state.linkLoaded ? "none" : undefined }}
 					placeholder="Link URL"
 					oninput={async (e) => {
 						// TODO: Debounce

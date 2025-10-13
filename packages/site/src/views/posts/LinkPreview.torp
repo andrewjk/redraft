@@ -18,7 +18,7 @@ export default function LinkPreview() {
 			@if (link.linkEmbedSrc) {
 				<iframe
 					src={link.linkEmbedSrc}
-					:style={{
+					style={{
 						width: "100%",
 						"aspect-ratio": parseInt(link.linkEmbedWidth) && parseInt(link.linkEmbedHeight) ? `${link.linkEmbedWidth} / ${link.linkEmbedHeight}` : undefined
 					}}
@@ -75,7 +75,7 @@ export default function LinkPreview() {
 		}
 
 		.link-preview-host {
-			color: var(--border-color);
+			color: var(--text-secondary);
 		}
 	}
 }

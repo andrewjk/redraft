@@ -54,7 +54,7 @@ export default function ProfilePreview($props) {
 					@/*
 					@const homeLink = $props.base
 					<a
-						:class={{ "subnav-link": true, active: $page.url.pathname === homeLink }}
+						class={{ "subnav-link": true, active: $page.url.pathname === homeLink }}
 						href={homeLink}
 					>
 						Home
@@ -62,42 +62,42 @@ export default function ProfilePreview($props) {
 					*/
 					@const postsLink = `${$props.base}posts`
 					<a
-						:class={{ "subnav-link": true, active: $page.url.pathname.startsWith(postsLink) }}
+						class={{ "subnav-link": true, active: $page.url.pathname.startsWith(postsLink) }}
 						href={postsLink}
 					>
 						Posts
 					</a>
 					@const articlesLink = `${$props.base}articles`
 					<a
-						:class={{ "subnav-link": true, active: $page.url.pathname.startsWith(articlesLink) }}
+						class={{ "subnav-link": true, active: $page.url.pathname.startsWith(articlesLink) }}
 						href={articlesLink}
 					>
 						Articles
 					</a>
 					@const mediaLink = `${$props.base}media`
 					<a
-						:class={{ "subnav-link": true, active: $page.url.pathname.startsWith(mediaLink) }}
+						class={{ "subnav-link": true, active: $page.url.pathname.startsWith(mediaLink) }}
 						href={mediaLink}
 					>
 						Media
 					</a>
 					@const eventsLink = `${$props.base}events`
 					<a
-						:class={{ "subnav-link": true, active: $page.url.pathname.startsWith(eventsLink) }}
+						class={{ "subnav-link": true, active: $page.url.pathname.startsWith(eventsLink) }}
 						href={eventsLink}
 					>
 						Events
 					</a>
 					@const contactsLink = `${$props.base}contacts`
 					<a
-						:class={{ "subnav-link": true, active: $page.url.pathname.startsWith(contactsLink) }}
+						class={{ "subnav-link": true, active: $page.url.pathname.startsWith(contactsLink) }}
 						href="{contactsLink}/following"
 					>
 						Contacts
 					</a>
 					@const profileLink = `${$props.base}profile`
 					<a
-						:class={{ "subnav-link": true, active: $page.url.pathname.startsWith(profileLink) }}
+						class={{ "subnav-link": true, active: $page.url.pathname.startsWith(profileLink) }}
 						href={profileLink}
 					>
 						Profile

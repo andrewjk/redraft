@@ -10,12 +10,12 @@ export default function Index() {
 		page: +($page.url.searchParams.get("page") || 1),
 	})
 
+	@head {
+		<title>{$props.data.viewing.name} • Saved • Redraft</title>
+	}
+
 	@render {
 		<div class="vstack spaced feed-saved-page">
-			<:head>
-				<title>{$props.data.viewing.name} • Saved • Redraft</title>
-			</:head>
-
 			<FeedMenu section="Saved" {$props.data.base} />
 			<PostInput {post} {$props.data.user} {$props.data.base} />
 			<FeedList {$props.data.feed} {$props.data.user} {$props.data.follower} />

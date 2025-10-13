@@ -9,12 +9,12 @@ import PostInput from './PostInput.torp';
 export default function PostCompose() {
 	let { post } = $props.data;
 
+	@head {
+		<title>Compose • Redraft</title>
+	}
+
 	@render {
 		<div class="vstack spaced full-width post-compose-page">
-			<:head>
-				<title>Compose • Redraft</title>
-			</:head>
-
 			<PostMenu section="Compose" {$props.data.user} {$props.data.base} />
 
 			<FormErrors {$props.form?.errors} />

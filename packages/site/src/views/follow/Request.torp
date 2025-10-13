@@ -2,12 +2,12 @@
 import FormErrors from '../FormErrors.torp';
 
 export default function Index() {
+	@head {
+		<title>{$props.data.viewing.name} • Follow • Redraft</title>
+	}
+
 	@render {
 		<div class="vstack spaced full-width follow-request-page">
-			<:head>
-				<title>{$props.data.viewing.name} • Follow • Redraft</title>
-			</:head>
-
 			<h2>Follow</h2>
 
 			<FormErrors {$props.form?.errors} />

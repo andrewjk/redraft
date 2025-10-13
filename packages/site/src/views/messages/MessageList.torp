@@ -10,12 +10,12 @@ import MessageInput from './MessageInput.torp';
 export default function MessageList($props) {
 	const { messageGroup } = $props.data;
 
+	@head {
+		<title>{$props.data.viewing.name} • Messages • Redraft</title>
+	}
+
 	@render {
 		<div class="vstack spaced message-list">
-			<:head>
-				<title>{$props.data.viewing.name} • Messages • Redraft</title>
-			</:head>
-
 			<div class="vstack spaced-nr full-width">
 				<div class="card">
 					<div class="hstack spaced">

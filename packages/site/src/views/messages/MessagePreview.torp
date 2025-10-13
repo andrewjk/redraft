@@ -20,7 +20,7 @@ export default function MessagePreview() {
 	});
 
 	@render {
-		<div :class={["card full-width message-preview", { received: !message.sent }]}>
+		<div class={["card full-width message-preview", { received: !message.sent }]}>
 			<div class="hstack spaced">
 				<div style="flex: 0 0 auto">
 					<a href={url}>
