@@ -13,13 +13,13 @@
 	"author": "",
 	"license": "ISC",
 	"dependencies": {
-		"@changesets/cli": "^2.29.6"
+		"@changesets/cli": "^2.29.7"
 	},
 	"devDependencies": {
 		"@trivago/prettier-plugin-sort-imports": "^5.2.2",
 		"prettier": "^3.6.2",
-		"tsx": "^4.20.5",
-		"typescript": "^5.9.2"
+		"tsx": "^4.20.6",
+		"typescript": "^5.9.3"
 	},
 	"workspaces": [
 		"packages/*",

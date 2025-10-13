@@ -31,14 +31,14 @@
 	"packageManager": "pnpm@10.9.0",
 	"dependencies": {
 		"@redraft/adapter-core": "workspace:^",
-		"@torpor/adapter-node": "^0.0.30",
-		"@torpor/build": "^0.2.0",
-		"drizzle-orm": "^0.44.4"
+		"@torpor/adapter-node": "^0.1.0",
+		"@torpor/build": "^0.3.1",
+		"drizzle-orm": "^0.44.6"
 	},
 	"devDependencies": {
-		"@types/node": "^24.3.0",
+		"@types/node": "^24.7.2",
 		"prettier": "^3.6.2",
 		"tsup": "^8.5.0",
-		"typescript": "^5.9.2"
+		"typescript": "^5.9.3"
 	}
 }
