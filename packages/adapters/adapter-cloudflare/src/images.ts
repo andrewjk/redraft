@@ -41,9 +41,10 @@ const images: Images = {
 		width = Math.min(width, 1000);
 		height = Math.min(height, 1000);
 
-		let options = {
+		let options: ImageTransform = {
 			width: width || undefined,
 			height: height || undefined,
+			fit: "cover",
 		};
 
 		let output = await img.input(stream).transform(options).output({
