@@ -31,13 +31,13 @@
 	"packageManager": "pnpm@10.9.0",
 	"dependencies": {
 		"@redraft/adapter-core": "workspace:^",
-		"@torpor/adapter-cloudflare": "^0.2.0",
-		"@torpor/build": "^0.3.1",
-		"drizzle-orm": "^0.44.6"
+		"@torpor/adapter-cloudflare": "^0.2.1",
+		"@torpor/build": "^0.4.0",
+		"drizzle-orm": "^0.44.7"
 	},
 	"devDependencies": {
-		"@cloudflare/workers-types": "^4.20251011.0",
-		"@types/node": "^24.7.2",
+		"@cloudflare/workers-types": "^4.20251014.0",
+		"@types/node": "^24.9.2",
 		"prettier": "^3.6.2",
 		"tsup": "^8.5.0",
 		"typescript": "^5.9.3"
