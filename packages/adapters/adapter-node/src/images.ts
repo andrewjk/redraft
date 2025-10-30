@@ -5,13 +5,7 @@ import bufferToArrayBuffer from "./bufferToArrayBuffer";
 
 const images: Images = {
 	// TODO: resizing etc
-	async getImage(
-		name: string,
-		// @ts-ignore
-		width: number,
-		// @ts-ignore
-		height: number,
-	): Promise<Response> {
+	async getImage(name: string, _width: number, _height: number): Promise<Response> {
 		const filename = path.resolve(`./content/${name}`);
 		const content = await fs.readFile(filename);
 		const response = new Response(bufferToArrayBuffer(content));

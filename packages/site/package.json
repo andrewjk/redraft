@@ -11,6 +11,7 @@
 	"scripts": {
 		"build": "tsgo --noEmit && tsdown",
 		"check": "tsgo --noEmit",
+		"check:todo": "tsgo --noEmit && pnpm dlx oxlint --type-aware",
 		"dev": "tb --dev",
 		"build:site": "tsgo --noEmit && tb --build",
 		"preview": "tb --preview",
@@ -54,6 +55,7 @@
 		"dotenv-cli": "^11.0.0",
 		"drizzle-kit": "^0.31.6",
 		"happy-dom": "^20.0.10",
+		"oxlint-tsgolint": "^0.4.0",
 		"prettier": "^3.6.2",
 		"sanitize-html": "^2.17.0",
 		"tsdown": "0.15.12",

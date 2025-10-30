@@ -7,7 +7,7 @@
 		"dev": "tb --dev",
 		"build": "tsgo --noEmit && tb --build",
 		"preview": "tb --preview",
-		"check": "tsgo --noEmit",
+		"check": "tsgo --noEmit && pnpm dlx oxlint --type-aware",
 		"--node:db:push": "drizzle-kit push",
 		"--cloudflare:db:list": "wrangler d1 migrations list DB --remote",
 		"--cloudflare:db:push": "wrangler d1 migrations apply DB --remote"
@@ -27,6 +27,7 @@
 	"devDependencies": {
 		"@typescript/native-preview": "7.0.0-dev.20250914.1",
 		"--node:drizzle-kit": "^0.31.1",
+		"oxlint-tsgolint": "^0.2.0",
 		"typescript": "^5.8.3",
 		"--cloudflare:wrangler": "^4.16.1"
 	}
