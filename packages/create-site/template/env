@@ -11,6 +11,7 @@ SITE_LOCATION=http://localhost:7059/
 
 DB_CONNECTION=file:./data/user.db
 
-# Set a passphrase for encrypting your user token when logged in
+# Set a passphrase for encrypting your user token when logged in, and the user tokens you share with contacts
 
 JWT_SECRET=JWT_secret
+JWT_SECRET_2=JWT_contact_secret

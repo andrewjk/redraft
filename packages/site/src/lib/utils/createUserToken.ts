@@ -7,7 +7,7 @@ type User = {
 };
 
 /**
- * Creates a token containing the user information for future authorization.
+ * Creates a token containing the user information for logging into your site.
  * @param user User information to create the token
  * @returns the token created
  */

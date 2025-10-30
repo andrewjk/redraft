@@ -33,6 +33,7 @@ npm run dev
   - Set `SITE_LOCATION` to the URL which will be shared with others
   - Set `DB_CONNECTION`, pointing to an SQLite database
   - Set `JWT_SECRET` to a random passphrase for encrypting your user token
+  - Set `JWT_SECRET_2` to a random passphrase for encrypting the user tokens you share with contacts
 - Run `npm run dev` to create the database
 - Deploy the site
 - Go to `SITE_LOCATION/account/setup` to create your account
@@ -59,6 +60,7 @@ If you have a Cloudflare account, you can use the button below. It should clone 
   - Set `SITE_LOCATION` to the URL which will be shared with others
   - Set `DB_CONNECTION`, pointing to an SQLite database
   - Set `JWT_SECRET` to a random passphrase for encrypting your user token
+  - Set `JWT_SECRET_2` to a random passphrase for encrypting the user tokens you share with contacts
 - Run `npm run db:push` to create the database
 - Deploy the site
 - Go to `SITE_LOCATION/account/setup` to create your account

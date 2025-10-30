@@ -34,6 +34,7 @@ beforeAll(async () => {
 
 	// Stub environment variables
 	vi.stubEnv("JWT_SECRET", "blah");
+	vi.stubEnv("JWT_SECRET_2", "urgh");
 	vi.stubEnv("SITE_LOCATION", "http://localhost/cara/");
 	vi.stubEnv("USERNAME", "cara");
 	vi.stubEnv("PASSWORD", "cara's password");
