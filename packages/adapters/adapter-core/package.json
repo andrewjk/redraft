@@ -11,8 +11,8 @@
 		"access": "public"
 	},
 	"scripts": {
-		"check": "tsc --noEmit",
-		"build": "tsc --noEmit && tsdown"
+		"check": "tsgo --noEmit",
+		"build": "tsgo --noEmit && tsdown"
 	},
 	"keywords": [],
 	"author": "",
@@ -23,6 +23,7 @@
 		"drizzle-orm": "^0.44.7"
 	},
 	"devDependencies": {
+		"@typescript/native-preview": "7.0.0-dev.20251029.1",
 		"prettier": "^3.6.2",
 		"tsdown": "0.15.12",
 		"typescript": "^5.9.3"

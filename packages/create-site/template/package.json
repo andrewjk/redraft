@@ -5,9 +5,9 @@
 	"type": "module",
 	"scripts": {
 		"dev": "tb --dev",
-		"build": "tsc --noEmit && tb --build",
+		"build": "tsgo --noEmit && tb --build",
 		"preview": "tb --preview",
-		"check": "tsc --noEmit",
+		"check": "tsgo --noEmit",
 		"--node:db:push": "drizzle-kit push",
 		"--cloudflare:db:list": "wrangler d1 migrations list DB --remote",
 		"--cloudflare:db:push": "wrangler d1 migrations apply DB --remote"
@@ -25,6 +25,7 @@
 		"dotenv": "^16.5.0"
 	},
 	"devDependencies": {
+		"@typescript/native-preview": "7.0.0-dev.20250914.1",
 		"--node:drizzle-kit": "^0.31.1",
 		"typescript": "^5.8.3",
 		"--cloudflare:wrangler": "^4.16.1"

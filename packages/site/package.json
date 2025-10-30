@@ -9,10 +9,10 @@
 		"access": "public"
 	},
 	"scripts": {
-		"build": "tsc --noEmit && tsdown",
-		"check": "tsc --noEmit",
+		"build": "tsgo --noEmit && tsdown",
+		"check": "tsgo --noEmit",
 		"dev": "tb --dev",
-		"build:site": "tsc --noEmit && tb --build",
+		"build:site": "tsgo --noEmit && tb --build",
 		"preview": "tb --preview",
 		"db:push": "drizzle-kit push",
 		"db:generate": "drizzle-kit generate",
@@ -50,6 +50,7 @@
 		"@trivago/prettier-plugin-sort-imports": "^5.2.2",
 		"@types/node": "^24.9.2",
 		"@types/sanitize-html": "^2.16.0",
+		"@typescript/native-preview": "7.0.0-dev.20251029.1",
 		"dotenv-cli": "^11.0.0",
 		"drizzle-kit": "^0.31.6",
 		"happy-dom": "^20.0.10",
