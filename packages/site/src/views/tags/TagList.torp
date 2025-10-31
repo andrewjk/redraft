@@ -1,4 +1,7 @@
-import TagPreview from './TagPreview.torp';
+import type UserModel from "../../types/UserModel";
+import type FollowerModel from "../../types/FollowerModel";
+import type ViewingModel from "../../types/ViewingModel";
+import TagPreview from "./TagPreview.torp";
 
 /**
  * Shows a list of tags and the number of posts they have.

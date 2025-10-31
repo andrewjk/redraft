@@ -1,12 +1,14 @@
-//import { enhance } from '$app/forms';
-import PostMenu from './PostMenu.torp';
-import FormErrors from '../FormErrors.torp';
-import PostInput from './PostInput.torp';
+//import { enhance } from "$app/forms";
+import type UserModel from "../../types/UserModel";
+import type PostEditModel from "../../types/posts/PostEditModel";
+import PostMenu from "./PostMenu.torp";
+import FormErrors from "../FormErrors.torp";
+import PostInput from "./PostInput.torp";
 
 /**
  * Allows composing a post.
  */
-export default function PostCompose() {
+export default function PostCompose($props: { data: { post: PostEditModel, user: UserModel, base: string }, form: any }) {
 	let { post } = $props.data;
 
 	@head {

@@ -1,16 +1,19 @@
-import { $page, $navigation } from "@torpor/build/state";
-import { NavMenu, NavMenuLink, NavMenuButton, NavMenuPopout, NavMenuPopoutButton, NavMenuPopoutContent, NavMenuSeparator } from "@torpor/ui/NavMenu";
+import { $page } from "@torpor/build/state";
+import { NavMenu, NavMenuLink } from "@torpor/ui/NavMenu";
 import Bell from "phosphor-torpor/lib/Bell";
 import Envelope from "phosphor-torpor/lib/Envelope";
 //import DotsThreeOutlineVertical from "phosphor-torpor/lib/DotsThreeOutlineVertical";
 //import SignOut from "phosphor-torpor/lib/SignOut";
+import type UserModel from "../types/UserModel";
+import type FollowerModel from "../types/FollowerModel";
+import type ViewingModel from "../types/ViewingModel";
 import Profile from "./profile/ProfilePreview.torp";
 import placeholdify from "../lib/utils/placeholdify";
 import stripProtocol from "../lib/utils/stripProtocol";
 
 // Only load logged out posts in home page, even if logged in
 
-export default function Layout() {
+export default function Layout($props: { data: { user: UserModel, follower: FollowerModel, viewing: ViewingModel, base: string }}) {
 	@head {
 		<meta name="social-follow-url" content={$props.data.viewing.url} />
 		<meta name="social-follow-name" content={$props.data.viewing.name} />

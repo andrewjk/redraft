@@ -2,21 +2,10 @@ import { ok, serverError } from "@torpor/build/response";
 import { and, desc, eq, isNull } from "drizzle-orm";
 import database from "../../data/database";
 import { followingTable } from "../../data/schema";
+import type FollowingListModel from "../../types/contacts/FollowingListModel";
+import type FollowingPreviewModel from "../../types/contacts/FollowingPreviewModel";
 import getErrorMessage from "../utils/getErrorMessage";
 import uuid from "../utils/uuid";
-
-export type FollowingPreview = {
-	slug: string;
-	url: string;
-	name: string;
-	image: string;
-	bio: string;
-};
-
-export type FollowingList = {
-	following: FollowingPreview[];
-	followingCount: number;
-};
 
 export default async function followingList(
 	// @ts-ignore we may use this to allow setting following to private
@@ -24,7 +13,7 @@ export default async function followingList(
 	limit?: number,
 	offset?: number,
 ): Promise<Response> {
-	let errorMessage: string | undefined;
+	let errorMessage = "";
 
 	try {
 		const db = database();
@@ -71,13 +60,13 @@ export default async function followingList(
 				name: f.name,
 				image: f.image,
 				bio: f.bio,
-			} satisfies FollowingPreview;
+			} satisfies FollowingPreviewModel;
 		});
 
 		const result = {
 			following,
 			followingCount,
-		} satisfies FollowingList;
+		} satisfies FollowingListModel;
 
 		return ok(result);
 	} catch (error) {

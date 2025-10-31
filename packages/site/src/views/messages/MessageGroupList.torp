@@ -1,4 +1,4 @@
-import MessageGroupPreview from './MessageGroupPreview.torp';
+import MessageGroupPreview from "./MessageGroupPreview.torp";
 
 /**
  * Shows a list of message groups.

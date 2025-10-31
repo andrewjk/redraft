@@ -1,10 +1,13 @@
-import FollowPreview from './FollowPreview.torp';
-import FollowMenu from './FollowMenu.torp';
+import type UserModel from "../../types/UserModel";
+import type ViewingModel from "../../types/ViewingModel";
+import type FollowedByPreviewModel from "../../types/contacts/FollowedByPreviewModel";
+import FollowPreview from "./FollowPreview.torp";
+import FollowMenu from "./FollowMenu.torp";
 
 /**
  * Shows a list of the users being followed.
  */
-export default function FollowedByList($props) {
+export default function FollowedByList($props: { data: { viewing: ViewingModel, followedBy: FollowedByPreviewModel[], user: UserModel, base: string } }) {
 	@head {
 		<title>{$props.data.viewing.name} • Followed by • Redraft</title>
 	}
@@ -20,7 +23,7 @@ export default function FollowedByList($props) {
 					</div>
 				} else {
 					@for (let follow of $props.data.followedBy) {
-						@key = follow.id
+						@key = follow.slug
 						<div class="hstack spaced full-width">
 							<div class="grow">
 								<FollowPreview {follow} {$props.data.user} {$props.data.base} canMessage />

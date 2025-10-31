@@ -1,8 +1,10 @@
-export type PostEditModel = {
+import { type PostVisibility } from "../../lib/constants";
+
+export default interface PostEditModel {
 	id: number;
 	published: boolean;
 	text: string;
-	visibility: number;
+	visibility: PostVisibility;
 	listId: number | null;
 	hasImage: boolean;
 	image: string | null;
@@ -29,4 +31,4 @@ export type PostEditModel = {
 	ratingBound: number | null;
 	children?: PostEditModel[];
 	tags?: string;
-};
+}

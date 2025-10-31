@@ -1,7 +1,10 @@
+import type UserModel from "../../types/UserModel";
+import type TagPreviewModel from "../../types/tags/TagPreviewModel";
+
 /**
  * Shows a menu for selecting Posts or drafts.
  */
-export default function TagMenu($props: { tag: string, section: string, user: any }) {
+export default function TagMenu($props: { tag: TagPreviewModel, section: string, user: UserModel, base: string }) {
 	@render {
 		<div class="hstack full-width subnav-menu tag-menu">
 			@if ($props.section === "Posts") {

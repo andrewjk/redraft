@@ -4,30 +4,25 @@ import database from "../../data/database";
 import { followingTable, usersTable } from "../../data/schema";
 import { activityTable } from "../../data/schema/activityTable";
 import transaction from "../../data/transaction";
+import type RequestModel from "../../types/follow/RequestModel";
+import type FollowRequestedModel from "../../types/public/FollowRequestedModel";
+import { FOLLOW_REQUESTED_VERSION } from "../../types/public/FollowRequestedModel";
+import type FollowRequestedResponseModel from "../../types/public/FollowRequestedResponseModel";
 import { postPublic } from "../public";
-import {
-	FOLLOW_REQUESTED_VERSION,
-	type FollowRequestedModel,
-	type FollowRequestedResponseModel,
-} from "../public/followRequested";
 import getErrorMessage from "../utils/getErrorMessage";
 import userIdQuery from "../utils/userIdQuery";
 import uuid from "../utils/uuid";
-
-export type FollowModel = {
-	url: string;
-};
 
 /**
  * Sends a follow request to another user.
  */
 export default async function followRequest(request: Request, code: string) {
-	let errorMessage: string | undefined;
+	let errorMessage = "";
 
 	try {
 		const db = database();
 
-		const model: FollowModel = await request.json();
+		const model: RequestModel = await request.json();
 
 		// Get the current user
 		const currentUserQuery = db.query.usersTable.findFirst({

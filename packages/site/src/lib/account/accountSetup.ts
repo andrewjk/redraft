@@ -3,6 +3,8 @@ import { eq } from "drizzle-orm";
 import database from "../../data/database";
 import { activityTable, userTokensTable, usersTable } from "../../data/schema";
 import transaction from "../../data/transaction";
+import type SetupModel from "../../types/account/SetupModel";
+import type SetupResponseModel from "../../types/account/SetupResponseModel";
 import env from "../env";
 import createUserToken from "../utils/createUserToken";
 import ensureSlash from "../utils/ensureSlash";
@@ -10,27 +12,8 @@ import getErrorMessage from "../utils/getErrorMessage";
 import { compareWithHash, hashPassword } from "../utils/hashPasswords";
 import uuid from "../utils/uuid";
 
-export type SetupModel = {
-	username: string;
-	password: string;
-	name: string;
-	email: string;
-	bio?: string;
-	location?: string;
-	image?: string;
-};
-
-export type SetupResponseModel = {
-	url: string;
-	username: string;
-	name: string;
-	image: string;
-	token: string;
-	code: string;
-};
-
 export default async function accountSetup(request: Request) {
-	let errorMessage: string | undefined;
+	let errorMessage = "";
 
 	try {
 		const db = database();

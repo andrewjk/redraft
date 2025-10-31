@@ -1,10 +1,13 @@
-import ListPreview from './ListPreview.torp';
-import FollowMenu from './FollowMenu.torp';
+import type UserModel from "../../types/UserModel";
+import type ViewingModel from "../../types/ViewingModel";
+import type ListPreviewModel from "../../types/contacts/ListPreviewModel";
+import ListPreview from "./ListPreview.torp";
+import FollowMenu from "./FollowMenu.torp";
 
 /**
  * Shows a list of the lists that have been created.
  */
-export default function ListsList($props) {
+export default function ListsList($props: { data: { viewing: ViewingModel, lists: ListPreviewModel[], user: UserModel, base: string } }) {
 	@head {
 		<title>{$props.data.viewing.name} • Followed by • Redraft</title>
 	}

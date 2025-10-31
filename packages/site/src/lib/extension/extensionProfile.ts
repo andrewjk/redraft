@@ -6,7 +6,7 @@ import getErrorMessage from "../utils/getErrorMessage";
 import userIdQuery from "../utils/userIdQuery";
 
 export default async function extensionProfile(code: string) {
-	let errorMessage: string | undefined;
+	let errorMessage = "";
 
 	try {
 		const db = database();

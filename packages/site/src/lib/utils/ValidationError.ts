@@ -1,4 +1,4 @@
-export type ValidationError = {
+export interface ValidationError {
 	body?: Array<string>;
 	query?: Array<string>;
-};
+}

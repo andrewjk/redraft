@@ -2,20 +2,10 @@ import { ok, serverError, unauthorized } from "@torpor/build/response";
 import { and, desc, eq, isNull } from "drizzle-orm";
 import database from "../../data/database";
 import { followedByTable, usersTable } from "../../data/schema";
+import type FollowRequestListModel from "../../types/contacts/FollowRequestListModel";
+import type FollowRequestPreviewModel from "../../types/contacts/FollowRequestPreviewModel";
 import getErrorMessage from "../utils/getErrorMessage";
 import userIdQuery from "../utils/userIdQuery";
-
-export type FollowRequestPreview = {
-	url: string;
-	name: string;
-	image: string;
-	bio: string;
-};
-
-export type FollowRequestList = {
-	requests: FollowRequestPreview[];
-	requestCount: number;
-};
 
 // TODO: Show both followedBy and following requests
 
@@ -24,7 +14,7 @@ export default async function followRequestList(
 	limit?: number,
 	offset?: number,
 ): Promise<Response> {
-	let errorMessage: string | undefined;
+	let errorMessage = "";
 
 	try {
 		const db = database();
@@ -63,13 +53,13 @@ export default async function followRequestList(
 				name: f.name,
 				image: f.image,
 				bio: f.bio,
-			} satisfies FollowRequestPreview;
+			} satisfies FollowRequestPreviewModel;
 		});
 
 		const result = {
 			requests,
 			requestCount,
-		} satisfies FollowRequestList;
+		} satisfies FollowRequestListModel;
 
 		return ok(result);
 	} catch (error) {

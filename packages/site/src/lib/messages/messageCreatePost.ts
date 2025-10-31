@@ -9,22 +9,20 @@ import {
 	usersTable,
 } from "../../data/schema";
 import transaction from "../../data/transaction";
+import type MessageCreatedModel from "../../types/messages/MessageCreatedModel";
+import type MessageEditModel from "../../types/messages/MessageEditModel";
+import { MESSAGE_RECEIVED_VERSION } from "../../types/public/MessageReceivedModel";
+import type MessageReceivedModel from "../../types/public/MessageReceivedModel";
 import { postPublic } from "../public";
-import { MESSAGE_RECEIVED_VERSION, MessageReceivedModel } from "../public/messageReceived";
 import getErrorMessage from "../utils/getErrorMessage";
 import userIdQuery from "../utils/userIdQuery";
 import uuid from "../utils/uuid";
-import type { MessageEditModel } from "./MessageEditModel";
-
-export type MessageCreatedModel = {
-	slug: string;
-};
 
 /**
  * Creates a message group with a message.
  */
 export default async function messageCreatePost(request: Request, code: string) {
-	let errorMessage: string | undefined;
+	let errorMessage = "";
 
 	try {
 		const db = database();

@@ -5,7 +5,7 @@ import { eq } from "drizzle-orm";
 import { LibSQLDatabase } from "drizzle-orm/libsql";
 import { afterAll, beforeAll, expect, test } from "vitest";
 import * as schema from "../../src/data/schema/index";
-import followRequest, { type FollowModel } from "../../src/lib/follow/followRequest";
+import followRequest, { type RequestModel } from "../../src/lib/follow/followRequest";
 import mockFetch from "../mockFetch";
 import { cleanUpSiteTest, prepareSiteTest } from "../prepareSiteTest";
 
@@ -32,7 +32,7 @@ test("follow send", async () => {
 
 	const followingCount = await db.$count(schema.followingTable);
 
-	const model: FollowModel = {
+	const model: RequestModel = {
 		url: "http://localhost/cara/",
 	};
 	const request = new Request("http://localhost", {
@@ -75,7 +75,7 @@ test("follow send", async () => {
 });
 
 test("follow send with bad code", async () => {
-	const model: FollowModel = {
+	const model: RequestModel = {
 		url: "http://localhost/cara/",
 	};
 	const request = new Request("http://localhost", {

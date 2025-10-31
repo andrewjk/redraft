@@ -1,7 +1,7 @@
-//import { enhance } from '$app/forms';
-import FormErrors from '../FormErrors.torp';
+//import { enhance } from "$app/forms";
+import FormErrors from "../FormErrors.torp";
 
-export default function Login() {
+export default function Login($props: { form: any }) {
 	@head {
 		<title>Login • Redraft</title>
 	}

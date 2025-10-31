@@ -1,5 +1,5 @@
-import NotificationMenu from './NotificationMenu.torp';
-import NotificationPreview from './NotificationPreview.torp';
+import NotificationMenu from "./NotificationMenu.torp";
+import NotificationPreview from "./NotificationPreview.torp";
 
 /**
  * Shows a list of the current user's notifications.

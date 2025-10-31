@@ -2,27 +2,16 @@ import { ok, serverError, unauthorized } from "@torpor/build/response";
 import { eq, isNull } from "drizzle-orm";
 import database from "../../data/database";
 import { listsTable, usersTable } from "../../data/schema";
+import type ListPreviewModel from "../../types/contacts/ListPreviewModel";
 import getErrorMessage from "../utils/getErrorMessage";
 import userIdQuery from "../utils/userIdQuery";
-
-export type ListPreview = {
-	id: number;
-	slug: string;
-	name: string;
-	description: string;
-};
-
-export type ListsList = {
-	lists: ListPreview[];
-	listsCount: number;
-};
 
 export default async function listList(
 	code: string,
 	limit?: number,
 	offset?: number,
 ): Promise<Response> {
-	let errorMessage: string | undefined;
+	let errorMessage = "";
 
 	try {
 		const db = database();
@@ -61,7 +50,7 @@ export default async function listList(
 				slug: l.slug,
 				name: l.name,
 				description: l.description,
-			} satisfies ListPreview;
+			} satisfies ListPreviewModel;
 		});
 
 		const result = {

@@ -3,13 +3,13 @@ import { eq } from "drizzle-orm";
 import database from "../../data/database";
 import { activityTable, usersTable } from "../../data/schema";
 import transaction from "../../data/transaction";
+import type PostEditModel from "../../types/posts/PostEditModel";
 import getErrorMessage from "../utils/getErrorMessage";
 import userIdQuery from "../utils/userIdQuery";
-import { type PostEditModel } from "./PostEditModel";
 import postCreateOrUpdate from "./postCreateOrUpdate";
 
 export default async function postSave(request: Request, code: string) {
-	let errorMessage: string | undefined;
+	let errorMessage = "";
 
 	try {
 		const db = database();

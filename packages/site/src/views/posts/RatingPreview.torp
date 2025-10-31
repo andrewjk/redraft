@@ -1,19 +1,21 @@
+import type PostPreviewModel from "../../types/posts/PostPreviewModel";
+import type FeedPreviewModel from "../../types/feed/FeedPreviewModel";
 import Star from "phosphor-torpor/lib/Star";
 
 /**
  * Shows a rating preview for display in a post/feed.
  */
-export default function RatingPreview() {
+export default function RatingPreview($props: { rating: PostPreviewModel | FeedPreviewModel }) {
 	let { rating } = $props;
 
 	@render {
 		<div class="hstack centered spaced rating-preview">
 			<div class="hstack centered spaced-nr grow">
-				<RatingPreviewBlock number={1} {rating.ratingValue} {rating.ratingBound} />
-				<RatingPreviewBlock number={2} {rating.ratingValue} {rating.ratingBound} />
-				<RatingPreviewBlock number={3} {rating.ratingValue} {rating.ratingBound} />
-				<RatingPreviewBlock number={4} {rating.ratingValue} {rating.ratingBound} />
-				<RatingPreviewBlock number={5} {rating.ratingValue} {rating.ratingBound} />
+				<RatingPreviewBlock number={1} {rating.ratingValue!} {rating.ratingBound!} />
+				<RatingPreviewBlock number={2} {rating.ratingValue!} {rating.ratingBound!} />
+				<RatingPreviewBlock number={3} {rating.ratingValue!} {rating.ratingBound!} />
+				<RatingPreviewBlock number={4} {rating.ratingValue!} {rating.ratingBound!} />
+				<RatingPreviewBlock number={5} {rating.ratingValue!} {rating.ratingBound!} />
 			</div>
 			<div class="align-end secondary">
 				<p>{rating.ratingValue} / { rating.ratingBound }</p>
@@ -36,7 +38,7 @@ export default function RatingPreview() {
 	}
 }
 
-function RatingPreviewBlock() {
+function RatingPreviewBlock($props: { number: number, ratingValue: number, ratingBound: number }) {
 	let { ratingValue, ratingBound, number } = $props;
 
 	let min = (number - 1) / 5;

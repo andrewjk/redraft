@@ -5,7 +5,7 @@ import PostInput from "../posts/PostInput.torp";
 import PostList from "../posts/PostList.torp";
 import Pagination from "../Pagination.torp";
 
-export default function Index() {
+export default function Index($props: { data: { posts: PostPreviewModel[], pageCount: number, viewing: ViewingModel, user: UserModel, follower: FollowerModel, base: string } }) {
 	let $state = $watch({
 		page: +($page.url.searchParams.get("page") || 1),
 	})
@@ -21,7 +21,7 @@ export default function Index() {
 				<PostInput {post} {$props.data.user} {$props.data.base} />
 			}
 			<PostList {$props.data.posts} {$props.data.user} {$props.data.follower} />
-			<Pagination {$props.data.pageCount} {$state.page} href={(p) => `/?page=${p}`} />
+			<Pagination {$props.data.pageCount} {$state.page} href={(p: number) => `/?page=${p}`} />
 		</div>
 	}
 }

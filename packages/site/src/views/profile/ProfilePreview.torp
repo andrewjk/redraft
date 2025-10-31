@@ -1,11 +1,11 @@
-import { $page } from '@torpor/build/state';
-import MapPin from "phosphor-torpor/lib/MapPin";
-import Pencil from "phosphor-torpor/lib/Pencil";
-import SignOut from "phosphor-torpor/lib/SignOut";
+import { $page } from "@torpor/build/state";
 import placeholdify from "../../lib/utils/placeholdify";
 import stripProtocol from "../../lib/utils/stripProtocol";
+import type UserModel from "../../types/UserModel";
+import type FollowerModel from "../../types/FollowerModel";
+import type ViewingModel from "../../types/ViewingModel";
 
-export default function ProfilePreview($props) {
+export default function ProfilePreview($props: { profile: ViewingModel, user: UserModel, follower: FollowerModel, base: string }) {
 	@render {
 		<div class="profile-preview">
 			<div class="vstack centered spaced">
@@ -25,8 +25,8 @@ export default function ProfilePreview($props) {
 										<input type="hidden" name="url" value={$props.profile.url} />
 										<button>Unfollow</button>
 									</form>
-								} else if ($props.account) {
-									<form use:enhance method="POST" action="{$props.account.url}follow/request">
+								} else if ($props.user) {
+									<form use:enhance method="POST" action="{$props.user.url}follow/request">
 										<input type="hidden" name="url" value={$props.profile.url} />
 										<button>Follow</button>
 									</form>

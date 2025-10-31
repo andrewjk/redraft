@@ -2,26 +2,16 @@ import { ok, serverError, unauthorized } from "@torpor/build/response";
 import { desc, eq, isNull } from "drizzle-orm";
 import database from "../../data/database";
 import { activityTable, usersTable } from "../../data/schema";
+import type ActivityPreviewModel from "../../types/notifications/ActivityPreviewModel";
 import getErrorMessage from "../utils/getErrorMessage";
 import userIdQuery from "../utils/userIdQuery";
-
-export type ActivityPreview = {
-	url: string;
-	text: string;
-	createdAt: Date;
-};
-
-export type ActivityList = {
-	activity: ActivityPreview[];
-	activityCount: number;
-};
 
 export default async function activityList(
 	code: string,
 	limit?: number,
 	offset?: number,
 ): Promise<Response> {
-	let errorMessage: string | undefined;
+	let errorMessage = "";
 
 	try {
 		const db = database();
@@ -59,7 +49,7 @@ export default async function activityList(
 				url: a.url,
 				text: a.text,
 				createdAt: a.created_at,
-			} as ActivityPreview;
+			} as ActivityPreviewModel;
 		});
 
 		return ok({

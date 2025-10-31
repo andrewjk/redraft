@@ -1,9 +1,10 @@
 import pluralize from "../../lib/utils/pluralize"
+import type TagPreviewModel from "../../types/tags/TagPreviewModel";
 
 /**
  * Shows a tag preview for display in a list.
  */
-export default function TagPreview() {
+export default function TagPreview($props: { tag: TagPreviewModel, base: string }) {
 	@render {
 		<div class="card full-width tag-preview">
 			<div class="tag-preview-header hstack centered spaced">

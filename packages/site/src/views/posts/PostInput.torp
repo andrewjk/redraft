@@ -1,18 +1,14 @@
-//import { enhance } from '$app/forms';
-import PostInputFields from './PostInputFields.torp';
+//import { enhance } from "$app/forms";
+import type UserModel from "../../types/UserModel";
+import type PostEditModel from "../../types/posts/PostEditModel";
+import PostInputFields from "./PostInputFields.torp";
 
 /**
  * Allows creating a post.
  */
-export default function PostInput($props) {
+export default function PostInput($props: { post: PostEditModel, user: UserModel, base: string }) {
 	let user = $props.user;
 	let post = $watch($props.post ?? newPost());
-	let $state = $watch({
-		linkLoading: false,
-		linkLoaded: !!post.linkUrl,
-		showTags: !!post.tags,
-		showVisibility: !!post.visibility,
-	});
 
 	function newPost() {
 		return { id: -1, type: 0, visibility: 0, children: [] };

@@ -1,7 +1,9 @@
+import type UserModel from "../../types/UserModel";
+
 /**
  * Shows a menu for selecting Articles or drafts.
  */
-export default function ArticleMenu($props: { section: string, user: any }) {
+export default function ArticleMenu($props: { section: string, user: UserModel, base: string }) {
 	@render {
 		<div class="hstack full-width subnav-menu article-menu">
 			@if ($props.section === "Articles") {

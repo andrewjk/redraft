@@ -2,20 +2,18 @@ import { notFound, ok, serverError, unauthorized } from "@torpor/build/response"
 import { eq, sql } from "drizzle-orm";
 import database from "../../data/database";
 import { postsQueueTable, postsTable, usersTable } from "../../data/schema";
+import type PostSendModel from "../../types/posts/PostSendModel";
+import { FEED_RECEIVED_VERSION } from "../../types/public/FeedReceivedModel";
+import type FeedReceivedModel from "../../types/public/FeedReceivedModel";
 import createNotification from "../notifications/createNotification";
 import updateNotificationCounts from "../notifications/updateNotificationCounts";
 import { postPublic } from "../public";
-import { FEED_RECEIVED_VERSION, type FeedReceivedModel } from "../public/feedReceived";
 import getErrorMessage from "../utils/getErrorMessage";
 import pluralize from "../utils/pluralize";
 import userIdQuery from "../utils/userIdQuery";
 
-export type PostSendModel = {
-	id: number;
-};
-
 export default async function postSend(request: Request, code: string) {
-	let errorMessage: string | undefined;
+	let errorMessage = "";
 
 	try {
 		const db = database();

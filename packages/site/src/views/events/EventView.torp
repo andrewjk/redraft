@@ -1,10 +1,11 @@
-//import { enhance } from '$app/forms';
+//import { enhance } from "$app/forms";
 import placeholdify from "../../lib/utils/placeholdify";
-import pluralize from "../../lib/utils/pluralize"
 import relativeTimeSince from "../../lib/utils/relativeTimeSince"
 import stripProtocol from "../../lib/utils/stripProtocol";
+import type UserModel from "../../types/UserModel";
+import type FollowerModel from "../../types/FollowerModel";
+import type PostViewModel from "../../types/posts/PostViewModel";
 import CommentList from "../comments/CommentList.torp"
-import LinkPreview from './LinkPreview.torp';
 import ChatCircle from "phosphor-torpor/lib/ChatCircle";
 import Heart from "phosphor-torpor/lib/Heart";
 import Pencil from "phosphor-torpor/lib/Pencil";
@@ -12,7 +13,7 @@ import Pencil from "phosphor-torpor/lib/Pencil";
 /**
  * Shows an event's full details.
  */
-export default function EventView() {
+export default function EventView($props: { data: { post: PostViewModel, user: UserModel, follower: FollowerModel, base: string } }) {
 	let { post, user, follower } = $props.data;
 
 	let fmt = new Intl.DateTimeFormat(undefined, {
@@ -39,7 +40,7 @@ export default function EventView() {
 			<meta property="article:published_time" content={(new Date(post.publishedAt)).toISOString()} />
 		}
 		@if (post.republishedAt) {
-			<meta property="article:modified_time" content={(new Date(post.republishedAt)).toISOString()} />
+			<meta property="article:modified_time" content={(new Date(post.republishedAt!)).toISOString()} />
 		}
 	}
 
@@ -81,8 +82,8 @@ export default function EventView() {
 						<div class="event-view-body">
 							<h3>{post.linkTitle}</h3>
 							<p>Where: {post.eventLocation}</p>
-							<p>When: {fmt.format(new Date(post.eventStartsAt))}</p>
-							@html(post.eventText)
+							<p>When: {fmt.format(new Date(post.eventStartsAt!))}</p>
+							@html(post.eventText!)
 						</div>
 
 						@/*

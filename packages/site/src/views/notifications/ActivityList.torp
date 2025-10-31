@@ -1,5 +1,5 @@
-import NotificationMenu from './NotificationMenu.torp';
-import ActivityPreview from './ActivityPreview.torp';
+import NotificationMenu from "./NotificationMenu.torp";
+import ActivityPreview from "./ActivityPreview.torp";
 
 /**
  * Shows a list of the current user's activity.

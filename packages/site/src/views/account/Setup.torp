@@ -1,8 +1,8 @@
-//import { enhance } from '$app/forms';
+//import { enhance } from "$app/forms";
 import placeholdify from "../../lib/utils/placeholdify";
-import FormErrors from '../FormErrors.torp';
+import FormErrors from "../FormErrors.torp";
 
-export default function Setup() {
+export default function Setup($props: { form: any }) {
 	@head {
 		<title>Setup • Redraft</title>
 	}
@@ -51,7 +51,7 @@ export default function Setup() {
 				<div class="form-row">
 					<label for="image-input">Image</label
 					<div class="hstack centered spaced">
-						<div id="image-preview" class="no-shrink" style={`background-image: url("${placeholdify()}")`}  />
+						<div id="image-preview" class="no-shrink" style={`background-image: url("${placeholdify("")}")`}  />
 						<input
 							id="image-input"
 							name="imagefile"
@@ -61,16 +61,16 @@ export default function Setup() {
 						/>
 					</div>
 				</div>
-				@function fileSelected(e) {
-					const image = e.target.files[0];
+				@function fileSelected(e: Event) {
+					const image = (e.target as HTMLInputElement).files![0];
 					if (!image.type.includes("image")) {
 						return;
 					}
 					const fileReader = new FileReader();
 					fileReader.readAsDataURL(image);
-					fileReader.onload = (ev) => {
+					fileReader.onload = (ev: ProgressEvent<FileReader>) => {
 						const preview = document.getElementById("image-preview");
-						preview.style.backgroundImage = `url('${ev.target.result}')`;
+						preview!.style.backgroundImage = `url("${ev.target!.result}")`;
 					}
 				}
 				<div class="form-row">

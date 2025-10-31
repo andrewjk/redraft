@@ -1,7 +1,9 @@
+import type UserModel from "../../types/UserModel";
+
 /**
  * Shows a menu for selecting Notifications or Activity.
  */
-export default function NotificationMenu($props: { section: string, user: any }) {
+export default function NotificationMenu($props: { section: string, user: UserModel }) {
 	@render {
 		<div class="hstack full-width subnav-menu notification-menu">
 			@if ($props.section === "Notifications") {

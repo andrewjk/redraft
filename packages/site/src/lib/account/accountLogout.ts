@@ -6,7 +6,7 @@ import transaction from "../../data/transaction";
 import getErrorMessage from "../utils/getErrorMessage";
 
 export default async function accountLogout(code: string) {
-	let errorMessage: string | undefined;
+	let errorMessage = "";
 
 	try {
 		const db = database();

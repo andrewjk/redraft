@@ -3,23 +3,18 @@ import { eq } from "drizzle-orm";
 import database from "../../data/database";
 import { activityTable, feedTable, followingTable, usersTable } from "../../data/schema";
 import transaction from "../../data/transaction";
+import type UnfollowRequestedModel from "../../types/public/UnfollowRequestedModel";
+import { UNFOLLOW_REQUESTED_VERSION } from "../../types/public/UnfollowRequestedModel";
+import type UnfollowModel from "../../types/unfollow/UnfollowModel";
 import { postPublic } from "../public";
-import {
-	UNFOLLOW_REQUESTED_VERSION,
-	type UnfollowRequestedModel,
-} from "../public/unfollowRequested";
 import getErrorMessage from "../utils/getErrorMessage";
 import userIdQuery from "../utils/userIdQuery";
-
-export type UnfollowModel = {
-	url: string;
-};
 
 /**
  * Sends an unfollow request to another user.
  */
 export default async function unfollowSend(request: Request, code: string) {
-	let errorMessage: string | undefined;
+	let errorMessage = "";
 
 	try {
 		const db = database();
