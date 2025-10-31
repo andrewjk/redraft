@@ -1,9 +1,10 @@
-//import { enhance } from '$app/forms';
+//import { enhance } from "$app/forms";
+import type PostViewModel from "../../types/posts/PostViewModel";
 
 /**
  * Allows creating a comment.
  */
-export default function CommentInput() {
+export default function CommentInput($props: { post: PostViewModel, parent?: string }) {
 	let { post } = $props;
 
 	@render {

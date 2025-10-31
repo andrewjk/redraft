@@ -1,9 +1,12 @@
-import FeedPreview from './FeedPreview.torp';
+import type UserModel from "../../types/UserModel";
+import type FollowerModel from "../../types/FollowerModel";
+import type FeedPreviewModel from "../../types/feed/FeedPreviewModel";
+import FeedPreview from "./FeedPreview.torp";
 
 /**
  * Shows a list of feed previews.
  */
-export default function FeedList() {
+export default function FeedList($props: { feed: FeedPreviewModel[], user: UserModel, follower: FollowerModel }) {
 	@render {
 		<div class="vstack spaced-nr full-width feed-list">
 			@if ($props.feed.length === 0) {
@@ -12,7 +15,7 @@ export default function FeedList() {
 				</div>
 			} else {
 				@for (let feed of $props.feed) {
-					@key = feed.id
+					@key = feed.slug
 					<FeedPreview {feed} {$props.user} {$props.follower} />
 				}
 			}

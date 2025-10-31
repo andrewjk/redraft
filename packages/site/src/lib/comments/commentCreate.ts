@@ -11,21 +11,17 @@ import {
 } from "../../data/schema";
 import transaction from "../../data/transaction";
 import commentsSend from "../../routes/api/comments/send/+server";
+import type CommentCreateModel from "../../types/comments/CommentCreateModel";
+import { ACTIVITY_RECEIVED_VERSION } from "../../types/public/ActivityReceivedModel";
+import type ActivityReceivedModel from "../../types/public/ActivityReceivedModel";
 import * as api from "../api";
 import createNotification from "../notifications/createNotification";
 import updateNotificationCounts from "../notifications/updateNotificationCounts";
 import { postPublic } from "../public";
-import { ACTIVITY_RECEIVED_VERSION, ActivityReceivedModel } from "../public/activityReceived";
 import getErrorMessage from "../utils/getErrorMessage";
 import userIdQuery from "../utils/userIdQuery";
 import uuid from "../utils/uuid";
 import commentPreview from "./commentPreview";
-
-export type CommentCreateModel = {
-	postSlug: string;
-	parentSlug: string;
-	text: string;
-};
 
 export default async function commentCreate(
 	request: Request,
@@ -35,7 +31,7 @@ export default async function commentCreate(
 	code: string,
 	token: string,
 ) {
-	let errorMessage: string | undefined;
+	let errorMessage = "";
 
 	try {
 		const db = database();

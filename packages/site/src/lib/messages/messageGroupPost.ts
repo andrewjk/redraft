@@ -3,17 +3,18 @@ import { eq } from "drizzle-orm";
 import database from "../../data/database";
 import { messageGroupsTable, messagesTable, usersTable } from "../../data/schema";
 import transaction from "../../data/transaction";
+import type MessageEditModel from "../../types/messages/MessageEditModel";
+import type MessageReceivedModel from "../../types/public/MessageReceivedModel";
+import { MESSAGE_RECEIVED_VERSION } from "../../types/public/MessageReceivedModel";
 import { postPublic } from "../public";
-import { MESSAGE_RECEIVED_VERSION, MessageReceivedModel } from "../public/messageReceived";
 import getErrorMessage from "../utils/getErrorMessage";
 import userIdQuery from "../utils/userIdQuery";
-import type { MessageEditModel } from "./MessageEditModel";
 
 /**
  * Creates a message and adds it to a message group.
  */
 export default async function messageGroupPost(request: Request, code: string) {
-	let errorMessage: string | undefined;
+	let errorMessage = "";
 
 	try {
 		const db = database();

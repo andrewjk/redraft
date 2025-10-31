@@ -2,13 +2,13 @@ import { notFound, ok, serverError, unauthorized } from "@torpor/build/response"
 import { eq } from "drizzle-orm";
 import database from "../../data/database";
 import { messageGroupsTable, messagesTable, usersTable } from "../../data/schema";
+import type MessageGroupListModel from "../../types/messages/MessageGroupListModel";
 import updateNotificationCounts from "../notifications/updateNotificationCounts";
 import getErrorMessage from "../utils/getErrorMessage";
 import userIdQuery from "../utils/userIdQuery";
-import type { MessageGroupModel } from "./MessageGroupModel";
 
 export default async function messageGroupGet(slug: string, code: string) {
-	let errorMessage: string | undefined;
+	let errorMessage = "";
 
 	try {
 		const db = database();
@@ -69,7 +69,7 @@ export default async function messageGroupGet(slug: string, code: string) {
 					delivered: m.delivered,
 				};
 			}),
-		} satisfies MessageGroupModel;
+		} satisfies MessageGroupListModel;
 
 		return ok(result);
 	} catch (error) {

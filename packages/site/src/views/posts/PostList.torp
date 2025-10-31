@@ -1,9 +1,12 @@
-import PostPreview from './PostPreview.torp';
+import type UserModel from "../../types/UserModel";
+import type FollowerModel from "../../types/FollowerModel";
+import type PostPreviewModel from "../../types/posts/PostPreviewModel";
+import PostPreview from "./PostPreview.torp";
 
 /**
  * Shows a list of post previews.
  */
-export default function PostList() {
+export default function PostList($props: { posts: PostPreviewModel[], user: UserModel, follower: FollowerModel }) {
 	@render {
 		<div class="vstack spaced-nr full-width post-list">
 			@if ($props.posts.length === 0) {
@@ -12,7 +15,7 @@ export default function PostList() {
 				</div>
 			} else {
 				@for (let post of $props.posts) {
-					@key = post.id
+					@key = post.slug
 					<PostPreview {post} {$props.user} {$props.follower} />
 				}
 			}

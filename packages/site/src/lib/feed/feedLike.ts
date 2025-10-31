@@ -4,20 +4,15 @@ import database from "../../data/database";
 import { feedTable, usersTable } from "../../data/schema";
 import { activityTable } from "../../data/schema/activityTable";
 import transaction from "../../data/transaction";
+import type FeedLikeModel from "../../types/feed/FeedLikeModel";
+import { POST_LIKED_VERSION } from "../../types/public/PostLikedModel";
+import type PostLikedModel from "../../types/public/PostLikedModel";
 import { postPublic } from "../public";
-import { POST_LIKED_VERSION, type PostLikedModel } from "../public/postLiked";
 import getErrorMessage from "../utils/getErrorMessage";
 import userIdQuery from "../utils/userIdQuery";
 
-export type FeedLikeModel = {
-	slug: string;
-	authorUrl: string;
-	sharedKey: string;
-	liked: boolean;
-};
-
 export default async function feedLike(request: Request, code: string) {
-	let errorMessage: string | undefined;
+	let errorMessage = "";
 
 	try {
 		const db = database();

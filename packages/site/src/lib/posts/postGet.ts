@@ -6,6 +6,7 @@ import { Article } from "../../data/schema/articlesTable";
 import { Event } from "../../data/schema/eventsTable";
 import { Post } from "../../data/schema/postsTable";
 import { User } from "../../data/schema/usersTable";
+import type PostViewModel from "../../types/posts/PostViewModel";
 import commentPreview from "../comments/commentPreview";
 import {
 	ARTICLE_LINK_TYPE,
@@ -16,10 +17,9 @@ import {
 } from "../constants";
 import ensureSlash from "../utils/ensureSlash";
 import getErrorMessage from "../utils/getErrorMessage";
-import { PostViewModel } from "./PostViewModel";
 
 export default async function postGet(user: User, follower: User, slug: string) {
-	let errorMessage: string | undefined;
+	let errorMessage = "";
 
 	try {
 		const db = database();

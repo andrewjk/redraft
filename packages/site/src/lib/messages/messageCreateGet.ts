@@ -8,16 +8,16 @@ import {
 	messagesTable,
 	usersTable,
 } from "../../data/schema";
+import type MessageGroupListModel from "../../types/messages/MessageGroupListModel";
 import updateNotificationCounts from "../notifications/updateNotificationCounts";
 import getErrorMessage from "../utils/getErrorMessage";
 import userIdQuery from "../utils/userIdQuery";
-import type { MessageGroupModel } from "./MessageGroupModel";
 
 /**
  * Gets the details for creating a message group and message.
  */
 export default async function messageCreateGet(slug: string, code: string) {
-	let errorMessage: string | undefined;
+	let errorMessage = "";
 
 	try {
 		const db = database();
@@ -111,7 +111,7 @@ export default async function messageCreateGet(slug: string, code: string) {
 						};
 					})
 				: [],
-		} satisfies MessageGroupModel;
+		} satisfies MessageGroupListModel;
 
 		return ok(result);
 	} catch (error) {

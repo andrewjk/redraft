@@ -2,31 +2,16 @@ import { ok, serverError, unauthorized } from "@torpor/build/response";
 import { desc, eq, isNull } from "drizzle-orm";
 import database from "../../data/database";
 import { messageGroupsTable, usersTable } from "../../data/schema";
+import type MessagePreviewModel from "../../types/messages/MessagePreviewModel";
 import getErrorMessage from "../utils/getErrorMessage";
 import userIdQuery from "../utils/userIdQuery";
-
-export type MessagePreview = {
-	slug: string;
-	url: string;
-	image: string;
-	name: string;
-	newestAt: Date;
-	text: string;
-	sent: boolean;
-	unreadCount: number;
-};
-
-export type MessagesList = {
-	messages: MessagePreview[];
-	messagesCount: number;
-};
 
 export default async function messageGroupList(
 	code: string,
 	limit?: number,
 	offset?: number,
 ): Promise<Response> {
-	let errorMessage: string | undefined;
+	let errorMessage = "";
 
 	try {
 		const db = database();
@@ -74,7 +59,7 @@ export default async function messageGroupList(
 				text: l.newest?.text ?? "",
 				sent: l.newest?.sent ?? false,
 				unreadCount: l.unread_count,
-			} satisfies MessagePreview;
+			} satisfies MessagePreviewModel;
 		});
 
 		const result = {

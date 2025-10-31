@@ -1,6 +1,8 @@
-//import { enhance } from '$app/forms';
-import ImageUpload from '../ImageUpload.torp';
-import LinkPreview from './LinkPreview.torp';
+//import { enhance } from "$app/forms";
+import type UserModel from "../../types/UserModel";
+import type PostEditModel from "../../types/posts/PostEditModel";
+import ImageUpload from "../ImageUpload.torp";
+import LinkPreview from "./LinkPreview.torp";
 import Image from "phosphor-torpor/lib/Image";
 import Link from "phosphor-torpor/lib/Link";
 import Star from "phosphor-torpor/lib/Star";
@@ -9,19 +11,16 @@ import Calendar from "phosphor-torpor/lib/Calendar";
 import Tag from "phosphor-torpor/lib/Tag";
 import UsersThree from "phosphor-torpor/lib/UsersThree";
 import StackPlus from "phosphor-torpor/lib/StackPlus";
-import Stack from "phosphor-torpor/lib/Stack";
 import X from "phosphor-torpor/lib/X";
 
 /**
  * Allows creating a post.
  */
-export default function PostInput($props) {
+export default function PostInputFields($props: { post: PostEditModel, child?: PostEditModel, i?: number, user: UserModel, base: string }) {
 	let user = $props.user;
 	let post = $watch($props.child ?? $props.post ?? newPost());
 	let child = $props.child;
 	let prefix = $props.child ? `children[${$props.i}]` : "";
-
-	let img;
 
 	let $state = $watch({
 		imageLoaded: !!post.image,
@@ -129,22 +128,22 @@ export default function PostInput($props) {
 					onchange={imageSelected}
 				/>
 				@if (post.image) {
-					<img &ref={img} src={post.image} />
+					<img src={post.image} />
 					<input
 						name={`${prefix}imageAltText`}
 						&value={post.imageAltText}
 						placeholder="Image alt text" />
 				}
 			}
-			@function imageSelected(e) {
-				const image = e.target.files[0];
+			@function imageSelected(e: Event) {
+				const image = (e.target as HTMLInputElement).files![0];
 				if (!image.type.includes("image")) {
 					return;
 				}
 				const fileReader = new FileReader();
 				fileReader.readAsDataURL(image);
 				fileReader.onload = (ev) => {
-					post.image = ev.target.result;
+					post.image = ev.target!.result;
 					$state.imageLoaded = true;
 				}
 			}
@@ -168,7 +167,7 @@ export default function PostInput($props) {
 						// TODO: Debounce
 						$state.linkLoading = true;
 						$state.linkLoaded = false;
-						const response = await fetch(`/api/posts/link-info?url=${e.target.value}`, { credentials: 'same-origin' });
+						const response = await fetch(`/api/posts/link-info?url=${e.target.value}`, { credentials: "same-origin" });
 						const info = await response.json()
 						$state.linkLoading = false;
 						if (info) {

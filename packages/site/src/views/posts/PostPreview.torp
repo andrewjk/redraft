@@ -1,12 +1,12 @@
-//import { enhance } from '$app/forms';
+//import { enhance } from "$app/forms";
 import placeholdify from "../../lib/utils/placeholdify";
-import stripProtocol from "../../lib/utils/stripProtocol";
-import pluralize from "../../lib/utils/pluralize"
 import relativeTimeSince from "../../lib/utils/relativeTimeSince"
 import sizeImage from "../../lib/utils/sizeImage";
 import stripProtocol from "../../lib/utils/stripProtocol";
-import LinkPreview from './LinkPreview.torp';
-import RatingPreview from './RatingPreview.torp';
+import type UserModel from "../../types/UserModel";
+import type PostPreviewModel from "../../types/posts/PostPreviewModel";
+import LinkPreview from "./LinkPreview.torp";
+import RatingPreview from "./RatingPreview.torp";
 import PushPin from "phosphor-torpor/lib/PushPin";
 import PushPinSlash from "phosphor-torpor/lib/PushPinSlash";
 import ChatCircle from "phosphor-torpor/lib/ChatCircle";
@@ -16,8 +16,8 @@ import Pencil from "phosphor-torpor/lib/Pencil";
 /**
  * Shows a post preview for display in a list.
  */
-export default function PostPreview() {
-	let { post, user, follower } = $props;
+export default function PostPreview($props: { post: PostPreviewModel, user: UserModel }) {
+	let { post, user } = $props;
 
 	let fmt = new Intl.DateTimeFormat(undefined, {
 		day: "numeric",
@@ -37,8 +37,8 @@ export default function PostPreview() {
 					<div class="menu-separator" />
 				}
 				@if (post.republishedAt) {
-					<div title={fmt.format(new Date(post.republishedAt))}>
-						Republished {relativeTimeSince(new Date(post.republishedAt), true)}
+					<div title={fmt.format(new Date(post.republishedAt!))}>
+						Republished {relativeTimeSince(new Date(post.republishedAt!), true)}
 					</div>
 				}
 				@if (post.republishedAt && post.visibility) {

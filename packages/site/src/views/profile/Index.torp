@@ -1,13 +1,10 @@
-import { $page } from '@torpor/build/state';
-import placeholdify from "../../lib/utils/placeholdify";
-import stripProtocol from "../../lib/utils/stripProtocol";
-import ProfileMenu from './ProfileMenu.torp';
-import MapPin from "phosphor-torpor/lib/MapPin";
+import type UserModel from "../../types/UserModel";
+import type ViewingModel from "../../types/ViewingModel";
+import type ProfileViewModel from "../../types/profile/ProfileViewModel";
+import ProfileMenu from "./ProfileMenu.torp";
 import Link from "phosphor-torpor/lib/Link";
-import Pencil from "phosphor-torpor/lib/Pencil";
-import SignOut from "phosphor-torpor/lib/SignOut";
 
-export default function Index($props) {
+export default function Index($props: { data: { profile: ProfileViewModel, user: UserModel, viewing: ViewingModel, base: string } }) {
 	@head {
 		<title>{$props.data.viewing.name} • Profile • Redraft</title>
 	}

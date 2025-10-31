@@ -2,16 +2,14 @@ import { notFound, ok, serverError } from "@torpor/build/response";
 import { eq } from "drizzle-orm";
 import database from "../../data/database";
 import { followedByTable, postsTable } from "../../data/schema";
+import type CommentSendModel from "../../types/comments/CommentSendModel";
+import type CommentReceivedModel from "../../types/public/CommentReceivedModel";
+import { COMMENT_RECEIVED_VERSION } from "../../types/public/CommentReceivedModel";
 import { postPublic } from "../public";
-import { COMMENT_RECEIVED_VERSION, type CommentReceivedModel } from "../public/commentReceived";
 import getErrorMessage from "../utils/getErrorMessage";
 
-export type CommentSendModel = {
-	post_id: number;
-};
-
 export default async function commentSend(request: Request) {
-	let errorMessage: string | undefined;
+	let errorMessage = "";
 
 	try {
 		const db = database();

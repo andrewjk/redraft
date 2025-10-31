@@ -1,10 +1,11 @@
-//import { enhance } from '$app/forms';
 import placeholdify from "../../lib/utils/placeholdify";
 import stripProtocol from "../../lib/utils/stripProtocol";
+import type UserModel from "../../types/UserModel";
+import type ListEditModel from "../../types/contacts/ListEditModel";
 import FollowMenu from "./FollowMenu.torp";
-import FormErrors from '../FormErrors.torp';
+import FormErrors from "../FormErrors.torp";
 
-export default function ListEdit() {
+export default function ListEdit($props: { data: { list: ListEditModel, user: UserModel, base: string }, form: any }) {
 	let $list = $watch($props.data.list)
 
 	@head {

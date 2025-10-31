@@ -1,9 +1,9 @@
-import SignOut from "phosphor-torpor/lib/SignOut";
+import type UserModel from "../../types/UserModel";
 
 /**
  * Shows a menu for selecting Profile sections.
  */
-export default function ProfileMenu($props: { section: string, user: any }) {
+export default function ProfileMenu($props: { section: string, user: UserModel, base: string }) {
 	@render {
 		<div class="hstack full-width subnav-menu">
 			@if ($props.section === "Profile") {

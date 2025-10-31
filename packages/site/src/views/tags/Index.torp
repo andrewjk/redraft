@@ -1,8 +1,12 @@
 import { $page } from "@torpor/build/state";
+import type UserModel from "../../types/UserModel";
+import type FollowerModel from "../../types/FollowerModel";
+import type ViewingModel from "../../types/ViewingModel";
+import type TagPreviewModel from "../../types/tags/TagPreviewModel";
 import TagList from "./TagList.torp";
 import Pagination from "../Pagination.torp";
 
-export default function Index() {
+export default function Index($props: { data: { tags: TagPreviewModel[], pageCount: number, user: UserModel, viewing: ViewingModel, follower: FollowerModel, base: string } }) {
 	let $state = $watch({
 		page: +($page.url.searchParams.get("page") || 1),
 	})
@@ -16,7 +20,7 @@ export default function Index() {
 			<h1>Tags</h1>
 
 			<TagList {$props.data.tags} {$props.data.user} {$props.data.follower} {$props.data.base} />
-			<Pagination {$props.data.pageCount} {$state.page} href={(p) => `/?page=${p}`} />
+			<Pagination {$props.data.pageCount} {$state.page} href={(p: number) => `/?page=${p}`} />
 		</div>
 	}
 }

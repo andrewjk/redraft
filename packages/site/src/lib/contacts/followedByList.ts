@@ -2,29 +2,18 @@ import { ok, serverError, unauthorized } from "@torpor/build/response";
 import { and, desc, eq, isNull } from "drizzle-orm";
 import database from "../../data/database";
 import { followedByTable, usersTable } from "../../data/schema";
+import type FollowedByListModel from "../../types/contacts/FollowedByListModel";
+import type FollowedByPreviewModel from "../../types/contacts/FollowedByPreviewModel";
 import getErrorMessage from "../utils/getErrorMessage";
 import userIdQuery from "../utils/userIdQuery";
 import uuid from "../utils/uuid";
-
-export type FollowedByPreview = {
-	slug: string;
-	url: string;
-	name: string;
-	image: string;
-	bio: string;
-};
-
-export type FollowedByList = {
-	followedBy: FollowedByPreview[];
-	followedByCount: number;
-};
 
 export default async function followedByList(
 	code: string,
 	limit?: number,
 	offset?: number,
 ): Promise<Response> {
-	let errorMessage: string | undefined;
+	let errorMessage = "";
 
 	try {
 		const db = database();
@@ -76,13 +65,13 @@ export default async function followedByList(
 				name: f.name,
 				image: f.image,
 				bio: f.bio,
-			} satisfies FollowedByPreview;
+			} satisfies FollowedByPreviewModel;
 		});
 
 		const result = {
 			followedBy,
 			followedByCount,
-		} satisfies FollowedByList;
+		} satisfies FollowedByListModel;
 
 		return ok(result);
 	} catch (error) {

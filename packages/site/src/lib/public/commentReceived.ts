@@ -3,21 +3,12 @@ import { eq } from "drizzle-orm";
 import database from "../../data/database";
 import { feedTable, followingTable } from "../../data/schema";
 import transaction from "../../data/transaction";
+import { COMMENT_RECEIVED_VERSION } from "../../types/public/CommentReceivedModel";
+import type CommentReceivedModel from "../../types/public/CommentReceivedModel";
 import getErrorMessage from "../utils/getErrorMessage";
 
-// IMPORTANT! Update this when the model changes
-export const COMMENT_RECEIVED_VERSION = 1;
-
-export type CommentReceivedModel = {
-	sharedKey: string;
-	slug: string;
-	commentCount: number;
-	lastCommentAt: Date;
-	version: number;
-};
-
 export default async function commentReceived(request: Request) {
-	let errorMessage: string | undefined;
+	let errorMessage = "";
 
 	try {
 		const db = database();

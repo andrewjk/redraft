@@ -1,20 +1,26 @@
-import PostPreview from './PostPreview.torp';
+import placeholdify from "../../lib/utils/placeholdify";
+import stripProtocol from "../../lib/utils/stripProtocol";
+import type UserModel from "../../types/UserModel";
+import type FollowerModel from "../../types/FollowerModel";
+import type PostPreviewModel from "../../types/posts/PostPreviewModel";
+import type PostFailureModel from "../../types/posts/PostFailureModel";
+import PostPreview from "./PostPreview.torp";
 
 /**
- * Shows a post preview plus the failureers it couldn't be sent to.
+ * Shows a post preview plus the followers it couldn't be sent to.
  */
-export default function PostStatus() {
+export default function PostStatus($props: { data: { id: number, post: PostPreviewModel, failed: PostFailureModel[], user: UserModel, follower: FollowerModel } }) {
 	@render {
 		<div class="vstack spaced-nr full-width post-status">
 			<PostPreview {$props.data.post} {$props.data.user} {$props.data.follower} />
 			@if ($props.data.failed.length > 0) {
 				<form use:enhance method="POST" action="?/resendPost">
-					<input type="hidden" name="id" value={$props.data.post.id} />
+					<input type="hidden" name="id" value={$props.data.id} />
 					<button>Resend</button>
 				</form>
 			}
 			@for (let failure of $props.data.failed) {
-				@key = post.id
+				@// key = post.id
 				<div class="card full-width post-status-failure">
 					<div class="hstack spaced">
 						<div style="flex: 0 0 auto">

@@ -3,22 +3,15 @@ import { and, eq } from "drizzle-orm";
 import database from "../../data/database";
 import { followedByTable } from "../../data/schema";
 import transaction from "../../data/transaction";
+import { UNFOLLOW_REQUESTED_VERSION } from "../../types/public/UnfollowRequestedModel";
+import type UnfollowRequestedModel from "../../types/public/UnfollowRequestedModel";
 import getErrorMessage from "../utils/getErrorMessage";
-
-// IMPORTANT! Update this when the model changes
-export const UNFOLLOW_REQUESTED_VERSION = 1;
-
-export type UnfollowRequestedModel = {
-	url: string;
-	sharedKey: string;
-	version: number;
-};
 
 /**
  * Receives a follow request from another user.
  */
 export default async function followRequested(request: Request) {
-	let errorMessage: string | undefined;
+	let errorMessage = "";
 
 	try {
 		const db = database();

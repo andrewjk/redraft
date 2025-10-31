@@ -4,12 +4,7 @@ import database from "../../data/database";
 import { feedTable, usersTable } from "../../data/schema";
 import getErrorMessage from "../utils/getErrorMessage";
 import userIdQuery from "../utils/userIdQuery";
-import feedPreview, { type FeedPreview } from "./feedPreview";
-
-export type FeedList = {
-	feed: FeedPreview[];
-	feedCount: number;
-};
+import feedPreview from "./feedPreview";
 
 export default async function feedList(
 	code: string,
@@ -18,7 +13,7 @@ export default async function feedList(
 	liked?: boolean,
 	saved?: boolean,
 ): Promise<Response> {
-	let errorMessage: string | undefined;
+	let errorMessage = "";
 
 	try {
 		const db = database();

@@ -3,28 +3,15 @@ import { eq } from "drizzle-orm";
 import database from "../../data/database";
 import { activityTable, userTokensTable, usersTable } from "../../data/schema";
 import transaction from "../../data/transaction";
+import type LoginModel from "../../types/account/LoginModel";
+import type LoginResponseModel from "../../types/account/LoginResponseModel";
 import createUserToken from "../utils/createUserToken";
 import getErrorMessage from "../utils/getErrorMessage";
 import { compareWithHash } from "../utils/hashPasswords";
 import uuid from "../utils/uuid";
 
-export type LoginModel = {
-	email: string;
-	password: string;
-	rememberMe: boolean;
-};
-
-export type LoginResponseModel = {
-	url: string;
-	username: string;
-	name: string;
-	image: string;
-	token: string;
-	code: string;
-};
-
 export default async function accountLogin(request: Request) {
-	let errorMessage: string | undefined;
+	let errorMessage = "";
 
 	try {
 		const db = database();

@@ -1,7 +1,7 @@
 /**
  * Shows a menu for selecting All/Liked/Saved.
  */
-export default function FeedMenu($props: { section: string, user: any }) {
+export default function FeedMenu($props: { section: string, base: string }) {
 	@render {
 		<div class="hstack full-width subnav-menu feed-menu">
 			@if ($props.section === "Feed") {

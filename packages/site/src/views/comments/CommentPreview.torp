@@ -1,13 +1,16 @@
-//import { enhance } from '$app/forms';
 import placeholdify from "../../lib/utils/placeholdify";
-import relativeTimeSince from "../../lib/utils/relativeTimeSince"
+import relativeTimeSince from "../../lib/utils/relativeTimeSince";
 import stripProtocol from "../../lib/utils/stripProtocol";
+import type FollowerModel from "../../types/FollowerModel";
+import type UserModel from "../../types/UserModel";
+import type CommentPreviewModel from "../../types/comments/CommentPreviewModel";
+import type PostViewModel from "../../types/posts/PostViewModel";
 import CommentInput from "./CommentInput.torp"
 
 /**
  * Shows a comment preview for display in a list.
  */
-export default function CommentPreview() {
+export default function CommentPreview($props: { post: PostViewModel, comment: CommentPreviewModel, parent?: string, user: UserModel, follower: FollowerModel }) {
 	let { post, comment, user, follower } = $props;
 	let $state = $watch({ replying: false })
 

@@ -4,24 +4,10 @@ import database from "../../data/database";
 import { userLinksTable, usersTable } from "../../data/schema";
 import transaction from "../../data/transaction";
 import profileSend from "../../routes/api/profile/send/+server";
+import type ProfileEditModel from "../../types/profile/ProfileEditModel";
 import * as api from "../api";
 import getErrorMessage from "../utils/getErrorMessage";
 import userIdQuery from "../utils/userIdQuery";
-
-export type ProfileEdit = {
-	email: string;
-	password: string;
-	name: string;
-	bio: string;
-	about: string;
-	location: string;
-	image: string;
-	links: {
-		id: number;
-		url: string;
-		text: string;
-	}[];
-};
 
 export default async function profileEdit(
 	request: Request,
@@ -29,12 +15,12 @@ export default async function profileEdit(
 	token: string,
 	code: string,
 ) {
-	let errorMessage: string | undefined;
+	let errorMessage = "";
 
 	try {
 		const db = database();
 
-		const model: ProfileEdit = await request.json();
+		const model: ProfileEditModel = await request.json();
 
 		// Get the current user
 		const currentUser = await db.query.usersTable.findFirst({

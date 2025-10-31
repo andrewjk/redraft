@@ -1,9 +1,11 @@
-//import { enhance } from '$app/forms';
+//import { enhance } from "$app/forms";
 import placeholdify from "../../lib/utils/placeholdify";
+import type UserModel from "../../types/UserModel";
+import type ProfileEditModel from "../../types/profile/ProfileEditModel";
 import ProfileMenu from "./ProfileMenu.torp";
-import FormErrors from '../FormErrors.torp';
+import FormErrors from "../FormErrors.torp";
 
-export default function Edit() {
+export default function Edit($props: { data: { profile: ProfileEditModel, user: UserModel, base: string }, form: any }) {
 	let $profile = $watch($props.data.profile)
 
 	@head {
@@ -31,8 +33,8 @@ export default function Edit() {
 						/>
 					</div>
 				</div>
-				@function fileSelected(e) {
-					const image = e.target.files[0];
+				@function fileSelected(e: Event) {
+					const image = (e.target as HTMLInputElement).files![0];
 					if (!image.type.includes("image")) {
 						return;
 					}
@@ -40,7 +42,7 @@ export default function Edit() {
 					fileReader.readAsDataURL(image);
 					fileReader.onload = (ev) => {
 						const preview = document.getElementById("image-preview");
-						preview.style.backgroundImage = `url('${ev.target.result}')`;
+						preview!.style.backgroundImage = `url("${ev.target!.result}")`;
 					}
 				}
 				<div class="form-row">

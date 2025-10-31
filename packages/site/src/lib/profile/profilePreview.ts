@@ -3,7 +3,7 @@ import database from "../../data/database";
 import getErrorMessage from "../utils/getErrorMessage";
 
 export default async function profilePreview() {
-	let errorMessage: string | undefined;
+	let errorMessage = "";
 
 	try {
 		const db = database();

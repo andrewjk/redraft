@@ -1,10 +1,13 @@
-import NotificationMenu from './NotificationMenu.torp';
-import ActivityPreview from './ActivityPreview.torp';
+import type UserModel from "../../types/UserModel";
+import type ViewingModel from "../../types/ViewingModel";
+import type ActivityPreviewModel from "../../types/notifications/ActivityPreviewModel";
+import NotificationMenu from "./NotificationMenu.torp";
+import ActivityPreview from "./ActivityPreview.torp";
 
 /**
  * Shows a list of the current user's activity.
  */
-export default function ActivityList($props) {
+export default function ActivityList($props: { data: { activity: ActivityPreviewModel[], user: UserModel, viewing: ViewingModel, base: string } }) {
 	@head {
 		<title>{$props.data.viewing.name} • Activity • Redraft</title>
 	}
@@ -20,7 +23,7 @@ export default function ActivityList($props) {
 					</div>
 				} else {
 					@for (let activity of $props.data.activity) {
-						@key = activity.id
+						@// @key = activity.id
 						<ActivityPreview {activity} {$props.data.user} />
 					}
 				}
