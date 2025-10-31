@@ -3,12 +3,12 @@ import { eq } from "drizzle-orm";
 import database from "../../data/database";
 import { listUsersTable, listsTable, usersTable } from "../../data/schema";
 import transaction from "../../data/transaction";
+import type ListEditModel from "../../types/contacts/ListEditModel";
 import getErrorMessage from "../utils/getErrorMessage";
 import userIdQuery from "../utils/userIdQuery";
-import type { ListEditModel } from "./ListEditModel";
 
 export default async function listSave(request: Request, code: string) {
-	let errorMessage: string | undefined;
+	let errorMessage = "";
 
 	try {
 		const db = database();

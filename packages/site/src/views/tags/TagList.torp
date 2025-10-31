@@ -1,4 +1,4 @@
-import TagPreview from './TagPreview.torp';
+import TagPreview from "./TagPreview.torp";
 
 /**
  * Shows a list of tags and the number of posts they have.

@@ -2,22 +2,13 @@ import { notFound, ok, serverError, unauthorized } from "@torpor/build/response"
 import { eq } from "drizzle-orm";
 import database from "../../data/database";
 import { postsQueueTable, postsTable, usersTable } from "../../data/schema";
+import type PostStatusModel from "../../types/posts/PostStatusModel";
 import getErrorMessage from "../utils/getErrorMessage";
 import userIdQuery from "../utils/userIdQuery";
-import postPreview, { PostPreview } from "./postPreview";
-
-export type PostStatusModel = {
-	id: number;
-	post: PostPreview;
-	failed: {
-		url: string;
-		name: string;
-		image: string;
-	}[];
-};
+import postPreview from "./postPreview";
 
 export default async function postStatus(slug: string, code: string) {
-	let errorMessage: string | undefined;
+	let errorMessage = "";
 
 	try {
 		const db = database();

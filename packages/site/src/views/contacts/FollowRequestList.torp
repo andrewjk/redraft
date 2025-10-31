@@ -1,10 +1,13 @@
-import FollowPreview from './FollowPreview.torp';
-import FollowMenu from './FollowMenu.torp';
+import type UserModel from "../../types/UserModel";
+import type ViewingModel from "../../types/ViewingModel";
+import type FollowRequestPreviewModel from "../../types/contacts/FollowRequestPreviewModel";
+import FollowPreview from "./FollowPreview.torp";
+import FollowMenu from "./FollowMenu.torp";
 
 /**
  * Shows a list of the users being followed.
  */
-export default function FollowRequestList() {
+export default function FollowRequestList($props: { data: { viewing: ViewingModel, requests: FollowRequestPreviewModel[], user: UserModel, base: string } }) {
 	@head {
 		<title>{$props.data.viewing.name} • Requests • Redraft</title>
 	}

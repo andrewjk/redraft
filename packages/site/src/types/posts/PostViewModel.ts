@@ -1,6 +1,7 @@
-import { CommentPreview } from "../comments/commentPreview";
+import type CommentPreviewModel from "../comments/CommentPreviewModel";
+import type PostAuthorModel from "./PostAuthorModel";
 
-export interface PostViewModel {
+export default interface PostViewModel {
 	slug: string;
 	text: string;
 	//visibility: number;
@@ -22,11 +23,7 @@ export interface PostViewModel {
 	linkEmbedHeight: number | null;
 	ratingValue: number | null;
 	ratingBound: number | null;
-	author: {
-		image: string;
-		name: string;
-		url: string;
-	};
+	author: PostAuthorModel;
 	commentCount: number;
 	likeCount: number;
 	emojiFirst: string | null;
@@ -54,5 +51,5 @@ export interface PostViewModel {
 		slug: string;
 		text: string;
 	}[];
-	comments: CommentPreview[];
+	comments: CommentPreviewModel[];
 }

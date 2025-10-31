@@ -3,6 +3,9 @@ import { ok, seeOther } from "@torpor/build/response";
 import database from "../data/database";
 import env from "../lib/env";
 import ensureSlash from "../lib/utils/ensureSlash";
+import FollowerModel from "../types/FollowerModel";
+import UserModel from "../types/UserModel";
+import ViewingModel from "../types/ViewingModel";
 
 export default {
 	load: async ({ appData, url, params }) => {
@@ -27,25 +30,31 @@ export default {
 		return ok({
 			username: params.user,
 			base: params.user ? `/${params.user}/` : "/",
-			user: user && {
-				url: ensureSlash(user.url),
-				name: user.name,
-				image: user.image,
-				notificationCount: currentUser?.notification_count,
-				messageCount: currentUser?.message_count,
-			},
-			follower: follower && {
-				url: ensureSlash(follower.url),
-				name: follower.name,
-				image: follower.image,
-			},
-			viewing: {
-				url: ensureSlash(env().SITE_LOCATION),
-				name: currentUser?.name,
-				image: currentUser?.image,
-				bio: currentUser?.bio,
-				location: currentUser?.location,
-			},
+			user:
+				user &&
+				({
+					url: ensureSlash(user.url),
+					name: user.name,
+					image: user.image,
+					notificationCount: currentUser?.notification_count,
+					messageCount: currentUser?.message_count,
+				} satisfies UserModel),
+			follower:
+				follower &&
+				({
+					url: ensureSlash(follower.url),
+					name: follower.name,
+					image: follower.image,
+				} satisfies FollowerModel),
+			viewing:
+				currentUser &&
+				({
+					url: ensureSlash(env().SITE_LOCATION),
+					name: currentUser.name,
+					image: currentUser.image,
+					bio: currentUser.bio,
+					location: currentUser.location,
+				} satisfies ViewingModel),
 		});
 	},
 } satisfies PageServerEndPoint;

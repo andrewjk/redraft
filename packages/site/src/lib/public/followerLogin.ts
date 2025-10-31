@@ -7,7 +7,7 @@
 //import getErrorMessage from "../utils/getErrorMessage";
 //import setFollowerToken from "../utils/setFollowerToken";
 //
-////export type FollowerLoginModel = {
+////export interface FollowerLoginModel {
 ////	sharedKey: string;
 ////};
 //

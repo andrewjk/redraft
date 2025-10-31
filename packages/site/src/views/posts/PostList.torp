@@ -1,4 +1,4 @@
-import PostPreview from './PostPreview.torp';
+import PostPreview from "./PostPreview.torp";
 
 /**
  * Shows a list of post previews.

@@ -3,16 +3,12 @@ import { eq } from "drizzle-orm";
 import database from "../../data/database";
 import { messagesTable, usersTable } from "../../data/schema";
 import transaction from "../../data/transaction";
+import type MarkReadModel from "../../types/messages/MarkReadModel";
 import getErrorMessage from "../utils/getErrorMessage";
 import userIdQuery from "../utils/userIdQuery";
 
-export type MarkReadModel = {
-	id: number;
-	read: boolean;
-};
-
 export default async function messageMarkRead(request: Request, code: string) {
-	let errorMessage: string | undefined;
+	let errorMessage = "";
 
 	try {
 		const db = database();

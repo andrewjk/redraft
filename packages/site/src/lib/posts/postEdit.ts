@@ -6,13 +6,13 @@ import { Article } from "../../data/schema/articlesTable";
 import { Event } from "../../data/schema/eventsTable";
 import { Post } from "../../data/schema/postsTable";
 import { Tag } from "../../data/schema/tagsTable";
+import type PostEditModel from "../../types/posts/PostEditModel";
 import { ARTICLE_LINK_TYPE, EVENT_LINK_TYPE } from "../constants";
 import getErrorMessage from "../utils/getErrorMessage";
 import userIdQuery from "../utils/userIdQuery";
-import { PostEditModel } from "./PostEditModel";
 
 export default async function postEdit(slug: string, code: string) {
-	let errorMessage: string | undefined;
+	let errorMessage = "";
 
 	try {
 		const db = database();

@@ -1,7 +1,9 @@
+import type UserModel from "../../types/UserModel";
+
 /**
  * Shows a menu for selecting Following/Followed by/Requests.
  */
-export default function FollowMenu($props: { section: string }) {
+export default function FollowMenu($props: { section: string, user: UserModel, base: string }) {
 	@render {
 		<div class="hstack full-width subnav-menu follow-menu">
 			@if ($props.section === "Following") {

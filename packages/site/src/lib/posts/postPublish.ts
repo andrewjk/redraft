@@ -5,6 +5,7 @@ import { activityTable, feedTable, postsTable, usersTable } from "../../data/sch
 import { FeedInsert } from "../../data/schema/feedTable";
 import transaction from "../../data/transaction";
 import postsSend from "../../routes/api/posts/send/+server";
+import type PostEditModel from "../../types/posts/PostEditModel";
 import * as api from "../api";
 import {
 	ARTICLE_LINK_TYPE,
@@ -15,7 +16,6 @@ import {
 } from "../constants";
 import getErrorMessage from "../utils/getErrorMessage";
 import userIdQuery from "../utils/userIdQuery";
-import { type PostEditModel } from "./PostEditModel";
 import postCreateOrUpdate from "./postCreateOrUpdate";
 
 export default async function postPublish(
@@ -24,7 +24,7 @@ export default async function postPublish(
 	token: string,
 	code: string,
 ) {
-	let errorMessage: string | undefined;
+	let errorMessage = "";
 
 	try {
 		const db = database();

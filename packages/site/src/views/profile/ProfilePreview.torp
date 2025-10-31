@@ -1,7 +1,4 @@
-import { $page } from '@torpor/build/state';
-import MapPin from "phosphor-torpor/lib/MapPin";
-import Pencil from "phosphor-torpor/lib/Pencil";
-import SignOut from "phosphor-torpor/lib/SignOut";
+import { $page } from "@torpor/build/state";
 import placeholdify from "../../lib/utils/placeholdify";
 import stripProtocol from "../../lib/utils/stripProtocol";
 

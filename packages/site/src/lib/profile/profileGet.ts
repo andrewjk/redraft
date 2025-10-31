@@ -4,7 +4,7 @@ import getErrorMessage from "../utils/getErrorMessage";
 import profileView from "./profileView";
 
 export default async function profileGet(forEditing = false) {
-	let errorMessage: string | undefined;
+	let errorMessage = "";
 
 	try {
 		const db = database();

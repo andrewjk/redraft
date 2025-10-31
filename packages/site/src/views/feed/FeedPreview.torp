@@ -1,11 +1,12 @@
-//import { enhance } from '$app/forms';
+//import { enhance } from "$app/forms";
 import placeholdify from "../../lib/utils/placeholdify";
-import pluralize from "../../lib/utils/pluralize"
 import relativeTimeSince from "../../lib/utils/relativeTimeSince"
 import sizeImage from "../../lib/utils/sizeImage";
 import stripProtocol from "../../lib/utils/stripProtocol";
-import LinkPreview from '../posts/LinkPreview.torp';
-import RatingPreview from '../posts/RatingPreview.torp';
+import type UserModel from "../../types/UserModel";
+import type FeedPreviewModel from "../../types/feed/FeedPreviewModel";
+import LinkPreview from "../posts/LinkPreview.torp";
+import RatingPreview from "../posts/RatingPreview.torp";
 import ChatCircle from "phosphor-torpor/lib/ChatCircle";
 import Heart from "phosphor-torpor/lib/Heart";
 import BookmarkSimple from "phosphor-torpor/lib/BookmarkSimple";
@@ -16,7 +17,7 @@ import XCircle from "phosphor-torpor/lib/XCircle";
 /**
  * Shows a feed preview for display in a list.
  */
-export default function FeedPreview() {
+export default function FeedPreview($props: { feed: FeedPreviewModel, user: UserModel }) {
 	let { feed, user } = $props;
 	let $state = $watch({
 		showReaction: false,
@@ -35,8 +36,8 @@ export default function FeedPreview() {
 		<div class="card full-width feed-preview">
 			<div class="feed-preview-status hstack spaced-nr secondary">
 				@if (feed.republishedAt) {
-					<div title={fmt.format(new Date(feed.republishedAt))}>
-						Republished {relativeTimeSince(new Date(feed.republishedAt), true)}
+					<div title={fmt.format(new Date(feed.republishedAt!))}>
+						Republished {relativeTimeSince(new Date(feed.republishedAt!), true)}
 					</div>
 				}
 				@if (feed.republishedAt && feed.visibility) {
@@ -148,7 +149,7 @@ export default function FeedPreview() {
 							@html(feed.text)
 							@if (feed.image) {
 								<p>
-									<img class="feed-preview-image" src={sizeImage(feed.image, 800)} alt={feed.imageAltText} />
+									<img class="feed-preview-image" src={sizeImage(feed.image!, 800)} alt={feed.imageAltText} />
 								</p>
 							}
 						</a>

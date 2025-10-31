@@ -3,16 +3,12 @@ import { eq } from "drizzle-orm";
 import database from "../../data/database";
 import { activityTable, postsTable, usersTable } from "../../data/schema";
 import transaction from "../../data/transaction";
+import { PostPinModel } from "../../types/posts/PostPinModel";
 import getErrorMessage from "../utils/getErrorMessage";
 import userIdQuery from "../utils/userIdQuery";
 
-export type PostPinModel = {
-	slug: string;
-	pinned: boolean;
-};
-
 export default async function postPin(request: Request, code: string) {
-	let errorMessage: string | undefined;
+	let errorMessage = "";
 
 	try {
 		const db = database();

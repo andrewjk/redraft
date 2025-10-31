@@ -4,18 +4,8 @@ import database from "../../data/database";
 import { postTagsTable, tagsTable } from "../../data/schema";
 import getErrorMessage from "../utils/getErrorMessage";
 
-export type TagPreview = {
-	text: string;
-	count: number;
-};
-
-export type TagList = {
-	tags: TagPreview[];
-	tagsCount: number;
-};
-
 export default async function tagList(limit?: number, offset?: number): Promise<Response> {
-	let errorMessage: string | undefined;
+	let errorMessage = "";
 
 	try {
 		const db = database();

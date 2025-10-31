@@ -9,21 +9,13 @@ import {
 	usersTable,
 } from "../../data/schema";
 import transaction from "../../data/transaction";
+import type MessageReceivedModel from "../../types/public/MessageReceivedModel";
+import { MESSAGE_RECEIVED_VERSION } from "../../types/public/MessageReceivedModel";
 import updateNotificationCounts from "../notifications/updateNotificationCounts";
 import getErrorMessage from "../utils/getErrorMessage";
 
-// IMPORTANT! Update this when the model changes
-export const MESSAGE_RECEIVED_VERSION = 1;
-
-export type MessageReceivedModel = {
-	sharedKey: string;
-	slug: string;
-	text: string;
-	version: number;
-};
-
 export default async function messageReceived(request: Request) {
-	let errorMessage: string | undefined;
+	let errorMessage = "";
 
 	try {
 		const db = database();

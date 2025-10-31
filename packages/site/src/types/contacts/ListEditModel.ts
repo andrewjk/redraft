@@ -1,4 +1,4 @@
-export type ListEditModel = {
+export default interface ListEditModel {
 	id: number;
 	name: string;
 	description: string;
@@ -9,4 +9,4 @@ export type ListEditModel = {
 		image: string;
 		included: boolean;
 	}[];
-};
+}

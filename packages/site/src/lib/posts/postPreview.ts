@@ -1,53 +1,16 @@
 import { micromark } from "micromark";
 import { type Post } from "../../data/schema/postsTable";
-import { Tag } from "../../data/schema/tagsTable";
+import { type Tag } from "../../data/schema/tagsTable";
 import { type User } from "../../data/schema/usersTable";
+import type PostAuthorModel from "../../types/posts/PostAuthorModel";
+import type PostPreviewModel from "../../types/posts/PostPreviewModel";
 import { ARTICLE_LINK_TYPE, EVENT_LINK_TYPE, LINK_LINK_TYPE } from "../constants";
 import ensureSlash from "../utils/ensureSlash";
 
-type PostAuthor = {
-	name: string;
-	image: string;
-	url: string;
-};
-
-export type PostPreview = {
-	slug: string;
-	text: string;
-	author: PostAuthor;
-	pinned: boolean;
-	publishedAt: Date;
-	republishedAt: Date | null;
-	childCount: number;
-	commentCount: number;
-	likeCount: number;
-	emojiFirst: string | null;
-	emojiSecond: string | null;
-	emojiThird: string | null;
-	visibility: number;
-	image: string | null;
-	imageAltText: string | null;
-	isArticle: boolean;
-	isEvent: boolean;
-	linkUrl: string | null;
-	linkImage: string | null;
-	linkTitle: string | null;
-	linkPublication: string | null;
-	linkEmbedSrc: string | null;
-	linkEmbedWidth: number | null;
-	linkEmbedHeight: number | null;
-	ratingValue: number | null;
-	ratingBound: number | null;
-	tags: {
-		slug: string;
-		text: string;
-	}[];
-};
-
 export default function postPreview(
-	post: Post & { user?: PostAuthor | null; postTags: { tag: Tag }[] },
+	post: Post & { user?: PostAuthorModel | null; postTags: { tag: Tag }[] },
 	currentUser: User,
-): PostPreview {
+): PostPreviewModel {
 	return {
 		slug: post.slug,
 		text: micromark(post.text),

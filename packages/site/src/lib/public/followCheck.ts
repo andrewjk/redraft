@@ -2,27 +2,16 @@ import { notFound, ok, serverError, unprocessable } from "@torpor/build/response
 import { eq } from "drizzle-orm";
 import database from "../../data/database";
 import { followingTable } from "../../data/schema";
+import { FOLLOW_CHECK_VERSION } from "../../types/public/FollowCheckModel";
+import type FollowCheckModel from "../../types/public/FollowCheckModel";
+import type FollowCheckResponseModel from "../../types/public/FollowCheckResponseModel";
 import getErrorMessage from "../utils/getErrorMessage";
-
-// IMPORTANT! Update this when the model changes
-export const FOLLOW_CHECK_VERSION = 1;
-
-export type FollowCheckModel = {
-	sharedKey: string;
-	version: number;
-};
-
-export type FollowCheckResponseModel = {
-	name: string;
-	image: string;
-	bio: string;
-};
 
 /**
  * Checks that a follow request was sent by this user.
  */
 export default async function followCheck(request: Request) {
-	let errorMessage: string | undefined;
+	let errorMessage = "";
 
 	try {
 		const db = database();

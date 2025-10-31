@@ -7,7 +7,7 @@ import getErrorMessage from "../utils/getErrorMessage";
 import commentPreview from "./commentPreview";
 
 export default async function commentGet(slug: string) {
-	let errorMessage: string | undefined;
+	let errorMessage = "";
 
 	try {
 		const db = database();

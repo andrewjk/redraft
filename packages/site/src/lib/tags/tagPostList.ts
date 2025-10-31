@@ -2,14 +2,8 @@ import { notFound, ok, serverError } from "@torpor/build/response";
 import { and, desc, eq, inArray, isNotNull, isNull } from "drizzle-orm";
 import database from "../../data/database";
 import { postTagsTable, postsTable, tagsTable } from "../../data/schema";
-import postPreview, { PostPreview } from "../posts/postPreview";
+import postPreview from "../posts/postPreview";
 import getErrorMessage from "../utils/getErrorMessage";
-
-export type TagPostList = {
-	tag: { slug: string; text: string };
-	posts: PostPreview[];
-	postsCount: number;
-};
 
 export default async function tagPostList(
 	slug: string,
@@ -17,7 +11,7 @@ export default async function tagPostList(
 	limit?: number,
 	offset?: number,
 ): Promise<Response> {
-	let errorMessage: string | undefined;
+	let errorMessage = "";
 
 	try {
 		const db = database();

@@ -5,8 +5,8 @@ import { LibSQLDatabase } from "drizzle-orm/libsql";
 import { afterAll, beforeAll, expect, test } from "vitest";
 import * as schema from "../../src/data/schema/index";
 import { PUBLIC_POST_VISIBILITY } from "../../src/lib/constants";
-import { type PostEditModel } from "../../src/lib/posts/PostEditModel";
 import postSave from "../../src/lib/posts/postSave";
+import type PostEditModel from "../../src/types/posts/PostEditModel";
 import { cleanUpSiteTest, prepareSiteTest } from "../prepareSiteTest";
 
 let db: LibSQLDatabase<typeof schema>;

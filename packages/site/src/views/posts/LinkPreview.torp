@@ -1,13 +1,14 @@
+import type LinkPreviewModel from "../../types/posts/LinkPreviewModel";
 
 /**
  * Shows a link preview for display in a post/feed.
  */
-export default function LinkPreview() {
+export default function LinkPreview($props: { link: LinkPreviewModel }) {
 	let { link } = $props;
 
 	function maybeHost(url: string) {
 		try {
-			return (new URL(link.linkUrl)).host;
+			return (new URL(url)).host;
 		} catch {
 			return "";
 		}
@@ -20,9 +21,9 @@ export default function LinkPreview() {
 					src={link.linkEmbedSrc}
 					style={{
 						width: "100%",
-						"aspect-ratio": parseInt(link.linkEmbedWidth) && parseInt(link.linkEmbedHeight) ? `${link.linkEmbedWidth} / ${link.linkEmbedHeight}` : undefined
+						"aspect-ratio": parseInt(String(link.linkEmbedWidth)) && parseInt(String(link.linkEmbedHeight)) ? `${link.linkEmbedWidth} / ${link.linkEmbedHeight}` : undefined
 					}}
-					height={!(parseInt(link.linkEmbedWidth) && parseInt(link.linkEmbedHeight)) ? link.linkEmbedHeight : undefined}
+					height={!(parseInt(String(link.linkEmbedWidth)) && parseInt(String(link.linkEmbedHeight))) ? link.linkEmbedHeight : undefined}
 					frameborder="0"
 					allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; fullscreen; picture-in-picture; web-share"
 					referrerpolicy="strict-origin-when-cross-origin"
@@ -36,7 +37,7 @@ export default function LinkPreview() {
 					<div class="spacer" />
 					<div class="link-preview-publication vstack">
 						<span>{link.linkPublication}</span>
-						<span class="link-preview-host">({maybeHost(link.linkUrl)})</span>
+						<span class="link-preview-host">({maybeHost(link.linkUrl!)})</span>
 					</div>
 				</div>
 			}

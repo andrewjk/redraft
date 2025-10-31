@@ -1,7 +1,9 @@
+import type UserModel from "../../types/UserModel";
+
 /**
  * Shows a menu for selecting Events or drafts.
  */
-export default function EventMenu($props: { section: string, user: any }) {
+export default function EventMenu($props: { section: string, user: UserModel, base: string }) {
 	@render {
 		<div class="hstack full-width subnav-menu event-menu">
 			@if ($props.section === "Events") {

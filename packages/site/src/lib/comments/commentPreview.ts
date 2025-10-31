@@ -1,31 +1,17 @@
 //import profileView from "./profileView";
 import { type Comment } from "../../data/schema/commentsTable";
-
-type CommentAuthor = {
-	image: string;
-	name: string;
-	url: string;
-};
-
-export type CommentPreview = {
-	slug: string;
-	text: string;
-	author: CommentAuthor;
-	createdAt: Date;
-	updatedAt: Date;
-	// TODO: commentCount: number;
-	children: CommentPreview[];
-};
+import type CommentAuthorModel from "../../types/comments/CommentAuthorModel";
+import type CommentPreviewModel from "../../types/comments/CommentPreviewModel";
 
 type CommentWithUser = Comment & {
-	user?: CommentAuthor | null;
+	user?: CommentAuthorModel | null;
 };
 
 export default function commentPreview(
 	comment: CommentWithUser,
-	currentUser: CommentAuthor,
+	currentUser: CommentAuthorModel,
 	childComments: CommentWithUser[],
-): CommentPreview {
+): CommentPreviewModel {
 	return {
 		slug: comment.slug,
 		text: comment.text,

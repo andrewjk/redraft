@@ -16,12 +16,7 @@ import {
 } from "../constants";
 import getErrorMessage from "../utils/getErrorMessage";
 import userIdQuery from "../utils/userIdQuery";
-import postPreview, { type PostPreview } from "./postPreview";
-
-export type PostList = {
-	posts: PostPreview[];
-	postsCount: number;
-};
+import postPreview from "./postPreview";
 
 export async function postList(user?: User, follower?: User, limit?: number, offset?: number) {
 	return await getPosts(false, undefined, user, follower, limit, offset);
@@ -46,7 +41,7 @@ export async function getPosts(
 	offset?: number,
 	code?: string,
 ): Promise<Response> {
-	let errorMessage: string | undefined;
+	let errorMessage = "";
 
 	try {
 		const db = database();

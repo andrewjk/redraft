@@ -1,7 +1,9 @@
+import type UserModel from "../../types/UserModel";
+
 /**
  * Shows a menu for selecting Media or drafts.
  */
-export default function MediaMenu($props: { section: string, user: any }) {
+export default function MediaMenu($props: { section: string, user: UserModel, base: string }) {
 	@render {
 		<div class="hstack full-width subnav-menu media-menu">
 			@if ($props.section === "Media") {

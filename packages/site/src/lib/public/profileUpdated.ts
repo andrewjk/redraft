@@ -5,23 +5,14 @@ import { followedByTable, followingTable } from "../../data/schema";
 import { FollowedBy } from "../../data/schema/followedByTable";
 import { Following } from "../../data/schema/followingTable";
 import transaction from "../../data/transaction";
+import { PROFILE_UPDATED_VERSION } from "../../types/public/ProfileUpdatedModel";
+import type ProfileUpdatedModel from "../../types/public/ProfileUpdatedModel";
 import createNotification from "../notifications/createNotification";
 import updateNotificationCounts from "../notifications/updateNotificationCounts";
 import getErrorMessage from "../utils/getErrorMessage";
 
-// IMPORTANT! Update this when the model changes
-export const PROFILE_UPDATED_VERSION = 1;
-
-export type ProfileUpdatedModel = {
-	sharedKey: string;
-	name: string;
-	image: string;
-	bio: string;
-	version: number;
-};
-
 export default async function profileUpdated(request: Request) {
-	let errorMessage: string | undefined;
+	let errorMessage = "";
 
 	try {
 		const db = database();

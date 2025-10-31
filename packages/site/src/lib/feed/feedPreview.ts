@@ -3,47 +3,14 @@ import { micromark } from "micromark";
 import { type Feed } from "../../data/schema/feedTable";
 import { type Following } from "../../data/schema/followingTable";
 import { type User } from "../../data/schema/usersTable";
+import type FeedPreviewModel from "../../types/feed/FeedPreviewModel";
 import { ARTICLE_LINK_TYPE, EVENT_LINK_TYPE, LINK_LINK_TYPE } from "../constants";
 import ensureSlash from "../utils/ensureSlash";
-
-type FeedAuthor = {
-	name: string;
-	image: string;
-	url: string;
-	sharedKey: string;
-};
-
-export type FeedPreview = {
-	slug: string;
-	text: string;
-	author: FeedAuthor;
-	liked: boolean;
-	saved: boolean;
-	emoji: string | null;
-	publishedAt: Date;
-	republishedAt: Date | null;
-	childCount: number;
-	commentCount: number;
-	visibility: number;
-	image: string | null;
-	imageAltText: string | null;
-	isArticle: boolean;
-	isEvent: boolean;
-	linkUrl: string | null;
-	linkTitle: string | null;
-	linkImage: string | null;
-	linkPublication: string | null;
-	linkEmbedSrc: string | null;
-	linkEmbedWidth: number | null;
-	linkEmbedHeight: number | null;
-	ratingValue: number | null;
-	ratingBound: number | null;
-};
 
 export default function feedPreview(
 	feed: Feed & { user?: Following | null },
 	currentUser: User,
-): FeedPreview {
+): FeedPreviewModel {
 	return {
 		slug: feed.slug,
 		text: micromark(feed.text),

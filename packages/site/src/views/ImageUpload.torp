@@ -1,16 +1,14 @@
 
-export default function ImageUpload($props: { image: string, imageLoaded: boolean }) {
-	let img;
-
-	function fileSelected(e) {
-		const image = e.target.files[0];
+export default function ImageUpload($props: { image: string | ArrayBuffer | null, imageLoaded: boolean }) {
+	function fileSelected(e: Event) {
+		const image = (e.target as HTMLInputElement).files![0];
 		if (!image.type.includes("image")) {
 			return;
 		}
 		const fileReader = new FileReader();
 		fileReader.readAsDataURL(image);
 		fileReader.onload = (ev) => {
-			$props.image = ev.target.result;
+			$props.image = ev.target!.result ;
 			$props.imageLoaded = true;
 		}
 	}
@@ -26,7 +24,7 @@ export default function ImageUpload($props: { image: string, imageLoaded: boolea
 					onchange={fileSelected}
 				/>
 			}
-			<img &ref={img} src={$props.image} />
+			<img src={$props.image} />
 		</div>
 	}
 }

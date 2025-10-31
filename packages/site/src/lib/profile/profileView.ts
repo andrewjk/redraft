@@ -1,28 +1,12 @@
 import { micromark } from "micromark";
 import { gfm, gfmHtml } from "micromark-extension-gfm";
-import { type User, UserLink } from "../../data/schema/usersTable";
-
-type LinkView = {
-	id: number;
-	text: string;
-	url: string;
-};
-
-export type ProfileView = {
-	url: string;
-	email: string;
-	name: string;
-	bio: string;
-	location: string;
-	about: string;
-	image: string;
-	links: LinkView[];
-};
+import type { User, UserLink } from "../../data/schema/usersTable";
+import type ProfileViewModel from "../../types/profile/ProfileViewModel";
 
 export default function profileView(
 	user: User & { links: UserLink[] },
 	forEditing = false,
-): ProfileView {
+): ProfileViewModel {
 	return {
 		url: user.url,
 		email: user.email,
@@ -41,5 +25,5 @@ export default function profileView(
 			text: l.text,
 			url: l.url,
 		})),
-	} satisfies ProfileView;
+	} satisfies ProfileViewModel;
 }

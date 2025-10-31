@@ -2,28 +2,16 @@ import { ok, serverError, unauthorized } from "@torpor/build/response";
 import { desc, eq, isNull } from "drizzle-orm";
 import database from "../../data/database";
 import { notificationsTable, usersTable } from "../../data/schema";
+import type NotificationPreviewModel from "../../types/notifications/NotificationPreviewModel";
 import getErrorMessage from "../utils/getErrorMessage";
 import userIdQuery from "../utils/userIdQuery";
-
-export type NotificationPreview = {
-	id: number;
-	url: string;
-	text: string;
-	read: boolean;
-	createdAt: Date;
-};
-
-export type NotificationList = {
-	notifications: NotificationPreview[];
-	notificationsCount: number;
-};
 
 export default async function notificationList(
 	code: string,
 	limit?: number,
 	offset?: number,
 ): Promise<Response> {
-	let errorMessage: string | undefined;
+	let errorMessage = "";
 
 	try {
 		const db = database();
@@ -63,7 +51,7 @@ export default async function notificationList(
 				text: n.text,
 				read: n.read,
 				createdAt: n.created_at,
-			} as NotificationPreview;
+			} as NotificationPreviewModel;
 		});
 
 		return ok({

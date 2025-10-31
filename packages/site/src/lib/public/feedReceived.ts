@@ -4,35 +4,12 @@ import database from "../../data/database";
 import { feedTable, followingTable } from "../../data/schema";
 import { FeedInsert } from "../../data/schema/feedTable";
 import transaction from "../../data/transaction";
+import type FeedReceivedModel from "../../types/public/FeedReceivedModel";
+import { FEED_RECEIVED_VERSION } from "../../types/public/FeedReceivedModel";
 import getErrorMessage from "../utils/getErrorMessage";
 
-// IMPORTANT! Update this when the model changes
-export const FEED_RECEIVED_VERSION = 3;
-
-export type FeedReceivedModel = {
-	sharedKey: string;
-	slug: string;
-	text: string;
-	visibility: number;
-	image: string | null;
-	imageAltText: string | null;
-	linkType: number | null;
-	linkUrl: string | null;
-	linkTitle: string | null;
-	linkImage: string | null;
-	linkPublication: string | null;
-	linkEmbedSrc: string | null;
-	linkEmbedWidth: number | null;
-	linkEmbedHeight: number | null;
-	ratingValue: number | null;
-	ratingBound: number | null;
-	publishedAt: Date;
-	republishedAt: Date | null;
-	version: number;
-};
-
 export default async function feedReceived(request: Request) {
-	let errorMessage: string | undefined;
+	let errorMessage = "";
 
 	try {
 		const db = database();

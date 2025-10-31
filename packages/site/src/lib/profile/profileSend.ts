@@ -2,15 +2,16 @@ import { ok, serverError, unauthorized } from "@torpor/build/response";
 import { eq } from "drizzle-orm";
 import database from "../../data/database";
 import { followedByTable, followingTable, usersTable } from "../../data/schema";
+import type ProfileUpdatedModel from "../../types/public/ProfileUpdatedModel";
+import { PROFILE_UPDATED_VERSION } from "../../types/public/ProfileUpdatedModel";
 import { postPublic } from "../public";
-import { PROFILE_UPDATED_VERSION, type ProfileUpdatedModel } from "../public/profileUpdated";
 import getErrorMessage from "../utils/getErrorMessage";
 import userIdQuery from "../utils/userIdQuery";
 
 // TODO: Should only send the data that has changed
 
 export default async function profileSend(code: string) {
-	let errorMessage: string | undefined;
+	let errorMessage = "";
 
 	try {
 		const db = database();

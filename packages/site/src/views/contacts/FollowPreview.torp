@@ -1,21 +1,16 @@
-//import { enhance } from '$app/forms';
+//import { enhance } from "$app/forms";
 import placeholdify from "../../lib/utils/placeholdify";
-import relativeTimeSince from "../../lib/utils/relativeTimeSince"
 import stripProtocol from "../../lib/utils/stripProtocol";
+import type UserModel from "../../types/UserModel";
+import type FollowedByPreviewModel from "../../types/contacts/FollowedByPreviewModel";
+import type FollowingPreviewModel from "../../types/contacts/FollowingPreviewModel";
+import type FollowRequestPreviewModel from "../../types/contacts/FollowRequestPreviewModel";
 
 /**
  * Shows a follow(er/ing) preview for display in a list.
  */
-export default function FollowPreview() {
-	let { follow, user, canMessage } = $props;
-
-	let fmt = new Intl.DateTimeFormat(undefined, {
-		day: "numeric",
-		month: "short",
-		year: "numeric",
-		hour: "numeric",
-		minute: "numeric"
-	});
+export default function FollowPreview($props: { follow: FollowedByPreviewModel | FollowingPreviewModel | FollowRequestPreviewModel, user: UserModel, base: string, followSlug?: string }) {
+	let { follow, user, followSlug } = $props;
 
 	@render {
 		<div class="card full-width follow-preview">
@@ -43,9 +38,9 @@ export default function FollowPreview() {
 						<p>{follow.bio}</p>
 					</div>
 
-					@if (canMessage && user) {
+					@if (user && followSlug) {
 						<div class="follow-preview-message">
-							<a href="{$props.base}messages/create/{follow.slug}">Message</a>
+							<a href="{$props.base}messages/create/{followSlug}">Message</a>
 						</div>
 					}
 				</div>

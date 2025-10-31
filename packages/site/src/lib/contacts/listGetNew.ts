@@ -2,12 +2,12 @@ import { notFound, ok, serverError } from "@torpor/build/response";
 import { eq, isNull } from "drizzle-orm";
 import database from "../../data/database";
 import { followedByTable, usersTable } from "../../data/schema";
+import type ListEditModel from "../../types/contacts/ListEditModel";
 import getErrorMessage from "../utils/getErrorMessage";
 import userIdQuery from "../utils/userIdQuery";
-import type { ListEditModel } from "./ListEditModel";
 
 export default async function listGetNew(code: string) {
-	let errorMessage: string | undefined;
+	let errorMessage = "";
 
 	try {
 		const db = database();

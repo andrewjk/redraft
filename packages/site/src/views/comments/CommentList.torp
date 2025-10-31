@@ -1,10 +1,14 @@
-import CommentPreview from './CommentPreview.torp';
+import type CommentPreviewModel from "../../types/comments/CommentPreviewModel";
+import type PostViewModel from "../../types/posts/PostViewModel";
+import type FollowerModel from "../../types/FollowerModel";
+import type UserModel from "../../types/UserModel";
+import CommentPreview from "./CommentPreview.torp";
 import CommentInput from "./CommentInput.torp"
 
 /**
  * Shows a list of comment previews.
  */
-export default function CommentList() {
+export default function CommentList($props: { post: PostViewModel, comments: CommentPreviewModel[], user: UserModel, follower: FollowerModel }) {
 	let { post, comments, user, follower } = $props;
 
 	@render {

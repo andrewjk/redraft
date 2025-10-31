@@ -3,22 +3,14 @@ import { and, eq } from "drizzle-orm";
 import database from "../../data/database";
 import { followedByTable, postReactionsTable, postsTable } from "../../data/schema";
 import transaction from "../../data/transaction";
+import { POST_LIKED_VERSION } from "../../types/public/PostLikedModel";
+import type PostLikedModel from "../../types/public/PostLikedModel";
 import createNotification from "../notifications/createNotification";
 import updateNotificationCounts from "../notifications/updateNotificationCounts";
 import getErrorMessage from "../utils/getErrorMessage";
 
-// IMPORTANT! Update this when the model changes
-export const POST_LIKED_VERSION = 1;
-
-export type PostLikedModel = {
-	slug: string;
-	sharedKey: string;
-	liked: boolean;
-	version: number;
-};
-
 export default async function postLiked(request: Request) {
-	let errorMessage: string | undefined;
+	let errorMessage = "";
 
 	try {
 		const db = database();

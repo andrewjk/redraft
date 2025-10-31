@@ -3,18 +3,15 @@ import { eq } from "drizzle-orm";
 import database from "../../data/database";
 import { commentsTable, followedByTable, usersTable } from "../../data/schema";
 import transaction from "../../data/transaction";
+import type BlockModel from "../../types/follow/BlockModel";
 import getErrorMessage from "../utils/getErrorMessage";
 import userIdQuery from "../utils/userIdQuery";
-
-export type BlockModel = {
-	id: number;
-};
 
 /**
  * Approves a follow request from another user.
  */
 export default async function followBlock(request: Request, code: string) {
-	let errorMessage: string | undefined;
+	let errorMessage = "";
 
 	try {
 		const db = database();

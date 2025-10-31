@@ -4,16 +4,12 @@ import database from "../../data/database";
 import { feedTable, usersTable } from "../../data/schema";
 import { activityTable } from "../../data/schema/activityTable";
 import transaction from "../../data/transaction";
+import type FeedSaveModel from "../../types/feed/FeedSaveModel";
 import getErrorMessage from "../utils/getErrorMessage";
 import userIdQuery from "../utils/userIdQuery";
 
-export type FeedSaveModel = {
-	slug: string;
-	saved: boolean;
-};
-
 export default async function feedSave(request: Request, code: string) {
-	let errorMessage: string | undefined;
+	let errorMessage = "";
 
 	try {
 		const db = database();

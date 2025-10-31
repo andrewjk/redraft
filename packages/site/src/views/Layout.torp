@@ -4,6 +4,7 @@ import Bell from "phosphor-torpor/lib/Bell";
 import Envelope from "phosphor-torpor/lib/Envelope";
 //import DotsThreeOutlineVertical from "phosphor-torpor/lib/DotsThreeOutlineVertical";
 //import SignOut from "phosphor-torpor/lib/SignOut";
+import type UserModel from "../../types/UserModel";
 import Profile from "./profile/ProfilePreview.torp";
 import placeholdify from "../lib/utils/placeholdify";
 import stripProtocol from "../lib/utils/stripProtocol";

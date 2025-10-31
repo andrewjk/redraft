@@ -21,7 +21,7 @@ export default function Index() {
 				<PostInput {post} {$props.data.user} {$props.data.base} />
 			}
 			<PostList {$props.data.posts} {$props.data.user} {$props.data.follower} />
-			<Pagination {$props.data.pageCount} {$state.page} href={(p) => `/?page=${p}`} />
+			<Pagination {$props.data.pageCount} {$state.page} href={(p: number) => `/?page=${p}`} />
 		</div>
 	}
 }

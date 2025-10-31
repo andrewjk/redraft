@@ -18,7 +18,7 @@
 //import getErrorMessage from "../utils/getErrorMessage";
 //
 //export default async function eventGet(user: User, follower: User, slug: string) {
-//	let errorMessage: string | undefined;
+//	let errorMessage = ""
 //
 //	try {
 //		const db = database();

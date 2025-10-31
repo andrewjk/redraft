@@ -1,4 +1,4 @@
-export type MessageGroupModel = {
+export default interface MessageGroupModel {
 	messageGroup: {
 		groupSlug: string;
 		userSlug: string;
@@ -14,4 +14,4 @@ export type MessageGroupModel = {
 		sentAt: Date;
 		delivered: boolean;
 	}[];
-};
+}

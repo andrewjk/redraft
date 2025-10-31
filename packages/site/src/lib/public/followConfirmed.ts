@@ -3,23 +3,17 @@ import { eq } from "drizzle-orm";
 import database from "../../data/database";
 import { activityTable, followingTable } from "../../data/schema";
 import transaction from "../../data/transaction";
+import type FollowConfirmedModel from "../../types/public/FollowConfirmedModel";
+import { FOLLOW_CONFIRMED_VERSION } from "../../types/public/FollowConfirmedModel";
 import createNotification from "../notifications/createNotification";
 import updateNotificationCounts from "../notifications/updateNotificationCounts";
 import getErrorMessage from "../utils/getErrorMessage";
-
-// IMPORTANT! Update this when the model changes
-export const FOLLOW_CONFIRMED_VERSION = 1;
-
-export type FollowConfirmedModel = {
-	sharedKey: string;
-	version: number;
-};
 
 /**
  * Confirms a follow request that was sent.
  */
 export default async function followConfirmed(request: Request) {
-	let errorMessage: string | undefined;
+	let errorMessage = "";
 
 	try {
 		const db = database();

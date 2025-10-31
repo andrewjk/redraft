@@ -3,20 +3,18 @@ import { eq } from "drizzle-orm";
 import database from "../../data/database";
 import { followedByTable, usersTable } from "../../data/schema";
 import transaction from "../../data/transaction";
+import type ApproveModel from "../../types/follow/ApproveModel";
+import { FOLLOW_CONFIRMED_VERSION } from "../../types/public/FollowConfirmedModel";
+import type FollowConfirmedModel from "../../types/public/FollowConfirmedModel";
 import { postPublic } from "../public";
-import { FOLLOW_CONFIRMED_VERSION, type FollowConfirmedModel } from "../public/followConfirmed";
 import getErrorMessage from "../utils/getErrorMessage";
 import userIdQuery from "../utils/userIdQuery";
-
-export type ApproveModel = {
-	id: number;
-};
 
 /**
  * Approves a follow request from another user.
  */
 export default async function followApprove(request: Request, code: string) {
-	let errorMessage: string | undefined;
+	let errorMessage = "";
 
 	try {
 		const db = database();

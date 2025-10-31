@@ -3,14 +3,14 @@
  */
 export default function FormErrors($props: {
 	/** The errors to display */
-	errors: Object
+	errors: Record<string, string>
 }) {
 	@render {
 		<div>
 			@if ($props.errors) {
 				<ul class="error-messages">
 					@for (let key of Object.keys($props.errors)) {
-						<li>{key} {errors[key]}</li>
+						<li>{key} {$props.errors[key]}</li>
 					}
 				</ul>
 			}

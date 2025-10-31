@@ -2,35 +2,22 @@ import { notFound, ok, serverError, unprocessable } from "@torpor/build/response
 import database from "../../data/database";
 import { followedByTable } from "../../data/schema";
 import transaction from "../../data/transaction";
+import { FOLLOW_CHECK_VERSION } from "../../types/public/FollowCheckModel";
+import type FollowCheckModel from "../../types/public/FollowCheckModel";
+import type FollowCheckResponseModel from "../../types/public/FollowCheckResponseModel";
+import { FOLLOW_REQUESTED_VERSION } from "../../types/public/FollowRequestedModel";
+import type FollowRequestedModel from "../../types/public/FollowRequestedModel";
+import type FollowRequestedResponseModel from "../../types/public/FollowRequestedResponseModel";
 import createNotification from "../notifications/createNotification";
 import updateNotificationCounts from "../notifications/updateNotificationCounts";
 import { postPublic } from "../public";
 import getErrorMessage from "../utils/getErrorMessage";
-import {
-	FOLLOW_CHECK_VERSION,
-	type FollowCheckModel,
-	type FollowCheckResponseModel,
-} from "./followCheck";
-
-// IMPORTANT! Update this when the model changes
-export const FOLLOW_REQUESTED_VERSION = 1;
-
-export type FollowRequestedModel = {
-	url: string;
-	sharedKey: string;
-	version: number;
-};
-
-export type FollowRequestedResponseModel = {
-	name: string;
-	image: string;
-};
 
 /**
  * Receives a follow request from another user.
  */
 export default async function followRequested(request: Request) {
-	let errorMessage: string | undefined;
+	let errorMessage = "";
 
 	try {
 		const db = database();

@@ -1,4 +1,4 @@
-export type PostEditModel = {
+export default interface PostEditModel {
 	id: number;
 	published: boolean;
 	text: string;
@@ -29,4 +29,4 @@ export type PostEditModel = {
 	ratingBound: number | null;
 	children?: PostEditModel[];
 	tags?: string;
-};
+}

@@ -4,20 +4,15 @@ import database from "../../data/database";
 import { feedTable, usersTable } from "../../data/schema";
 import { activityTable } from "../../data/schema/activityTable";
 import transaction from "../../data/transaction";
+import type FeedReactModel from "../../types/feed/FeedReactModel";
+import { POST_REACTION_VERSION } from "../../types/public/PostReactionModel";
+import type PostReactionModel from "../../types/public/PostReactionModel";
 import { postPublic } from "../public";
-import { POST_REACTION_VERSION, type PostReactionModel } from "../public/postReaction";
 import getErrorMessage from "../utils/getErrorMessage";
 import userIdQuery from "../utils/userIdQuery";
 
-export type FeedReactModel = {
-	slug: string;
-	authorUrl: string;
-	sharedKey: string;
-	emoji: string;
-};
-
 export default async function feedReact(request: Request, code: string) {
-	let errorMessage: string | undefined;
+	let errorMessage = "";
 
 	try {
 		const db = database();

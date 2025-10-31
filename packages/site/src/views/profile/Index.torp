@@ -1,11 +1,6 @@
-import { $page } from '@torpor/build/state';
-import placeholdify from "../../lib/utils/placeholdify";
-import stripProtocol from "../../lib/utils/stripProtocol";
-import ProfileMenu from './ProfileMenu.torp';
-import MapPin from "phosphor-torpor/lib/MapPin";
+import { $page } from "@torpor/build/state";
+import ProfileMenu from "./ProfileMenu.torp";
 import Link from "phosphor-torpor/lib/Link";
-import Pencil from "phosphor-torpor/lib/Pencil";
-import SignOut from "phosphor-torpor/lib/SignOut";
 
 export default function Index($props) {
 	@head {

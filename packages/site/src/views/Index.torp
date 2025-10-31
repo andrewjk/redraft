@@ -1,4 +1,5 @@
 import { $page } from "@torpor/build/state";
+import type UserModel from "../../types/UserModel";
 import post from "./$postInput";
 import HomeMenu from "./HomeMenu.torp";
 import PostInput from "./posts/PostInput.torp";

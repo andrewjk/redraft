@@ -1,12 +1,12 @@
 import { and, eq, inArray } from "drizzle-orm";
-import { Database, type DatabaseTransaction } from "../../data/database";
+import { type Database, type DatabaseTransaction } from "../../data/database";
 import { articlesTable, eventsTable, postTagsTable, tagsTable } from "../../data/schema";
-import { Post, postsTable } from "../../data/schema/postsTable";
-import { Tag } from "../../data/schema/tagsTable";
+import { type Post, postsTable } from "../../data/schema/postsTable";
+import { type Tag } from "../../data/schema/tagsTable";
+import type PostEditModel from "../../types/posts/PostEditModel";
 import { ARTICLE_LINK_TYPE, EVENT_LINK_TYPE, LINK_LINK_TYPE } from "../constants";
 import sluggify from "../utils/sluggify";
 import uuid from "../utils/uuid";
-import { type PostEditModel } from "./PostEditModel";
 
 export default async function postCreateOrUpdate(
 	tx: Database | DatabaseTransaction,

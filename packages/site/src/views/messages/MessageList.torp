@@ -1,13 +1,13 @@
 import placeholdify from "../../lib/utils/placeholdify";
 import relativeTimeSince from "../../lib/utils/relativeTimeSince"
 import stripProtocol from "../../lib/utils/stripProtocol";
-import MessagePreview from './MessagePreview.torp';
-import MessageInput from './MessageInput.torp';
+import MessagePreview from "./MessagePreview.torp";
+import MessageInput from "./MessageInput.torp";
 
 /**
  * Shows a list of message groups.
  */
-export default function MessageList($props) {
+export default function MessageList($props: unknown) {
 	const { messageGroup } = $props.data;
 
 	@head {

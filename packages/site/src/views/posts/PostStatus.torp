@@ -1,4 +1,4 @@
-import PostPreview from './PostPreview.torp';
+import PostPreview from "./PostPreview.torp";
 
 /**
  * Shows a post preview plus the failureers it couldn't be sent to.

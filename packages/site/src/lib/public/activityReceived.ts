@@ -3,20 +3,12 @@ import { eq } from "drizzle-orm";
 import database from "../../data/database";
 import { activityTable, followingTable } from "../../data/schema";
 import transaction from "../../data/transaction";
+import { ACTIVITY_RECEIVED_VERSION } from "../../types/public/ActivityReceivedModel";
+import type ActivityReceivedModel from "../../types/public/ActivityReceivedModel";
 import getErrorMessage from "../utils/getErrorMessage";
 
-// IMPORTANT! Update this when the model changes
-export const ACTIVITY_RECEIVED_VERSION = 1;
-
-export type ActivityReceivedModel = {
-	sharedKey: string;
-	url: string;
-	type: "commented" | "liked" | "unliked" | "reacted";
-	version: number;
-};
-
 export default async function activityReceived(request: Request) {
-	let errorMessage: string | undefined;
+	let errorMessage = "";
 
 	try {
 		const db = database();
