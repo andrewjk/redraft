@@ -1,7 +1,8 @@
-//import { enhance } from "$app/forms";
-import FormErrors from "../FormErrors.torp";
+import type UserModel from "../../types/UserModel";
+import type FollowerModel from "../../types/FollowerModel";
+import type ViewingModel from "../../types/ViewingModel";
 
-export default function Index() {
+export default function Index($props: { data: { url: string, viewing: ViewingModel, user: UserModel, follower: FollowerModel, base: string } }) {
 	@head {
 		<title>{$props.data.viewing.name} • Follow • Redraft</title>
 	}

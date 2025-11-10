@@ -1,10 +1,13 @@
+import type UserModel from "../../types/UserModel";
+import type ViewingModel from "../../types/ViewingModel";
+import type NotificationPreviewModel from "../../types/notifications/NotificationPreviewModel";
 import NotificationMenu from "./NotificationMenu.torp";
 import NotificationPreview from "./NotificationPreview.torp";
 
 /**
  * Shows a list of the current user's notifications.
  */
-export default function NotificationList($props) {
+export default function NotificationList($props: { data: { notifications: NotificationPreviewModel[], user: UserModel, viewing: ViewingModel, base: string } }) {
 	@head {
 		<title>{$props.data.viewing.name} • Notifications • Redraft</title>
 	}

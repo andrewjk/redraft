@@ -1,14 +1,18 @@
 import placeholdify from "../../lib/utils/placeholdify";
-import relativeTimeSince from "../../lib/utils/relativeTimeSince"
 import stripProtocol from "../../lib/utils/stripProtocol";
+import type UserModel from "../../types/UserModel";
+import type FollowerModel from "../../types/FollowerModel";
+import type ViewingModel from "../../types/ViewingModel";
+import type MessageGroupModel from "../../types/messages/MessageGroupModel";
+import type MessageGroupMessageModel from "../../types/messages/MessageGroupMessageModel";
 import MessagePreview from "./MessagePreview.torp";
 import MessageInput from "./MessageInput.torp";
 
 /**
  * Shows a list of message groups.
  */
-export default function MessageList($props: unknown) {
-	const { messageGroup } = $props.data;
+export default function MessageList($props: { data: { messageGroup: MessageGroupModel, messages: MessageGroupMessageModel[], viewing: ViewingModel, user: UserModel, follower: FollowerModel, base: string } }) {
+	const { messageGroup, messages } = $props.data;
 
 	@head {
 		<title>{$props.data.viewing.name} • Messages • Redraft</title>
@@ -41,7 +45,7 @@ export default function MessageList($props: unknown) {
 					</div>
 				</div>
 
-				@for (let message of $props.data.messages) {
+				@for (let message of messages) {
 					@key = message.id
 					<div class="hstack spaced full-width">
 						<div class="grow">

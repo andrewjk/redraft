@@ -2,7 +2,7 @@ import { notFound, ok, serverError, unauthorized } from "@torpor/build/response"
 import { eq } from "drizzle-orm";
 import database from "../../data/database";
 import { messageGroupsTable, messagesTable, usersTable } from "../../data/schema";
-import type MessageGroupModel from "../../types/messages/MessageGroupModel";
+import type MessageGroupListModel from "../../types/messages/MessageGroupListModel";
 import updateNotificationCounts from "../notifications/updateNotificationCounts";
 import getErrorMessage from "../utils/getErrorMessage";
 import userIdQuery from "../utils/userIdQuery";
@@ -69,7 +69,7 @@ export default async function messageGroupGet(slug: string, code: string) {
 					delivered: m.delivered,
 				};
 			}),
-		} satisfies MessageGroupModel;
+		} satisfies MessageGroupListModel;
 
 		return ok(result);
 	} catch (error) {

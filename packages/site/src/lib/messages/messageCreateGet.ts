@@ -8,7 +8,7 @@ import {
 	messagesTable,
 	usersTable,
 } from "../../data/schema";
-import type MessageGroupModel from "../../types/messages/MessageGroupModel";
+import type MessageGroupListModel from "../../types/messages/MessageGroupListModel";
 import updateNotificationCounts from "../notifications/updateNotificationCounts";
 import getErrorMessage from "../utils/getErrorMessage";
 import userIdQuery from "../utils/userIdQuery";
@@ -111,7 +111,7 @@ export default async function messageCreateGet(slug: string, code: string) {
 						};
 					})
 				: [],
-		} satisfies MessageGroupModel;
+		} satisfies MessageGroupListModel;
 
 		return ok(result);
 	} catch (error) {

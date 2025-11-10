@@ -1,11 +1,11 @@
-//import { enhance } from "$app/forms";
 import relativeTimeSince from "../../lib/utils/relativeTimeSince"
+import type ActivityPreviewModel from "../../types/notifications/ActivityPreviewModel";
 
 /**
  * Shows a activity preview for display in a list.
  */
-export default function ActivityPreview() {
-	let { activity, user } = $props;
+export default function ActivityPreview($props: { activity: ActivityPreviewModel }) {
+	let { activity } = $props;
 
 	let fmt = new Intl.DateTimeFormat(undefined, {
 		day: "numeric",

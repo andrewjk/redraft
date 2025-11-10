@@ -1,12 +1,12 @@
-//import { enhance } from "$app/forms";
 import placeholdify from "../../lib/utils/placeholdify";
 import relativeTimeSince from "../../lib/utils/relativeTimeSince"
 import stripProtocol from "../../lib/utils/stripProtocol";
+import type MessagePreviewModel from "../../types/messages/MessagePreviewModel";
 
 /**
  * Shows a message preview for display in a list.
  */
-export default function MessageGroupPreview() {
+export default function MessageGroupPreview($props: { message: MessagePreviewModel, base: string }) {
 	let { message } = $props;
 
 	let fmt = new Intl.DateTimeFormat(undefined, {

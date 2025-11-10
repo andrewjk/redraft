@@ -1,9 +1,13 @@
+import type UserModel from "../../types/UserModel";
+import type FollowerModel from "../../types/FollowerModel";
+import type ViewingModel from "../../types/ViewingModel";
+import type MessagePreviewModel from "../../types/messages/MessagePreviewModel";
 import MessageGroupPreview from "./MessageGroupPreview.torp";
 
 /**
  * Shows a list of message groups.
  */
-export default function MessageGroupList($props) {
+export default function MessageGroupList($props: { data: { messages: MessagePreviewModel[], pageCount: number, viewing: ViewingModel, user: UserModel, follower: FollowerModel, base: string } }) {
 	@head {
 		<title>{$props.data.viewing.name} • Messages • Redraft</title>
 	}
@@ -17,7 +21,7 @@ export default function MessageGroupList($props) {
 					</div>
 				} else {
 					@for (let message of $props.data.messages) {
-						@key = message.id
+						@key = message.slug
 						<div class="hstack spaced full-width">
 							<div class="grow">
 								<MessageGroupPreview {message} {$props.data.user} {$props.data.base} />
