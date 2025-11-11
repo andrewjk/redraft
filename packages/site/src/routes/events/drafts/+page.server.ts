@@ -2,8 +2,8 @@ import { type PageServerEndPoint } from "@torpor/build";
 import { ok, unauthorized } from "@torpor/build/response";
 import * as api from "../../../lib/api";
 import { PAGE_SIZE } from "../../../lib/constants";
+import type PostListModel from "../../../types/posts/PostListModel";
 import eventsDrafts from "../../api/events/drafts/+server";
-import type PostListModel from "../../posts/PostListModel";
 import publishPost from "../../posts/_actions/publishPost";
 import savePost from "../../posts/_actions/savePost";
 

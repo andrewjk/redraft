@@ -5,8 +5,8 @@ import storage from "../../../lib/storage";
 import formDataToObject from "../../../lib/utils/formDataToObject";
 import setUserToken from "../../../lib/utils/setUserToken";
 import uuid from "../../../lib/utils/uuid";
+import type ProfileEditedModel from "../../../types/profile/ProfileEditedModel";
 import profileEdit from "../../api/profile/edit/+server";
-import type ProfileEditedModel from "../ProfileEditedModel";
 
 export default {
 	load: async ({ appData, params }) => {

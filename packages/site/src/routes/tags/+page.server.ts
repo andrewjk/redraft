@@ -2,8 +2,8 @@ import { type PageServerEndPoint } from "@torpor/build";
 import { ok } from "@torpor/build/response";
 import * as api from "../../lib/api";
 import { PAGE_SIZE } from "../../lib/constants";
+import type TagListModel from "../../types/tags/TagListModel";
 import tagsList from "../api/tags/+server";
-import type TagListModel from "./TagListModel";
 
 export default {
 	load: async ({ url, params }) => {
