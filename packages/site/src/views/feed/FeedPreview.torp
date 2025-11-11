@@ -1,4 +1,4 @@
-//import { enhance } from "$app/forms";
+import { Form, Hidden } from "@torpor/ui/Form";
 import placeholdify from "../../lib/utils/placeholdify";
 import relativeTimeSince from "../../lib/utils/relativeTimeSince"
 import sizeImage from "../../lib/utils/sizeImage";
@@ -85,11 +85,11 @@ export default function FeedPreview($props: { feed: FeedPreviewModel, user: User
 										<Pencil weight="bold" />
 									</a>
 								} else {
-									<form use:enhance method="POST" action="?/likeFeedPost">
-										<input type="hidden" name="slug" value={feed.slug} />
-										<input type="hidden" name="authorUrl" value={feed.author.url} />
-										<input type="hidden" name="sharedKey" value={feed.author.sharedKey} />
-										<input type="hidden" name="liked" value={!feed.liked} />
+									<Form action="?/likeFeedPost">
+										<Hidden name="slug" value={feed.slug} />
+										<Hidden name="authorUrl" value={feed.author.url} />
+										<Hidden name="sharedKey" value={feed.author.sharedKey} />
+										<Hidden name="liked" value={!feed.liked} />
 										<button class="link icon">
 											@if (feed.liked) {
 												<Heart weight="fill" color="pink" />
@@ -97,10 +97,10 @@ export default function FeedPreview($props: { feed: FeedPreviewModel, user: User
 												<Heart weight="bold" />
 											}
 										</button>
-									</form>
-									<form use:enhance method="POST" action="?/saveFeedPost">
-										<input type="hidden" name="slug" value={feed.slug} />
-										<input type="hidden" name="saved" value={!feed.saved} />
+									</Form>
+									<Form action="?/saveFeedPost">
+										<Hidden name="slug" value={feed.slug} />
+										<Hidden name="saved" value={!feed.saved} />
 										<button class="link icon">
 											@if (feed.saved) {
 												<BookmarkSimple weight="fill" color="blue" />
@@ -108,17 +108,17 @@ export default function FeedPreview($props: { feed: FeedPreviewModel, user: User
 												<BookmarkSimple weight="bold" />
 											}
 										</button>
-									</form>
+									</Form>
 									@if (feed.emoji) {
-										<form use:enhance method="POST" action="?/reactToFeedPost">
-											<input type="hidden" name="slug" value={feed.slug} />
-											<input type="hidden" name="authorUrl" value={feed.author.url} />
-											<input type="hidden" name="sharedKey" value={feed.author.sharedKey} />
-											<input type="hidden" name="emoji" value="" />
+										<Form action="?/reactToFeedPost">
+											<Hidden name="slug" value={feed.slug} />
+											<Hidden name="authorUrl" value={feed.author.url} />
+											<Hidden name="sharedKey" value={feed.author.sharedKey} />
+											<Hidden name="emoji" value="" />
 											<button class="link">
 												<XCircle weight="bold" /> {feed.emoji}
 											</button>
-										</form>
+										</Form>
 									} else {
 										<button type="button" class="link icon" onclick={() => $state.showReaction = true }>
 											<HandWaving weight="bold" />
@@ -130,18 +130,18 @@ export default function FeedPreview($props: { feed: FeedPreviewModel, user: User
 					</div>
 
 					@if ($state.showReaction) {
-						<form class="hstack" use:enhance method="POST" action="?/reactToFeedPost">
+						<Form class="hstack" action="?/reactToFeedPost">
 							<span class="spacer" />
-							<input type="hidden" name="slug" value={feed.slug} />
-							<input type="hidden" name="authorUrl" value={feed.author.url} />
-							<input type="hidden" name="sharedKey" value={feed.author.sharedKey} />
+							<Hidden name="slug" value={feed.slug} />
+							<Hidden name="authorUrl" value={feed.author.url} />
+							<Hidden name="sharedKey" value={feed.author.sharedKey} />
 							<button class="link" name="emoji" value="❤️">❤️</button>
 							<button class="link" name="emoji" value="👍">👍</button>
 							<button class="link" name="emoji" value="👎">👎</button>
 							<button class="link" name="emoji" value="😂">😂</button>
 							<button class="link" name="emoji" value="🤯">🤯</button>
 							<button class="link" name="emoji" value="😔">😔</button>
-						</form>
+						</Form>
 					}
 
 					<div class="feed-preview-body">
@@ -191,9 +191,6 @@ export default function FeedPreview($props: { feed: FeedPreviewModel, user: User
 	}
 
 	@style {
-		.feed-preview {
-		}
-
 		.feed-preview-status {
 			font-size: 75%;
 			font-weight: bold;

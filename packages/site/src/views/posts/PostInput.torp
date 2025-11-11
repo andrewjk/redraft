@@ -1,6 +1,7 @@
-//import { enhance } from "$app/forms";
+import { Form } from "@torpor/ui/Form";
 import type UserModel from "../../types/UserModel";
 import type PostEditModel from "../../types/posts/PostEditModel";
+import PostEditSchema from "../../types/posts/PostEditSchema";
 import PostInputFields from "./PostInputFields.torp";
 
 /**
@@ -15,12 +16,12 @@ export default function PostInput($props: { post: PostEditModel, user: UserModel
 	}
 
 	@render {
-		<form class="full-width post-input" method="POST" enctype="multipart/form-data">
+		<Form class="full-width post-input" data={post} schema={PostEditSchema}>
 			<PostInputFields {post} {user} {$props.base} />
-			@for (let [i, child] of post.children.entries()) {
+			@for (let [i, child] of post.children!.entries()) {
 				<PostInputFields {post} {user} {$props.base} {child} {i} />
 			}
-		</form>
+		</Form>
 	}
 
 	@style {

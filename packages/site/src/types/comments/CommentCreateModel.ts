@@ -1,5 +1,6 @@
-export default interface CommentCreateModel {
-	postSlug: string;
-	parentSlug: string;
-	text: string;
-}
+import * as v from "valibot";
+import CommentCreateSchema from "./CommentCreateSchema";
+
+type CommentCreateModel = v.InferInput<typeof CommentCreateSchema>;
+
+export default CommentCreateModel;

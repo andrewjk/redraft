@@ -1,10 +1,12 @@
-import { forbidden, ok, serverError } from "@torpor/build/response";
+import { badRequest, forbidden, ok, serverError } from "@torpor/build/response";
 import { eq } from "drizzle-orm";
+import * as v from "valibot";
 import database from "../../data/database";
 import { activityTable, userTokensTable, usersTable } from "../../data/schema";
 import transaction from "../../data/transaction";
 import type LoginModel from "../../types/account/LoginModel";
 import type LoginResponseModel from "../../types/account/LoginResponseModel";
+import LoginSchema from "../../types/account/LoginSchema";
 import createUserToken from "../utils/createUserToken";
 import getErrorMessage from "../utils/getErrorMessage";
 import { compareWithHash } from "../utils/hashPasswords";
@@ -18,6 +20,16 @@ export default async function accountLogin(request: Request) {
 
 		const model: LoginModel = await request.json();
 
+		// Validate the model's schema
+		let validated = v.safeParse(LoginSchema, model);
+		if (!validated.success) {
+			model.password = "";
+			return badRequest({
+				message: validated.issues.map((e) => e.message).join("\n"),
+				data: model,
+			});
+		}
+
 		// Get the user with the given email
 		const user = await db.query.usersTable.findFirst({
 			where: eq(usersTable.email, model.email),
@@ -25,7 +37,11 @@ export default async function accountLogin(request: Request) {
 
 		// Compare the given password with the one stored
 		if (!user || !compareWithHash(model.password.trim(), user.password)) {
-			return forbidden();
+			model.password = "";
+			return forbidden({
+				message: "Invalid email or password",
+				data: model,
+			});
 		}
 
 		const code = uuid().toString();

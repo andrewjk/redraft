@@ -1,9 +1,11 @@
-import { ok, serverError, unauthorized } from "@torpor/build/response";
+import { badRequest, ok, serverError, unauthorized } from "@torpor/build/response";
 import { eq } from "drizzle-orm";
+import * as v from "valibot";
 import database from "../../data/database";
 import { listUsersTable, listsTable, usersTable } from "../../data/schema";
 import transaction from "../../data/transaction";
 import type ListEditModel from "../../types/contacts/ListEditModel";
+import ListEditSchema from "../../types/contacts/ListEditSchema";
 import getErrorMessage from "../utils/getErrorMessage";
 import userIdQuery from "../utils/userIdQuery";
 import uuid from "../utils/uuid";
@@ -16,12 +18,24 @@ export default async function listSaveNew(request: Request, code: string) {
 
 		const model: ListEditModel = await request.json();
 
+		// Validate the model's schema
+		let validated = v.safeParse(ListEditSchema, model);
+		if (!validated.success) {
+			return badRequest({
+				message: validated.issues.map((e) => e.message).join("\n"),
+				data: model,
+			});
+		}
+
 		// Get the current user
 		const currentUser = await db.query.usersTable.findFirst({
 			where: eq(usersTable.id, userIdQuery(code)),
 		});
 		if (!currentUser) {
-			return unauthorized();
+			return unauthorized({
+				message: "Unauthorized",
+				data: model,
+			});
 		}
 
 		await transaction(db, async (tx) => {

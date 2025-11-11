@@ -1,7 +1,19 @@
-//import { enhance } from "$app/forms";
+import { Form, Field, Label, Input, Message, CheckBox } from "@torpor/ui/Form";
+import type FormData from "../../types/FormData";
+import LoginSchema from "../../types/account/LoginSchema";
+import type LoginModel from "../../types/account/LoginModel";
 import FormErrors from "../FormErrors.torp";
 
-export default function Login($props: { form: any }) {
+export default function Login($props: { form?: FormData }) {
+	const formData = $props.form?.data;
+	let $state = $watch({
+		data: {
+			email: formData?.email ?? "",
+			password: "",
+			rememberMe: formData?.rememberMe ?? false
+		} satisfies LoginModel
+	});
+
 	@head {
 		<title>Login • Redraft</title>
 	}
@@ -10,41 +22,29 @@ export default function Login($props: { form: any }) {
 		<div class="vstack spaced full-width login-page">
 			<h1>Login</h1>
 
-			<FormErrors {$props.form?.errors} />
+			<FormErrors {$props.form} />
 
-			<form use:enhance method="POST">
-				<div class="form-row">
-					<label for="email-input">Email</label>
-					<input
-						id="email-input"
-						name="email"
-						type="email"
-						required
-					/>
-				</div>
-				<div class="form-row">
-					<label for="password-input">Password</label>
-					<input
-						id="password-input"
-						name="password"
-						type="password"
-						required
-					/>
-				</div>
-				<div class="form-row">
-					<input
-						id="remember-input"
-						name="rememberMe"
-						type="checkbox"
-					/>
-					<label for="remember-input">Remember me</label>
-				</div>
+			<Form {$state.data} schema={LoginSchema}>
+				<Field class="form-row" name="email" &value={$state.data.email}>
+					<Label>Email</Label>
+					<Input type="email" required />
+					<Message class="error-message" />
+				</Field>
+				<Field class="form-row" name="password" &value={$state.data.password}>
+					<Label>Password</Label>
+					<Input type="password" required />
+					<Message class="error-message" />
+				</Field>
+				<Field class="form-row" name="rememberMe" &value={$state.data.rememberMe}>
+					<CheckBox />
+					<Label>Remember me</Label>
+				</Field>
 				<div class="form-footer">
 					<button type="submit">
 						Login
 					</button>
 				</div>
-			</form>
+			</Form>
 		</div>
 	}
 }

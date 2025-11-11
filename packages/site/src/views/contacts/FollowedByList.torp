@@ -1,3 +1,4 @@
+import { Form, Hidden } from "@torpor/ui/Form";
 import type UserModel from "../../types/UserModel";
 import type ViewingModel from "../../types/ViewingModel";
 import type FollowedByPreviewModel from "../../types/contacts/FollowedByPreviewModel";
@@ -28,10 +29,10 @@ export default function FollowedByList($props: { data: { viewing: ViewingModel, 
 							<div class="grow">
 								<FollowPreview {follow} {$props.data.user} {$props.data.base} canMessage />
 							</div>
-							<form use:enhance method="POST" action="?/block">
-								<input type="hidden" name="id" value={follow.id} />
+							<Form action="?/block">
+								<Hidden name="id" value={follow.id} />
 								<button>Block</button>
-							</form>
+							</Form>
 						</div>
 					}
 				}

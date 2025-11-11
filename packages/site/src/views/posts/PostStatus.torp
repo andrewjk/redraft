@@ -1,3 +1,4 @@
+import { Form, Hidden } from "@torpor/ui/Form";
 import placeholdify from "../../lib/utils/placeholdify";
 import stripProtocol from "../../lib/utils/stripProtocol";
 import type UserModel from "../../types/UserModel";
@@ -14,10 +15,10 @@ export default function PostStatus($props: { data: { id: number, post: PostPrevi
 		<div class="vstack spaced-nr full-width post-status">
 			<PostPreview {$props.data.post} {$props.data.user} {$props.data.follower} />
 			@if ($props.data.failed.length > 0) {
-				<form use:enhance method="POST" action="?/resendPost">
-					<input type="hidden" name="id" value={$props.data.id} />
+				<Form action="?/resendPost">
+					<Hidden name="id" value={$props.data.id} />
 					<button>Resend</button>
-				</form>
+				</Form>
 			}
 			@for (let failure of $props.data.failed) {
 				@// key = post.id

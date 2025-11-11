@@ -1,4 +1,12 @@
-import type LinkPreviewModel from "../../types/posts/LinkPreviewModel";
+interface LinkPreviewModel {
+	linkUrl?: string | null;
+	linkImage?: string | null;
+	linkTitle?: string | null;
+	linkPublication?: string | null;
+	linkEmbedSrc?: string | null;
+	linkEmbedWidth?: number | null;
+	linkEmbedHeight?: number | null;
+}
 
 /**
  * Shows a link preview for display in a post/feed.

@@ -48,9 +48,6 @@ export default function FollowPreview($props: { follow: FollowedByPreviewModel |
 	}
 
 	@style {
-		.follow-preview {
-		}
-
 		.follow-preview-header,
 		.follow-preview-footer {
 			line-height: 1.4;

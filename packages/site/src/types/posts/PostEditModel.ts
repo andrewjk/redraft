@@ -1,34 +1,6 @@
-import { type PostVisibility } from "../../lib/constants";
+import * as v from "valibot";
+import PostEditSchema from "./PostEditSchema";
 
-export default interface PostEditModel {
-	id: number;
-	published: boolean;
-	text: string;
-	visibility: PostVisibility;
-	listId: number | null;
-	hasImage: boolean;
-	image: string | null;
-	imageAltText: string | null;
-	isArticle: boolean;
-	articleId: number | null;
-	articleText: string | null;
-	isEvent: boolean;
-	eventId: number | null;
-	eventText: string | null;
-	eventLocation: string | null;
-	eventStartsAt: Date | null;
-	eventDuration: number | null;
-	hasLink: boolean;
-	linkUrl: string | null;
-	linkTitle: string | null;
-	linkImage: string | null;
-	linkPublication: string | null;
-	linkEmbedSrc: string | null;
-	linkEmbedWidth: number | null;
-	linkEmbedHeight: number | null;
-	hasRating: boolean;
-	ratingValue: number | null;
-	ratingBound: number | null;
-	children?: PostEditModel[];
-	tags?: string;
-}
+type PostEditModel = v.InferInput<typeof PostEditSchema>;
+
+export default PostEditModel;

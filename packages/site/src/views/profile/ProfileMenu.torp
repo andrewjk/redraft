@@ -1,3 +1,4 @@
+import { Form } from "@torpor/ui/Form";
 import type UserModel from "../../types/UserModel";
 
 /**
@@ -25,11 +26,11 @@ export default function ProfileMenu($props: { section: string, user: UserModel, 
 						Edit
 					</a>
 				}
-				<form use:enhance method="POST" action="?/logout">
+				<Form action="?/logout">
 					<button class="subnav-button">
 						Log out
 					</button>
-				</form>
+				</Form>
 			} else {
 				<a class="subnav-link" href="{$props.base}account/login">
 					Log in

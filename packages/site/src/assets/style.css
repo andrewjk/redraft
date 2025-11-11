@@ -275,6 +275,7 @@ form {
 label {
 	display: block;
 	color: var(--text-secondary);
+	padding: 0.6rem;
 }
 
 textarea,
@@ -388,4 +389,9 @@ a.icon:hover {
 
 .secondary {
 	color: var(--text-secondary);
+}
+
+.error-message {
+	color: red;
+	padding: 0.6rem;
 }
