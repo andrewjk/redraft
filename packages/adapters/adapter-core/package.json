@@ -23,7 +23,7 @@
 		"drizzle-orm": "^0.44.7"
 	},
 	"devDependencies": {
-		"@typescript/native-preview": "7.0.0-dev.20251109.1",
+		"@typescript/native-preview": "7.0.0-dev.20251110.1",
 		"oxlint-tsgolint": "^0.5.1",
 		"prettier": "^3.6.2",
 		"tsdown": "0.16.1",
