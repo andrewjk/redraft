@@ -28,16 +28,16 @@
 	"dependencies": {
 		"@redraft/adapter-core": "workspace:^",
 		"@torpor/adapter-cloudflare": "^0.2.1",
-		"@torpor/build": "^0.4.4",
+		"@torpor/build": "^0.4.5",
 		"drizzle-orm": "^0.44.7"
 	},
 	"devDependencies": {
 		"@cloudflare/workers-types": "^4.20251111.0",
-		"@types/node": "^24.10.0",
-		"@typescript/native-preview": "7.0.0-dev.20251110.1",
+		"@types/node": "^24.10.1",
+		"@typescript/native-preview": "7.0.0-dev.20251111.1",
 		"oxlint-tsgolint": "^0.5.1",
 		"prettier": "^3.6.2",
-		"tsdown": "0.16.1",
+		"tsdown": "0.16.3",
 		"typescript": "^5.9.3"
 	}
 }
