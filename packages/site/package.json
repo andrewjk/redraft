@@ -46,7 +46,7 @@
 		"@testing-library/dom": "^10.4.1",
 		"@testing-library/jest-dom": "^6.9.1",
 		"@testing-library/user-event": "^14.6.1",
-		"@torpor/build": "^0.4.4",
+		"@torpor/build": "^0.4.5",
 		"@torpor/unplugin": "^0.2.1",
 		"@trivago/prettier-plugin-sort-imports": "^6.0.0",
 		"@types/node": "^24.10.0",

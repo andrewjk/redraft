@@ -34,8 +34,8 @@ importers:
         specifier: ^0.2.1
         version: 0.2.1(@types/node@24.10.0)(esbuild@0.25.12)(jiti@2.6.1)(rollup@4.53.2)(terser@5.39.0)(tsx@4.20.6)(typescript@5.9.3)
       '@torpor/build':
-        specifier: ^0.4.4
-        version: 0.4.4(@types/node@24.10.0)(esbuild@0.25.12)(jiti@2.6.1)(rollup@4.53.2)(terser@5.39.0)(tsx@4.20.6)(typescript@5.9.3)
+        specifier: ^0.4.5
+        version: 0.4.5(@types/node@24.10.0)(esbuild@0.25.12)(jiti@2.6.1)(rollup@4.53.2)(terser@5.39.0)(tsx@4.20.6)(typescript@5.9.3)
       drizzle-orm:
         specifier: ^0.44.7
         version: 0.44.7(@cloudflare/workers-types@4.20251111.0)(@libsql/client@0.15.15)(gel@2.0.2)
@@ -65,8 +65,8 @@ importers:
   packages/adapters/adapter-core:
     dependencies:
       '@torpor/build':
-        specifier: ^0.4.4
-        version: 0.4.4(@types/node@24.10.0)(esbuild@0.25.12)(jiti@2.6.1)(rollup@4.53.2)(terser@5.39.0)(tsx@4.20.6)(typescript@5.9.3)
+        specifier: ^0.4.5
+        version: 0.4.5(@types/node@24.10.0)(esbuild@0.25.12)(jiti@2.6.1)(rollup@4.53.2)(terser@5.39.0)(tsx@4.20.6)(typescript@5.9.3)
       drizzle-orm:
         specifier: ^0.44.7
         version: 0.44.7(@cloudflare/workers-types@4.20251111.0)(@libsql/client@0.15.15)(gel@2.0.2)
@@ -96,8 +96,8 @@ importers:
         specifier: ^0.1.1
         version: 0.1.1(@types/node@24.10.0)(esbuild@0.25.12)(jiti@2.6.1)(rollup@4.53.2)(terser@5.39.0)(tsx@4.20.6)(typescript@5.9.3)
       '@torpor/build':
-        specifier: ^0.4.4
-        version: 0.4.4(@types/node@24.10.0)(esbuild@0.25.12)(jiti@2.6.1)(rollup@4.53.2)(terser@5.39.0)(tsx@4.20.6)(typescript@5.9.3)
+        specifier: ^0.4.5
+        version: 0.4.5(@types/node@24.10.0)(esbuild@0.25.12)(jiti@2.6.1)(rollup@4.53.2)(terser@5.39.0)(tsx@4.20.6)(typescript@5.9.3)
       drizzle-orm:
         specifier: ^0.44.7
         version: 0.44.7(@cloudflare/workers-types@4.20251111.0)(@libsql/client@0.15.15)(gel@2.0.2)
@@ -187,8 +187,8 @@ importers:
         specifier: ^14.6.1
         version: 14.6.1(@testing-library/dom@10.4.1)
       '@torpor/build':
-        specifier: ^0.4.4
-        version: 0.4.4(@types/node@24.10.0)(esbuild@0.25.12)(jiti@2.6.1)(rollup@4.53.2)(terser@5.39.0)(tsx@4.20.6)(typescript@5.9.3)
+        specifier: ^0.4.5
+        version: 0.4.5(@types/node@24.10.0)(esbuild@0.25.12)(jiti@2.6.1)(rollup@4.53.2)(terser@5.39.0)(tsx@4.20.6)(typescript@5.9.3)
       '@torpor/unplugin':
         specifier: ^0.2.1
         version: 0.2.1(esbuild@0.25.12)(rollup@4.53.2)(vite@7.2.2(@types/node@24.10.0)(jiti@2.6.1)(terser@5.39.0)(tsx@4.20.6))
@@ -1059,8 +1059,8 @@ packages:
   '@torpor/adapter-node@0.1.1':
     resolution: {integrity: sha512-afoRdygfFSF1emx30zomwsMq3Pz++/ueGTO0YUQMCkaSoFLc8mOURszdXbfp/NlmfO+TkMG9h4C89t/zXR+R5w==}
 
-  '@torpor/build@0.4.4':
-    resolution: {integrity: sha512-HnQ5VXg70/pGtgLYRNbHN2E62aRJSYpr1wgJGbjyO9eUWwrj0n70vCmqWwGGUjKEac4UplWNgfNC1TLHMzJ/iQ==}
+  '@torpor/build@0.4.5':
+    resolution: {integrity: sha512-fouWjvvhw84W7kau6wYeumXqO7/iaFFngohSFxuot2yCKZxOH6Z3CwElN6H+heUV70rVvg2uVHYgt92M6otEhQ==}
     hasBin: true
 
   '@torpor/ui@0.3.2':
@@ -3155,7 +3155,7 @@ snapshots:
 
   '@torpor/adapter-cloudflare@0.2.1(@types/node@24.10.0)(esbuild@0.25.12)(jiti@2.6.1)(rollup@4.53.2)(terser@5.39.0)(tsx@4.20.6)(typescript@5.9.3)':
     dependencies:
-      '@torpor/build': 0.4.4(@types/node@24.10.0)(esbuild@0.25.12)(jiti@2.6.1)(rollup@4.53.2)(terser@5.39.0)(tsx@4.20.6)(typescript@5.9.3)
+      '@torpor/build': 0.4.5(@types/node@24.10.0)(esbuild@0.25.12)(jiti@2.6.1)(rollup@4.53.2)(terser@5.39.0)(tsx@4.20.6)(typescript@5.9.3)
       vite: 7.2.2(@types/node@24.10.0)(jiti@2.6.1)(terser@5.39.0)(tsx@4.20.6)
     transitivePeerDependencies:
       - '@nuxt/kit'
@@ -3179,7 +3179,7 @@ snapshots:
 
   '@torpor/adapter-node@0.1.1(@types/node@24.10.0)(esbuild@0.25.12)(jiti@2.6.1)(rollup@4.53.2)(terser@5.39.0)(tsx@4.20.6)(typescript@5.9.3)':
     dependencies:
-      '@torpor/build': 0.4.4(@types/node@24.10.0)(esbuild@0.25.12)(jiti@2.6.1)(rollup@4.53.2)(terser@5.39.0)(tsx@4.20.6)(typescript@5.9.3)
+      '@torpor/build': 0.4.5(@types/node@24.10.0)(esbuild@0.25.12)(jiti@2.6.1)(rollup@4.53.2)(terser@5.39.0)(tsx@4.20.6)(typescript@5.9.3)
       vite: 7.2.2(@types/node@24.10.0)(jiti@2.6.1)(terser@5.39.0)(tsx@4.20.6)
     transitivePeerDependencies:
       - '@nuxt/kit'
@@ -3201,7 +3201,7 @@ snapshots:
       - webpack
       - yaml
 
-  '@torpor/build@0.4.4(@types/node@24.10.0)(esbuild@0.25.12)(jiti@2.6.1)(rollup@4.53.2)(terser@5.39.0)(tsx@4.20.6)(typescript@5.9.3)':
+  '@torpor/build@0.4.5(@types/node@24.10.0)(esbuild@0.25.12)(jiti@2.6.1)(rollup@4.53.2)(terser@5.39.0)(tsx@4.20.6)(typescript@5.9.3)':
     dependencies:
       '@torpor/unplugin': 0.2.1(esbuild@0.25.12)(rollup@4.53.2)(vite@7.2.2(@types/node@24.10.0)(jiti@2.6.1)(terser@5.39.0)(tsx@4.20.6))
       '@torpor/view': 0.4.8

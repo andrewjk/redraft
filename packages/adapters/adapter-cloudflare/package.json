@@ -28,7 +28,7 @@
 	"dependencies": {
 		"@redraft/adapter-core": "workspace:^",
 		"@torpor/adapter-cloudflare": "^0.2.1",
-		"@torpor/build": "^0.4.4",
+		"@torpor/build": "^0.4.5",
 		"drizzle-orm": "^0.44.7"
 	},
 	"devDependencies": {
