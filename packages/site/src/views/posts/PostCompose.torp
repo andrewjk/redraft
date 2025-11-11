@@ -1,4 +1,4 @@
-//import { enhance } from "$app/forms";
+import type FormData from "../../types/FormData";
 import type UserModel from "../../types/UserModel";
 import type PostEditModel from "../../types/posts/PostEditModel";
 import PostMenu from "./PostMenu.torp";
@@ -8,7 +8,7 @@ import PostInput from "./PostInput.torp";
 /**
  * Allows composing a post.
  */
-export default function PostCompose($props: { data: { post: PostEditModel, user: UserModel, base: string }, form: any }) {
+export default function PostCompose($props: { data: { post: PostEditModel, user: UserModel, base: string }, form?: FormData }) {
 	let { post } = $props.data;
 
 	@head {
@@ -19,14 +19,9 @@ export default function PostCompose($props: { data: { post: PostEditModel, user:
 		<div class="vstack spaced full-width post-compose-page">
 			<PostMenu section="Compose" {$props.data.user} {$props.data.base} />
 
-			<FormErrors {$props.form?.errors} />
+			<FormErrors {$props.form} />
 
 			<PostInput {post} {$props.data.user} {$props.data.base} />
 		</div>
-	}
-
-	@style {
-		.post-compose-page {
-		}
 	}
 }

@@ -1,43 +1,50 @@
-//import { enhance } from "$app/forms";
+import { Form, Field, Hidden, TextArea, Message } from "@torpor/ui/Form";
+import type FormData from "../../types/FormData";
+import MessageEditSchema from "../../types/messages/MessageEditSchema";
+import type MessageEditModel from "../../types/messages/MessageEditModel";
+import FormErrors from "../FormErrors.torp";
 
 /**
  * Allows creating a message.
  */
-export default function MessageInput($props: { groupSlug: string, userSlug: string }) {
-	let message = $watch({
-		text: ""
+export default function MessageInput($props: { groupSlug: string, userSlug: string, form: FormData }) {
+	const formData = $props.form?.data;
+	let $state = $watch({
+		data: {
+			groupSlug: $props.groupSlug,
+			userSlug: $props.userSlug,
+			text: formData?.text ?? "",
+		} satisfies MessageEditModel
 	});
 
 	@render {
-		<form class="full-width message-input" method="POST" enctype="multipart/form-data">
-			<input type="hidden" name="groupSlug" value={$props.groupSlug} />
-			<input type="hidden" name="userSlug" value={$props.userSlug} />
+		<FormErrors {$props.form} />
 
-			<div class="message-input-row">
-				<textarea
+		<Form class="full-width message-input" {$state.data} schema={MessageEditSchema}>
+			<Hidden name="groupSlug" value={$props.groupSlug} />
+			<Hidden name="userSlug" value={$props.userSlug} />
+
+			<Field class="form-row" name="text" &value={$state.data.text}>
+				<TextArea
 					class="full-width"
-					name="text"
-					&value={message.text}
-					placeholder="Type a message..."
-					rows="3"
+					placeholder="Type a message…"
+					required
+					rows={3}
 				/>
-			</div>
+				<Message class="error-message" />
+			</Field>
 
-			<div class="message-input-footer">
+			<div class="form-footer">
 				<button type="submit">
 					Submit
 				</button>
 			</div>
-		</form>
+		</Form>
 	}
 
 	@style {
 		.message-input {
 			margin-bottom: 1rem;
-		}
-
-		.message-input-footer {
-			text-align: end;
 		}
 	}
 }

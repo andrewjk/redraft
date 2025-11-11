@@ -1,30 +1,42 @@
-//import { enhance } from "$app/forms";
+import { Form, Field, Hidden, TextArea, Message } from "@torpor/ui/Form";
+import type FormData from "../../types/FormData";
+import CommentCreateSchema from "../../types/comments/CommentCreateSchema";
+import type CommentCreateModel from "../../types/comments/CommentCreateModel";
 import type PostViewModel from "../../types/posts/PostViewModel";
 
 /**
  * Allows creating a comment.
  */
-export default function CommentInput($props: { post: PostViewModel, parent?: string }) {
-	let { post } = $props;
+export default function CommentInput($props: { post: PostViewModel, parent?: string, form?: FormData }) {
+	const formData = $props.form?.data;
+	let $state = $watch({
+		data: {
+			postSlug: $props.post.slug,
+			parentSlug: $props.parent,
+			text: formData?.text ?? ""
+		} satisfies CommentCreateModel
+	});
 
 	@render {
-		<form class="full-width comment-input" method="POST" action="?/createComment">
-			<input type="hidden" name="parentSlug" value={$props.parent} />
-			<input type="hidden" name="postSlug" value={post.slug} />
+		<Form class="full-width comment-input" action="?/createComment" schema={CommentCreateSchema} data={$state.data}>
+			<Hidden name="parentSlug" value={$state.data.parentSlug} />
+			<Hidden name="postSlug" value={$state.data.postSlug} />
 
-			<textarea
-				class="full-width"
-				name="text"
-				placeholder={$props.parent ? "Add a reply..." : "Add a comment..."}
-				rows="2"
-			/>
+			<Field class="form-row" name="text" &value={$state.data.text}>
+				<TextArea
+					class="full-width"
+					placeholder={$props.parent ? "Add a reply…" : "Add a comment…"}
+					rows={2}
+				/>
+				<Message class="error-message" />
+			</Field>
 
 			<div class="comment-footer">
 				<button type="submit">
 					Submit
 				</button>
 			</div>
-		</form>
+		</Form>
 	}
 
 	@style {

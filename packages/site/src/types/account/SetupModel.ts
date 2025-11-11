@@ -1,9 +1,6 @@
-export default interface SetupModel {
-	username: string;
-	password: string;
-	name: string;
-	email: string;
-	bio?: string;
-	location?: string;
-	image?: string;
-}
+import * as v from "valibot";
+import SetupSchema from "./SetupSchema";
+
+type SetupModel = v.InferInput<typeof SetupSchema>;
+
+export default SetupModel;

@@ -1,11 +1,14 @@
+import { Form, Field, Label, Hidden, Input, TextArea, Message } from "@torpor/ui/Form";
 import placeholdify from "../../lib/utils/placeholdify";
 import stripProtocol from "../../lib/utils/stripProtocol";
+import type FormData from "../../types/FormData";
 import type UserModel from "../../types/UserModel";
 import type ListEditModel from "../../types/contacts/ListEditModel";
-import FollowMenu from "./FollowMenu.torp";
+import ListEditSchema from "../../types/contacts/ListEditSchema";
 import FormErrors from "../FormErrors.torp";
+import FollowMenu from "./FollowMenu.torp";
 
-export default function ListEdit($props: { data: { list: ListEditModel, user: UserModel, base: string }, form: any }) {
+export default function ListEdit($props: { data: { list: ListEditModel, user: UserModel, base: string }, form?: FormData }) {
 	let $list = $watch($props.data.list)
 
 	@head {
@@ -16,31 +19,24 @@ export default function ListEdit($props: { data: { list: ListEditModel, user: Us
 		<div class="full-width list-edit-page">
 			<FollowMenu section="Lists" {$props.data.user} {$props.data.base} />
 
-			<FormErrors {$props.form?.errors} />
+			<FormErrors {$props.form} />
 
-			<form use:enhance enctype="multipart/form-data" method="POST">
-				<input type="hidden" name="id" value={$list.id} />
-				<div class="form-row">
-					<label for="name-input">Name</label
-					<input
-						id="name-input"
-						&value={$list.name}
-						name="name"
-						required
-					/>
-				</div>
-				<div class="form-row">
-					<label for="description-input">Description</label
-					<textarea
-						id="description-input"
-						&value={$list.description}
-						name="description"
-					/>
-				</div>
+			<Form data={$list} schema={ListEditSchema}>
+				<Hidden name="id" value={$list.id} />
+				<Field class="form-row" name="name" &value={$list.name}>
+					<Label>Name</Label>
+					<Input required />
+					<Message class="error-message" />
+				</Field>
+				<Field class="form-row" name="description" &value={$list.description}>
+					<Label>Description</Label>
+					<TextArea />
+					<Message class="error-message" />
+				</Field>
 
 				<h3>Followers</h3>
 				@for (let [i, user] of $list.users.entries()) {
-					<input type="hidden" name="users[{i}].id" value={user.id} />
+					<Hidden name="users[{i}].id" value={user.id} />
 					<div class="hstack centered spaced">
 						<div>
 							<input
@@ -78,7 +74,7 @@ export default function ListEdit($props: { data: { list: ListEditModel, user: Us
 						Save
 					</button>
 				</div>
-			</form>
+			</Form>
 		</div>
 	}
 }

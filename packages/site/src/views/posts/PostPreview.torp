@@ -1,4 +1,4 @@
-//import { enhance } from "$app/forms";
+import { Form, Hidden } from "@torpor/ui/Form";
 import placeholdify from "../../lib/utils/placeholdify";
 import relativeTimeSince from "../../lib/utils/relativeTimeSince"
 import sizeImage from "../../lib/utils/sizeImage";
@@ -85,9 +85,9 @@ export default function PostPreview($props: { post: PostPreviewModel, user: User
 									<a href="{post.author.url}posts/edit/{post.slug}" class="icon">
 										<Pencil weight="bold" />
 									</a>
-									<form use:enhance method="POST" action="?/pinPost">
-										<input type="hidden" name="slug" value={post.slug} />
-										<input type="hidden" name="pinned" value={!post.pinned} />
+									<Form action="?/pinPost">
+										<Hidden name="slug" value={post.slug} />
+										<Hidden name="pinned" value={!post.pinned} />
 										<button class="link icon">
 											@if (post.pinned) {
 												<PushPinSlash weight="bold" />
@@ -95,7 +95,7 @@ export default function PostPreview($props: { post: PostPreviewModel, user: User
 												<PushPin weight="bold" />
 											}
 										</button>
-									</form>
+									</Form>
 								} else if (post.pinned) {
 									<span class="secondary">
 										<PushPin weight="fill" />
@@ -112,19 +112,19 @@ export default function PostPreview($props: { post: PostPreviewModel, user: User
 								@// Maybe this needs to wait until we have a browser plugin
 								@/*
 								@if (follower) {
-									<form use:enhance method="POST" action="?/likeFeedPost">
-										<input type="hidden" name="slug" value={post.slug} />
-										<input type="hidden" name="authorUrl" value={post.author.url} />
-										<input type="hidden" name="sharedKey" value={post.author.sharedKey} />
-										<input type="hidden" name="liked" value={!post.liked} />
+									<Form action="?/likeFeedPost">
+										<Hidden name="slug" value={post.slug} />
+										<Hidden name="authorUrl" value={post.author.url} />
+										<Hidden name="sharedKey" value={post.author.sharedKey} />
+										<Hidden name="liked" value={!post.liked} />
 										<button class="link">{post.liked ? "Unlike" : "Like"}</button>
-									</form>
+									</Form>
 									<span class="separator" />
-									<form use:enhance method="POST" action="?/saveFeedPost">
-										<input type="hidden" name="slug" value={post.slug} />
-										<input type="hidden" name="saved" value={!post.saved} />
+									<Form action="?/saveFeedPost">
+										<Hidden name="slug" value={post.slug} />
+										<Hidden name="saved" value={!post.saved} />
 										<button class="link">{post.saved ? "Unsave" : "Save"}</button>
-									</form>
+									</Form>
 								}
 								*/
 							</div>
@@ -198,9 +198,6 @@ export default function PostPreview($props: { post: PostPreviewModel, user: User
 	}
 
 	@style {
-		.post-preview {
-		}
-
 		.post-preview-status {
 			font-size: 75%;
 			font-weight: bold;

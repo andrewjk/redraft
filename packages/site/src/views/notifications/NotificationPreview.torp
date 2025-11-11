@@ -1,11 +1,12 @@
-//import { enhance } from "$app/forms";
+import { Form, Hidden } from "@torpor/ui/Form";
 import relativeTimeSince from "../../lib/utils/relativeTimeSince"
+import type NotificationPreviewModel from "../../types/notifications/NotificationPreviewModel";
 
 /**
  * Shows a notification preview for display in a list.
  */
-export default function NotificationPreview() {
-	let { notification, user } = $props;
+export default function NotificationPreview($props: { notification: NotificationPreviewModel }) {
+	let { notification } = $props;
 
 	let fmt = new Intl.DateTimeFormat(undefined, {
 		day: "numeric",
@@ -25,20 +26,15 @@ export default function NotificationPreview() {
 					{relativeTimeSince(new Date(notification.createdAt))}
 				</div>
 				<div class="align-end">
-					<form use:enhance method="POST" action="?/markRead">
-						<input type="hidden" name="id" value={notification.id} />
-						<input type="hidden" name="read" value={!notification.read} />
+					<Form action="?/markRead">
+						<Hidden name="id" value={notification.id} />
+						<Hidden name="read" value={!notification.read} />
 						<button type="submit">
 							{notification.read ? "Mark unread" : "Mark read"}
 						</button>
-					</form>
+					</Form>
 				</div>
 			</div>
 		</div>
-	}
-
-	@style {
-		.notification-preview {
-		}
 	}
 }

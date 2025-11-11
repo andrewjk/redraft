@@ -1,16 +1,6 @@
-export default interface ProfileEditModel {
-	email: string;
-	password: string;
-	name: string;
-	bio: string;
-	about: string;
-	location: string;
-	image: string;
-	links: {
-		id: number;
-		url: string;
-		text: string;
-	}[];
+import * as v from "valibot";
+import ProfileEditSchema from "./ProfileEditSchema";
 
-	imagefile?: string;
-}
+type ProfileEditModel = v.InferInput<typeof ProfileEditSchema>;
+
+export default ProfileEditModel;

@@ -1,10 +1,12 @@
-import { created, forbidden, serverError } from "@torpor/build/response";
+import { badRequest, created, forbidden, serverError } from "@torpor/build/response";
 import { eq } from "drizzle-orm";
+import * as v from "valibot";
 import database from "../../data/database";
 import { activityTable, userTokensTable, usersTable } from "../../data/schema";
 import transaction from "../../data/transaction";
 import type SetupModel from "../../types/account/SetupModel";
 import type SetupResponseModel from "../../types/account/SetupResponseModel";
+import SetupSchema from "../../types/account/SetupSchema";
 import env from "../env";
 import createUserToken from "../utils/createUserToken";
 import ensureSlash from "../utils/ensureSlash";
@@ -20,17 +22,33 @@ export default async function accountSetup(request: Request) {
 
 		const model: SetupModel = await request.json();
 
+		// Validate the model's schema
+		let validated = v.safeParse(SetupSchema, model);
+		if (!validated.success) {
+			model.password = "";
+			return badRequest({
+				message: validated.issues.map((e) => e.message).join("\n"),
+				data: model,
+			});
+		}
+
 		// Make sure a different user doesn't already exist
 		const currentUser = await db.query.usersTable.findFirst();
-		if (currentUser) {
-			if (!compareWithHash(model.password.trim(), currentUser.password)) {
-				return forbidden();
-			}
+		if (currentUser && !compareWithHash(model.password.trim(), currentUser.password)) {
+			model.password = "";
+			return forbidden({
+				message: "Invalid username or password",
+				data: model,
+			});
 		}
 
 		// Make sure the name and password match the env variables
 		if (model.username !== env().USERNAME || model.password !== env().PASSWORD) {
-			return forbidden();
+			model.password = "";
+			return forbidden({
+				message: "Invalid username or password",
+				data: model,
+			});
 		}
 
 		// Create the user

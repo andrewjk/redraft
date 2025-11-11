@@ -1,12 +1,15 @@
-//import { enhance } from "$app/forms";
+import { Form, Field, File, Label, Hidden, Input, TextArea, Message } from "@torpor/ui/Form";
 import placeholdify from "../../lib/utils/placeholdify";
+import type FormData from "../../types/FormData";
 import type UserModel from "../../types/UserModel";
 import type ProfileEditModel from "../../types/profile/ProfileEditModel";
-import ProfileMenu from "./ProfileMenu.torp";
+import ProfileEditSchema from "../../types/profile/ProfileEditSchema";
 import FormErrors from "../FormErrors.torp";
+import ProfileMenu from "./ProfileMenu.torp";
 
-export default function Edit($props: { data: { profile: ProfileEditModel, user: UserModel, base: string }, form: any }) {
+export default function Edit($props: { data: { profile: ProfileEditModel, user: UserModel, base: string }, form?: FormData }) {
 	let $profile = $watch($props.data.profile)
+	let preview: HTMLDivElement;
 
 	@head {
 		<title>Edit Profile • Redraft</title>
@@ -16,23 +19,24 @@ export default function Edit($props: { data: { profile: ProfileEditModel, user: 
 		<div class="full-width profile-edit-page">
 			<ProfileMenu section="Edit" {$props.data.user} {$props.data.base} />
 
-			<FormErrors {$props.form?.errors} />
+			<FormErrors {$props.form} />
 
-			<form use:enhance enctype="multipart/form-data" method="POST">
-				<div class="form-row">
-					<label for="image-input">Image</label
+			<Form data={$profile} schema={ProfileEditSchema}>
+				<Field class="form-row" name="imagefile" &value={$profile.imagefile}>
+					<Label>Image</Label>
 					<div class="hstack centered spaced">
-						<div id="image-preview" class="no-shrink" style={`background-image: url("${placeholdify($props.data.profile.image)}")`} />
-						<input
-							id="image-input"
-							&value={$props.data.profile.imagefile}
-							name="imagefile"
-							type="file"
+						<div
+							class="no-shrink"
+							style={`background-image: url("${placeholdify($props.data.profile.image)}")`}
+							&ref={preview}
+						/>
+						<File
 							accept="image/*"
 							onchange={fileSelected}
 						/>
 					</div>
-				</div>
+					<Message class="error-message" />
+				</Field>
 				@function fileSelected(e: Event) {
 					const image = (e.target as HTMLInputElement).files![0];
 					if (!image.type.includes("image")) {
@@ -41,73 +45,59 @@ export default function Edit($props: { data: { profile: ProfileEditModel, user: 
 					const fileReader = new FileReader();
 					fileReader.readAsDataURL(image);
 					fileReader.onload = (ev) => {
-						const preview = document.getElementById("image-preview");
-						preview!.style.backgroundImage = `url("${ev.target!.result}")`;
+						preview.style.backgroundImage = `url("${ev.target!.result}")`;
 					}
 				}
-				<div class="form-row">
-					<label for="email-input">Email</label
-					<input
-						id="email-input"
-						&value={$profile.email}
-						name="email"
+				<Field class="form-row" name="email" &value={$profile.email}>
+					<Label>Email</Label>
+					<Input
 						type="email"
 						required
 					/>
-				</div>
-				<div class="form-row">
-					<label for="name-input">Name</label
-					<input
-						id="name-input"
-						&value={$profile.name}
-						name="name"
-						required
-					/>
-				</div>
-				<div class="form-row">
-					<label for="bio-input">Bio</label
-					<textarea
-						id="bio-input"
-						&value={$profile.bio}
-						name="bio"
-					/>
-				</div>
-				<div class="form-row">
-					<label for="location-input">Location</label
-					<input
-						id="location-input"
-						&value={$profile.location}
-						name="location"
-					/>
-				</div>
-				<div class="form-row">
-					<label for="bio-input">About</label
-					<textarea
-						id="about-input"
-						&value={$profile.about}
-						name="about"
-					/>
-				</div>
+					<Message class="error-message" />
+				</Field>
+				<Field class="form-row" name="name" &value={$profile.name}>
+					<Label>Name</Label>
+					<Input required />
+					<Message class="error-message" />
+				</Field>
+				<Field class="form-row" name="bio" &value={$profile.bio}>
+					<Label>Bio</Label>
+					<TextArea />
+					<Message class="error-message" />
+				</Field>
+				<Field class="form-row" name="location" &value={$profile.location}>
+					<Label>Location</Label>
+					<Input />
+					<Message class="error-message" />
+				</Field>
+				<Field class="form-row" name="about" &value={$profile.about}>
+					<Label>About</Label>
+					<TextArea />
+					<Message class="error-message" />
+				</Field>
 
 				<h3>Links</h3>
 				@for (let [i, link] of $profile.links.entries()) {
-					<input type="hidden" name="links[{i}].id" value={link.id} />
+					<Hidden name="links[{i}].id" value={link.id} />
 					<div class="form-row">
 						<label for="links[{i}]-input">URL / Text</label>
 						<input
 							id="links[{i}]-input"
-							&value={link.url}
 							name="links[{i}].url"
+							&value={link.url}
 							style="margin-bottom: 0.4rem"
 						/>
 						<input
-							&value={link.text}
 							name="links[{i}].text"
+							&value={link.text}
 						/>
 					</div>
 				}
 				<div class="form-row">
-					<button class="link" type="button" onclick={() => addLink()}>Add a link</button>
+					<button class="link" type="button" onclick={() => addLink()}>
+						Add a link
+					</button>
 					@function addLink() {
 						$profile.links.push({ id: -1, text: "", url: "" })
 					}
@@ -117,14 +107,11 @@ export default function Edit($props: { data: { profile: ProfileEditModel, user: 
 						Save
 					</button>
 				</div>
-			</form>
+			</Form>
 		</div>
 	}
 
 	@style {
-		.profile-edit-page {
-		}
-
 		#image-preview {
 			height: 100px;
 			width: 100px;

@@ -1,5 +1,6 @@
-import { created, notFound, serverError, unauthorized } from "@torpor/build/response";
+import { badRequest, created, notFound, serverError, unauthorized } from "@torpor/build/response";
 import { and, eq } from "drizzle-orm";
+import * as v from "valibot";
 import database from "../../data/database";
 import {
 	activityTable,
@@ -12,6 +13,7 @@ import {
 import transaction from "../../data/transaction";
 import commentsSend from "../../routes/api/comments/send/+server";
 import type CommentCreateModel from "../../types/comments/CommentCreateModel";
+import CommentCreateSchema from "../../types/comments/CommentCreateSchema";
 import { ACTIVITY_RECEIVED_VERSION } from "../../types/public/ActivityReceivedModel";
 import type ActivityReceivedModel from "../../types/public/ActivityReceivedModel";
 import * as api from "../api";
@@ -38,6 +40,15 @@ export default async function commentCreate(
 
 		const model: CommentCreateModel = await request.json();
 
+		// Validate the model's schema
+		let validated = v.safeParse(CommentCreateSchema, model);
+		if (!validated.success) {
+			return badRequest({
+				message: validated.issues.map((e) => e.message).join("\n"),
+				data: model,
+			});
+		}
+
 		// Get the user
 		const userQuery = db.query.usersTable.findFirst();
 
@@ -61,10 +72,16 @@ export default async function commentCreate(
 
 		let [user, currentUser, post] = await Promise.all([userQuery, currentUserQuery, postQuery]);
 		if (!user) {
-			return notFound();
+			return notFound({
+				message: "User not found",
+				data: model,
+			});
 		}
 		if (!post) {
-			return notFound();
+			return notFound({
+				message: "Post not found",
+				data: model,
+			});
 		}
 
 		if (!currentUser) {
@@ -81,7 +98,10 @@ export default async function commentCreate(
 			});
 		}
 		if (!currentUser) {
-			return unauthorized();
+			return unauthorized({
+				message: "Unauthorized",
+				data: model,
+			});
 		}
 
 		// Get the parent id
@@ -92,7 +112,10 @@ export default async function commentCreate(
 				columns: { id: true },
 			});
 			if (!parent) {
-				return notFound();
+				return notFound({
+					message: "Parent not found",
+					data: model,
+				});
 			}
 			parentId = parent.id;
 		}

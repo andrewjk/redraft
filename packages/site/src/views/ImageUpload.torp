@@ -1,5 +1,5 @@
 
-export default function ImageUpload($props: { image: string | ArrayBuffer | null, imageLoaded: boolean }) {
+export default function ImageUpload($props: { image: string | ArrayBuffer | null | undefined, imageLoaded: boolean }) {
 	function fileSelected(e: Event) {
 		const image = (e.target as HTMLInputElement).files![0];
 		if (!image.type.includes("image")) {

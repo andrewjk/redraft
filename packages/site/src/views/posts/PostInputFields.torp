@@ -1,4 +1,4 @@
-//import { enhance } from "$app/forms";
+import { Field, File, Hidden, Input, Select, Option, TextArea, Message } from "@torpor/ui/Form";
 import type UserModel from "../../types/UserModel";
 import type PostEditModel from "../../types/posts/PostEditModel";
 import ImageUpload from "../ImageUpload.torp";
@@ -26,6 +26,7 @@ export default function PostInputFields($props: { post: PostEditModel, child?: P
 		imageLoaded: !!post.image,
 		linkLoading: false,
 		linkLoaded: !!post.linkUrl,
+		linkImageLoaded: !!post.linkImage,
 		showTags: !!post.tags,
 		showVisibility: !!post.visibility,
 		lists: []
@@ -37,102 +38,92 @@ export default function PostInputFields($props: { post: PostEditModel, child?: P
 
 	@render {
 		<div style="display: contents;">
-			<input type="hidden" name={`${prefix}id`} value={post.id} />
-			<input type="hidden" name={`${prefix}hasImage`} value={post.hasImage} />
-			<input type="hidden" name={`${prefix}hasLink`} value={post.hasLink} />
-			<input type="hidden" name={`${prefix}hasRating`} value={post.hasRating} />
-			<input type="hidden" name={`${prefix}isArticle`} value={post.isArticle} />
-			<input type="hidden" name={`${prefix}isEvent`} value={post.isEvent} />
+			<Hidden name={`${prefix}id`} value={post.id} />
+			<Hidden name={`${prefix}hasImage`} value={post.hasImage} />
+			<Hidden name={`${prefix}hasLink`} value={post.hasLink} />
+			<Hidden name={`${prefix}hasRating`} value={post.hasRating} />
+			<Hidden name={`${prefix}isArticle`} value={post.isArticle} />
+			<Hidden name={`${prefix}isEvent`} value={post.isEvent} />
 
-			<div class="post-input-row">
-				<textarea
-					class="full-width"
-					name={`${prefix}text`}
-					&value={post.text}
-					placeholder="Post something..."
-					rows="3"
+			<Field class="form-row" name={`${prefix}text`} &value={post.text}>
+				<TextArea
+					placeholder="Post something…"
+					rows={3}
 				/>
-			</div>
+				<Message class="error-message" />
+			</Field>
 
 			@if (post.isArticle) {
-				<input type="hidden" name={`${prefix}articleId`} value={post.articleId} />
-				<input type="hidden" name={`${prefix}linkPublication`} value={user.name} />
+				<Hidden name={`${prefix}articleId`} value={post.articleId} />
+				<Hidden name={`${prefix}linkPublication`} value={user.name} />
 
-				<div class="form-row">
-					<input
+				<Field class="form-row" name={`${prefix}linkTitle`} &value={post.linkTitle}>
+					<Input
 						class="post-input-article-title"
-						name={`${prefix}linkTitle`}
-						&value={post.linkTitle}
 						required
 						placeholder="Title"
 					/>
-				</div>
-				<ImageUpload image={post.linkImage} class="full-width" />
-				<div class="form-row">
-					<textarea
-						class="full-width"
-						&value={post.articleText}
-						name={`${prefix}articleText`}
-						placeholder="Article text"
-					/>
-				</div>
+					<Message class="error-message" />
+				</Field>
+				<ImageUpload image={post.linkimagefile} imageLoaded={$state.linkImageLoaded} class="full-width" />
+				<Field class="form-row" name={`${prefix}articleText`} &value={post.articleText}>
+					<TextArea placeholder="Article text" />
+					<Message class="error-message" />
+				</Field>
 			}
 
 			@if (post.isEvent) {
-				<input type="hidden" name={`${prefix}eventId`} value={post.eventId} />
-				<input type="hidden" name={`${prefix}linkPublication`} value={user.name} />
+				<Hidden name={`${prefix}eventId`} value={post.eventId} />
+				<Hidden name={`${prefix}linkPublication`} value={user.name} />
 
-				<div class="form-row">
-					<input
+				<Field class="form-row" name={`${prefix}linkTitle`} &value={post.linkTitle}>
+					<Input
 						class="post-input-event-title"
-						name={`${prefix}linkTitle`}
-						&value={post.linkTitle}
 						required
 						placeholder="Title"
 					/>
-				</div>
-				<ImageUpload image={post.linkImage} class="full-width" />
-				<div class="form-row">
-					<textarea
-						class="full-width"
-						&value={post.eventText}
-						name={`${prefix}eventText`}
-						placeholder="Event description"
-					/>
-				</div>
-				<input
-					name={`${prefix}eventLocation`}
-					&value={post.eventLocation}
-					placeholder="Event location" />
-				<input
-					type="date"
-					name={`${prefix}eventStartsAt`}
-					&value={post.eventStartsAt}
-					placeholder="Event start" />
-				<input
-					type="number"
-					name={`${prefix}eventDuration`}
-					&value={post.eventDuration}
-					placeholder="Event duration" />
+					<Message class="error-message" />
+				</Field>
+				<ImageUpload image={post.linkimagefile} imageLoaded={$state.linkImageLoaded} class="full-width" />
+				<Field class="form-row" name={`${prefix}eventText`} &value={post.eventText}>
+					<TextArea placeholder="Event description" />
+					<Message class="error-message" />
+				</Field>
+				<Field class="form-row" name={`${prefix}eventLocation`} &value={post.eventLocation}>
+					<Input placeholder="Event location" />
+					<Message class="error-message" />
+				</Field>
+				<Field class="form-row" name={`${prefix}eventStartsAt`} &value={post.eventStartsAt}>
+					<Input
+						type="date"
+						placeholder="Event start" />
+					<Message class="error-message" />
+				</Field>
+				<Field class="form-row" name={`${prefix}eventDuration`} &value={post.eventDuration}>
+					<Input
+						type="number"
+						placeholder="Event duration" />
+					<Message class="error-message" />
+				</Field>
 			}
 
 			@// HACK: Nested ifs are broken...
 
 			@if (!post.isArticle && !post.isEvent && post.hasImage) {
-				<input
-					class="full-width"
+				<File
 					style={{ display: $state.imageLoaded ? "none" : undefined }}
-					name={`${prefix}imagefile`}
-					type="file"
 					accept="image/*"
 					onchange={imageSelected}
 				/>
 				@if (post.image) {
 					<img src={post.image} />
-					<input
-						name={`${prefix}imageAltText`}
-						&value={post.imageAltText}
-						placeholder="Image alt text" />
+					<Field name={`${prefix}imageAltText`} &value={post.imageAltText}>
+						<Input
+							name={`${prefix}imageAltText`}
+							&value={post.imageAltText}
+							placeholder="Image alt text" />
+							<Message class="error-message" />
+					</Field>
 				}
 			}
 			@function imageSelected(e: Event) {
@@ -143,100 +134,106 @@ export default function PostInputFields($props: { post: PostEditModel, child?: P
 				const fileReader = new FileReader();
 				fileReader.readAsDataURL(image);
 				fileReader.onload = (ev) => {
-					post.image = ev.target!.result;
+					post.imagefile = ev.target!.result;
 					$state.imageLoaded = true;
 				}
 			}
 
 			@if (!post.isArticle && !post.isEvent && post.hasLink) {
-				<input type="hidden" name={`${prefix}linkImage`} value={post.linkImage} />
-				<input type="hidden" name={`${prefix}linkTitle`} value={post.linkTitle} />
-				<input type="hidden" name={`${prefix}linkPublication`} value={post.linkPublication} />
-				<input type="hidden" name={`${prefix}linkEmbedSrc`} value={post.linkEmbedSrc} />
-				<input type="hidden" name={`${prefix}linkEmbedWidth`} value={post.linkEmbedWidth} />
-				<input type="hidden" name={`${prefix}linkEmbedHeight`} value={post.linkEmbedHeight} />
+				<Hidden name={`${prefix}linkImage`} value={post.linkImage} />
+				<Hidden name={`${prefix}linkTitle`} value={post.linkTitle} />
+				<Hidden name={`${prefix}linkPublication`} value={post.linkPublication} />
+				<Hidden name={`${prefix}linkEmbedSrc`} value={post.linkEmbedSrc} />
+				<Hidden name={`${prefix}linkEmbedWidth`} value={post.linkEmbedWidth} />
+				<Hidden name={`${prefix}linkEmbedHeight`} value={post.linkEmbedHeight} />
 
-				<input
-					type="url"
-					name={`${prefix}linkUrl`}
-					&value={post.linkUrl}
-					class="full-width"
-					style={{ display: $state.linkLoaded ? "none" : undefined }}
-					placeholder="Link URL"
-					oninput={async (e) => {
-						// TODO: Debounce
-						$state.linkLoading = true;
-						$state.linkLoaded = false;
-						const response = await fetch(`/api/posts/link-info?url=${e.target.value}`, { credentials: "same-origin" });
-						const info = await response.json()
-						$state.linkLoading = false;
-						if (info) {
-							$state.linkLoaded = true;
-							post.linkTitle = info.title;
-							post.linkImage = info.image;
-							post.linkPublication = info.publication;
-							post.linkEmbedSrc = info.embedSrc;
-							post.linkEmbedWidth = info.embedWidth;
-							post.linkEmbedHeight = info.embedHeight;
-						}
-					}} />
-				@if ($state.linkLoading) {
-					<div>Loading...</div>
-				} else if (post.linkUrl) {
-					<LinkPreview link={post} />
-				}
+				<Field class="form-row" name={`${prefix}linkUrl`} &value={post.linkUrl}>
+					<Input
+						type="url"
+						style={{ display: $state.linkLoaded ? "none" : undefined }}
+						placeholder="Link URL"
+						oninput={async (e: Event) => {
+							// TODO: Debounce
+							const value = (e.target as HTMLInputElement).value;
+							if (value) {
+								$state.linkLoading = true;
+								$state.linkLoaded = false;
+								const response = await fetch(`/api/posts/link-info?url=${value}`, { credentials: "same-origin" });
+								const info = await response.json()
+								$state.linkLoading = false;
+								if (info) {
+									$state.linkLoaded = true;
+									post.linkTitle = info.title;
+									post.linkImage = info.image;
+									post.linkPublication = info.publication;
+									post.linkEmbedSrc = info.embedSrc;
+									post.linkEmbedWidth = info.embedWidth;
+									post.linkEmbedHeight = info.embedHeight;
+								}
+							}
+						}} />
+					@if ($state.linkLoading) {
+						<div>Loading...</div>
+					} else if (post.linkUrl) {
+						<LinkPreview link={post} />
+					}
+					<Message class="error-message" />
+				</Field>
 			}
 
 			@if (!post.isArticle && !post.isEvent && post.hasRating) {
 				<div class="hstack centered spaced">
 					<span>Rating:</span>
-					<input
-						type="number"
-						class="grow post-input-rating-value"
-						name={`${prefix}ratingValue`}
-						&value={post.ratingValue}
-						required
-						placeholder="Value"
-					/>
+					<Field name={`${prefix}ratingValue`} &value={post.ratingValue}>
+						<Input
+							type="number"
+							class="grow post-input-rating-value"
+							required
+							placeholder="Value"
+						/>
+						<Message class="error-message" />
+					</Field>
 					<span>out of</span>
-					<input
-						type="number"
-						class="grow post-input-rating-bound"
-						name={`${prefix}ratingBound`}
-						&value={post.ratingBound}
-						required
-						placeholder="Max"
-					/>
+					<Field name={`${prefix}ratingBound`} &value={post.ratingBound}>
+						<Input
+							type="number"
+							class="grow post-input-rating-bound"
+							required
+							placeholder="Max"
+						/>
+						<Message class="error-message" />
+					</Field>
 				</div>
 			}
 
 			@if ($state.showTags) {
-				<div class="form-row">
-					<input name="tags" &value={post.tags} placeholder="Tags (separate with semicolons)" />
-				</div>
+				<Field class="form-row" name={`${prefix}tags`} &value={post.tags}>
+					<Input placeholder="Tags (separate with semicolons)" />
+					<Message class="error-message" />
+				</Field>
 			}
 
 			@if ($state.showVisibility) {
-				<div class="form-row">
-					<select name="visibility" &value={post.visibility}>
-						<option value={0}>Public</option>
-						<option value={1}>Followers</option>
-						<option value={2}>Private</option>
-						<option value={3}>Recipient list</option>
-					</select>
-				</div>
+				<Field class="form-row" name={`${prefix}visibility`} &value={post.visibility}>
+					<Select>
+						<Option value={0}>Public</Option>
+						<Option value={1}>Followers</Option>
+						<Option value={2}>Private</Option>
+						<Option value={3}>Recipient list</Option>
+					</Select>
+				</Field>
 
-				@if (parseInt(post.visibility) === 3) {
-					@await loadLists() {
+				@if (parseInt(String(post.visibility)) === 3) {
+					@await (loadLists()) {
 						<p>Loading...</p>
 					} then {
-						<div class="form-row">
-							<select name="listId" &value={post.listId}>
+						<Field class="form-row" name={`${prefix}listId`} &value={post.listId}>
+							<Select>
 								@for (let list of $state.lists) {
-									<option value={list.id}>{list.name}</option>
+									<Option value={list.id}>{list.name}</Option>
 								}
-							</select>
-						</div>
+							</Select>
+						</Field>
 					} catch {
 						<p>Something went wrong...</p>
 					}
@@ -322,26 +319,23 @@ export default function PostInputFields($props: { post: PostEditModel, child?: P
 				@// TODO: Move this into the @if
 				@function toggleArticle() {
 					post.hasLink = false;
-					post.linkUrl = null;
-					post.linkTitle = null;
-					post.linkImage = null;
-					post.linkPublication = null;
-					post.linkEmbedSrc = null;
-					post.linkEmbedWidth = null;
-					post.linkEmbedHeight = null;
-					post.isArticle = !post.isArticle
+					post.isArticle = !post.isArticle;
+					clearLink();
 				}
 				@// TODO: Move this into the @if
 				@function toggleEvent() {
 					post.hasLink = false;
-					post.linkUrl = null;
-					post.linkTitle = null;
-					post.linkImage = null;
-					post.linkPublication = null;
-					post.linkEmbedSrc = null;
-					post.linkEmbedWidth = null;
-					post.linkEmbedHeight = null;
-					post.isEvent = !post.isEvent
+					post.isEvent = !post.isEvent;
+					clearLink();
+				}
+				@function clearLink() {
+					post.linkUrl = undefined;
+					post.linkTitle = undefined;
+					post.linkImage = undefined;
+					post.linkPublication = undefined;
+					post.linkEmbedSrc = undefined;
+					post.linkEmbedWidth = undefined;
+					post.linkEmbedHeight = undefined;
 				}
 				@/* TODO: fix these!
 				@if (child) {
@@ -358,12 +352,12 @@ export default function PostInputFields($props: { post: PostEditModel, child?: P
 				</button>
 				@function addChild() {
 					let i = $props.i !== undefined ? $props.i + 1 : 0;
-					$props.post.children.splice(i, 0, newPost());
+					$props.post.children!.splice(i, 0, newPost());
 				}
-				@function removeChild() {
+				@/*function removeChild() {
 					let i = $props.i !== undefined ? $props.i : 0;
-					$props.post.children.splice(i, 1);
-				}
+					$props.post.children!.splice(i, 1);
+				}*/
 				@if (!child) {
 					<button type="button" class="link icon" onclick={() => $state.showTags = !$state.showTags}>
 						@if ($state.showTags) {

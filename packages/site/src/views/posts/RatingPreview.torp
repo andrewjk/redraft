@@ -1,11 +1,14 @@
-import type PostPreviewModel from "../../types/posts/PostPreviewModel";
-import type FeedPreviewModel from "../../types/feed/FeedPreviewModel";
 import Star from "phosphor-torpor/lib/Star";
+
+interface RatingPreviewModel {
+	ratingValue: number | null | undefined,
+	ratingBound: number | null | undefined,
+}
 
 /**
  * Shows a rating preview for display in a post/feed.
  */
-export default function RatingPreview($props: { rating: PostPreviewModel | FeedPreviewModel }) {
+export default function RatingPreview($props: { rating: RatingPreviewModel }) {
 	let { rating } = $props;
 
 	@render {
@@ -24,9 +27,6 @@ export default function RatingPreview($props: { rating: PostPreviewModel | FeedP
 	}
 
 	@style {
-		.rating-preview {
-		}
-
 		.rating-preview-bound {
 			background: lightgray;
 		}

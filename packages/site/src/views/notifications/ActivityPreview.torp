@@ -27,9 +27,4 @@ export default function ActivityPreview($props: { activity: ActivityPreviewModel
 			</div>
 		</div>
 	}
-
-	@style {
-		.activity-preview {
-		}
-	}
 }

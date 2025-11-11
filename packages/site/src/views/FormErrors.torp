@@ -1,16 +1,14 @@
+import type FormData from "../types/FormData";
+
 /**
  * Displays a list of errors from a server action
  */
-export default function FormErrors($props: { errors: Record<string, string> }) {
+export default function FormErrors($props: { form?: FormData }) {
 	@render {
-		<div>
-			@if ($props.errors) {
-				<ul class="error-messages">
-					@for (let key of Object.keys($props.errors)) {
-						<li>{key} {$props.errors[key]}</li>
-					}
-				</ul>
-			}
-		</div>
+		@if ($props.form?.message) {
+			<p class="error-message">
+				@html($props.form?.message?.replaceAll("\n", "<br />")!)
+			</p>
+		}
 	}
 }

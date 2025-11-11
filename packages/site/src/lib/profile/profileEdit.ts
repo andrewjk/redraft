@@ -1,10 +1,12 @@
-import { ok, serverError, unauthorized } from "@torpor/build/response";
+import { badRequest, ok, serverError, unauthorized } from "@torpor/build/response";
 import { eq } from "drizzle-orm";
+import * as v from "valibot";
 import database from "../../data/database";
 import { userLinksTable, usersTable } from "../../data/schema";
 import transaction from "../../data/transaction";
 import profileSend from "../../routes/api/profile/send/+server";
 import type ProfileEditModel from "../../types/profile/ProfileEditModel";
+import ProfileEditSchema from "../../types/profile/ProfileEditSchema";
 import * as api from "../api";
 import getErrorMessage from "../utils/getErrorMessage";
 import userIdQuery from "../utils/userIdQuery";
@@ -21,6 +23,15 @@ export default async function profileEdit(
 		const db = database();
 
 		const model: ProfileEditModel = await request.json();
+
+		// Validate the model's schema
+		let validated = v.safeParse(ProfileEditSchema, model);
+		if (!validated.success) {
+			return badRequest({
+				message: validated.issues.map((e) => e.message).join("\n"),
+				data: model,
+			});
+		}
 
 		// Get the current user
 		const currentUser = await db.query.usersTable.findFirst({

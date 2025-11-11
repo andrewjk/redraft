@@ -60,9 +60,6 @@ export default function MessageGroupPreview($props: { message: MessagePreviewMod
 	}
 
 	@style {
-		.message-preview {
-		}
-
 		.message-preview-header,
 		.message-preview-footer {
 			line-height: 1.4;

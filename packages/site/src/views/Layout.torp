@@ -141,12 +141,12 @@ function Nav() {
 				@//				</NavMenuLink>
 				@//				<NavMenuSeparator class="nav-separator" />
 				@//				@/*
-				@//				<form use:enhance method="POST" action="?/logout">
+				@//				<Form action="?/logout">
 				@//					<NavMenuButton class="nav-link hstack centered spaced-nr">
 				@//						<SignOut weight="bold" />
 				@//						Log out
 				@//					</NavMenuButton>
-				@//				</form>
+				@//				</Form>
 				@//				*/
 				@//			</NavMenu>
 				@//		</NavMenuPopoutContent>
@@ -157,7 +157,7 @@ function Nav() {
 	}
 
 	@style {
-		nav {
+		.nav-bar {
 			background-color: #fff;
 			border-bottom: 1px solid var(--border-color);
 			box-shadow: 0 0.2rem 0.4rem #eee;
@@ -208,7 +208,7 @@ function Nav() {
 		}
 
 		.nav-link.nav-icon.active {
-			padding:  calc(1.4rem - 2px) 1.4rem;
+			padding: calc(1.4rem - 2px) 1.4rem;
 		}
 
 		.nav-icon {

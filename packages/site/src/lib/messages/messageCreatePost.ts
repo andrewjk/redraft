@@ -1,5 +1,6 @@
-import { notFound, ok, serverError, unauthorized } from "@torpor/build/response";
+import { badRequest, notFound, ok, serverError, unauthorized } from "@torpor/build/response";
 import { eq } from "drizzle-orm";
+import * as v from "valibot";
 import database from "../../data/database";
 import {
 	followedByTable,
@@ -11,6 +12,7 @@ import {
 import transaction from "../../data/transaction";
 import type MessageCreatedModel from "../../types/messages/MessageCreatedModel";
 import type MessageEditModel from "../../types/messages/MessageEditModel";
+import MessageEditSchema from "../../types/messages/MessageEditSchema";
 import { MESSAGE_RECEIVED_VERSION } from "../../types/public/MessageReceivedModel";
 import type MessageReceivedModel from "../../types/public/MessageReceivedModel";
 import { postPublic } from "../public";
@@ -28,6 +30,15 @@ export default async function messageCreatePost(request: Request, code: string) 
 		const db = database();
 
 		const model: MessageEditModel = await request.json();
+
+		// Validate the model's schema
+		let validated = v.safeParse(MessageEditSchema, model);
+		if (!validated.success) {
+			return badRequest({
+				message: validated.issues.map((e) => e.message).join("\n"),
+				data: model,
+			});
+		}
 
 		// Get the current user
 		const currentUserQuery = db.query.usersTable.findFirst({
@@ -50,10 +61,16 @@ export default async function messageCreatePost(request: Request, code: string) 
 			followingQuery,
 		]);
 		if (!currentUser) {
-			return unauthorized();
+			return unauthorized({
+				message: "Unauthorized",
+				data: model,
+			});
 		}
 		if (!followedBy && !following) {
-			return notFound();
+			return notFound({
+				message: "Not found",
+				data: model,
+			});
 		}
 
 		// Maybe get the message group

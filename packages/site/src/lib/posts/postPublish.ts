@@ -1,11 +1,13 @@
-import { created, serverError, unauthorized } from "@torpor/build/response";
+import { badRequest, created, serverError, unauthorized } from "@torpor/build/response";
 import { eq } from "drizzle-orm";
+import * as v from "valibot";
 import database from "../../data/database";
 import { activityTable, feedTable, postsTable, usersTable } from "../../data/schema";
 import { FeedInsert } from "../../data/schema/feedTable";
 import transaction from "../../data/transaction";
 import postsSend from "../../routes/api/posts/send/+server";
 import type PostEditModel from "../../types/posts/PostEditModel";
+import PostEditSchema from "../../types/posts/PostEditSchema";
 import * as api from "../api";
 import {
 	ARTICLE_LINK_TYPE,
@@ -30,6 +32,15 @@ export default async function postPublish(
 		const db = database();
 
 		const model: PostEditModel = await request.json();
+
+		// Validate the model's schema
+		let validated = v.safeParse(PostEditSchema, model);
+		if (!validated.success) {
+			return badRequest({
+				message: validated.issues.map((e) => e.message).join("\n"),
+				data: model,
+			});
+		}
 
 		// Get the current user
 		const currentUser = await db.query.usersTable.findFirst({

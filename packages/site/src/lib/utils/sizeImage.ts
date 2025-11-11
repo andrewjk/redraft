@@ -1,4 +1,4 @@
-export default function sizeImage(src: string, width?: number, height?: number) {
+export default function sizeImage(src: string | null | undefined, width?: number, height?: number) {
 	if (src) {
 		if (width || height) {
 			let params = [];

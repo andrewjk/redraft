@@ -1,12 +1,6 @@
-export default interface ListEditModel {
-	id: number;
-	name: string;
-	description: string;
-	users: {
-		id: number;
-		url: string;
-		name: string;
-		image: string;
-		included: boolean;
-	}[];
-}
+import * as v from "valibot";
+import ListEditSchema from "./ListEditSchema";
+
+type ListEditModel = v.InferInput<typeof ListEditSchema>;
+
+export default ListEditModel;
