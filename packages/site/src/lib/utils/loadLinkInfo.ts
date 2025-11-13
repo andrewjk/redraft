@@ -73,5 +73,6 @@ export default async function loadLinkInfo(url: string) {
 		};
 	} catch (err) {
 		console.log("Error loading link info", url);
+		console.log(err);
 	}
 }
