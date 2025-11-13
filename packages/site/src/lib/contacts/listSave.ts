@@ -15,7 +15,7 @@ export default async function listSave(request: Request, code: string) {
 	try {
 		const db = database();
 
-		const model: ListEditModel = await request.json();
+		let model: ListEditModel = await request.json();
 
 		// Validate the model's schema
 		let validated = v.safeParse(ListEditSchema, model);
@@ -25,6 +25,7 @@ export default async function listSave(request: Request, code: string) {
 				data: model,
 			});
 		}
+		model = validated.output;
 
 		// Get the current user
 		const currentUserQuery = db.query.usersTable.findFirst({

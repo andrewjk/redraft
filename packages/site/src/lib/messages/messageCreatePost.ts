@@ -29,7 +29,7 @@ export default async function messageCreatePost(request: Request, code: string) 
 	try {
 		const db = database();
 
-		const model: MessageEditModel = await request.json();
+		let model: MessageEditModel = await request.json();
 
 		// Validate the model's schema
 		let validated = v.safeParse(MessageEditSchema, model);
@@ -39,6 +39,7 @@ export default async function messageCreatePost(request: Request, code: string) 
 				data: model,
 			});
 		}
+		model = validated.output;
 
 		// Get the current user
 		const currentUserQuery = db.query.usersTable.findFirst({

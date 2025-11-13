@@ -31,7 +31,7 @@ export default async function postPublish(
 	try {
 		const db = database();
 
-		const model: PostEditModel = await request.json();
+		let model: PostEditModel = await request.json();
 
 		// Validate the model's schema
 		let validated = v.safeParse(PostEditSchema, model);
@@ -41,6 +41,7 @@ export default async function postPublish(
 				data: model,
 			});
 		}
+		model = validated.output;
 
 		// Get the current user
 		const currentUser = await db.query.usersTable.findFirst({

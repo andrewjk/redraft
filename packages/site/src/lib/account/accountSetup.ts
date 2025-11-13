@@ -20,7 +20,7 @@ export default async function accountSetup(request: Request) {
 	try {
 		const db = database();
 
-		const model: SetupModel = await request.json();
+		let model: SetupModel = await request.json();
 
 		// Validate the model's schema
 		let validated = v.safeParse(SetupSchema, model);
@@ -31,6 +31,7 @@ export default async function accountSetup(request: Request) {
 				data: model,
 			});
 		}
+		model = validated.output;
 
 		// Make sure a different user doesn't already exist
 		const currentUser = await db.query.usersTable.findFirst();

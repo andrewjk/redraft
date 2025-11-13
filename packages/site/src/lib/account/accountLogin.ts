@@ -18,7 +18,7 @@ export default async function accountLogin(request: Request) {
 	try {
 		const db = database();
 
-		const model: LoginModel = await request.json();
+		let model: LoginModel = await request.json();
 
 		// Validate the model's schema
 		let validated = v.safeParse(LoginSchema, model);
@@ -29,6 +29,7 @@ export default async function accountLogin(request: Request) {
 				data: model,
 			});
 		}
+		model = validated.output;
 
 		// Get the user with the given email
 		const user = await db.query.usersTable.findFirst({

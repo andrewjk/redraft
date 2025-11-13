@@ -22,7 +22,7 @@ export default async function profileEdit(
 	try {
 		const db = database();
 
-		const model: ProfileEditModel = await request.json();
+		let model: ProfileEditModel = await request.json();
 
 		// Validate the model's schema
 		let validated = v.safeParse(ProfileEditSchema, model);
@@ -32,6 +32,7 @@ export default async function profileEdit(
 				data: model,
 			});
 		}
+		model = validated.output;
 
 		// Get the current user
 		const currentUser = await db.query.usersTable.findFirst({

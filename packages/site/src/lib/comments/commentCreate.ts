@@ -38,7 +38,7 @@ export default async function commentCreate(
 	try {
 		const db = database();
 
-		const model: CommentCreateModel = await request.json();
+		let model: CommentCreateModel = await request.json();
 
 		// Validate the model's schema
 		let validated = v.safeParse(CommentCreateSchema, model);
@@ -48,6 +48,7 @@ export default async function commentCreate(
 				data: model,
 			});
 		}
+		model = validated.output;
 
 		// Get the user
 		const userQuery = db.query.usersTable.findFirst();

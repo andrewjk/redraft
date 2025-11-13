@@ -16,7 +16,7 @@ export default async function postSave(request: Request, code: string) {
 	try {
 		const db = database();
 
-		let model = await request.json();
+		let model: PostEditModel = await request.json();
 
 		// Validate the model's schema
 		let validated = v.safeParse(PostEditSchema, model);
@@ -27,16 +27,7 @@ export default async function postSave(request: Request, code: string) {
 				data: model,
 			});
 		}
-		model = validated.output as PostEditModel;
-
-		// Validate the model's schema
-		let validated = v.safeParse(PostEditSchema, model);
-		if (!validated.success) {
-			return badRequest({
-				message: validated.issues.map((e) => e.message).join("\n"),
-				data: model,
-			});
-		}
+		model = validated.output;
 
 		// Get the current user
 		const currentUser = await db.query.usersTable.findFirst({
