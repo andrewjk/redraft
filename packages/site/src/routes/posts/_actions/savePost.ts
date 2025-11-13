@@ -35,6 +35,14 @@ export default async function savePost({ appData, request, params }: ServerLoadE
 		model.linkimagefile = undefined;
 	}
 
+	// Save the link image if it's been uploaded
+	const linkimagefile = data.get("linkimagefile") as File;
+	if (linkimagefile?.name) {
+		let name = uuid() + "." + linkimagefile.name.split(".").at(-1);
+		await store.uploadFile(linkimagefile, name);
+		model.linkImage = `${user.url}api/content/${name}`;
+	}
+
 	const result = await api.post(`posts/save`, postsSave, params, model, user.token);
 	if (!result.ok) {
 		return result;
