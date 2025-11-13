@@ -1,0 +1,42 @@
+import { Form, Hidden } from "@torpor/ui/Form";
+import type UserModel from "../../types/UserModel";
+import type ViewingModel from "../../types/ViewingModel";
+import type FollowedByPreviewModel from "../../types/contacts/FollowedByPreviewModel";
+import FollowPreview from "./FollowPreview.torp";
+import FollowMenu from "./FollowMenu.torp";
+
+/**
+ * Shows a list of the users being followed.
+ */
+export default function FollowedByPage($props: { data: { viewing: ViewingModel, followedBy: FollowedByPreviewModel[], user: UserModel, base: string } }) {
+	@head {
+		<title>{$props.data.viewing.name} • Followed by • Redraft</title>
+	}
+
+	@render {
+		<div class="vstack spaced followed-by-list">
+			<FollowMenu section="FollowedBy" {$props.data.user} {$props.data.base} />
+
+			<div class="vstack spaced-nr full-width">
+				@if ($props.data.followedBy.length === 0) {
+					<div class="card">
+						You are not followed by anyone yet.
+					</div>
+				} else {
+					@for (let follow of $props.data.followedBy) {
+						@key = follow.slug
+						<div class="hstack spaced full-width">
+							<div class="grow">
+								<FollowPreview {follow} {$props.data.user} {$props.data.base} canMessage />
+							</div>
+							<Form action="?/block">
+								<Hidden name="id" value={follow.id} />
+								<button>Block</button>
+							</Form>
+						</div>
+					}
+				}
+			</div>
+		</div>
+	}
+}

@@ -1,0 +1,109 @@
+import placeholdify from "../../lib/utils/placeholdify";
+import { Form, Field, File, Label, Input, Message } from "@torpor/ui/Form";
+import type FormData from "../../types/FormData";
+import SetupSchema from "../../types/account/SetupSchema";
+import type SetupModel from "../../types/account/SetupModel";
+import FormErrors from "../FormErrors.torp";
+
+export default function SetupPage($props: { form: FormData }) {
+	const formData = $props.form?.data;
+	let $state = $watch({
+		data: {
+			username: formData?.username ?? "",
+			password: "",
+			email: formData?.email ?? "",
+			name: formData?.name ?? "",
+			image: formData?.image ?? "",
+			bio: formData?.bio ?? "",
+			location: formData?.location ?? "",
+			imagefile: undefined,
+		} satisfies SetupModel
+	});
+
+	@head {
+		<title>Setup • Redraft</title>
+	}
+
+	@render {
+		<div class="vstack spaced full-width setup-page">
+			<h2>Setup</h2>
+
+			<FormErrors {$props.form} />
+
+			<Form {$state.data} schema={SetupSchema}>
+				<Field class="form-row" name="username" &value={$state.data.username}>
+					<Label>Username</Label>
+					<Input required />
+					<Message />
+				</Field>
+				<Field class="form-row" name="password" &value={$state.data.password}>
+					<Label>Password</Label>
+					<Input type="password" required />
+					<Message />
+				</Field>
+				<Field class="form-row" name="email" &value={$state.data.email}>
+					<Label>Email</Label>
+					<Input type="email" required />
+					<Message />
+				</Field>
+				<Field class="form-row" name="name" &value={$state.data.name}>
+					<Label>Name</Label>
+					<Input required />
+					<Message />
+				</Field>
+				<Field class="form-row" name="imagefile" &value={$state.data.imagefile}>
+					<Label>Image</Label>
+					<div class="hstack centered spaced">
+						<div
+							id="image-preview"
+							class="no-shrink"
+							style={`background-image: url("${placeholdify("")}")`}
+						/>
+						<File
+							accept="image/*"
+							onchange={fileSelected}
+						/>
+					</div>
+					<Message />
+				</Field>
+				@function fileSelected(e: Event) {
+					const image = (e.target as HTMLInputElement).files![0];
+					if (!image.type.includes("image")) {
+						return;
+					}
+					const fileReader = new FileReader();
+					fileReader.readAsDataURL(image);
+					fileReader.onload = (ev: ProgressEvent<FileReader>) => {
+						const preview = document.getElementById("image-preview");
+						preview!.style.backgroundImage = `url("${ev.target!.result}")`;
+					}
+				}
+				<Field class="form-row" name="bio" &value={$state.data.bio}>
+					<Label>Bio</Label>
+					<Input />
+					<Message />
+				</Field>
+				<Field class="form-row" name="location" &value={$state.data.location}>
+					<Label>Location</Label>
+					<Input />
+				</Field>
+				<div class="form-footer">
+					<button type="submit">
+						Setup
+					</button>
+				</div>
+			</Form>
+		</div>
+	}
+
+	@style {
+		#image-preview {
+			height: 100px;
+			width: 100px;
+			background-size: cover;
+			border: 1px solid var(--border-color);
+			border-radius: 50%;
+			box-shadow: 0 0.2rem 0.4rem #eee;
+		}
+	}
+}

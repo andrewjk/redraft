@@ -1,6 +1,6 @@
 import type { PageEndPoint } from "@torpor/build";
 import { $page } from "@torpor/build/state";
-import component from "../views/Error.torp";
+import component from "../views/ErrorPage.torp";
 
 export default {
 	component,

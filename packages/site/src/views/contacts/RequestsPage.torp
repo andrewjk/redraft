@@ -1,0 +1,42 @@
+import { Form, Hidden } from "@torpor/ui/Form";
+import type UserModel from "../../types/UserModel";
+import type ViewingModel from "../../types/ViewingModel";
+import type FollowRequestPreviewModel from "../../types/contacts/FollowRequestPreviewModel";
+import FollowPreview from "./FollowPreview.torp";
+import FollowMenu from "./FollowMenu.torp";
+
+/**
+ * Shows a list of the users being followed.
+ */
+export default function RequestsPage($props: { data: { viewing: ViewingModel, requests: FollowRequestPreviewModel[], user: UserModel, base: string } }) {
+	@head {
+		<title>{$props.data.viewing.name} • Requests • Redraft</title>
+	}
+
+	@render {
+		<div class="vstack spaced follow-request-list">
+			<FollowMenu section="Requests" {$props.data.user} {$props.data.base} />
+
+			<div class="vstack spaced-nr full-width">
+				@if ($props.data.requests.length === 0) {
+					<div class="card">
+						You don't have any follow requests.
+					</div>
+				} else {
+					@for (let follow of $props.data.requests) {
+						@key = follow.url
+						<div class="hstack spaced full-width">
+							<div class="grow">
+								<FollowPreview {follow} {$props.data.user} {$props.data.base} />
+							</div>
+							<Form action="?/approve">
+								<Hidden name="id" value={follow.id} />
+								<button>Approve</button>
+							</Form>
+						</div>
+					}
+				}
+			</div>
+		</div>
+	}
+}

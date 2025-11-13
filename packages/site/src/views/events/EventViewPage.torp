@@ -1,0 +1,183 @@
+import placeholdify from "../../lib/utils/placeholdify";
+import relativeTimeSince from "../../lib/utils/relativeTimeSince"
+import stripProtocol from "../../lib/utils/stripProtocol";
+import type UserModel from "../../types/UserModel";
+import type FollowerModel from "../../types/FollowerModel";
+import type PostViewModel from "../../types/posts/PostViewModel";
+import CommentList from "../comments/CommentList.torp"
+import ChatCircle from "phosphor-torpor/lib/ChatCircle";
+import Heart from "phosphor-torpor/lib/Heart";
+import Pencil from "phosphor-torpor/lib/Pencil";
+
+/**
+ * Shows an event's full details.
+ */
+export default function EventViewPage($props: { data: { post: PostViewModel, user: UserModel, follower: FollowerModel, base: string } }) {
+	let { post, user, follower } = $props.data;
+
+	let fmt = new Intl.DateTimeFormat(undefined, {
+		day: "numeric",
+		month: "short",
+		year: "numeric",
+		hour: "numeric",
+		minute: "numeric"
+	});
+
+	@head {
+		<meta name="description" content={post.text} />
+		<meta property="og:type" content="event" />
+		@// <meta property="og:locale" content="en_US" />
+		<meta property="og:site_name" content="Redraft" />
+		<meta property="og:title" content={post.linkTitle} />
+		<meta property="og:description" content={""} />
+		<meta property="og:url" content="{post.author.url}posts/${post.slug}" />
+		@// <meta property="og:image" content="" />
+		@// <meta property="og:image:width" content="1152" />
+		@// <meta property="og:image:height" content="648" />
+		@// <meta property="og:image:alt" content="todo" />
+		@if (post.publishedAt) {
+			<meta property="article:published_time" content={(new Date(post.publishedAt)).toISOString()} />
+		}
+		@if (post.republishedAt) {
+			<meta property="article:modified_time" content={(new Date(post.republishedAt!)).toISOString()} />
+		}
+	}
+
+	@render {
+		<div class="card full-width event-view">
+			<div class="event-view-container">
+				<div class="hstack spaced">
+					<div style="flex: 0 0 auto">
+						<a href={post.author.url}>
+							<img class="event-view-image" src={placeholdify(post.author.image)} alt="{post.author.name} ({stripProtocol(post.author.url)})" />
+						</a>
+					</div>
+					<div style="flex: 1 1 auto">
+						<div class="event-view-header hstack centered spaced font-sm">
+							<a class="event-view-link hstack spaced grow" href={post.author.url}>
+								<div class="vstack">
+									<div class="event-view-name">
+										{post.author.name}
+									</div>
+									<div class="event-view-url secondary">
+										{stripProtocol(post.author.url)}
+									</div>
+								</div>
+							</a>
+							<div class="vstack align-end">
+								<div class="event-view-time secondary" title={fmt.format(new Date(post.publishedAt))}>
+									{relativeTimeSince(new Date(post.publishedAt))}
+								</div>
+								@if (user?.url === post.author.url) {
+									<a href="{$props.data.base}posts/edit/{post.slug}" class="icon">
+										<Pencil weight="bold" />
+									</a>
+								} else {
+									<span>&nbsp;</span>
+								}
+							</div>
+						</div>
+
+						<div class="event-view-body">
+							<h3>{post.linkTitle}</h3>
+							<p>Where: {post.eventLocation}</p>
+							<p>When: {fmt.format(new Date(post.eventStartsAt!))}</p>
+							@html(post.eventText!)
+						</div>
+
+						@/*
+						@if (post.tags.length) {
+							<div class="event-view-tags-container">
+								@for (let [i, tag] of post.tags.entries()) {
+									@if (i > 0) {
+										<span class="separator" />
+									}
+									<a href="{$props.data.base}tags/{tag}">{tag}</a>
+								}
+							</div>
+						}
+						*/
+
+						<div class="event-view-footer hstack centered font-sm secondary">
+							<span class="hstack centered spaced-nr">
+								<ChatCircle weight="bold" />
+								{post.commentCount}
+							</span>
+							<span class="hstack centered spaced-nr">
+								<Heart weight="bold" />
+								{post.likeCount}
+							</span>
+							@if (post.emojiFirst) {
+								<span>{post.emojiFirst}</span>
+							}
+							@if (post.emojiSecond) {
+								<span>{post.emojiSecond}</span>
+							}
+							@if (post.emojiThird) {
+								<span>{post.emojiThird}</span>
+							}
+							@for (let tag of post.tags) {
+								<a href="{$props.data.base}tags/{tag.slug}">{tag.text}</a>
+							}
+						</div>
+					</div>
+				</div>
+			</div>
+
+			<div class="event-view-comments-container">
+				<CommentList {post} {user} {follower} {post.comments}/>
+			</div>
+		</div>
+	}
+
+	@style {
+		.event-view {
+			margin: 0 auto;
+			padding: 0;
+		}
+
+		.event-view-container,
+		.event-view-comments-container {
+			padding: 1rem;
+		}
+
+		.event-view-container {
+			border-bottom: 1px solid var(--border-color);
+		}
+
+		.event-view-footer {
+			gap: 2rem;
+		}
+
+		.event-view-body {
+			padding: 1rem 0;
+		}
+
+		.event-view-link {
+			color: inherit;
+			text-decoration: none;
+		}
+
+		.event-view-image {
+			height: 40px;
+			width: 40px;
+			border: 1px solid var(--border-color);
+			border-radius: 50%;
+			box-shadow: 0 0.2rem 0.4rem #eee;
+		}
+
+		.event-view-name {
+			font-weight: bold;
+		}
+
+		.separator {
+			margin: 0 0.5rem;
+		}
+
+		.event-view-comments-container {
+			background-color: #fcfcfc;
+			border-radius: var(--border-radius);
+			font-size: 85%;
+		}
+	}
+}

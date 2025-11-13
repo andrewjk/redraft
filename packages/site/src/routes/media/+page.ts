@@ -1,5 +1,5 @@
 import { type PageEndPoint } from "@torpor/build";
-import component from "../../views/media/Index.torp";
+import component from "../../views/media/MediaPage.torp";
 
 export default {
 	component,

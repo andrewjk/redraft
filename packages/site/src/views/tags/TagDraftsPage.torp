@@ -1,0 +1,32 @@
+import { $page } from "@torpor/build/state";
+import type UserModel from "../../types/UserModel";
+import type FollowerModel from "../../types/FollowerModel";
+import type ViewingModel from "../../types/ViewingModel";
+import type TagPreviewModel from "../../types/tags/TagPreviewModel";
+import type PostPreviewModel from "../../types/posts/PostPreviewModel";
+import post from "../$postInput";
+import TagMenu from "./TagMenu.torp";
+import PostInput from "../posts/PostInput.torp";
+import PostList from "../posts/PostList.torp";
+import Pagination from "../Pagination.torp";
+
+export default function TagDraftsPage($props: { data: { tag: TagPreviewModel, posts: PostPreviewModel[], pageCount: number, user: UserModel, viewing: ViewingModel, follower: FollowerModel, base: string } }) {
+	let $state = $watch({
+		page: +($page.url.searchParams.get("page") || 1),
+	})
+
+	@head {
+		<title>{$props.data.viewing.name} • {$props.data.tag.text} • Redraft</title>
+	}
+
+	@render {
+		<div class="vstack centered spaced tag-drafts-page">
+			<TagMenu tag={$props.data.tag} section="Drafts" {$props.data.user} {$props.data.base} />
+			@if ($props.data.user) {
+				<PostInput {post} {$props.data.user} {$props.data.base} />
+			}
+			<PostList {$props.data.posts} {$props.data.user} {$props.data.follower} />
+			<Pagination {$props.data.pageCount} {$state.page} href={(p: number) => `/?page=${p}`} />
+		</div>
+	}
+}

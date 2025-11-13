@@ -1,0 +1,77 @@
+import placeholdify from "../../lib/utils/placeholdify";
+import stripProtocol from "../../lib/utils/stripProtocol";
+import type UserModel from "../../types/UserModel";
+import type FollowerModel from "../../types/FollowerModel";
+import type ViewingModel from "../../types/ViewingModel";
+import type FormData from "../../types/FormData";
+import type MessageGroupModel from "../../types/messages/MessageGroupModel";
+import type MessageGroupMessageModel from "../../types/messages/MessageGroupMessageModel";
+import MessagePreview from "./MessagePreview.torp";
+import MessageInput from "./MessageInput.torp";
+
+/**
+ * Shows a list of message groups.
+ */
+export default function MessagesPage($props: { data: { messageGroup: MessageGroupModel, messages: MessageGroupMessageModel[], viewing: ViewingModel, user: UserModel, follower: FollowerModel, base: string }, form?: FormData }) {
+	const { messageGroup, messages } = $props.data;
+
+	@head {
+		<title>{$props.data.viewing.name} • Messages • Redraft</title>
+	}
+
+	@render {
+		<div class="vstack spaced message-list">
+			<div class="vstack spaced-nr full-width">
+				<div class="card">
+					<div class="hstack spaced">
+						<div style="flex: 0 0 auto">
+							<a href={messageGroup.url}>
+								<img class="message-list-image" src={placeholdify(messageGroup.image)} alt="{messageGroup.name} ({stripProtocol(messageGroup.url)})" />
+							</a>
+						</div>
+						<div style="flex: 1 1 auto">
+							<div class="message-list-header hstack centered spaced font-sm">
+								<a class="message-list-link grow hstack spaced" href={messageGroup.url}>
+									<div class="grow vstack">
+										<div class="message-list-name">
+											{messageGroup.name}
+										</div>
+										<div class="message-list-url secondary">
+											{stripProtocol(messageGroup.url)}
+										</div>
+									</div>
+								</a>
+							</div>
+						</div>
+					</div>
+				</div>
+
+				@for (let message of messages) {
+					@key = message.id
+					<div class="hstack spaced full-width">
+						<div class="grow">
+							<MessagePreview {messageGroup} {message} {$props.data.user} />
+						</div>
+					</div>
+				}
+
+				<MessageInput {messageGroup.groupSlug} {messageGroup.userSlug} {$props.form} />
+			</div>
+		</div>
+	}
+
+	@style {
+		.message-list-image {
+			height: 40px;
+			width: 40px;
+			border: 1px solid var(--border-color);
+			border-radius: 50%;
+			box-shadow: 0 0.2rem 0.4rem #eee;
+		}
+
+		.message-list-name {
+			font-weight: bold;
+		}
+
+	}
+}

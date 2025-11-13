@@ -7,7 +7,7 @@ import FormErrors from "../FormErrors.torp";
 /**
  * Allows creating a message.
  */
-export default function MessageInput($props: { groupSlug: string, userSlug: string, form: FormData }) {
+export default function MessageInput($props: { groupSlug: string, userSlug: string, form?: FormData }) {
 	const formData = $props.form?.data;
 	let $state = $watch({
 		data: {

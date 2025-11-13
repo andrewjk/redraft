@@ -1,0 +1,35 @@
+import type UserModel from "../../types/UserModel";
+import type FollowerModel from "../../types/FollowerModel";
+import type ViewingModel from "../../types/ViewingModel";
+
+export default function FollowPage($props: { data: { url: string, viewing: ViewingModel, user: UserModel, follower: FollowerModel, base: string } }) {
+	@head {
+		<title>{$props.data.viewing.name} • Follow • Redraft</title>
+	}
+
+	@render {
+		<div class="vstack spaced full-width follow-page">
+			<h2>Follow</h2>
+
+			<div class="full-width">
+				<p>
+					To follow me you will need a Redraft site or account.
+				</p>
+				<p>
+					If you already have a Redraft site or account, my follow URL is
+					<code>{$props.data.viewing.url}</code>
+				</p>
+				<p>
+					<button type="button" onclick={
+						async (e) => {
+							e.preventDefault();
+							await navigator.clipboard.writeText($props.data.url);
+						}
+					}>
+						Copy URL to clipboard
+					</button>
+				</p>
+			</div>
+		</div>
+	}
+}

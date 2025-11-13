@@ -1,5 +1,5 @@
 import { type PageEndPoint } from "@torpor/build";
-import component from "../../views/notifications/NotificationList.torp";
+import component from "../../views/notifications/NotificationsPage.torp";
 
 export default {
 	component,

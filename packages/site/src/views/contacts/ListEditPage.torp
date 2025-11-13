@@ -1,0 +1,80 @@
+import { Form, Field, Label, Hidden, Input, TextArea, Message } from "@torpor/ui/Form";
+import placeholdify from "../../lib/utils/placeholdify";
+import stripProtocol from "../../lib/utils/stripProtocol";
+import type FormData from "../../types/FormData";
+import type UserModel from "../../types/UserModel";
+import type ListEditModel from "../../types/contacts/ListEditModel";
+import ListEditSchema from "../../types/contacts/ListEditSchema";
+import FormErrors from "../FormErrors.torp";
+import FollowMenu from "./FollowMenu.torp";
+
+export default function ListEditPage($props: { data: { list: ListEditModel, user: UserModel, base: string }, form?: FormData }) {
+	let $list = $watch($props.data.list)
+
+	@head {
+		<title>{$list.id < 0 ? "Create" : "Edit"} List • Redraft</title>
+	}
+
+	@render {
+		<div class="full-width list-edit-page">
+			<FollowMenu section="Lists" {$props.data.user} {$props.data.base} />
+
+			<FormErrors {$props.form} />
+
+			<Form data={$list} schema={ListEditSchema}>
+				<Hidden name="id" value={$list.id} />
+				<Field class="form-row" name="name" &value={$list.name}>
+					<Label>Name</Label>
+					<Input required />
+					<Message class="error-message" />
+				</Field>
+				<Field class="form-row" name="description" &value={$list.description}>
+					<Label>Description</Label>
+					<TextArea />
+					<Message class="error-message" />
+				</Field>
+
+				<h3>Followers</h3>
+				@for (let [i, user] of $list.users.entries()) {
+					<Hidden name="users[{i}].id" value={user.id} />
+					<div class="hstack centered spaced">
+						<div>
+							<input
+								id="users[{i}].included"
+								type="checkbox"
+								&checked={user.included}
+								name="users[{i}].included"
+							/>
+						</div>
+						<div class="grow">
+							<label for="users[{i}].included" style="color: inherit">
+								<div class="hstack centered spaced">
+									<div class="no-shrink">
+										<img class="user-preview-image" src={placeholdify(user.image)} alt="{user.name} ({stripProtocol(user.url)})" />
+									</div>
+									<div class="grow">
+										<div class="user-preview-header hstack centered spaced font-sm">
+											<div class="grow vstack">
+												<div class="user-preview-name">
+													{user.name}
+												</div>
+												<div class="user-preview-url secondary">
+													{stripProtocol(user.url)}
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+							</label>
+						</div>
+					</div>
+				}
+				<div class="form-footer">
+					<button type="submit">
+						Save
+					</button>
+				</div>
+			</Form>
+		</div>
+	}
+}

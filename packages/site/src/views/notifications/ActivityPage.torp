@@ -1,0 +1,33 @@
+import type UserModel from "../../types/UserModel";
+import type ViewingModel from "../../types/ViewingModel";
+import type ActivityPreviewModel from "../../types/notifications/ActivityPreviewModel";
+import NotificationMenu from "./NotificationMenu.torp";
+import ActivityPreview from "./ActivityPreview.torp";
+
+/**
+ * Shows a list of the current user's activity.
+ */
+export default function ActivityPage($props: { data: { activity: ActivityPreviewModel[], user: UserModel, viewing: ViewingModel, base: string } }) {
+	@head {
+		<title>{$props.data.viewing.name} • Activity • Redraft</title>
+	}
+
+	@render {
+		<div class="vstack centered spaced activity-page">
+			<NotificationMenu section="Activity" {$props.data.user} {$props.data.base} />
+
+			<div class="vstack spaced-nr full-width">
+				@if ($props.data.activity.length === 0) {
+					<div class="card">
+						You have no activity yet.
+					</div>
+				} else {
+					@for (let activity of $props.data.activity) {
+						@// @key = activity.id
+						<ActivityPreview {activity} {$props.data.user} />
+					}
+				}
+			</div>
+		</div>
+	}
+}

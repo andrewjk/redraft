@@ -1,0 +1,50 @@
+import { Form, Field, Label, Input, Message, CheckBox } from "@torpor/ui/Form";
+import type FormData from "../../types/FormData";
+import LoginSchema from "../../types/account/LoginSchema";
+import type LoginModel from "../../types/account/LoginModel";
+import FormErrors from "../FormErrors.torp";
+
+export default function LoginPage($props: { form?: FormData }) {
+	const formData = $props.form?.data;
+	let $state = $watch({
+		data: {
+			email: formData?.email ?? "",
+			password: "",
+			rememberMe: formData?.rememberMe ?? false
+		} satisfies LoginModel
+	});
+
+	@head {
+		<title>Login • Redraft</title>
+	}
+
+	@render {
+		<div class="vstack spaced full-width login-page">
+			<h1>Login</h1>
+
+			<FormErrors {$props.form} />
+
+			<Form {$state.data} schema={LoginSchema}>
+				<Field class="form-row" name="email" &value={$state.data.email}>
+					<Label>Email</Label>
+					<Input type="email" required />
+					<Message class="error-message" />
+				</Field>
+				<Field class="form-row" name="password" &value={$state.data.password}>
+					<Label>Password</Label>
+					<Input type="password" required />
+					<Message class="error-message" />
+				</Field>
+				<Field class="form-row" name="rememberMe" &value={$state.data.rememberMe}>
+					<CheckBox />
+					<Label>Remember me</Label>
+				</Field>
+				<div class="form-footer">
+					<button type="submit">
+						Login
+					</button>
+				</div>
+			</Form>
+		</div>
+	}
+}

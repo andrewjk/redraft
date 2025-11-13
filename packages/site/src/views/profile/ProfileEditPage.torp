@@ -1,0 +1,124 @@
+import { Form, Field, File, Label, Hidden, Input, TextArea, Message } from "@torpor/ui/Form";
+import placeholdify from "../../lib/utils/placeholdify";
+import type FormData from "../../types/FormData";
+import type UserModel from "../../types/UserModel";
+import type ProfileEditModel from "../../types/profile/ProfileEditModel";
+import ProfileEditSchema from "../../types/profile/ProfileEditSchema";
+import FormErrors from "../FormErrors.torp";
+import ProfileMenu from "./ProfileMenu.torp";
+
+export default function EditPage($props: { data: { profile: ProfileEditModel, user: UserModel, base: string }, form?: FormData }) {
+	let $profile = $watch($props.data.profile)
+	let preview: HTMLDivElement;
+
+	@head {
+		<title>Edit Profile • Redraft</title>
+	}
+
+	@render {
+		<div class="full-width profile-edit-page">
+			<ProfileMenu section="Edit" {$props.data.user} {$props.data.base} />
+
+			<FormErrors {$props.form} />
+
+			<Form data={$profile} schema={ProfileEditSchema}>
+				<Field class="form-row" name="imagefile" &value={$profile.imagefile}>
+					<Label>Image</Label>
+					<div class="hstack centered spaced">
+						<div
+							class="no-shrink"
+							style={`background-image: url("${placeholdify($props.data.profile.image)}")`}
+							&ref={preview}
+						/>
+						<File
+							accept="image/*"
+							onchange={fileSelected}
+						/>
+					</div>
+					<Message class="error-message" />
+				</Field>
+				@function fileSelected(e: Event) {
+					const image = (e.target as HTMLInputElement).files![0];
+					if (!image.type.includes("image")) {
+						return;
+					}
+					const fileReader = new FileReader();
+					fileReader.readAsDataURL(image);
+					fileReader.onload = (ev) => {
+						preview.style.backgroundImage = `url("${ev.target!.result}")`;
+					}
+				}
+				<Field class="form-row" name="email" &value={$profile.email}>
+					<Label>Email</Label>
+					<Input
+						type="email"
+						required
+					/>
+					<Message class="error-message" />
+				</Field>
+				<Field class="form-row" name="name" &value={$profile.name}>
+					<Label>Name</Label>
+					<Input required />
+					<Message class="error-message" />
+				</Field>
+				<Field class="form-row" name="bio" &value={$profile.bio}>
+					<Label>Bio</Label>
+					<TextArea />
+					<Message class="error-message" />
+				</Field>
+				<Field class="form-row" name="location" &value={$profile.location}>
+					<Label>Location</Label>
+					<Input />
+					<Message class="error-message" />
+				</Field>
+				<Field class="form-row" name="about" &value={$profile.about}>
+					<Label>About</Label>
+					<TextArea />
+					<Message class="error-message" />
+				</Field>
+
+				<h3>Links</h3>
+				@for (let [i, link] of $profile.links.entries()) {
+					<Hidden name="links[{i}].id" value={link.id} />
+					<div class="form-row">
+						<label for="links[{i}]-input">URL / Text</label>
+						<input
+							id="links[{i}]-input"
+							name="links[{i}].url"
+							&value={link.url}
+							style="margin-bottom: 0.4rem"
+						/>
+						<input
+							name="links[{i}].text"
+							&value={link.text}
+						/>
+					</div>
+				}
+				<div class="form-row">
+					<button class="link" type="button" onclick={() => addLink()}>
+						Add a link
+					</button>
+					@function addLink() {
+						$profile.links.push({ id: -1, text: "", url: "" })
+					}
+				</div>
+				<div class="form-footer">
+					<button type="submit">
+						Save
+					</button>
+				</div>
+			</Form>
+		</div>
+	}
+
+	@style {
+		#image-preview {
+			height: 100px;
+			width: 100px;
+			background-size: cover;
+			border: 1px solid var(--border-color);
+			border-radius: 50%;
+			box-shadow: 0 0.2rem 0.4rem #eee;
+		}
+	}
+}

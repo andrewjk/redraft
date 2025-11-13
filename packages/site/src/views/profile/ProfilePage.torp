@@ -1,0 +1,50 @@
+import type UserModel from "../../types/UserModel";
+import type ViewingModel from "../../types/ViewingModel";
+import type ProfileViewModel from "../../types/profile/ProfileViewModel";
+import ProfileMenu from "./ProfileMenu.torp";
+import Link from "phosphor-torpor/lib/Link";
+
+export default function ProfilePage($props: { data: { profile: ProfileViewModel, user: UserModel, viewing: ViewingModel, base: string } }) {
+	@head {
+		<title>{$props.data.viewing.name} • Profile • Redraft</title>
+	}
+
+	@render {
+		<div class="vstack spaced profile-page">
+			<ProfileMenu section="Profile" {$props.data.user} {$props.data.base} />
+
+			@if ($props.data.profile.about) {
+				<hr />
+				@html($props.data.profile.about)
+			}
+
+			@if ($props.data.profile.links.length) {
+				<hr />
+				<div class="hstack spaced">
+					@for (let link of $props.data.profile.links) {
+						<a href={link.url} class="hstack centered spaced-nr">
+							<Link weight="bold" />
+							{link.text}
+						</a>
+					}
+				</div>
+			}
+		</div>
+	}
+
+	@style {
+
+		.profile-image {
+			height: 200px;
+			width: 200px;
+			border: 1px solid var(--border-color);
+			border-radius: 50%;
+			box-shadow: 0 0.2rem 0.4rem #eee;
+		}
+
+		.profile-options {
+			justify-content: center;
+			margin-top: 2rem;
+		}
+	}
+}
