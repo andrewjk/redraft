@@ -21,7 +21,6 @@ export default async function postSave(request: Request, code: string) {
 		// Validate the model's schema
 		let validated = v.safeParse(PostEditSchema, model);
 		if (!validated.success) {
-			console.log("INVALID", validated);
 			return badRequest({
 				message: validated.issues.map((e) => e.message).join("\n"),
 				data: model,

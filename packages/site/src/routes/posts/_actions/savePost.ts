@@ -35,6 +35,8 @@ export default async function savePost({ appData, request, params }: ServerLoadE
 		model.linkimagefile = undefined;
 	}
 
+	let published = data.get("published");
+
 	const result = await api.post(`posts/save`, postsSave, params, model, user.token);
 	if (!result.ok) {
 		return result;
