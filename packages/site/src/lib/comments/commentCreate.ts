@@ -132,7 +132,8 @@ export default async function commentCreate(
 			updated_at: new Date(),
 		};
 
-		const result = await transaction(db, async (tx) => {
+		let result;
+		await transaction(db, async (tx) => {
 			try {
 				const newComment = (await tx.insert(commentsTable).values(comment).returning())[0];
 
@@ -182,7 +183,7 @@ export default async function commentCreate(
 
 				// Return
 				const view = commentPreview(newComment, currentUser, []);
-				return created(view);
+				result = created(view);
 			} catch (error) {
 				errorMessage = getErrorMessage(error).message;
 				throw error;
