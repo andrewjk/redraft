@@ -7,7 +7,6 @@ import { Event } from "../../data/schema/eventsTable";
 import { Post } from "../../data/schema/postsTable";
 import { Tag } from "../../data/schema/tagsTable";
 import type PostEditModel from "../../types/posts/PostEditModel";
-import { ARTICLE_LINK_TYPE, EVENT_LINK_TYPE } from "../constants";
 import getErrorMessage from "../utils/getErrorMessage";
 import userIdQuery from "../utils/userIdQuery";
 
@@ -75,7 +74,7 @@ export default async function postEdit(slug: string, code: string) {
 
 		// Create the view
 		const view = createView(post, article, event, children);
-		console.log(event);
+
 		return ok({ post: view });
 	} catch (error) {
 		const message = errorMessage || getErrorMessage(error).message;
@@ -91,33 +90,33 @@ function createView(
 ): PostEditModel {
 	return {
 		id: post.id,
-		published: !!post.published_at,
+		published: !!post.published_at || undefined,
 		text: post.text,
 		visibility: post.visibility,
-		listId: post.list_id,
-		hasImage: !!post.image,
-		image: post.image,
-		imageAltText: post.image_alt_text,
-		isArticle: post.link_type === ARTICLE_LINK_TYPE,
+		listId: post.list_id ?? undefined,
+		hasImage: !!post.image || undefined,
+		image: post.image ?? undefined,
+		imageAltText: post.image_alt_text ?? undefined,
+		isArticle: !!article || undefined,
 		articleId: article?.id,
 		articleText: article?.text,
-		isEvent: post.link_type === EVENT_LINK_TYPE,
+		isEvent: !!event || undefined,
 		eventId: event?.id,
 		eventText: event?.text,
-		eventLocation: event?.location,
+		eventLocation: event?.location ?? undefined,
 		eventStartsAt: event?.starts_at,
-		eventDuration: event?.duration,
-		hasLink: !!post.link_url,
-		linkUrl: post.link_url,
-		linkImage: post.link_image,
-		linkTitle: post.link_title,
-		linkPublication: post.link_publication,
-		linkEmbedSrc: post.link_embed_src,
-		linkEmbedWidth: post.link_embed_width,
-		linkEmbedHeight: post.link_embed_height,
-		hasRating: !!post.rating_value,
-		ratingValue: post.rating_value,
-		ratingBound: post.rating_bound,
+		eventDuration: event?.duration ?? undefined,
+		hasLink: !!post.link_url || undefined,
+		linkUrl: post.link_url ?? undefined,
+		linkImage: post.link_image ?? undefined,
+		linkTitle: post.link_title ?? undefined,
+		linkPublication: post.link_publication ?? undefined,
+		linkEmbedSrc: post.link_embed_src ?? undefined,
+		linkEmbedWidth: post.link_embed_width ?? undefined,
+		linkEmbedHeight: post.link_embed_height ?? undefined,
+		hasRating: !!post.rating_value || undefined,
+		ratingValue: post.rating_value ?? undefined,
+		ratingBound: post.rating_bound ?? undefined,
 		children: children?.map((c) => createView(c)),
 		tags: post.postTags?.map((pt) => pt.tag.text).join("; "),
 	} satisfies PostEditModel;

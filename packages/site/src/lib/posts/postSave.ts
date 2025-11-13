@@ -16,16 +16,18 @@ export default async function postSave(request: Request, code: string) {
 	try {
 		const db = database();
 
-		const model: PostEditModel = await request.json();
+		let model = await request.json();
 
 		// Validate the model's schema
 		let validated = v.safeParse(PostEditSchema, model);
 		if (!validated.success) {
+			console.log("INVALID", validated);
 			return badRequest({
 				message: validated.issues.map((e) => e.message).join("\n"),
 				data: model,
 			});
 		}
+		model = validated.output as PostEditModel;
 
 		// Get the current user
 		const currentUser = await db.query.usersTable.findFirst({

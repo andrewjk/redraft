@@ -1,6 +1,5 @@
-import * as v from "valibot";
-import LoginSchema from "./LoginSchema";
-
-type LoginModel = v.InferInput<typeof LoginSchema>;
-
-export default LoginModel;
+export default interface LoginModel {
+	email: string;
+	password: string;
+	rememberMe?: boolean;
+}

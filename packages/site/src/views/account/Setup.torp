@@ -14,9 +14,9 @@ export default function Setup($props: { form: FormData }) {
 			email: formData?.email ?? "",
 			name: formData?.name ?? "",
 			image: formData?.image ?? "",
-			imagefile: undefined,
 			bio: formData?.bio ?? "",
 			location: formData?.location ?? "",
+			imagefile: undefined,
 		} satisfies SetupModel
 	});
 

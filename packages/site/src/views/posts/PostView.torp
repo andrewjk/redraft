@@ -95,7 +95,7 @@ export default function PostView($props: { data: { post: PostViewModel, user: Us
 							}
 						</div>
 
-						@if (post.children?.length > 0) {
+						@if (post.children?.length) {
 							@for (let child of post.children) {
 								<div class="child-post-body">
 									@if (new Date(child.publishedAt).getTime() - new Date(post.publishedAt).getTime() > 30000) {

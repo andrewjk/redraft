@@ -33,12 +33,13 @@ export default function PostInputFields($props: { post: PostEditModel, child?: P
 	});
 
 	function newPost() {
-		return { id: -1, visibility: 0, children: [] };
+		return { id: -1, text: "" };
 	}
 
 	@render {
 		<div style="display: contents;">
 			<Hidden name={`${prefix}id`} value={post.id} />
+			<Hidden name={`${prefix}published`} value={post.published} />
 			<Hidden name={`${prefix}hasImage`} value={post.hasImage} />
 			<Hidden name={`${prefix}hasLink`} value={post.hasLink} />
 			<Hidden name={`${prefix}hasRating`} value={post.hasRating} />
@@ -112,17 +113,15 @@ export default function PostInputFields($props: { post: PostEditModel, child?: P
 			@if (!post.isArticle && !post.isEvent && post.hasImage) {
 				<File
 					style={{ display: $state.imageLoaded ? "none" : undefined }}
+					name={`${prefix}imagefile`}
 					accept="image/*"
 					onchange={imageSelected}
 				/>
-				@if (post.image) {
-					<img src={post.image} />
-					<Field name={`${prefix}imageAltText`} &value={post.imageAltText}>
-						<Input
-							name={`${prefix}imageAltText`}
-							&value={post.imageAltText}
-							placeholder="Image alt text" />
-							<Message class="error-message" />
+				@if (post.imagefile ?? post.image) {
+					<img src={post.imagefile ?? post.image} />
+					<Field class="form-row" name={`${prefix}imageAltText`} &value={post.imageAltText}>
+						<Input placeholder="Image alt text" />
+						<Message class="error-message" />
 					</Field>
 				}
 			}
@@ -295,7 +294,7 @@ export default function PostInputFields($props: { post: PostEditModel, child?: P
 					}
 				</button>
 				@if (!child) {
-					<button type="button" class="link icon" disabled={post.hasImage || post.hasLink || post.hasRating || post.children.length > 0} onclick={toggleArticle}>
+					<button type="button" class="link icon" disabled={post.hasImage || post.hasLink || post.hasRating || (post.children && post.children.length > 0)} onclick={toggleArticle}>
 						@if (post.isArticle) {
 							<div class="zstack">
 								<X size="28px" />
@@ -305,7 +304,7 @@ export default function PostInputFields($props: { post: PostEditModel, child?: P
 							<Article weight="bold" />
 						}
 					</button>
-					<button type="button" class="link icon" disabled={post.hasImage || post.hasLink || post.hasRating || post.children.length > 0} onclick={toggleEvent}>
+					<button type="button" class="link icon" disabled={post.hasImage || post.hasLink || post.hasRating || (post.children && post.children.length > 0)} onclick={toggleEvent}>
 						@if (post.isEvent) {
 							<div class="zstack">
 								<X size="28px" />
@@ -352,11 +351,11 @@ export default function PostInputFields($props: { post: PostEditModel, child?: P
 				</button>
 				@function addChild() {
 					let i = $props.i !== undefined ? $props.i + 1 : 0;
-					$props.post.children!.splice(i, 0, newPost());
+					($props.post.children ??= []).splice(i, 0, newPost());
 				}
 				@/*function removeChild() {
 					let i = $props.i !== undefined ? $props.i : 0;
-					$props.post.children!.splice(i, 1);
+					($props.post.children ??= []).splice(i, 1);
 				}*/
 				@if (!child) {
 					<button type="button" class="link icon" onclick={() => $state.showTags = !$state.showTags}>

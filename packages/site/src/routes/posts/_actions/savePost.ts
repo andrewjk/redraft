@@ -23,6 +23,7 @@ export default async function savePost({ appData, request, params }: ServerLoadE
 		let name = uuid() + "." + imagefile.name.split(".").at(-1);
 		await store.uploadFile(imagefile, name);
 		model.image = `${user.url}api/content/${name}`;
+		model.imagefile = undefined;
 	}
 
 	// Save the link image if it's been uploaded
@@ -31,6 +32,7 @@ export default async function savePost({ appData, request, params }: ServerLoadE
 		let name = uuid() + "." + linkimagefile.name.split(".").at(-1);
 		await store.uploadFile(linkimagefile, name);
 		model.linkImage = `${user.url}api/content/${name}`;
+		model.linkimagefile = undefined;
 	}
 
 	const result = await api.post(`posts/save`, postsSave, params, model, user.token);
@@ -38,5 +40,10 @@ export default async function savePost({ appData, request, params }: ServerLoadE
 		return result;
 	}
 
-	return seeOther(params.user ? `/${params.user}/posts/drafts` : "/posts/drafts");
+	let url = "/";
+	if (params.user) url += params.user + "/";
+	url += "posts";
+	if (!published) url += "/drafts";
+
+	return seeOther(url);
 }

@@ -1,8 +1,9 @@
 import * as v from "valibot";
+import type ProfileEditModel from "./ProfileEditModel";
 
 v.setGlobalConfig({ abortPipeEarly: true });
 
-const ProfileEditSchema = v.object({
+const ProfileEditSchema: v.GenericSchema<unknown, ProfileEditModel> = v.object({
 	email: v.pipe(v.string(), v.trim(), v.nonEmpty("Email is required"), v.email("Email is invalid")),
 	password: v.pipe(v.string(), v.trim(), v.minLength(8, "Password must be at least 8 characters")),
 	name: v.pipe(v.string(), v.trim(), v.nonEmpty("Name is required")),
@@ -18,7 +19,7 @@ const ProfileEditSchema = v.object({
 		}),
 	),
 
-	imagefile: v.optional(v.string()),
+	imagefile: v.nullish(v.union([v.string(), v.instance(ArrayBuffer), v.instance(File)])),
 });
 
 export default ProfileEditSchema;

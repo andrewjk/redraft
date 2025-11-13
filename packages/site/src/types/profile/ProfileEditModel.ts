@@ -1,6 +1,16 @@
-import * as v from "valibot";
-import ProfileEditSchema from "./ProfileEditSchema";
+export default interface ProfileEditModel {
+	email: string;
+	password: string;
+	name: string;
+	bio: string;
+	about: string;
+	location: string;
+	image: string;
+	links: {
+		id: number;
+		url: string;
+		text: string;
+	}[];
 
-type ProfileEditModel = v.InferInput<typeof ProfileEditSchema>;
-
-export default ProfileEditModel;
+	imagefile?: string | ArrayBuffer | File | null;
+}
