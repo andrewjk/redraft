@@ -41,10 +41,11 @@ CREATE TABLE `__new_feed` (
 	`deleted_at` integer
 );
 --> statement-breakpoint
-INSERT INTO `__new_feed`("id", "user_id", "slug", "text", "comment_count", "last_comment_at", "visibility", "image", "image_alt_text", "link_type", "link_url", "link_title", "link_image", "link_publication", "link_embed_src", "link_embed_width", "link_embed_height", "rating_value", "rating_bound", "child_count", "published_at", "republished_at", "liked", "saved", "emoji", "created_at", "updated_at", "deleted_at") SELECT "id", "user_id", "slug", "text", "comment_count", "last_comment_at", "visibility", "image", "image_alt_text", "link_type", "link_url", "link_title", "link_image", "link_publication", "link_embed_src", "link_embed_width", "link_embed_height", "rating_value", "rating_bound", "child_count", "published_at", "republished_at", "liked", "saved", "emoji", "created_at", "updated_at", "deleted_at" FROM `feed`;--> statement-breakpoint
+INSERT INTO `__new_feed`("id", "user_id", "slug", "text", "comment_count", "last_comment_at", "visibility", "image", "image_alt_text", "link_type", "link_url", "link_title", "link_image", "link_publication", "link_embed_src", "link_embed_width", "link_embed_height", "rating_value", "rating_bound", "child_count", "published_at", "republished_at", "liked", "saved", "emoji", "created_at", "updated_at", "deleted_at") SELECT "id", "user_id", "slug", "text", "comment_count", "last_comment_at", "visibility", "image", "image_alt_text", "is_article", "link_url", "link_title", "link_image", "link_publication", "link_embed_src", "link_embed_width", "link_embed_height", "rating_value", "rating_bound", "child_count", "published_at", "republished_at", "liked", "saved", "emoji", "created_at", "updated_at", "deleted_at" FROM `feed`;--> statement-breakpoint
 DROP TABLE `feed`;--> statement-breakpoint
 ALTER TABLE `__new_feed` RENAME TO `feed`;--> statement-breakpoint
 PRAGMA defer_foreign_keys=false;--> statement-breakpoint
+UPDATE `feed` SET "link_type" = NULL WHERE "link_type" = 0 AND link_url IS NULL;
 PRAGMA defer_foreign_keys=true;--> statement-breakpoint
 CREATE TABLE `__new_posts` (
 	`id` integer PRIMARY KEY AUTOINCREMENT NOT NULL,
