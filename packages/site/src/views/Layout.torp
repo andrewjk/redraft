@@ -7,7 +7,7 @@ import Envelope from "phosphor-torpor/lib/Envelope";
 import type UserModel from "../types/UserModel";
 import type FollowerModel from "../types/FollowerModel";
 import type ViewingModel from "../types/ViewingModel";
-import Profile from "./profile/ProfilePreview.torp";
+import ProfilePreview from "./profile/ProfilePreview.torp";
 import placeholdify from "../lib/utils/placeholdify";
 import stripProtocol from "../lib/utils/stripProtocol";
 
@@ -31,7 +31,7 @@ export default function Layout($props: { data: { user: UserModel, follower: Foll
 					<div class="grow" />
 
 					<div class="vstack centered spaced no-shrink">
-						<Profile profile={$props.data.viewing} {$props.data.user} {$props.data.follower} {$props.data.base} />
+						<ProfilePreview profile={$props.data.viewing} {$props.data.user} {$props.data.follower} {$props.data.base} />
 					</div>
 
 					<div class="vstack centered page-outer">
