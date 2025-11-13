@@ -3,10 +3,9 @@ import "@testing-library/jest-dom/vitest";
 import { Site } from "@torpor/build";
 import { runTest } from "@torpor/build/test";
 import { afterAll, beforeAll, expect, test } from "vitest";
-import accountLogin, {
-	type LoginModel,
-	type LoginResponseModel,
-} from "../../src/lib/account/accountLogin";
+import accountLogin from "../../src/lib/account/accountLogin";
+import type LoginModel from "../../src/types/account/LoginModel";
+import type LoginResponseModel from "../../src/types/account/LoginResponseModel";
 import { cleanUpSiteTest, prepareSiteTest } from "../prepareSiteTest";
 
 const site: Site = new Site();
@@ -34,7 +33,7 @@ test("login get", async () => {
 
 test("login post", async () => {
 	const model: LoginModel = {
-		email: "alice@localhost",
+		email: "alice@example.com",
 		password: "alice's password",
 		rememberMe: true,
 	};

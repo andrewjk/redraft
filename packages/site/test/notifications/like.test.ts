@@ -4,8 +4,9 @@ import { eq } from "drizzle-orm";
 import { LibSQLDatabase } from "drizzle-orm/libsql";
 import { afterAll, assert, beforeAll, expect, test } from "vitest";
 import * as schema from "../../src/data/schema/index";
-import { POST_LIKED_VERSION, type PostLikedModel } from "../../src/lib/public/postLiked";
 import postLiked from "../../src/lib/public/postLiked";
+import type PostLikedModel from "../../src/types/public/PostLikedModel";
+import { POST_LIKED_VERSION } from "../../src/types/public/PostLikedModel";
 import { cleanUpSiteTest, prepareSiteTest } from "../prepareSiteTest";
 
 let db: LibSQLDatabase<typeof schema>;

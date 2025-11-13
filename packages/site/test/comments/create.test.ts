@@ -2,10 +2,11 @@ import "@testing-library/jest-dom/vitest";
 import { Site } from "@torpor/build";
 import { eq } from "drizzle-orm";
 import { LibSQLDatabase } from "drizzle-orm/libsql";
-import { afterAll, beforeAll, expect, test } from "vitest";
+import { afterAll, assert, beforeAll, expect, test } from "vitest";
 import * as schema from "../../src/data/schema/index";
-import commentCreate, { type CommentCreateModel } from "../../src/lib/comments/commentCreate";
-import { type CommentPreview } from "../../src/lib/comments/commentPreview";
+import commentCreate from "../../src/lib/comments/commentCreate";
+import type CommentCreateModel from "../../src/types/comments/CommentCreateModel";
+import type CommentPreviewModel from "../../src/types/comments/CommentPreviewModel";
 import { cleanUpSiteTest, prepareSiteTest } from "../prepareSiteTest";
 
 let db: LibSQLDatabase<typeof schema>;
@@ -39,6 +40,7 @@ test("comment create by author", async () => {
 		body: JSON.stringify(model),
 	});
 	const response = await commentCreate(request, {}, "http://localhost/alice/", "", "xxx-alice", "");
+	assert(response);
 	expect(response.status).toBe(201);
 
 	// Check comment count in db
@@ -54,7 +56,7 @@ test("comment create by author", async () => {
 	}))!;
 	expect(post2.comment_count).toBe(commentCount2);
 
-	const data = (await response.json()) as CommentPreview;
+	const data = (await response.json()) as CommentPreviewModel;
 
 	// TODO: Should be markdown
 	expect(data.text).toEqual("This is a new comment");
@@ -88,6 +90,7 @@ test("comment create by follower", async () => {
 		body: JSON.stringify(model),
 	});
 	const response = await commentCreate(request, {}, "http://localhost/bob/", "yyy-bob", "", "");
+	assert(response);
 	expect(response.status).toBe(201);
 
 	// Check comment count in db
@@ -103,7 +106,7 @@ test("comment create by follower", async () => {
 	}))!;
 	expect(post2.comment_count).toBe(commentCount2);
 
-	const data = (await response.json()) as CommentPreview;
+	const data = (await response.json()) as CommentPreviewModel;
 
 	// TODO: Should be markdown
 	expect(data.text).toEqual("This is a new comment by a follower");
@@ -131,5 +134,6 @@ test("comment create with bad code", async () => {
 		body: JSON.stringify(model),
 	});
 	const response = await commentCreate(request, {}, "http://localhost/dan/", "", "xxx-dan", "");
+	assert(response);
 	expect(response.status).toBe(401);
 });

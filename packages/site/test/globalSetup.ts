@@ -2,6 +2,7 @@ import { LibSQLDatabase, drizzle } from "drizzle-orm/libsql";
 import { migrate } from "drizzle-orm/libsql/migrator";
 import fs from "node:fs";
 import * as schema from "../src/data/schema/index";
+import { ARTICLE_LINK_TYPE } from "../src/lib/constants";
 import { hashPassword } from "../src/lib/utils/hashPasswords";
 
 export async function setup(): Promise<void> {
@@ -24,7 +25,7 @@ async function insertUser(db: LibSQLDatabase<typeof schema>) {
 		await db
 			.insert(schema.usersTable)
 			.values({
-				email: "alice@localhost",
+				email: "alice@example.com",
 				username: "alice",
 				url: "http://localhost/alice/",
 				password: hashPassword("alice's password"),
@@ -145,8 +146,8 @@ async function insertArticles(db: LibSQLDatabase<typeof schema>) {
 			slug: "article-1",
 			text: "Here is an article",
 			visibility: 0,
-			is_article: true,
 			article_id: article.id,
+			link_type: ARTICLE_LINK_TYPE,
 			link_url: "article-1",
 			link_title: "Article 1",
 			published_at: new Date(),
@@ -171,8 +172,8 @@ async function insertArticles(db: LibSQLDatabase<typeof schema>) {
 			slug: "article-2",
 			text: "Here is a draft article",
 			visibility: 0,
-			is_article: true,
 			article_id: draft.id,
+			link_type: ARTICLE_LINK_TYPE,
 			link_url: "article-2",
 			link_title: "Article 2",
 			//published_at: new Date(),

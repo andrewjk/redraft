@@ -5,10 +5,9 @@ import { eq } from "drizzle-orm";
 import { LibSQLDatabase } from "drizzle-orm/libsql";
 import { afterAll, assert, beforeAll, expect, test } from "vitest";
 import * as schema from "../../src/data/schema/index";
-import followRequested, {
-	FOLLOW_REQUESTED_VERSION,
-	type FollowRequestedModel,
-} from "../../src/lib/public/followRequested";
+import followRequested from "../../src/lib/public/followRequested";
+import type FollowRequestedModel from "../../src/types/public/FollowRequestedModel";
+import { FOLLOW_REQUESTED_VERSION } from "../../src/types/public/FollowRequestedModel";
 import mockFetch from "../mockFetch";
 import { cleanUpSiteTest, prepareSiteTest } from "../prepareSiteTest";
 

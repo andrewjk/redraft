@@ -4,10 +4,9 @@ import { eq } from "drizzle-orm";
 import { LibSQLDatabase } from "drizzle-orm/libsql";
 import { afterAll, assert, beforeAll, expect, test } from "vitest";
 import * as schema from "../../src/data/schema/index";
-import followConfirmed, {
-	FOLLOW_CONFIRMED_VERSION,
-	type FollowConfirmedModel,
-} from "../../src/lib/public/followConfirmed";
+import followConfirmed from "../../src/lib/public/followConfirmed";
+import type FollowConfirmedModel from "../../src/types/public/FollowConfirmedModel";
+import { FOLLOW_CONFIRMED_VERSION } from "../../src/types/public/FollowConfirmedModel";
 import { cleanUpSiteTest, prepareSiteTest } from "../prepareSiteTest";
 
 let db: LibSQLDatabase<typeof schema>;

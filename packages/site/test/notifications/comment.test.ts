@@ -4,7 +4,8 @@ import { eq } from "drizzle-orm";
 import { LibSQLDatabase } from "drizzle-orm/libsql";
 import { afterAll, assert, beforeAll, expect, test } from "vitest";
 import * as schema from "../../src/data/schema/index";
-import commentCreate, { type CommentCreateModel } from "../../src/lib/comments/commentCreate";
+import commentCreate from "../../src/lib/comments/commentCreate";
+import type CommentCreateModel from "../../src/types/comments/CommentCreateModel";
 import { cleanUpSiteTest, prepareSiteTest } from "../prepareSiteTest";
 
 let db: LibSQLDatabase<typeof schema>;
@@ -34,6 +35,7 @@ test("no notification from user comment", async () => {
 		body: JSON.stringify(model),
 	});
 	const response = await commentCreate(request, {}, "http://localhost/alice/", "", "xxx-alice", "");
+	assert(response);
 	expect(response.status).toBe(201);
 
 	const notification = await db.query.notificationsTable.findFirst({
@@ -58,6 +60,7 @@ test("notification from follower comment", async () => {
 		body: JSON.stringify(model),
 	});
 	const response = await commentCreate(request, {}, "http://localhost/bob/", "yyy-bob", "", "");
+	assert(response);
 	expect(response.status).toBe(201);
 
 	const notification = await db.query.notificationsTable.findFirst({

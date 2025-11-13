@@ -9,10 +9,9 @@ import { migrate } from "drizzle-orm/libsql/migrator";
 import { afterAll, beforeAll, expect, test } from "vitest";
 import { vi } from "vitest";
 import * as schema from "../../src/data/schema/index";
-import accountSetup, {
-	type SetupModel,
-	type SetupResponseModel,
-} from "../../src/lib/account/accountSetup";
+import accountSetup from "../../src/lib/account/accountSetup";
+import type SetupModel from "../../src/types/account/SetupModel";
+import type SetupResponseModel from "../../src/types/account/SetupResponseModel";
 import { cleanUpSiteTest } from "../prepareSiteTest";
 import testAdapter from "../testAdapter";
 
@@ -64,7 +63,7 @@ test("setup post", async () => {
 		username: "cara",
 		password: "cara's password",
 		name: "Cara Z",
-		email: "cara@localhost",
+		email: "cara@example.com",
 		bio: "Cara's bio",
 		location: "Cara's location",
 		image: "cara.png",
@@ -130,7 +129,7 @@ test("setup post with bad username", async () => {
 		username: "dan",
 		password: "dan's password",
 		name: "Dan Z",
-		email: "dan@localhost",
+		email: "dan@example.com",
 		bio: "Dan's bio",
 		location: "Dan's location",
 		image: "dan.png",

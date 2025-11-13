@@ -4,8 +4,9 @@ import { eq } from "drizzle-orm";
 import { LibSQLDatabase } from "drizzle-orm/libsql";
 import { afterAll, assert, beforeAll, expect, test } from "vitest";
 import * as schema from "../../src/data/schema/index";
-import { POST_REACTION_VERSION, type PostReactionModel } from "../../src/lib/public/postReaction";
 import postReaction from "../../src/lib/public/postReaction";
+import type PostReactionModel from "../../src/types/public/PostReactionModel";
+import { POST_REACTION_VERSION } from "../../src/types/public/PostReactionModel";
 import { cleanUpSiteTest, prepareSiteTest } from "../prepareSiteTest";
 
 let db: LibSQLDatabase<typeof schema>;
