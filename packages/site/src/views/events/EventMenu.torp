@@ -9,7 +9,7 @@ export default function EventMenu($props: { section: string, user: UserModel, ba
 			@if ($props.section === "Events") {
 				<h1>Events</h1>
 			} else if ($props.section === "Drafts") {
-				<h1>Event drafts</h1>
+				<h1>Events <span class="slash">/</span> Drafts</h1>
 			}
 
 			@if ($props.user) {

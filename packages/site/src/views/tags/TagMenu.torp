@@ -10,7 +10,7 @@ export default function TagMenu($props: { tag: TagPreviewModel, section: string,
 			@if ($props.section === "Posts") {
 				<h1>“{$props.tag.text}”</h1>
 			} else if ($props.section === "Drafts") {
-				<h1>“{$props.tag.text}” drafts</h1>
+				<h1>“{$props.tag.text}” <span class="slash">/</span> Drafts</h1>
 			} else if ($props.section === "Tags") {
 				<h1>All tags</h1>
 			}

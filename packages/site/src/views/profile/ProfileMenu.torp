@@ -10,7 +10,7 @@ export default function ProfileMenu($props: { section: string, user: UserModel, 
 			@if ($props.section === "Profile") {
 				<h1>Profile</h1>
 			} else if ($props.section === "Edit") {
-				<h1>Edit Profile</h1>
+				<h1>Profile <span class="slash">/</span> Edit</h1>
 			}
 
 			<div class="spacer" />

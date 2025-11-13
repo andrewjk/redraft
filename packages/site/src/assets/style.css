@@ -382,6 +382,10 @@ a.icon:hover {
 	content: "•";
 }
 
+.slash {
+	color: #ddd;
+}
+
 .font-sm {
 	font-size: 1.45rem;
 	line-height: 1.4;

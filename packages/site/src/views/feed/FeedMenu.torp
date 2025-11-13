@@ -7,9 +7,9 @@ export default function FeedMenu($props: { section: string, base: string }) {
 			@if ($props.section === "Feed") {
 				<h1>Feed</h1>
 			} else if ($props.section === "Liked") {
-				<h1>Feed Liked</h1>
+				<h1>Feed <span class="slash">/</span> Liked</h1>
 			} else if ($props.section === "Saved") {
-				<h1>Feed Saved</h1>
+				<h1>Feed <span class="slash">/</span> Saved</h1>
 			}
 
 			<div class="spacer" />
