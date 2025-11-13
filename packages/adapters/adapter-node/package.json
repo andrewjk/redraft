@@ -5,12 +5,12 @@
 	"type": "module",
 	"exports": {
 		".": {
-			"types": "./dist/index.d.ts",
-			"import": "./dist/index.js"
+			"types": "./dist/index.d.mts",
+			"import": "./dist/index.mjs"
 		},
 		"./adapter": {
-			"types": "./dist/adapter.d.ts",
-			"import": "./dist/adapter.js"
+			"types": "./dist/adapter.d.mts",
+			"import": "./dist/adapter.mjs"
 		}
 	},
 	"publishConfig": {
@@ -32,10 +32,10 @@
 	},
 	"devDependencies": {
 		"@types/node": "^24.10.1",
-		"@typescript/native-preview": "7.0.0-dev.20251111.1",
-		"oxlint-tsgolint": "^0.5.1",
+		"@typescript/native-preview": "7.0.0-dev.20251112.1",
+		"oxlint-tsgolint": "^0.6.0",
 		"prettier": "^3.6.2",
-		"tsdown": "0.16.3",
+		"tsdown": "^0.16.4",
 		"typescript": "^5.9.3"
 	}
 }

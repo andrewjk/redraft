@@ -1,27 +1,30 @@
 {
 	"compilerOptions": {
 		"target": "es2022",
-		"lib": ["es2022", "DOM", "DOM.Iterable"],
 		"module": "esnext",
-		"moduleResolution": "bundler",
-		"esModuleInterop": true,
+		"lib": ["es2022", "DOM", "DOM.Iterable"],
+		"skipLibCheck": true,
 
-		// Strict
+		/* Bundler mode */
+		"moduleResolution": "bundler",
+		"allowImportingTsExtensions": true,
+		"rewriteRelativeImportExtensions": true,
+		"moduleDetection": "force",
+		"resolveJsonModule": true,
+
+		/* Isolation */
+		"isolatedModules": true,
+		"isolatedDeclarations": true,
+		"declaration": true,
+		"declarationMap": true,
+
+		/* Linting */
 		"strict": true,
 		"strictNullChecks": true,
 		"noUnusedLocals": true,
 		"noUnusedParameters": true,
-		"noFallthroughCasesInSwitch": true,
-
-		// Node type erasing
 		"erasableSyntaxOnly": true,
-		"allowImportingTsExtensions": true,
-		"rewriteRelativeImportExtensions": true,
-		"verbatimModuleSyntax": true,
-
-		// Isolated declarations
-		"isolatedDeclarations": true,
-		"declaration": true,
-		"declarationMap": true
+		"noFallthroughCasesInSwitch": true,
+		"noUncheckedSideEffectImports": true
 	}
 }

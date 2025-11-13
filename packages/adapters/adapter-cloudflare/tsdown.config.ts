@@ -1,16 +1,7 @@
-import { type Options, defineConfig } from "tsdown";
-
-type Config =
-	| Options
-	| Options[]
-	| ((overrideOptions: Options) => Options | Options[] | Promise<Options | Options[]>);
+import { type UserConfig, defineConfig } from "tsdown";
 
 export default defineConfig({
 	// HACK: Need to have a separate adapter-only export to avoid polluting
 	// _worker.ts with imports
 	entry: ["src/index.ts", "src/adapter.ts"],
-	format: "esm",
-	dts: true,
-	clean: true,
-	sourcemap: true,
-}) satisfies Config as Config;
+}) satisfies UserConfig as UserConfig;

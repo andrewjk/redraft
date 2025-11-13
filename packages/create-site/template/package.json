@@ -5,9 +5,9 @@
 	"type": "module",
 	"scripts": {
 		"dev": "tb --dev",
+		"check": "tsgo --noEmit && pnpm dlx oxlint --type-aware",
 		"build": "tsgo --noEmit && tb --build",
 		"preview": "tb --preview",
-		"check": "tsgo --noEmit && pnpm dlx oxlint --type-aware",
 		"--node:db:push": "drizzle-kit push",
 		"--cloudflare:db:list": "wrangler d1 migrations list DB --remote",
 		"--cloudflare:db:push": "wrangler d1 migrations apply DB --remote"
