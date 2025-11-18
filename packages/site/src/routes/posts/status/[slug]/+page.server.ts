@@ -1,7 +1,7 @@
 import { type PageServerEndPoint } from "@torpor/build";
 import { unauthorized } from "@torpor/build/response";
+import postsStatus from "../../../../api/posts/status/[slug]/+server";
 import * as api from "../../../../lib/api";
-import postsStatus from "../../../api/posts/status/[slug]/+server";
 import resendPost from "../../_actions/resendPost";
 
 export default {

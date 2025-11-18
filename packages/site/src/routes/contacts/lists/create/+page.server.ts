@@ -1,8 +1,8 @@
 import { type PageServerEndPoint } from "@torpor/build";
 import { seeOther, unauthorized } from "@torpor/build/response";
+import listsCreate from "../../../../api/contacts/lists/create/+server";
 import * as api from "../../../../lib/api";
 import formDataToObject from "../../../../lib/utils/formDataToObject";
-import listsCreate from "../../../api/contacts/lists/create/+server";
 
 export default {
 	load: async ({ appData, params }) => {

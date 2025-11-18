@@ -1,8 +1,8 @@
 import { type PageServerEndPoint } from "@torpor/build";
 import { unauthorized } from "@torpor/build/response";
+import unfollow from "../../api/unfollow/+server";
 import * as api from "../../lib/api";
 import formDataToObject from "../../lib/utils/formDataToObject";
-import unfollow from "../api/unfollow/+server";
 
 export default {
 	actions: {

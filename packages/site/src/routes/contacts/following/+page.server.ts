@@ -1,6 +1,6 @@
 import { type PageServerEndPoint } from "@torpor/build";
+import profileFollowing from "../../../api/contacts/following/+server";
 import * as api from "../../../lib/api";
-import profileFollowing from "../../api/contacts/following/+server";
 
 export default {
 	load: async ({ appData, params }) => {

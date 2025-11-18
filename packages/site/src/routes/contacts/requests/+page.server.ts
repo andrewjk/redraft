@@ -1,9 +1,9 @@
 import { type PageServerEndPoint } from "@torpor/build";
 import { unauthorized } from "@torpor/build/response";
+import followRequests from "../../../api/contacts/requests/+server";
+import followApprove from "../../../api/follow/approve/+server";
 import * as api from "../../../lib/api";
 import formDataToObject from "../../../lib/utils/formDataToObject";
-import followRequests from "../../api/contacts/requests/+server";
-import followApprove from "../../api/follow/approve/+server";
 
 export default {
 	load: async ({ appData, params }) => {

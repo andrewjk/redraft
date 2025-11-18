@@ -1,8 +1,8 @@
 import { ServerLoadEvent } from "@torpor/build";
 import { unauthorized } from "@torpor/build/response";
+import postsPin from "../../../api/posts/pin/+server";
 import * as api from "../../../lib/api";
 import formDataToObject from "../../../lib/utils/formDataToObject";
-import postsPin from "../../api/posts/pin/+server";
 
 export default async function ({ appData, request, params }: ServerLoadEvent) {
 	const user = appData.user;

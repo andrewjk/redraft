@@ -1,8 +1,8 @@
 import { type ServerLoadEvent } from "@torpor/build";
 import { unauthorized } from "@torpor/build/response";
+import feedReact from "../../../api/feed/react/+server";
 import * as api from "../../../lib/api";
 import formDataToObject from "../../../lib/utils/formDataToObject";
-import feedReact from "../../api/feed/react/+server";
 
 export default async function reactToFeedPost({ appData, request, params }: ServerLoadEvent) {
 	const user = appData.user;

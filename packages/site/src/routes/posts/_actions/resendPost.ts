@@ -1,8 +1,8 @@
 import { type ServerLoadEvent } from "@torpor/build";
 import { seeOther, unauthorized } from "@torpor/build/response";
+import postResend from "../../../api/posts/resend/+server";
 import * as api from "../../../lib/api";
 import formDataToObject from "../../../lib/utils/formDataToObject";
-import postResend from "../../api/posts/resend/+server";
 
 export default async function resendPost({ appData, request, params }: ServerLoadEvent) {
 	const user = appData.user;

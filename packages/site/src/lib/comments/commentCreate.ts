@@ -1,6 +1,7 @@
 import { badRequest, created, notFound, serverError, unauthorized } from "@torpor/build/response";
 import { and, eq } from "drizzle-orm";
 import * as v from "valibot";
+import commentsSend from "../../api/comments/send/+server";
 import database from "../../data/database";
 import {
 	activityTable,
@@ -11,7 +12,6 @@ import {
 	usersTable,
 } from "../../data/schema";
 import transaction from "../../data/transaction";
-import commentsSend from "../../routes/api/comments/send/+server";
 import type CommentCreateModel from "../../types/comments/CommentCreateModel";
 import CommentCreateSchema from "../../types/comments/CommentCreateSchema";
 import { ACTIVITY_RECEIVED_VERSION } from "../../types/public/ActivityReceivedModel";

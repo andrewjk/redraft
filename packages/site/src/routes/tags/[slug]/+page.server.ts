@@ -1,6 +1,6 @@
 import { type PageServerEndPoint } from "@torpor/build";
+import tagsGet from "../../../api/tags/[slug]/+server";
 import * as api from "../../../lib/api";
-import tagsGet from "../../api/tags/[slug]/+server";
 
 export default {
 	load: async ({ params }) => {

@@ -1,6 +1,6 @@
 import { type PageServerEndPoint } from "@torpor/build";
+import commentsGet from "../../../api/comments/[slug]/+server";
 import * as api from "../../../lib/api";
-import commentsGet from "../../api/comments/[slug]/+server";
 
 export default {
 	load: async ({ params }) => {

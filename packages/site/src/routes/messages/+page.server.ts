@@ -1,9 +1,9 @@
 import { type PageServerEndPoint, ServerLoadEvent } from "@torpor/build";
 import { unauthorized } from "@torpor/build/response";
+import messages from "../../api/messages/+server";
+import markRead from "../../api/messages/mark-read/+server";
 import * as api from "../../lib/api";
 import formDataToObject from "../../lib/utils/formDataToObject";
-import messages from "../api/messages/+server";
-import markRead from "../api/messages/mark-read/+server";
 
 export default {
 	load: async ({ appData, params }) => {

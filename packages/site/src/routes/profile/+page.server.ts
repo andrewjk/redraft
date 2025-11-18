@@ -1,5 +1,7 @@
 import { type PageServerEndPoint } from "@torpor/build";
 import { unauthorized } from "@torpor/build/response";
+import profileGet from "../../api/profile/+server";
+import profileEdit from "../../api/profile/edit/+server";
 import * as api from "../../lib/api";
 import storage from "../../lib/storage";
 import formDataToObject from "../../lib/utils/formDataToObject";
@@ -7,8 +9,6 @@ import setUserToken from "../../lib/utils/setUserToken";
 import uuid from "../../lib/utils/uuid";
 import type ProfileEditedModel from "../../types/profile/ProfileEditedModel";
 import logout from "../account/_actions/logout";
-import profileGet from "../api/profile/+server";
-import profileEdit from "../api/profile/edit/+server";
 
 export default {
 	load: async ({ params }) => {

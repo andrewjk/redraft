@@ -1,7 +1,7 @@
 import { type PageServerEndPoint } from "@torpor/build";
 import { unauthorized } from "@torpor/build/response";
+import postsEdit from "../../../../api/posts/edit/[slug]/+server";
 import * as api from "../../../../lib/api";
-import postsEdit from "../../../api/posts/edit/[slug]/+server";
 import publishPost from "../../../posts/_actions/publishPost";
 import savePost from "../../../posts/_actions/savePost";
 

@@ -1,10 +1,10 @@
 import { type ServerLoadEvent } from "@torpor/build";
 import { seeOther, unauthorized } from "@torpor/build/response";
+import postsSave from "../../../api/posts/save/+server";
 import * as api from "../../../lib/api";
 import storage from "../../../lib/storage";
 import formDataToObject from "../../../lib/utils/formDataToObject";
 import uuid from "../../../lib/utils/uuid";
-import postsSave from "../../api/posts/save/+server";
 
 export default async function savePost({ appData, request, params }: ServerLoadEvent) {
 	const user = appData.user;

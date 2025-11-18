@@ -1,8 +1,8 @@
 import { type PageServerEndPoint } from "@torpor/build";
 import { unauthorized } from "@torpor/build/response";
+import tagsDrafts from "../../../../api/tags/[slug]/drafts/+server";
 import * as api from "../../../../lib/api";
 import { PAGE_SIZE } from "../../../../lib/constants";
-import tagsDrafts from "../../../api/tags/[slug]/drafts/+server";
 
 export default {
 	load: async ({ appData, url, params }) => {

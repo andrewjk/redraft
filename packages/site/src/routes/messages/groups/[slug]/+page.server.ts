@@ -1,8 +1,8 @@
 import { type PageServerEndPoint } from "@torpor/build";
 import { seeOther, unauthorized } from "@torpor/build/response";
+import messageGroup from "../../../../api/messages/groups/[slug]/+server";
 import * as api from "../../../../lib/api";
 import formDataToObject from "../../../../lib/utils/formDataToObject";
-import messageGroup from "../../../api/messages/groups/[slug]/+server";
 
 export default {
 	load: async ({ appData, params }) => {

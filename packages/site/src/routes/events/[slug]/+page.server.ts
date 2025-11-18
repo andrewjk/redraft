@@ -1,6 +1,6 @@
 import { type PageServerEndPoint } from "@torpor/build";
+import eventsGet from "../../../api/events/[slug]/+server";
 import * as api from "../../../lib/api";
-import eventsGet from "../../api/events/[slug]/+server";
 import createComment from "../../posts/_actions/createComment";
 
 export default {

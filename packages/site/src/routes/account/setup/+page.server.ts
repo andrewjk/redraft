@@ -1,5 +1,6 @@
 import { type PageServerEndPoint } from "@torpor/build";
 import { seeOther } from "@torpor/build/response";
+import accountSetup from "../../..//api/account/setup/+server";
 import * as api from "../../../lib/api";
 import env from "../../../lib/env";
 import storage from "../../../lib/storage";
@@ -7,7 +8,6 @@ import ensureSlash from "../../../lib/utils/ensureSlash";
 import formDataToObject from "../../../lib/utils/formDataToObject";
 import setUserToken from "../../../lib/utils/setUserToken";
 import uuid from "../../../lib/utils/uuid";
-import accountSetup from "../../../routes/api/account/setup/+server";
 
 export default {
 	load: async ({ appData, params }) => {

@@ -1,9 +1,9 @@
 import { type PageServerEndPoint } from "@torpor/build";
 import { seeOther } from "@torpor/build/response";
+import accountLogin from "../../../api/account/login/+server";
 import * as api from "../../../lib/api";
 import formDataToObject from "../../../lib/utils/formDataToObject";
 import setUserToken from "../../../lib/utils/setUserToken";
-import accountLogin from "../../api/account/login/+server";
 
 export default {
 	load: async ({ appData, params }) => {

@@ -1,8 +1,8 @@
 import { ServerEndPoint, ServerLoadEvent } from "@torpor/build";
 import { ok } from "@torpor/build/response";
 import { CookieHelper, HeaderHelper } from "@torpor/build/server";
+import hook from "../api/_hook.server";
 import env from "../lib/env";
-import hook from "../routes/api/_hook.server";
 import ensureSlash from "./utils/ensureSlash";
 
 type SendOptions = {

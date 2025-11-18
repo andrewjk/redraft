@@ -1,7 +1,7 @@
 import { type PageServerEndPoint } from "@torpor/build";
 import { unauthorized } from "@torpor/build/response";
+import profileActivity from "../../../api/notifications/activity/+server";
 import * as api from "../../../lib/api";
-import profileActivity from "../../api/notifications/activity/+server";
 
 export default {
 	load: async ({ appData, params }) => {

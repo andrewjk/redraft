@@ -1,10 +1,10 @@
 import { badRequest, ok, serverError, unauthorized } from "@torpor/build/response";
 import { eq } from "drizzle-orm";
 import * as v from "valibot";
+import profileSend from "../..//api/profile/send/+server";
 import database from "../../data/database";
 import { userLinksTable, usersTable } from "../../data/schema";
 import transaction from "../../data/transaction";
-import profileSend from "../../routes/api/profile/send/+server";
 import type ProfileEditModel from "../../types/profile/ProfileEditModel";
 import ProfileEditSchema from "../../types/profile/ProfileEditSchema";
 import * as api from "../api";

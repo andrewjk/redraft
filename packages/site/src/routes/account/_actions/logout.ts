@@ -1,7 +1,7 @@
 import { type ServerLoadEvent } from "@torpor/build";
 import { seeOther, unauthorized } from "@torpor/build/response";
+import accountLogout from "../../../api/account/logout/+server";
 import * as api from "../../../lib/api";
-import accountLogout from "../../api/account/logout/+server";
 
 export default async function logout({ appData, cookies, params }: ServerLoadEvent) {
 	const user = appData.user;
