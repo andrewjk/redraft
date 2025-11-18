@@ -24,12 +24,12 @@ export default function PostStatusPage($props: { data: { id: number, post: PostP
 				@// key = post.id
 				<div class="card full-width post-status-failure">
 					<div class="hstack spaced">
-						<div style="flex: 0 0 auto">
+						<div class="no-shrink">
 							<a href={failure.url}>
 								<img class="post-status-failure-image" src={placeholdify(failure.image)} alt="{failure.name} ({stripProtocol(failure.url)})" />
 							</a>
 						</div>
-						<div style="flex: 1 1 auto">
+						<div class="grow">
 							<div class="post-status-failure-header hstack centered spaced">
 								<a class="post-status-failure-link grow hstack spaced" href={failure.url}>
 									<div class="grow vstack">

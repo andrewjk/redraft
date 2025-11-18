@@ -59,12 +59,12 @@ export default function PostPreview($props: { post: PostPreviewModel, user: User
 				}
 			</div>
 			<div class="hstack spaced">
-				<div style="flex: 0 0 auto">
+				<div class="no-shrink">
 					<a href={post.author.url}>
 						<img class="post-preview-author-image" src={placeholdify(post.author.image)} alt={`${post.author.name} (${stripProtocol(post.author.url)})`} />
 					</a>
 				</div>
-				<div style="flex: 1 1 auto">
+				<div class="grow">
 					<div class="post-preview-header hstack centered spaced font-sm">
 						<a class="post-preview-link hstack spaced grow" href={post.author.url}>
 							<div class="vstack">

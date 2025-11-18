@@ -47,12 +47,12 @@ export default function ArticleViewPage($props: { data: { post: PostViewModel, u
 		<div class="card full-width article-view">
 			<div class="article-view-container">
 				<div class="hstack spaced">
-					<div style="flex: 0 0 auto">
+					<div class="no-shrink">
 						<a href={post.author.url}>
 							<img class="article-view-image" src={placeholdify(post.author.image)} alt="{post.author.name} ({stripProtocol(post.author.url)})" />
 						</a>
 					</div>
-					<div style="flex: 1 1 auto">
+					<div class="grow">
 						<div class="article-view-header hstack centered spaced font-sm">
 							<a class="article-view-link hstack spaced grow" href={post.author.url}>
 								<div class="vstack">

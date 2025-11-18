@@ -24,12 +24,12 @@ export default function MessagesPage($props: { data: { messageGroup: MessageGrou
 			<div class="vstack spaced-nr full-width">
 				<div class="card">
 					<div class="hstack spaced">
-						<div style="flex: 0 0 auto">
+						<div class="no-shrink">
 							<a href={messageGroup.url}>
 								<img class="message-list-image" src={placeholdify(messageGroup.image)} alt="{messageGroup.name} ({stripProtocol(messageGroup.url)})" />
 							</a>
 						</div>
-						<div style="flex: 1 1 auto">
+						<div class="grow">
 							<div class="message-list-header hstack centered spaced font-sm">
 								<a class="message-list-link grow hstack spaced" href={messageGroup.url}>
 									<div class="grow vstack">

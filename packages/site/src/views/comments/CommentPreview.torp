@@ -25,12 +25,12 @@ export default function CommentPreview($props: { post: PostViewModel, comment: C
 	@render {
 		<div class="comment-preview">
 			<div class="hstack spaced">
-				<div style="flex: 0 0 auto">
+				<div class="no-shrink">
 					<a href={comment.author.url}>
 						<img class="comment-preview-image" src={placeholdify(comment.author.image)} alt={`${comment.author.name} (${stripProtocol(comment.author.url)})`} />
 					</a>
 				</div>
-				<div style="flex: 1 1 auto">
+				<div class="grow">
 					<div class="comment-preview-header hstack centered spaced">
 						<a class="comment-preview-link grow hstack spaced" href={comment.author.url}>
 							<div class="grow vstack">

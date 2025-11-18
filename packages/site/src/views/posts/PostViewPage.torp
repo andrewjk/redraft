@@ -49,12 +49,12 @@ export default function PostViewPage($props: { data: { post: PostViewModel, user
 		<div class="card full-width post-view">
 			<div class="post-view-container">
 				<div class="hstack spaced">
-					<div style="flex: 0 0 auto">
+					<div class="no-shrink">
 						<a href={post.author.url}>
 							<img class="post-view-image" src={placeholdify(post.author.image)} alt="{post.author.name} ({stripProtocol(post.author.url)})" />
 						</a>
 					</div>
-					<div style="flex: 1 1 auto">
+					<div class="grow">
 						<div class="post-view-header hstack centered spaced font-sm">
 							<a class="post-view-link hstack spaced grow" href={post.author.url}>
 								<div class="vstack">

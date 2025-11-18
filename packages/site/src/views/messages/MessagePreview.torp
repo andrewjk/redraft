@@ -24,12 +24,12 @@ export default function MessagePreview($props: { messageGroup: MessageGroupModel
 	@render {
 		<div class={["card full-width message-preview", { received: !message.sent }]}>
 			<div class="hstack spaced">
-				<div style="flex: 0 0 auto">
+				<div class="no-shrink">
 					<a href={url}>
 						<img class="message-preview-image" src={placeholdify(image)} alt="{name} ({stripProtocol(messageGroup.url)})" />
 					</a>
 				</div>
-				<div style="flex: 1 1 auto">
+				<div class="grow">
 					<div class="message-preview-header hstack centered spaced font-sm">
 						<a class="message-preview-link grow hstack spaced" href={url}>
 							<div class="grow vstack">

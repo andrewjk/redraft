@@ -58,12 +58,12 @@ export default function FeedPreview($props: { feed: FeedPreviewModel, user: User
 				}
 			</div>
 			<div class="hstack spaced">
-				<div style="flex: 0 0 auto">
+				<div class="no-shrink">
 					<a href={feed.author.url}>
 						<img class="feed-preview-author-image" src={placeholdify(feed.author.image)} alt={`${feed.author.name} (${stripProtocol(feed.author.url)})`} />
 					</a>
 				</div>
-				<div style="flex: 1 1 auto">
+				<div class="grow">
 					<div class="feed-preview-header hstack centered spaced font-sm">
 						<a class="feed-preview-link hstack spaced grow" href={feed.author.url}>
 							<div class="vstack">

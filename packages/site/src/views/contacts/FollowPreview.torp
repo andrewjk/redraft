@@ -14,12 +14,12 @@ export default function FollowPreview($props: { follow: FollowedByPreviewModel |
 	@render {
 		<div class="card full-width follow-preview">
 			<div class="hstack spaced">
-				<div style="flex: 0 0 auto">
+				<div class="no-shrink">
 					<a href={follow.url}>
 						<img class="follow-preview-image" src={placeholdify(follow.image)} alt="{follow.name} ({stripProtocol(follow.url)})" />
 					</a>
 				</div>
-				<div style="flex: 1 1 auto">
+				<div class="grow">
 					<div class="follow-preview-header hstack centered spaced font-sm">
 						<a class="follow-preview-link grow hstack spaced" href={follow.url}>
 							<div class="grow vstack">
