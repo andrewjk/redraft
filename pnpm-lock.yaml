@@ -34,8 +34,8 @@ importers:
         specifier: ^0.2.1
         version: 0.2.1(@types/node@24.10.1)(esbuild@0.25.12)(jiti@2.6.1)(rollup@4.53.2)(terser@5.39.0)(tsx@4.20.6)(typescript@5.9.3)
       '@torpor/build':
-        specifier: ^0.4.8
-        version: 0.4.8(@types/node@24.10.1)(esbuild@0.25.12)(jiti@2.6.1)(rollup@4.53.2)(terser@5.39.0)(tsx@4.20.6)(typescript@5.9.3)
+        specifier: ^0.4.9
+        version: 0.4.9(@types/node@24.10.1)(esbuild@0.25.12)(jiti@2.6.1)(rollup@4.53.2)(terser@5.39.0)(tsx@4.20.6)(typescript@5.9.3)
       drizzle-orm:
         specifier: ^0.44.7
         version: 0.44.7(@cloudflare/workers-types@4.20251118.0)(@libsql/client@0.15.15)(gel@2.0.2)
@@ -65,8 +65,8 @@ importers:
   packages/adapters/adapter-core:
     dependencies:
       '@torpor/build':
-        specifier: ^0.4.8
-        version: 0.4.8(@types/node@24.10.1)(esbuild@0.25.12)(jiti@2.6.1)(rollup@4.53.2)(terser@5.39.0)(tsx@4.20.6)(typescript@5.9.3)
+        specifier: ^0.4.9
+        version: 0.4.9(@types/node@24.10.1)(esbuild@0.25.12)(jiti@2.6.1)(rollup@4.53.2)(terser@5.39.0)(tsx@4.20.6)(typescript@5.9.3)
       drizzle-orm:
         specifier: ^0.44.7
         version: 0.44.7(@cloudflare/workers-types@4.20251118.0)(@libsql/client@0.15.15)(gel@2.0.2)
@@ -96,8 +96,8 @@ importers:
         specifier: ^0.1.1
         version: 0.1.1(@types/node@24.10.1)(esbuild@0.25.12)(jiti@2.6.1)(rollup@4.53.2)(terser@5.39.0)(tsx@4.20.6)(typescript@5.9.3)
       '@torpor/build':
-        specifier: ^0.4.8
-        version: 0.4.8(@types/node@24.10.1)(esbuild@0.25.12)(jiti@2.6.1)(rollup@4.53.2)(terser@5.39.0)(tsx@4.20.6)(typescript@5.9.3)
+        specifier: ^0.4.9
+        version: 0.4.9(@types/node@24.10.1)(esbuild@0.25.12)(jiti@2.6.1)(rollup@4.53.2)(terser@5.39.0)(tsx@4.20.6)(typescript@5.9.3)
       drizzle-orm:
         specifier: ^0.44.7
         version: 0.44.7(@cloudflare/workers-types@4.20251118.0)(@libsql/client@0.15.15)(gel@2.0.2)
@@ -138,11 +138,11 @@ importers:
         specifier: ^0.1.1
         version: 0.1.1(@types/node@24.10.1)(esbuild@0.25.12)(jiti@2.6.1)(rollup@4.53.2)(terser@5.39.0)(tsx@4.20.6)(typescript@5.9.3)
       '@torpor/ui':
-        specifier: ^0.3.4
-        version: 0.3.4(esbuild@0.25.12)(rollup@4.53.2)(vite@7.2.2(@types/node@24.10.1)(jiti@2.6.1)(terser@5.39.0)(tsx@4.20.6))
+        specifier: ^0.3.5
+        version: 0.3.5(esbuild@0.25.12)(rollup@4.53.2)(vite@7.2.2(@types/node@24.10.1)(jiti@2.6.1)(terser@5.39.0)(tsx@4.20.6))
       '@torpor/view':
-        specifier: ^0.4.14
-        version: 0.4.14
+        specifier: ^0.4.15
+        version: 0.4.15
       bcryptjs:
         specifier: ^3.0.3
         version: 3.0.3
@@ -172,7 +172,7 @@ importers:
         version: 3.0.0
       phosphor-torpor:
         specifier: ^1.0.2
-        version: 1.0.2(@torpor/view@0.4.14)(vite@7.2.2(@types/node@24.10.1)(jiti@2.6.1)(terser@5.39.0)(tsx@4.20.6))
+        version: 1.0.2(@torpor/view@0.4.15)(vite@7.2.2(@types/node@24.10.1)(jiti@2.6.1)(terser@5.39.0)(tsx@4.20.6))
       valibot:
         specifier: 1.1.0
         version: 1.1.0(typescript@5.9.3)
@@ -187,8 +187,8 @@ importers:
         specifier: ^14.6.1
         version: 14.6.1(@testing-library/dom@10.4.1)
       '@torpor/build':
-        specifier: ^0.4.8
-        version: 0.4.8(@types/node@24.10.1)(esbuild@0.25.12)(jiti@2.6.1)(rollup@4.53.2)(terser@5.39.0)(tsx@4.20.6)(typescript@5.9.3)
+        specifier: ^0.4.9
+        version: 0.4.9(@types/node@24.10.1)(esbuild@0.25.12)(jiti@2.6.1)(rollup@4.53.2)(terser@5.39.0)(tsx@4.20.6)(typescript@5.9.3)
       '@torpor/unplugin':
         specifier: ^0.2.1
         version: 0.2.1(esbuild@0.25.12)(rollup@4.53.2)(vite@7.2.2(@types/node@24.10.1)(jiti@2.6.1)(terser@5.39.0)(tsx@4.20.6))
@@ -1059,12 +1059,12 @@ packages:
   '@torpor/adapter-node@0.1.1':
     resolution: {integrity: sha512-afoRdygfFSF1emx30zomwsMq3Pz++/ueGTO0YUQMCkaSoFLc8mOURszdXbfp/NlmfO+TkMG9h4C89t/zXR+R5w==}
 
-  '@torpor/build@0.4.8':
-    resolution: {integrity: sha512-jpwRpNHXgmXmJnsZLYrM4WOSeCV9ISFeF/Tpe6soGliLnY68+h+UGHdDK9vbLukmjDpnT8ax6cNU29Xh6Gzp5w==}
+  '@torpor/build@0.4.9':
+    resolution: {integrity: sha512-APT6toll5H+2dRhr18v4FoHWLDsFxv/Png51ir76O75DquRepZiREXu8u5qN2ufAjfQOhwKAoL9HqCnNGI9Qsw==}
     hasBin: true
 
-  '@torpor/ui@0.3.4':
-    resolution: {integrity: sha512-9U9tlO/8qYyh26IKKTajbtSrqXNnoptRIzOP5PidIrorshTOO9E+Y/c5mT1UUjV4ubCvgi2R76zoYCdXiOF21w==}
+  '@torpor/ui@0.3.5':
+    resolution: {integrity: sha512-3jnCIjrTAGHVmJAMuph2kPuYo8wm+WWg+QVnDfoaQPUujKziB6AM5eCEnNq9QRFEi9L8fDhUk8ysM6oYS4iVIQ==}
 
   '@torpor/unplugin@0.2.1':
     resolution: {integrity: sha512-pg76mUoMLUDHuuH21u7MqrFN/R/b7Y9uuxqlImhKMAsXZ2htCoGfMkPWl8twoVbNp0wdxoxa1wd7yhsE8EQECw==}
@@ -1089,8 +1089,8 @@ packages:
       webpack:
         optional: true
 
-  '@torpor/view@0.4.14':
-    resolution: {integrity: sha512-WTzIsEyXeFknpuonQpX78gGUVBCJh3wKN9BuAfCfsOpgyFqcLRjMfiU26UqmXK21Ol28xnemfLkZXYtUYuEyPg==}
+  '@torpor/view@0.4.15':
+    resolution: {integrity: sha512-fBOusU235Wr1o12z6H81kEM2u0zJELlaeQyOEEJbKXzRzKXvQiTQlLjW4VjlbdxV11V0XzVnr6F2CfRun0vEgw==}
 
   '@trivago/prettier-plugin-sort-imports@6.0.0':
     resolution: {integrity: sha512-Xarx55ow0R8oC7ViL5fPmDsg1EBa1dVhyZFVbFXNtPPJyW2w9bJADIla8YFSaNG9N06XfcklA9O9vmw4noNxkQ==}
@@ -3163,7 +3163,7 @@ snapshots:
 
   '@torpor/adapter-cloudflare@0.2.1(@types/node@24.10.1)(esbuild@0.25.12)(jiti@2.6.1)(rollup@4.53.2)(terser@5.39.0)(tsx@4.20.6)(typescript@5.9.3)':
     dependencies:
-      '@torpor/build': 0.4.8(@types/node@24.10.1)(esbuild@0.25.12)(jiti@2.6.1)(rollup@4.53.2)(terser@5.39.0)(tsx@4.20.6)(typescript@5.9.3)
+      '@torpor/build': 0.4.9(@types/node@24.10.1)(esbuild@0.25.12)(jiti@2.6.1)(rollup@4.53.2)(terser@5.39.0)(tsx@4.20.6)(typescript@5.9.3)
       vite: 7.2.2(@types/node@24.10.1)(jiti@2.6.1)(terser@5.39.0)(tsx@4.20.6)
     transitivePeerDependencies:
       - '@nuxt/kit'
@@ -3187,7 +3187,7 @@ snapshots:
 
   '@torpor/adapter-node@0.1.1(@types/node@24.10.1)(esbuild@0.25.12)(jiti@2.6.1)(rollup@4.53.2)(terser@5.39.0)(tsx@4.20.6)(typescript@5.9.3)':
     dependencies:
-      '@torpor/build': 0.4.8(@types/node@24.10.1)(esbuild@0.25.12)(jiti@2.6.1)(rollup@4.53.2)(terser@5.39.0)(tsx@4.20.6)(typescript@5.9.3)
+      '@torpor/build': 0.4.9(@types/node@24.10.1)(esbuild@0.25.12)(jiti@2.6.1)(rollup@4.53.2)(terser@5.39.0)(tsx@4.20.6)(typescript@5.9.3)
       vite: 7.2.2(@types/node@24.10.1)(jiti@2.6.1)(terser@5.39.0)(tsx@4.20.6)
     transitivePeerDependencies:
       - '@nuxt/kit'
@@ -3209,10 +3209,10 @@ snapshots:
       - webpack
       - yaml
 
-  '@torpor/build@0.4.8(@types/node@24.10.1)(esbuild@0.25.12)(jiti@2.6.1)(rollup@4.53.2)(terser@5.39.0)(tsx@4.20.6)(typescript@5.9.3)':
+  '@torpor/build@0.4.9(@types/node@24.10.1)(esbuild@0.25.12)(jiti@2.6.1)(rollup@4.53.2)(terser@5.39.0)(tsx@4.20.6)(typescript@5.9.3)':
     dependencies:
       '@torpor/unplugin': 0.2.1(esbuild@0.25.12)(rollup@4.53.2)(vite@7.2.2(@types/node@24.10.1)(jiti@2.6.1)(terser@5.39.0)(tsx@4.20.6))
-      '@torpor/view': 0.4.14
+      '@torpor/view': 0.4.15
       cookie: 1.0.2
       dotenv: 17.2.3
       vite: 7.2.2(@types/node@24.10.1)(jiti@2.6.1)(terser@5.39.0)(tsx@4.20.6)
@@ -3237,10 +3237,10 @@ snapshots:
       - webpack
       - yaml
 
-  '@torpor/ui@0.3.4(esbuild@0.25.12)(rollup@4.53.2)(vite@7.2.2(@types/node@24.10.1)(jiti@2.6.1)(terser@5.39.0)(tsx@4.20.6))':
+  '@torpor/ui@0.3.5(esbuild@0.25.12)(rollup@4.53.2)(vite@7.2.2(@types/node@24.10.1)(jiti@2.6.1)(terser@5.39.0)(tsx@4.20.6))':
     dependencies:
       '@torpor/unplugin': 0.2.1(esbuild@0.25.12)(rollup@4.53.2)(vite@7.2.2(@types/node@24.10.1)(jiti@2.6.1)(terser@5.39.0)(tsx@4.20.6))
-      '@torpor/view': 0.4.14
+      '@torpor/view': 0.4.15
     transitivePeerDependencies:
       - '@nuxt/kit'
       - '@nuxt/schema'
@@ -3251,14 +3251,14 @@ snapshots:
 
   '@torpor/unplugin@0.2.1(esbuild@0.25.12)(rollup@4.53.2)(vite@7.2.2(@types/node@24.10.1)(jiti@2.6.1)(terser@5.39.0)(tsx@4.20.6))':
     dependencies:
-      '@torpor/view': 0.4.14
+      '@torpor/view': 0.4.15
       unplugin: 2.3.10
     optionalDependencies:
       esbuild: 0.25.12
       rollup: 4.53.2
       vite: 7.2.2(@types/node@24.10.1)(jiti@2.6.1)(terser@5.39.0)(tsx@4.20.6)
 
-  '@torpor/view@0.4.14': {}
+  '@torpor/view@0.4.15': {}
 
   '@trivago/prettier-plugin-sort-imports@6.0.0(prettier@3.6.2)':
     dependencies:
@@ -4176,9 +4176,9 @@ snapshots:
 
   pathe@2.0.3: {}
 
-  phosphor-torpor@1.0.2(@torpor/view@0.4.14)(vite@7.2.2(@types/node@24.10.1)(jiti@2.6.1)(terser@5.39.0)(tsx@4.20.6)):
+  phosphor-torpor@1.0.2(@torpor/view@0.4.15)(vite@7.2.2(@types/node@24.10.1)(jiti@2.6.1)(terser@5.39.0)(tsx@4.20.6)):
     dependencies:
-      '@torpor/view': 0.4.14
+      '@torpor/view': 0.4.15
       estree-walker: 3.0.3
       magic-string: 0.30.21
     optionalDependencies:
