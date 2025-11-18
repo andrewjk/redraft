@@ -117,7 +117,7 @@ function createView(
 		hasRating: !!post.rating_value || undefined,
 		ratingValue: post.rating_value ?? undefined,
 		ratingBound: post.rating_bound ?? undefined,
-		children: children?.map((c) => createView(c)),
+		children: (children ?? []).map((c) => createView(c)),
 		tags: post.postTags?.map((pt) => pt.tag.text).join("; "),
 	} satisfies PostEditModel;
 }

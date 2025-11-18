@@ -319,7 +319,6 @@ export default function PostInputFields($props: { post: PostEditModel, child?: P
 				@function toggleArticle() {
 					post.hasLink = false;
 					post.isArticle = !post.isArticle;
-					clearLink();
 				}
 				@// TODO: Move this into the @if
 				@function toggleEvent() {
@@ -353,9 +352,6 @@ export default function PostInputFields($props: { post: PostEditModel, child?: P
 					let i = $props.i !== undefined ? $props.i + 1 : 0;
 					($props.post.children ??= []).splice(i, 0, newPost());
 				}
-				@/*function removeChild() {
-					let i = $props.i !== undefined ? $props.i : 0;
-					($props.post.children ??= []).splice(i, 1);
 				}*/
 				@if (!child) {
 					<button type="button" class="link icon" onclick={() => $state.showTags = !$state.showTags}>

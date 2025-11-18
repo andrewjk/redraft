@@ -1,25 +1,29 @@
 import { Form } from "@torpor/ui/Form";
+import type FormData from "../../types/FormData";
 import type UserModel from "../../types/UserModel";
 import type PostEditModel from "../../types/posts/PostEditModel";
 import PostEditSchema from "../../types/posts/PostEditSchema";
 import PostInputFields from "./PostInputFields.torp";
+import FormErrors from "../FormErrors.torp";
 
 /**
  * Allows creating a post.
  */
-export default function PostInput($props: { post: PostEditModel, user: UserModel, base: string }) {
+export default function PostInput($props: { post: PostEditModel, user: UserModel, base: string, form?: FormData }) {
 	let user = $props.user;
 	let post = $watch($props.post ?? newPost());
 
-	function newPost() {
-		return { id: -1, type: 0, visibility: 0, children: [] };
+	function newPost(): PostEditModel {
+		return { id: -1, text: "", children: [] };
 	}
 
 	@render {
+		<FormErrors {$props.form} />
 		<Form class="full-width post-input" data={post} schema={PostEditSchema}>
 			<PostInputFields {post} {user} {$props.base} />
-			@if (post.children) {
-				@for (let [i, child] of post.children!.entries()) {
+			@if (post.children.length) {
+				@for (let [i, child] of post.children.entries()) {
+					@key = child.id
 					<PostInputFields {post} {user} {$props.base} {child} {i} />
 				}
 			}
