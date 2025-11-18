@@ -1,13 +1,14 @@
 import type FormData from "../types/FormData";
+import { $page } from "@torpor/build/state";
 
 /**
  * Displays a list of errors from a server action
  */
 export default function FormErrors($props: { form?: FormData }) {
 	@render {
-		@if ($props.form?.message) {
+		@if ($props.form?.message || $page.form?.message) {
 			<p class="error-message">
-				@html($props.form?.message?.replaceAll("\n", "<br />")!)
+				@html(($props.form?.message || $page.form?.message)?.replaceAll("\n", "<br />")!)
 			</p>
 		}
 	}
