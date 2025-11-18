@@ -20,11 +20,11 @@ export default function PostInput($props: { post: PostEditModel, user: UserModel
 	@render {
 		<FormErrors {$props.form} />
 		<Form class="full-width post-input" data={post} schema={PostEditSchema}>
-			<PostInputFields {post} {user} {$props.base} />
-			@if (post.children.length) {
-				@for (let [i, child] of post.children.entries()) {
+			<PostInputFields {post} {user} {$props.base} {$props.form} />
+			@if (post.children?.length) {
+				@for (let [i, child] of post.children!.entries()) {
 					@key = child.id
-					<PostInputFields {post} {user} {$props.base} {child} {i} />
+					<PostInputFields {post} {user} {$props.base} {$props.form} {child} {i} />
 				}
 			}
 		</Form>

@@ -1,4 +1,5 @@
 import { $page } from "@torpor/build/state";
+import type FormData from "../../types/FormData";
 import type UserModel from "../../types/UserModel";
 import type FollowerModel from "../../types/FollowerModel";
 import type ViewingModel from "../../types/ViewingModel";
@@ -9,7 +10,7 @@ import PostInput from "../posts/PostInput.torp";
 import PostList from "../posts/PostList.torp";
 import Pagination from "../Pagination.torp";
 
-export default function EventsPage($props: { data: { posts: PostPreviewModel[], pageCount: number, viewing: ViewingModel, user: UserModel, follower: FollowerModel, base: string } }) {
+export default function EventsPage($props: { data: { posts: PostPreviewModel[], pageCount: number, viewing: ViewingModel, user: UserModel, follower: FollowerModel, base: string }, form?: FormData }) {
 	let $state = $watch({
 		page: +($page.url.searchParams.get("page") || 1),
 	})
@@ -22,7 +23,7 @@ export default function EventsPage($props: { data: { posts: PostPreviewModel[], 
 		<div class="vstack spaced events-page">
 			<EventMenu section="Events" {$props.data.user} {$props.data.base} />
 			@if ($props.data.user) {
-				<PostInput {post} {$props.data.user} {$props.data.base} />
+				<PostInput {post} {$props.data.user} {$props.data.base} {$props.form} />
 			}
 			<PostList {$props.data.posts} {$props.data.user} {$props.data.follower} />
 			<Pagination {$props.data.pageCount} {$state.page} />

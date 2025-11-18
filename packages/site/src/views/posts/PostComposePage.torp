@@ -21,7 +21,7 @@ export default function PostComposePage($props: { data: { post: PostEditModel, u
 
 			<FormErrors {$props.form} />
 
-			<PostInput {post} {$props.data.user} {$props.data.base} />
+			<PostInput {post} {$props.data.user} {$props.data.base} {$props.form} />
 		</div>
 	}
 }

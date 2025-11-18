@@ -1,3 +1,4 @@
+import type FormData from "../types/FormData";
 import type UserModel from "../types/UserModel";
 import type FollowerModel from "../types/FollowerModel";
 import type ViewingModel from "../types/ViewingModel";
@@ -7,7 +8,7 @@ import HomeMenu from "./HomeMenu.torp";
 import PostInput from "./posts/PostInput.torp";
 import PostList from "./posts/PostList.torp";
 
-export default function HomePage($props: { data: { posts: PostPreviewModel[], user: UserModel, follower: FollowerModel, viewing: ViewingModel, base: string }}) {
+export default function HomePage($props: { data: { posts: PostPreviewModel[], user: UserModel, follower: FollowerModel, viewing: ViewingModel, base: string }, form?: FormData }) {
 	@head {
 		<title>{$props.data.viewing.name} • Redraft</title>
 	}
@@ -16,7 +17,7 @@ export default function HomePage($props: { data: { posts: PostPreviewModel[], us
 		<div class="vstack spaced home-page">
 			<HomeMenu section="Home" {$props.data.user} {$props.data.base} />
 			@if ($props.data.user) {
-				<PostInput {post} {$props.data.user} {$props.data.base} />
+				<PostInput {post} {$props.data.user} {$props.data.base} {$props.form} />
 			}
 			<PostList {$props.data.posts} {$props.data.user} {$props.data.follower} />
 		</div>
