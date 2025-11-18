@@ -23,7 +23,7 @@ export default function LikedPage($props: { data: { feed: FeedPreviewModel[], pa
 			<FeedMenu section="Liked" {$props.data.base} />
 			<PostInput {post} {$props.data.user} {$props.data.base} />
 			<FeedList {$props.data.feed} {$props.data.user} {$props.data.follower} />
-			<Pagination {$props.data.pageCount} {$state.page} href={(p: number) => `/?page=${p}`} />
+			<Pagination {$props.data.pageCount} {$state.page} />
 		</div>
 	}
 }

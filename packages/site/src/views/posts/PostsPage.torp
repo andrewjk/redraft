@@ -25,7 +25,7 @@ export default function PostsPage($props: { data: { posts: PostPreviewModel[], p
 				<PostInput {post} {$props.data.user} {$props.data.base} />
 			}
 			<PostList {$props.data.posts} {$props.data.user} {$props.data.follower} />
-			<Pagination {$props.data.pageCount} {$state.page} href={(p: number) => `/?page=${p}`} />
+			<Pagination {$props.data.pageCount} {$state.page} />
 		</div>
 	}
 }

@@ -23,7 +23,7 @@ export default function FeedPage($props: { data: { feed: FeedPreviewModel[], pag
 			<FeedMenu section="Feed" {$props.data.base} />
 			<PostInput {post} {$props.data.user} {$props.data.base} />
 			<FeedList {$props.data.feed} {$props.data.user} {$props.data.follower} />
-			<Pagination {$props.data.pageCount} {$state.page} href={(p: number) => `/?page=${p}`} />
+			<Pagination {$props.data.pageCount} {$state.page} />
 		</div>
 	}
 }

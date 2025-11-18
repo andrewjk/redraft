@@ -3,20 +3,39 @@ export default function Pagination($props: {
 	pageCount: number,
 	/** The current page number */
 	page: number,
-	/** A function to build a page URL */
-	href: (p: number) => string
 }) {
 	@render {
-		<div>
-			@if ($props.pageCount > 1) {
-				<nav>
-					<ul class="pagination">
-						@for (let i = 1; i < $props.pageCount; i++) {
-							<li class={{ "page-item": true, active: i == $props.page }}><a class="page-link" href={$props.href(i)}>{i}</a></li>
-						}
-					</ul>
-				</nav>
-			}
-		</div>
+		@if ($props.pageCount > 1) {
+			<nav class="pagination-container">
+				<ul class="plain pagination">
+					@for (let i = 1; i < $props.pageCount; i++) {
+						<li class={{ "page-item": true, active: i == $props.page }}>
+							@if (i == $props.page) {
+								<span>{i}</span>
+							} else {
+								<a class="page-link" href="?page={i}">{i}</a>
+							}
+						</li>
+					}
+				</ul>
+			</nav>
+		}
+	}
+
+	@style {
+		.pagination-container {
+			text-align: center;
+		}
+
+		.pagination {
+			display: inline-flex;
+			flex-direction: row;
+			gap: 1rem;
+		}
+
+		.page-item.active {
+			font-weight: bold;
+			color: var(--text-secondary);
+		}
 	}
 }

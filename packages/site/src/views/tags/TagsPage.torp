@@ -20,7 +20,7 @@ export default function TagsPage($props: { data: { tags: TagPreviewModel[], page
 			<h1>Tags</h1>
 
 			<TagList {$props.data.tags} {$props.data.user} {$props.data.follower} {$props.data.base} />
-			<Pagination {$props.data.pageCount} {$state.page} href={(p: number) => `/?page=${p}`} />
+			<Pagination {$props.data.pageCount} {$state.page} />
 		</div>
 	}
 }
