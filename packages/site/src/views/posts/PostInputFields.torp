@@ -10,6 +10,7 @@ import Article from "phosphor-torpor/lib/Article";
 import Calendar from "phosphor-torpor/lib/Calendar";
 import Tag from "phosphor-torpor/lib/Tag";
 import UsersThree from "phosphor-torpor/lib/UsersThree";
+//import Stack from "phosphor-torpor/lib/Stack";
 import StackPlus from "phosphor-torpor/lib/StackPlus";
 import X from "phosphor-torpor/lib/X";
 
@@ -32,8 +33,9 @@ export default function PostInputFields($props: { post: PostEditModel, child?: P
 		lists: []
 	});
 
+	let newIndex = 1;
 	function newPost() {
-		return { id: -1, text: "" };
+		return { id: -1 * newIndex++, text: "" };
 	}
 
 	@render {
@@ -71,9 +73,7 @@ export default function PostInputFields($props: { post: PostEditModel, child?: P
 					<TextArea placeholder="Article text" />
 					<Message class="error-message" />
 				</Field>
-			}
-
-			@if (post.isEvent) {
+			} else if (post.isEvent) {
 				<Hidden name={`${prefix}eventId`} value={post.eventId} />
 				<Hidden name={`${prefix}linkPublication`} value={user.name} />
 
@@ -106,103 +106,97 @@ export default function PostInputFields($props: { post: PostEditModel, child?: P
 						placeholder="Event duration" />
 					<Message class="error-message" />
 				</Field>
-			}
-
-			@// HACK: Nested ifs are broken...
-
-			@if (!post.isArticle && !post.isEvent && post.hasImage) {
-				<File
-					style={{ display: $state.imageLoaded ? "none" : undefined }}
-					name={`${prefix}imagefile`}
-					accept="image/*"
-					onchange={imageSelected}
-				/>
-				@if (post.imagefile ?? post.image) {
-					<img src={post.imagefile ?? post.image} />
-					<Field class="form-row" name={`${prefix}imageAltText`} &value={post.imageAltText}>
-						<Input placeholder="Image alt text" />
-						<Message class="error-message" />
-					</Field>
-				}
-			}
-			@function imageSelected(e: Event) {
-				const image = (e.target as HTMLInputElement).files![0];
-				if (!image.type.includes("image")) {
-					return;
-				}
-				const fileReader = new FileReader();
-				fileReader.readAsDataURL(image);
-				fileReader.onload = (ev) => {
-					post.imagefile = ev.target!.result;
-					$state.imageLoaded = true;
-				}
-			}
-
-			@if (!post.isArticle && !post.isEvent && post.hasLink) {
-				<Hidden name={`${prefix}linkImage`} value={post.linkImage} />
-				<Hidden name={`${prefix}linkTitle`} value={post.linkTitle} />
-				<Hidden name={`${prefix}linkPublication`} value={post.linkPublication} />
-				<Hidden name={`${prefix}linkEmbedSrc`} value={post.linkEmbedSrc} />
-				<Hidden name={`${prefix}linkEmbedWidth`} value={post.linkEmbedWidth} />
-				<Hidden name={`${prefix}linkEmbedHeight`} value={post.linkEmbedHeight} />
-
-				<Field class="form-row" name={`${prefix}linkUrl`} &value={post.linkUrl}>
-					<Input
-						type="url"
-						style={{ display: $state.linkLoaded ? "none" : undefined }}
-						placeholder="Link URL"
-						oninput={async (e: Event) => {
-							// TODO: Debounce
-							const value = (e.target as HTMLInputElement).value;
-							if (value) {
-								$state.linkLoading = true;
-								$state.linkLoaded = false;
-								const response = await fetch(`/api/posts/link-info?url=${value}`, { credentials: "same-origin" });
-								const info = await response.json()
-								$state.linkLoading = false;
-								if (info) {
-									$state.linkLoaded = true;
-									post.linkTitle = info.title;
-									post.linkImage = info.image;
-									post.linkPublication = info.publication;
-									post.linkEmbedSrc = info.embedSrc;
-									post.linkEmbedWidth = info.embedWidth;
-									post.linkEmbedHeight = info.embedHeight;
-								}
-							}
-						}} />
-					@if ($state.linkLoading) {
-						<div>Loading...</div>
-					} else if (post.linkUrl) {
-						<LinkPreview link={post} />
+			} else {
+				@if (post.hasImage) {
+					<File
+						style={{ display: $state.imageLoaded ? "none" : undefined }}
+						name={`${prefix}imagefile`}
+						accept="image/*"
+						onchange={imageSelected}
+					/>
+					@if (post.imagefile ?? post.image) {
+						<img src={post.imagefile ?? post.image} />
+						<Field class="form-row" name={`${prefix}imageAltText`} &value={post.imageAltText}>
+							<Input placeholder="Image alt text" />
+							<Message class="error-message" />
+						</Field>
 					}
-					<Message class="error-message" />
-				</Field>
-			}
+					@function imageSelected(e: Event) {
+						const image = (e.target as HTMLInputElement).files![0];
+						if (!image.type.includes("image")) {
+							return;
+						}
+						const fileReader = new FileReader();
+						fileReader.readAsDataURL(image);
+						fileReader.onload = (ev) => {
+							post.imagefile = ev.target!.result;
+							$state.imageLoaded = true;
+						}
+					}
+				} else if (post.hasLink) {
+					<Hidden name={`${prefix}linkImage`} value={post.linkImage} />
+					<Hidden name={`${prefix}linkTitle`} value={post.linkTitle} />
+					<Hidden name={`${prefix}linkPublication`} value={post.linkPublication} />
+					<Hidden name={`${prefix}linkEmbedSrc`} value={post.linkEmbedSrc} />
+					<Hidden name={`${prefix}linkEmbedWidth`} value={post.linkEmbedWidth} />
+					<Hidden name={`${prefix}linkEmbedHeight`} value={post.linkEmbedHeight} />
 
-			@if (!post.isArticle && !post.isEvent && post.hasRating) {
-				<div class="hstack centered spaced">
-					<span>Rating:</span>
-					<Field name={`${prefix}ratingValue`} &value={post.ratingValue}>
+					<Field class="form-row" name={`${prefix}linkUrl`} &value={post.linkUrl}>
 						<Input
-							type="number"
-							class="grow post-input-rating-value"
-							required
-							placeholder="Value"
-						/>
+							type="url"
+							style={{ display: $state.linkLoaded ? "none" : undefined }}
+							placeholder="Link URL"
+							oninput={async (e: Event) => {
+								// TODO: Debounce
+								const value = (e.target as HTMLInputElement).value;
+								if (value) {
+									$state.linkLoading = true;
+									$state.linkLoaded = false;
+									const response = await fetch(`/api/posts/link-info?url=${value}`, { credentials: "same-origin" });
+									const info = await response.json()
+									$state.linkLoading = false;
+									if (info) {
+										$state.linkLoaded = true;
+										post.linkTitle = info.title;
+										post.linkImage = info.image;
+										post.linkPublication = info.publication;
+										post.linkEmbedSrc = info.embedSrc;
+										post.linkEmbedWidth = info.embedWidth;
+										post.linkEmbedHeight = info.embedHeight;
+									}
+								}
+							}} />
+						@if ($state.linkLoading) {
+							<div>Loading...</div>
+						} else if (post.linkUrl) {
+							<LinkPreview link={post} />
+						}
 						<Message class="error-message" />
 					</Field>
-					<span>out of</span>
-					<Field name={`${prefix}ratingBound`} &value={post.ratingBound}>
-						<Input
-							type="number"
-							class="grow post-input-rating-bound"
-							required
-							placeholder="Max"
-						/>
-						<Message class="error-message" />
-					</Field>
-				</div>
+				} else if (post.hasRating) {
+					<div class="hstack centered spaced">
+						<span>Rating:</span>
+						<Field name={`${prefix}ratingValue`} &value={post.ratingValue}>
+							<Input
+								type="number"
+								class="grow post-input-rating-value"
+								required
+								placeholder="Value"
+							/>
+							<Message class="error-message" />
+						</Field>
+						<span>out of</span>
+						<Field name={`${prefix}ratingBound`} &value={post.ratingBound}>
+							<Input
+								type="number"
+								class="grow post-input-rating-bound"
+								required
+								placeholder="Max"
+							/>
+							<Message class="error-message" />
+						</Field>
+					</div>
+				}
 			}
 
 			@if ($state.showTags) {
@@ -304,6 +298,11 @@ export default function PostInputFields($props: { post: PostEditModel, child?: P
 							<Article weight="bold" />
 						}
 					</button>
+					@function toggleArticle() {
+						post.hasLink = false;
+						post.isArticle = !post.isArticle;
+						clearLink();
+					}
 					<button type="button" class="link icon" disabled={post.hasImage || post.hasLink || post.hasRating || (post.children && post.children.length > 0)} onclick={toggleEvent}>
 						@if (post.isEvent) {
 							<div class="zstack">
@@ -314,17 +313,11 @@ export default function PostInputFields($props: { post: PostEditModel, child?: P
 							<Calendar weight="bold" />
 						}
 					</button>
-				}
-				@// TODO: Move this into the @if
-				@function toggleArticle() {
-					post.hasLink = false;
-					post.isArticle = !post.isArticle;
-				}
-				@// TODO: Move this into the @if
-				@function toggleEvent() {
-					post.hasLink = false;
-					post.isEvent = !post.isEvent;
-					clearLink();
+					@function toggleEvent() {
+						post.hasLink = false;
+						post.isEvent = !post.isEvent;
+						clearLink();
+					}
 				}
 				@function clearLink() {
 					post.linkUrl = undefined;
@@ -344,7 +337,10 @@ export default function PostInputFields($props: { post: PostEditModel, child?: P
 						</div>
 					</button>
 				}
-				*/
+				@function removeChild() {
+					let i = $props.i !== undefined ? $props.i : 0;
+					($props.post.children ??= []).splice(i, 1);
+				}*/
 				<button type="button" class="link icon" disabled={post.isArticle || post.isEvent} onclick={addChild}>
 					<StackPlus weight="bold" />
 				</button>
@@ -352,7 +348,6 @@ export default function PostInputFields($props: { post: PostEditModel, child?: P
 					let i = $props.i !== undefined ? $props.i + 1 : 0;
 					($props.post.children ??= []).splice(i, 0, newPost());
 				}
-				}*/
 				@if (!child) {
 					<button type="button" class="link icon" onclick={() => $state.showTags = !$state.showTags}>
 						@if ($state.showTags) {
