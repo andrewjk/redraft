@@ -18,8 +18,10 @@ export default function ProfilePreview($props: { profile: ViewingModel, user: Us
 							</a>
 						</div>
 						<div class="profile-preview-user">
-							<div class="profile-preview-name">{$props.profile.name}</div>
-							<div class="profile-preview-url secondary">{stripProtocol($props.profile.url)}</div>
+							<a href="{$props.base}profile" style="color: inherit">
+								<div class="profile-preview-name">{$props.profile.name}</div>
+								<div class="profile-preview-url secondary">{stripProtocol($props.profile.url)}</div>
+							</a>
 							@if (!$props.user) {
 								@if ($props.follower) {
 									<Form action="{$props.follower.url}unfollow">
