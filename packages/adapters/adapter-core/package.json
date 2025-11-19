@@ -1,6 +1,6 @@
 {
 	"name": "@redraft/adapter-core",
-	"version": "0.0.7",
+	"version": "0.1.0",
 	"description": "The interfaces needed for building a Redraft adapter",
 	"type": "module",
 	"exports": {

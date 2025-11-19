@@ -1,5 +1,18 @@
 # @redraft/adapter-core
 
+## 0.1.0
+
+### Minor Changes
+
+- 4ec967c: !Fix: use a different JWT secret when communicating with contacts
+- 210d67e: Chore: drop CJS build and go ESM only
+
+### Patch Changes
+
+- 93c4b75: Chore: update dependencies
+- 3bb643d: Chore: update dependencies
+- 08fbcf1: Chore: update dependencies
+
 ## 0.0.7
 
 ### Patch Changes

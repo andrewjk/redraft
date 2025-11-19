@@ -1,5 +1,39 @@
 # @redraft/site
 
+## 0.2.0
+
+### Minor Changes
+
+- 4ec967c: !Fix: use a different JWT secret when communicating with contacts
+- 210d67e: Chore: drop CJS build and go ESM only
+
+### Patch Changes
+
+- bfdf324: Edit: type all $props in components
+- cdbc7df: Edit: add Page to the names of page components
+- 98be0e9: Feat: separators in header menus
+- d82b9b0: Fix: return the result of creating a comment
+- 95e668a: Fix: post children
+- 93c4b75: Chore: update dependencies
+- 92306ff: Fix: child post ratings
+- a07b30b: Edit: move api route files out into their own folder
+- 98be0e9: Feat: separators in header menus
+- 9616ff6: Fix: migrate link_type in feeds table
+- 3bb643d: Chore: update dependencies
+- 010826f: Fix: pagination
+- b9063d1: Feat: client and server data validation
+- dc7ed35: Feat: link profile name to profile (like image)
+- 1d23287: Fix: form errors
+- 08fbcf1: Chore: update dependencies
+- 97f9959: Fix: upload child images
+- Updated dependencies [4ec967c]
+- Updated dependencies [93c4b75]
+- Updated dependencies [210d67e]
+- Updated dependencies [3bb643d]
+- Updated dependencies [08fbcf1]
+  - @redraft/adapter-core@0.1.0
+  - @redraft/adapter-node@0.1.0
+
 ## 0.1.4
 
 ### Patch Changes

@@ -1,5 +1,24 @@
 # @redraft/adapter-node
 
+## 0.1.0
+
+### Minor Changes
+
+- 4ec967c: !Fix: use a different JWT secret when communicating with contacts
+- 210d67e: Chore: drop CJS build and go ESM only
+
+### Patch Changes
+
+- 93c4b75: Chore: update dependencies
+- 3bb643d: Chore: update dependencies
+- 08fbcf1: Chore: update dependencies
+- Updated dependencies [4ec967c]
+- Updated dependencies [93c4b75]
+- Updated dependencies [210d67e]
+- Updated dependencies [3bb643d]
+- Updated dependencies [08fbcf1]
+  - @redraft/adapter-core@0.1.0
+
 ## 0.0.7
 
 ### Patch Changes

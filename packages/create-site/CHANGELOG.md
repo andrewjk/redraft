@@ -1,5 +1,11 @@
 # @redraft/create-site
 
+## 0.1.0
+
+### Minor Changes
+
+- 4ec967c: !Fix: use a different JWT secret when communicating with contacts
+
 ## 0.0.9
 
 ### Patch Changes

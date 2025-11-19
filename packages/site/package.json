@@ -1,6 +1,6 @@
 {
 	"name": "@redraft/site",
-	"version": "0.1.4",
+	"version": "0.2.0",
 	"description": "A social media experiment",
 	"type": "module",
 	"module": "./dist/index.mjs",
