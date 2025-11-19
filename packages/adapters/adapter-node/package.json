@@ -26,13 +26,13 @@
 	"packageManager": "pnpm@10.9.0",
 	"dependencies": {
 		"@redraft/adapter-core": "workspace:^",
-		"@torpor/adapter-node": "^0.1.1",
-		"@torpor/build": "^0.4.9",
+		"@torpor/adapter-node": "^0.1.2",
+		"@torpor/build": "^0.4.11",
 		"drizzle-orm": "^0.44.7"
 	},
 	"devDependencies": {
 		"@types/node": "^24.10.1",
-		"@typescript/native-preview": "7.0.0-dev.20251117.1",
+		"@typescript/native-preview": "7.0.0-dev.20251118.1",
 		"oxlint-tsgolint": "^0.7.1",
 		"prettier": "^3.6.2",
 		"tsdown": "^0.16.5",

@@ -31,24 +31,24 @@ importers:
         specifier: workspace:^
         version: link:../adapter-core
       '@torpor/adapter-cloudflare':
-        specifier: ^0.2.1
-        version: 0.2.1(@types/node@24.10.1)(esbuild@0.25.12)(jiti@2.6.1)(rollup@4.53.2)(terser@5.39.0)(tsx@4.20.6)(typescript@5.9.3)
+        specifier: ^0.2.2
+        version: 0.2.2(@types/node@24.10.1)(esbuild@0.25.12)(jiti@2.6.1)(rollup@4.53.2)(terser@5.39.0)(tsx@4.20.6)(typescript@5.9.3)
       '@torpor/build':
-        specifier: ^0.4.9
-        version: 0.4.9(@types/node@24.10.1)(esbuild@0.25.12)(jiti@2.6.1)(rollup@4.53.2)(terser@5.39.0)(tsx@4.20.6)(typescript@5.9.3)
+        specifier: ^0.4.11
+        version: 0.4.11(@types/node@24.10.1)(esbuild@0.25.12)(jiti@2.6.1)(rollup@4.53.2)(terser@5.39.0)(tsx@4.20.6)(typescript@5.9.3)
       drizzle-orm:
         specifier: ^0.44.7
-        version: 0.44.7(@cloudflare/workers-types@4.20251118.0)(@libsql/client@0.15.15)(gel@2.0.2)
+        version: 0.44.7(@cloudflare/workers-types@4.20251119.0)(@libsql/client@0.15.15)(gel@2.0.2)
     devDependencies:
       '@cloudflare/workers-types':
-        specifier: ^4.20251118.0
-        version: 4.20251118.0
+        specifier: ^4.20251119.0
+        version: 4.20251119.0
       '@types/node':
         specifier: ^24.10.1
         version: 24.10.1
       '@typescript/native-preview':
-        specifier: 7.0.0-dev.20251117.1
-        version: 7.0.0-dev.20251117.1
+        specifier: 7.0.0-dev.20251118.1
+        version: 7.0.0-dev.20251118.1
       oxlint-tsgolint:
         specifier: ^0.7.1
         version: 0.7.1
@@ -57,7 +57,7 @@ importers:
         version: 3.6.2
       tsdown:
         specifier: ^0.16.5
-        version: 0.16.5(@typescript/native-preview@7.0.0-dev.20251117.1)(ms@2.1.3)(typescript@5.9.3)
+        version: 0.16.5(@typescript/native-preview@7.0.0-dev.20251118.1)(ms@2.1.3)(typescript@5.9.3)
       typescript:
         specifier: ^5.9.3
         version: 5.9.3
@@ -65,15 +65,15 @@ importers:
   packages/adapters/adapter-core:
     dependencies:
       '@torpor/build':
-        specifier: ^0.4.9
-        version: 0.4.9(@types/node@24.10.1)(esbuild@0.25.12)(jiti@2.6.1)(rollup@4.53.2)(terser@5.39.0)(tsx@4.20.6)(typescript@5.9.3)
+        specifier: ^0.4.11
+        version: 0.4.11(@types/node@24.10.1)(esbuild@0.25.12)(jiti@2.6.1)(rollup@4.53.2)(terser@5.39.0)(tsx@4.20.6)(typescript@5.9.3)
       drizzle-orm:
         specifier: ^0.44.7
-        version: 0.44.7(@cloudflare/workers-types@4.20251118.0)(@libsql/client@0.15.15)(gel@2.0.2)
+        version: 0.44.7(@cloudflare/workers-types@4.20251119.0)(@libsql/client@0.15.15)(gel@2.0.2)
     devDependencies:
       '@typescript/native-preview':
-        specifier: 7.0.0-dev.20251117.1
-        version: 7.0.0-dev.20251117.1
+        specifier: 7.0.0-dev.20251118.1
+        version: 7.0.0-dev.20251118.1
       oxlint-tsgolint:
         specifier: ^0.7.1
         version: 0.7.1
@@ -82,7 +82,7 @@ importers:
         version: 3.6.2
       tsdown:
         specifier: ^0.16.5
-        version: 0.16.5(@typescript/native-preview@7.0.0-dev.20251117.1)(ms@2.1.3)(typescript@5.9.3)
+        version: 0.16.5(@typescript/native-preview@7.0.0-dev.20251118.1)(ms@2.1.3)(typescript@5.9.3)
       typescript:
         specifier: ^5.9.3
         version: 5.9.3
@@ -93,21 +93,21 @@ importers:
         specifier: workspace:^
         version: link:../adapter-core
       '@torpor/adapter-node':
-        specifier: ^0.1.1
-        version: 0.1.1(@types/node@24.10.1)(esbuild@0.25.12)(jiti@2.6.1)(rollup@4.53.2)(terser@5.39.0)(tsx@4.20.6)(typescript@5.9.3)
+        specifier: ^0.1.2
+        version: 0.1.2(@types/node@24.10.1)(esbuild@0.25.12)(jiti@2.6.1)(rollup@4.53.2)(terser@5.39.0)(tsx@4.20.6)(typescript@5.9.3)
       '@torpor/build':
-        specifier: ^0.4.9
-        version: 0.4.9(@types/node@24.10.1)(esbuild@0.25.12)(jiti@2.6.1)(rollup@4.53.2)(terser@5.39.0)(tsx@4.20.6)(typescript@5.9.3)
+        specifier: ^0.4.11
+        version: 0.4.11(@types/node@24.10.1)(esbuild@0.25.12)(jiti@2.6.1)(rollup@4.53.2)(terser@5.39.0)(tsx@4.20.6)(typescript@5.9.3)
       drizzle-orm:
         specifier: ^0.44.7
-        version: 0.44.7(@cloudflare/workers-types@4.20251118.0)(@libsql/client@0.15.15)(gel@2.0.2)
+        version: 0.44.7(@cloudflare/workers-types@4.20251119.0)(@libsql/client@0.15.15)(gel@2.0.2)
     devDependencies:
       '@types/node':
         specifier: ^24.10.1
         version: 24.10.1
       '@typescript/native-preview':
-        specifier: 7.0.0-dev.20251117.1
-        version: 7.0.0-dev.20251117.1
+        specifier: 7.0.0-dev.20251118.1
+        version: 7.0.0-dev.20251118.1
       oxlint-tsgolint:
         specifier: ^0.7.1
         version: 0.7.1
@@ -116,7 +116,7 @@ importers:
         version: 3.6.2
       tsdown:
         specifier: ^0.16.5
-        version: 0.16.5(@typescript/native-preview@7.0.0-dev.20251117.1)(ms@2.1.3)(typescript@5.9.3)
+        version: 0.16.5(@typescript/native-preview@7.0.0-dev.20251118.1)(ms@2.1.3)(typescript@5.9.3)
       typescript:
         specifier: ^5.9.3
         version: 5.9.3
@@ -135,14 +135,14 @@ importers:
         specifier: workspace:^
         version: link:../adapters/adapter-node
       '@torpor/adapter-node':
-        specifier: ^0.1.1
-        version: 0.1.1(@types/node@24.10.1)(esbuild@0.25.12)(jiti@2.6.1)(rollup@4.53.2)(terser@5.39.0)(tsx@4.20.6)(typescript@5.9.3)
+        specifier: ^0.1.2
+        version: 0.1.2(@types/node@24.10.1)(esbuild@0.25.12)(jiti@2.6.1)(rollup@4.53.2)(terser@5.39.0)(tsx@4.20.6)(typescript@5.9.3)
       '@torpor/ui':
-        specifier: ^0.3.5
-        version: 0.3.5(esbuild@0.25.12)(rollup@4.53.2)(vite@7.2.2(@types/node@24.10.1)(jiti@2.6.1)(terser@5.39.0)(tsx@4.20.6))
+        specifier: ^0.3.6
+        version: 0.3.6(esbuild@0.25.12)(rollup@4.53.2)(vite@7.2.2(@types/node@24.10.1)(jiti@2.6.1)(terser@5.39.0)(tsx@4.20.6))
       '@torpor/view':
-        specifier: ^0.4.15
-        version: 0.4.15
+        specifier: ^0.4.16
+        version: 0.4.16
       bcryptjs:
         specifier: ^3.0.3
         version: 3.0.3
@@ -151,10 +151,10 @@ importers:
         version: 17.2.3
       drizzle-orm:
         specifier: ^0.44.7
-        version: 0.44.7(@cloudflare/workers-types@4.20251118.0)(@libsql/client@0.15.15)(gel@2.0.2)
+        version: 0.44.7(@cloudflare/workers-types@4.20251119.0)(@libsql/client@0.15.15)(gel@2.0.2)
       drizzle-valibot:
         specifier: ^0.4.2
-        version: 0.4.2(drizzle-orm@0.44.7(@cloudflare/workers-types@4.20251118.0)(@libsql/client@0.15.15)(gel@2.0.2))(valibot@1.1.0(typescript@5.9.3))
+        version: 0.4.2(drizzle-orm@0.44.7(@cloudflare/workers-types@4.20251119.0)(@libsql/client@0.15.15)(gel@2.0.2))(valibot@1.1.0(typescript@5.9.3))
       grab-page-info:
         specifier: ^1.0.2
         version: 1.0.2
@@ -172,7 +172,7 @@ importers:
         version: 3.0.0
       phosphor-torpor:
         specifier: ^1.0.2
-        version: 1.0.2(@torpor/view@0.4.15)(vite@7.2.2(@types/node@24.10.1)(jiti@2.6.1)(terser@5.39.0)(tsx@4.20.6))
+        version: 1.0.2(@torpor/view@0.4.16)(vite@7.2.2(@types/node@24.10.1)(jiti@2.6.1)(terser@5.39.0)(tsx@4.20.6))
       valibot:
         specifier: 1.1.0
         version: 1.1.0(typescript@5.9.3)
@@ -187,8 +187,8 @@ importers:
         specifier: ^14.6.1
         version: 14.6.1(@testing-library/dom@10.4.1)
       '@torpor/build':
-        specifier: ^0.4.9
-        version: 0.4.9(@types/node@24.10.1)(esbuild@0.25.12)(jiti@2.6.1)(rollup@4.53.2)(terser@5.39.0)(tsx@4.20.6)(typescript@5.9.3)
+        specifier: ^0.4.11
+        version: 0.4.11(@types/node@24.10.1)(esbuild@0.25.12)(jiti@2.6.1)(rollup@4.53.2)(terser@5.39.0)(tsx@4.20.6)(typescript@5.9.3)
       '@torpor/unplugin':
         specifier: ^0.2.1
         version: 0.2.1(esbuild@0.25.12)(rollup@4.53.2)(vite@7.2.2(@types/node@24.10.1)(jiti@2.6.1)(terser@5.39.0)(tsx@4.20.6))
@@ -202,8 +202,8 @@ importers:
         specifier: ^2.16.0
         version: 2.16.0
       '@typescript/native-preview':
-        specifier: 7.0.0-dev.20251117.1
-        version: 7.0.0-dev.20251117.1
+        specifier: 7.0.0-dev.20251118.1
+        version: 7.0.0-dev.20251118.1
       dotenv-cli:
         specifier: ^11.0.0
         version: 11.0.0
@@ -224,7 +224,7 @@ importers:
         version: 2.17.0
       tsdown:
         specifier: ^0.16.5
-        version: 0.16.5(@typescript/native-preview@7.0.0-dev.20251117.1)(ms@2.1.3)(typescript@5.9.3)
+        version: 0.16.5(@typescript/native-preview@7.0.0-dev.20251118.1)(ms@2.1.3)(typescript@5.9.3)
       tsx:
         specifier: ^4.20.6
         version: 4.20.6
@@ -345,8 +345,8 @@ packages:
   '@changesets/write@0.4.0':
     resolution: {integrity: sha512-CdTLvIOPiCNuH71pyDu3rA+Q0n65cmAbXnwWH84rKGiFumFzkmHNT8KHTMEchcxN+Kl8I54xGUhJ7l3E7X396Q==}
 
-  '@cloudflare/workers-types@4.20251118.0':
-    resolution: {integrity: sha512-O1BlPjaQlM5rsxf8rc8NwNrXduzXMCWZDsSelI1SEyt0zYuBYMzn0kNrrD2bXAtXeYCk6LrX98037AlVdGXBUw==}
+  '@cloudflare/workers-types@4.20251119.0':
+    resolution: {integrity: sha512-DfCMGhqhvOow3NDViL3T9SgAtogc+xjtAKCfL+aWpVcAcct31P8FSFFRqlZCjcXJ5Kqw/TOjD/87UEAXAqaQZA==}
 
   '@csstools/color-helpers@5.1.0':
     resolution: {integrity: sha512-S11EXWJyy0Mz5SYvRmY8nJYTFFd1LCNV+7cXyAgQtOOuzb4EsgfqDufL+9esx72/eLhsRdGZwaldu/h+E4t4BA==}
@@ -1053,18 +1053,18 @@ packages:
     peerDependencies:
       '@testing-library/dom': '>=7.21.4'
 
-  '@torpor/adapter-cloudflare@0.2.1':
-    resolution: {integrity: sha512-219x8UaY+zJogLcFXhdhcZEcqHMVJei6HcY91qReFMnQW6mTjAQMFVEtza7Zjvlv0UkX4sGSY9D647Ra0oB6oA==}
+  '@torpor/adapter-cloudflare@0.2.2':
+    resolution: {integrity: sha512-7S7TdidIMuXu+hNqj2tdNCar34kM6HMkgLxBTwc9Xl9iuflVL4YG+dG9oE0/ArOidImyRn3sP4OOUmAgaAuMVw==}
 
-  '@torpor/adapter-node@0.1.1':
-    resolution: {integrity: sha512-afoRdygfFSF1emx30zomwsMq3Pz++/ueGTO0YUQMCkaSoFLc8mOURszdXbfp/NlmfO+TkMG9h4C89t/zXR+R5w==}
+  '@torpor/adapter-node@0.1.2':
+    resolution: {integrity: sha512-6f8icQLWv3rEDgz9XlUWkKL67bnquobVeKGRDtxnd3ezxVWoBQsac8zgnUq20Lmxgs2OJAo3tKvIuzpQVbYqSA==}
 
-  '@torpor/build@0.4.9':
-    resolution: {integrity: sha512-APT6toll5H+2dRhr18v4FoHWLDsFxv/Png51ir76O75DquRepZiREXu8u5qN2ufAjfQOhwKAoL9HqCnNGI9Qsw==}
+  '@torpor/build@0.4.11':
+    resolution: {integrity: sha512-2adUIpiD694B9qllcRL56NApPRNED82DePnVF8j7HTXX0V1wSNs9X76Y60x/hqxvF9rU7jELQTTM0C7Ug1Hehg==}
     hasBin: true
 
-  '@torpor/ui@0.3.5':
-    resolution: {integrity: sha512-3jnCIjrTAGHVmJAMuph2kPuYo8wm+WWg+QVnDfoaQPUujKziB6AM5eCEnNq9QRFEi9L8fDhUk8ysM6oYS4iVIQ==}
+  '@torpor/ui@0.3.6':
+    resolution: {integrity: sha512-EV7lq9Ig0Spa9+yaCfPhnR5Ppk0r5lKrPGgtIneyki7MV1bhezhdWf7UchYthXbYlwrcyq98Pojd9Hwzouiezw==}
 
   '@torpor/unplugin@0.2.1':
     resolution: {integrity: sha512-pg76mUoMLUDHuuH21u7MqrFN/R/b7Y9uuxqlImhKMAsXZ2htCoGfMkPWl8twoVbNp0wdxoxa1wd7yhsE8EQECw==}
@@ -1089,8 +1089,8 @@ packages:
       webpack:
         optional: true
 
-  '@torpor/view@0.4.15':
-    resolution: {integrity: sha512-fBOusU235Wr1o12z6H81kEM2u0zJELlaeQyOEEJbKXzRzKXvQiTQlLjW4VjlbdxV11V0XzVnr6F2CfRun0vEgw==}
+  '@torpor/view@0.4.16':
+    resolution: {integrity: sha512-cQFNZ/PSUZfBT+5TcMNsPYFbFpqCxbLWOzK/1xMp6+SwMTc5C3p1nCCER+qAoWUL0YETOVHIEEO0zH/V40F0qw==}
 
   '@trivago/prettier-plugin-sort-imports@6.0.0':
     resolution: {integrity: sha512-Xarx55ow0R8oC7ViL5fPmDsg1EBa1dVhyZFVbFXNtPPJyW2w9bJADIla8YFSaNG9N06XfcklA9O9vmw4noNxkQ==}
@@ -1150,43 +1150,43 @@ packages:
   '@types/ws@8.18.1':
     resolution: {integrity: sha512-ThVF6DCVhA8kUGy+aazFQ4kXQ7E1Ty7A3ypFOe0IcJV8O/M511G99AW24irKrW56Wt44yG9+ij8FaqoBGkuBXg==}
 
-  '@typescript/native-preview-darwin-arm64@7.0.0-dev.20251117.1':
-    resolution: {integrity: sha512-O7Hhb9m8AZJCAUSBbGmZs7Vm890Kh5Z3xAAASs+L4thtPM0oRckeaoXLvHeE9Qy1p8qG//EmZ3+uSdtUTV4wqg==}
+  '@typescript/native-preview-darwin-arm64@7.0.0-dev.20251118.1':
+    resolution: {integrity: sha512-S3f/19naNfm4pYtDwSL3zVjnGVFsJUUvyYWCMyiSfH/pl3r946oT8EFRX5ZFqhmrRzsro/eOKKCkI6NW8LgKQA==}
     cpu: [arm64]
     os: [darwin]
 
-  '@typescript/native-preview-darwin-x64@7.0.0-dev.20251117.1':
-    resolution: {integrity: sha512-/I/iWWvUvuy8BK0bXn5Kz6z2QwknwD2kl2estQxgsz9VgHHyLSyjAg7c18pX/re0Z9ISPz7wutEKabzdtRW8Uw==}
+  '@typescript/native-preview-darwin-x64@7.0.0-dev.20251118.1':
+    resolution: {integrity: sha512-CN3womymw0PBkVxsJ0hwANFNfksi47sT76rZUYJihr5Ckp5GIrWfew8wiO2rRc0Fozg4eYhrWHqZFneI0UlWzg==}
     cpu: [x64]
     os: [darwin]
 
-  '@typescript/native-preview-linux-arm64@7.0.0-dev.20251117.1':
-    resolution: {integrity: sha512-YSkmJb4/WrS6ZMEJSDbv5o2Garms3+3yKsH+Y3JLUab0namf1Br7T53ydW7ijV2rE7j9DgJs9P+GNu8753St3Q==}
+  '@typescript/native-preview-linux-arm64@7.0.0-dev.20251118.1':
+    resolution: {integrity: sha512-8ekzTFSCci6utz6OXRasREudIihydjPU+G/Mp05cZGkTyF+Jgwge/JSmMnJ3OuC0GOq6At+aHVzj/xzJ2wvA9w==}
     cpu: [arm64]
     os: [linux]
 
-  '@typescript/native-preview-linux-arm@7.0.0-dev.20251117.1':
-    resolution: {integrity: sha512-Mfnc8CytGICsYJCMbu3FwE/KDcVg4/QTFix6O31oUkj9ERp3zbSePVMQulkJTH2vuhDvJnVISHzIYawtq5QPTQ==}
+  '@typescript/native-preview-linux-arm@7.0.0-dev.20251118.1':
+    resolution: {integrity: sha512-+SpJsGnueItXLmL6PJgvwel3+moqH4Tr9PUQOOYFwXIYYE08b7coYT7SjWqgA5cRh7obOc3L5ajOgFoHittTBg==}
     cpu: [arm]
     os: [linux]
 
-  '@typescript/native-preview-linux-x64@7.0.0-dev.20251117.1':
-    resolution: {integrity: sha512-R5KvnKuGsbozjHbmA+zPa4xVkQSutvtU9/PQJ7vjJL0xsvSsRUgOE2V2jlT+KnfjAhYVoIg2njtHdf0uv5k9Ow==}
+  '@typescript/native-preview-linux-x64@7.0.0-dev.20251118.1':
+    resolution: {integrity: sha512-u+JoZzThEeyZ7aPPgzfAVeFy84Zo9hdRtARxnb1FN+LagpBAQfs11g6BTmcpo2wUNzkKTHQxJi6c7Zekp8O4FQ==}
     cpu: [x64]
     os: [linux]
 
-  '@typescript/native-preview-win32-arm64@7.0.0-dev.20251117.1':
-    resolution: {integrity: sha512-xfEwDD9BwCm2gFf0AePfvXxjgQ/EDBDLRbSejtShTSFwrgdnRJ7iW63/ns/i31qLesTzGZaLxeAV8zgh6C2Ibg==}
+  '@typescript/native-preview-win32-arm64@7.0.0-dev.20251118.1':
+    resolution: {integrity: sha512-At7qHhLxflc3ZUSbuTP/VPvp5s9AHvFbIPxpEX0g+uHBzUkgEuJ32pIvL3szkkfwHGUdlRrMfn8CY5fuZGyWIg==}
     cpu: [arm64]
     os: [win32]
 
-  '@typescript/native-preview-win32-x64@7.0.0-dev.20251117.1':
-    resolution: {integrity: sha512-GhJ4GIygHSU86gZw6NkOnJKi/XW0Yw+1quanZ6BaOAZ+HY6aftuESy+NlbC6nUSGE2xmbvxqJgqchCIlC6YPoA==}
+  '@typescript/native-preview-win32-x64@7.0.0-dev.20251118.1':
+    resolution: {integrity: sha512-nyhMXoU3g1NkKZ4erZPvHB6JUpnEOIJXHnvFgXfOgrCh/KA0JPqUOk5ityE7n0xscTyleGEMptTW4Xbg8XH/+A==}
     cpu: [x64]
     os: [win32]
 
-  '@typescript/native-preview@7.0.0-dev.20251117.1':
-    resolution: {integrity: sha512-JgKY4Q6jRCszCJ46c8tVrGVnmdiRPSKTW0UQvcyxdI7LG9NYMchJ/W7iUyFZVjG8BV1iUTl3DYml1xErPHLKeg==}
+  '@typescript/native-preview@7.0.0-dev.20251118.1':
+    resolution: {integrity: sha512-rf6L3/MhHM3xFvmO3kidqdH5Q4N+U8+accIVTewqsyu35Uku7iWHfsv1zwyQEVT74LH/MCfBiShYYCi1Juh03g==}
     hasBin: true
 
   '@vitest/expect@4.0.10':
@@ -2664,7 +2664,7 @@ snapshots:
       human-id: 4.1.2
       prettier: 2.8.8
 
-  '@cloudflare/workers-types@4.20251118.0': {}
+  '@cloudflare/workers-types@4.20251119.0': {}
 
   '@csstools/color-helpers@5.1.0':
     optional: true
@@ -3161,9 +3161,9 @@ snapshots:
     dependencies:
       '@testing-library/dom': 10.4.1
 
-  '@torpor/adapter-cloudflare@0.2.1(@types/node@24.10.1)(esbuild@0.25.12)(jiti@2.6.1)(rollup@4.53.2)(terser@5.39.0)(tsx@4.20.6)(typescript@5.9.3)':
+  '@torpor/adapter-cloudflare@0.2.2(@types/node@24.10.1)(esbuild@0.25.12)(jiti@2.6.1)(rollup@4.53.2)(terser@5.39.0)(tsx@4.20.6)(typescript@5.9.3)':
     dependencies:
-      '@torpor/build': 0.4.9(@types/node@24.10.1)(esbuild@0.25.12)(jiti@2.6.1)(rollup@4.53.2)(terser@5.39.0)(tsx@4.20.6)(typescript@5.9.3)
+      '@torpor/build': 0.4.11(@types/node@24.10.1)(esbuild@0.25.12)(jiti@2.6.1)(rollup@4.53.2)(terser@5.39.0)(tsx@4.20.6)(typescript@5.9.3)
       vite: 7.2.2(@types/node@24.10.1)(jiti@2.6.1)(terser@5.39.0)(tsx@4.20.6)
     transitivePeerDependencies:
       - '@nuxt/kit'
@@ -3185,9 +3185,9 @@ snapshots:
       - webpack
       - yaml
 
-  '@torpor/adapter-node@0.1.1(@types/node@24.10.1)(esbuild@0.25.12)(jiti@2.6.1)(rollup@4.53.2)(terser@5.39.0)(tsx@4.20.6)(typescript@5.9.3)':
+  '@torpor/adapter-node@0.1.2(@types/node@24.10.1)(esbuild@0.25.12)(jiti@2.6.1)(rollup@4.53.2)(terser@5.39.0)(tsx@4.20.6)(typescript@5.9.3)':
     dependencies:
-      '@torpor/build': 0.4.9(@types/node@24.10.1)(esbuild@0.25.12)(jiti@2.6.1)(rollup@4.53.2)(terser@5.39.0)(tsx@4.20.6)(typescript@5.9.3)
+      '@torpor/build': 0.4.11(@types/node@24.10.1)(esbuild@0.25.12)(jiti@2.6.1)(rollup@4.53.2)(terser@5.39.0)(tsx@4.20.6)(typescript@5.9.3)
       vite: 7.2.2(@types/node@24.10.1)(jiti@2.6.1)(terser@5.39.0)(tsx@4.20.6)
     transitivePeerDependencies:
       - '@nuxt/kit'
@@ -3209,10 +3209,10 @@ snapshots:
       - webpack
       - yaml
 
-  '@torpor/build@0.4.9(@types/node@24.10.1)(esbuild@0.25.12)(jiti@2.6.1)(rollup@4.53.2)(terser@5.39.0)(tsx@4.20.6)(typescript@5.9.3)':
+  '@torpor/build@0.4.11(@types/node@24.10.1)(esbuild@0.25.12)(jiti@2.6.1)(rollup@4.53.2)(terser@5.39.0)(tsx@4.20.6)(typescript@5.9.3)':
     dependencies:
       '@torpor/unplugin': 0.2.1(esbuild@0.25.12)(rollup@4.53.2)(vite@7.2.2(@types/node@24.10.1)(jiti@2.6.1)(terser@5.39.0)(tsx@4.20.6))
-      '@torpor/view': 0.4.15
+      '@torpor/view': 0.4.16
       cookie: 1.0.2
       dotenv: 17.2.3
       vite: 7.2.2(@types/node@24.10.1)(jiti@2.6.1)(terser@5.39.0)(tsx@4.20.6)
@@ -3237,10 +3237,10 @@ snapshots:
       - webpack
       - yaml
 
-  '@torpor/ui@0.3.5(esbuild@0.25.12)(rollup@4.53.2)(vite@7.2.2(@types/node@24.10.1)(jiti@2.6.1)(terser@5.39.0)(tsx@4.20.6))':
+  '@torpor/ui@0.3.6(esbuild@0.25.12)(rollup@4.53.2)(vite@7.2.2(@types/node@24.10.1)(jiti@2.6.1)(terser@5.39.0)(tsx@4.20.6))':
     dependencies:
       '@torpor/unplugin': 0.2.1(esbuild@0.25.12)(rollup@4.53.2)(vite@7.2.2(@types/node@24.10.1)(jiti@2.6.1)(terser@5.39.0)(tsx@4.20.6))
-      '@torpor/view': 0.4.15
+      '@torpor/view': 0.4.16
     transitivePeerDependencies:
       - '@nuxt/kit'
       - '@nuxt/schema'
@@ -3251,14 +3251,14 @@ snapshots:
 
   '@torpor/unplugin@0.2.1(esbuild@0.25.12)(rollup@4.53.2)(vite@7.2.2(@types/node@24.10.1)(jiti@2.6.1)(terser@5.39.0)(tsx@4.20.6))':
     dependencies:
-      '@torpor/view': 0.4.15
+      '@torpor/view': 0.4.16
       unplugin: 2.3.10
     optionalDependencies:
       esbuild: 0.25.12
       rollup: 4.53.2
       vite: 7.2.2(@types/node@24.10.1)(jiti@2.6.1)(terser@5.39.0)(tsx@4.20.6)
 
-  '@torpor/view@0.4.15': {}
+  '@torpor/view@0.4.16': {}
 
   '@trivago/prettier-plugin-sort-imports@6.0.0(prettier@3.6.2)':
     dependencies:
@@ -3316,36 +3316,36 @@ snapshots:
     dependencies:
       '@types/node': 24.10.1
 
-  '@typescript/native-preview-darwin-arm64@7.0.0-dev.20251117.1':
+  '@typescript/native-preview-darwin-arm64@7.0.0-dev.20251118.1':
     optional: true
 
-  '@typescript/native-preview-darwin-x64@7.0.0-dev.20251117.1':
+  '@typescript/native-preview-darwin-x64@7.0.0-dev.20251118.1':
     optional: true
 
-  '@typescript/native-preview-linux-arm64@7.0.0-dev.20251117.1':
+  '@typescript/native-preview-linux-arm64@7.0.0-dev.20251118.1':
     optional: true
 
-  '@typescript/native-preview-linux-arm@7.0.0-dev.20251117.1':
+  '@typescript/native-preview-linux-arm@7.0.0-dev.20251118.1':
     optional: true
 
-  '@typescript/native-preview-linux-x64@7.0.0-dev.20251117.1':
+  '@typescript/native-preview-linux-x64@7.0.0-dev.20251118.1':
     optional: true
 
-  '@typescript/native-preview-win32-arm64@7.0.0-dev.20251117.1':
+  '@typescript/native-preview-win32-arm64@7.0.0-dev.20251118.1':
     optional: true
 
-  '@typescript/native-preview-win32-x64@7.0.0-dev.20251117.1':
+  '@typescript/native-preview-win32-x64@7.0.0-dev.20251118.1':
     optional: true
 
-  '@typescript/native-preview@7.0.0-dev.20251117.1':
+  '@typescript/native-preview@7.0.0-dev.20251118.1':
     optionalDependencies:
-      '@typescript/native-preview-darwin-arm64': 7.0.0-dev.20251117.1
-      '@typescript/native-preview-darwin-x64': 7.0.0-dev.20251117.1
-      '@typescript/native-preview-linux-arm': 7.0.0-dev.20251117.1
-      '@typescript/native-preview-linux-arm64': 7.0.0-dev.20251117.1
-      '@typescript/native-preview-linux-x64': 7.0.0-dev.20251117.1
-      '@typescript/native-preview-win32-arm64': 7.0.0-dev.20251117.1
-      '@typescript/native-preview-win32-x64': 7.0.0-dev.20251117.1
+      '@typescript/native-preview-darwin-arm64': 7.0.0-dev.20251118.1
+      '@typescript/native-preview-darwin-x64': 7.0.0-dev.20251118.1
+      '@typescript/native-preview-linux-arm': 7.0.0-dev.20251118.1
+      '@typescript/native-preview-linux-arm64': 7.0.0-dev.20251118.1
+      '@typescript/native-preview-linux-x64': 7.0.0-dev.20251118.1
+      '@typescript/native-preview-win32-arm64': 7.0.0-dev.20251118.1
+      '@typescript/native-preview-win32-x64': 7.0.0-dev.20251118.1
 
   '@vitest/expect@4.0.10':
     dependencies:
@@ -3554,15 +3554,15 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
-  drizzle-orm@0.44.7(@cloudflare/workers-types@4.20251118.0)(@libsql/client@0.15.15)(gel@2.0.2):
+  drizzle-orm@0.44.7(@cloudflare/workers-types@4.20251119.0)(@libsql/client@0.15.15)(gel@2.0.2):
     optionalDependencies:
-      '@cloudflare/workers-types': 4.20251118.0
+      '@cloudflare/workers-types': 4.20251119.0
       '@libsql/client': 0.15.15
       gel: 2.0.2
 
-  drizzle-valibot@0.4.2(drizzle-orm@0.44.7(@cloudflare/workers-types@4.20251118.0)(@libsql/client@0.15.15)(gel@2.0.2))(valibot@1.1.0(typescript@5.9.3)):
+  drizzle-valibot@0.4.2(drizzle-orm@0.44.7(@cloudflare/workers-types@4.20251119.0)(@libsql/client@0.15.15)(gel@2.0.2))(valibot@1.1.0(typescript@5.9.3)):
     dependencies:
-      drizzle-orm: 0.44.7(@cloudflare/workers-types@4.20251118.0)(@libsql/client@0.15.15)(gel@2.0.2)
+      drizzle-orm: 0.44.7(@cloudflare/workers-types@4.20251119.0)(@libsql/client@0.15.15)(gel@2.0.2)
       valibot: 1.1.0(typescript@5.9.3)
 
   dts-resolver@2.1.3: {}
@@ -4176,9 +4176,9 @@ snapshots:
 
   pathe@2.0.3: {}
 
-  phosphor-torpor@1.0.2(@torpor/view@0.4.15)(vite@7.2.2(@types/node@24.10.1)(jiti@2.6.1)(terser@5.39.0)(tsx@4.20.6)):
+  phosphor-torpor@1.0.2(@torpor/view@0.4.16)(vite@7.2.2(@types/node@24.10.1)(jiti@2.6.1)(terser@5.39.0)(tsx@4.20.6)):
     dependencies:
-      '@torpor/view': 0.4.15
+      '@torpor/view': 0.4.16
       estree-walker: 3.0.3
       magic-string: 0.30.21
     optionalDependencies:
@@ -4239,7 +4239,7 @@ snapshots:
 
   reusify@1.1.0: {}
 
-  rolldown-plugin-dts@0.17.8(@typescript/native-preview@7.0.0-dev.20251117.1)(ms@2.1.3)(rolldown@1.0.0-beta.50)(typescript@5.9.3):
+  rolldown-plugin-dts@0.17.8(@typescript/native-preview@7.0.0-dev.20251118.1)(ms@2.1.3)(rolldown@1.0.0-beta.50)(typescript@5.9.3):
     dependencies:
       '@babel/generator': 7.28.5
       '@babel/parser': 7.28.5
@@ -4252,7 +4252,7 @@ snapshots:
       obug: 2.0.0(ms@2.1.3)
       rolldown: 1.0.0-beta.50
     optionalDependencies:
-      '@typescript/native-preview': 7.0.0-dev.20251117.1
+      '@typescript/native-preview': 7.0.0-dev.20251118.1
       typescript: 5.9.3
     transitivePeerDependencies:
       - ms
@@ -4430,7 +4430,7 @@ snapshots:
     optionalDependencies:
       typescript: 5.9.3
 
-  tsdown@0.16.5(@typescript/native-preview@7.0.0-dev.20251117.1)(ms@2.1.3)(typescript@5.9.3):
+  tsdown@0.16.5(@typescript/native-preview@7.0.0-dev.20251118.1)(ms@2.1.3)(typescript@5.9.3):
     dependencies:
       ansis: 4.2.0
       cac: 6.7.14
@@ -4440,7 +4440,7 @@ snapshots:
       hookable: 5.5.3
       obug: 2.0.0(ms@2.1.3)
       rolldown: 1.0.0-beta.50
-      rolldown-plugin-dts: 0.17.8(@typescript/native-preview@7.0.0-dev.20251117.1)(ms@2.1.3)(rolldown@1.0.0-beta.50)(typescript@5.9.3)
+      rolldown-plugin-dts: 0.17.8(@typescript/native-preview@7.0.0-dev.20251118.1)(ms@2.1.3)(rolldown@1.0.0-beta.50)(typescript@5.9.3)
       semver: 7.7.3
       tinyexec: 1.0.2
       tinyglobby: 0.2.15

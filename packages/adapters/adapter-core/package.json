@@ -19,11 +19,11 @@
 	"license": "ISC",
 	"packageManager": "pnpm@10.9.0",
 	"dependencies": {
-		"@torpor/build": "^0.4.9",
+		"@torpor/build": "^0.4.11",
 		"drizzle-orm": "^0.44.7"
 	},
 	"devDependencies": {
-		"@typescript/native-preview": "7.0.0-dev.20251117.1",
+		"@typescript/native-preview": "7.0.0-dev.20251118.1",
 		"oxlint-tsgolint": "^0.7.1",
 		"prettier": "^3.6.2",
 		"tsdown": "^0.16.5",
