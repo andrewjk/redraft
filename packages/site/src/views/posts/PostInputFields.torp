@@ -371,12 +371,12 @@ export default function PostInputFields($props: { post: PostEditModel, child?: P
 					</button>
 				}
 
-				@if (!child) {
+				@if ($props.post.children!.length === 0 || $props.i === $props.post.children!.length -1) {
 					<button type="submit" formaction="?/savePost">
-						{post.published ? "Save" : "Save draft"}
+						{$props.post.published ? "Save" : "Save draft"}
 					</button>
 					<button type="submit" formaction="?/publishPost">
-						{post.published ? "Republish" : "Publish"}
+						{$props.post.published ? "Republish" : "Publish"}
 					</button>
 				}
 			</div>
