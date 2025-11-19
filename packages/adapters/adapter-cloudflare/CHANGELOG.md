@@ -1,5 +1,11 @@
 # @redraft/adapter-cloudflare
 
+## 0.1.4
+
+### Patch Changes
+
+- 57ced3a: Fix: back to tsup for the cloudflare iife
+
 ## 0.1.3
 
 ### Patch Changes
