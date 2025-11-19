@@ -1,5 +1,11 @@
 # @redraft/adapter-core
 
+## 0.1.1
+
+### Patch Changes
+
+- f272c67: Chore: only publish files in the dist folder
+
 ## 0.1.0
 
 ### Minor Changes
