@@ -1,6 +1,6 @@
 {
 	"name": "@redraft/site",
-	"version": "0.2.3",
+	"version": "0.2.4",
 	"description": "A social media experiment",
 	"type": "module",
 	"exports": {

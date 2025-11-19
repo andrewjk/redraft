@@ -1,5 +1,13 @@
 # @redraft/site
 
+## 0.2.4
+
+### Patch Changes
+
+- e1de719: Fix: unset image files before saving
+- 4c0a5c0: Fix: don't require post text if there's an image etc
+- 042334d: Fix: log validation errors on the server
+
 ## 0.2.3
 
 ### Patch Changes
