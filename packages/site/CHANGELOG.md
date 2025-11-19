@@ -1,5 +1,11 @@
 # @redraft/site
 
+## 0.2.3
+
+### Patch Changes
+
+- ab669b0: Fix: add the api routes
+
 ## 0.2.2
 
 ### Patch Changes
