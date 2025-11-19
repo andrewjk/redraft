@@ -1,5 +1,11 @@
 # @redraft/site
 
+## 0.2.2
+
+### Patch Changes
+
+- b08d643: Chore: also publish files in the src folder
+
 ## 0.2.1
 
 ### Patch Changes
