@@ -22,7 +22,7 @@
 	"scripts": {
 		"check": "tsgo --noEmit",
 		"check:todo": "tsgo --noEmit && pnpm dlx oxlint --type-aware",
-		"build": "tsgo --noEmit && tsdown src/iife.ts --format iife && tsx ./scripts/process.ts && tsdown"
+		"build": "tsgo --noEmit && tsup src/iife.ts --format iife && tsx ./scripts/process.ts && tsdown"
 	},
 	"keywords": [],
 	"author": "",
@@ -41,6 +41,7 @@
 		"oxlint-tsgolint": "^0.7.1",
 		"prettier": "^3.6.2",
 		"tsdown": "^0.16.5",
+		"tsup": "^8.5.1",
 		"typescript": "^5.9.3"
 	}
 }
