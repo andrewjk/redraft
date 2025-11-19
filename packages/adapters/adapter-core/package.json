@@ -7,6 +7,9 @@
 		"types": "./dist/index.d.mts",
 		"import": "./dist/index.mjs"
 	},
+	"files": [
+		"dist"
+	],
 	"publishConfig": {
 		"access": "public"
 	},

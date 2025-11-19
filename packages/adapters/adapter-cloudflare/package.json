@@ -13,6 +13,9 @@
 			"import": "./dist/adapter.mjs"
 		}
 	},
+	"files": [
+		"dist"
+	],
 	"publishConfig": {
 		"access": "public"
 	},
@@ -28,11 +31,11 @@
 	"dependencies": {
 		"@redraft/adapter-core": "workspace:^",
 		"@torpor/adapter-cloudflare": "^0.2.2",
-		"@torpor/build": "^0.4.11",
+		"@torpor/build": "^0.4.10",
 		"drizzle-orm": "^0.44.7"
 	},
 	"devDependencies": {
-		"@cloudflare/workers-types": "^4.20251119.0",
+		"@cloudflare/workers-types": "^4.20251118.0",
 		"@types/node": "^24.10.1",
 		"@typescript/native-preview": "7.0.0-dev.20251118.1",
 		"oxlint-tsgolint": "^0.7.1",

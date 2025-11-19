@@ -3,8 +3,15 @@
 	"version": "0.2.0",
 	"description": "A social media experiment",
 	"type": "module",
-	"module": "./dist/index.mjs",
-	"types": "./dist/index.d.mts",
+	"exports": {
+		".": {
+			"types": "./dist/index.d.mts",
+			"import": "./dist/index.mjs"
+		}
+	},
+	"files": [
+		"dist"
+	],
 	"publishConfig": {
 		"access": "public"
 	},
