@@ -1,5 +1,11 @@
 # @redraft/adapter-cloudflare
 
+## 0.1.3
+
+### Patch Changes
+
+- f9b65c8: Fix: move adapter.global.js into the dist folder
+
 ## 0.1.2
 
 ### Patch Changes
