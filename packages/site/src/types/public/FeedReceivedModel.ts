@@ -1,5 +1,5 @@
 // IMPORTANT! Update this when the model changes
-export const FEED_RECEIVED_VERSION = 3;
+export const FEED_RECEIVED_VERSION = 4;
 
 export default interface FeedReceivedModel {
 	sharedKey: string;
@@ -18,6 +18,7 @@ export default interface FeedReceivedModel {
 	linkEmbedHeight: number | null | undefined;
 	ratingValue: number | null | undefined;
 	ratingBound: number | null | undefined;
+	childCount: number | null | undefined;
 	publishedAt: Date;
 	republishedAt: Date | null | undefined;
 	version: number;

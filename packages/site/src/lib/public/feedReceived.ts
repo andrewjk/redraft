@@ -49,6 +49,7 @@ export default async function feedReceived(request: Request) {
 					link_embed_height: model.linkEmbedHeight,
 					rating_value: model.ratingValue,
 					rating_bound: model.ratingBound,
+					child_count: model.childCount ?? 0,
 					// TODO: Should receive posted_at, edited_at etc
 					published_at: new Date(model.publishedAt),
 					republished_at: model.republishedAt ? new Date(model.republishedAt) : undefined,
