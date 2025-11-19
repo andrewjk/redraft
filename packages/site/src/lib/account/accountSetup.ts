@@ -26,8 +26,10 @@ export default async function accountSetup(request: Request) {
 		let validated = v.safeParse(SetupSchema, model);
 		if (!validated.success) {
 			model.password = "";
+			const message = validated.issues.map((e) => e.message).join("\n");
+			console.log("ERROR", message);
 			return badRequest({
-				message: validated.issues.map((e) => e.message).join("\n"),
+				message,
 				data: model,
 			});
 		}

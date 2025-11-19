@@ -34,8 +34,10 @@ export default async function messageCreatePost(request: Request, code: string) 
 		// Validate the model's schema
 		let validated = v.safeParse(MessageEditSchema, model);
 		if (!validated.success) {
+			const message = validated.issues.map((e) => e.message).join("\n");
+			console.log("ERROR", message);
 			return badRequest({
-				message: validated.issues.map((e) => e.message).join("\n"),
+				message,
 				data: model,
 			});
 		}
