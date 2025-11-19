@@ -101,7 +101,7 @@ export default async function postCreateOrUpdate(
 				.insert(postsTable)
 				.values({
 					slug: model.isArticle ? sluggify(model.linkTitle!, true) : uuid(),
-					text: model.text,
+					text: model.text ?? "",
 					visibility: model.visibility || 0,
 					list_id: model.listId,
 					image: model.hasImage ? model.image : null,
@@ -133,7 +133,7 @@ export default async function postCreateOrUpdate(
 			for (let child of model.children) {
 				await tx.insert(postsTable).values({
 					slug: uuid(),
-					text: child.text,
+					text: child.text ?? "",
 					image: child.hasImage ? child.image : null,
 					link_type: child.hasLink ? LINK_LINK_TYPE : null,
 					link_url: child.hasLink ? child.linkUrl : null,
@@ -243,7 +243,7 @@ export default async function postCreateOrUpdate(
 					updates.push(
 						tx.insert(postsTable).values({
 							slug: uuid(),
-							text: child.text,
+							text: child.text ?? "",
 							// TODO: Allow hiding child posts
 							//visibility: child.visibility || 0,
 							image: child.hasImage ? child.image : null,

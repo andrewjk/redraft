@@ -78,7 +78,7 @@ export default async function postPublish(
 				const feed = await tx.query.feedTable.findFirst({ where: eq(feedTable.slug, post.slug) });
 				const record: FeedInsert = {
 					slug: post.slug,
-					text: model.text,
+					text: model.text ?? "",
 					visibility: model.visibility,
 					image: model.hasImage ? model.image : null,
 					image_alt_text: model.hasImage ? model.imageAltText : null,

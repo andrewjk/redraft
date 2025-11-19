@@ -23,8 +23,8 @@ export default async function savePost({ appData, request, params }: ServerLoadE
 		let name = uuid() + "." + imagefile.name.split(".").at(-1);
 		await store.uploadFile(imagefile, name);
 		model.image = `${user.url}api/content/${name}`;
-		model.imagefile = undefined;
 	}
+	model.imagefile = undefined;
 
 	// Save the link image if it's been uploaded
 	const linkimagefile = data.get("linkimagefile") as File;
@@ -32,8 +32,8 @@ export default async function savePost({ appData, request, params }: ServerLoadE
 		let name = uuid() + "." + linkimagefile.name.split(".").at(-1);
 		await store.uploadFile(linkimagefile, name);
 		model.linkImage = `${user.url}api/content/${name}`;
-		model.linkimagefile = undefined;
 	}
+	model.linkimagefile = undefined;
 
 	// And for children
 	let childIndex = 0;
@@ -43,16 +43,16 @@ export default async function savePost({ appData, request, params }: ServerLoadE
 			let name = uuid() + "." + imagefile.name.split(".").at(-1);
 			await store.uploadFile(imagefile, name);
 			child.image = `${user.url}api/content/${name}`;
-			child.imagefile = undefined;
 		}
+		child.imagefile = undefined;
 
 		const linkimagefile = data.get(`children[${childIndex}]linkimagefile`) as File;
 		if (linkimagefile?.name) {
 			let name = uuid() + "." + linkimagefile.name.split(".").at(-1);
 			await store.uploadFile(linkimagefile, name);
 			child.linkImage = `${user.url}api/content/${name}`;
-			child.linkimagefile = undefined;
 		}
+		child.linkimagefile = undefined;
 
 		childIndex++;
 	}

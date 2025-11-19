@@ -1,7 +1,7 @@
 export default interface PostEditModel {
 	id: number;
 	published?: boolean;
-	text: string;
+	text?: string;
 	visibility?: number;
 	listId?: number;
 	hasImage?: boolean;

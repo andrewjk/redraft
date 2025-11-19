@@ -30,6 +30,7 @@ export default {
 				await store.uploadFile(imagefile, name);
 				model.image = `${ensureSlash(env().SITE_LOCATION)}api/content/${name}`;
 			}
+			model.imagefile = undefined;
 
 			const result = await api.post("account/setup", accountSetup, params, model);
 			if (!result.ok) {
