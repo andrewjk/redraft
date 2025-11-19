@@ -37,6 +37,7 @@ export default {
 				await store.uploadFile(imagefile, name);
 				model.image = `${user.url}api/content/${name}`;
 			}
+			model.imagefile = undefined;
 
 			const result = await api.post("profile/edit", profileEdit, params, model, user.token);
 			if (!result.ok) {
