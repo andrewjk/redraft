@@ -1,5 +1,11 @@
 # @redraft/adapter-cloudflare
 
+## 0.1.2
+
+### Patch Changes
+
+- 9cbe2b3: Chore: update dependencies
+
 ## 0.1.1
 
 ### Patch Changes
