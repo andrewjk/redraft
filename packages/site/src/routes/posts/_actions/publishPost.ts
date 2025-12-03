@@ -36,25 +36,27 @@ export default async function publishPost({ appData, request, params }: ServerLo
 	model.linkimagefile = undefined;
 
 	// And for children
-	let childIndex = 0;
-	for (let child of model.children) {
-		const imagefile = data.get(`children[${childIndex}]imagefile`) as File;
-		if (imagefile?.name) {
-			let name = uuid() + "." + imagefile.name.split(".").at(-1);
-			await store.uploadFile(imagefile, name);
-			child.image = `${user.url}api/content/${name}`;
-		}
-		child.imagefile = undefined;
+	if (model.children?.length) {
+		let childIndex = 0;
+		for (let child of model.children) {
+			const imagefile = data.get(`children[${childIndex}]imagefile`) as File;
+			if (imagefile?.name) {
+				let name = uuid() + "." + imagefile.name.split(".").at(-1);
+				await store.uploadFile(imagefile, name);
+				child.image = `${user.url}api/content/${name}`;
+			}
+			child.imagefile = undefined;
 
-		const linkimagefile = data.get(`children[${childIndex}]linkimagefile`) as File;
-		if (linkimagefile?.name) {
-			let name = uuid() + "." + linkimagefile.name.split(".").at(-1);
-			await store.uploadFile(linkimagefile, name);
-			child.linkImage = `${user.url}api/content/${name}`;
-		}
-		child.linkimagefile = undefined;
+			const linkimagefile = data.get(`children[${childIndex}]linkimagefile`) as File;
+			if (linkimagefile?.name) {
+				let name = uuid() + "." + linkimagefile.name.split(".").at(-1);
+				await store.uploadFile(linkimagefile, name);
+				child.linkImage = `${user.url}api/content/${name}`;
+			}
+			child.linkimagefile = undefined;
 
-		childIndex++;
+			childIndex++;
+		}
 	}
 
 	const result = await api.post(`posts/publish`, postsPublish, params, model, user.token);
