@@ -1,9 +1,3 @@
-type LinkViewModel = {
-	id: number;
-	text: string;
-	url: string;
-};
-
 export default interface ProfileViewModel {
 	url: string;
 	email: string;
@@ -13,4 +7,10 @@ export default interface ProfileViewModel {
 	about: string;
 	image: string;
 	links: LinkViewModel[];
+}
+
+interface LinkViewModel {
+	id: number;
+	text: string;
+	url: string;
 }
