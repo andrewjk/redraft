@@ -34,6 +34,7 @@ export async function formatContent(): Promise<void> {
 			if (formEl && linkEl) {
 				if (followingUser) {
 					formEl.action = `${url}unfollow`;
+					formEl.getElementsByTagName("button")[0].textContent = "Unfollow";
 				} else {
 					formEl.action = `${url}follow`;
 				}
