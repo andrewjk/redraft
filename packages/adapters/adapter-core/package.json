@@ -22,14 +22,14 @@
 	"license": "ISC",
 	"packageManager": "pnpm@10.9.0",
 	"dependencies": {
-		"@torpor/build": "^0.4.11",
+		"@torpor/build": "^0.4.14",
 		"drizzle-orm": "^0.44.7"
 	},
 	"devDependencies": {
-		"@typescript/native-preview": "7.0.0-dev.20251118.1",
-		"oxlint-tsgolint": "^0.7.1",
-		"prettier": "^3.6.2",
-		"tsdown": "^0.16.5",
+		"@typescript/native-preview": "7.0.0-dev.20251202.1",
+		"oxlint-tsgolint": "^0.8.3",
+		"prettier": "^3.7.3",
+		"tsdown": "0.17.0-beta.5",
 		"typescript": "^5.9.3"
 	}
 }

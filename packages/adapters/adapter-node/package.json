@@ -30,15 +30,15 @@
 	"dependencies": {
 		"@redraft/adapter-core": "workspace:^",
 		"@torpor/adapter-node": "^0.1.2",
-		"@torpor/build": "^0.4.11",
+		"@torpor/build": "^0.4.14",
 		"drizzle-orm": "^0.44.7"
 	},
 	"devDependencies": {
 		"@types/node": "^24.10.1",
-		"@typescript/native-preview": "7.0.0-dev.20251118.1",
-		"oxlint-tsgolint": "^0.7.1",
-		"prettier": "^3.6.2",
-		"tsdown": "^0.16.5",
+		"@typescript/native-preview": "7.0.0-dev.20251202.1",
+		"oxlint-tsgolint": "^0.8.3",
+		"prettier": "^3.7.3",
+		"tsdown": "0.17.0-beta.5",
 		"typescript": "^5.9.3"
 	}
 }
