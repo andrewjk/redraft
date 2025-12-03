@@ -47,7 +47,7 @@ test("notification from request", async () => {
 	expect(response.status).toBe(200);
 
 	const notification = await db.query.notificationsTable.findFirst({
-		where: eq(schema.notificationsTable.url, `http://localhost/cara/`),
+		where: eq(schema.notificationsTable.url, `http://localhost/alice/contacts/requests`),
 	});
 	assert(notification, "notification should exist");
 	expect(notification.text).toBe("Cara Z has requested to follow you");

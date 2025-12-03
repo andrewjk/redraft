@@ -64,7 +64,11 @@ export default async function followRequested(request: Request) {
 				await tx.insert(followedByTable).values(record);
 
 				// Create a notification
-				await createNotification(tx, model.url, `${confirmData.name} has requested to follow you`);
+				await createNotification(
+					tx,
+					`${user.url}contacts/requests`,
+					`${confirmData.name} has requested to follow you`,
+				);
 			} catch (error) {
 				errorMessage = getErrorMessage(error).message;
 				throw error;
