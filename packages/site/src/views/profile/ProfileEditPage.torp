@@ -8,7 +8,21 @@ import FormErrors from "../FormErrors.torp";
 import ProfileMenu from "./ProfileMenu.torp";
 
 export default function EditPage($props: { data: { profile: ProfileEditModel, user: UserModel, base: string }, form?: FormData }) {
-	let $profile = $watch($props.data.profile)
+	const profileData = $props.data.profile;
+	const formData = $props.form?.data;
+	let $state = $watch({
+		data: {
+			email: formData?.email ?? profileData.email,
+			name: formData?.name ?? profileData.name,
+			bio: formData?.bio ?? profileData.bio,
+			about: formData?.about ?? profileData.about,
+			location: formData?.location ?? profileData.location,
+			image: formData?.image ?? profileData.image,
+			links: formData?.links ?? profileData.links,
+			imagefile: undefined,
+		} satisfies ProfileEditModel
+	});
+
 	let preview: HTMLDivElement;
 
 	@head {
@@ -21,11 +35,13 @@ export default function EditPage($props: { data: { profile: ProfileEditModel, us
 
 			<FormErrors {$props.form} />
 
-			<Form data={$profile} schema={ProfileEditSchema}>
-				<Field class="form-row" name="imagefile" &value={$profile.imagefile}>
+			<Form {$state.data} schema={ProfileEditSchema}>
+				<Hidden name="image" value={$state.data.image} />
+				<Field class="form-row" name="imagefile" &value={$state.data.imagefile}>
 					<Label>Image</Label>
 					<div class="hstack centered spaced">
 						<div
+							id="image-preview"
 							class="no-shrink"
 							style={`background-image: url("${placeholdify($props.data.profile.image)}")`}
 							&ref={preview}
@@ -48,7 +64,7 @@ export default function EditPage($props: { data: { profile: ProfileEditModel, us
 						preview.style.backgroundImage = `url("${ev.target!.result}")`;
 					}
 				}
-				<Field class="form-row" name="email" &value={$profile.email}>
+				<Field class="form-row" name="email" &value={$state.data.email}>
 					<Label>Email</Label>
 					<Input
 						type="email"
@@ -56,42 +72,43 @@ export default function EditPage($props: { data: { profile: ProfileEditModel, us
 					/>
 					<Message class="error-message" />
 				</Field>
-				<Field class="form-row" name="name" &value={$profile.name}>
+				<Field class="form-row" name="name" &value={$state.data.name}>
 					<Label>Name</Label>
 					<Input required />
 					<Message class="error-message" />
 				</Field>
-				<Field class="form-row" name="bio" &value={$profile.bio}>
+				<Field class="form-row" name="bio" &value={$state.data.bio}>
 					<Label>Bio</Label>
-					<TextArea />
+					<Input />
 					<Message class="error-message" />
 				</Field>
-				<Field class="form-row" name="location" &value={$profile.location}>
+				<Field class="form-row" name="location" &value={$state.data.location}>
 					<Label>Location</Label>
 					<Input />
 					<Message class="error-message" />
 				</Field>
-				<Field class="form-row" name="about" &value={$profile.about}>
+				<Field class="form-row" name="about" &value={$state.data.about}>
 					<Label>About</Label>
 					<TextArea />
 					<Message class="error-message" />
 				</Field>
 
 				<h3>Links</h3>
-				@for (let [i, link] of $profile.links.entries()) {
+				@for (let [i, link] of $state.data.links.entries()) {
 					<Hidden name="links[{i}].id" value={link.id} />
 					<div class="form-row">
 						<label for="links[{i}]-input">URL / Text</label>
-						<input
-							id="links[{i}]-input"
-							name="links[{i}].url"
-							&value={link.url}
-							style="margin-bottom: 0.4rem"
-						/>
-						<input
-							name="links[{i}].text"
-							&value={link.text}
-						/>
+						<Field name="links[{i}].url" &value={link.url}>
+							<Input
+								id="links[{i}]-input"
+								style="margin-bottom: 0.4rem"
+							/>
+							<Message class="error-message" />
+						</Field>
+						<Field name="links[{i}].text" &value={link.text}>
+							<Input />
+							<Message class="error-message" />
+						</Field>
 					</div>
 				}
 				<div class="form-row">
@@ -99,7 +116,7 @@ export default function EditPage($props: { data: { profile: ProfileEditModel, us
 						Add a link
 					</button>
 					@function addLink() {
-						$profile.links.push({ id: -1, text: "", url: "" })
+						$state.data.links.push({ id: -1, text: "", url: "" })
 					}
 				</div>
 				<div class="form-footer">

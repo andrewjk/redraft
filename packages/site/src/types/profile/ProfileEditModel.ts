@@ -1,6 +1,5 @@
 export default interface ProfileEditModel {
 	email: string;
-	password: string;
 	name: string;
 	bio: string;
 	about: string;
