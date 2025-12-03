@@ -5,7 +5,8 @@ import { eq } from "drizzle-orm";
 import { LibSQLDatabase } from "drizzle-orm/libsql";
 import { afterAll, beforeAll, expect, test } from "vitest";
 import * as schema from "../../src/data/schema/index";
-import followRequest, { type RequestModel } from "../../src/lib/follow/followRequest";
+import followRequest from "../../src/lib/follow/followRequest";
+import type RequestModel from "../../src/types/follow/RequestModel";
 import mockFetch from "../mockFetch";
 import { cleanUpSiteTest, prepareSiteTest } from "../prepareSiteTest";
 

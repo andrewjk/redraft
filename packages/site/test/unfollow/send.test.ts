@@ -5,7 +5,8 @@ import { and, eq, isNull } from "drizzle-orm";
 import { LibSQLDatabase } from "drizzle-orm/libsql";
 import { afterAll, beforeAll, expect, test } from "vitest";
 import * as schema from "../../src/data/schema/index";
-import unfollowSend, { type UnfollowModel } from "../../src/lib/unfollow/unfollowSend";
+import unfollowSend from "../../src/lib/unfollow/unfollowSend";
+import UnfollowModel from "../../src/types/unfollow/UnfollowModel";
 import mockFetch from "../mockFetch";
 import { cleanUpSiteTest, prepareSiteTest } from "../prepareSiteTest";
 
