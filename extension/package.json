@@ -17,6 +17,6 @@
 	"license": "ISC",
 	"packageManager": "pnpm@10.12.1",
 	"devDependencies": {
-		"wxt": "^0.20.7"
+		"wxt": "^0.20.11"
 	}
 }
