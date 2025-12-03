@@ -11,13 +11,16 @@ import ProfilePreview from "./profile/ProfilePreview.torp";
 import placeholdify from "../lib/utils/placeholdify";
 import stripProtocol from "../lib/utils/stripProtocol";
 
-// Only load logged out posts in home page, even if logged in
+// TODO: should be able to bust out of this layout in SetupPage so we can
+// remove the `@if ($props.data.viewing)`
 
 export default function Layout($props: { data: { user: UserModel, follower: FollowerModel, viewing: ViewingModel, base: string }}) {
 	@head {
-		<meta name="social-follow-url" content={$props.data.viewing.url} />
-		<meta name="social-follow-name" content={$props.data.viewing.name} />
-		<meta name="social-follow-image" content={$props.data.viewing.image} />
+		@if ($props.data.viewing) {
+			<meta name="social-follow-url" content={$props.data.viewing.url} />
+			<meta name="social-follow-name" content={$props.data.viewing.name} />
+			<meta name="social-follow-image" content={$props.data.viewing.image} />
+		}
 	}
 
 	@render {
@@ -30,9 +33,16 @@ export default function Layout($props: { data: { user: UserModel, follower: Foll
 				<div class="hstack spaced collapse full-width" style="column-gap: 2.8rem">
 					<div class="grow" />
 
-					<div class="vstack centered spaced no-shrink">
-						<ProfilePreview profile={$props.data.viewing} {$props.data.user} {$props.data.follower} {$props.data.base} />
-					</div>
+					@if ($props.data.viewing) {
+						<div class="vstack centered spaced no-shrink">
+							<ProfilePreview
+								profile={$props.data.viewing}
+								{$props.data.user}
+								{$props.data.follower}
+								{$props.data.base}
+							/>
+						</div>
+					}
 
 					<div class="vstack centered page-outer">
 						<div class="page-inner">
