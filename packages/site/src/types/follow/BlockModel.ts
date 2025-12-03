@@ -1,3 +1,3 @@
 export default interface BlockModel {
-	id: number;
+	url: string;
 }

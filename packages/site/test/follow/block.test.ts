@@ -4,7 +4,8 @@ import { eq, isNull } from "drizzle-orm";
 import { LibSQLDatabase } from "drizzle-orm/libsql";
 import { afterAll, beforeAll, expect, test } from "vitest";
 import * as schema from "../../src/data/schema/index";
-import followBlock, { type BlockModel } from "../../src/lib/follow/followBlock";
+import followBlock from "../../src/lib/follow/followBlock";
+import type BlockModel from "../../src/types/follow/BlockModel";
 import { cleanUpSiteTest, prepareSiteTest } from "../prepareSiteTest";
 
 let db: LibSQLDatabase<typeof schema>;
@@ -24,10 +25,10 @@ test("follow block", async () => {
 		isNull(schema.followedByTable.blocked_at),
 	);
 
-	const followedById = (await db.query.followedByTable.findFirst())!.id;
+	const followedByUrl = (await db.query.followedByTable.findFirst())!.url;
 
 	const model: BlockModel = {
-		id: followedById,
+		url: followedByUrl,
 	};
 	const request = new Request("http://localhost", {
 		method: "POST",
@@ -43,7 +44,7 @@ test("follow block", async () => {
 	expect(followedByCount2).toBe(followedByCount - 1);
 
 	const followedBy = await db.query.followedByTable.findFirst({
-		where: eq(schema.followedByTable.id, followedById),
+		where: eq(schema.followedByTable.url, followedByUrl),
 	});
 
 	expect(followedBy).not.toBeUndefined();
@@ -65,7 +66,7 @@ test("follow block", async () => {
 	expect(followedByCount3).toBe(followedByCount - 1);
 
 	const followedBy2 = await db.query.followedByTable.findFirst({
-		where: eq(schema.followedByTable.id, followedById),
+		where: eq(schema.followedByTable.url, followedByUrl),
 	});
 
 	expect(followedBy2).not.toBeUndefined();
@@ -74,7 +75,7 @@ test("follow block", async () => {
 
 test("follow block with bad code", async () => {
 	const model: BlockModel = {
-		id: -1,
+		url: "abc",
 	};
 	const request = new Request("http://localhost", {
 		method: "POST",

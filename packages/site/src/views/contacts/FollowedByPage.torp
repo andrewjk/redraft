@@ -30,7 +30,7 @@ export default function FollowedByPage($props: { data: { viewing: ViewingModel, 
 								<FollowPreview {follow} {$props.data.user} {$props.data.base} canMessage />
 							</div>
 							<Form action="?/block">
-								<Hidden name="id" value={follow.id} />
+								<Hidden name="url" value={follow.url} />
 								<button>Block</button>
 							</Form>
 						</div>

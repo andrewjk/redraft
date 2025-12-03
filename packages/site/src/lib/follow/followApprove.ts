@@ -28,7 +28,7 @@ export default async function followApprove(request: Request, code: string) {
 
 		// Get the record
 		const followedByQuery = db.query.followedByTable.findFirst({
-			where: eq(followedByTable.id, model.id),
+			where: eq(followedByTable.url, model.url),
 		});
 
 		const [currentUser, followedBy] = await Promise.all([currentUserQuery, followedByQuery]);
@@ -48,7 +48,7 @@ export default async function followApprove(request: Request, code: string) {
 						approved: true,
 						updated_at: new Date(),
 					})
-					.where(eq(followedByTable.id, model.id));
+					.where(eq(followedByTable.url, model.url));
 			} catch (error) {
 				errorMessage = getErrorMessage(error).message;
 				throw error;

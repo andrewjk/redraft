@@ -25,7 +25,7 @@ export default async function followBlock(request: Request, code: string) {
 
 		// Get the followed by user
 		const followedByQuery = db.query.followedByTable.findFirst({
-			where: eq(followedByTable.id, model.id),
+			where: eq(followedByTable.url, model.url),
 			columns: { id: true, blocked_at: true },
 		});
 

@@ -30,7 +30,7 @@ export default function RequestsPage($props: { data: { viewing: ViewingModel, re
 								<FollowPreview {follow} {$props.data.user} {$props.data.base} />
 							</div>
 							<Form action="?/approve">
-								<Hidden name="id" value={follow.id} />
+								<Hidden name="url" value={follow.url} />
 								<button>Approve</button>
 							</Form>
 						</div>
