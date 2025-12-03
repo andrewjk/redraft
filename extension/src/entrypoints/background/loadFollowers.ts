@@ -36,7 +36,10 @@ export async function loadFollowers(): Promise<void> {
 					],
 				},
 				condition: {
-					urlFilter: `${f.url}*`,
+					// NOTE: We're stripping the trailing slash so that e.g.
+					// `https://redraft.social/user/` will match
+					// `https://redraft.social/user`
+					urlFilter: `${f.url.replace(/\/$/, "")}*`,
 					resourceTypes: ALL_RESOURCE_TYPES,
 				},
 			}));
