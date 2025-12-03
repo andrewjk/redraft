@@ -9,8 +9,8 @@ export default async function contentGet(name: string, query: Record<string, str
 		// If we received `?s=`, then width and height are that value
 		// Otherwise, use the optional `?w=` and `?h=` query params
 
-		const width = parseInt(query.s || query.w || "0");
-		const height = parseInt(query.s || query.h || "0");
+		const width = parseInt(query.s || query.w || query.h || "0");
+		const height = parseInt(query.s || query.h || query.w || "0");
 
 		return await img.getImage(name, width, height);
 	} catch (error) {
