@@ -77,4 +77,32 @@ export default function ListEditPage($props: { data: { list: ListEditModel, user
 			</Form>
 		</div>
 	}
+
+	@style {
+		.user-preview-header,
+		.user-preview-footer {
+			line-height: 1.4;
+		}
+
+		.user-preview-body {
+			padding: 0.4rem 0;
+		}
+
+		.user-preview-link {
+			color: inherit;
+			text-decoration: none;
+		}
+
+		.user-preview-image {
+			height: 40px;
+			width: 40px;
+			border: 1px solid var(--border-color);
+			border-radius: 50%;
+			box-shadow: 0 0.2rem 0.4rem #eee;
+		}
+
+		.user-preview-name {
+			font-weight: bold;
+		}
+	}
 }
