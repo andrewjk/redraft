@@ -47,43 +47,53 @@ export default async function followRequest(request: Request, code: string) {
 			// themselves when sending us posts etc
 			const sharedKey = uuid();
 
-			// Send off a request to the url, and hopefully receive the name and image
-			let sendUrl = `${model.url}api/public/follow/request`;
-			let sendData: FollowRequestedModel = {
-				url: currentUser.url,
-				sharedKey,
-				version: FOLLOW_REQUESTED_VERSION,
+			// Create the following record, with approved = false
+			let record = {
+				approved: false,
+				url: model.url,
+				shared_key: sharedKey,
+				name: "",
+				image: "",
+				bio: "",
+				created_at: new Date(),
+				updated_at: new Date(),
 			};
-			let response = await postPublic(sendUrl, sendData);
-			if (!response.ok) {
-				return response;
+			const recordId = (
+				await db.insert(followingTable).values(record).returning({ id: followingTable.id })
+			)[0].id;
+
+			// Send off a request to the url, and hopefully receive the name and image
+			// If the request fails for any reason, we have to manually delete the follow record
+			// (because we don't want to lock up the db with a transaction waiting on a request)
+			let updatedRecord = {
+				name: "",
+				image: "",
+				updated_at: new Date(),
+			};
+			try {
+				let sendUrl = `${model.url}api/public/follow/request`;
+				let sendData: FollowRequestedModel = {
+					url: currentUser.url,
+					sharedKey,
+					version: FOLLOW_REQUESTED_VERSION,
+				};
+				let response = await postPublic(sendUrl, sendData);
+				if (!response.ok) {
+					await db.delete(followingTable).where(eq(followingTable.id, recordId));
+					return response;
+				}
+				let requestData = (await response.json()) as FollowRequestedResponseModel;
+				updatedRecord.name = requestData.name;
+				updatedRecord.image = requestData.image;
+			} catch (error) {
+				await db.delete(followingTable).where(eq(followingTable.id, recordId));
+				throw error;
 			}
-			let requestData = (await response.json()) as FollowRequestedResponseModel;
 
 			await transaction(db, async (tx) => {
 				try {
-					// Create the following record, with approved = false
-					let record = {
-						approved: false,
-						url: model.url,
-						shared_key: sharedKey,
-						name: "",
-						image: "",
-						bio: "",
-						created_at: new Date(),
-						updated_at: new Date(),
-					};
-					const recordId = (
-						await tx.insert(followingTable).values(record).returning({ id: followingTable.id })
-					)[0].id;
-
 					// Update the following record with the name and image
-					let record2 = {
-						name: requestData.name,
-						image: requestData.image,
-						updated_at: new Date(),
-					};
-					await tx.update(followingTable).set(record2).where(eq(followingTable.id, recordId));
+					await tx.update(followingTable).set(updatedRecord).where(eq(followingTable.id, recordId));
 
 					// Create an activity record
 					await tx.insert(activityTable).values({
