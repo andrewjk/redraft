@@ -42,15 +42,17 @@ export default async function postSend(request: Request, code: string) {
 		// there are any failures, add a notification, with a resend option
 		if (post.list_id) {
 			await db.run(sql`
-					insert into posts_queue (post_id, user_id, created_at, updated_at)
-					select ${post.id}, user_id, current_timestamp, current_timestamp
-					from lists_table
-					where id = ${post.list_id}`);
+					insert into posts_queue (post_id, user_id, url, shared_key, created_at, updated_at)
+					select ${post.id}, user_id, url, shared_key, current_timestamp, current_timestamp
+					from lists
+					join list_users on lists.id = list_users.list_id
+					join followed_by on user_id = followed_by.id
+					where lists.id = ${post.list_id}`);
 		} else {
 			await db.run(sql`
-					insert into posts_queue (post_id, user_id, created_at, updated_at)
-					select ${post.id}, id, current_timestamp, current_timestamp
-					from followed_by_table`);
+					insert into posts_queue (post_id, user_id, url, shared_key, created_at, updated_at)
+					select ${post.id}, id, url, shared_key, current_timestamp, current_timestamp
+					from followed_by`);
 		}
 
 		// Load the queue
