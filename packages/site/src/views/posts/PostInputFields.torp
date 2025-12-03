@@ -1,4 +1,5 @@
 import { Field, File, Hidden, Input, Select, Option, TextArea, Message } from "@torpor/ui/Form";
+import cleanImage from "../../lib/utils/cleanImage";
 import type UserModel from "../../types/UserModel";
 import type PostEditModel from "../../types/posts/PostEditModel";
 import ImageUpload from "../ImageUpload.torp";
@@ -121,17 +122,22 @@ export default function PostInputFields($props: { post: PostEditModel, child?: P
 							<Message class="error-message" />
 						</Field>
 					}
-					@function imageSelected(e: Event) {
-						const image = (e.target as HTMLInputElement).files![0];
-						if (!image.type.includes("image")) {
+					@async function imageSelected(e: Event) {
+						let fileInput = (e.target as HTMLInputElement);
+						let image = fileInput.files![0];
+						if (!image.type.startsWith("image/")) {
 							return;
 						}
-						const fileReader = new FileReader();
-						fileReader.readAsDataURL(image);
+						image = await cleanImage(image);
+						let dataTransfer = new DataTransfer();
+						dataTransfer.items.add(image);
+						fileInput.files = dataTransfer.files;
+						let fileReader = new FileReader();
 						fileReader.onload = (ev) => {
 							post.imagefile = ev.target!.result;
 							$state.imageLoaded = true;
 						}
+						fileReader.readAsDataURL(image);
 					}
 				} else if (post.hasLink) {
 					<Hidden name={`${prefix}linkImage`} value={post.linkImage} />

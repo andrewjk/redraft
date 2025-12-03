@@ -1,3 +1,4 @@
+import cleanImage from "../../lib/utils/cleanImage";
 import placeholdify from "../../lib/utils/placeholdify";
 import { Form, Field, File, Label, Input, Message } from "@torpor/ui/Form";
 import type FormData from "../../types/FormData";
@@ -66,17 +67,22 @@ export default function SetupPage($props: { form: FormData }) {
 					</div>
 					<Message />
 				</Field>
-				@function fileSelected(e: Event) {
-					const image = (e.target as HTMLInputElement).files![0];
+				@async function fileSelected(e: Event) {
+					let fileInput = (e.target as HTMLInputElement);
+					let image = fileInput.files![0];
 					if (!image.type.includes("image")) {
 						return;
 					}
-					const fileReader = new FileReader();
-					fileReader.readAsDataURL(image);
+					image = await cleanImage(image);
+					let dataTransfer = new DataTransfer();
+					dataTransfer.items.add(image);
+					fileInput.files = dataTransfer.files;
+					let fileReader = new FileReader();
 					fileReader.onload = (ev: ProgressEvent<FileReader>) => {
 						const preview = document.getElementById("image-preview");
 						preview!.style.backgroundImage = `url("${ev.target!.result}")`;
 					}
+					fileReader.readAsDataURL(image);
 				}
 				<Field class="form-row" name="bio" &value={$state.data.bio}>
 					<Label>Bio</Label>

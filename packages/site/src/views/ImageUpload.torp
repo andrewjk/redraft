@@ -1,16 +1,22 @@
+import cleanImage from "../lib/utils/cleanImage";
 
 export default function ImageUpload($props: { image: string | ArrayBuffer | File | null | undefined, imageLoaded: boolean }) {
-	function fileSelected(e: Event) {
-		const image = (e.target as HTMLInputElement).files![0];
+	async function fileSelected(e: Event) {
+		let fileInput = (e.target as HTMLInputElement);
+		let image = fileInput.files![0];
 		if (!image.type.includes("image")) {
 			return;
 		}
+		image = await cleanImage(image);
+		let dataTransfer = new DataTransfer();
+		dataTransfer.items.add(image);
+		fileInput.files = dataTransfer.files;
 		const fileReader = new FileReader();
-		fileReader.readAsDataURL(image);
 		fileReader.onload = (ev) => {
 			$props.image = ev.target!.result ;
 			$props.imageLoaded = true;
 		}
+		fileReader.readAsDataURL(image);
 	}
 
 	@render {
