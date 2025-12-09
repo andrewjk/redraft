@@ -31,7 +31,7 @@ export default {
 
 		// Or the follower header, if it exists
 		if (!appData.follower) {
-			const headerToken = request.headers.get("x-social-follower");
+			const headerToken = request.headers.get("X-Social-Follower");
 			if (headerToken) {
 				appData.follower = jose.decodeJwt(headerToken).follower;
 				appData.follower.token = headerToken;

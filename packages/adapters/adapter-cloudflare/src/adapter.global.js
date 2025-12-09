@@ -4914,7 +4914,7 @@ params: ${params}`);
       }
       const headers = new Headers();
       object.writeHttpMetadata(headers);
-      headers.set("etag", object.httpEtag);
+      headers.set("ETag", object.httpEtag);
       return new Response(object.body, {
         headers
       });

@@ -7,7 +7,7 @@ export default {
 		// Which means we need to make sure it's secure!
 		headers.set("Access-Control-Allow-Origin", "*");
 
-		const authorization = request.headers.get("authorization");
+		const authorization = request.headers.get("Authorization");
 		if (!authorization || authorization.split(" ").length !== 2) {
 			return;
 		}
