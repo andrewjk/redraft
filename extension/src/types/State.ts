@@ -10,9 +10,18 @@ export default interface State {
 		url: string;
 		name: string;
 		following: boolean;
+		requested: boolean;
 	};
 	following?: {
+		image: string;
 		url: string;
+		name: string;
+		token: string;
+	}[];
+	requested?: {
+		image: string;
+		url: string;
+		name: string;
 		token: string;
 	}[];
 	login?: (e: SubmitEvent) => void;

@@ -11,7 +11,6 @@ export default async function loadFollowers(): Promise<void> {
 		`api/extension/following`,
 		token,
 	);
-	console.log("GOT FOLLOWING", followingData);
 	if (followingData) {
 		const following = followingData.following;
 		await browser.storage.local.set<Storage>({ following });
@@ -69,8 +68,6 @@ export default async function loadFollowers(): Promise<void> {
 					},
 				})),
 		);
-
-		console.log(addRules);
 
 		const oldRules = await browser.declarativeNetRequest.getDynamicRules();
 		browser.declarativeNetRequest.updateDynamicRules({

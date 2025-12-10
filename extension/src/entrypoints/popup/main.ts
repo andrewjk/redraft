@@ -16,9 +16,9 @@ async function loadInterface(): Promise<void> {
 	$state.authenticated = localStorage.authenticated ?? false;
 	if ($state.authenticated) {
 		$state.user = localStorage.profile;
-		$state.following = localStorage.following;
+		$state.following = localStorage.following.filter((f: any) => f.approved);
+		$state.requested = localStorage.following.filter((f: any) => !f.approved);
 	}
-	$state.following = localStorage.following;
 	$state.viewing = localStorage.viewing;
 
 	$state.followMessage = undefined;
@@ -31,6 +31,19 @@ async function loadInterface(): Promise<void> {
 
 browser.runtime.onMessage.addListener((message: Message, _sender, _sendResponse) => {
 	switch (message.name) {
+		case "delayed-refresh": {
+			// HACK: this gets called when the follow button is pressed in the
+			// browser tab, so we need to give it some time to get to the server
+			// before refreshing. 5 seconds should do it for now...
+			setTimeout(() => {
+				browser.runtime
+					.sendMessage<Message, MessageResponse>({
+						name: "refresh",
+					})
+					.then(() => loadInterface());
+			}, 5000);
+			break;
+		}
 		case "update": {
 			loadInterface();
 			break;

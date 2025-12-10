@@ -5,6 +5,7 @@ export interface Storage {
 }
 
 export interface Following {
+	approved: boolean;
 	url: string;
 	shared_key: string;
 	token: string;

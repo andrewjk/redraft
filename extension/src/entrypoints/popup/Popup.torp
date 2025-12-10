@@ -75,6 +75,9 @@ export default function Popup() {
 					<div id="tab-content-following" style={{ display: $pstate.section === "following" ? "block" : "none"}}>
 						<div class="tab-content">
 							@if ($state.following && $state.following.length > 0) {
+								@if ($state.requested && $state.requested.length > 0) {
+									<h3 class="subheading">Following</h3>
+								}
 								@for (let following of $state.following!) {
 									<a class="user-link" target="_blank" href={following.url}>
 										<div class="hstack spaced centered">
@@ -86,7 +89,22 @@ export default function Popup() {
 										</div>
 									</a>
 								}
-							} else {
+							}
+							@if ($state.requested && $state.requested.length > 0) {
+								<h3 class="subheading">Requested</h3>
+								@for (let following of $state.requested!) {
+									<a class="user-link" target="_blank" href={following.url}>
+										<div class="hstack spaced centered">
+											<img class="user-image" src={following.image || placeholder} />
+											<div class="vstack">
+												<div class="profile-name">{following.name}</div>
+												<div class="profile-url secondary">{stripProtocol(following.url ?? "")}</div>
+											</div>
+										</div>
+									</a>
+								}
+							}
+							@if ((!$state.following || $state.following.length === 0) && (!$state.requested || $state.requested.length === 0)) {
 								<p>You aren't following anyone.</p>
 							}
 						</div>
@@ -103,10 +121,14 @@ export default function Popup() {
 								</div>
 							</a>
 							<div class="spacer" />
-							@if (!$state.viewing?.following) {
+							@if (!$state.viewing?.following && $state.viewing?.url !== $state.user?.url) {
 								<form onsubmit={(e) => $state.follow!(e)}>
 									<div class="form-row">
-										<button type="submit">Follow</button>
+										@if ($state.viewing?.requested) {
+											<button disabled>Requested...</button>
+										} else {
+											<button type="submit">Follow</button>
+										}
 									</div>
 									@if ($state.followError) {
 										<div class="error">{$state.followError}</div>
@@ -122,15 +144,15 @@ export default function Popup() {
 					</div>
 				</div>
 			} else {
-				<h1>Login</h1>
+				<h1 class="heading">Login</h1>
 				<form onsubmit={(e) => $state.login!(e)}>
 					<div class="form-row">
 						<label for="url-input">URL</label>
-						<input id="url-input" name="url" required value="https://redraft.social/andrewjk10/" />
+						<input id="url-input" name="url" required />
 					</div>
 					<div class="form-row">
 						<label for="email-input">Email</label>
-						<input id="email-input" name="email" required value="andrewjk+10@gmail.com" />
+						<input id="email-input" name="email" required />
 					</div>
 					<div class="form-row">
 						<label for="password-input">Password</label>
@@ -187,7 +209,7 @@ export default function Popup() {
 		.tab-header {
 			background: #efefef !important;
 			border-radius: 4px;
-			padding: 6px 0;
+			padding: 6px;
 		}
 
 		.tab-header.active {
@@ -203,6 +225,20 @@ export default function Popup() {
 			flex-grow: 1;
 		}
 
+		.heading, .subheading {
+			font-family: sans-serif;
+			font-weight: bold;
+			margin: 1rem 0;
+		}
+
+		.heading {
+			font-size: 2rem;
+		}
+
+		.subheading {
+			text-transform: uppercase;
+			font-size: 1.2rem;
+		}
 
 		.user-link {
 			color: inherit;
