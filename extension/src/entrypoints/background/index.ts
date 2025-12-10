@@ -1,11 +1,13 @@
+import type LoginData from "@/types/LoginData";
+import type SetIconData from "@/types/SetIconData";
 import type { BackgroundDefinition } from "wxt";
 import { browser } from "wxt/browser";
 import { defineBackground } from "wxt/utils/define-background";
-import type { LoginData, Message, SetIconData } from "../../types/Message";
-import { follow } from "./follow";
-import { login } from "./login";
-import { logout } from "./logout";
-import { refresh } from "./refresh";
+import type Message from "../../types/Message";
+import follow from "./follow";
+import login from "./login";
+import logout from "./logout";
+import refresh from "./refresh";
 import { setIcon } from "./setIcon";
 
 // TODO: Always send the "Follow" form, and show it if logged into the extension

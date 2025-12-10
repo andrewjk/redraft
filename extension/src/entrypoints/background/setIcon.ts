@@ -1,3 +1,4 @@
+import type SetIconData from "@/types/SetIconData";
 import { browser } from "wxt/browser";
 // @ts-ignore
 import icon16 from "../../assets/icons/icon-16.png";
@@ -39,7 +40,6 @@ import iconYellow32 from "../../assets/icons/icon-yellow-32.png";
 import iconYellow48 from "../../assets/icons/icon-yellow-48.png";
 // @ts-ignore
 import iconYellow128 from "../../assets/icons/icon-yellow-128.png";
-import type { SetIconData } from "../../types/Message";
 
 // HACK: is there a better way to do this?
 const icons: Record<string, string> = {

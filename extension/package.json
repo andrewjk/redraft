@@ -2,7 +2,7 @@
 	"name": "Redraft",
 	"version": "0.0.1",
 	"description": "The Redraft social web extension",
-	"main": "index.js",
+	"type": "module",
 	"scripts": {
 		"dev": "wxt",
 		"dev:firefox": "wxt -b firefox",
@@ -10,13 +10,20 @@
 		"build:firefox": "wxt build -b firefox",
 		"zip": "wxt zip",
 		"zip:firefox": "wxt zip -b firefox",
+		"compile": "tsc --noEmit",
 		"postinstall": "wxt prepare"
 	},
 	"keywords": [],
 	"author": "",
 	"license": "ISC",
 	"packageManager": "pnpm@10.12.1",
+	"dependencies": {
+		"@torpor/ui": "^0.4.0",
+		"@torpor/unplugin": "^0.2.1",
+		"@torpor/view": "^0.4.18"
+	},
 	"devDependencies": {
+		"typescript": "^5.9.3",
 		"wxt": "^0.20.11"
 	}
 }

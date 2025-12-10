@@ -1,0 +1,219 @@
+import $state from "../$state";
+// @ts-ignore
+import placeholder from "../../assets/placeholder.png";
+
+export default function Popup() {
+	let $pstate = $watch({
+		section: "account"
+	});
+
+	// Switch to the viewing page when we load someone new (by going to their page)
+	//$run(() => {
+	//	$pstate.section = $state.viewing ? "viewing" : "account";
+	//});
+
+	function stripProtocol(url: string) {
+		return url.replace(/^https*:\/\//, "").replace(/\/$/, "");
+	}
+
+	@render {
+		<div id="popup" class="vstack spaced">
+			@if ($state.authenticated) {
+				@// HACK: Should be using @torpor/ui TabGroup
+				<div class="tab-group">
+					<button
+						class={["tab-header", "plain", $pstate.section === "account" ? "active" : ""]}
+						onclick={() => $pstate.section = "account"}
+						aria-controls="tab-content-account"
+					>
+						Account
+					</button>
+					<button
+						class={["tab-header", "plain", $pstate.section === "following" ? "active" : ""]}
+						onclick={() => $pstate.section = "following"}
+						aria-controls="tab-content-following"
+					>
+						Following
+					</button>
+					<button
+						class={["tab-header", "plain", $pstate.section === "viewing" ? "active" : ""]}
+						onclick={() => $pstate.section = "viewing"}
+						aria-controls="tab-content-page"
+					>
+						Viewing
+					</button>
+				</div>
+				<div class="vstack grow">
+					<div id="tab-content-account" class="vstack spaced grow tab-content" style={{ display: $pstate.section === "account" ? "flex" : "none"}}>
+						<a class="user-link" target="_blank" href={$state.user?.url}>
+							<div class="hstack spaced centered">
+								<img class="user-image" src={$state.user?.image || placeholder} />
+								<div class="vstack">
+									<div class="profile-name">{$state.user?.name}</div>
+									<div class="profile-url secondary">{stripProtocol($state.user?.url ?? "")}</div>
+								</div>
+							</div>
+						</a>
+						<div class="spacer" />
+						<form onsubmit={(e) => $state.logout!(e)}>
+							<div class="form-row">
+								<button type="submit">Logout</button>
+							</div>
+							@if ($state.logoutError) {
+								<div class="error">{$state.logoutError}</div>
+							}
+						</form>
+						<form onsubmit={(e) => $state.refresh!(e)}>
+							<div class="form-row">
+								<button type="submit" title="Reloads your account information">Refresh</button>
+							</div>
+							@if ($state.refreshError) {
+								<div class="error">{$state.refreshError}</div>
+							}
+						</form>
+					</div>
+					<div id="tab-content-following" style={{ display: $pstate.section === "following" ? "block" : "none"}}>
+						<div class="tab-content">
+							@if ($state.following && $state.following.length > 0) {
+								@for (let following of $state.following!) {
+									<a class="user-link" target="_blank" href={following.url}>
+										<div class="hstack spaced centered">
+											<img class="user-image" src={following.image || placeholder} />
+											<div class="vstack">
+												<div class="profile-name">{following.name}</div>
+												<div class="profile-url secondary">{stripProtocol(following.url ?? "")}</div>
+											</div>
+										</div>
+									</a>
+								}
+							} else {
+								<p>You aren't following anyone.</p>
+							}
+						</div>
+					</div>
+					<div id="tab-content-viewing" class="vstack spaced grow tab-content" style={{ display: $pstate.section === "viewing" ? "flex" : "none"}}>
+						@if ($state.viewing) {
+							<a class="user-link" target="_blank" href={$state.viewing?.url}>
+								<div class="hstack spaced centered">
+									<img class="user-image" src={$state.viewing?.image || placeholder} />
+									<div class="vstack">
+										<div class="profile-name">{$state.viewing?.name}</div>
+										<div class="profile-url secondary">{stripProtocol($state.viewing?.url ?? "")}</div>
+									</div>
+								</div>
+							</a>
+							<div class="spacer" />
+							@if (!$state.viewing?.following) {
+								<form onsubmit={(e) => $state.follow!(e)}>
+									<div class="form-row">
+										<button type="submit">Follow</button>
+									</div>
+									@if ($state.followError) {
+										<div class="error">{$state.followError}</div>
+									}
+								</form>
+								@if ($state.followMessage) {
+									<div class="error">{$state.followMessage}</div>
+								}
+							}
+						} else {
+							<p>This is not a Redraft user page.</p>
+						}
+					</div>
+				</div>
+			} else {
+				<h1>Login</h1>
+				<form onsubmit={(e) => $state.login!(e)}>
+					<div class="form-row">
+						<label for="url-input">URL</label>
+						<input id="url-input" name="url" required value="https://redraft.social/andrewjk10/" />
+					</div>
+					<div class="form-row">
+						<label for="email-input">Email</label>
+						<input id="email-input" name="email" required value="andrewjk+10@gmail.com" />
+					</div>
+					<div class="form-row">
+						<label for="password-input">Password</label>
+						<input id="password-input" name="password" type="password" required />
+					</div>
+					<div class="form-row">
+						<button type="submit">Login</button>
+					</div>
+					@if ($state.loginError) {
+						<div class="error">{$state.loginError}</div>
+					}
+				</form>
+			}
+		</div>
+	}
+
+	@style {
+		#popup {
+			min-width: 30rem;
+			min-height: 30rem;
+			padding: 1rem;
+		}
+
+		button {
+			padding: 0.2rem 0;
+		}
+
+		.error {
+			color: red;
+		}
+
+		.plain {
+			background: none;
+			border: none;
+			min-width: auto;
+			margin: 0;
+			padding: 0;
+			cursor: pointer;
+		}
+
+		.user-image {
+			width: 6rem;
+			height: 6rem;
+			border-radius: 50%;
+			box-shadow: 0 0.2rem 0.4rem #eee;
+		}
+
+		.tab-group {
+			display: grid;
+			grid-template-columns: 1fr 1fr 1fr;
+			gap: 1rem;
+		}
+
+		.tab-header {
+			background: #efefef !important;
+			border-radius: 4px;
+			padding: 6px 0;
+		}
+
+		.tab-header.active {
+			background: #dedede !important;		
+			font-weight: bold;
+		}
+
+		.tab-content {
+			padding: 1rem;
+		}
+
+		.spacer {
+			flex-grow: 1;
+		}
+
+
+		.user-link {
+			color: inherit;
+		}
+
+		.profile-name {
+			font-weight: bold;
+		}
+
+		.profile-url {
+			font-size: 90%;
+		}
+	}
+}

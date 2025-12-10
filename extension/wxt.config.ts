@@ -1,11 +1,13 @@
-import { type UserConfig, defineConfig } from "wxt";
+import torpor from "@torpor/unplugin/vite";
+import { defineConfig } from "wxt";
 
-const config: UserConfig = defineConfig({
+export default defineConfig({
 	srcDir: "src",
 	manifest: {
 		permissions: ["storage", "declarativeNetRequest"],
 		host_permissions: ["<all_urls>"],
 	},
+	vite: () => ({
+		plugins: [torpor()],
+	}),
 });
-
-export default config;

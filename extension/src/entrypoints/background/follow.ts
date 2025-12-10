@@ -1,10 +1,10 @@
+import type MessageResponse from "@/types/MessageResponse";
 import { browser } from "wxt/browser";
-import type { MessageResponse } from "../../types/Message";
 import { post } from "./api";
 
-export async function follow(): Promise<MessageResponse> {
-	let { url, token, followUrl } = await browser.storage.local.get();
-	if (!followUrl) {
+export default async function follow(): Promise<MessageResponse> {
+	let { url, token, viewing } = await browser.storage.local.get();
+	if (!viewing) {
 		return { ok: false, error: "No follow url supplied" };
 	}
 
@@ -13,7 +13,7 @@ export async function follow(): Promise<MessageResponse> {
 
 	// Send them to the url to follow
 	if (!url.endsWith("/")) url += "/";
-	await post(url, `api/follow`, { url: followUrl }, token);
+	await post(url, `api/follow`, { url: viewing.url }, token);
 
 	return {
 		ok,

@@ -1,7 +1,7 @@
+import type MessageResponse from "@/types/MessageResponse";
 import { browser } from "wxt/browser";
-import type { MessageResponse } from "../../types/Message";
 
-export async function logout(): Promise<MessageResponse> {
+export default async function logout(): Promise<MessageResponse> {
 	// TODO: Should call api/account/logout to delete tokens etc
 	let ok = true;
 

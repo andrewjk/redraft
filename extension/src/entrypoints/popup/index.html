@@ -1,102 +1,15 @@
+<!doctype html>
 <html>
 	<head>
 		<meta charset="UTF-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-
-		<title>Redraft</title>
-
 		<link rel="stylesheet" href="reset.css" />
 		<link rel="stylesheet" href="style.css" />
 	</head>
 	<body>
-		<div id="login-panel" style="display: none">
-			<h1>Login</h1>
-			<form id="login-form">
-				<div class="form-row">
-					<label for="url-input">URL</label>
-					<input id="url-input" name="url" required />
-				</div>
-				<div class="form-row">
-					<label for="email-input">Email</label>
-					<input id="email-input" name="email" required />
-				</div>
-				<div class="form-row">
-					<label for="password-input">Password</label>
-					<input id="password-input" name="password" type="password" required />
-				</div>
-				<div class="form-row">
-					<button type="submit">Login</button>
-				</div>
-				<div id="login-error" class="error" style="display: none">Error message</div>
-			</form>
+		<div id="app">
+			<!-- Torpor app will be mounted here -->
 		</div>
-		<div id="follow-panel" style="display: none">
-			<h1>Follow</h1>
-			<img id="follow-image" class="user-image"></img>
-			<p id="follow-name"></p>
-			<form id="follow-form">
-				<div class="form-row">
-					<button type="submit">Send request</button>
-				</div>
-				<div id="follow-error" class="error" style="display: none">Error message</div>
-			</form>
-			<div id="follow-message" style="display: none">Follow requested</div>
-		</div>
-		<div id="info-panel" style="display: none">
-			<h1>Following</h1>
-			<img id="info-image" class="user-image"></img>
-			<p id="info-name"></p>
-		</div>
-		<div id="account-panel" style="display: none">
-			<h1>Account</h1>
-			<div>
-				<img id="profile-image" class="user-image"></img>
-				<p id="profile-name"></p>
-				<p><a id="profile-url" target="_blank">Open page</a></p>
-			</div>
-			<form id="logout-form">
-				<div class="form-row">
-					<button type="submit">Logout</button>
-				</div>
-				<div id="logout-error" class="error" style="display: none">Error message</div>
-			</form>
-			<form id="refresh-form">
-				<div class="form-row">
-					<button type="submit" title="Reloads your account information">Refresh</button>
-				</div>
-				<div id="refresh-error" class="error" style="display: none">Error message</div>
-			</form>
-			<div>
-				<p id="follow-count"></p>
-			</div>
-		</div>
-		<script src="main.ts" type="module"></script>
+		<script type="module" src="./main.ts"></script>
 	</body>
-
-	<style>
-		body {
-			min-width: 24rem;
-			min-height: 24rem;
-			padding: 0 2rem 2rem;
-		}
-
-		button {
-			padding: 0.2rem 0;
-		}
-
-		.form-row {
-			margin-bottom: 0.4rem;
-		}
-
-		.error {
-			color: red;
-		}
-
-		.user-image {
-			width: 6rem;
-			height: 6rem;
-			border-radius: 50%;
-			box-shadow: 0 0.2rem 0.4rem #eee;
-		}
-	</style>
 </html>

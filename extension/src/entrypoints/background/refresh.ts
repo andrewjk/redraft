@@ -1,9 +1,9 @@
+import type MessageResponse from "@/types/MessageResponse";
 import { browser } from "wxt/browser";
-import type { MessageResponse } from "../../types/Message";
-import { loadFollowers } from "./loadFollowers";
-import { loadProfile } from "./loadProfile";
+import loadFollowers from "./loadFollowers";
+import loadProfile from "./loadProfile";
 
-export async function refresh(): Promise<MessageResponse> {
+export default async function refresh(): Promise<MessageResponse> {
 	const { authenticated } = await browser.storage.local.get();
 	if (!authenticated) {
 		return { ok: false, error: "Not authenticated" };

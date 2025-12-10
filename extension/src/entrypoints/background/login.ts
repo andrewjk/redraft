@@ -1,9 +1,10 @@
+import type LoginData from "@/types/LoginData";
+import type MessageResponse from "@/types/MessageResponse";
 import { browser } from "wxt/browser";
-import type { LoginData, MessageResponse } from "../../types/Message";
-import { loadFollowers } from "./loadFollowers";
-import { loadProfile } from "./loadProfile";
+import loadFollowers from "./loadFollowers";
+import loadProfile from "./loadProfile";
 
-export async function login(data: LoginData): Promise<MessageResponse> {
+export default async function login(data: LoginData): Promise<MessageResponse> {
 	let { url, email, password } = data;
 
 	// Send them to the url to login
@@ -18,9 +19,9 @@ export async function login(data: LoginData): Promise<MessageResponse> {
 
 	// If logged in ok, store things
 	if (ok) {
-		const { token } = await loginResponse.json<{ token: string }>();
+		const { domain, token } = await loginResponse.json();
 
-		await browser.storage.local.set({ url, email, authenticated: true, token });
+		await browser.storage.local.set({ url, email, authenticated: true, domain, token });
 
 		await Promise.all([loadProfile(), loadFollowers()]);
 	}
