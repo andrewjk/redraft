@@ -25,6 +25,8 @@ export default async function extensionFollowing(code: string, limit?: number, o
 			where: and(eq(followingTable.approved, true), isNull(followingTable.deleted_at)),
 			columns: {
 				url: true,
+				name: true,
+				image: true,
 				shared_key: true,
 			},
 		});
@@ -37,6 +39,8 @@ export default async function extensionFollowing(code: string, limit?: number, o
 		const following = await Promise.all(
 			followingData.map(async (f) => ({
 				url: f.url,
+				name: f.name,
+				image: f.image,
 				// NOTE: The token consists of our URL and the shared key, as it
 				// will be sent from our extension to identify us to the user we
 				// are following (who is reachable at `f.url`)
