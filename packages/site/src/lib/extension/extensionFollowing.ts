@@ -1,5 +1,5 @@
 import { ok, serverError, unauthorized } from "@torpor/build/response";
-import { and, eq, isNull } from "drizzle-orm";
+import { asc, desc, eq, isNull } from "drizzle-orm";
 import database from "../../data/database";
 import { followingTable, usersTable } from "../../data/schema";
 import createHeaderToken from "../utils/createHeaderToken";
@@ -22,12 +22,14 @@ export default async function extensionFollowing(code: string, limit?: number, o
 		const followingQuery = db.query.followingTable.findMany({
 			limit,
 			offset,
-			where: and(eq(followingTable.approved, true), isNull(followingTable.deleted_at)),
+			where: isNull(followingTable.deleted_at),
+			orderBy: [desc(followingTable.approved), asc(followingTable.name)],
 			columns: {
 				url: true,
 				name: true,
 				image: true,
 				shared_key: true,
+				approved: true,
 			},
 		});
 
@@ -38,6 +40,7 @@ export default async function extensionFollowing(code: string, limit?: number, o
 
 		const following = await Promise.all(
 			followingData.map(async (f) => ({
+				approved: f.approved,
 				url: f.url,
 				name: f.name,
 				image: f.image,

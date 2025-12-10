@@ -1,5 +1,5 @@
 import { notFound, ok, serverError, unauthorized } from "@torpor/build/response";
-import { eq } from "drizzle-orm";
+import { and, eq, isNull } from "drizzle-orm";
 import database from "../../data/database";
 import { followedByTable, usersTable } from "../../data/schema";
 import transaction from "../../data/transaction";
@@ -28,7 +28,7 @@ export default async function followApprove(request: Request, code: string) {
 
 		// Get the record
 		const followedByQuery = db.query.followedByTable.findFirst({
-			where: eq(followedByTable.url, model.url),
+			where: and(eq(followedByTable.url, model.url), isNull(followedByTable.deleted_at)),
 		});
 
 		const [currentUser, followedBy] = await Promise.all([currentUserQuery, followedByQuery]);
@@ -48,7 +48,7 @@ export default async function followApprove(request: Request, code: string) {
 						approved: true,
 						updated_at: new Date(),
 					})
-					.where(eq(followedByTable.url, model.url));
+					.where(eq(followedByTable.id, followedBy.id));
 			} catch (error) {
 				errorMessage = getErrorMessage(error).message;
 				throw error;

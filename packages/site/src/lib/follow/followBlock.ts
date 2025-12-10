@@ -1,5 +1,5 @@
 import { notFound, ok, serverError, unauthorized } from "@torpor/build/response";
-import { eq } from "drizzle-orm";
+import { and, eq, isNull } from "drizzle-orm";
 import database from "../../data/database";
 import { commentsTable, followedByTable, usersTable } from "../../data/schema";
 import transaction from "../../data/transaction";
@@ -25,7 +25,7 @@ export default async function followBlock(request: Request, code: string) {
 
 		// Get the followed by user
 		const followedByQuery = db.query.followedByTable.findFirst({
-			where: eq(followedByTable.url, model.url),
+			where: and(eq(followedByTable.url, model.url), isNull(followedByTable.deleted_at)),
 			columns: { id: true, blocked_at: true },
 		});
 
@@ -38,6 +38,7 @@ export default async function followBlock(request: Request, code: string) {
 		}
 
 		// If this user has already been blocked, just return ok
+		// Otherwise, update the record
 		if (!followedBy.blocked_at) {
 			await transaction(db, async (tx) => {
 				try {

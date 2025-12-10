@@ -1,5 +1,5 @@
 import { notFound, ok, serverError, unprocessable } from "@torpor/build/response";
-import { and, eq } from "drizzle-orm";
+import { and, eq, isNull } from "drizzle-orm";
 import database from "../../data/database";
 import { followedByTable } from "../../data/schema";
 import transaction from "../../data/transaction";
@@ -30,6 +30,7 @@ export default async function followRequested(request: Request) {
 			where: and(
 				eq(followedByTable.url, model.url),
 				eq(followedByTable.shared_key, model.sharedKey),
+				isNull(followedByTable.deleted_at),
 			),
 		});
 
@@ -39,7 +40,6 @@ export default async function followRequested(request: Request) {
 		}
 
 		// NOTE: Return ok even if the record was not found, to avoid leaking info
-
 		if (record) {
 			await transaction(db, async (tx) => {
 				try {
@@ -47,6 +47,7 @@ export default async function followRequested(request: Request) {
 						.update(followedByTable)
 						.set({
 							deleted_at: new Date(),
+							updated_at: new Date(),
 						})
 						.where(eq(followedByTable.id, record.id));
 				} catch (error) {

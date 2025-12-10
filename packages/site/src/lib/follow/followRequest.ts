@@ -41,6 +41,7 @@ export default async function followRequest(request: Request, code: string) {
 		}
 
 		// If this user has already been requested, just return ok
+		// Otherwise, create the record
 		if (!follow) {
 			// Create the shared key that we will use to authenticate ourselves when
 			// commenting etc, and which the other user will use to authenticate
@@ -98,7 +99,7 @@ export default async function followRequest(request: Request, code: string) {
 					// Create an activity record
 					await tx.insert(activityTable).values({
 						url: model.url,
-						text: `You requested to follow ${record.name}`,
+						text: `You requested to follow ${updatedRecord.name}`,
 						created_at: new Date(),
 						updated_at: new Date(),
 					});
