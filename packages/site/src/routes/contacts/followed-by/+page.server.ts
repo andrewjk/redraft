@@ -2,6 +2,7 @@ import { type PageServerEndPoint } from "@torpor/build";
 import { unauthorized } from "@torpor/build/response";
 import followedBy from "../../../api/contacts/followed-by/+server";
 import followBlock from "../../../api/follow/block/+server";
+import followRemove from "../../../api/follow/remove/+server";
 import * as api from "../../../lib/api";
 import formDataToObject from "../../../lib/utils/formDataToObject";
 
@@ -15,6 +16,17 @@ export default {
 		return await api.get("contacts/followed-by", followedBy, params, user.token);
 	},
 	actions: {
+		remove: async ({ request, params, appData }) => {
+			const user = appData.user;
+			if (!user) {
+				return unauthorized();
+			}
+
+			const data = await request.formData();
+			const model = formDataToObject(data);
+
+			return await api.post("follow/remove", followRemove, params, model, user.token);
+		},
 		block: async ({ request, params, appData }) => {
 			const user = appData.user;
 			if (!user) {
