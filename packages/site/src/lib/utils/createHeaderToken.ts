@@ -16,7 +16,12 @@ export default async function createHeaderToken(user: User) {
 	if (!env().JWT_SECRET_2) {
 		throw new Error("JWT_SECRET_2 missing in environment.");
 	}
-	const tokenObject = { follower: { url: user.url, shared_key: user.shared_key } };
+	const tokenObject = {
+		follower: {
+			url: user.url,
+			shared_key: user.shared_key,
+		},
+	};
 	const secret = new TextEncoder().encode(env().JWT_SECRET_2);
 	const token = await new jose.SignJWT(tokenObject)
 		.setProtectedHeader({ alg: "HS256" })

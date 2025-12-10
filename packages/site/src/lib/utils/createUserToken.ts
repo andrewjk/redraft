@@ -3,6 +3,7 @@ import env from "../env";
 
 type User = {
 	url: string;
+	username: string;
 	name: string;
 };
 
@@ -15,7 +16,14 @@ export default async function createUserToken(user: User, code: string) {
 	if (!env().JWT_SECRET) {
 		throw new Error("JWT_SECRET missing in environment.");
 	}
-	const tokenObject = { user: { url: user.url, name: user.name, code } };
+	const tokenObject = {
+		user: {
+			url: user.url,
+			username: user.username,
+			name: user.name,
+			code,
+		},
+	};
 	const secret = new TextEncoder().encode(env().JWT_SECRET);
 	const token = await new jose.SignJWT(tokenObject)
 		.setProtectedHeader({ alg: "HS256" })
