@@ -1,5 +1,39 @@
 # @redraft/site
 
+## 0.3.0
+
+### Minor Changes
+
+- edbf96b: Feat: clear (most) exif data from uploaded images
+- 267ffc2: Fix: send child count with post
+
+### Patch Changes
+
+- 25a0ca0: Chore: update dependencies
+- 18b12b5: Fix: move post save/publish buttons to the last child
+- d683ea1: Fix: profile editing with Form
+- f3bbd86: Fix: list edit styles were missing
+- 00bd1db: Edit: standardize HTTP header case
+- 6c21f1a: Chore: update dependencies
+- 5822784: Fix: include username in UserModel
+- 5f5de1f: Fix: redirect to home after follow and unfollow
+- 1b34214: Fix: use URL when approving and blocking
+- cd0ed8a: Fix: get name and image with followers
+- aed6a93: Fix: fallback with s/w/h query params for images
+- e49fd01: Fix: check the `account` user for following
+- 32a59ef: Fix: tighten up following
+- c0cfe6b: Feat: use the logged in user from the extension
+- 2517c85: Fix: post queue SQL
+- ba6aa45: Feat: removing followers
+- 576fa5d: Fix: follow request transaction and communication
+- a08aacc: Fix: post children may not be sent with the form
+- 8475a21: Fix: change follow requested notification URL
+- 94f924d: Fix: there may not be a viewed profile in layout
+- Updated dependencies [25a0ca0]
+- Updated dependencies [6c21f1a]
+  - @redraft/adapter-core@0.1.2
+  - @redraft/adapter-node@0.1.2
+
 ## 0.2.4
 
 ### Patch Changes

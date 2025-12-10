@@ -1,5 +1,15 @@
 # @redraft/adapter-node
 
+## 0.1.2
+
+### Patch Changes
+
+- 25a0ca0: Chore: update dependencies
+- 6c21f1a: Chore: update dependencies
+- Updated dependencies [25a0ca0]
+- Updated dependencies [6c21f1a]
+  - @redraft/adapter-core@0.1.2
+
 ## 0.1.1
 
 ### Patch Changes

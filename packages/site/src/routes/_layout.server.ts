@@ -34,6 +34,7 @@ export default {
 				user &&
 				({
 					url: ensureSlash(user.url),
+					username: user.username,
 					name: user.name,
 					image: user.image,
 					notificationCount: currentUser?.notification_count,

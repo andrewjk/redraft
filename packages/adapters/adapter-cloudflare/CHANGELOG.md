@@ -1,5 +1,16 @@
 # @redraft/adapter-cloudflare
 
+## 0.1.5
+
+### Patch Changes
+
+- 25a0ca0: Chore: update dependencies
+- 00bd1db: Edit: standardize HTTP header case
+- 6c21f1a: Chore: update dependencies
+- Updated dependencies [25a0ca0]
+- Updated dependencies [6c21f1a]
+  - @redraft/adapter-core@0.1.2
+
 ## 0.1.4
 
 ### Patch Changes

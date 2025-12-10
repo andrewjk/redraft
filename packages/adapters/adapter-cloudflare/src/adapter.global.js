@@ -1,7 +1,6 @@
 "use strict";
 (() => {
-  var entityKind = Symbol.for("drizzle:entityKind");
-  var hasOwnEntityKind = Symbol.for("drizzle:hasOwnEntityKind");
+  var entityKind = /* @__PURE__ */ Symbol.for("drizzle:entityKind");
   function is(value, type) {
     if (!value || typeof value !== "object") {
       return false;
@@ -56,16 +55,16 @@
     }
   };
 
-  var TableName = Symbol.for("drizzle:Name");
+  var TableName = /* @__PURE__ */ Symbol.for("drizzle:Name");
 
-  var Schema = Symbol.for("drizzle:Schema");
-  var Columns = Symbol.for("drizzle:Columns");
-  var ExtraConfigColumns = Symbol.for("drizzle:ExtraConfigColumns");
-  var OriginalName = Symbol.for("drizzle:OriginalName");
-  var BaseName = Symbol.for("drizzle:BaseName");
-  var IsAlias = Symbol.for("drizzle:IsAlias");
-  var ExtraConfigBuilder = Symbol.for("drizzle:ExtraConfigBuilder");
-  var IsDrizzleTable = Symbol.for("drizzle:IsDrizzleTable");
+  var Schema = /* @__PURE__ */ Symbol.for("drizzle:Schema");
+  var Columns = /* @__PURE__ */ Symbol.for("drizzle:Columns");
+  var ExtraConfigColumns = /* @__PURE__ */ Symbol.for("drizzle:ExtraConfigColumns");
+  var OriginalName = /* @__PURE__ */ Symbol.for("drizzle:OriginalName");
+  var BaseName = /* @__PURE__ */ Symbol.for("drizzle:BaseName");
+  var IsAlias = /* @__PURE__ */ Symbol.for("drizzle:IsAlias");
+  var ExtraConfigBuilder = /* @__PURE__ */ Symbol.for("drizzle:ExtraConfigBuilder");
+  var IsDrizzleTable = /* @__PURE__ */ Symbol.for("drizzle:IsDrizzleTable");
   var Table = class {
     static [entityKind] = "Table";
     /** @internal */
@@ -664,7 +663,7 @@
       return this.enum.enumName;
     }
   };
-  var isPgEnumSym = Symbol.for("drizzle:isPgEnum");
+  var isPgEnumSym = /* @__PURE__ */ Symbol.for("drizzle:isPgEnum");
   function isPgEnum(obj) {
     return !!obj && typeof obj === "function" && isPgEnumSym in obj && obj[isPgEnumSym] === true;
   }
@@ -715,7 +714,7 @@
     static [entityKind] = "WithSubquery";
   };
 
-  var version = "0.44.7";
+  var version = "0.45.0";
 
   var otel;
   var rawTracer;
@@ -751,7 +750,7 @@
     }
   };
 
-  var ViewBaseConfig = Symbol.for("drizzle:ViewBaseConfig");
+  var ViewBaseConfig = /* @__PURE__ */ Symbol.for("drizzle:ViewBaseConfig");
 
   var FakePrimitiveParam = class {
     static [entityKind] = "FakePrimitiveParam";
@@ -1114,7 +1113,7 @@
       return p;
     });
   }
-  var IsDrizzleView = Symbol.for("drizzle:IsDrizzleView");
+  var IsDrizzleView = /* @__PURE__ */ Symbol.for("drizzle:IsDrizzleView");
   var View = class {
     static [entityKind] = "View";
     /** @internal */
@@ -1155,6 +1154,8 @@
           decoder = field;
         } else if (is(field, SQL)) {
           decoder = field.decoder;
+        } else if (is(field, Subquery)) {
+          decoder = field._.sql.decoder;
         } else {
           decoder = field.sql.decoder;
         }
@@ -1197,7 +1198,7 @@
         return result;
       }
       const newPath = pathPrefix ? [...pathPrefix, name] : [name];
-      if (is(field, Column) || is(field, SQL) || is(field, SQL.Aliased)) {
+      if (is(field, Column) || is(field, SQL) || is(field, SQL.Aliased) || is(field, Subquery)) {
         result.push({ path: newPath, field });
       } else if (is(field, Table)) {
         result.push(...orderSelectedFields(field[Table.Symbol.Columns], newPath));
@@ -1253,8 +1254,8 @@
   }
   var textDecoder = typeof TextDecoder === "undefined" ? null : new TextDecoder();
 
-  var InlineForeignKeys = Symbol.for("drizzle:PgInlineForeignKeys");
-  var EnableRLS = Symbol.for("drizzle:EnableRLS");
+  var InlineForeignKeys = /* @__PURE__ */ Symbol.for("drizzle:PgInlineForeignKeys");
+  var EnableRLS = /* @__PURE__ */ Symbol.for("drizzle:EnableRLS");
   var PgTable = class extends Table {
     static [entityKind] = "PgTable";
     /** @internal */
@@ -2014,7 +2015,7 @@
     static [entityKind] = "SQLiteColumn";
   };
 
-  var InlineForeignKeys2 = Symbol.for("drizzle:SQLiteInlineForeignKeys");
+  var InlineForeignKeys2 = /* @__PURE__ */ Symbol.for("drizzle:SQLiteInlineForeignKeys");
   var SQLiteTable = class extends Table {
     static [entityKind] = "SQLiteTable";
     /** @internal */
@@ -2280,7 +2281,8 @@ params: ${params}`);
       const setSize = columnNames.length;
       return sql.join(columnNames.flatMap((colName, i) => {
         const col = tableColumns[colName];
-        const value = set[colName] ?? sql.param(col.onUpdateFn(), col);
+        const onUpdateFnResult = col.onUpdateFn?.();
+        const value = set[colName] ?? (is(onUpdateFnResult, SQL) ? onUpdateFnResult : sql.param(onUpdateFnResult, col));
         const res = sql`${sql.identifier(this.casing.getColumnCasing(col))} = ${value}`;
         if (i < setSize - 1) {
           return [res, sql.raw(", ")];
@@ -2352,6 +2354,14 @@ params: ${params}`);
               chunk.push(sql`${sql.identifier(tableName)}.${sql.identifier(this.casing.getColumnCasing(field))}`);
             }
           }
+        } else if (is(field, Subquery)) {
+          const entries = Object.entries(field._.selectedFields);
+          if (entries.length === 1) {
+            const entry = entries[0][1];
+            const fieldDecoder = is(entry, SQL) ? entry.decoder : is(entry, Column) ? { mapFromDriverValue: (v) => entry.mapFromDriverValue(v) } : entry.sql.decoder;
+            if (fieldDecoder) field._.sql.decoder = fieldDecoder;
+          }
+          chunk.push(field);
         }
         if (i < columnsLen - 1) {
           chunk.push(sql`, `);
