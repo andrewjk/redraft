@@ -10,6 +10,9 @@ export default async function login(data: LoginData): Promise<MessageResponse> {
 	if (!url.endsWith("/")) {
 		url += "/";
 	}
+	if (!url.startsWith("http")) {
+		url = "https://" + url;
+	}
 	const loginResponse = await fetch(`${url}api/account/login`, {
 		method: "POST",
 		body: JSON.stringify({ email, password }),
