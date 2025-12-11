@@ -31,12 +31,12 @@
 		"@redraft/adapter-core": "workspace:^",
 		"@torpor/adapter-node": "^0.1.2",
 		"@torpor/build": "^0.4.14",
-		"drizzle-orm": "^0.45.0"
+		"drizzle-orm": "^0.45.1"
 	},
 	"devDependencies": {
-		"@types/node": "^24.10.2",
-		"@typescript/native-preview": "7.0.0-dev.20251209.1",
-		"oxlint-tsgolint": "^0.8.4",
+		"@types/node": "^25.0.0",
+		"@typescript/native-preview": "7.0.0-dev.20251210.1",
+		"oxlint-tsgolint": "^0.8.5",
 		"prettier": "^3.7.4",
 		"tsdown": "0.17.2",
 		"typescript": "^5.9.3"
