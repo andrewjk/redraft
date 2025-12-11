@@ -5,6 +5,8 @@ export default interface State {
 		url: string;
 		name: string;
 	};
+	messageCount?: number;
+	notificationCount?: number;
 	viewing?: {
 		image: string;
 		url: string;
@@ -33,4 +35,7 @@ export default interface State {
 	follow?: (e: SubmitEvent) => void;
 	followError?: string;
 	followMessage?: string;
+	unfollow?: (e: SubmitEvent) => void;
+	unfollowError?: string;
+	unfollowMessage?: string;
 }

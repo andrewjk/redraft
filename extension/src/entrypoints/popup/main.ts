@@ -15,7 +15,15 @@ async function loadInterface(): Promise<void> {
 	let localStorage = await browser.storage.local.get();
 	$state.authenticated = localStorage.authenticated ?? false;
 	if ($state.authenticated) {
+		// Refresh if it's been more than 5 minutes
+		let loadedAt = localStorage.loadedAt ?? new Date().getTime();
+		if (new Date().getTime() - loadedAt > 5 * 60 * 1000) {
+			await refresh();
+		}
+
 		$state.user = localStorage.profile;
+		$state.messageCount = localStorage.messageCount;
+		$state.notificationCount = localStorage.notificationCount;
 		$state.following = localStorage.following.filter((f: any) => f.approved);
 		$state.requested = localStorage.following.filter((f: any) => !f.approved);
 	}
@@ -27,6 +35,7 @@ async function loadInterface(): Promise<void> {
 	$state.logout = logout;
 	$state.refresh = refresh;
 	$state.follow = follow;
+	$state.unfollow = unfollow;
 }
 
 browser.runtime.onMessage.addListener((message: Message, _sender, _sendResponse) => {
@@ -88,8 +97,8 @@ async function logout(e: SubmitEvent) {
 	}
 }
 
-async function refresh(e: SubmitEvent) {
-	e.preventDefault();
+async function refresh(e?: SubmitEvent) {
+	if (e) e.preventDefault();
 
 	$state.refreshError = undefined;
 
@@ -117,6 +126,22 @@ async function follow(e: SubmitEvent) {
 		$state.followMessage = "Follow requested";
 	} else {
 		$state.followError = response.error;
+	}
+}
+
+async function unfollow(e: SubmitEvent) {
+	e.preventDefault();
+
+	$state.unfollowError = undefined;
+
+	let response = await browser.runtime.sendMessage<Message, MessageResponse>({
+		name: "unfollow",
+	});
+
+	if (response.ok) {
+		$state.unfollowMessage = "Unfollowed";
+	} else {
+		$state.unfollowError = response.error;
 	}
 }
 

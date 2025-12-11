@@ -1,15 +1,17 @@
 import $state from "../$state";
 // @ts-ignore
 import placeholder from "../../assets/placeholder.png";
+import Bell from "phosphor-torpor/lib/Bell";
+import Envelope from "phosphor-torpor/lib/Envelope";
 
 export default function Popup() {
 	let $pstate = $watch({
-		section: "account"
+		section: "profile"
 	});
 
 	// Switch to the viewing page when we load someone new (by going to their page)
 	//$run(() => {
-	//	$pstate.section = $state.viewing ? "viewing" : "account";
+	//	$pstate.section = $state.viewing ? "viewing" : "profile";
 	//});
 
 	function stripProtocol(url: string) {
@@ -22,11 +24,11 @@ export default function Popup() {
 				@// HACK: Should be using @torpor/ui TabGroup
 				<div class="tab-group">
 					<button
-						class={["tab-header", "plain", $pstate.section === "account" ? "active" : ""]}
-						onclick={() => $pstate.section = "account"}
-						aria-controls="tab-content-account"
+						class={["tab-header", "plain", $pstate.section === "profile" ? "active" : ""]}
+						onclick={() => $pstate.section = "profile"}
+						aria-controls="tab-content-profile"
 					>
-						Account
+						Profile
 					</button>
 					<button
 						class={["tab-header", "plain", $pstate.section === "following" ? "active" : ""]}
@@ -44,7 +46,7 @@ export default function Popup() {
 					</button>
 				</div>
 				<div class="vstack grow">
-					<div id="tab-content-account" class="vstack spaced grow tab-content" style={{ display: $pstate.section === "account" ? "flex" : "none"}}>
+					<div id="tab-content-profile" class="vstack spaced grow tab-content" style={{ display: $pstate.section === "profile" ? "flex" : "none"}}>
 						<a class="user-link" target="_blank" href={$state.user?.url}>
 							<div class="hstack spaced centered">
 								<img class="user-image" src={$state.user?.image || placeholder} />
@@ -54,6 +56,27 @@ export default function Popup() {
 								</div>
 							</div>
 						</a>
+						<div class="spacer" />
+						<div class="hstack" style="gap: 1.5rem">
+							<div class="spacer" />
+							<a class="user-link" target="_blank" href={`${$state.user?.url}messages`}>
+								<div class="badge-container">
+									<Envelope weight="bold" size="2rem" />
+									@if ($state.messageCount) {
+										<span class="badge">{$state.messageCount}</span>
+									}
+								</div>
+							</a>
+							<a class="user-link" target="_blank" href={`${$state.user?.url}notifications`}>
+								<div class="badge-container">
+									<Bell weight="bold" size="2rem" />
+									@if ($state.notificationCount) {
+										<span class="badge">{$state.notificationCount}</span>
+									}
+								</div>
+							</a>
+							<div class="spacer" />
+						</div>
 						<div class="spacer" />
 						<form onsubmit={(e) => $state.logout!(e)}>
 							<div class="form-row">
@@ -65,7 +88,7 @@ export default function Popup() {
 						</form>
 						<form onsubmit={(e) => $state.refresh!(e)}>
 							<div class="form-row">
-								<button type="submit" title="Reloads your account information">Refresh</button>
+								<button type="submit" title="Reloads your profile information">Refresh</button>
 							</div>
 							@if ($state.refreshError) {
 								<div class="error">{$state.refreshError}</div>
@@ -73,7 +96,7 @@ export default function Popup() {
 						</form>
 					</div>
 					<div id="tab-content-following" style={{ display: $pstate.section === "following" ? "block" : "none"}}>
-						<div class="tab-content">
+						<div class="tab-content smaller vstack spaced">
 							@if ($state.following && $state.following.length > 0) {
 								@if ($state.requested && $state.requested.length > 0) {
 									<h3 class="subheading">Following</h3>
@@ -81,7 +104,7 @@ export default function Popup() {
 								@for (let following of $state.following!) {
 									<a class="user-link" target="_blank" href={following.url}>
 										<div class="hstack spaced centered">
-											<img class="user-image" src={following.image || placeholder} />
+											<img class="user-image smaller" src={following.image || placeholder} />
 											<div class="vstack">
 												<div class="profile-name">{following.name}</div>
 												<div class="profile-url secondary">{stripProtocol(following.url ?? "")}</div>
@@ -95,7 +118,7 @@ export default function Popup() {
 								@for (let following of $state.requested!) {
 									<a class="user-link" target="_blank" href={following.url}>
 										<div class="hstack spaced centered">
-											<img class="user-image" src={following.image || placeholder} />
+											<img class="user-image smaller" src={following.image || placeholder} />
 											<div class="vstack">
 												<div class="profile-name">{following.name}</div>
 												<div class="profile-url secondary">{stripProtocol(following.url ?? "")}</div>
@@ -121,21 +144,33 @@ export default function Popup() {
 								</div>
 							</a>
 							<div class="spacer" />
-							@if (!$state.viewing?.following && $state.viewing?.url !== $state.user?.url) {
-								<form onsubmit={(e) => $state.follow!(e)}>
-									<div class="form-row">
-										@if ($state.viewing?.requested) {
-											<button disabled>Requested...</button>
-										} else {
-											<button type="submit">Follow</button>
+							@if ($state.viewing?.url !== $state.user?.url) {
+								@if ($state.viewing?.following) {
+									<form onsubmit={(e) => $state.unfollow!(e)}>
+										<div class="form-row">
+											<button type="submit">Unfollow</button>
+										</div>
+										@if ($state.unfollowError) {
+											<div class="error">{$state.unfollowError}</div>
+										} else if ($state.unfollowMessage) {
+											<div>{$state.unfollowMessage}</div>
 										}
-									</div>
-									@if ($state.followError) {
-										<div class="error">{$state.followError}</div>
-									}
-								</form>
-								@if ($state.followMessage) {
-									<div class="error">{$state.followMessage}</div>
+									</form>
+								} else {
+									<form onsubmit={(e) => $state.follow!(e)}>
+										<div class="form-row">
+											@if ($state.viewing?.requested) {
+												<button disabled>Requested...</button>
+											} else {
+												<button type="submit">Follow</button>
+											}
+										</div>
+										@if ($state.followError) {
+											<div class="error">{$state.followError}</div>
+										} else if ($state.followMessage) {
+											<div>{$state.followMessage}</div>
+										}
+									</form>
 								}
 							}
 						} else {
@@ -200,6 +235,11 @@ export default function Popup() {
 			box-shadow: 0 0.2rem 0.4rem #eee;
 		}
 
+		.user-image.smaller {
+			width: 4rem;
+			height: 4rem;
+		}
+
 		.tab-group {
 			display: grid;
 			grid-template-columns: 1fr 1fr 1fr;
@@ -219,6 +259,10 @@ export default function Popup() {
 
 		.tab-content {
 			padding: 1rem;
+		}
+
+		.tab-content.smaller {
+			font-size: 1.4rem;
 		}
 
 		.spacer {
@@ -250,6 +294,23 @@ export default function Popup() {
 
 		.profile-url {
 			font-size: 90%;
+		}
+
+		.badge-container {
+			position: relative;
+		}
+
+		.badge {
+			border-radius: 500px;
+			background-color: red;
+			color: white;
+			font-weight: bold;
+			font-size: 70%;
+			padding: 0 0.5rem;
+
+			position: absolute;
+			top: -1rem;
+			right: -1rem;
 		}
 	}
 }

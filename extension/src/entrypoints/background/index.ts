@@ -9,6 +9,7 @@ import login from "./login";
 import logout from "./logout";
 import refresh from "./refresh";
 import { setIcon } from "./setIcon";
+import unfollow from "./unfollow";
 
 // TODO: Always send the "Follow" form, and show it if logged into the extension
 // Otherwise, show a "Follow" link, which goes to the follow page
@@ -41,6 +42,10 @@ const background: BackgroundDefinition = defineBackground({
 				}
 				case "follow": {
 					follow().then((res) => sendResponse(res));
+					return true;
+				}
+				case "unfollow": {
+					unfollow().then((res) => sendResponse(res));
 					return true;
 				}
 				case "set-icon": {

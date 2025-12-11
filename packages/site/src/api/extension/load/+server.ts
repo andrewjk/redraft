@@ -1,6 +1,6 @@
 import type { ServerEndPoint } from "@torpor/build";
 import { unauthorized } from "@torpor/build/response";
-import extensionProfile from "../../../lib/extension/extensionProfile";
+import extensionLoad from "../../../lib/extension/extensionLoad";
 
 export default {
 	get: async ({ appData }) => {
@@ -9,6 +9,6 @@ export default {
 			return unauthorized();
 		}
 
-		return await extensionProfile(user.code);
+		return await extensionLoad(user.code);
 	},
 } satisfies ServerEndPoint;
