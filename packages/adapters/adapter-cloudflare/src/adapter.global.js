@@ -714,7 +714,7 @@
     static [entityKind] = "WithSubquery";
   };
 
-  var version = "0.45.0";
+  var version = "0.45.1";
 
   var otel;
   var rawTracer;

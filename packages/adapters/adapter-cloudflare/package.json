@@ -1,6 +1,6 @@
 {
 	"name": "@redraft/adapter-cloudflare",
-	"version": "0.1.5",
+	"version": "0.1.6",
 	"description": "A Redraft adapter for deploying to Cloudflare Workers",
 	"type": "module",
 	"exports": {

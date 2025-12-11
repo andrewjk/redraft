@@ -1,5 +1,15 @@
 # @redraft/site
 
+## 0.3.1
+
+### Patch Changes
+
+- 301b8c8: Chore: update dependencies
+- ac58927: Fix: extension endpoints for loading and refreshing
+- Updated dependencies [301b8c8]
+  - @redraft/adapter-core@0.1.3
+  - @redraft/adapter-node@0.1.3
+
 ## 0.3.0
 
 ### Minor Changes
