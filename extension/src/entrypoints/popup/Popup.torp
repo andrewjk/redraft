@@ -95,42 +95,40 @@ export default function Popup() {
 							}
 						</form>
 					</div>
-					<div id="tab-content-following" style={{ display: $pstate.section === "following" ? "block" : "none"}}>
-						<div class="tab-content smaller vstack spaced">
-							@if ($state.following && $state.following.length > 0) {
-								@if ($state.requested && $state.requested.length > 0) {
-									<h3 class="subheading">Following</h3>
-								}
-								@for (let following of $state.following!) {
-									<a class="user-link" target="_blank" href={following.url}>
-										<div class="hstack spaced centered">
-											<img class="user-image smaller" src={following.image || placeholder} />
-											<div class="vstack">
-												<div class="profile-name">{following.name}</div>
-												<div class="profile-url secondary">{stripProtocol(following.url ?? "")}</div>
-											</div>
-										</div>
-									</a>
-								}
-							}
+					<div id="tab-content-following" class="tab-content vstack spaced" style={{ display: $pstate.section === "following" ? "flex" : "none"}}>
+						@if ($state.following && $state.following.length > 0) {
 							@if ($state.requested && $state.requested.length > 0) {
-								<h3 class="subheading">Requested</h3>
-								@for (let following of $state.requested!) {
-									<a class="user-link" target="_blank" href={following.url}>
-										<div class="hstack spaced centered">
-											<img class="user-image smaller" src={following.image || placeholder} />
-											<div class="vstack">
-												<div class="profile-name">{following.name}</div>
-												<div class="profile-url secondary">{stripProtocol(following.url ?? "")}</div>
-											</div>
+								<h3 class="subheading">Following</h3>
+							}
+							@for (let following of $state.following!) {
+								<a class="user-link smaller" target="_blank" href={following.url}>
+									<div class="hstack spaced centered">
+										<img class="user-image smaller" src={following.image || placeholder} />
+										<div class="vstack">
+											<div class="profile-name">{following.name}</div>
+											<div class="profile-url secondary">{stripProtocol(following.url ?? "")}</div>
 										</div>
-									</a>
-								}
+									</div>
+								</a>
 							}
-							@if ((!$state.following || $state.following.length === 0) && (!$state.requested || $state.requested.length === 0)) {
-								<p>You aren't following anyone.</p>
+						}
+						@if ($state.requested && $state.requested.length > 0) {
+							<h3 class="subheading">Requested</h3>
+							@for (let following of $state.requested!) {
+								<a class="user-link smaller" target="_blank" href={following.url}>
+									<div class="hstack spaced centered">
+										<img class="user-image smaller" src={following.image || placeholder} />
+										<div class="vstack">
+											<div class="profile-name">{following.name}</div>
+											<div class="profile-url secondary">{stripProtocol(following.url ?? "")}</div>
+										</div>
+									</div>
+								</a>
 							}
-						</div>
+						}
+						@if ((!$state.following || $state.following.length === 0) && (!$state.requested || $state.requested.length === 0)) {
+							<p>You aren't following anyone.</p>
+						}
 					</div>
 					<div id="tab-content-viewing" class="vstack spaced grow tab-content" style={{ display: $pstate.section === "viewing" ? "flex" : "none"}}>
 						@if ($state.viewing) {
@@ -261,10 +259,6 @@ export default function Popup() {
 			padding: 1rem;
 		}
 
-		.tab-content.smaller {
-			font-size: 1.4rem;
-		}
-
 		.spacer {
 			flex-grow: 1;
 		}
@@ -286,6 +280,10 @@ export default function Popup() {
 
 		.user-link {
 			color: inherit;
+		}
+
+		.user-link.smaller {
+			font-size: 1.4rem;
 		}
 
 		.profile-name {
