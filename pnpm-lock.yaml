@@ -10,7 +10,7 @@ importers:
     dependencies:
       '@changesets/cli':
         specifier: ^2.29.8
-        version: 2.29.8(@types/node@25.0.0)
+        version: 2.29.8(@types/node@25.0.1)
     devDependencies:
       '@trivago/prettier-plugin-sort-imports':
         specifier: ^6.0.0
@@ -32,32 +32,32 @@ importers:
         version: link:../adapter-core
       '@torpor/adapter-cloudflare':
         specifier: ^0.2.3
-        version: 0.2.3(@types/node@25.0.0)(esbuild@0.27.1)(jiti@2.6.1)(rollup@4.53.3)(terser@5.39.0)(tsx@4.21.0)(typescript@5.9.3)
+        version: 0.2.3(@types/node@25.0.1)(esbuild@0.27.1)(jiti@2.6.1)(rollup@4.53.3)(terser@5.39.0)(tsx@4.21.0)(typescript@5.9.3)
       '@torpor/build':
         specifier: ^0.4.14
-        version: 0.4.14(@types/node@25.0.0)(esbuild@0.27.1)(jiti@2.6.1)(rollup@4.53.3)(terser@5.39.0)(tsx@4.21.0)(typescript@5.9.3)
+        version: 0.4.14(@types/node@25.0.1)(esbuild@0.27.1)(jiti@2.6.1)(rollup@4.53.3)(terser@5.39.0)(tsx@4.21.0)(typescript@5.9.3)
       drizzle-orm:
         specifier: ^0.45.1
-        version: 0.45.1(@cloudflare/workers-types@4.20251211.0)(@libsql/client@0.15.15)(gel@2.0.2)
+        version: 0.45.1(@cloudflare/workers-types@4.20251212.0)(@libsql/client@0.15.15)(gel@2.0.2)
     devDependencies:
       '@cloudflare/workers-types':
-        specifier: ^4.20251211.0
-        version: 4.20251211.0
+        specifier: ^4.20251212.0
+        version: 4.20251212.0
       '@types/node':
-        specifier: ^25.0.0
-        version: 25.0.0
+        specifier: ^25.0.1
+        version: 25.0.1
       '@typescript/native-preview':
-        specifier: 7.0.0-dev.20251210.1
-        version: 7.0.0-dev.20251210.1
+        specifier: 7.0.0-dev.20251211.1
+        version: 7.0.0-dev.20251211.1
       oxlint-tsgolint:
-        specifier: ^0.8.5
-        version: 0.8.5
+        specifier: ^0.8.6
+        version: 0.8.6
       prettier:
         specifier: ^3.7.4
         version: 3.7.4
       tsdown:
-        specifier: 0.17.2
-        version: 0.17.2(@typescript/native-preview@7.0.0-dev.20251210.1)(typescript@5.9.3)
+        specifier: 0.17.3
+        version: 0.17.3(@typescript/native-preview@7.0.0-dev.20251211.1)(typescript@5.9.3)
       tsup:
         specifier: ^8.5.1
         version: 8.5.1(jiti@2.6.1)(postcss@8.5.6)(tsx@4.21.0)(typescript@5.9.3)
@@ -69,23 +69,23 @@ importers:
     dependencies:
       '@torpor/build':
         specifier: ^0.4.14
-        version: 0.4.14(@types/node@25.0.0)(esbuild@0.27.1)(jiti@2.6.1)(rollup@4.53.3)(terser@5.39.0)(tsx@4.21.0)(typescript@5.9.3)
+        version: 0.4.14(@types/node@25.0.1)(esbuild@0.27.1)(jiti@2.6.1)(rollup@4.53.3)(terser@5.39.0)(tsx@4.21.0)(typescript@5.9.3)
       drizzle-orm:
         specifier: ^0.45.1
-        version: 0.45.1(@cloudflare/workers-types@4.20251211.0)(@libsql/client@0.15.15)(gel@2.0.2)
+        version: 0.45.1(@cloudflare/workers-types@4.20251212.0)(@libsql/client@0.15.15)(gel@2.0.2)
     devDependencies:
       '@typescript/native-preview':
-        specifier: 7.0.0-dev.20251210.1
-        version: 7.0.0-dev.20251210.1
+        specifier: 7.0.0-dev.20251211.1
+        version: 7.0.0-dev.20251211.1
       oxlint-tsgolint:
-        specifier: ^0.8.5
-        version: 0.8.5
+        specifier: ^0.8.6
+        version: 0.8.6
       prettier:
         specifier: ^3.7.4
         version: 3.7.4
       tsdown:
-        specifier: 0.17.2
-        version: 0.17.2(@typescript/native-preview@7.0.0-dev.20251210.1)(typescript@5.9.3)
+        specifier: 0.17.3
+        version: 0.17.3(@typescript/native-preview@7.0.0-dev.20251211.1)(typescript@5.9.3)
       typescript:
         specifier: ^5.9.3
         version: 5.9.3
@@ -97,29 +97,29 @@ importers:
         version: link:../adapter-core
       '@torpor/adapter-node':
         specifier: ^0.1.2
-        version: 0.1.2(@types/node@25.0.0)(esbuild@0.27.1)(jiti@2.6.1)(rollup@4.53.3)(terser@5.39.0)(tsx@4.21.0)(typescript@5.9.3)
+        version: 0.1.2(@types/node@25.0.1)(esbuild@0.27.1)(jiti@2.6.1)(rollup@4.53.3)(terser@5.39.0)(tsx@4.21.0)(typescript@5.9.3)
       '@torpor/build':
         specifier: ^0.4.14
-        version: 0.4.14(@types/node@25.0.0)(esbuild@0.27.1)(jiti@2.6.1)(rollup@4.53.3)(terser@5.39.0)(tsx@4.21.0)(typescript@5.9.3)
+        version: 0.4.14(@types/node@25.0.1)(esbuild@0.27.1)(jiti@2.6.1)(rollup@4.53.3)(terser@5.39.0)(tsx@4.21.0)(typescript@5.9.3)
       drizzle-orm:
         specifier: ^0.45.1
-        version: 0.45.1(@cloudflare/workers-types@4.20251211.0)(@libsql/client@0.15.15)(gel@2.0.2)
+        version: 0.45.1(@cloudflare/workers-types@4.20251212.0)(@libsql/client@0.15.15)(gel@2.0.2)
     devDependencies:
       '@types/node':
-        specifier: ^25.0.0
-        version: 25.0.0
+        specifier: ^25.0.1
+        version: 25.0.1
       '@typescript/native-preview':
-        specifier: 7.0.0-dev.20251210.1
-        version: 7.0.0-dev.20251210.1
+        specifier: 7.0.0-dev.20251211.1
+        version: 7.0.0-dev.20251211.1
       oxlint-tsgolint:
-        specifier: ^0.8.5
-        version: 0.8.5
+        specifier: ^0.8.6
+        version: 0.8.6
       prettier:
         specifier: ^3.7.4
         version: 3.7.4
       tsdown:
-        specifier: 0.17.2
-        version: 0.17.2(@typescript/native-preview@7.0.0-dev.20251210.1)(typescript@5.9.3)
+        specifier: 0.17.3
+        version: 0.17.3(@typescript/native-preview@7.0.0-dev.20251211.1)(typescript@5.9.3)
       typescript:
         specifier: ^5.9.3
         version: 5.9.3
@@ -139,10 +139,10 @@ importers:
         version: link:../adapters/adapter-node
       '@torpor/adapter-node':
         specifier: ^0.1.2
-        version: 0.1.2(@types/node@25.0.0)(esbuild@0.25.12)(jiti@2.6.1)(rollup@4.53.3)(terser@5.39.0)(tsx@4.21.0)(typescript@5.9.3)
+        version: 0.1.2(@types/node@25.0.1)(esbuild@0.25.12)(jiti@2.6.1)(rollup@4.53.3)(terser@5.39.0)(tsx@4.21.0)(typescript@5.9.3)
       '@torpor/ui':
         specifier: ^0.4.0
-        version: 0.4.0(esbuild@0.25.12)(rollup@4.53.3)(vite@7.2.7(@types/node@25.0.0)(jiti@2.6.1)(terser@5.39.0)(tsx@4.21.0))
+        version: 0.4.0(esbuild@0.25.12)(rollup@4.53.3)(vite@7.2.7(@types/node@25.0.1)(jiti@2.6.1)(terser@5.39.0)(tsx@4.21.0))
       '@torpor/view':
         specifier: ^0.4.18
         version: 0.4.18
@@ -154,10 +154,10 @@ importers:
         version: 17.2.3
       drizzle-orm:
         specifier: ^0.45.1
-        version: 0.45.1(@cloudflare/workers-types@4.20251211.0)(@libsql/client@0.15.15)(gel@2.0.2)
+        version: 0.45.1(@cloudflare/workers-types@4.20251212.0)(@libsql/client@0.15.15)(gel@2.0.2)
       drizzle-valibot:
         specifier: ^0.4.2
-        version: 0.4.2(drizzle-orm@0.45.1(@cloudflare/workers-types@4.20251211.0)(@libsql/client@0.15.15)(gel@2.0.2))(valibot@1.2.0(typescript@5.9.3))
+        version: 0.4.2(drizzle-orm@0.45.1(@cloudflare/workers-types@4.20251212.0)(@libsql/client@0.15.15)(gel@2.0.2))(valibot@1.2.0(typescript@5.9.3))
       grab-page-info:
         specifier: ^1.0.2
         version: 1.0.2
@@ -175,7 +175,7 @@ importers:
         version: 3.0.0
       phosphor-torpor:
         specifier: ^1.0.2
-        version: 1.0.2(@torpor/view@0.4.18)(vite@7.2.7(@types/node@25.0.0)(jiti@2.6.1)(terser@5.39.0)(tsx@4.21.0))
+        version: 1.0.2(@torpor/view@0.4.18)(vite@7.2.7(@types/node@25.0.1)(jiti@2.6.1)(terser@5.39.0)(tsx@4.21.0))
       valibot:
         specifier: 1.2.0
         version: 1.2.0(typescript@5.9.3)
@@ -191,22 +191,22 @@ importers:
         version: 14.6.1(@testing-library/dom@10.4.1)
       '@torpor/build':
         specifier: ^0.4.14
-        version: 0.4.14(@types/node@25.0.0)(esbuild@0.25.12)(jiti@2.6.1)(rollup@4.53.3)(terser@5.39.0)(tsx@4.21.0)(typescript@5.9.3)
+        version: 0.4.14(@types/node@25.0.1)(esbuild@0.25.12)(jiti@2.6.1)(rollup@4.53.3)(terser@5.39.0)(tsx@4.21.0)(typescript@5.9.3)
       '@torpor/unplugin':
         specifier: ^0.2.1
-        version: 0.2.1(esbuild@0.25.12)(rollup@4.53.3)(vite@7.2.7(@types/node@25.0.0)(jiti@2.6.1)(terser@5.39.0)(tsx@4.21.0))
+        version: 0.2.1(esbuild@0.25.12)(rollup@4.53.3)(vite@7.2.7(@types/node@25.0.1)(jiti@2.6.1)(terser@5.39.0)(tsx@4.21.0))
       '@trivago/prettier-plugin-sort-imports':
         specifier: ^6.0.0
         version: 6.0.0(prettier@3.7.4)
       '@types/node':
-        specifier: ^25.0.0
-        version: 25.0.0
+        specifier: ^25.0.1
+        version: 25.0.1
       '@types/sanitize-html':
         specifier: ^2.16.0
         version: 2.16.0
       '@typescript/native-preview':
-        specifier: 7.0.0-dev.20251210.1
-        version: 7.0.0-dev.20251210.1
+        specifier: 7.0.0-dev.20251211.1
+        version: 7.0.0-dev.20251211.1
       dotenv-cli:
         specifier: ^11.0.0
         version: 11.0.0
@@ -217,8 +217,8 @@ importers:
         specifier: ^20.0.11
         version: 20.0.11
       oxlint-tsgolint:
-        specifier: ^0.8.5
-        version: 0.8.5
+        specifier: ^0.8.6
+        version: 0.8.6
       prettier:
         specifier: ^3.7.4
         version: 3.7.4
@@ -226,8 +226,8 @@ importers:
         specifier: ^2.17.0
         version: 2.17.0
       tsdown:
-        specifier: 0.17.2
-        version: 0.17.2(@typescript/native-preview@7.0.0-dev.20251210.1)(typescript@5.9.3)
+        specifier: 0.17.3
+        version: 0.17.3(@typescript/native-preview@7.0.0-dev.20251211.1)(typescript@5.9.3)
       tsx:
         specifier: ^4.21.0
         version: 4.21.0
@@ -236,13 +236,13 @@ importers:
         version: 5.9.3
       vite:
         specifier: ^7.2.7
-        version: 7.2.7(@types/node@25.0.0)(jiti@2.6.1)(terser@5.39.0)(tsx@4.21.0)
+        version: 7.2.7(@types/node@25.0.1)(jiti@2.6.1)(terser@5.39.0)(tsx@4.21.0)
       vite-tsconfig-paths:
         specifier: ^5.1.4
-        version: 5.1.4(typescript@5.9.3)(vite@7.2.7(@types/node@25.0.0)(jiti@2.6.1)(terser@5.39.0)(tsx@4.21.0))
+        version: 5.1.4(typescript@5.9.3)(vite@7.2.7(@types/node@25.0.1)(jiti@2.6.1)(terser@5.39.0)(tsx@4.21.0))
       vitest:
         specifier: ^4.0.15
-        version: 4.0.15(@types/node@25.0.0)(happy-dom@20.0.11)(jiti@2.6.1)(jsdom@26.1.0)(terser@5.39.0)(tsx@4.21.0)
+        version: 4.0.15(@types/node@25.0.1)(happy-dom@20.0.11)(jiti@2.6.1)(jsdom@26.1.0)(terser@5.39.0)(tsx@4.21.0)
 
 packages:
 
@@ -348,8 +348,8 @@ packages:
   '@changesets/write@0.4.0':
     resolution: {integrity: sha512-CdTLvIOPiCNuH71pyDu3rA+Q0n65cmAbXnwWH84rKGiFumFzkmHNT8KHTMEchcxN+Kl8I54xGUhJ7l3E7X396Q==}
 
-  '@cloudflare/workers-types@4.20251211.0':
-    resolution: {integrity: sha512-e87o6KbelCz7dnI5ngrGT2ca15vJZ+COb2eqJ52iDHmOaujyC6aYZ71e2vor8X6V9T6tcDElC5sAqPR93j09EA==}
+  '@cloudflare/workers-types@4.20251212.0':
+    resolution: {integrity: sha512-RrvbKQli+zkDSLtqmsQetHoc38Zi6VWajb0E79w3lGDbJ0Qq1T4HavAm5jIQ+1R6CJxpWO6t41aefRakj+ciaw==}
 
   '@csstools/color-helpers@5.1.0':
     resolution: {integrity: sha512-S11EXWJyy0Mz5SYvRmY8nJYTFFd1LCNV+7cXyAgQtOOuzb4EsgfqDufL+9esx72/eLhsRdGZwaldu/h+E4t4BA==}
@@ -959,33 +959,33 @@ packages:
   '@oxc-project/types@0.101.0':
     resolution: {integrity: sha512-nuFhqlUzJX+gVIPPfuE6xurd4lST3mdcWOhyK/rZO0B9XWMKm79SuszIQEnSMmmDhq1DC8WWVYGVd+6F93o1gQ==}
 
-  '@oxlint-tsgolint/darwin-arm64@0.8.5':
-    resolution: {integrity: sha512-6Fmcrk33+PbA8fEeuz8AGD7G3KoGWTJfvCflQD8zgY8AYK8OIs7bh4WUfZiRLVJdZ0PLY6y85J2IbfXy5dTrjQ==}
+  '@oxlint-tsgolint/darwin-arm64@0.8.6':
+    resolution: {integrity: sha512-khvQiNpPVNkyz6vmN50v5j1X6r9anRDXy3htDBpObx4V5bp33BK94onh46e91GTEbBevmeUG/Zm/U3+np4gehw==}
     cpu: [arm64]
     os: [darwin]
 
-  '@oxlint-tsgolint/darwin-x64@0.8.5':
-    resolution: {integrity: sha512-vaB8oNS1gkJYpGq09UfpF62kPew3Ia7WHYQeD9IIOnUHWW1LNyZdNHuB6h99Kn9irMLj/uhbl7HtDzP+Lk4BNg==}
+  '@oxlint-tsgolint/darwin-x64@0.8.6':
+    resolution: {integrity: sha512-AardvXBLB0m05BGcubXTqWSpNv2aD68QyY7BB/u2AqKzMoEtvzSB710FL06vOTPpaVpl3GvSVHCFw2juo35lTQ==}
     cpu: [x64]
     os: [darwin]
 
-  '@oxlint-tsgolint/linux-arm64@0.8.5':
-    resolution: {integrity: sha512-avfdBAcvqGacG78I919wMl4Cv3wT/to0u7CwyvFC/8vvIpPq983xmiPjMqFt1m/6ADtvRQfmSMK18C9l8uew7A==}
+  '@oxlint-tsgolint/linux-arm64@0.8.6':
+    resolution: {integrity: sha512-oSgMIilQBUVSOGdWIm4/5GJV4QmqwBQYpsGtRUpTAd3BZTWVuo40//n/ogJFnlCVd+i4yhsGLtwexd/7YlJ9sw==}
     cpu: [arm64]
     os: [linux]
 
-  '@oxlint-tsgolint/linux-x64@0.8.5':
-    resolution: {integrity: sha512-CvUc+0iCLBUKRiIzFIMhPJQpGI1JA29hiFWlLU/qBtf3V/IanxSbcgOm8zaO2/agg0yfS/oHrL/u8SR9xdcIvA==}
+  '@oxlint-tsgolint/linux-x64@0.8.6':
+    resolution: {integrity: sha512-EhR2TejCW5gBPEs6ASgfFFgdveHvpKOHQC2zbO3HoFT/xNU0DvYbEsScKM8SUDWFMQlHU67A7bynNGRY2kFSSg==}
     cpu: [x64]
     os: [linux]
 
-  '@oxlint-tsgolint/win32-arm64@0.8.5':
-    resolution: {integrity: sha512-2opjh8Vev+Z1dsi0lTYeGeI+Pbm6JgLT2U7l3+t8Ww3d/lhXgxUP9l+nX3ioCQd8auUy198MoWYice3OhjCX1w==}
+  '@oxlint-tsgolint/win32-arm64@0.8.6':
+    resolution: {integrity: sha512-PQeV8YitT2HR/uJV8ugERIpA4WHDem7i5TuPtgYrp7wvKS98G9ILpnPgATrOup/VdBMIzCDl02c23z4+I5NSTw==}
     cpu: [arm64]
     os: [win32]
 
-  '@oxlint-tsgolint/win32-x64@0.8.5':
-    resolution: {integrity: sha512-HGsTFdQDbXJ6VP9smhQyv3Pi/Vybabad57vT/SH12xYBYaIt1A0YO9ioQN36iYOb+971G9lo+YZjifa3vwDilA==}
+  '@oxlint-tsgolint/win32-x64@0.8.6':
+    resolution: {integrity: sha512-JDlyJSOnJXahee9xL55gT02kmQGSP0hR/5OP5asXvr7q6dj9t4skltcwYiA+D4HthF04oaW1F0+6pJnNTfDE0w==}
     cpu: [x64]
     os: [win32]
 
@@ -1287,8 +1287,8 @@ packages:
   '@types/node@20.19.26':
     resolution: {integrity: sha512-0l6cjgF0XnihUpndDhk+nyD3exio3iKaYROSgvh/qSevPXax3L8p5DBRFjbvalnwatGgHEQn2R88y2fA3g4irg==}
 
-  '@types/node@25.0.0':
-    resolution: {integrity: sha512-rl78HwuZlaDIUSeUKkmogkhebA+8K1Hy7tddZuJ3D0xV8pZSfsYGTsliGUol1JPzu9EKnTxPC4L1fiWouStRew==}
+  '@types/node@25.0.1':
+    resolution: {integrity: sha512-czWPzKIAXucn9PtsttxmumiQ9N0ok9FrBwgRWrwmVLlp86BrMExzvXRLFYRJ+Ex3g6yqj+KuaxfX1JTgV2lpfg==}
 
   '@types/sanitize-html@2.16.0':
     resolution: {integrity: sha512-l6rX1MUXje5ztPT0cAFtUayXF06DqPhRyfVXareEN5gGCFaP/iwsxIyKODr9XDhfxPpN6vXUFNfo5kZMXCxBtw==}
@@ -1299,43 +1299,43 @@ packages:
   '@types/ws@8.18.1':
     resolution: {integrity: sha512-ThVF6DCVhA8kUGy+aazFQ4kXQ7E1Ty7A3ypFOe0IcJV8O/M511G99AW24irKrW56Wt44yG9+ij8FaqoBGkuBXg==}
 
-  '@typescript/native-preview-darwin-arm64@7.0.0-dev.20251210.1':
-    resolution: {integrity: sha512-6FLhFMAdaW/JMzTPqaIxVTgCFhMQY2v88qVGLUmcf9coCJx5plxuY0zxzXaLrvQulGnDurIKZMW5tBGmQy4Buw==}
+  '@typescript/native-preview-darwin-arm64@7.0.0-dev.20251211.1':
+    resolution: {integrity: sha512-0TSLj8s2M1eQXnQV0+DMFCnJF4vqNobTaeKzMpR8oHOsD2az93knOUixsZk0Nyf3jYzgszDakNXhp0K3fzWWAw==}
     cpu: [arm64]
     os: [darwin]
 
-  '@typescript/native-preview-darwin-x64@7.0.0-dev.20251210.1':
-    resolution: {integrity: sha512-JrsZ913/ZyeoFDCVq+k4h0VUJHyqjT6te/IC8aMtLZQRkusQEX+57Anfr/BVXzWBa8+JwIXPGzllilw5dkrHNw==}
+  '@typescript/native-preview-darwin-x64@7.0.0-dev.20251211.1':
+    resolution: {integrity: sha512-Nv6+4H1SxjkbOLQZjbAjivTtFmPpeGiXKXh/8/UwkQW3Bom/L+owCfJNffsMKalKdDa/eYRW0uaoAk0dcU4c4A==}
     cpu: [x64]
     os: [darwin]
 
-  '@typescript/native-preview-linux-arm64@7.0.0-dev.20251210.1':
-    resolution: {integrity: sha512-GViH0JIkpEHCo04VYD/iAKqYjIB2uLXXtTmmLaImzBVd+h1dlKFgi2aOMi51mYnSefnbj7P7PeqIQNLKwi4NSQ==}
+  '@typescript/native-preview-linux-arm64@7.0.0-dev.20251211.1':
+    resolution: {integrity: sha512-sJapYFFiJnTeK/d2LmoQaTQKzMm8zquQAaAJaual+yu4sVKbP6sZRZ1GVS4FDISJvUrlajpLWxtfQTHR4dlgeQ==}
     cpu: [arm64]
     os: [linux]
 
-  '@typescript/native-preview-linux-arm@7.0.0-dev.20251210.1':
-    resolution: {integrity: sha512-v1hyGd8TWHaoRU8BJfGAdW6ML70TLUOB9+0Xeo30m3xHlOdO1zxunXa/FVhqzrChqzOkcty61PGe9tAPhrIh1w==}
+  '@typescript/native-preview-linux-arm@7.0.0-dev.20251211.1':
+    resolution: {integrity: sha512-6Y6VqTMfgvt8f1P5FHNIT/O/L0lSw5MHOcVOnrZEfvOAUXE+cCmC5VvtFh1Paa1Zu+oTBnCu5EvIwemHl4V73A==}
     cpu: [arm]
     os: [linux]
 
-  '@typescript/native-preview-linux-x64@7.0.0-dev.20251210.1':
-    resolution: {integrity: sha512-X6p2MrcRcYE9T+ecNHYZHFYew0t+k9Sc2GbyjbNB0+MJ/Lffp3aUH59dp+JASZoyOxugPwN+MCJ/kNzYqiK9vg==}
+  '@typescript/native-preview-linux-x64@7.0.0-dev.20251211.1':
+    resolution: {integrity: sha512-bJfieFUeJRGsjByfeShQYXbFRbJ4k14/Sp1HQ2Eu8yOd+hUpOj7fsax7b5B2XvE4cSuC+dRV2FVOCZQNaL4u2Q==}
     cpu: [x64]
     os: [linux]
 
-  '@typescript/native-preview-win32-arm64@7.0.0-dev.20251210.1':
-    resolution: {integrity: sha512-FewUZSh7d9YnX0j3hr+N+zQ5B54k4jsVpZp8QbuDduMtautxI18bNO+vL5oO86ezqLWbUnZajXV/61MGfpEtMg==}
+  '@typescript/native-preview-win32-arm64@7.0.0-dev.20251211.1':
+    resolution: {integrity: sha512-0vZ1NQmLyRf1bLaBjHFem1pLsJJnPMOCfScgM616cJpkbqqGEAgXfOnxKOUxiZ6X+hfx09gXn+5wq7zjaV0aag==}
     cpu: [arm64]
     os: [win32]
 
-  '@typescript/native-preview-win32-x64@7.0.0-dev.20251210.1':
-    resolution: {integrity: sha512-NdqTPzm/Ls3F1amP/e/akCuhY32mjBXT0NMQnYODgT9ltbdkk08b572Bp4GbdfRj9AiJxK70pqoNeZWw4e5fhg==}
+  '@typescript/native-preview-win32-x64@7.0.0-dev.20251211.1':
+    resolution: {integrity: sha512-OUB0nNmzZeCl0KjxeG7R+Ey1gq8iaVoJJRJpwKiTj6Ws5voKOb6PxNoM2jMNqJV3R/d3PXfR7Y39/IINioa/CQ==}
     cpu: [x64]
     os: [win32]
 
-  '@typescript/native-preview@7.0.0-dev.20251210.1':
-    resolution: {integrity: sha512-SiSRpp42K80X+qJKAi8qvjo2xMZIgJgROXCJo0MiZ8a6fjQK6IetRfUvwdApUsDltf/VaEc/j8v2Hiqp8SGhLQ==}
+  '@typescript/native-preview@7.0.0-dev.20251211.1':
+    resolution: {integrity: sha512-RXuRj/zn2tWrria1eea1mzOVmUjNHdOZsxlcnXLy2BjXil+ncgdMFARWryeXP2+NPmGTwC+ERJ5YAuwU8n4nlg==}
     hasBin: true
 
   '@vitest/expect@4.0.15':
@@ -1527,6 +1527,9 @@ packages:
   deepmerge@4.3.1:
     resolution: {integrity: sha512-3sUqbMEc77XqpdNO7FRyRog+eW3ph+GYCbj+rK+uYyRMuwsVy0rMiVtPn+QJlKFvWP/1PYpapqYn0Me2knFn+A==}
     engines: {node: '>=0.10.0'}
+
+  defu@6.1.4:
+    resolution: {integrity: sha512-mEQCMmwJu317oSz8CwdIOdwf3xMif1ttiM8LTufzc3g6kR+9Pe236twL8j3IYT1F7GfRgGcW6MWxzZjLIkuHIg==}
 
   dequal@2.0.3:
     resolution: {integrity: sha512-0je+qPKHEMohvfRTCEo3CrPG6cAzAYgmzKyxRiYSSDkS6eGJdyVJm7WaYA5ECaAD9wLB2T4EEeymA5aFVcYXCA==}
@@ -1861,8 +1864,8 @@ packages:
     resolution: {integrity: sha512-4fCk79wshMdzMp2rH06qWrJE4iolqLhCUH+OiuIgU++RB0+94NlDL81atO7GX55uUKueo0txHNtvEyI6D7WdMw==}
     engines: {node: '>=0.10.0'}
 
-  iconv-lite@0.7.0:
-    resolution: {integrity: sha512-cf6L2Ds3h57VVmkZe+Pn+5APsT7FpqJtEhhieDCvrE2MK5Qk9MyffgQyuxQTm6BChfeZNtcOLHp9IcWRVcIcBQ==}
+  iconv-lite@0.7.1:
+    resolution: {integrity: sha512-2Tth85cXwGFHfvRgZWszZSvdo+0Xsqmw8k8ZwxScfcBneNUraK+dxRxRm24nszx80Y0TVio8kKLt5sLE7ZCLlw==}
     engines: {node: '>=0.10.0'}
 
   ignore@5.3.2:
@@ -2136,8 +2139,8 @@ packages:
   outdent@0.5.0:
     resolution: {integrity: sha512-/jHxFIzoMXdqPzTaCpFzAAWhpkSjZPF4Vsn6jAfNpmbH/ymsmd7Qc6VE9BGn0L6YMj6uwpQLxCECpus4ukKS9Q==}
 
-  oxlint-tsgolint@0.8.5:
-    resolution: {integrity: sha512-QpUm0kMilACiEQEgPa/APIvCMmVZOtiSne7kK6iLCcJb/5DvQD5ggyrYXkQLbUiEZj6ouV4XSnpvG/BzuPRnYw==}
+  oxlint-tsgolint@0.8.6:
+    resolution: {integrity: sha512-DC9rqwFyEb5RlxOjvXdqaqxM5PwK01002oh/fcdC05mNPiI04d6CPWtReHqX6Ig1dc5LYuVeh3wuPrrp6WTjtw==}
     hasBin: true
 
   p-filter@2.1.0:
@@ -2489,8 +2492,8 @@ packages:
       typescript:
         optional: true
 
-  tsdown@0.17.2:
-    resolution: {integrity: sha512-SuU+0CWm/95KfXqojHTVuwcouIsdn7HpYcwDyOdKktJi285NxKwysjFUaxYLxpCNqqPvcFvokXLO4dZThRwzkw==}
+  tsdown@0.17.3:
+    resolution: {integrity: sha512-bgLgTog+oyadDTr9SZ57jZtb+A4aglCjo3xgJrkCDxbzcQl2l2iDDr4b06XHSQHwyDNIhYFDgPRhuu1wL3pNsw==}
     engines: {node: '>=20.19.0'}
     hasBin: true
     peerDependencies:
@@ -2822,7 +2825,7 @@ snapshots:
     dependencies:
       '@changesets/types': 6.1.0
 
-  '@changesets/cli@2.29.8(@types/node@25.0.0)':
+  '@changesets/cli@2.29.8(@types/node@25.0.1)':
     dependencies:
       '@changesets/apply-release-plan': 7.0.14
       '@changesets/assemble-release-plan': 6.0.9
@@ -2838,7 +2841,7 @@ snapshots:
       '@changesets/should-skip-package': 0.1.2
       '@changesets/types': 6.1.0
       '@changesets/write': 0.4.0
-      '@inquirer/external-editor': 1.0.3(@types/node@25.0.0)
+      '@inquirer/external-editor': 1.0.3(@types/node@25.0.1)
       '@manypkg/get-packages': 1.1.3
       ansi-colors: 4.1.3
       ci-info: 3.9.0
@@ -2937,7 +2940,7 @@ snapshots:
       human-id: 4.1.3
       prettier: 2.8.8
 
-  '@cloudflare/workers-types@4.20251211.0': {}
+  '@cloudflare/workers-types@4.20251212.0': {}
 
   '@csstools/color-helpers@5.1.0':
     optional: true
@@ -3214,12 +3217,12 @@ snapshots:
   '@esbuild/win32-x64@0.27.1':
     optional: true
 
-  '@inquirer/external-editor@1.0.3(@types/node@25.0.0)':
+  '@inquirer/external-editor@1.0.3(@types/node@25.0.1)':
     dependencies:
       chardet: 2.1.1
-      iconv-lite: 0.7.0
+      iconv-lite: 0.7.1
     optionalDependencies:
-      '@types/node': 25.0.0
+      '@types/node': 25.0.1
 
   '@jridgewell/gen-mapping@0.3.13':
     dependencies:
@@ -3347,22 +3350,22 @@ snapshots:
 
   '@oxc-project/types@0.101.0': {}
 
-  '@oxlint-tsgolint/darwin-arm64@0.8.5':
+  '@oxlint-tsgolint/darwin-arm64@0.8.6':
     optional: true
 
-  '@oxlint-tsgolint/darwin-x64@0.8.5':
+  '@oxlint-tsgolint/darwin-x64@0.8.6':
     optional: true
 
-  '@oxlint-tsgolint/linux-arm64@0.8.5':
+  '@oxlint-tsgolint/linux-arm64@0.8.6':
     optional: true
 
-  '@oxlint-tsgolint/linux-x64@0.8.5':
+  '@oxlint-tsgolint/linux-x64@0.8.6':
     optional: true
 
-  '@oxlint-tsgolint/win32-arm64@0.8.5':
+  '@oxlint-tsgolint/win32-arm64@0.8.6':
     optional: true
 
-  '@oxlint-tsgolint/win32-x64@0.8.5':
+  '@oxlint-tsgolint/win32-x64@0.8.6':
     optional: true
 
   '@petamoriken/float16@3.9.3':
@@ -3507,10 +3510,10 @@ snapshots:
     dependencies:
       '@testing-library/dom': 10.4.1
 
-  '@torpor/adapter-cloudflare@0.2.3(@types/node@25.0.0)(esbuild@0.27.1)(jiti@2.6.1)(rollup@4.53.3)(terser@5.39.0)(tsx@4.21.0)(typescript@5.9.3)':
+  '@torpor/adapter-cloudflare@0.2.3(@types/node@25.0.1)(esbuild@0.27.1)(jiti@2.6.1)(rollup@4.53.3)(terser@5.39.0)(tsx@4.21.0)(typescript@5.9.3)':
     dependencies:
-      '@torpor/build': 0.4.14(@types/node@25.0.0)(esbuild@0.27.1)(jiti@2.6.1)(rollup@4.53.3)(terser@5.39.0)(tsx@4.21.0)(typescript@5.9.3)
-      vite: 7.2.7(@types/node@25.0.0)(jiti@2.6.1)(terser@5.39.0)(tsx@4.21.0)
+      '@torpor/build': 0.4.14(@types/node@25.0.1)(esbuild@0.27.1)(jiti@2.6.1)(rollup@4.53.3)(terser@5.39.0)(tsx@4.21.0)(typescript@5.9.3)
+      vite: 7.2.7(@types/node@25.0.1)(jiti@2.6.1)(terser@5.39.0)(tsx@4.21.0)
     transitivePeerDependencies:
       - '@nuxt/kit'
       - '@nuxt/schema'
@@ -3531,10 +3534,10 @@ snapshots:
       - webpack
       - yaml
 
-  '@torpor/adapter-node@0.1.2(@types/node@25.0.0)(esbuild@0.25.12)(jiti@2.6.1)(rollup@4.53.3)(terser@5.39.0)(tsx@4.21.0)(typescript@5.9.3)':
+  '@torpor/adapter-node@0.1.2(@types/node@25.0.1)(esbuild@0.25.12)(jiti@2.6.1)(rollup@4.53.3)(terser@5.39.0)(tsx@4.21.0)(typescript@5.9.3)':
     dependencies:
-      '@torpor/build': 0.4.14(@types/node@25.0.0)(esbuild@0.25.12)(jiti@2.6.1)(rollup@4.53.3)(terser@5.39.0)(tsx@4.21.0)(typescript@5.9.3)
-      vite: 7.2.7(@types/node@25.0.0)(jiti@2.6.1)(terser@5.39.0)(tsx@4.21.0)
+      '@torpor/build': 0.4.14(@types/node@25.0.1)(esbuild@0.25.12)(jiti@2.6.1)(rollup@4.53.3)(terser@5.39.0)(tsx@4.21.0)(typescript@5.9.3)
+      vite: 7.2.7(@types/node@25.0.1)(jiti@2.6.1)(terser@5.39.0)(tsx@4.21.0)
     transitivePeerDependencies:
       - '@nuxt/kit'
       - '@nuxt/schema'
@@ -3555,10 +3558,10 @@ snapshots:
       - webpack
       - yaml
 
-  '@torpor/adapter-node@0.1.2(@types/node@25.0.0)(esbuild@0.27.1)(jiti@2.6.1)(rollup@4.53.3)(terser@5.39.0)(tsx@4.21.0)(typescript@5.9.3)':
+  '@torpor/adapter-node@0.1.2(@types/node@25.0.1)(esbuild@0.27.1)(jiti@2.6.1)(rollup@4.53.3)(terser@5.39.0)(tsx@4.21.0)(typescript@5.9.3)':
     dependencies:
-      '@torpor/build': 0.4.14(@types/node@25.0.0)(esbuild@0.27.1)(jiti@2.6.1)(rollup@4.53.3)(terser@5.39.0)(tsx@4.21.0)(typescript@5.9.3)
-      vite: 7.2.7(@types/node@25.0.0)(jiti@2.6.1)(terser@5.39.0)(tsx@4.21.0)
+      '@torpor/build': 0.4.14(@types/node@25.0.1)(esbuild@0.27.1)(jiti@2.6.1)(rollup@4.53.3)(terser@5.39.0)(tsx@4.21.0)(typescript@5.9.3)
+      vite: 7.2.7(@types/node@25.0.1)(jiti@2.6.1)(terser@5.39.0)(tsx@4.21.0)
     transitivePeerDependencies:
       - '@nuxt/kit'
       - '@nuxt/schema'
@@ -3579,14 +3582,14 @@ snapshots:
       - webpack
       - yaml
 
-  '@torpor/build@0.4.14(@types/node@25.0.0)(esbuild@0.25.12)(jiti@2.6.1)(rollup@4.53.3)(terser@5.39.0)(tsx@4.21.0)(typescript@5.9.3)':
+  '@torpor/build@0.4.14(@types/node@25.0.1)(esbuild@0.25.12)(jiti@2.6.1)(rollup@4.53.3)(terser@5.39.0)(tsx@4.21.0)(typescript@5.9.3)':
     dependencies:
-      '@torpor/unplugin': 0.2.1(esbuild@0.25.12)(rollup@4.53.3)(vite@7.2.7(@types/node@25.0.0)(jiti@2.6.1)(terser@5.39.0)(tsx@4.21.0))
+      '@torpor/unplugin': 0.2.1(esbuild@0.25.12)(rollup@4.53.3)(vite@7.2.7(@types/node@25.0.1)(jiti@2.6.1)(terser@5.39.0)(tsx@4.21.0))
       '@torpor/view': 0.4.18
       cookie: 1.1.1
       dotenv: 17.2.3
-      vite: 7.2.7(@types/node@25.0.0)(jiti@2.6.1)(terser@5.39.0)(tsx@4.21.0)
-      vite-tsconfig-paths: 5.1.4(typescript@5.9.3)(vite@7.2.7(@types/node@25.0.0)(jiti@2.6.1)(terser@5.39.0)(tsx@4.21.0))
+      vite: 7.2.7(@types/node@25.0.1)(jiti@2.6.1)(terser@5.39.0)(tsx@4.21.0)
+      vite-tsconfig-paths: 5.1.4(typescript@5.9.3)(vite@7.2.7(@types/node@25.0.1)(jiti@2.6.1)(terser@5.39.0)(tsx@4.21.0))
     transitivePeerDependencies:
       - '@nuxt/kit'
       - '@nuxt/schema'
@@ -3607,14 +3610,14 @@ snapshots:
       - webpack
       - yaml
 
-  '@torpor/build@0.4.14(@types/node@25.0.0)(esbuild@0.27.1)(jiti@2.6.1)(rollup@4.53.3)(terser@5.39.0)(tsx@4.21.0)(typescript@5.9.3)':
+  '@torpor/build@0.4.14(@types/node@25.0.1)(esbuild@0.27.1)(jiti@2.6.1)(rollup@4.53.3)(terser@5.39.0)(tsx@4.21.0)(typescript@5.9.3)':
     dependencies:
-      '@torpor/unplugin': 0.2.1(esbuild@0.27.1)(rollup@4.53.3)(vite@7.2.7(@types/node@25.0.0)(jiti@2.6.1)(terser@5.39.0)(tsx@4.21.0))
+      '@torpor/unplugin': 0.2.1(esbuild@0.27.1)(rollup@4.53.3)(vite@7.2.7(@types/node@25.0.1)(jiti@2.6.1)(terser@5.39.0)(tsx@4.21.0))
       '@torpor/view': 0.4.18
       cookie: 1.1.1
       dotenv: 17.2.3
-      vite: 7.2.7(@types/node@25.0.0)(jiti@2.6.1)(terser@5.39.0)(tsx@4.21.0)
-      vite-tsconfig-paths: 5.1.4(typescript@5.9.3)(vite@7.2.7(@types/node@25.0.0)(jiti@2.6.1)(terser@5.39.0)(tsx@4.21.0))
+      vite: 7.2.7(@types/node@25.0.1)(jiti@2.6.1)(terser@5.39.0)(tsx@4.21.0)
+      vite-tsconfig-paths: 5.1.4(typescript@5.9.3)(vite@7.2.7(@types/node@25.0.1)(jiti@2.6.1)(terser@5.39.0)(tsx@4.21.0))
     transitivePeerDependencies:
       - '@nuxt/kit'
       - '@nuxt/schema'
@@ -3635,9 +3638,9 @@ snapshots:
       - webpack
       - yaml
 
-  '@torpor/ui@0.4.0(esbuild@0.25.12)(rollup@4.53.3)(vite@7.2.7(@types/node@25.0.0)(jiti@2.6.1)(terser@5.39.0)(tsx@4.21.0))':
+  '@torpor/ui@0.4.0(esbuild@0.25.12)(rollup@4.53.3)(vite@7.2.7(@types/node@25.0.1)(jiti@2.6.1)(terser@5.39.0)(tsx@4.21.0))':
     dependencies:
-      '@torpor/unplugin': 0.2.1(esbuild@0.25.12)(rollup@4.53.3)(vite@7.2.7(@types/node@25.0.0)(jiti@2.6.1)(terser@5.39.0)(tsx@4.21.0))
+      '@torpor/unplugin': 0.2.1(esbuild@0.25.12)(rollup@4.53.3)(vite@7.2.7(@types/node@25.0.1)(jiti@2.6.1)(terser@5.39.0)(tsx@4.21.0))
       '@torpor/view': 0.4.18
     transitivePeerDependencies:
       - '@nuxt/kit'
@@ -3647,23 +3650,23 @@ snapshots:
       - vite
       - webpack
 
-  '@torpor/unplugin@0.2.1(esbuild@0.25.12)(rollup@4.53.3)(vite@7.2.7(@types/node@25.0.0)(jiti@2.6.1)(terser@5.39.0)(tsx@4.21.0))':
+  '@torpor/unplugin@0.2.1(esbuild@0.25.12)(rollup@4.53.3)(vite@7.2.7(@types/node@25.0.1)(jiti@2.6.1)(terser@5.39.0)(tsx@4.21.0))':
     dependencies:
       '@torpor/view': 0.4.18
       unplugin: 2.3.11
     optionalDependencies:
       esbuild: 0.25.12
       rollup: 4.53.3
-      vite: 7.2.7(@types/node@25.0.0)(jiti@2.6.1)(terser@5.39.0)(tsx@4.21.0)
+      vite: 7.2.7(@types/node@25.0.1)(jiti@2.6.1)(terser@5.39.0)(tsx@4.21.0)
 
-  '@torpor/unplugin@0.2.1(esbuild@0.27.1)(rollup@4.53.3)(vite@7.2.7(@types/node@25.0.0)(jiti@2.6.1)(terser@5.39.0)(tsx@4.21.0))':
+  '@torpor/unplugin@0.2.1(esbuild@0.27.1)(rollup@4.53.3)(vite@7.2.7(@types/node@25.0.1)(jiti@2.6.1)(terser@5.39.0)(tsx@4.21.0))':
     dependencies:
       '@torpor/view': 0.4.18
       unplugin: 2.3.11
     optionalDependencies:
       esbuild: 0.27.1
       rollup: 4.53.3
-      vite: 7.2.7(@types/node@25.0.0)(jiti@2.6.1)(terser@5.39.0)(tsx@4.21.0)
+      vite: 7.2.7(@types/node@25.0.1)(jiti@2.6.1)(terser@5.39.0)(tsx@4.21.0)
 
   '@torpor/view@0.4.18': {}
 
@@ -3709,7 +3712,7 @@ snapshots:
     dependencies:
       undici-types: 6.21.0
 
-  '@types/node@25.0.0':
+  '@types/node@25.0.1':
     dependencies:
       undici-types: 7.16.0
 
@@ -3721,38 +3724,38 @@ snapshots:
 
   '@types/ws@8.18.1':
     dependencies:
-      '@types/node': 25.0.0
+      '@types/node': 25.0.1
 
-  '@typescript/native-preview-darwin-arm64@7.0.0-dev.20251210.1':
+  '@typescript/native-preview-darwin-arm64@7.0.0-dev.20251211.1':
     optional: true
 
-  '@typescript/native-preview-darwin-x64@7.0.0-dev.20251210.1':
+  '@typescript/native-preview-darwin-x64@7.0.0-dev.20251211.1':
     optional: true
 
-  '@typescript/native-preview-linux-arm64@7.0.0-dev.20251210.1':
+  '@typescript/native-preview-linux-arm64@7.0.0-dev.20251211.1':
     optional: true
 
-  '@typescript/native-preview-linux-arm@7.0.0-dev.20251210.1':
+  '@typescript/native-preview-linux-arm@7.0.0-dev.20251211.1':
     optional: true
 
-  '@typescript/native-preview-linux-x64@7.0.0-dev.20251210.1':
+  '@typescript/native-preview-linux-x64@7.0.0-dev.20251211.1':
     optional: true
 
-  '@typescript/native-preview-win32-arm64@7.0.0-dev.20251210.1':
+  '@typescript/native-preview-win32-arm64@7.0.0-dev.20251211.1':
     optional: true
 
-  '@typescript/native-preview-win32-x64@7.0.0-dev.20251210.1':
+  '@typescript/native-preview-win32-x64@7.0.0-dev.20251211.1':
     optional: true
 
-  '@typescript/native-preview@7.0.0-dev.20251210.1':
+  '@typescript/native-preview@7.0.0-dev.20251211.1':
     optionalDependencies:
-      '@typescript/native-preview-darwin-arm64': 7.0.0-dev.20251210.1
-      '@typescript/native-preview-darwin-x64': 7.0.0-dev.20251210.1
-      '@typescript/native-preview-linux-arm': 7.0.0-dev.20251210.1
-      '@typescript/native-preview-linux-arm64': 7.0.0-dev.20251210.1
-      '@typescript/native-preview-linux-x64': 7.0.0-dev.20251210.1
-      '@typescript/native-preview-win32-arm64': 7.0.0-dev.20251210.1
-      '@typescript/native-preview-win32-x64': 7.0.0-dev.20251210.1
+      '@typescript/native-preview-darwin-arm64': 7.0.0-dev.20251211.1
+      '@typescript/native-preview-darwin-x64': 7.0.0-dev.20251211.1
+      '@typescript/native-preview-linux-arm': 7.0.0-dev.20251211.1
+      '@typescript/native-preview-linux-arm64': 7.0.0-dev.20251211.1
+      '@typescript/native-preview-linux-x64': 7.0.0-dev.20251211.1
+      '@typescript/native-preview-win32-arm64': 7.0.0-dev.20251211.1
+      '@typescript/native-preview-win32-x64': 7.0.0-dev.20251211.1
 
   '@vitest/expect@4.0.15':
     dependencies:
@@ -3763,13 +3766,13 @@ snapshots:
       chai: 6.2.1
       tinyrainbow: 3.0.3
 
-  '@vitest/mocker@4.0.15(vite@7.2.7(@types/node@25.0.0)(jiti@2.6.1)(terser@5.39.0)(tsx@4.21.0))':
+  '@vitest/mocker@4.0.15(vite@7.2.7(@types/node@25.0.1)(jiti@2.6.1)(terser@5.39.0)(tsx@4.21.0))':
     dependencies:
       '@vitest/spy': 4.0.15
       estree-walker: 3.0.3
       magic-string: 0.30.21
     optionalDependencies:
-      vite: 7.2.7(@types/node@25.0.0)(jiti@2.6.1)(terser@5.39.0)(tsx@4.21.0)
+      vite: 7.2.7(@types/node@25.0.1)(jiti@2.6.1)(terser@5.39.0)(tsx@4.21.0)
 
   '@vitest/pretty-format@4.0.15':
     dependencies:
@@ -3914,6 +3917,8 @@ snapshots:
 
   deepmerge@4.3.1: {}
 
+  defu@6.1.4: {}
+
   dequal@2.0.3: {}
 
   detect-indent@6.1.0: {}
@@ -3974,15 +3979,15 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
-  drizzle-orm@0.45.1(@cloudflare/workers-types@4.20251211.0)(@libsql/client@0.15.15)(gel@2.0.2):
+  drizzle-orm@0.45.1(@cloudflare/workers-types@4.20251212.0)(@libsql/client@0.15.15)(gel@2.0.2):
     optionalDependencies:
-      '@cloudflare/workers-types': 4.20251211.0
+      '@cloudflare/workers-types': 4.20251212.0
       '@libsql/client': 0.15.15
       gel: 2.0.2
 
-  drizzle-valibot@0.4.2(drizzle-orm@0.45.1(@cloudflare/workers-types@4.20251211.0)(@libsql/client@0.15.15)(gel@2.0.2))(valibot@1.2.0(typescript@5.9.3)):
+  drizzle-valibot@0.4.2(drizzle-orm@0.45.1(@cloudflare/workers-types@4.20251212.0)(@libsql/client@0.15.15)(gel@2.0.2))(valibot@1.2.0(typescript@5.9.3)):
     dependencies:
-      drizzle-orm: 0.45.1(@cloudflare/workers-types@4.20251211.0)(@libsql/client@0.15.15)(gel@2.0.2)
+      drizzle-orm: 0.45.1(@cloudflare/workers-types@4.20251212.0)(@libsql/client@0.15.15)(gel@2.0.2)
       valibot: 1.2.0(typescript@5.9.3)
 
   dts-resolver@2.1.3: {}
@@ -4243,7 +4248,7 @@ snapshots:
       safer-buffer: 2.1.2
     optional: true
 
-  iconv-lite@0.7.0:
+  iconv-lite@0.7.1:
     dependencies:
       safer-buffer: 2.1.2
 
@@ -4608,14 +4613,14 @@ snapshots:
 
   outdent@0.5.0: {}
 
-  oxlint-tsgolint@0.8.5:
+  oxlint-tsgolint@0.8.6:
     optionalDependencies:
-      '@oxlint-tsgolint/darwin-arm64': 0.8.5
-      '@oxlint-tsgolint/darwin-x64': 0.8.5
-      '@oxlint-tsgolint/linux-arm64': 0.8.5
-      '@oxlint-tsgolint/linux-x64': 0.8.5
-      '@oxlint-tsgolint/win32-arm64': 0.8.5
-      '@oxlint-tsgolint/win32-x64': 0.8.5
+      '@oxlint-tsgolint/darwin-arm64': 0.8.6
+      '@oxlint-tsgolint/darwin-x64': 0.8.6
+      '@oxlint-tsgolint/linux-arm64': 0.8.6
+      '@oxlint-tsgolint/linux-x64': 0.8.6
+      '@oxlint-tsgolint/win32-arm64': 0.8.6
+      '@oxlint-tsgolint/win32-x64': 0.8.6
 
   p-filter@2.1.0:
     dependencies:
@@ -4658,13 +4663,13 @@ snapshots:
 
   pathe@2.0.3: {}
 
-  phosphor-torpor@1.0.2(@torpor/view@0.4.18)(vite@7.2.7(@types/node@25.0.0)(jiti@2.6.1)(terser@5.39.0)(tsx@4.21.0)):
+  phosphor-torpor@1.0.2(@torpor/view@0.4.18)(vite@7.2.7(@types/node@25.0.1)(jiti@2.6.1)(terser@5.39.0)(tsx@4.21.0)):
     dependencies:
       '@torpor/view': 0.4.18
       estree-walker: 3.0.3
       magic-string: 0.30.21
     optionalDependencies:
-      vite: 7.2.7(@types/node@25.0.0)(jiti@2.6.1)(terser@5.39.0)(tsx@4.21.0)
+      vite: 7.2.7(@types/node@25.0.1)(jiti@2.6.1)(terser@5.39.0)(tsx@4.21.0)
 
   picocolors@1.1.1: {}
 
@@ -4739,7 +4744,7 @@ snapshots:
 
   reusify@1.1.0: {}
 
-  rolldown-plugin-dts@0.18.3(@typescript/native-preview@7.0.0-dev.20251210.1)(rolldown@1.0.0-beta.53)(typescript@5.9.3):
+  rolldown-plugin-dts@0.18.3(@typescript/native-preview@7.0.0-dev.20251211.1)(rolldown@1.0.0-beta.53)(typescript@5.9.3):
     dependencies:
       '@babel/generator': 7.28.5
       '@babel/parser': 7.28.5
@@ -4752,7 +4757,7 @@ snapshots:
       obug: 2.1.1
       rolldown: 1.0.0-beta.53
     optionalDependencies:
-      '@typescript/native-preview': 7.0.0-dev.20251210.1
+      '@typescript/native-preview': 7.0.0-dev.20251211.1
       typescript: 5.9.3
     transitivePeerDependencies:
       - oxc-resolver
@@ -4950,16 +4955,17 @@ snapshots:
     optionalDependencies:
       typescript: 5.9.3
 
-  tsdown@0.17.2(@typescript/native-preview@7.0.0-dev.20251210.1)(typescript@5.9.3):
+  tsdown@0.17.3(@typescript/native-preview@7.0.0-dev.20251211.1)(typescript@5.9.3):
     dependencies:
       ansis: 4.2.0
       cac: 6.7.14
+      defu: 6.1.4
       empathic: 2.0.0
       hookable: 5.5.3
       import-without-cache: 0.2.3
       obug: 2.1.1
       rolldown: 1.0.0-beta.53
-      rolldown-plugin-dts: 0.18.3(@typescript/native-preview@7.0.0-dev.20251210.1)(rolldown@1.0.0-beta.53)(typescript@5.9.3)
+      rolldown-plugin-dts: 0.18.3(@typescript/native-preview@7.0.0-dev.20251211.1)(rolldown@1.0.0-beta.53)(typescript@5.9.3)
       semver: 7.7.3
       tinyexec: 1.0.2
       tinyglobby: 0.2.15
@@ -5043,18 +5049,18 @@ snapshots:
     optionalDependencies:
       typescript: 5.9.3
 
-  vite-tsconfig-paths@5.1.4(typescript@5.9.3)(vite@7.2.7(@types/node@25.0.0)(jiti@2.6.1)(terser@5.39.0)(tsx@4.21.0)):
+  vite-tsconfig-paths@5.1.4(typescript@5.9.3)(vite@7.2.7(@types/node@25.0.1)(jiti@2.6.1)(terser@5.39.0)(tsx@4.21.0)):
     dependencies:
       debug: 4.4.3
       globrex: 0.1.2
       tsconfck: 3.1.6(typescript@5.9.3)
     optionalDependencies:
-      vite: 7.2.7(@types/node@25.0.0)(jiti@2.6.1)(terser@5.39.0)(tsx@4.21.0)
+      vite: 7.2.7(@types/node@25.0.1)(jiti@2.6.1)(terser@5.39.0)(tsx@4.21.0)
     transitivePeerDependencies:
       - supports-color
       - typescript
 
-  vite@7.2.7(@types/node@25.0.0)(jiti@2.6.1)(terser@5.39.0)(tsx@4.21.0):
+  vite@7.2.7(@types/node@25.0.1)(jiti@2.6.1)(terser@5.39.0)(tsx@4.21.0):
     dependencies:
       esbuild: 0.25.12
       fdir: 6.5.0(picomatch@4.0.3)
@@ -5063,16 +5069,16 @@ snapshots:
       rollup: 4.53.3
       tinyglobby: 0.2.15
     optionalDependencies:
-      '@types/node': 25.0.0
+      '@types/node': 25.0.1
       fsevents: 2.3.3
       jiti: 2.6.1
       terser: 5.39.0
       tsx: 4.21.0
 
-  vitest@4.0.15(@types/node@25.0.0)(happy-dom@20.0.11)(jiti@2.6.1)(jsdom@26.1.0)(terser@5.39.0)(tsx@4.21.0):
+  vitest@4.0.15(@types/node@25.0.1)(happy-dom@20.0.11)(jiti@2.6.1)(jsdom@26.1.0)(terser@5.39.0)(tsx@4.21.0):
     dependencies:
       '@vitest/expect': 4.0.15
-      '@vitest/mocker': 4.0.15(vite@7.2.7(@types/node@25.0.0)(jiti@2.6.1)(terser@5.39.0)(tsx@4.21.0))
+      '@vitest/mocker': 4.0.15(vite@7.2.7(@types/node@25.0.1)(jiti@2.6.1)(terser@5.39.0)(tsx@4.21.0))
       '@vitest/pretty-format': 4.0.15
       '@vitest/runner': 4.0.15
       '@vitest/snapshot': 4.0.15
@@ -5089,10 +5095,10 @@ snapshots:
       tinyexec: 1.0.2
       tinyglobby: 0.2.15
       tinyrainbow: 3.0.3
-      vite: 7.2.7(@types/node@25.0.0)(jiti@2.6.1)(terser@5.39.0)(tsx@4.21.0)
+      vite: 7.2.7(@types/node@25.0.1)(jiti@2.6.1)(terser@5.39.0)(tsx@4.21.0)
       why-is-node-running: 2.3.0
     optionalDependencies:
-      '@types/node': 25.0.0
+      '@types/node': 25.0.1
       happy-dom: 20.0.11
       jsdom: 26.1.0
     transitivePeerDependencies:

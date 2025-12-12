@@ -35,12 +35,12 @@
 		"drizzle-orm": "^0.45.1"
 	},
 	"devDependencies": {
-		"@cloudflare/workers-types": "^4.20251211.0",
-		"@types/node": "^25.0.0",
-		"@typescript/native-preview": "7.0.0-dev.20251210.1",
-		"oxlint-tsgolint": "^0.8.5",
+		"@cloudflare/workers-types": "^4.20251212.0",
+		"@types/node": "^25.0.1",
+		"@typescript/native-preview": "7.0.0-dev.20251211.1",
+		"oxlint-tsgolint": "^0.8.6",
 		"prettier": "^3.7.4",
-		"tsdown": "0.17.2",
+		"tsdown": "0.17.3",
 		"tsup": "^8.5.1",
 		"typescript": "^5.9.3"
 	}
