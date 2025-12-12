@@ -1,6 +1,6 @@
 {
 	"name": "Redraft",
-	"version": "0.0.1",
+	"version": "0.0.2",
 	"description": "The Redraft social web extension",
 	"type": "module",
 	"scripts": {
@@ -10,6 +10,9 @@
 		"build:firefox": "wxt build -b firefox",
 		"zip": "wxt zip",
 		"zip:firefox": "wxt zip -b firefox",
+		"release:test": "wxt submit --dry-run --chrome-zip .output/redraft-0.0.2-chrome.zip",
+		"release": "wxt submit --chrome-zip .output/redraft-0.0.2-chrome.zip",
+		"release:firefox": "wxt submit --firefox-zip .output/redraft-0.0.2-firefox.zip --firefox-sources-zip .output/redraft-0.0.2-sources.zip",
 		"compile": "tsc --noEmit",
 		"postinstall": "wxt prepare"
 	},
