@@ -45,6 +45,9 @@ export default async function accountSetup(request: Request) {
 			});
 		}
 
+		// TODO: Should we make the user select a new password, so that it can't
+		// be accessed from env()?
+
 		// Make sure the name and password match the env variables
 		if (model.username !== env().USERNAME || model.password !== env().PASSWORD) {
 			model.password = "";

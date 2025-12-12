@@ -12,6 +12,7 @@ export default function SetupPage($props: { form: FormData }) {
 		data: {
 			username: formData?.username ?? "",
 			password: "",
+			confirmPassword: "",
 			email: formData?.email ?? "",
 			name: formData?.name ?? "",
 			image: formData?.image ?? "",
@@ -35,22 +36,27 @@ export default function SetupPage($props: { form: FormData }) {
 				<Field class="form-row" name="username" &value={$state.data.username}>
 					<Label>Username</Label>
 					<Input required />
-					<Message />
-				</Field>
-				<Field class="form-row" name="password" &value={$state.data.password}>
-					<Label>Password</Label>
-					<Input type="password" required />
-					<Message />
+					<Message class="error-message" />
 				</Field>
 				<Field class="form-row" name="email" &value={$state.data.email}>
 					<Label>Email</Label>
 					<Input type="email" required />
-					<Message />
+					<Message class="error-message" />
+				</Field>
+				<Field class="form-row" name="password" &value={$state.data.password}>
+					<Label>Password</Label>
+					<Input type="password" required />
+					<Message class="error-message" />
+				</Field>
+				<Field class="form-row" name="confirmPassword" &value={$state.data.confirmPassword}>
+					<Label>Confirm password</Label>
+					<Input type="password" required />
+					<Message class="error-message" />
 				</Field>
 				<Field class="form-row" name="name" &value={$state.data.name}>
 					<Label>Name</Label>
 					<Input required />
-					<Message />
+					<Message class="error-message" />
 				</Field>
 				<Field class="form-row" name="imagefile" &value={$state.data.imagefile}>
 					<Label>Image</Label>
@@ -65,7 +71,7 @@ export default function SetupPage($props: { form: FormData }) {
 							onchange={fileSelected}
 						/>
 					</div>
-					<Message />
+					<Message class="error-message" />
 				</Field>
 				@async function fileSelected(e: Event) {
 					let fileInput = (e.target as HTMLInputElement);
@@ -87,7 +93,7 @@ export default function SetupPage($props: { form: FormData }) {
 				<Field class="form-row" name="bio" &value={$state.data.bio}>
 					<Label>Bio</Label>
 					<Input />
-					<Message />
+					<Message class="error-message" />
 				</Field>
 				<Field class="form-row" name="location" &value={$state.data.location}>
 					<Label>Location</Label>

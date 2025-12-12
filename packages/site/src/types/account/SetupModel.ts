@@ -1,6 +1,7 @@
 export default interface SetupModel {
 	username: string;
 	password: string;
+	confirmPassword: string;
 	name: string;
 	email: string;
 	bio?: string;
