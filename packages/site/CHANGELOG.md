@@ -1,5 +1,15 @@
 # @redraft/site
 
+## 0.3.2
+
+### Patch Changes
+
+- 48a747a: Feat: changing password
+- 832fc8c: Fix: don't need to confirm password in setup
+- 084eea5: Fix: pass slug for messaging
+- d165a52: Fix: use @torpor/ui in dev
+- 7bebf61: Fix: process markdown text when viewing a post
+
 ## 0.3.1
 
 ### Patch Changes
