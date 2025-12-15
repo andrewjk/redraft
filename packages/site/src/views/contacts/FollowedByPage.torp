@@ -27,7 +27,7 @@ export default function FollowedByPage($props: { data: { viewing: ViewingModel, 
 						@key = follow.slug
 						<div class="hstack spaced full-width">
 							<div class="grow">
-								<FollowPreview {follow} {$props.data.user} {$props.data.base} canMessage />
+								<FollowPreview {follow} {$props.data.user} {$props.data.base} followSlug={follow.slug} />
 							</div>
 							<div class="vstack spaced">
 								<Form action="?/remove">
