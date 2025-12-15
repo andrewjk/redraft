@@ -16,7 +16,7 @@ Social media × blogging × newsletters
 
 ## Setup
 
-### Recommended
+### Node Template
 
 Use `npm` (or your preferred package manager) to create the template site:
 
@@ -24,7 +24,6 @@ Use `npm` (or your preferred package manager) to create the template site:
 npm init @redraft/site my-social
 cd my-social
 npm install
-npm run dev
 ```
 
 - Customise CSS in /src/assets/custom.css
@@ -34,8 +33,8 @@ npm run dev
   - Set `DB_CONNECTION`, pointing to an SQLite database
   - Set `JWT_SECRET` to a random passphrase for encrypting your user token
   - Set `JWT_SECRET_2` to a random passphrase for encrypting the user tokens you share with contacts
-- Run `npm run dev` to create the database
-- Deploy the site
+- Run `npm run db:push` to create the database
+- Deploy the site, or use `npm run dev` to run in development mode
 - Go to `SITE_LOCATION/account/setup` to create your account
 - Regularly run `npm update` and `npm run db:generate`
 
@@ -67,13 +66,12 @@ If you have a Cloudflare account, you can use the button below. It should clone 
 
 ### Hosted
 
-If the above sounds like too much work, you can pay for a hosted account at https://redraft.social for $4.99 per month. At any time, you can take your data and move to a self-hosted solution.
+If all of the above options sound like too much work, you can pay for a hosted account at https://redraft.social for $4.99 per month. At any time, you can take your data and move to a self-hosted solution.
 
 ## How following works
 
 - Your site sends the user you want to follow a request with your url and a secret key
   - If you have the web extension installed, sending a follow request is as simple as hitting the `Follow` button on the other user's site
-  - Otherwise, you will need to go to your `/follow/request` page and enter the other user's url
 - Their site confirms that you sent the request by hitting your `/url/check` endpoint
 - Your `/url/check` endpoint sends your profile name and image
 - If the other user approves your request, any posts they make will be sent to you
