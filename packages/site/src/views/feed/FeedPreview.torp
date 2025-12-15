@@ -145,14 +145,14 @@ export default function FeedPreview($props: { feed: FeedPreviewModel, user: User
 					}
 
 					<div class="feed-preview-body">
-						<a class="feed-preview-link" href="{feed.author.url}posts/{feed.slug}">
+						<div class="feed-preview-link" onclick={() => { window.location.href = `${feed.author.url}posts/${feed.slug}`; }}>
 							@html(feed.text)
 							@if (feed.image) {
 								<p>
 									<img class="feed-preview-image" src={sizeImage(feed.image!, 800)} alt={feed.imageAltText} />
 								</p>
 							}
-						</a>
+						</div>
 						@// NOTE: This has to go outside of the feed anchor
 						@if (feed.linkUrl) {
 							<LinkPreview link={feed} />
@@ -208,6 +208,7 @@ export default function FeedPreview($props: { feed: FeedPreviewModel, user: User
 		.feed-preview-link {
 			color: inherit;
 			text-decoration: none;
+			cursor: pointer;
 		}
 
 		.feed-preview-author-image {

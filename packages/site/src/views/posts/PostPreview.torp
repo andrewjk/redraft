@@ -132,14 +132,14 @@ export default function PostPreview($props: { post: PostPreviewModel, user: User
 					</div>
 
 					<div class="post-preview-body">
-						<a class="post-preview-link" href="{post.author.url}posts/{post.slug}">
+						<div class="post-preview-link" onclick={() => { window.location.href = `${post.author.url}posts/${post.slug}`; }}>
 							@html(post.text)
 							@if (post.image) {
 								<p>
 									<img class="post-preview-image" src={sizeImage(post.image, 800)} alt={post.imageAltText} />
 								</p>
 							}
-						</a>
+						</div>
 						@// NOTE: This has to go outside of the feed anchor
 						@if (post.linkUrl) {
 							<LinkPreview link={post} />
@@ -215,6 +215,7 @@ export default function PostPreview($props: { post: PostPreviewModel, user: User
 		.post-preview-link {
 			color: inherit;
 			text-decoration: none;
+			cursor: pointer;
 		}
 
 		.post-preview-author-image {
