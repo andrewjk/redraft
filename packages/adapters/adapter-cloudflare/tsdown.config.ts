@@ -8,7 +8,6 @@ export default defineConfig({
 		"src/adapter.global.js",
 		{
 			from: "src/adapter.global.js",
-			to: "dist/adapter.global.js",
 		},
 	],
 }) satisfies UserConfig as UserConfig;
