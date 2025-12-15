@@ -81,7 +81,7 @@ export default function PostViewPage($props: { data: { post: PostViewModel, user
 						</div>
 
 						<div class="post-view-body">
-							<p>{post.text}</p>
+							@html(post.text)
 							@if (post.image) {
 								<p>
 									<img src={post.image} />
@@ -103,7 +103,7 @@ export default function PostViewPage($props: { data: { post: PostViewModel, user
 											{relativeTimeSince(new Date(child.publishedAt))}
 										</div>
 									}
-									<p>{child.text}</p>
+									@html(child.text)
 									@if (child.image) {
 										<p>
 											<img src={child.image} />

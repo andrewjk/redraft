@@ -1,5 +1,6 @@
 import { notFound, ok, serverError } from "@torpor/build/response";
 import { and, eq, isNull, or } from "drizzle-orm";
+import { micromark } from "micromark";
 import database from "../../data/database";
 import { articlesTable, commentsTable, eventsTable, postsTable } from "../../data/schema";
 import { Article } from "../../data/schema/articlesTable";
@@ -106,7 +107,7 @@ export default async function postGet(user: User, follower: User, slug: string) 
 		let childComments = post.comments.filter((c) => c.parent_id !== null);
 		const view: PostViewModel = {
 			slug: post.slug,
-			text: post.text,
+			text: micromark(post.text),
 			image: post.image,
 			imageAltText: post.image_alt_text,
 			isArticle: post.link_type === ARTICLE_LINK_TYPE,
@@ -142,7 +143,7 @@ export default async function postGet(user: User, follower: User, slug: string) 
 			emojiThird: post.emoji_third,
 			childCount: post.child_count,
 			children: children.map((c) => ({
-				text: c.text,
+				text: micromark(c.text),
 				image: c.image,
 				imageAltText: c.image_alt_text,
 				linkUrl: c.link_url,
