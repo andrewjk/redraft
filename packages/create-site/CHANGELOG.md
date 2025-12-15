@@ -1,5 +1,11 @@
 # @redraft/create-site
 
+## 0.1.3
+
+### Patch Changes
+
+- 9ea41b8: Fix: create-site template issues
+
 ## 0.1.2
 
 ### Patch Changes
