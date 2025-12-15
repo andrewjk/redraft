@@ -18,6 +18,11 @@ const storage: Storage = {
 	},
 
 	deleteFile: async (name: string): Promise<void> => {
+		// We're probably going to be passed the URL that was displayed
+		const subfolder = "/api/content/";
+		if (name.startsWith("http") && name.includes(subfolder)) {
+			name = name.substring(name.indexOf(subfolder) + subfolder.length);
+		}
 		const filename = path.resolve(`./content/${name}`);
 		await fs.rm(filename);
 	},

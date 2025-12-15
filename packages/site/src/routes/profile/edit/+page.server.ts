@@ -6,6 +6,7 @@ import storage from "../../../lib/storage";
 import formDataToObject from "../../../lib/utils/formDataToObject";
 import setUserToken from "../../../lib/utils/setUserToken";
 import uuid from "../../../lib/utils/uuid";
+import type ProfileEditModel from "../../../types/profile/ProfileEditModel";
 import type ProfileEditedModel from "../../../types/profile/ProfileEditedModel";
 
 export default {
@@ -27,13 +28,13 @@ export default {
 			const store = storage();
 
 			const data = await request.formData();
-			const model = formDataToObject(data);
+			const model = formDataToObject(data) as ProfileEditModel;
 
 			// Save the image if it's been uploaded
 			const imagefile = data.get("imagefile") as File;
 			if (imagefile?.name) {
-				if (user.image) {
-					await store.deleteFile(user.image);
+				if (model.image) {
+					await store.deleteFile(model.image);
 				}
 				let name = uuid() + "." + imagefile.name.split(".").at(-1);
 				await store.uploadFile(imagefile, name);

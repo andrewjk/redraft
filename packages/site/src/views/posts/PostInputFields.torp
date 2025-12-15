@@ -109,6 +109,7 @@ export default function PostInputFields($props: { post: PostEditModel, child?: P
 				</Field>
 			} else {
 				@if (post.hasImage) {
+					<Hidden name={`${prefix}image`} value={post.image} />
 					<File
 						style={{ display: $state.imageLoaded ? "none" : undefined }}
 						name={`${prefix}imagefile`}

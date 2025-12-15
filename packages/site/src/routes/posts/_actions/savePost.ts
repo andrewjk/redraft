@@ -5,6 +5,7 @@ import * as api from "../../../lib/api";
 import storage from "../../../lib/storage";
 import formDataToObject from "../../../lib/utils/formDataToObject";
 import uuid from "../../../lib/utils/uuid";
+import type PostEditModel from "../../../types/posts/PostEditModel";
 
 export default async function savePost({ appData, request, params }: ServerLoadEvent) {
 	const user = appData.user;
@@ -15,11 +16,14 @@ export default async function savePost({ appData, request, params }: ServerLoadE
 	const store = storage();
 
 	const data = await request.formData();
-	const model = formDataToObject(data);
+	const model = formDataToObject(data) as PostEditModel;
 
 	// Save the image if it's been uploaded
 	const imagefile = data.get("imagefile") as File;
 	if (imagefile?.name) {
+		if (model.image) {
+			await store.deleteFile(model.image);
+		}
 		let name = uuid() + "." + imagefile.name.split(".").at(-1);
 		await store.uploadFile(imagefile, name);
 		model.image = `${user.url}api/content/${name}`;
@@ -29,6 +33,9 @@ export default async function savePost({ appData, request, params }: ServerLoadE
 	// Save the link image if it's been uploaded
 	const linkimagefile = data.get("linkimagefile") as File;
 	if (linkimagefile?.name) {
+		if (model.linkImage) {
+			await store.deleteFile(model.linkImage);
+		}
 		let name = uuid() + "." + linkimagefile.name.split(".").at(-1);
 		await store.uploadFile(linkimagefile, name);
 		model.linkImage = `${user.url}api/content/${name}`;
@@ -41,6 +48,9 @@ export default async function savePost({ appData, request, params }: ServerLoadE
 		for (let child of model.children) {
 			const imagefile = data.get(`children[${childIndex}]imagefile`) as File;
 			if (imagefile?.name) {
+				if (child.image) {
+					await store.deleteFile(child.image);
+				}
 				let name = uuid() + "." + imagefile.name.split(".").at(-1);
 				await store.uploadFile(imagefile, name);
 				child.image = `${user.url}api/content/${name}`;
@@ -49,6 +59,9 @@ export default async function savePost({ appData, request, params }: ServerLoadE
 
 			const linkimagefile = data.get(`children[${childIndex}]linkimagefile`) as File;
 			if (linkimagefile?.name) {
+				if (child.linkImage) {
+					await store.deleteFile(child.linkImage);
+				}
 				let name = uuid() + "." + linkimagefile.name.split(".").at(-1);
 				await store.uploadFile(linkimagefile, name);
 				child.linkImage = `${user.url}api/content/${name}`;

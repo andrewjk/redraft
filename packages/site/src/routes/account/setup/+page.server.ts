@@ -8,6 +8,7 @@ import ensureSlash from "../../../lib/utils/ensureSlash";
 import formDataToObject from "../../../lib/utils/formDataToObject";
 import setUserToken from "../../../lib/utils/setUserToken";
 import uuid from "../../../lib/utils/uuid";
+import type SetupModel from "../../../types/account/SetupModel";
 
 export default {
 	load: async ({ appData, params }) => {
@@ -21,7 +22,7 @@ export default {
 			const store = storage();
 
 			const data = await request.formData();
-			const model = formDataToObject(data);
+			const model = formDataToObject(data) as SetupModel;
 
 			// Save the image if it's been uploaded
 			const imagefile = data.get("imagefile") as File;
