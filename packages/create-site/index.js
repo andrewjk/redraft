@@ -31,7 +31,7 @@ fs.cpSync(templateDir, projectDir, { recursive: true });
 // directory
 fs.renameSync(path.join(projectDir, "gitignore"), path.join(projectDir, ".gitignore"));
 fs.renameSync(path.join(projectDir, "env"), path.join(projectDir, ".env"));
-fs.mkdir(path.join(projectDir, "data"));
+fs.mkdirSync(path.join(projectDir, "data"));
 
 const projectPackageJson = require(path.join(projectDir, "package.json"));
 
