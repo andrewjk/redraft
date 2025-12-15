@@ -1,4 +1,4 @@
-import { node, siteAdapter } from "@redraft/node-node";
+import { node, siteAdapter } from "@redraft/adapter-node";
 import { defineSite } from "@redraft/site";
 import { Site } from "@torpor/build";
 import "dotenv/config";

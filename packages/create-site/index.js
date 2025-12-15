@@ -31,7 +31,6 @@ fs.cpSync(templateDir, projectDir, { recursive: true });
 // directory
 fs.renameSync(path.join(projectDir, "gitignore"), path.join(projectDir, ".gitignore"));
 fs.renameSync(path.join(projectDir, "env"), path.join(projectDir, ".env"));
-fs.renameSync(path.join(projectDir, "data", "user.xdb"), path.join(projectDir, "data", "user.db"));
 
 const projectPackageJson = require(path.join(projectDir, "package.json"));
 
