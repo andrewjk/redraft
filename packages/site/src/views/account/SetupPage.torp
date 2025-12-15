@@ -12,7 +12,6 @@ export default function SetupPage($props: { form: FormData }) {
 		data: {
 			username: formData?.username ?? "",
 			password: "",
-			confirmPassword: "",
 			email: formData?.email ?? "",
 			name: formData?.name ?? "",
 			image: formData?.image ?? "",
@@ -45,11 +44,6 @@ export default function SetupPage($props: { form: FormData }) {
 				</Field>
 				<Field class="form-row" name="password" &value={$state.data.password}>
 					<Label>Password</Label>
-					<Input type="password" required />
-					<Message class="error-message" />
-				</Field>
-				<Field class="form-row" name="confirmPassword" &value={$state.data.confirmPassword}>
-					<Label>Confirm password</Label>
 					<Input type="password" required />
 					<Message class="error-message" />
 				</Field>
