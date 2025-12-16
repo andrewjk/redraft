@@ -22,6 +22,14 @@ This extension is built with the [https://wxt.dev](WXT) Web Extension Framework.
 
 You can use the commands in `package.json` to install, build and package:
 
+For Chrome:
+
 - `pnpm i` to install dependencies
-- `pnpm build` or `pnpm build:firefox` to compile the sources to an output folder
-- `pnpm zip` or `pnpm zip:firefox` to package the sources into zip archives
+- `pnpm build` to compile the sources to an output folder
+- `pnpm zip` to package the sources into a zip archive
+
+Or for Firefox:
+
+- `pnpm i` to install dependencies
+- `pnpm build:firefox` to compile the sources to an output folder
+- `pnpm zip:firefox` to package the sources into zip archives
