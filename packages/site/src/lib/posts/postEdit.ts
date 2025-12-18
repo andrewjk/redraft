@@ -114,7 +114,7 @@ function createView(
 		linkEmbedSrc: post.link_embed_src ?? undefined,
 		linkEmbedWidth: post.link_embed_width ?? undefined,
 		linkEmbedHeight: post.link_embed_height ?? undefined,
-		hasRating: !!post.rating_value || undefined,
+		hasRating: post.rating_value !== null ? true : undefined,
 		ratingValue: post.rating_value ?? undefined,
 		ratingBound: post.rating_bound ?? undefined,
 		children: (children ?? []).map((c) => createView(c)),

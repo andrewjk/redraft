@@ -4,15 +4,18 @@ import type UserModel from "../../types/UserModel";
 import type PostEditModel from "../../types/posts/PostEditModel";
 import ImageUpload from "../ImageUpload.torp";
 import LinkPreview from "./LinkPreview.torp";
-import Image from "phosphor-torpor/lib/Image";
-import Link from "phosphor-torpor/lib/Link";
-import Star from "phosphor-torpor/lib/Star";
 import Article from "phosphor-torpor/lib/Article";
 import Calendar from "phosphor-torpor/lib/Calendar";
-import Tag from "phosphor-torpor/lib/Tag";
-import UsersThree from "phosphor-torpor/lib/UsersThree";
+import Heart from "phosphor-torpor/lib/Heart";
+import Image from "phosphor-torpor/lib/Image";
+import Link from "phosphor-torpor/lib/Link";
 //import Stack from "phosphor-torpor/lib/Stack";
 import StackPlus from "phosphor-torpor/lib/StackPlus";
+//import Star from "phosphor-torpor/lib/Star";
+import Tag from "phosphor-torpor/lib/Tag";
+import ThumbsDown from "phosphor-torpor/lib/ThumbsDown";
+import ThumbsUp from "phosphor-torpor/lib/ThumbsUp";
+import UsersThree from "phosphor-torpor/lib/UsersThree";
 import X from "phosphor-torpor/lib/X";
 
 /**
@@ -180,28 +183,44 @@ export default function PostInputFields($props: { post: PostEditModel, child?: P
 						}
 						<Message class="error-message" />
 					</Field>
-				} else if (post.hasRating) {
-					<div class="hstack centered spaced">
-						<span>Rating:</span>
-						<Field name={`${prefix}ratingValue`} &value={post.ratingValue}>
-							<Input
-								type="number"
-								class="grow post-input-rating-value"
-								required
-								placeholder="Value"
-							/>
-							<Message class="error-message" />
-						</Field>
-						<span>out of</span>
-						<Field name={`${prefix}ratingBound`} &value={post.ratingBound}>
-							<Input
-								type="number"
-								class="grow post-input-rating-bound"
-								required
-								placeholder="Max"
-							/>
-							<Message class="error-message" />
-						</Field>
+				}
+
+				@if (post.hasRating) {
+					<Hidden name={`${prefix}ratingValue`} &value={post.ratingValue} />
+
+					<div class="hstack centered spaced-nr">
+						<div class="spacer" />
+						<label>Rating:</label>
+						<div class="post-input-rating-container">
+							<button
+								type="button"
+								class={{"post-input-rating": true, "selected": post.ratingValue === 1 }}
+								style="padding: 0.4rem 0.5rem 0.4rem 1rem"
+								onclick={() => changeRating(1)}
+							>
+								<ThumbsDown />
+							</button>
+							<button
+								type="button"
+								class={{"post-input-rating": true, "selected": post.ratingValue === 3 }}
+								style="padding: 0.4rem 0.5rem 0.4rem 0.5rem"
+								onclick={() => changeRating(3)}
+							>
+								<ThumbsUp />
+							</button>
+							<button
+								type="button"
+								class={{"post-input-rating": true, "selected": post.ratingValue === 5 }}
+								style="padding: 0.4rem 1rem 0.4rem 0.5rem"
+								onclick={() => changeRating(5)}
+							>
+								<Heart />
+							</button>
+						</div>
+						@function changeRating(value: number) {
+							post.ratingValue = post.ratingValue === value ? 0 : value;
+						}
+						<div class="spacer" />
 					</div>
 				}
 			}
@@ -288,10 +307,10 @@ export default function PostInputFields($props: { post: PostEditModel, child?: P
 					@if (post.hasRating) {
 						<div class="zstack">
 							<X size="28px" />
-							<Star weight="bold" />
+							<ThumbsUp weight="bold" />
 						</div>
 					} else {
-						<Star weight="bold" />
+						<ThumbsUp weight="bold" />
 					}
 				</button>
 				@if (!child) {
@@ -393,6 +412,27 @@ export default function PostInputFields($props: { post: PostEditModel, child?: P
 	@style {
 		.post-input-article-title {
 			font-size: x-large;
+		}
+
+		.post-input-rating-container {
+			border: 1px solid lightgray;
+			border-radius: 8rem;
+			display: flex;
+			flex-direction: row;
+			align-items: center;
+			overflow: hidden;
+			padding: 0;
+		}
+
+		.post-input-rating {
+			all: unset;
+			color: lightgray;
+			cursor: pointer;
+			font-size: 2rem;
+		}
+
+		.post-input-rating.selected {
+			color: inherit;
 		}
 	}
 }

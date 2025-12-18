@@ -157,7 +157,7 @@ export default function FeedPreview($props: { feed: FeedPreviewModel, user: User
 						@if (feed.linkUrl) {
 							<LinkPreview link={feed} />
 						}
-						@if (feed.ratingValue) {
+						@if (feed.ratingValue !== undefined) {
 							<RatingPreview rating={feed} />
 						}
 					</div>

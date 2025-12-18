@@ -144,7 +144,7 @@ export default function PostPreview($props: { post: PostPreviewModel, user: User
 						@if (post.linkUrl) {
 							<LinkPreview link={post} />
 						}
-						@if (post.ratingValue) {
+						@if (post.ratingValue !== undefined) {
 							<RatingPreview rating={post} />
 						}
 					</div>

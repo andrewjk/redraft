@@ -51,8 +51,8 @@ export default function postPreview(
 		linkEmbedSrc: post.link_embed_src,
 		linkEmbedWidth: post.link_embed_width,
 		linkEmbedHeight: post.link_embed_height,
-		ratingValue: post.rating_value,
-		ratingBound: post.rating_bound,
+		ratingValue: post.rating_value ?? undefined,
+		ratingBound: post.rating_bound ?? undefined,
 		tags: post.postTags.map((pt) => ({
 			slug: pt.tag.slug,
 			text: pt.tag.text,

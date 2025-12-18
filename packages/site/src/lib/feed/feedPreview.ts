@@ -51,7 +51,7 @@ export default function feedPreview(
 		linkEmbedSrc: feed.link_embed_src,
 		linkEmbedWidth: feed.link_embed_width,
 		linkEmbedHeight: feed.link_embed_height,
-		ratingValue: feed.rating_value,
-		ratingBound: feed.rating_bound,
+		ratingValue: feed.rating_value ?? undefined,
+		ratingBound: feed.rating_bound ?? undefined,
 	};
 }

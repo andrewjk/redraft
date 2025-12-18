@@ -1,4 +1,7 @@
-import Star from "phosphor-torpor/lib/Star";
+import Heart from "phosphor-torpor/lib/Heart";
+import ThumbsDown from "phosphor-torpor/lib/ThumbsDown";
+import ThumbsUp from "phosphor-torpor/lib/ThumbsUp";
+import Minus from "phosphor-torpor/lib/Minus";
 
 interface RatingPreviewModel {
 	ratingValue: number | null | undefined,
@@ -13,31 +16,50 @@ export default function RatingPreview($props: { rating: RatingPreviewModel }) {
 
 	@render {
 		<div class="hstack centered spaced rating-preview">
-			<div class="hstack centered spaced-nr grow">
-				<RatingPreviewBlock number={1} {rating.ratingValue!} {rating.ratingBound!} />
-				<RatingPreviewBlock number={2} {rating.ratingValue!} {rating.ratingBound!} />
-				<RatingPreviewBlock number={3} {rating.ratingValue!} {rating.ratingBound!} />
-				<RatingPreviewBlock number={4} {rating.ratingValue!} {rating.ratingBound!} />
-				<RatingPreviewBlock number={5} {rating.ratingValue!} {rating.ratingBound!} />
-			</div>
-			<div class="align-end secondary">
-				<p>{rating.ratingValue} / { rating.ratingBound }</p>
+			<p class="secondary">Rating:</p>
+			<div class="rating-container">
+				@switch (rating.ratingValue) {
+					case 0: {
+						<Minus size="1.8rem" />
+					}
+					case 1: {
+						<ThumbsDown size="1.8rem" />
+					}
+					case 3: {
+						<ThumbsUp size="1.8rem" />
+					}
+					case 5: {
+						<Heart size="1.8rem" />
+					}
+					default: {
+
+					}
+				}
 			</div>
 		</div>
 	}
 
 	@style {
-		.rating-preview-bound {
-			background: lightgray;
+		.rating-container {
+			border: 1px solid lightgray;
+			border-radius: 8rem;
+			display: flex;
+			flex-direction: row;
+			align-items: center;
+			overflow: hidden;
+			padding: 0.4rem 1rem;
 		}
 
-		.rating-preview-value {
-			background: gold;
-			height: 1rem;
+		.rating {
+			all: unset;
+			cursor: pointer;
+			font-size: 2rem;
 		}
 	}
 }
 
+// NOTE: This is how it was done with stars...
+/*
 function RatingPreviewBlock($props: { number: number, ratingValue: number, ratingBound: number }) {
 	let { ratingValue, ratingBound, number } = $props;
 
@@ -59,27 +81,6 @@ function RatingPreviewBlock($props: { number: number, ratingValue: number, ratin
 				<Star weight="fill" color="white" />
 			</div>
 		</div>
-		@/*
-		<div class="rating-preview-star" title={`${ratio}, ${fillRatio}, ${min}, ${max}`}>
-			<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256">
-				<defs>
-					<linearGradient id="half{number}">
-						<stop offset="{fillRatio * 100}%" stop-color="gold" />
-						<stop offset="{fillRatio * 100}%" stop-color="lightgray" />
-					</linearGradient>
-				</defs>
-				<rect width="256" height="256" fill="none"/>
-				<path
-					d="M128,189.09l54.72,33.65a8.4,8.4,0,0,0,12.52-9.17l-14.88-62.79,48.7-42A8.46,8.46,0,0,0,224.27,94L160.36,88.8,135.74,29.2a8.36,8.36,0,0,0-15.48,0L95.64,88.8,31.73,94a8.46,8.46,0,0,0-4.79,14.83l48.7,42L60.76,213.57a8.4,8.4,0,0,0,12.52,9.17Z"
-					fill="url(#half{number})"
-					stroke="lightgray"
-					stroke-linecap="round"
-					stroke-linejoin="round"
-					stroke-width="0"
-				/>
-			</svg>
-		</div>
-			*/
 	}
 
 	@style {
@@ -108,3 +109,4 @@ function RatingPreviewBlock($props: { number: number, ratingValue: number, ratin
 		}
 	}
 }
+*/
