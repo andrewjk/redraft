@@ -38,6 +38,7 @@
 		"@torpor/adapter-node": "^0.1.2",
 		"@torpor/ui": "^0.4.0",
 		"@torpor/view": "^0.4.18",
+		"@zip.js/zip.js": "^2.8.11",
 		"bcryptjs": "^3.0.3",
 		"dotenv": "^17.2.3",
 		"drizzle-orm": "^0.45.1",

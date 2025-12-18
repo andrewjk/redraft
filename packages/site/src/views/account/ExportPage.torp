@@ -1,0 +1,42 @@
+import cleanImage from "../../lib/utils/cleanImage";
+import placeholdify from "../../lib/utils/placeholdify";
+import { Form, Field, File, Label, Input, Message } from "@torpor/ui/Form";
+import type FormData from "../../types/FormData";
+import ExportSchema from "../../types/account/ExportSchema";
+import type ExportModel from "../../types/account/ExportModel";
+import FormErrors from "../FormErrors.torp";
+
+export default function ExportPage($props: { form: FormData }) {
+	let $state = $watch({
+		data: {
+			password: "",
+		} satisfies ExportModel
+	});
+
+	@head {
+		<title>Export • Redraft</title>
+	}
+
+	@render {
+		<div class="vstack spaced full-width setup-page">
+			<h2>Export</h2>
+
+			<p>Enter your passport below to download an archive of your data and content.</p>
+
+			<FormErrors {$props.form} />
+
+			<Form {$state.data} schema={ExportSchema}>
+				<Field class="form-row" name="password" &value={$state.data.password}>
+					<Label>Password</Label>
+					<Input type="password" required />
+					<Message class="error-message" />
+				</Field>
+				<div class="form-footer">
+					<button type="submit">
+						Download
+					</button>
+				</div>
+			</Form>
+		</div>
+	}
+}

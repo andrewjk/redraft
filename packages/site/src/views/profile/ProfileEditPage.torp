@@ -34,7 +34,11 @@ export default function EditPage($props: { data: { profile: ProfileEditModel, us
 		<div class="full-width profile-edit-page">
 			<ProfileMenu section="Edit" {$props.data.user} {$props.data.base} />
 
-			<p><a href="/account/change-password">Change password</a></p>
+			<p>
+				<a href="/account/change-password">Change password</a>
+				<span class="separator" />
+				<a href="/account/export">Export data</a>
+			</p>
 
 			<FormErrors {$props.form} />
 
