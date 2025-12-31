@@ -103,6 +103,14 @@ async function insertPosts(db: LibSQLDatabase<typeof schema>) {
 			created_at: new Date(),
 			updated_at: new Date(),
 		},
+		{
+			slug: "post-bad",
+			text: "Here is a bad post",
+			visibility: 0,
+			//published_at: new Date(),
+			created_at: new Date(),
+			updated_at: new Date(),
+		},
 	]);
 }
 

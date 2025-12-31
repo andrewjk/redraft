@@ -1,6 +1,6 @@
 import type { ServerEndPoint } from "@torpor/build";
 import { unauthorized } from "@torpor/build/response";
-import postEditGet from "../../../../lib/posts/postEditGet";
+import postPreviewGet from "../../../../lib/posts/postPreviewGet";
 
 export default {
 	get: async ({ appData, params }) => {
@@ -9,6 +9,6 @@ export default {
 			return unauthorized();
 		}
 
-		return await postEditGet(params.slug, user.code);
+		return await postPreviewGet(params.slug, user.code);
 	},
 } satisfies ServerEndPoint;

@@ -15,6 +15,7 @@ import StackPlus from "phosphor-torpor/lib/StackPlus";
 import Tag from "phosphor-torpor/lib/Tag";
 import ThumbsDown from "phosphor-torpor/lib/ThumbsDown";
 import ThumbsUp from "phosphor-torpor/lib/ThumbsUp";
+import Trash from "phosphor-torpor/lib/Trash";
 import UsersThree from "phosphor-torpor/lib/UsersThree";
 import X from "phosphor-torpor/lib/X";
 
@@ -39,7 +40,7 @@ export default function PostInputFields($props: { post: PostEditModel, child?: P
 
 	let newIndex = 1;
 	function newPost() {
-		return { id: -1 * newIndex++, text: "" };
+		return { id: -1 * newIndex++, slug: "", text: "" };
 	}
 
 	@render {
@@ -396,16 +397,24 @@ export default function PostInputFields($props: { post: PostEditModel, child?: P
 						}
 					</button>
 				}
-
-				@if ($props.post.children!.length === 0 || $props.i === $props.post.children!.length -1) {
+			</div>
+			@if ($props.post.children!.length === 0 || $props.i === $props.post.children!.length -1) {
+				<div class="hstack centered spaced post-input-footer">
+					<div class="spacer" />
 					<button type="submit" formaction="?/savePost">
 						{$props.post.published ? "Save" : "Save draft"}
 					</button>
 					<button type="submit" formaction="?/publishPost">
 						{$props.post.published ? "Republish" : "Publish"}
 					</button>
-				}
-			</div>
+					@if ($props.post.id > -1) {
+						<a href="{$props.base}posts/delete/{$props.post.slug}" style="color: red" class="hstack centered spaced-nr">
+							<Trash weight="bold" />
+							Delete
+						</a>
+					}
+				</div>
+			}
 		</div>
 	}
 

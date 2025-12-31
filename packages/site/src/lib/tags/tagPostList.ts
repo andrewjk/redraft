@@ -69,7 +69,7 @@ export default async function tagPostList(
 		const [tagPosts, postsCount] = await Promise.all([tagPostsQuery, postsCountQuery]);
 
 		// Create post previews
-		const posts = tagPosts.map((pt) => postPreview(pt.post, user!));
+		const posts = tagPosts.map((pt) => postPreview(pt.post, user));
 
 		return ok({
 			tag: { slug: tag!.slug, text: tag!.text },

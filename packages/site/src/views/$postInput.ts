@@ -6,6 +6,7 @@ import type PostEditModel from "../types/posts/PostEditModel";
  */
 const $postInput = $watch({
 	id: -1,
+	slug: "",
 	text: "",
 	children: [],
 } satisfies PostEditModel);

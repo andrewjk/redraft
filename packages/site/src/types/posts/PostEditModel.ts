@@ -1,5 +1,6 @@
 export default interface PostEditModel {
 	id: number;
+	slug: string;
 	published?: boolean;
 	text?: string;
 	visibility?: number;

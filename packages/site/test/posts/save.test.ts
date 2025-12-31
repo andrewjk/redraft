@@ -25,6 +25,7 @@ test("post save", async () => {
 
 	const model: PostEditModel = {
 		id: -1,
+		slug: "",
 		published: false,
 		text: "This is a new post",
 		visibility: PUBLIC_POST_VISIBILITY,
@@ -77,6 +78,7 @@ test("post save", async () => {
 test("post save with bad code", async () => {
 	const model: PostEditModel = {
 		id: -1,
+		slug: "",
 		published: false,
 		text: "This is a new post",
 		visibility: PUBLIC_POST_VISIBILITY,

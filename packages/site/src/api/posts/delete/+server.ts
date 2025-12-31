@@ -1,14 +1,14 @@
 import type { ServerEndPoint } from "@torpor/build";
 import { unauthorized } from "@torpor/build/response";
-import postEditGet from "../../../../lib/posts/postEditGet";
+import postDelete from "../../../lib/posts/postDelete";
 
 export default {
-	get: async ({ appData, params }) => {
+	post: async ({ appData, request, params }) => {
 		const user = appData.user;
 		if (!user) {
 			return unauthorized();
 		}
 
-		return await postEditGet(params.slug, user.code);
+		return await postDelete(request, params, user.token, user.code);
 	},
 } satisfies ServerEndPoint;

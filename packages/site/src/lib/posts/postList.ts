@@ -108,7 +108,7 @@ export async function getPosts(
 		}
 
 		// Create post previews
-		const posts = postsData.map((post) => postPreview(post, currentUser!));
+		const posts = postsData.map((post) => postPreview(post, currentUser));
 
 		return ok({
 			posts,

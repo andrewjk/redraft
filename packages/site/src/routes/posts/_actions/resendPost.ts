@@ -13,7 +13,7 @@ export default async function resendPost({ appData, request, params }: ServerLoa
 	const data = await request.formData();
 	const model = formDataToObject(data);
 
-	const result = await api.post(`posts/save`, postResend, params, model, user.token);
+	const result = await api.post(`posts/resend`, postResend, params, model, user.token);
 	if (!result.ok) {
 		return result;
 	}

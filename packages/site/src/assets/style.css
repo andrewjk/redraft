@@ -399,3 +399,7 @@ a.icon:hover {
 	color: red;
 	padding: 0.6rem;
 }
+
+button.destructive {
+	color: red;
+}

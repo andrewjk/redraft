@@ -3,6 +3,8 @@ import { eq, sql } from "drizzle-orm";
 import database from "../../data/database";
 import { postsQueueTable, postsTable, usersTable } from "../../data/schema";
 import type PostSendModel from "../../types/posts/PostSendModel";
+import type FeedDeletedModel from "../../types/public/FeedDeletedModel";
+import { FEED_DELETED_VERSION } from "../../types/public/FeedDeletedModel";
 import { FEED_RECEIVED_VERSION } from "../../types/public/FeedReceivedModel";
 import type FeedReceivedModel from "../../types/public/FeedReceivedModel";
 import createNotification from "../notifications/createNotification";
@@ -64,30 +66,40 @@ export default async function postSend(request: Request, code: string) {
 
 		for (let follower of queue) {
 			try {
-				let sendUrl = `${follower.url}api/public/feed`;
-				let sendData: FeedReceivedModel = {
-					sharedKey: follower.shared_key,
-					slug: post.slug,
-					text: post.text,
-					visibility: post.visibility,
-					image: post.image,
-					imageAltText: post.image_alt_text,
-					linkType: post.link_type,
-					linkUrl: post.link_url,
-					linkTitle: post.link_title,
-					linkImage: post.link_image,
-					linkPublication: post.link_publication,
-					linkEmbedSrc: post.link_embed_src,
-					linkEmbedWidth: post.link_embed_width,
-					linkEmbedHeight: post.link_embed_height,
-					ratingValue: post.rating_value,
-					ratingBound: post.rating_bound,
-					childCount: post.child_count,
-					publishedAt: post.published_at!,
-					republishedAt: post.republished_at,
-					version: FEED_RECEIVED_VERSION,
-				};
-				await postPublic(sendUrl, sendData);
+				if (post.deleted_at === null) {
+					let sendUrl = `${follower.url}api/public/feed`;
+					let sendData: FeedReceivedModel = {
+						sharedKey: follower.shared_key,
+						slug: post.slug,
+						text: post.text,
+						visibility: post.visibility,
+						image: post.image,
+						imageAltText: post.image_alt_text,
+						linkType: post.link_type,
+						linkUrl: post.link_url,
+						linkTitle: post.link_title,
+						linkImage: post.link_image,
+						linkPublication: post.link_publication,
+						linkEmbedSrc: post.link_embed_src,
+						linkEmbedWidth: post.link_embed_width,
+						linkEmbedHeight: post.link_embed_height,
+						ratingValue: post.rating_value,
+						ratingBound: post.rating_bound,
+						childCount: post.child_count,
+						publishedAt: post.published_at!,
+						republishedAt: post.republished_at,
+						version: FEED_RECEIVED_VERSION,
+					};
+					await postPublic(sendUrl, sendData);
+				} else {
+					let sendUrl = `${follower.url}api/public/feed/delete`;
+					let sendData: FeedDeletedModel = {
+						sharedKey: follower.shared_key,
+						slug: post.slug,
+						version: FEED_DELETED_VERSION,
+					};
+					await postPublic(sendUrl, sendData);
+				}
 				await db.delete(postsQueueTable).where(eq(postsQueueTable.id, follower.id));
 			} catch {
 				// It failed, so increment the failure count in the
@@ -108,7 +120,7 @@ export default async function postSend(request: Request, code: string) {
 			await createNotification(
 				db,
 				`${currentUser.url}posts/${post.slug}/status`,
-				`Failed to send ${failureCount} ${pluralize(failureCount, "post")}`,
+				`Failed to send ${pluralize(failureCount, "post")}`,
 			);
 			updateNotificationCounts(db);
 		}

@@ -1,0 +1,27 @@
+import { Form } from "@torpor/ui/Form";
+import type UserModel from "../../types/UserModel";
+import type FollowerModel from "../../types/FollowerModel";
+import type PostPreviewModel from "../../types/posts/PostPreviewModel";
+import PostPreview from "./PostPreview.torp";
+
+/**
+ * Shows a post's full details.
+ */
+export default function PostDeletePage($props: { data: { post: PostPreviewModel, user: UserModel, follower: FollowerModel, base: string } }) {
+	let { post, user, follower } = $props.data;
+
+	@render {
+		<div class="vstack spaced">
+			<PostPreview {post} {user} {follower} />
+			<div class="card full-width">
+				<p>If you are sure you want to delete the above post, press the Delete button below.</p>
+				<Form class="full-width">
+					<input type="hidden" name="slug" value={post.slug} />
+					<button type="submit" class="full-width destructive">
+						Delete
+					</button>
+				</Form>
+			</div>
+		</div>
+	}
+}

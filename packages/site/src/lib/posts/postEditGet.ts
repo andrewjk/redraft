@@ -10,7 +10,7 @@ import type PostEditModel from "../../types/posts/PostEditModel";
 import getErrorMessage from "../utils/getErrorMessage";
 import userIdQuery from "../utils/userIdQuery";
 
-export default async function postEdit(slug: string, code: string) {
+export default async function postEditGet(slug: string, code: string) {
 	let errorMessage = "";
 
 	try {
@@ -90,6 +90,7 @@ function createView(
 ): PostEditModel {
 	return {
 		id: post.id,
+		slug: post.slug,
 		published: !!post.published_at || undefined,
 		text: post.text,
 		visibility: post.visibility,

@@ -22,7 +22,7 @@ export default async function postSave(request: Request, code: string) {
 		let validated = v.safeParse(PostEditSchema, model);
 		if (!validated.success) {
 			const message = validated.issues.map((e) => e.message).join("\n");
-			console.log("ERROR", message);
+			console.trace("ERROR", message);
 			return badRequest({
 				message,
 				data: model,

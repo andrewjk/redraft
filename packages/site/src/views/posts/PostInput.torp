@@ -14,7 +14,7 @@ export default function PostInput($props: { post: PostEditModel, user: UserModel
 	let post = $watch($props.post ?? newPost());
 
 	function newPost(): PostEditModel {
-		return { id: -1, text: "", children: [] };
+		return { id: -1, slug: "", text: "", children: [] };
 	}
 
 	@render {
