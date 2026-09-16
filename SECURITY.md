@@ -178,4 +178,4 @@ post's authenticity doesn't rest solely on transport + key possession.
 
 1. Sanitize micromark output (CSP as backstop)
 2. Key rotation (protocol above)
-3. Rate limiting (login first), CORS narrowing, timing-safe setup compare
+3. Rate limiting (login first), CORS narrowing

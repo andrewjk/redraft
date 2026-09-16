@@ -49,7 +49,12 @@ export default async function accountSetup(request: Request) {
 		// be accessed from env()?
 
 		// Make sure the name and password match the env variables
-		if (model.username !== env().USERNAME || model.password !== env().PASSWORD) {
+		// Compare the password in constant time (bcrypt's compare is timing
+		// safe), to avoid leaking it through response timing
+		if (
+			model.username !== env().USERNAME ||
+			!compareWithHash(model.password, hashPassword(env().PASSWORD))
+		) {
 			model.password = "";
 			return forbidden({
 				message: "Invalid username or password",
