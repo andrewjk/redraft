@@ -99,18 +99,3 @@ appends in try/catch.
 **Workaround here:** none yet in the app — endpoints should map peer
 responses to locally-created responses instead of returning them directly
 (e.g. `followRequest`'s `return response` on peer error).
-
----
-
-## 5. `SetupSchema` requires fields that `SetupModel` types as optional
-
-**Affects:** `packages/site/src/types/account/SetupSchema.ts` vs
-`SetupModel.ts`
-
-**Detail:** `SetupModel` types `image`/`bio`/`location` as optional, but
-`SetupSchema` requires them (`v.pipe(v.string())`), so JSON API consumers that
-follow the type get `400 Invalid key: Expected "image" but received undefined`.
-(The login form always sends them, so the UI works.)
-
-**Fix:** make the schema fields optional (`v.optional(v.pipe(v.string()))`) to
-match the model.
