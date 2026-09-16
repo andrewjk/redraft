@@ -1,26 +1,4 @@
----
-
-## 4. `unfollowSend` is not idempotent, but its test expects it to be
-
-**Affects:** `packages/site/src/lib/unfollow/unfollowSend.ts`,
-`packages/site/test/unfollow/send.test.ts`
-
-**Symptom:** `test/unfollow/send.test.ts > unfollow send` fails — the second
-`unfollowSend` call (same payload, "doing it twice should leave the existing
-record as-is" per the test comment) returns 404 instead of 200.
-
-**Root cause:** the record lookup filters `isNull(followingTable.deleted_at)`.
-After the first unfollow sets `deleted_at`, the second call finds no record
-and returns `notFound()`.
-
-**Fix decision needed:** either make `unfollowSend` idempotent (if the record
-exists but is already deleted, skip the peer notification and return `ok()`),
-or update the test to expect the 404. The former matches the test's stated
-intent and is safer for retries in `postResend`-style flows.
-
----
-
-## 5. `tb --dev` ignores the `PORT` env var
+## 1. `tb --dev` ignores the `PORT` env var
 
 **Affects:** `@torpor/build` `runDev`
 
@@ -42,7 +20,7 @@ the dev server log.
 
 ---
 
-## 6. `tb --build` / `--preview` fails on a fresh (empty) database
+## 2. `tb --build` / `--preview` fails on a fresh (empty) database
 
 **Affects:** `@torpor/build` `runBuild` / `runPrerender`
 
@@ -72,7 +50,7 @@ dev server (which doesn't prerender) before building/previewing.
 
 ---
 
-## 7. Dev server reload drops in-flight requests after first optimization
+## 3. Dev server reload drops in-flight requests after first optimization
 
 **Affects:** `@torpor/build` dev mode
 
@@ -95,7 +73,7 @@ listener, or queue requests across the reload.
 
 ---
 
-## 8. Server crashes (`TypeError: immutable`) when a route returns a fetched Response
+## 4. Server crashes (`TypeError: immutable`) when a route returns a fetched Response
 
 **Affects:** `@torpor/build` `ServerEvent.addHeaders`
 
@@ -124,7 +102,7 @@ responses to locally-created responses instead of returning them directly
 
 ---
 
-## 9. `SetupSchema` requires fields that `SetupModel` types as optional
+## 5. `SetupSchema` requires fields that `SetupModel` types as optional
 
 **Affects:** `packages/site/src/types/account/SetupSchema.ts` vs
 `SetupModel.ts`

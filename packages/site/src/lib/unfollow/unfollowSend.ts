@@ -1,5 +1,5 @@
 import { notFound, ok, serverError, unauthorized } from "@torpor/build/response";
-import { and, eq, isNull } from "drizzle-orm";
+import { eq } from "drizzle-orm";
 import database from "../../data/database";
 import { activityTable, feedTable, followingTable, usersTable } from "../../data/schema";
 import transaction from "../../data/transaction";
@@ -26,8 +26,10 @@ export default async function unfollowSend(request: Request, code: string) {
 			where: eq(usersTable.id, userIdQuery(code)),
 		});
 
+		// Get the following record. Deleted records are included, so that
+		// unfollowing an already unfollowed user is a no-op
 		const recordQuery = db.query.followingTable.findFirst({
-			where: and(eq(followingTable.url, model.url), isNull(followingTable.deleted_at)),
+			where: eq(followingTable.url, model.url),
 		});
 
 		const [currentUser, record] = await Promise.all([currentUserQuery, recordQuery]);
