@@ -1,5 +1,5 @@
 import { notFound, ok, serverError, unauthorized, unprocessable } from "@torpor/build/response";
-import { and, eq } from "drizzle-orm";
+import { and, eq, isNull } from "drizzle-orm";
 import database from "../../data/database";
 import { followedByTable, postReactionsTable, postsTable } from "../../data/schema";
 import transaction from "../../data/transaction";
@@ -27,7 +27,10 @@ export default async function postLiked(request: Request) {
 
 		// Get the user who liked the post
 		const currentUserQuery = db.query.followedByTable.findFirst({
-			where: eq(followedByTable.shared_key, model.sharedKey),
+			where: and(
+				eq(followedByTable.shared_key, model.sharedKey),
+				isNull(followedByTable.deleted_at),
+			),
 			columns: { id: true, name: true },
 		});
 

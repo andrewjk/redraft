@@ -1,5 +1,5 @@
 import { notFound, ok, serverError, unprocessable } from "@torpor/build/response";
-import { eq } from "drizzle-orm";
+import { and, eq, isNull } from "drizzle-orm";
 import database from "../../data/database";
 import { activityTable, followingTable } from "../../data/schema";
 import transaction from "../../data/transaction";
@@ -41,7 +41,12 @@ export default async function followConfirmed(request: Request) {
 							approved: true,
 							updated_at: new Date(),
 						})
-						.where(eq(followingTable.shared_key, model.sharedKey))
+						.where(
+							and(
+								eq(followingTable.shared_key, model.sharedKey),
+								isNull(followingTable.deleted_at),
+							),
+						)
 						.returning({ url: followingTable.url, name: followingTable.name })
 				)[0];
 

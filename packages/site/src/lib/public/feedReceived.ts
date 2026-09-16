@@ -1,5 +1,5 @@
 import { notFound, ok, serverError, unprocessable } from "@torpor/build/response";
-import { eq } from "drizzle-orm";
+import { and, eq, isNull } from "drizzle-orm";
 import database from "../../data/database";
 import { feedTable, followingTable } from "../../data/schema";
 import { FeedInsert } from "../../data/schema/feedTable";
@@ -22,7 +22,7 @@ export default async function feedReceived(request: Request) {
 		}
 
 		const user = await db.query.followingTable.findFirst({
-			where: eq(followingTable.shared_key, model.sharedKey),
+			where: and(eq(followingTable.shared_key, model.sharedKey), isNull(followingTable.deleted_at)),
 		});
 		if (!user) {
 			return notFound();
@@ -30,8 +30,11 @@ export default async function feedReceived(request: Request) {
 
 		await transaction(db, async (tx) => {
 			try {
-				// Create or update the feed record
-				const feed = await tx.query.feedTable.findFirst({ where: eq(feedTable.slug, model.slug) });
+				// Create or update the feed record, scoped to this relationship so
+				// one follower can't overwrite another follower's entries
+				const feed = await tx.query.feedTable.findFirst({
+					where: and(eq(feedTable.slug, model.slug), eq(feedTable.user_id, user.id)),
+				});
 				const record: FeedInsert = {
 					user_id: user.id,
 					slug: model.slug,

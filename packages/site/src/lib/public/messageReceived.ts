@@ -1,5 +1,5 @@
 import { notFound, ok, serverError, unprocessable } from "@torpor/build/response";
-import { and, eq, or } from "drizzle-orm";
+import { and, eq, isNull, or } from "drizzle-orm";
 import database from "../../data/database";
 import {
 	followedByTable,
@@ -31,11 +31,14 @@ export default async function messageReceived(request: Request) {
 		const userQuery = db.query.usersTable.findFirst();
 
 		const followedByQuery = db.query.followedByTable.findFirst({
-			where: eq(followedByTable.shared_key, model.sharedKey),
+			where: and(
+				eq(followedByTable.shared_key, model.sharedKey),
+				isNull(followedByTable.deleted_at),
+			),
 		});
 
 		const followingQuery = db.query.followingTable.findFirst({
-			where: eq(followingTable.shared_key, model.sharedKey),
+			where: and(eq(followingTable.shared_key, model.sharedKey), isNull(followingTable.deleted_at)),
 		});
 
 		const [user, followedBy, following] = await Promise.all([

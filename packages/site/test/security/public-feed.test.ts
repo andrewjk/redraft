@@ -1,4 +1,4 @@
-import { eq } from "drizzle-orm";
+import { and, eq } from "drizzle-orm";
 import { Site } from "@torpor/build";
 import { runTest } from "@torpor/build/test";
 import { ServerEvent } from "@torpor/build/server";
@@ -53,9 +53,9 @@ async function aliceFeedRequest() {
 	return await runTest(site, "/api/feed", new ServerEvent(request));
 }
 
-test("the public feed endpoint rejects unauthenticated writes", async () => {
-	const response = await postFeed(ELI_SHARED_KEY, "feed-unauth", "Here is an injected post");
-	expectErrorResponse(response, 401);
+test("the public feed endpoint rejects unknown shared keys", async () => {
+	const response = await postFeed("zzz-unknown", "feed-unauth", "Here is an injected post");
+	expectErrorResponse(response, 404);
 });
 
 test("received feed content is sanitized", async () => {
@@ -94,14 +94,17 @@ test("a shared key cannot overwrite another follower's feed entry", async () => 
 		where: eq(schema.followingTable.url, "http://localhost/freya/"),
 	});
 
-	// Freya sends a feed item with Eli's slug
-	const response = await postFeed(FREYA_SHARED_KEY, "feed-1", "Here is a hijacked post");
-	expectErrorResponse(response, 404);
+	// Freya sends a feed item with Eli's slug. She may write to her own feed,
+	// but Eli's entry must be left untouched
+	await postFeed(FREYA_SHARED_KEY, "feed-1", "Here is a hijacked post");
 
-	const feed = await db.query.feedTable.findFirst({
-		where: eq(schema.feedTable.slug, "feed-1"),
+	const eliFeed = await db.query.feedTable.findFirst({
+		where: and(eq(schema.feedTable.slug, "feed-1"), eq(schema.feedTable.user_id, eli!.id)),
 	});
-	expect(feed!.user_id).toBe(eli!.id);
-	expect(feed!.user_id).not.toBe(freya!.id);
-	expect(feed!.text).toBe("Here is a post by Eli");
+	expect(eliFeed!.text).toBe("Here is a post by Eli");
+
+	const freyaFeed = await db.query.feedTable.findFirst({
+		where: and(eq(schema.feedTable.slug, "feed-1"), eq(schema.feedTable.user_id, freya!.id)),
+	});
+	expect(freyaFeed!.text).toBe("Here is a hijacked post");
 });

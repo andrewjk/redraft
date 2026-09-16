@@ -1,5 +1,5 @@
 import { ok, serverError, unprocessable } from "@torpor/build/response";
-import { eq } from "drizzle-orm";
+import { and, eq, isNull } from "drizzle-orm";
 import database, { Database, type DatabaseTransaction } from "../../data/database";
 import { followedByTable, followingTable } from "../../data/schema";
 import { FollowedBy } from "../../data/schema/followedByTable";
@@ -26,10 +26,13 @@ export default async function profileUpdated(request: Request) {
 
 		// Get the following and followed by users
 		const followingQuery = db.query.followingTable.findFirst({
-			where: eq(followingTable.shared_key, model.sharedKey),
+			where: and(eq(followingTable.shared_key, model.sharedKey), isNull(followingTable.deleted_at)),
 		});
 		const followedByQuery = db.query.followedByTable.findFirst({
-			where: eq(followedByTable.shared_key, model.sharedKey),
+			where: and(
+				eq(followedByTable.shared_key, model.sharedKey),
+				isNull(followedByTable.deleted_at),
+			),
 		});
 		const [following, followedBy] = await Promise.all([followingQuery, followedByQuery]);
 

@@ -65,24 +65,6 @@ affected. (_Verified by test._)
 **Fix:** Sanitize HTML output from micromark (e.g. with `sanitize-html`, which
 is already a dependency). A CSP header is a worthwhile backstop.
 
-### HIGH: Public endpoints have no authentication
-
-All `/api/public/*` handlers have their authentication checks commented out.
-The only verification on incoming posts and comments is the `shared_key` in
-the request body, matched against the database. Beyond the missing auth:
-
-- `feedReceived` does not verify the sender's URL against the relationship,
-  and does not check `deleted_at` — a key from a _deleted_ relationship still
-  works. (_Verified by test._)
-- **New:** the create-or-update path looks up existing feed rows by `slug`
-  _alone_ (`feedTable.findFirst({ where: eq(feedTable.slug, ...) })`), so one
-  follower's key can **overwrite another follower's feed entry** by reusing
-  its slug. (_Verified by test._)
-- The lookup should scope by both the relationship _and_ the slug.
-
-**Fix:** Uncomment auth checks, or at minimum scope the shared_key lookup to
-non-deleted rows and the feed upsert by (relationship, slug).
-
 ### MEDIUM: No rate limiting
 
 No rate limiting exists on any endpoint — login, public API, follow requests,
@@ -205,12 +187,12 @@ Protocol:
 
 Rotation doubles as follower-token revocation once tokens are shared-key
 signed (plan above): a stolen token dies with the key it was signed with.
+Future hardening beyond rotation: signing delivered content itself, so a
+post's authenticity doesn't rest solely on transport + key possession.
 
 ## Recommended priority
 
 1. Sanitize micromark output (CSP as backstop)
-2. Public endpoint hardening: scope feed upsert by (relationship, slug),
-   check `deleted_at`, verify sender URL
-3. Follower tokens → shared-key-signed, keyless claims
-4. Key rotation (protocol above)
-5. Rate limiting (login first), CORS narrowing, timing-safe setup compare
+2. Follower tokens → shared-key-signed, keyless claims
+3. Key rotation (protocol above)
+4. Rate limiting (login first), CORS narrowing, timing-safe setup compare

@@ -1,5 +1,5 @@
 import { notFound, ok, serverError, unprocessable } from "@torpor/build/response";
-import { eq } from "drizzle-orm";
+import { and, eq, isNull } from "drizzle-orm";
 import database from "../../data/database";
 import { followingTable } from "../../data/schema";
 import { FOLLOW_CHECK_VERSION } from "../../types/public/FollowCheckModel";
@@ -29,7 +29,7 @@ export default async function followCheck(request: Request) {
 		// Check that a following record exists with this URL
 		const followQuery = db.query.followingTable.findFirst({
 			columns: { id: true },
-			where: eq(followingTable.shared_key, model.sharedKey),
+			where: and(eq(followingTable.shared_key, model.sharedKey), isNull(followingTable.deleted_at)),
 		});
 
 		const [user, follow] = await Promise.all([userQuery, followQuery]);

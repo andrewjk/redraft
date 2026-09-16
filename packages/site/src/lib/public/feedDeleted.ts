@@ -1,5 +1,5 @@
 import { notFound, ok, serverError, unprocessable } from "@torpor/build/response";
-import { eq } from "drizzle-orm";
+import { and, eq, isNull } from "drizzle-orm";
 import database from "../../data/database";
 import { feedTable, followingTable } from "../../data/schema";
 import transaction from "../../data/transaction";
@@ -21,7 +21,7 @@ export default async function feedDeleted(request: Request) {
 		}
 
 		const user = await db.query.followingTable.findFirst({
-			where: eq(followingTable.shared_key, model.sharedKey),
+			where: and(eq(followingTable.shared_key, model.sharedKey), isNull(followingTable.deleted_at)),
 		});
 		if (!user) {
 			return notFound();
@@ -29,8 +29,11 @@ export default async function feedDeleted(request: Request) {
 
 		await transaction(db, async (tx) => {
 			try {
-				// Delete the feed record
-				await tx.delete(feedTable).where(eq(feedTable.slug, model.slug));
+				// Delete the feed record, scoped to this relationship so one
+				// follower can't delete another follower's entries
+				await tx
+					.delete(feedTable)
+					.where(and(eq(feedTable.slug, model.slug), eq(feedTable.user_id, user.id)));
 			} catch (error) {
 				errorMessage = getErrorMessage(error).message;
 				throw error;
