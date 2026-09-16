@@ -115,7 +115,6 @@ export default function PostPreview($props: { post: PostPreviewModel, user: User
 									<Form action="?/likeFeedPost">
 										<Hidden name="slug" value={post.slug} />
 										<Hidden name="authorUrl" value={post.author.url} />
-										<Hidden name="sharedKey" value={post.author.sharedKey} />
 										<Hidden name="liked" value={!post.liked} />
 										<button class="link">{post.liked ? "Unlike" : "Like"}</button>
 									</Form>

@@ -52,18 +52,6 @@ be _in_ the claims at all — claims only need `{url, iat}`; the receiver looks
 up the relationship by url and verifies the signature with its stored key. The
 key then never travels.
 
-### HIGH: shared keys exposed to the frontend
-
-`feedPreview` includes `sharedKey` in the response model for every feed item.
-The secret that authenticates inter-site communication is sent to the browser
-on every page load. Any JavaScript on the page (or browser extension, or XSS
-payload) can steal it and impersonate the followed user to this site.
-(_Verified by test._)
-
-**Fix:** Remove `sharedKey` from all frontend-facing response models. UI
-actions that need it (likes, reactions) should route through server endpoints
-that hold the key server-side.
-
 ### HIGH: No HTML sanitization
 
 User content passes through `micromark` (markdown to HTML) without
@@ -220,10 +208,9 @@ signed (plan above): a stolen token dies with the key it was signed with.
 
 ## Recommended priority
 
-1. Remove `sharedKey` from frontend response models
-2. Sanitize micromark output (CSP as backstop)
-3. Public endpoint hardening: scope feed upsert by (relationship, slug),
+1. Sanitize micromark output (CSP as backstop)
+2. Public endpoint hardening: scope feed upsert by (relationship, slug),
    check `deleted_at`, verify sender URL
-4. Follower tokens → shared-key-signed, keyless claims
-5. Key rotation (protocol above)
-6. Rate limiting (login first), CORS narrowing, timing-safe setup compare
+3. Follower tokens → shared-key-signed, keyless claims
+4. Key rotation (protocol above)
+5. Rate limiting (login first), CORS narrowing, timing-safe setup compare

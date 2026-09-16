@@ -88,7 +88,6 @@ export default function FeedPreview($props: { feed: FeedPreviewModel, user: User
 									<Form action="?/likeFeedPost">
 										<Hidden name="slug" value={feed.slug} />
 										<Hidden name="authorUrl" value={feed.author.url} />
-										<Hidden name="sharedKey" value={feed.author.sharedKey} />
 										<Hidden name="liked" value={!feed.liked} />
 										<button class="link icon">
 											@if (feed.liked) {
@@ -113,7 +112,6 @@ export default function FeedPreview($props: { feed: FeedPreviewModel, user: User
 										<Form action="?/reactToFeedPost">
 											<Hidden name="slug" value={feed.slug} />
 											<Hidden name="authorUrl" value={feed.author.url} />
-											<Hidden name="sharedKey" value={feed.author.sharedKey} />
 											<Hidden name="emoji" value="" />
 											<button class="link">
 												<XCircle weight="bold" /> {feed.emoji}
@@ -134,7 +132,6 @@ export default function FeedPreview($props: { feed: FeedPreviewModel, user: User
 							<span class="spacer" />
 							<Hidden name="slug" value={feed.slug} />
 							<Hidden name="authorUrl" value={feed.author.url} />
-							<Hidden name="sharedKey" value={feed.author.sharedKey} />
 							<button class="link" name="emoji" value="❤️">❤️</button>
 							<button class="link" name="emoji" value="👍">👍</button>
 							<button class="link" name="emoji" value="👎">👎</button>

@@ -19,13 +19,11 @@ export default function feedPreview(
 					name: feed.user.name,
 					image: feed.user.image,
 					url: feed.user.url,
-					sharedKey: feed.user.shared_key,
 				}
 			: {
 					name: currentUser.name,
 					image: currentUser.image,
 					url: currentUser.url,
-					sharedKey: "",
 				},
 		liked: feed.liked,
 		saved: feed.saved,

@@ -1,7 +1,7 @@
-import { ok, serverError, unauthorized } from "@torpor/build/response";
-import { eq } from "drizzle-orm";
+import { ok, serverError, unauthorized, notFound } from "@torpor/build/response";
+import { and, eq, isNull } from "drizzle-orm";
 import database from "../../data/database";
-import { feedTable, usersTable } from "../../data/schema";
+import { feedTable, followingTable, usersTable } from "../../data/schema";
 import { activityTable } from "../../data/schema/activityTable";
 import transaction from "../../data/transaction";
 import type FeedLikeModel from "../../types/feed/FeedLikeModel";
@@ -19,12 +19,21 @@ export default async function feedLike(request: Request, code: string) {
 
 		const model: FeedLikeModel = await request.json();
 
-		// Get the current user
-		const currentUser = await db.query.usersTable.findFirst({
-			where: eq(usersTable.id, userIdQuery(code)),
-		});
+		// Get the current user, and the author's relationship, so that the
+		// shared key never has to come from the browser
+		const [currentUser, following] = await Promise.all([
+			db.query.usersTable.findFirst({
+				where: eq(usersTable.id, userIdQuery(code)),
+			}),
+			db.query.followingTable.findFirst({
+				where: and(eq(followingTable.url, model.authorUrl), isNull(followingTable.deleted_at)),
+			}),
+		]);
 		if (!currentUser) {
 			return unauthorized();
+		}
+		if (!following) {
+			return notFound();
 		}
 
 		await transaction(db, async (tx) => {
@@ -54,7 +63,7 @@ export default async function feedLike(request: Request, code: string) {
 		let sendUrl = `${model.authorUrl}api/public/post/like`;
 		let sendData: PostLikedModel = {
 			slug: model.slug,
-			sharedKey: model.sharedKey,
+			sharedKey: following.shared_key,
 			liked: model.liked,
 			version: POST_LIKED_VERSION,
 		};
