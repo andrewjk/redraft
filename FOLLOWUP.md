@@ -99,3 +99,5 @@ appends in try/catch.
 **Workaround here:** none yet in the app — endpoints should map peer
 responses to locally-created responses instead of returning them directly
 (e.g. `followRequest`'s `return response` on peer error).
+
+---
