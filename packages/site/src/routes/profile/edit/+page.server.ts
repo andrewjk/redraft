@@ -53,7 +53,6 @@ export default {
 				username: user.username,
 				name: newUser.name,
 				image: newUser.image,
-				token: user.token,
 				code: user.code,
 			});
 

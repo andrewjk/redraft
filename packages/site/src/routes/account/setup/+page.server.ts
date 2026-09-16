@@ -44,7 +44,6 @@ export default {
 				username: user.username,
 				name: user.name,
 				image: user.image,
-				token: user.token,
 				code: user.code,
 			});
 

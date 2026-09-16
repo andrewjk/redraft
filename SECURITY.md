@@ -38,31 +38,6 @@ authentication is the `shared_key` claim matching a `followedByTable` row.
 
 ## Findings
 
-### CRITICAL: tokens are decoded but never verified
-
-Both auth hooks (`src/routes/_hook.server.ts`, `src/api/_hook.server.ts`) use
-`jose.decodeJwt()`, which reads the payload without checking the signature.
-Tokens are created with `jose.SignJWT` (HS256), but on consumption anyone can
-forge claims. Three surfaces:
-
-1. **Cookie** — worst of the three: the `jwt` cookie is not even a JWT, just
-   `btoa(JSON.stringify(user))` containing the user's (permanent, unexpiring)
-   `code`. Hand-crafting it in devtools impersonates the account at the page
-   level; pairing it with a self-signed token for the inner API calls
-   completes the takeover. (_Verified by test._)
-2. **`Authorization` / `X-Social-User`** — a JWT signed with _any_ secret is
-   accepted; claims' `code` is looked up in `userTokensTable`. Possession of a
-   valid code is the only requirement. (_Verified by test._)
-3. **`X-Social-Follower`** — accepting a forged follower token widens post
-   visibility (`postGet` trusts the truthiness of `appData.follower` without
-   checking `followedByTable`). (_Verified by test._)
-
-**Why the fix is still safe despite the cross-site follower flow:** user tokens
-are created _and_ consumed by the same site, so `jwtVerify(JWT_SECRET)` works
-regardless of which computer presents them — the server signs at login and
-verifies on every request. Follower tokens need a small protocol change (see
-"Token verification plan" below).
-
 ### HIGH: extension follower tokens embed the shared key in decodable claims
 
 `createHeaderToken` puts the relationship's `shared_key` directly in the JWT
@@ -130,9 +105,7 @@ rate limiting is cheap insurance, especially on login).
 ### MEDIUM: Token expiry not enforced
 
 `userTokensTable.expires_at` is stored but never checked; `userIdQuery`
-matches on `code` alone. The seed data itself demonstrates the problem: test
-tokens are created already-expired and still authenticate. (_Verified by
-test._) Combined with unverified JWTs, a single code leak is permanent.
+matches on `code` alone, so a single code leak is permanent.
 
 **Fix:** Add an `expires_at > now` check to `userIdQuery`, and rotate codes at
 login.
@@ -186,15 +159,19 @@ realistic chains are:
    (`unfollowRequested`), and confirm validity via `followCheck` — forever,
    since keys never rotate. It is an integrity/impersonation weapon more than
    a confidentiality break; the read path (`followerLogin`) is dormant.
-3. **Code compromise ⇒ full account takeover.** An unverified JWT plus a valid
-   `code` is total control of a site's account, and codes never expire.
+3. **Code compromise.** Forged tokens are now rejected — user tokens are
+   verified with the site's secret, and the cookie holds a signed token
+   instead of plaintext JSON. A _stolen_ token still works until it expires
+   (7 days, or 10 years with "remember me"), and codes are validated against
+   `userTokensTable` with expiry enforced. Token theft remains the
+   account-takeover path, which rotation and shorter max-ages would shrink
+   further.
 
 ## Token verification plan
 
-1. **User tokens → `jwtVerify(JWT_SECRET)`.** No protocol change; same-site
-   creation and consumption. Cover the `Authorization`, `X-Social-User` and
-   cookie surfaces (the cookie should become a signed user token instead of
-   base64 JSON).
+1. ~~**User tokens → `jwtVerify(JWT_SECRET)`.**~~ **Done** — user tokens are
+   verified in both hooks, the cookie holds a signed token, and token expiry
+   is enforced in `userIdQuery`.
 2. **Follower tokens → sign with the relationship key.** `createHeaderToken`
    signs with `f.shared_key` (both sides hold it) and claims shrink to
    `{url, iat}` — the shared key never travels. On receipt: decode claims
@@ -202,7 +179,6 @@ realistic chains are:
 that row's shared_key)`. Claim swapping becomes impossible: the signature
    only verifies against the claimed relationship's key. `JWT_SECRET_2` is
    retired (optionally with a transition window accepting old tokens).
-3. **Enforce expiry** in `userIdQuery` at the same time.
 
 ## Key rotation plan
 
@@ -244,11 +220,10 @@ signed (plan above): a stolen token dies with the key it was signed with.
 
 ## Recommended priority
 
-1. User tokens → `jwtVerify`, sign the cookie, enforce expiry
-2. Remove `sharedKey` from frontend response models
-3. Sanitize micromark output (CSP as backstop)
-4. Public endpoint hardening: scope feed upsert by (relationship, slug),
+1. Remove `sharedKey` from frontend response models
+2. Sanitize micromark output (CSP as backstop)
+3. Public endpoint hardening: scope feed upsert by (relationship, slug),
    check `deleted_at`, verify sender URL
-5. Follower tokens → shared-key-signed, keyless claims
-6. Key rotation (protocol above)
-7. Rate limiting (login first), CORS narrowing, timing-safe setup compare
+4. Follower tokens → shared-key-signed, keyless claims
+5. Key rotation (protocol above)
+6. Rate limiting (login first), CORS narrowing, timing-safe setup compare

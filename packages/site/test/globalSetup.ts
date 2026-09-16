@@ -42,7 +42,7 @@ async function insertUser(db: LibSQLDatabase<typeof schema>) {
 	await db.insert(schema.userTokensTable).values({
 		user_id: user.id,
 		code: `xxx-${user.username}`,
-		expires_at: new Date(),
+		expires_at: new Date(Date.now() + 10 * 365 * 24 * 60 * 60 * 1000),
 	});
 }
 

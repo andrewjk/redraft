@@ -5,11 +5,15 @@ type User = {
 	url: string;
 	username: string;
 	name: string;
+	image?: string;
 };
 
 /**
  * Creates a token containing the user information for logging into your site.
+ * The token is signed with the site's secret, so it can be verified whenever
+ * it's read back (from the cookie or headers).
  * @param user User information to create the token
+ * @param code The user's token code, which is checked against the database
  * @returns the token created
  */
 export default async function createUserToken(user: User, code: string) {
@@ -21,6 +25,7 @@ export default async function createUserToken(user: User, code: string) {
 			url: user.url,
 			username: user.username,
 			name: user.name,
+			image: user.image,
 			code,
 		},
 	};
