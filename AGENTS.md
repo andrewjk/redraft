@@ -69,6 +69,13 @@ pnpm bump:version   # build all + version
 pnpm bump:publish   # build all + publish
 ```
 
+## Follow-Ups
+
+- When you decide **not** to fix a bug or issue inline (e.g. it's out of scope
+  for the current task), record it for later by adding a section to
+  `FOLLOWUP.md` describing the issue (what you saw, where, and any relevant
+  context). Create the file if it does not yet exist.
+
 <!--VITE PLUS START-->
 
 # Using Vite+, the Unified Toolchain for the Web
