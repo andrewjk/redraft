@@ -3,4 +3,4 @@ import component from "../../../../../views/contacts/ListEditPage.torp";
 
 export default {
 	component,
-} satisfies PageEndPoint;
+} satisfies PageEndPoint<"/contacts/lists/edit/[slug]">;

@@ -3,4 +3,4 @@ import component from "../../../views/events/EventViewPage.torp";
 
 export default {
 	component,
-} satisfies PageEndPoint;
+} satisfies PageEndPoint<"/events/[slug]">;

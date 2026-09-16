@@ -3,4 +3,4 @@ import component from "../../../views/articles/ArticleViewPage.torp";
 
 export default {
 	component,
-} satisfies PageEndPoint;
+} satisfies PageEndPoint<"/articles/[slug]">;

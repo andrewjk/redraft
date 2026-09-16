@@ -16,4 +16,4 @@ export default {
 	actions: {
 		resendPost,
 	},
-} satisfies PageServerEndPoint;
+} satisfies PageServerEndPoint<"/posts/status/[slug]">;

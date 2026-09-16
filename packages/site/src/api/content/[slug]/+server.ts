@@ -13,4 +13,4 @@ export default {
 
 		return await contentGet(params.slug, query);
 	},
-} satisfies ServerEndPoint;
+} satisfies ServerEndPoint<"/api/content/[slug]">;

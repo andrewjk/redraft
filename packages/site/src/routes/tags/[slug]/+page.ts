@@ -3,4 +3,4 @@ import component from "../../../views/tags/TagPostsPage.torp";
 
 export default {
 	component,
-} satisfies PageEndPoint;
+} satisfies PageEndPoint<"/tags/[slug]">;

@@ -18,4 +18,4 @@ export default {
 		savePost,
 		publishPost,
 	},
-} satisfies PageServerEndPoint;
+} satisfies PageServerEndPoint<"/posts/edit/[slug]">;

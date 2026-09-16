@@ -2,7 +2,7 @@ import type { ServerHook } from "@torpor/build";
 import * as jose from "jose";
 
 export default {
-	handle: ({ appData, request, headers }) => {
+	enter: ({ appData, request, headers }) => {
 		// The API can be accessed from anywhere
 		// Which means we need to make sure it's secure!
 		headers.set("Access-Control-Allow-Origin", "*");
@@ -27,4 +27,4 @@ export default {
 			}
 		}
 	},
-} satisfies ServerHook;
+} satisfies ServerHook<"/api">;

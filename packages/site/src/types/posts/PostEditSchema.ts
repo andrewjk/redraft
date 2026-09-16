@@ -4,7 +4,7 @@ import type PostEditModel from "./PostEditModel";
 
 v.setGlobalConfig({ abortPipeEarly: true });
 
-const PostEditSchema: v.GenericSchema<unknown, PostEditModel> = v.pipe(
+const PostEditSchema = v.pipe(
 	v.object({
 		id: v.number(),
 		published: optionalFormValue(v.boolean()),
@@ -53,6 +53,8 @@ const PostEditSchema: v.GenericSchema<unknown, PostEditModel> = v.pipe(
 		),
 		["text"],
 	),
-);
+	// The parsed output doesn't include `slug` (forms don't submit it), but the
+	// result is used as a full PostEditModel downstream
+) as unknown as v.GenericSchema<unknown, PostEditModel>;
 
 export default PostEditSchema;

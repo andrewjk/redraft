@@ -12,4 +12,4 @@ export default {
 
 		return await api.get(`comments/[slug=${params.slug}]`, commentsGet, params);
 	},
-} satisfies PageServerEndPoint;
+} satisfies PageServerEndPoint<"/comments/[slug]">;

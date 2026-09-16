@@ -205,18 +205,18 @@ importers:
         specifier: workspace:^
         version: link:../adapter-core
       '@torpor/adapter-cloudflare':
-        specifier: ^1.0.5
-        version: 1.0.5(@cloudflare/vite-plugin@1.54.9(@types/node@25.9.6)(@voidzero-dev/vite-plus-core@0.3.2(@types/node@25.9.6)(esbuild@0.27.7)(tsx@4.23.13)(typescript@7.0.2)(yaml@2.9.1))(wrangler@4.131.2(@cloudflare/workers-types@5.20260914.1)(@types/node@25.9.6)))(@types/node@25.9.6)(esbuild@0.27.7)(happy-dom@20.14.5)(rollup@4.63.3)(tsx@4.23.13)(typescript@7.0.2)(wrangler@4.131.2(@cloudflare/workers-types@5.20260914.1)(@types/node@25.9.6))(yaml@2.9.1)
+        specifier: ^1.0.7
+        version: 1.0.7(@cloudflare/vite-plugin@1.54.9(@types/node@25.9.6)(@voidzero-dev/vite-plus-core@0.3.2(@types/node@25.9.6)(esbuild@0.27.7)(tsx@4.23.13)(typescript@7.0.2)(yaml@2.9.1))(wrangler@4.131.2(@cloudflare/workers-types@5.20260915.1)(@types/node@25.9.6)))(@types/node@25.9.6)(esbuild@0.27.7)(happy-dom@20.14.5)(rollup@4.63.3)(tsx@4.23.13)(typescript@7.0.2)(wrangler@4.131.2(@cloudflare/workers-types@5.20260915.1)(@types/node@25.9.6))(yaml@2.9.1)
       '@torpor/build':
-        specifier: ^1.3.0
-        version: 1.3.0(@types/node@25.9.6)(esbuild@0.27.7)(happy-dom@20.14.5)(rollup@4.63.3)(tsx@4.23.13)(typescript@7.0.2)(yaml@2.9.1)
+        specifier: ^1.4.1
+        version: 1.4.1(@types/node@25.9.6)(esbuild@0.27.7)(happy-dom@20.14.5)(rollup@4.63.3)(tsx@4.23.13)(typescript@7.0.2)(yaml@2.9.1)
       drizzle-orm:
         specifier: ^0.45.2
-        version: 0.45.2(@cloudflare/workers-types@5.20260914.1)(@libsql/client@0.18.0)
+        version: 0.45.2(@cloudflare/workers-types@5.20260915.1)(@libsql/client@0.18.0)
     devDependencies:
       '@cloudflare/workers-types':
-        specifier: ^5.20260914.1
-        version: 5.20260914.1
+        specifier: ^5.20260915.1
+        version: 5.20260915.1
       '@types/node':
         specifier: ^25.9.6
         version: 25.9.6
@@ -239,11 +239,11 @@ importers:
   packages/adapters/adapter-core:
     dependencies:
       '@torpor/build':
-        specifier: ^1.3.0
-        version: 1.3.0(@types/node@25.9.6)(esbuild@0.28.2)(happy-dom@20.14.5)(rollup@4.63.3)(tsx@4.23.13)(typescript@7.0.2)(yaml@2.9.1)
+        specifier: ^1.4.1
+        version: 1.4.1(@types/node@25.9.6)(esbuild@0.28.2)(happy-dom@20.14.5)(rollup@4.63.3)(tsx@4.23.13)(typescript@7.0.2)(yaml@2.9.1)
       drizzle-orm:
         specifier: ^0.45.2
-        version: 0.45.2(@cloudflare/workers-types@5.20260914.1)(@libsql/client@0.18.0)
+        version: 0.45.2(@cloudflare/workers-types@5.20260915.1)(@libsql/client@0.18.0)
     devDependencies:
       '@typescript/native-preview':
         specifier: 7.0.0-dev.20260707.2
@@ -264,14 +264,14 @@ importers:
         specifier: workspace:^
         version: link:../adapter-core
       '@torpor/adapter-node':
-        specifier: ^1.0.5
-        version: 1.0.5(@types/node@25.9.6)(esbuild@0.28.2)(happy-dom@20.14.5)(rollup@4.63.3)(tsx@4.23.13)(typescript@7.0.2)(yaml@2.9.1)
+        specifier: ^1.0.7
+        version: 1.0.7(@types/node@25.9.6)(esbuild@0.28.2)(happy-dom@20.14.5)(rollup@4.63.3)(tsx@4.23.13)(typescript@7.0.2)(yaml@2.9.1)
       '@torpor/build':
-        specifier: ^1.3.0
-        version: 1.3.0(@types/node@25.9.6)(esbuild@0.28.2)(happy-dom@20.14.5)(rollup@4.63.3)(tsx@4.23.13)(typescript@7.0.2)(yaml@2.9.1)
+        specifier: ^1.4.1
+        version: 1.4.1(@types/node@25.9.6)(esbuild@0.28.2)(happy-dom@20.14.5)(rollup@4.63.3)(tsx@4.23.13)(typescript@7.0.2)(yaml@2.9.1)
       drizzle-orm:
         specifier: ^0.45.2
-        version: 0.45.2(@cloudflare/workers-types@5.20260914.1)(@libsql/client@0.18.0)
+        version: 0.45.2(@cloudflare/workers-types@5.20260915.1)(@libsql/client@0.18.0)
     devDependencies:
       '@types/node':
         specifier: ^25.9.6
@@ -303,11 +303,11 @@ importers:
         specifier: workspace:^
         version: link:../adapters/adapter-node
       '@torpor/adapter-node':
-        specifier: ^1.0.5
-        version: 1.0.5(@types/node@25.9.6)(esbuild@0.28.2)(happy-dom@20.14.5)(rollup@4.63.3)(tsx@4.23.13)(typescript@7.0.2)(yaml@2.9.1)
+        specifier: ^1.0.7
+        version: 1.0.7(@types/node@25.9.6)(esbuild@0.28.2)(happy-dom@20.14.5)(rollup@4.63.3)(tsx@4.23.13)(typescript@7.0.2)(yaml@2.9.1)
       '@torpor/ui':
-        specifier: ^1.1.1
-        version: 1.1.1(@voidzero-dev/vite-plus-core@0.3.2(@types/node@25.9.6)(esbuild@0.28.2)(tsx@4.23.13)(typescript@7.0.2)(yaml@2.9.1))(esbuild@0.28.2)(rollup@4.63.3)
+        specifier: ^1.1.3
+        version: 1.1.3(@voidzero-dev/vite-plus-core@0.3.2(@types/node@25.9.6)(esbuild@0.28.2)(tsx@4.23.13)(typescript@7.0.2)(yaml@2.9.1))(esbuild@0.28.2)(rollup@4.63.3)
       '@torpor/view':
         specifier: ^1.1.0
         version: 1.1.0
@@ -322,10 +322,10 @@ importers:
         version: 17.4.2
       drizzle-orm:
         specifier: ^0.45.2
-        version: 0.45.2(@cloudflare/workers-types@5.20260914.1)(@libsql/client@0.18.0)
+        version: 0.45.2(@cloudflare/workers-types@5.20260915.1)(@libsql/client@0.18.0)
       drizzle-valibot:
         specifier: ^0.4.2
-        version: 0.4.2(drizzle-orm@0.45.2(@cloudflare/workers-types@5.20260914.1)(@libsql/client@0.18.0))(valibot@1.5.0(typescript@7.0.2))
+        version: 0.4.2(drizzle-orm@0.45.2(@cloudflare/workers-types@5.20260915.1)(@libsql/client@0.18.0))(valibot@1.5.0(typescript@7.0.2))
       grab-page-info:
         specifier: ^1.0.2
         version: 1.0.2
@@ -358,8 +358,8 @@ importers:
         specifier: ^14.6.7
         version: 14.6.7(@testing-library/dom@10.4.2)
       '@torpor/build':
-        specifier: ^1.3.0
-        version: 1.3.0(@types/node@25.9.6)(esbuild@0.28.2)(happy-dom@20.14.5)(rollup@4.63.3)(tsx@4.23.13)(typescript@7.0.2)(yaml@2.9.1)
+        specifier: ^1.4.1
+        version: 1.4.1(@types/node@25.9.6)(esbuild@0.28.2)(happy-dom@20.14.5)(rollup@4.63.3)(tsx@4.23.13)(typescript@7.0.2)(yaml@2.9.1)
       '@torpor/unplugin':
         specifier: ^1.0.4
         version: 1.0.4(@voidzero-dev/vite-plus-core@0.3.2(@types/node@25.9.6)(esbuild@0.28.2)(tsx@4.23.13)(typescript@7.0.2)(yaml@2.9.1))(esbuild@0.28.2)(rollup@4.63.3)
@@ -571,8 +571,8 @@ packages:
     cpu: [x64]
     os: [win32]
 
-  '@cloudflare/workers-types@5.20260914.1':
-    resolution: {integrity: sha512-9xGgkvmG1lw0QdKJmSR5YNXaA221DfefpDCfPLz5PlzdYU0BXzxONQoWakLXTsFIz8xtsNfeUg+mbspIA5P4Xg==}
+  '@cloudflare/workers-types@5.20260915.1':
+    resolution: {integrity: sha512-3Lw2wkyVcEDdD0W6rNBmannaAkUsWGsO5TjbyHflWIDlhxtFRDFnxqHoDlg4YiVxinsIcBl1j9jW1kdruUhZpg==}
 
   '@cspotcode/source-map-support@0.8.1':
     resolution: {integrity: sha512-IchNf6dN4tHoMFIn/7OE8LWZ19Y6q/67Bmf6vnGREv8RSbBVb9LPJxEcnwrcwX6ixSvaiGoomAUvu4YSxXrVgw==}
@@ -2328,21 +2328,21 @@ packages:
     peerDependencies:
       '@testing-library/dom': '>=7.21.4'
 
-  '@torpor/adapter-cloudflare@1.0.5':
-    resolution: {integrity: sha512-ZwhCQSUOQqhXFE1VlNDsXLZ4f0GMvM0n6QpMaPEoVHX9HmFD+VXs0IKqCGe5o1wDEa1hgJcqU4ckw8/YpJaLEg==}
+  '@torpor/adapter-cloudflare@1.0.7':
+    resolution: {integrity: sha512-4RMXUfzjZEnd+RKwuBUlIYb3w3Z4PhkXjmlMnMyJP8ciMv9aw/7xsDWj7MhG3JS4pxZCO0/GId+Ui8wx3XuQxw==}
     peerDependencies:
       '@cloudflare/vite-plugin': ^1.0.0
       wrangler: ^4.118.0
 
-  '@torpor/adapter-node@1.0.5':
-    resolution: {integrity: sha512-JrnTQFwreHPUHhLAgSzsswosApKWOG4Ng8VvSqN1V867/UEz1qS+ybbxVkKPgsHx8gx11oaf0rt8a9+gXtsnqA==}
+  '@torpor/adapter-node@1.0.7':
+    resolution: {integrity: sha512-S4tRSrXbfsPZSeOs0zC5ltRwUgpF8HKf+I5skXG24XQb6l3swyijvOndgFRbrgYSGwOO8b1Q2S8CTdFAvAwviA==}
 
-  '@torpor/build@1.3.0':
-    resolution: {integrity: sha512-c6+U+lrpzlk0BogtWqcJR1uahCXzzZOJGZ8Y1Ho8paV+kNoRYE/VN57kmBDOC1TsoTuQexnX4KAdWod7EC0TZg==}
+  '@torpor/build@1.4.1':
+    resolution: {integrity: sha512-r6IfQ65TgQHHgQH/9BRUiZvHuzYteQvhDagMlSwYqR9wpIiG9eYSGhvBF+kTlZNfs/67I2hGNzxmqgnZVRSTgg==}
     hasBin: true
 
-  '@torpor/ui@1.1.1':
-    resolution: {integrity: sha512-LDoY+PaCX03UO5SiUDO/njXlF0SWOlB50YWcmHWKcQxKCjW9lxdCLYP/S+v/pM8Axi/BEbfxRsfpS1lzoPNYzA==}
+  '@torpor/ui@1.1.3':
+    resolution: {integrity: sha512-fuK9xIojcxrJ/lYZqkqpbez8H7l/EjPYq5TULNsqih8OazWKyISnMfEF8dUba26l+B2dbnojHMnZL7RleOzSTw==}
 
   '@torpor/unplugin@1.0.4':
     resolution: {integrity: sha512-9TjwAOZNOkMmAX7EMZdp/YaEkQNTyK0Wr5D5vFMg0Fx/aqVk0ABLj9aJozZK1tY9TDsrER2mSGwwoHZRh6b8Hg==}
@@ -3668,8 +3668,8 @@ packages:
   magic-string@0.30.21:
     resolution: {integrity: sha512-vd2F4YUyEXKGcLHoq+TEyCjxueSeHnFxyyjNp80yg0XV4vUhnDer/lvvlqM/arB5bXQN5K2/3oinyCRyx8T2CQ==}
 
-  magic-string@1.3.1:
-    resolution: {integrity: sha512-rm91zr2Ou+XueDTohjQQjdQEcYM6zVi8KVUCG8Ec3vHwUEKrhSdCNyfuIywkA6hcCAteIn0ZOtAHA6eGpiX+Pg==}
+  magic-string@1.4.1:
+    resolution: {integrity: sha512-8lyCu36ErXR0J9uaGKlKQoiLZKmtI63YGLE8G2o9jyRPdr4X47LusSOwgOJOzcVtp81fTAAjxR7BwKz682Jhow==}
 
   micromark-core-commonmark@2.0.3:
     resolution: {integrity: sha512-RDBrHEMSxVFLg6xvnXmb1Ayr2WzLAWjeSATAoxwKYJV94TeNavgoIdA0a9ytzDSVzBy2YKFK+emCPOEibLeCrg==}
@@ -4492,14 +4492,14 @@ snapshots:
     optionalDependencies:
       workerd: 1.20260911.1
 
-  '@cloudflare/vite-plugin@1.54.9(@types/node@25.9.6)(@voidzero-dev/vite-plus-core@0.3.2(@types/node@25.9.6)(esbuild@0.27.7)(tsx@4.23.13)(typescript@7.0.2)(yaml@2.9.1))(wrangler@4.131.2(@cloudflare/workers-types@5.20260914.1)(@types/node@25.9.6))':
+  '@cloudflare/vite-plugin@1.54.9(@types/node@25.9.6)(@voidzero-dev/vite-plus-core@0.3.2(@types/node@25.9.6)(esbuild@0.27.7)(tsx@4.23.13)(typescript@7.0.2)(yaml@2.9.1))(wrangler@4.131.2(@cloudflare/workers-types@5.20260915.1)(@types/node@25.9.6))':
     dependencies:
       '@cloudflare/unenv-preset': 2.16.1(unenv@2.0.0-rc.24)(workerd@1.20260911.1)
       miniflare: 5.20260911.1-alpha(@types/node@25.9.6)
       unenv: 2.0.0-rc.24
       vite: '@voidzero-dev/vite-plus-core@0.3.2(@types/node@25.9.6)(esbuild@0.27.7)(tsx@4.23.13)(typescript@7.0.2)(yaml@2.9.1)'
       workerd: 1.20260911.1
-      wrangler: 4.131.2(@cloudflare/workers-types@5.20260914.1)(@types/node@25.9.6)
+      wrangler: 4.131.2(@cloudflare/workers-types@5.20260915.1)(@types/node@25.9.6)
       ws: 8.21.0
     transitivePeerDependencies:
       - '@types/node'
@@ -4521,7 +4521,7 @@ snapshots:
   '@cloudflare/workerd-windows-64@1.20260911.1':
     optional: true
 
-  '@cloudflare/workers-types@5.20260914.1': {}
+  '@cloudflare/workers-types@5.20260915.1': {}
 
   '@cspotcode/source-map-support@0.8.1':
     dependencies:
@@ -5510,12 +5510,12 @@ snapshots:
     dependencies:
       '@testing-library/dom': 10.4.2
 
-  '@torpor/adapter-cloudflare@1.0.5(@cloudflare/vite-plugin@1.54.9(@types/node@25.9.6)(@voidzero-dev/vite-plus-core@0.3.2(@types/node@25.9.6)(esbuild@0.27.7)(tsx@4.23.13)(typescript@7.0.2)(yaml@2.9.1))(wrangler@4.131.2(@cloudflare/workers-types@5.20260914.1)(@types/node@25.9.6)))(@types/node@25.9.6)(esbuild@0.27.7)(happy-dom@20.14.5)(rollup@4.63.3)(tsx@4.23.13)(typescript@7.0.2)(wrangler@4.131.2(@cloudflare/workers-types@5.20260914.1)(@types/node@25.9.6))(yaml@2.9.1)':
+  '@torpor/adapter-cloudflare@1.0.7(@cloudflare/vite-plugin@1.54.9(@types/node@25.9.6)(@voidzero-dev/vite-plus-core@0.3.2(@types/node@25.9.6)(esbuild@0.27.7)(tsx@4.23.13)(typescript@7.0.2)(yaml@2.9.1))(wrangler@4.131.2(@cloudflare/workers-types@5.20260915.1)(@types/node@25.9.6)))(@types/node@25.9.6)(esbuild@0.27.7)(happy-dom@20.14.5)(rollup@4.63.3)(tsx@4.23.13)(typescript@7.0.2)(wrangler@4.131.2(@cloudflare/workers-types@5.20260915.1)(@types/node@25.9.6))(yaml@2.9.1)':
     dependencies:
-      '@cloudflare/vite-plugin': 1.54.9(@types/node@25.9.6)(@voidzero-dev/vite-plus-core@0.3.2(@types/node@25.9.6)(esbuild@0.27.7)(tsx@4.23.13)(typescript@7.0.2)(yaml@2.9.1))(wrangler@4.131.2(@cloudflare/workers-types@5.20260914.1)(@types/node@25.9.6))
-      '@torpor/build': 1.3.0(@types/node@25.9.6)(esbuild@0.27.7)(happy-dom@20.14.5)(rollup@4.63.3)(tsx@4.23.13)(typescript@7.0.2)(yaml@2.9.1)
+      '@cloudflare/vite-plugin': 1.54.9(@types/node@25.9.6)(@voidzero-dev/vite-plus-core@0.3.2(@types/node@25.9.6)(esbuild@0.27.7)(tsx@4.23.13)(typescript@7.0.2)(yaml@2.9.1))(wrangler@4.131.2(@cloudflare/workers-types@5.20260915.1)(@types/node@25.9.6))
+      '@torpor/build': 1.4.1(@types/node@25.9.6)(esbuild@0.27.7)(happy-dom@20.14.5)(rollup@4.63.3)(tsx@4.23.13)(typescript@7.0.2)(yaml@2.9.1)
       vite: '@voidzero-dev/vite-plus-core@0.3.0(@types/node@25.9.6)(esbuild@0.27.7)(tsx@4.23.13)(typescript@7.0.2)(yaml@2.9.1)'
-      wrangler: 4.131.2(@cloudflare/workers-types@5.20260914.1)(@types/node@25.9.6)
+      wrangler: 4.131.2(@cloudflare/workers-types@5.20260915.1)(@types/node@25.9.6)
     transitivePeerDependencies:
       - '@arethetypeswrong/core'
       - '@edge-runtime/vm'
@@ -5557,9 +5557,9 @@ snapshots:
       - webpack
       - yaml
 
-  '@torpor/adapter-node@1.0.5(@types/node@25.9.6)(esbuild@0.28.2)(happy-dom@20.14.5)(rollup@4.63.3)(tsx@4.23.13)(typescript@7.0.2)(yaml@2.9.1)':
+  '@torpor/adapter-node@1.0.7(@types/node@25.9.6)(esbuild@0.28.2)(happy-dom@20.14.5)(rollup@4.63.3)(tsx@4.23.13)(typescript@7.0.2)(yaml@2.9.1)':
     dependencies:
-      '@torpor/build': 1.3.0(@types/node@25.9.6)(esbuild@0.28.2)(happy-dom@20.14.5)(rollup@4.63.3)(tsx@4.23.13)(typescript@7.0.2)(yaml@2.9.1)
+      '@torpor/build': 1.4.1(@types/node@25.9.6)(esbuild@0.28.2)(happy-dom@20.14.5)(rollup@4.63.3)(tsx@4.23.13)(typescript@7.0.2)(yaml@2.9.1)
     transitivePeerDependencies:
       - '@arethetypeswrong/core'
       - '@edge-runtime/vm'
@@ -5601,7 +5601,7 @@ snapshots:
       - webpack
       - yaml
 
-  '@torpor/build@1.3.0(@types/node@25.9.6)(esbuild@0.27.7)(happy-dom@20.14.5)(rollup@4.63.3)(tsx@4.23.13)(typescript@7.0.2)(yaml@2.9.1)':
+  '@torpor/build@1.4.1(@types/node@25.9.6)(esbuild@0.27.7)(happy-dom@20.14.5)(rollup@4.63.3)(tsx@4.23.13)(typescript@7.0.2)(yaml@2.9.1)':
     dependencies:
       '@torpor/unplugin': 1.0.4(@voidzero-dev/vite-plus-core@0.3.0(@types/node@25.9.6)(esbuild@0.27.7)(tsx@4.23.13)(typescript@7.0.2)(yaml@2.9.1))(esbuild@0.27.7)(rollup@4.63.3)
       '@torpor/view': 1.1.0
@@ -5650,7 +5650,7 @@ snapshots:
       - webpack
       - yaml
 
-  '@torpor/build@1.3.0(@types/node@25.9.6)(esbuild@0.28.2)(happy-dom@20.14.5)(rollup@4.63.3)(tsx@4.23.13)(typescript@7.0.2)(yaml@2.9.1)':
+  '@torpor/build@1.4.1(@types/node@25.9.6)(esbuild@0.28.2)(happy-dom@20.14.5)(rollup@4.63.3)(tsx@4.23.13)(typescript@7.0.2)(yaml@2.9.1)':
     dependencies:
       '@torpor/unplugin': 1.0.4(@voidzero-dev/vite-plus-core@0.3.0(@types/node@25.9.6)(esbuild@0.28.2)(tsx@4.23.13)(typescript@7.0.2)(yaml@2.9.1))(esbuild@0.28.2)(rollup@4.63.3)
       '@torpor/view': 1.1.0
@@ -5699,7 +5699,7 @@ snapshots:
       - webpack
       - yaml
 
-  '@torpor/ui@1.1.1(@voidzero-dev/vite-plus-core@0.3.2(@types/node@25.9.6)(esbuild@0.28.2)(tsx@4.23.13)(typescript@7.0.2)(yaml@2.9.1))(esbuild@0.28.2)(rollup@4.63.3)':
+  '@torpor/ui@1.1.3(@voidzero-dev/vite-plus-core@0.3.2(@types/node@25.9.6)(esbuild@0.28.2)(tsx@4.23.13)(typescript@7.0.2)(yaml@2.9.1))(esbuild@0.28.2)(rollup@4.63.3)':
     dependencies:
       '@torpor/unplugin': 1.0.4(@voidzero-dev/vite-plus-core@0.3.2(@types/node@25.9.6)(esbuild@0.28.2)(tsx@4.23.13)(typescript@7.0.2)(yaml@2.9.1))(esbuild@0.28.2)(rollup@4.63.3)
       '@torpor/view': 1.1.0
@@ -6061,7 +6061,7 @@ snapshots:
       '@jridgewell/trace-mapping': 0.3.31
       '@vitest/spy': 5.0.0
       estree-walker: 3.0.3
-      magic-string: 1.3.1
+      magic-string: 1.4.1
     optionalDependencies:
       vite: '@voidzero-dev/vite-plus-core@0.3.0(@types/node@25.9.6)(esbuild@0.27.7)(tsx@4.23.13)(typescript@7.0.2)(yaml@2.9.1)'
 
@@ -6070,7 +6070,7 @@ snapshots:
       '@jridgewell/trace-mapping': 0.3.31
       '@vitest/spy': 5.0.0
       estree-walker: 3.0.3
-      magic-string: 1.3.1
+      magic-string: 1.4.1
     optionalDependencies:
       vite: '@voidzero-dev/vite-plus-core@0.3.0(@types/node@25.9.6)(esbuild@0.28.2)(tsx@4.23.13)(typescript@7.0.2)(yaml@2.9.1)'
 
@@ -6079,7 +6079,7 @@ snapshots:
       '@jridgewell/trace-mapping': 0.3.31
       '@vitest/spy': 5.0.0
       estree-walker: 3.0.3
-      magic-string: 1.3.1
+      magic-string: 1.4.1
     optionalDependencies:
       vite: '@voidzero-dev/vite-plus-core@0.3.2(@types/node@25.9.6)(esbuild@0.27.7)(tsx@4.23.13)(typescript@7.0.2)(yaml@2.9.1)'
 
@@ -6088,7 +6088,7 @@ snapshots:
       '@jridgewell/trace-mapping': 0.3.31
       '@vitest/spy': 5.0.0
       estree-walker: 3.0.3
-      magic-string: 1.3.1
+      magic-string: 1.4.1
     optionalDependencies:
       vite: '@voidzero-dev/vite-plus-core@0.3.2(@types/node@25.9.6)(esbuild@0.28.2)(tsx@4.23.13)(typescript@7.0.2)(yaml@2.9.1)'
 
@@ -6561,14 +6561,14 @@ snapshots:
       esbuild: 0.25.12
       tsx: 4.23.13
 
-  drizzle-orm@0.45.2(@cloudflare/workers-types@5.20260914.1)(@libsql/client@0.18.0):
+  drizzle-orm@0.45.2(@cloudflare/workers-types@5.20260915.1)(@libsql/client@0.18.0):
     optionalDependencies:
-      '@cloudflare/workers-types': 5.20260914.1
+      '@cloudflare/workers-types': 5.20260915.1
       '@libsql/client': 0.18.0
 
-  drizzle-valibot@0.4.2(drizzle-orm@0.45.2(@cloudflare/workers-types@5.20260914.1)(@libsql/client@0.18.0))(valibot@1.5.0(typescript@7.0.2)):
+  drizzle-valibot@0.4.2(drizzle-orm@0.45.2(@cloudflare/workers-types@5.20260915.1)(@libsql/client@0.18.0))(valibot@1.5.0(typescript@7.0.2)):
     dependencies:
-      drizzle-orm: 0.45.2(@cloudflare/workers-types@5.20260914.1)(@libsql/client@0.18.0)
+      drizzle-orm: 0.45.2(@cloudflare/workers-types@5.20260915.1)(@libsql/client@0.18.0)
       valibot: 1.5.0(typescript@7.0.2)
 
   entities@4.5.0: {}
@@ -6907,7 +6907,7 @@ snapshots:
     dependencies:
       '@jridgewell/sourcemap-codec': 1.6.0
 
-  magic-string@1.3.1:
+  magic-string@1.4.1:
     dependencies:
       '@jridgewell/sourcemap-codec': 1.6.0
 
@@ -7919,7 +7919,7 @@ snapshots:
       chai: 6.2.2
       es-module-lexer: 2.3.2
       expect-type: 1.4.0
-      magic-string: 1.3.1
+      magic-string: 1.4.1
       obug: 2.2.1
       picomatch: 4.0.7
       std-env: 4.2.0
@@ -7942,7 +7942,7 @@ snapshots:
       chai: 6.2.2
       es-module-lexer: 2.3.2
       expect-type: 1.4.0
-      magic-string: 1.3.1
+      magic-string: 1.4.1
       obug: 2.2.1
       picomatch: 4.0.7
       std-env: 4.2.0
@@ -7965,7 +7965,7 @@ snapshots:
       chai: 6.2.2
       es-module-lexer: 2.3.2
       expect-type: 1.4.0
-      magic-string: 1.3.1
+      magic-string: 1.4.1
       obug: 2.2.1
       picomatch: 4.0.7
       std-env: 4.2.0
@@ -7988,7 +7988,7 @@ snapshots:
       chai: 6.2.2
       es-module-lexer: 2.3.2
       expect-type: 1.4.0
-      magic-string: 1.3.1
+      magic-string: 1.4.1
       obug: 2.2.1
       picomatch: 4.0.7
       std-env: 4.2.0
@@ -8025,7 +8025,7 @@ snapshots:
       '@cloudflare/workerd-linux-arm64': 1.20260911.1
       '@cloudflare/workerd-windows-64': 1.20260911.1
 
-  wrangler@4.131.2(@cloudflare/workers-types@5.20260914.1)(@types/node@25.9.6):
+  wrangler@4.131.2(@cloudflare/workers-types@5.20260915.1)(@types/node@25.9.6):
     dependencies:
       '@cloudflare/kv-asset-handler': 0.5.0
       '@cloudflare/unenv-preset': 2.16.1(unenv@2.0.0-rc.24)(workerd@1.20260911.1)
@@ -8036,7 +8036,7 @@ snapshots:
       unenv: 2.0.0-rc.24
       workerd: 1.20260911.1
     optionalDependencies:
-      '@cloudflare/workers-types': 5.20260914.1
+      '@cloudflare/workers-types': 5.20260915.1
       fsevents: 2.3.3
     transitivePeerDependencies:
       - '@types/node'

@@ -3,4 +3,4 @@ import component from "../../../../views/posts/PostDeletePage.torp";
 
 export default {
 	component,
-} satisfies PageEndPoint;
+} satisfies PageEndPoint<"/posts/delete/[slug]">;

@@ -20,4 +20,4 @@ export default {
 
 		return await messageGroupPost(request, user.code);
 	},
-} satisfies ServerEndPoint;
+} satisfies ServerEndPoint<"/api/messages/groups/[slug]">;

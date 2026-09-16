@@ -3,4 +3,4 @@ import component from "../../../views/comments/CommentViewPage.torp";
 
 export default {
 	component,
-} satisfies PageEndPoint;
+} satisfies PageEndPoint<"/comments/[slug]">;

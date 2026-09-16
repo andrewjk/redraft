@@ -39,7 +39,9 @@ export default {
 				return result;
 			}
 
-			return seeOther(params.user ? `/${params.user}/contacts/lists` : "/contacts/lists");
+			// The site can also be served under a /:user prefix
+			const userParam = (params as { user?: string }).user;
+			return seeOther(userParam ? `/${userParam}/contacts/lists` : "/contacts/lists");
 		},
 	},
-} satisfies PageServerEndPoint;
+} satisfies PageServerEndPoint<"/contacts/lists/edit/[slug]">;

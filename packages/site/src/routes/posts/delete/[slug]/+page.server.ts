@@ -17,4 +17,4 @@ export default {
 	actions: {
 		default: deletePost,
 	},
-} satisfies PageServerEndPoint;
+} satisfies PageServerEndPoint<"/posts/delete/[slug]">;

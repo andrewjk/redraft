@@ -20,4 +20,4 @@ export default {
 
 		return await listSave(request, user.code);
 	},
-} satisfies ServerEndPoint;
+} satisfies ServerEndPoint<"/api/contacts/lists/edit/[slug]">;

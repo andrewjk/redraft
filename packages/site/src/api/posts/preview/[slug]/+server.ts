@@ -11,4 +11,4 @@ export default {
 
 		return await postPreviewGet(params.slug, user.code);
 	},
-} satisfies ServerEndPoint;
+} satisfies ServerEndPoint<"/api/posts/preview/[slug]">;

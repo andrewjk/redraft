@@ -1,14 +1,25 @@
-import { ServerEndPoint, ServerLoadEvent } from "@torpor/build";
+import { ServerLoadEvent } from "@torpor/build";
 import { ok } from "@torpor/build/response";
-import { CookieHelper, HeaderHelper } from "@torpor/build/server";
+import { invokeHook, ServerEvent } from "@torpor/build/server";
 import hook from "../api/_hook.server";
 import env from "../lib/env";
 import ensureSlash from "./utils/ensureSlash";
 
+// NOTE: A structural stand-in for ServerEndPoint. The real type is
+// contravariant in its event (route-typed params), so an endpoint declared
+// with `satisfies ServerEndPoint<"/api/x/[slug]">` can't be passed where a
+// loose ServerEndPoint is expected.
+type AnyEndPoint = {
+	get?: (ev: any) => Promise<Response | undefined> | Response | undefined;
+	post?: (ev: any) => Promise<Response | undefined> | Response | undefined;
+	put?: (ev: any) => Promise<Response | undefined> | Response | undefined;
+	del?: (ev: any) => Promise<Response | undefined> | Response | undefined;
+};
+
 type SendOptions = {
 	method: "GET" | "POST" | "PUT" | "DELETE";
 	path: string;
-	endpoint: ServerEndPoint;
+	endpoint: AnyEndPoint;
 	params: Record<string, string>;
 	data?: any;
 	token?: string;
@@ -58,16 +69,25 @@ async function send({ method, path, endpoint, data, token }: SendOptions): Promi
 
 	const url = new URL(`${base}${path}`);
 	const request = new Request(url, options);
+	const serverEvent = new ServerEvent(request, params, url);
 	const ev: ServerLoadEvent = {
 		url,
 		params,
 		appData: {},
 		request,
-		cookies: new CookieHelper(request),
-		headers: new HeaderHelper(request),
+		json: () => request.json(),
+		form: async () => Object.fromEntries(await request.formData()),
+		query: async () => Object.fromEntries(url.searchParams),
+		cookies: serverEvent.cookies,
+		session: serverEvent.session,
+		flash: serverEvent.flash,
+		headers: serverEvent.headers,
 		adapter: {},
 	};
-	hook.handle(ev);
+	// Run the API hook's enter function; a returned Response short-circuits
+	// the request (e.g. a redirect for unauthenticated users)
+	const hooked = await invokeHook(hook, ev);
+	if (hooked) return hooked;
 	const response =
 		method === "GET"
 			? await endpoint.get!(ev)
@@ -85,7 +105,7 @@ async function send({ method, path, endpoint, data, token }: SendOptions): Promi
 
 export function get(
 	path: string,
-	endpoint: ServerEndPoint,
+	endpoint: AnyEndPoint,
 	params: Record<string, string>,
 	token?: string,
 ): Promise<Response> {
@@ -94,7 +114,7 @@ export function get(
 
 export function del(
 	path: string,
-	endpoint: ServerEndPoint,
+	endpoint: AnyEndPoint,
 	params: Record<string, string>,
 	token?: string,
 ): Promise<Response> {
@@ -103,7 +123,7 @@ export function del(
 
 export function post(
 	path: string,
-	endpoint: ServerEndPoint,
+	endpoint: AnyEndPoint,
 	params: Record<string, string>,
 	data: any,
 	token?: string,
@@ -113,7 +133,7 @@ export function post(
 
 export function put(
 	path: string,
-	endpoint: ServerEndPoint,
+	endpoint: AnyEndPoint,
 	params: Record<string, string>,
 	data: any,
 	token?: string,

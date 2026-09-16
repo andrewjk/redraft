@@ -3,4 +3,4 @@ import component from "../../../../views/tags/TagDraftsPage.torp";
 
 export default {
 	component,
-} satisfies PageEndPoint;
+} satisfies PageEndPoint<"/tags/[slug]/drafts">;

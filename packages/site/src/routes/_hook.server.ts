@@ -2,7 +2,7 @@ import type { ServerHook } from "@torpor/build";
 import * as jose from "jose";
 
 export default {
-	handle: ({ appData, cookies, request }) => {
+	enter: ({ appData, cookies, request }) => {
 		// Decode the user token, if it exists
 		const jwt = cookies.get("jwt");
 		try {

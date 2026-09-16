@@ -5,4 +5,4 @@ export default {
 	get: async ({ appData, params }) => {
 		return await postGet(appData.user, appData.follower, params.slug);
 	},
-} satisfies ServerEndPoint;
+} satisfies ServerEndPoint<"/api/articles/[slug]">;

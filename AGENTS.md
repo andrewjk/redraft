@@ -11,6 +11,13 @@ pnpm workspace with `packages/*` and `packages/adapters/*`.
 - `packages/adapters/adapter-cloudflare` (`@redraft/adapter-cloudflare`) — Cloudflare Workers adapter (has an extra IIFE build step via tsup)
 - `extension/` — Chrome/Firefox browser extension (WXT framework), not part of the workspace
 
+## Torpor framework reference
+
+For the full `.torp` component and `@torpor/view` runtime API (`$watch`,
+`$run`, `$onmount`, `$stream`, `$peek`, `$batch`, `$cache`, `$bind`,
+`&ref`, `&value`, `&group`, slots, context, transitions, directives, etc.),
+see [TORPOR_AGENTS.md](TORPOR_AGENTS.md).
+
 ## Toolchain
 
 - **Type checking:** `tsgo` (not `tsc`) — uses `@typescript/native-preview` (Go-based TypeScript checker)

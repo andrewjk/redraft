@@ -18,4 +18,4 @@ export default {
 	actions: {
 		createComment,
 	},
-} satisfies PageServerEndPoint;
+} satisfies PageServerEndPoint<"/posts/[slug]">;

@@ -18,3 +18,10 @@ peerDependencyRules:
   allowedVersions:
     vite: "*"
     vitest: "*"
+minimumReleaseAgeExclude:
+  - "@torpor/build"
+  - "@torpor/ui"
+  - "@torpor/unplugin"
+  - "@torpor/view"
+  - "@torpor/adapter-cloudflare"
+  - "@torpor/adapter-node"

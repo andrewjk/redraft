@@ -35,12 +35,24 @@ export default function PostInputFields($props: { post: PostEditModel, child?: P
 		linkImageLoaded: !!post.linkImage,
 		showTags: !!post.tags,
 		showVisibility: !!post.visibility,
-		lists: []
+		get lists() {
+			return $async(() => loadLists());
+		}
 	});
 
 	let newIndex = 1;
 	function newPost() {
 		return { id: -1 * newIndex++, slug: "", text: "" };
+	}
+
+	async function loadLists() {
+		const url = `${$props.base}contacts/lists/~server`;
+		const response = await fetch(url, { credentials: "same-origin" });
+		if (!response.ok) {
+			throw new Error();
+		}
+		const data = await response.json();
+		return data.lists;
 	}
 
 	@render {
@@ -244,28 +256,20 @@ export default function PostInputFields($props: { post: PostEditModel, child?: P
 				</Field>
 
 				@if (parseInt(String(post.visibility)) === 3) {
-					@await (loadLists()) {
-						<p>Loading...</p>
-					} then {
-						<Field class="form-row" name={`${prefix}listId`} &value={post.listId}>
-							<Select>
-								@for (let list of $state.lists) {
-									<Option value={list.id}>{list.name}</Option>
-								}
-							</Select>
-						</Field>
+					@try {
+						@await {
+							<Field class="form-row" name={`${prefix}listId`} &value={post.listId}>
+								<Select>
+									@for (let list of $state.lists ?? []) {
+										<Option value={list.id}>{list.name}</Option>
+									}
+								</Select>
+							</Field>
+						} with {
+							<p>Loading...</p>
+						}
 					} catch {
 						<p>Something went wrong...</p>
-					}
-					@async function loadLists() {
-						const url = `${$props.base}contacts/lists/~server`;
-						const response = await fetch(url, { credentials: "same-origin" });
-						if (response.ok) {
-							const data = await response.json();
-							$state.lists = data.lists;
-						} else {
-							throw new Error();
-						}
 					}
 				}
 			}

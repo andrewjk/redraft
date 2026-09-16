@@ -3,4 +3,4 @@ import component from "../../../../views/posts/PostComposePage.torp";
 
 export default {
 	component,
-} satisfies PageEndPoint;
+} satisfies PageEndPoint<"/posts/edit/[slug]">;

@@ -9,4 +9,4 @@ export default {
 
 		return await tagPostList(params.slug, false, limit, offset);
 	},
-} satisfies ServerEndPoint;
+} satisfies ServerEndPoint<"/api/tags/[slug]">;

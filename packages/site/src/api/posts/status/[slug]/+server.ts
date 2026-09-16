@@ -11,4 +11,4 @@ export default {
 
 		return await postStatus(params.slug, user.code);
 	},
-} satisfies ServerEndPoint;
+} satisfies ServerEndPoint<"/api/posts/status/[slug]">;

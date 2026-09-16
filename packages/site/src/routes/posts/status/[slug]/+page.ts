@@ -3,4 +3,4 @@ import component from "../../../../views/posts/PostStatusPage.torp";
 
 export default {
 	component,
-} satisfies PageEndPoint;
+} satisfies PageEndPoint<"/posts/status/[slug]">;

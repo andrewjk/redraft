@@ -20,4 +20,4 @@ export default {
 
 		return await messageCreatePost(request, user.code);
 	},
-} satisfies ServerEndPoint;
+} satisfies ServerEndPoint<"/api/messages/create/[slug]">;

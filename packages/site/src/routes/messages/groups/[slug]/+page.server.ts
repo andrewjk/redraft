@@ -34,11 +34,13 @@ export default {
 				return result;
 			}
 
+			// The site can also be served under a /:user prefix
+			const userParam = (params as { user?: string }).user;
 			return seeOther(
-				params.user
-					? `/${params.user}/messages/groups/${params.slug}`
+				userParam
+					? `/${userParam}/messages/groups/${params.slug}`
 					: `/messages/groups/${params.slug}`,
 			);
 		},
 	},
-} satisfies PageServerEndPoint;
+} satisfies PageServerEndPoint<"/messages/groups/[slug]">;

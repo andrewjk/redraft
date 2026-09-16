@@ -41,11 +41,13 @@ export default {
 
 			const createdModel: { slug: string } = await result.json();
 
+			// The site can also be served under a /:user prefix
+			const userParam = (params as { user?: string }).user;
 			return seeOther(
-				params.user
-					? `/${params.user}/messages/groups/${createdModel.slug}`
+				userParam
+					? `/${userParam}/messages/groups/${createdModel.slug}`
 					: `/messages/groups/${createdModel.slug}`,
 			);
 		},
 	},
-} satisfies PageServerEndPoint;
+} satisfies PageServerEndPoint<"/messages/create/[slug]">;

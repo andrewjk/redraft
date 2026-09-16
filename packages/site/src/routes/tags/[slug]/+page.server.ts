@@ -12,4 +12,4 @@ export default {
 
 		return await api.get(`tags/[slug=${params.slug}]`, tagsGet, params);
 	},
-} satisfies PageServerEndPoint;
+} satisfies PageServerEndPoint<"/tags/[slug]">;

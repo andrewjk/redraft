@@ -11,4 +11,4 @@ export default {
 
 		return await commentGet(params.slug);
 	},
-} satisfies ServerEndPoint;
+} satisfies ServerEndPoint<"/api/comments/[slug]">;

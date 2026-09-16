@@ -26,4 +26,4 @@ export default {
 			user.token,
 		);
 	},
-} satisfies PageServerEndPoint;
+} satisfies PageServerEndPoint<"/tags/[slug]/drafts">;

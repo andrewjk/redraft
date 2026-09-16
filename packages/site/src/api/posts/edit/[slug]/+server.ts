@@ -11,4 +11,4 @@ export default {
 
 		return await postEditGet(params.slug, user.code);
 	},
-} satisfies ServerEndPoint;
+} satisfies ServerEndPoint<"/api/posts/edit/[slug]">;
