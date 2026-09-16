@@ -2,7 +2,7 @@ import { queryByText } from "@testing-library/dom";
 import "@testing-library/jest-dom/vitest";
 import { Site } from "@torpor/build";
 import { runTest } from "@torpor/build/test";
-import { afterAll, beforeAll, expect, test } from "vitest";
+import { afterAll, beforeAll, expect, test } from "vite-plus/test";
 import buildTestEvent from "../buildTestEvent";
 import { cleanUpSiteTest, prepareSiteTest } from "../prepareSiteTest";
 

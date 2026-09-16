@@ -4,10 +4,16 @@
 	"description": "",
 	"type": "module",
 	"scripts": {
+		"check": "pnpm -r check",
+		"build": "pnpm -r build",
 		"cs:add": "pnpm changeset add",
 		"cs:version": "pnpm -r build && pnpm changeset version",
 		"cs:publish": "pnpm -r build && pnpm changeset publish",
-		"logo:build": "rsvg-convert -h 128 logo.svg > logo.png"
+		"logo:build": "rsvg-convert -h 128 logo.svg > logo.png",
+		"test": "vp test run",
+		"test:watch": "vp test",
+		"format": "vp fmt .",
+		"prepare": "vp config"
 	},
 	"keywords": [],
 	"author": "",
@@ -17,12 +23,20 @@
 	},
 	"devDependencies": {
 		"@trivago/prettier-plugin-sort-imports": "^6.0.0",
-		"prettier": "^3.7.4",
 		"tsx": "^4.21.0",
-		"typescript": "^5.9.3"
+		"typescript": "^5.9.3",
+		"vite": "catalog:",
+		"vite-plus": "catalog:"
 	},
 	"workspaces": [
 		"packages/*",
 		"packages/adapters/*"
-	]
+	],
+	"devEngines": {
+		"packageManager": {
+			"name": "pnpm",
+			"version": "12.4.2",
+			"onFail": "download"
+		}
+	}
 }

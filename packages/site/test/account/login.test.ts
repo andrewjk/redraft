@@ -2,7 +2,7 @@ import { queryByText } from "@testing-library/dom";
 import "@testing-library/jest-dom/vitest";
 import { Site } from "@torpor/build";
 import { runTest } from "@torpor/build/test";
-import { afterAll, beforeAll, expect, test } from "vitest";
+import { afterAll, beforeAll, expect, test } from "vite-plus/test";
 import accountLogin from "../../src/lib/account/accountLogin";
 import type LoginModel from "../../src/types/account/LoginModel";
 import type LoginResponseModel from "../../src/types/account/LoginResponseModel";

@@ -2,7 +2,7 @@ import "@testing-library/jest-dom/vitest";
 import { Site } from "@torpor/build";
 import { eq, isNotNull } from "drizzle-orm";
 import { LibSQLDatabase } from "drizzle-orm/libsql";
-import { afterAll, assert, beforeAll, expect, test } from "vitest";
+import { afterAll, assert, beforeAll, expect, test } from "vite-plus/test";
 import * as schema from "../../src/data/schema/index";
 import postDelete from "../../src/lib/posts/postDelete";
 import type PostDeleteModel from "../../src/types/posts/PostDeleteModel";

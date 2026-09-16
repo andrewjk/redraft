@@ -1,12 +1,10 @@
 import torpor from "@torpor/unplugin/vite";
-import tsconfigPaths from "vite-tsconfig-paths";
-import { type UserConfigFnObject, defineConfig } from "vitest/config";
+import { defineConfig, type ViteUserConfig } from "vite-plus";
 
-export default defineConfig(({ mode }) => ({
-	// TODO: Make tsconfigPaths not required
-	plugins: [torpor({ test: true }), tsconfigPaths()],
+export default defineConfig({
+	plugins: [torpor({ test: true })],
 	resolve: {
-		conditions: mode === "test" ? ["browser"] : [],
+		conditions: ["browser"],
 	},
 	test: {
 		// NOTE: jose doesn't work in jsdom
@@ -19,4 +17,4 @@ export default defineConfig(({ mode }) => ({
 			},
 		},
 	},
-})) satisfies UserConfigFnObject as UserConfigFnObject;
+}) satisfies ViteUserConfig as ViteUserConfig;

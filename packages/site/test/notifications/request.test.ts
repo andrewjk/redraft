@@ -3,7 +3,7 @@ import { Site } from "@torpor/build";
 import { ok } from "@torpor/build/response";
 import { eq } from "drizzle-orm";
 import { LibSQLDatabase } from "drizzle-orm/libsql";
-import { afterAll, assert, beforeAll, expect, test } from "vitest";
+import { afterAll, assert, beforeAll, expect, test } from "vite-plus/test";
 import * as schema from "../../src/data/schema/index";
 import followRequested from "../../src/lib/public/followRequested";
 import type FollowRequestedModel from "../../src/types/public/FollowRequestedModel";

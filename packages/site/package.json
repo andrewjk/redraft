@@ -19,14 +19,14 @@
 	"scripts": {
 		"check": "tsgo --noEmit",
 		"check:todo": "tsgo --noEmit && pnpm dlx oxlint --type-aware",
-		"build": "tsgo --noEmit && tsdown",
+		"build": "tsgo --noEmit && vp pack",
 		"dev": "tb --dev",
 		"build:site": "tsgo --noEmit && tb --build",
 		"preview": "tb --preview",
 		"db:push": "drizzle-kit push",
 		"db:generate": "drizzle-kit generate",
 		"db:migrate": "drizzle-kit migrate",
-		"test": "vitest"
+		"test": "vp test"
 	},
 	"keywords": [],
 	"author": "",
@@ -64,14 +64,11 @@
 		"dotenv-cli": "^11.0.0",
 		"drizzle-kit": "^0.31.8",
 		"happy-dom": "^20.0.11",
-		"oxlint-tsgolint": "^0.9.0",
-		"prettier": "^3.7.4",
 		"sanitize-html": "^2.17.0",
-		"tsdown": "0.17.4",
 		"tsx": "^4.21.0",
 		"typescript": "^5.9.3",
-		"vite": "^7.2.7",
-		"vite-tsconfig-paths": "^6.0.1",
-		"vitest": "^4.0.15"
+		"vite": "catalog:",
+		"vite-plus": "catalog:",
+		"vitest": "catalog:"
 	}
 }

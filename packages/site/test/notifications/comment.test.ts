@@ -2,7 +2,7 @@ import "@testing-library/jest-dom/vitest";
 import { Site } from "@torpor/build";
 import { eq } from "drizzle-orm";
 import { LibSQLDatabase } from "drizzle-orm/libsql";
-import { afterAll, assert, beforeAll, expect, test } from "vitest";
+import { afterAll, assert, beforeAll, expect, test } from "vite-plus/test";
 import * as schema from "../../src/data/schema/index";
 import commentCreate from "../../src/lib/comments/commentCreate";
 import type CommentCreateModel from "../../src/types/comments/CommentCreateModel";

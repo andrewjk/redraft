@@ -2,7 +2,7 @@ import { node } from "@torpor/adapter-node";
 import { Site } from "@torpor/build";
 import { LibSQLDatabase } from "drizzle-orm/libsql";
 import fs from "node:fs";
-import { vi } from "vitest";
+import { vi } from "vite-plus/test";
 import * as schema from "../src/data/schema/index";
 import testAdapter from "./testAdapter";
 
