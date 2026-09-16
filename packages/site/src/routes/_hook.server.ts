@@ -1,6 +1,7 @@
 import type { ServerHook } from "@torpor/build";
 import * as jose from "jose";
 import env from "../lib/env";
+import verifyFollowerToken from "../lib/utils/verifyFollowerToken";
 
 function userSecret() {
 	return new TextEncoder().encode(env().JWT_SECRET);
@@ -40,11 +41,16 @@ export default {
 		if (!appData.user && !appData.follower) {
 			const headerToken = request.headers.get("X-Social-Follower");
 			if (headerToken) {
-				// TODO: The follower token is signed by the follower's site, so
-				// it can't be verified with our secret. It should be signed with
-				// the relationship's shared key instead (see SECURITY.md)
-				appData.follower = jose.decodeJwt(headerToken).follower;
-				appData.follower.token = headerToken;
+				const record = await verifyFollowerToken(headerToken);
+				if (record) {
+					appData.follower = {
+						url: record.url,
+						name: record.name,
+						image: record.image,
+						shared_key: record.shared_key,
+						token: headerToken,
+					};
+				}
 			}
 		}
 

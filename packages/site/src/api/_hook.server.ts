@@ -1,6 +1,7 @@
 import type { ServerHook } from "@torpor/build";
 import * as jose from "jose";
 import env from "../lib/env";
+import verifyFollowerToken from "../lib/utils/verifyFollowerToken";
 
 export default {
 	enter: async ({ appData, request, headers }) => {
@@ -25,12 +26,16 @@ export default {
 				// Ignore invalid user tokens
 			}
 
-			// TODO: Follower tokens are signed by the follower's site, so they
-			// can't be verified with our secret. They should be signed with the
-			// relationship's shared key instead (see SECURITY.md)
-			const decoded = jose.decodeJwt(token);
-			if (decoded?.follower) {
-				appData.follower = { ...decoded.follower, token };
+			// Follower tokens are signed with the relationship's shared key
+			const record = await verifyFollowerToken(token);
+			if (record) {
+				appData.follower = {
+					url: record.url,
+					name: record.name,
+					image: record.image,
+					shared_key: record.shared_key,
+					token,
+				};
 			}
 		}
 	},

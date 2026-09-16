@@ -38,20 +38,6 @@ authentication is the `shared_key` claim matching a `followedByTable` row.
 
 ## Findings
 
-### HIGH: extension follower tokens embed the shared key in decodable claims
-
-`createHeaderToken` puts the relationship's `shared_key` directly in the JWT
-claims. Because the receiver never verifies the token, the claims are
-effectively plaintext — and the header rides on _every_ request the extension
-makes to the followed site (pages, images, API calls), not just authenticated
-POSTs. Anyone who can observe the header (no TLS, TLS termination, logs) gets
-the relationship key. (_Verified by test._)
-
-**Fix:** when signing with the shared key (see plan), the key does not need to
-be _in_ the claims at all — claims only need `{url, iat}`; the receiver looks
-up the relationship by url and verifies the signature with its stored key. The
-key then never travels.
-
 ### HIGH: No HTML sanitization
 
 User content passes through `micromark` (markdown to HTML) without
@@ -142,13 +128,11 @@ realistic chains are:
 1. ~~**User tokens → `jwtVerify(JWT_SECRET)`.**~~ **Done** — user tokens are
    verified in both hooks, the cookie holds a signed token, and token expiry
    is enforced in `userIdQuery`.
-2. **Follower tokens → sign with the relationship key.** `createHeaderToken`
-   signs with `f.shared_key` (both sides hold it) and claims shrink to
-   `{url, iat}` — the shared key never travels. On receipt: decode claims
-   (unverified) → look up `followedByTable` by `url` → `jwtVerify(token,
-that row's shared_key)`. Claim swapping becomes impossible: the signature
-   only verifies against the claimed relationship's key. `JWT_SECRET_2` is
-   retired (optionally with a transition window accepting old tokens).
+2. ~~**Follower tokens → sign with the relationship key.**~~ **Done** —
+   `createHeaderToken` signs with `f.shared_key` and claims are keyless
+   (`{follower: {url}, iat}`). On receipt, `verifyFollowerToken` looks up the
+   `followedByTable` row by url and verifies against its key; `JWT_SECRET_2`
+   is no longer used by site code.
 
 ## Key rotation plan
 
@@ -193,6 +177,5 @@ post's authenticity doesn't rest solely on transport + key possession.
 ## Recommended priority
 
 1. Sanitize micromark output (CSP as backstop)
-2. Follower tokens → shared-key-signed, keyless claims
-3. Key rotation (protocol above)
-4. Rate limiting (login first), CORS narrowing, timing-safe setup compare
+2. Key rotation (protocol above)
+3. Rate limiting (login first), CORS narrowing, timing-safe setup compare

@@ -1,5 +1,4 @@
 import * as jose from "jose";
-import env from "../env";
 
 type User = {
 	url: string;
@@ -8,23 +7,22 @@ type User = {
 
 /**
  * Creates a token containing the user information for sending to users you
- * follow/are followed by when communicating with them.
+ * follow/are followed by when communicating with them. The token is signed
+ * with the relationship's shared key, so the receiving site can verify it
+ * without the key ever being sent.
  * @param user User information to create the token
  * @returns the token created
  */
 export default async function createHeaderToken(user: User) {
-	if (!env().JWT_SECRET_2) {
-		throw new Error("JWT_SECRET_2 missing in environment.");
-	}
 	const tokenObject = {
 		follower: {
 			url: user.url,
-			shared_key: user.shared_key,
 		},
 	};
-	const secret = new TextEncoder().encode(env().JWT_SECRET_2);
+	const secret = new TextEncoder().encode(user.shared_key);
 	const token = await new jose.SignJWT(tokenObject)
 		.setProtectedHeader({ alg: "HS256" })
+		.setIssuedAt()
 		.sign(secret);
 	return token;
 }
