@@ -6,9 +6,9 @@
 	"scripts": {
 		"check": "pnpm -r check",
 		"build": "pnpm -r build",
-		"cs:add": "pnpm changeset add",
-		"cs:version": "pnpm -r build && pnpm changeset version",
-		"cs:publish": "pnpm -r build && pnpm changeset publish",
+		"bump:add": "bumpy add",
+		"bump:version": "pnpm -r build && bumpy version",
+		"bump:publish": "pnpm -r build && bumpy publish",
 		"logo:build": "rsvg-convert -h 128 logo.svg > logo.png",
 		"test": "vp test run",
 		"test:watch": "vp test",
@@ -18,10 +18,15 @@
 	"keywords": [],
 	"author": "",
 	"license": "ISC",
-	"dependencies": {
-		"@changesets/cli": "^3.0.3"
+	"devEngines": {
+		"packageManager": {
+			"name": "pnpm",
+			"version": "12.4.2",
+			"onFail": "download"
+		}
 	},
 	"devDependencies": {
+		"@varlock/bumpy": "^1.18.1",
 		"tsx": "^4.23.13",
 		"typescript": "^7.0.2",
 		"vite": "catalog:",
@@ -30,12 +35,5 @@
 	"workspaces": [
 		"packages/*",
 		"packages/adapters/*"
-	],
-	"devEngines": {
-		"packageManager": {
-			"name": "pnpm",
-			"version": "12.4.2",
-			"onFail": "download"
-		}
-	}
+	]
 }

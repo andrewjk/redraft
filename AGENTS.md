@@ -61,12 +61,12 @@ For adapter packages, `pnpm build` = `tsgo --noEmit && tsdown` (from the adapter
 
 ## Publishing
 
-Changesets workflow from repo root:
+Bumpy workflow (bump files in `.bumpy/`) from repo root:
 
 ```
-pnpm cs:add       # add a changeset
-pnpm cs:version   # build all + version
-pnpm cs:publish   # build all + publish
+pnpm bump:add       # add a bump file
+pnpm bump:version   # build all + version
+pnpm bump:publish   # build all + publish
 ```
 
 <!--VITE PLUS START-->
