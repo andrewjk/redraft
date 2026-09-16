@@ -10,6 +10,7 @@ import { FOLLOW_REQUESTED_VERSION } from "../../types/public/FollowRequestedMode
 import type FollowRequestedResponseModel from "../../types/public/FollowRequestedResponseModel";
 import { postPublic } from "../public";
 import getErrorMessage from "../utils/getErrorMessage";
+import peerResponse from "../utils/peerResponse";
 import userIdQuery from "../utils/userIdQuery";
 import uuid from "../utils/uuid";
 
@@ -81,7 +82,7 @@ export default async function followRequest(request: Request, code: string) {
 				let response = await postPublic(sendUrl, sendData);
 				if (!response.ok) {
 					await db.delete(followingTable).where(eq(followingTable.id, recordId));
-					return response;
+					return await peerResponse(response);
 				}
 				let requestData = (await response.json()) as FollowRequestedResponseModel;
 				updatedRecord.name = requestData.name;

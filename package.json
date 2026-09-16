@@ -11,6 +11,7 @@
 		"bump:publish": "pnpm -r build && bumpy publish",
 		"logo:build": "rsvg-convert -h 128 logo.svg > logo.png",
 		"test": "vp test run",
+		"test:integration": "bash scripts/integration-test.sh",
 		"test:watch": "vp test",
 		"format": "vp fmt .",
 		"prepare": "vp config"

@@ -12,6 +12,7 @@ import createNotification from "../notifications/createNotification";
 import updateNotificationCounts from "../notifications/updateNotificationCounts";
 import { postPublic } from "../public";
 import getErrorMessage from "../utils/getErrorMessage";
+import peerResponse from "../utils/peerResponse";
 
 /**
  * Receives a follow request from another user.
@@ -38,7 +39,7 @@ export default async function followRequested(request: Request) {
 		};
 		const response = await postPublic(sendUrl, sendData);
 		if (!response.ok) {
-			return response;
+			return await peerResponse(response);
 		}
 		const confirmData = (await response.json()) as FollowCheckResponseModel;
 
