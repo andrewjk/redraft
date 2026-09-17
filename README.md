@@ -82,4 +82,4 @@ If all of the above options sound like too much work, you can pay for a hosted a
 
 The web extension is only available in Chrome for now. You can install it from the [Chrome Web Store](https://chromewebstore.google.com/detail/redraft/kjphhfhmicmfpeoecbhnibleaologghh?pli=1).
 
-Alternatively, you can build and use it unpacked. The source code is inside the `/extension` folder.
+Alternatively, you can build and use it unpacked. The source code is inside the `/packages/extension` folder.

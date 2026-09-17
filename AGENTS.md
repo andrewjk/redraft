@@ -9,7 +9,7 @@ pnpm workspace with `packages/*` and `packages/adapters/*`.
 - `packages/adapters/adapter-core` (`@redraft/adapter-core`) — adapter interfaces
 - `packages/adapters/adapter-node` (`@redraft/adapter-node`) — Node adapter
 - `packages/adapters/adapter-cloudflare` (`@redraft/adapter-cloudflare`) — Cloudflare Workers adapter (has an extra IIFE build step via tsup)
-- `extension/` — Chrome/Firefox browser extension (WXT framework), not part of the workspace
+- `packages/extension` (`@redraft/extension`) — Chrome/Firefox browser extension (WXT framework); private, versioned by bumpy but not published to npm
 
 ## Torpor framework reference
 

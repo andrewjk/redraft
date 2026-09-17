@@ -8,9 +8,9 @@ export default interface State {
 	messageCount?: number;
 	notificationCount?: number;
 	viewing?: {
-		image: string;
+		image?: string;
 		url: string;
-		name: string;
+		name?: string;
 		following: boolean;
 		requested: boolean;
 	};

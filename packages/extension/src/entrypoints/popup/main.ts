@@ -1,4 +1,5 @@
 import type MessageResponse from "@/types/MessageResponse";
+import type { Storage } from "@/types/Storage";
 import { mount } from "@torpor/view";
 import { browser } from "wxt/browser";
 import $state from "../$state";
@@ -12,7 +13,7 @@ import Popup from "./Popup.torp";
 // If we're logged in, show the account panel
 loadInterface();
 async function loadInterface(): Promise<void> {
-	let localStorage = await browser.storage.local.get();
+	let localStorage = await browser.storage.local.get<Storage>();
 	$state.authenticated = localStorage.authenticated ?? false;
 	if ($state.authenticated) {
 		// Refresh if it's been more than 5 minutes
@@ -27,7 +28,7 @@ async function loadInterface(): Promise<void> {
 		$state.following = localStorage.following.filter((f: any) => f.approved);
 		$state.requested = localStorage.following.filter((f: any) => !f.approved);
 	}
-	$state.viewing = localStorage.viewing;
+	$state.viewing = localStorage.viewing ?? undefined;
 
 	$state.followMessage = undefined;
 

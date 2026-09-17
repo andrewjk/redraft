@@ -1,10 +1,11 @@
 import type MessageResponse from "@/types/MessageResponse";
+import type { Storage } from "@/types/Storage";
 import { browser } from "wxt/browser";
 import { get } from "./api";
 import setFollowingRules from "./setFollowingRules";
 
 export default async function refresh(): Promise<MessageResponse> {
-	const { authenticated } = await browser.storage.local.get();
+	const { authenticated } = await browser.storage.local.get<Storage>();
 	if (!authenticated) {
 		return { ok: false, error: "Not authenticated" };
 	}
@@ -12,7 +13,7 @@ export default async function refresh(): Promise<MessageResponse> {
 	// TODO:
 	let ok = true;
 
-	const { url, token, following, loadedAt } = await browser.storage.local.get();
+	const { url, token, following, loadedAt } = await browser.storage.local.get<Storage>();
 	const data = await get<any>(url, `api/extension/refresh?from=${loadedAt}`, token);
 	if (data) {
 		if (data.following) {

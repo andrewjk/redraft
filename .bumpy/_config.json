@@ -3,5 +3,9 @@
 	"baseBranch": "main",
 	"changelog": "default",
 	"access": "restricted",
-	"updateInternalDependencies": "patch"
+	"updateInternalDependencies": "patch",
+	"privatePackages": {
+		"version": true,
+		"tag": true
+	}
 }

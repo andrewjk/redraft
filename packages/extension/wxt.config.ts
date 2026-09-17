@@ -3,7 +3,13 @@ import { defineConfig } from "wxt";
 
 export default defineConfig({
 	srcDir: "src",
+	zip: {
+		// Defaults to the package name (sans scope), which would be "redraftextension"
+		name: "redraft",
+	},
 	manifest: {
+		// Defaults to the package name, which is now the scoped "@redraft/extension"
+		name: "Redraft",
 		permissions: ["storage", "declarativeNetRequest"],
 		host_permissions: ["<all_urls>"],
 		browser_specific_settings: {

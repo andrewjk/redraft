@@ -3,6 +3,7 @@ packages:
   - "packages/adapters/*"
 allowBuilds:
   esbuild: true
+  spawn-sync: false
   workerd: true
 catalog:
   vite: npm:@voidzero-dev/vite-plus-core@0.3.2

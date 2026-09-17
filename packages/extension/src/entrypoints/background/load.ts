@@ -1,9 +1,10 @@
+import type { Storage } from "@/types/Storage";
 import { browser } from "wxt/browser";
 import { get } from "./api";
 import setFollowingRules from "./setFollowingRules";
 
 export default async function load(): Promise<void> {
-	const { url, token } = await browser.storage.local.get();
+	const { url, token } = await browser.storage.local.get<Storage>();
 	const data = await get<any>(url, `api/extension/load`, token);
 	if (data) {
 		await browser.storage.local.set({

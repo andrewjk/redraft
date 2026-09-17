@@ -1,29 +1,29 @@
 {
-	"name": "Redraft",
+	"name": "@redraft/extension",
 	"version": "0.0.2",
 	"description": "The Redraft social web extension",
 	"type": "module",
+	"private": true,
 	"scripts": {
 		"dev": "wxt",
 		"dev:firefox": "wxt -b firefox",
+		"check": "tsc --noEmit",
 		"build": "wxt build",
 		"build:firefox": "wxt build -b firefox",
 		"zip": "wxt zip",
 		"zip:firefox": "wxt zip -b firefox",
-		"release:test": "wxt submit --dry-run --chrome-zip .output/redraft-0.0.2-chrome.zip",
-		"release": "wxt submit --chrome-zip .output/redraft-0.0.2-chrome.zip",
-		"release:firefox": "wxt submit --firefox-zip .output/redraft-0.0.2-firefox.zip --firefox-sources-zip .output/redraft-0.0.2-sources.zip",
-		"compile": "tsc --noEmit",
+		"release:test": "wxt submit --dry-run --chrome-zip .output/*-chrome.zip",
+		"release": "wxt submit --chrome-zip .output/*-chrome.zip",
+		"release:firefox": "wxt submit --firefox-zip .output/*-firefox.zip --firefox-sources-zip .output/*-sources.zip",
 		"postinstall": "wxt prepare"
 	},
 	"keywords": [],
 	"author": "",
 	"license": "ISC",
-	"packageManager": "pnpm@10.12.1",
 	"dependencies": {
-		"@torpor/ui": "^0.4.0",
-		"@torpor/unplugin": "^0.2.1",
-		"@torpor/view": "^0.4.18",
+		"@torpor/ui": "^1.1.3",
+		"@torpor/unplugin": "^1.0.4",
+		"@torpor/view": "^1.1.0",
 		"phosphor-torpor": "^1.0.2"
 	},
 	"devDependencies": {
