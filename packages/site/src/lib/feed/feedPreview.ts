@@ -1,11 +1,11 @@
 //import profileView from "./profileView";
-import { micromark } from "micromark";
 import { type Feed } from "../../data/schema/feedTable";
 import { type Following } from "../../data/schema/followingTable";
 import { type User } from "../../data/schema/usersTable";
 import type FeedPreviewModel from "../../types/feed/FeedPreviewModel";
 import { ARTICLE_LINK_TYPE, EVENT_LINK_TYPE, LINK_LINK_TYPE } from "../constants";
 import ensureSlash from "../utils/ensureSlash";
+import renderMarkdown from "../utils/renderMarkdown";
 
 export default function feedPreview(
 	feed: Feed & { user?: Following | null },
@@ -13,7 +13,7 @@ export default function feedPreview(
 ): FeedPreviewModel {
 	return {
 		slug: feed.slug,
-		text: micromark(feed.text),
+		text: renderMarkdown(feed.text),
 		author: feed.user
 			? {
 					name: feed.user.name,

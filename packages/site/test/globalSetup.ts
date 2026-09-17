@@ -4,11 +4,12 @@ import fs from "node:fs";
 import * as schema from "../src/data/schema/index";
 import { ARTICLE_LINK_TYPE } from "../src/lib/constants";
 import { hashPassword } from "../src/lib/utils/hashPasswords";
+import { packagePath, testPath } from "./paths";
 
 export async function setup(): Promise<void> {
 	// Create and fill testdata.db with some test data
-	const db = drizzle("file:./test/data/testdata.db", { schema });
-	await migrate(db, { migrationsFolder: "./src/data/migrations" });
+	const db = drizzle(`file:${testPath("data/testdata.db")}`, { schema });
+	await migrate(db, { migrationsFolder: packagePath("src/data/migrations") });
 
 	await insertUser(db);
 	await insertFollowedBy(db);
@@ -218,5 +219,5 @@ async function insertNotifications(db: LibSQLDatabase<typeof schema>) {
 	]);
 }
 export async function teardown(): Promise<void> {
-	fs.rmSync("./test/data/testdata.db");
+	fs.rmSync(testPath("data/testdata.db"));
 }

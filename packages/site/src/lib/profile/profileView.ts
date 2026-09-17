@@ -1,7 +1,7 @@
-import { micromark } from "micromark";
 import { gfm, gfmHtml } from "micromark-extension-gfm";
 import type { User, UserLink } from "../../data/schema/usersTable";
 import type ProfileViewModel from "../../types/profile/ProfileViewModel";
+import renderMarkdown from "../utils/renderMarkdown";
 
 export default function profileView(
 	user: User & { links: UserLink[] },
@@ -14,7 +14,7 @@ export default function profileView(
 		bio: user.bio,
 		about: forEditing
 			? user.about
-			: micromark(user.about, {
+			: renderMarkdown(user.about, {
 					extensions: [gfm()],
 					htmlExtensions: [gfmHtml()],
 				}),

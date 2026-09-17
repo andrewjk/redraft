@@ -1,4 +1,3 @@
-import { micromark } from "micromark";
 import { type Post } from "../../data/schema/postsTable";
 import { type Tag } from "../../data/schema/tagsTable";
 import { type User } from "../../data/schema/usersTable";
@@ -6,6 +5,7 @@ import type PostAuthorModel from "../../types/posts/PostAuthorModel";
 import type PostPreviewModel from "../../types/posts/PostPreviewModel";
 import { ARTICLE_LINK_TYPE, EVENT_LINK_TYPE, LINK_LINK_TYPE } from "../constants";
 import ensureSlash from "../utils/ensureSlash";
+import renderMarkdown from "../utils/renderMarkdown";
 
 export default function postPreview(
 	post: Post & { user?: PostAuthorModel | null; postTags: { tag: Tag }[] },
@@ -13,7 +13,7 @@ export default function postPreview(
 ): PostPreviewModel {
 	return {
 		slug: post.slug,
-		text: micromark(post.text),
+		text: renderMarkdown(post.text),
 		author: post.user
 			? {
 					name: post.user.name,

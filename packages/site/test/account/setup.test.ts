@@ -13,6 +13,7 @@ import accountSetup from "../../src/lib/account/accountSetup";
 import type SetupModel from "../../src/types/account/SetupModel";
 import type SetupResponseModel from "../../src/types/account/SetupResponseModel";
 import { cleanUpSiteTest } from "../prepareSiteTest";
+import { packageDir, packagePath, testPath } from "../paths";
 import testAdapter from "../testAdapter";
 
 let db: LibSQLDatabase<typeof schema>;
@@ -20,14 +21,15 @@ const site: Site = new Site();
 
 beforeAll(async () => {
 	// NOTE: We need to do our own setup here to ensure we have an empty db
+	site.root = packageDir;
 	site.adapter = node;
-	await site.addRouteFolder("./src/routes");
+	await site.addRouteFolder("src/routes");
 
 	// Create setup.db and create a social adapter that gets it
-	const setupdb = drizzle("file:./test/data/setup.db", { schema });
-	await migrate(setupdb, { migrationsFolder: "./src/data/migrations" });
+	const setupdb = drizzle(`file:${testPath("data/setup.db")}`, { schema });
+	await migrate(setupdb, { migrationsFolder: packagePath("src/data/migrations") });
 
-	const adapter = testAdapter(`./test/data/setup.db`);
+	const adapter = testAdapter(testPath("data/setup.db"));
 	// @ts-ignore
 	globalThis.socialAdapter = adapter;
 

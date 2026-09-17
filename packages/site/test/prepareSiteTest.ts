@@ -4,19 +4,23 @@ import { LibSQLDatabase } from "drizzle-orm/libsql";
 import fs from "node:fs";
 import { vi } from "vite-plus/test";
 import * as schema from "../src/data/schema/index";
+import { packageDir, testPath } from "./paths";
 import testAdapter from "./testAdapter";
 
 export async function prepareSiteTest(
 	site: Site,
 	dbname: string,
 ): Promise<LibSQLDatabase<typeof schema>> {
+	// Route folders are resolved relative to the site root, which defaults
+	// to process.cwd()
+	site.root = packageDir;
 	site.adapter = node;
-	await site.addRouteFolder("./src/routes");
+	await site.addRouteFolder("src/routes");
 
 	// Copy the database here and create a social adapter that gets it
-	fs.copyFileSync("./test/data/testdata.db", `./test/data/${dbname}.db`);
+	fs.copyFileSync(testPath("data/testdata.db"), testPath(`data/${dbname}.db`));
 
-	const adapter = testAdapter(`./test/data/${dbname}.db`);
+	const adapter = testAdapter(testPath(`data/${dbname}.db`));
 	// @ts-ignore
 	globalThis.socialAdapter = adapter;
 
@@ -31,7 +35,7 @@ export async function prepareSiteTest(
 }
 
 export function cleanUpSiteTest(dbname: string): void {
-	const file = `./test/data/${dbname}.db`;
+	const file = testPath(`data/${dbname}.db`);
 	if (fs.existsSync(file)) {
 		fs.rmSync(file);
 	}
