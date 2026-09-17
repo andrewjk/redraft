@@ -28,6 +28,7 @@
 	},
 	"devDependencies": {
 		"@varlock/bumpy": "^1.18.1",
+		"oxlint-tsgolint": "^7.0.2001",
 		"tsx": "^4.23.13",
 		"typescript": "^7.0.2",
 		"vite": "catalog:",

@@ -1,19 +1,5 @@
 # Follow-Ups
 
-## `pnpm -r check` fails in adapter-core and adapter-node (tsgolint missing)
-
-The `check` script in `packages/adapters/adapter-core` and `packages/adapters/adapter-node` is
-`tsgo --noEmit && pnpm dlx oxlint --type-aware`, and the type-aware oxlint run fails with:
-
-```
-Failed to find tsgolint executable. You may need to add the `oxlint-tsgolint` package to your project?
-```
-
-This reproduces on a clean checkout (verified by stashing all local changes), so it is not related
-to the extension move. Root `pnpm check` (`pnpm -r check`) therefore always fails at those two
-packages. Fix by adding `oxlint-tsgolint` as a dev dependency (likely in the workspace root) or by
-changing those scripts to plain `tsgo --noEmit` like the other packages.
-
 ## Root `pnpm test` fails with ENOENT `/src/routes`
 
 Running `pnpm test` (`vp test run`) from the repo root fails every suite with:
