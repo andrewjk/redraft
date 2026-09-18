@@ -50,7 +50,7 @@ export default function EditPage($props: { data: { profile: ProfileEditModel, us
 						<div
 							id="image-preview"
 							class="no-shrink"
-							style={`background-image: url("${placeholdify($props.data.profile.image)}")`}
+							style={`background-image: url("${placeholdify($state.data.image)}")`}
 							&ref={preview}
 						/>
 						<File

@@ -1,6 +1,6 @@
 import cleanImage from "../../lib/utils/cleanImage";
 import placeholdify from "../../lib/utils/placeholdify";
-import { Form, Field, File, Label, Input, Message } from "@torpor/ui/Form";
+import { Form, Field, File, Hidden, Label, Input, Message, TextArea } from "@torpor/ui/Form";
 import type FormData from "../../types/FormData";
 import SetupSchema from "../../types/account/SetupSchema";
 import type SetupModel from "../../types/account/SetupModel";
@@ -54,11 +54,12 @@ export default function SetupPage($props: { form: FormData }) {
 				</Field>
 				<Field class="form-row" name="imagefile" &value={$state.data.imagefile}>
 					<Label>Image</Label>
+					<Hidden name="image" &value={$state.data.image} />
 					<div class="hstack centered spaced">
 						<div
 							id="image-preview"
 							class="no-shrink"
-							style={`background-image: url("${placeholdify("")}")`}
+							style={`background-image: url("${placeholdify($state.data.image)}")`}
 						/>
 						<File
 							accept="image/*"
@@ -92,6 +93,7 @@ export default function SetupPage($props: { form: FormData }) {
 				<Field class="form-row" name="location" &value={$state.data.location}>
 					<Label>Location</Label>
 					<Input />
+					<Message class="error-message" />
 				</Field>
 				<div class="form-footer">
 					<button type="submit">
