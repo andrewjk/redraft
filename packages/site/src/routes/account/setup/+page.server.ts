@@ -39,7 +39,7 @@ export default {
 			}
 			const user = await result.json();
 
-			setUserToken(cookies, {
+			await setUserToken(cookies, {
 				url: user.url,
 				username: user.username,
 				name: user.name,

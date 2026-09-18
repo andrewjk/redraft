@@ -48,7 +48,7 @@ export default {
 			}
 			const newUser: ProfileEditedModel = await result.json();
 
-			setUserToken(cookies, {
+			await setUserToken(cookies, {
 				url: newUser.url,
 				username: user.username,
 				name: newUser.name,
