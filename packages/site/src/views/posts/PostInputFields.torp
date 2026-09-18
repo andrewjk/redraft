@@ -85,7 +85,8 @@ export default function PostInputFields($props: { post: PostEditModel, child?: P
 					/>
 					<Message class="error-message" />
 				</Field>
-				<ImageUpload image={post.linkimagefile} imageLoaded={$state.linkImageLoaded} class="full-width" />
+				<Hidden name={`${prefix}linkImage`} value={post.linkImage} />
+				<ImageUpload image={post.linkimagefile ?? post.linkImage} imageLoaded={$state.linkImageLoaded} class="full-width" />
 				<Field class="form-row" name={`${prefix}articleText`} &value={post.articleText}>
 					<TextArea placeholder="Article text" />
 					<Message class="error-message" />
@@ -102,7 +103,8 @@ export default function PostInputFields($props: { post: PostEditModel, child?: P
 					/>
 					<Message class="error-message" />
 				</Field>
-				<ImageUpload image={post.linkimagefile} imageLoaded={$state.linkImageLoaded} class="full-width" />
+				<Hidden name={`${prefix}linkImage`} value={post.linkImage} />
+				<ImageUpload image={post.linkimagefile ?? post.linkImage} imageLoaded={$state.linkImageLoaded} class="full-width" />
 				<Field class="form-row" name={`${prefix}eventText`} &value={post.eventText}>
 					<TextArea placeholder="Event description" />
 					<Message class="error-message" />

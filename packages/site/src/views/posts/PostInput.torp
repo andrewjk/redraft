@@ -11,11 +11,17 @@ import FormErrors from "../FormErrors.torp";
  */
 export default function PostInput($props: { post: PostEditModel, user: UserModel, base: string, form?: FormData }) {
 	let user = $props.user;
-	let post = $watch($props.post ?? newPost());
+
+	// When an action returns an error, the submitted form data comes back in
+	// `$props.form.data` -- merge it over the loaded post, so the user
+	// doesn't lose anything they typed
+	const formData = $props.form?.data;
 
 	function newPost(): PostEditModel {
 		return { id: -1, slug: "", text: "", children: [] };
 	}
+
+	let post = $watch({ ...($props.post ?? newPost()), ...formData } as PostEditModel);
 
 	@render {
 		<FormErrors {$props.form} />
