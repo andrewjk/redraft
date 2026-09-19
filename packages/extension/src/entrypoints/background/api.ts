@@ -8,8 +8,6 @@ export async function post(base: string, path: string, data: any, token: string)
 
 /** Sends a request to the API with authentication etc */
 async function api(method: "GET" | "POST", base: string, path: string, data: any, token: string) {
-	console.log(`sending extension request to '${base}${path}'`);
-
 	type RequestOptions = {
 		method: string;
 		headers: Headers;

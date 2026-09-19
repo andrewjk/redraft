@@ -154,7 +154,7 @@ page's own origin; invalid tags are treated as absent.
 `api.ts` logs every extension request URL to the background service
 worker's console — a browsing-pattern leak for anyone with access to it.
 
-**Fix:** Remove the log.
+**Fix:** ~~Remove the log.~~ **Done**
 
 ## Worst realistic case
 
