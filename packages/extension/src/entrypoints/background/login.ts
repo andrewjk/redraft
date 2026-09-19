@@ -1,6 +1,5 @@
 import type LoginData from "@/types/LoginData";
 import type MessageResponse from "@/types/MessageResponse";
-import type { Session } from "@/types/Storage";
 import { browser } from "wxt/browser";
 import load from "./load";
 
@@ -24,12 +23,12 @@ export default async function login(data: LoginData): Promise<MessageResponse> {
 	if (ok) {
 		const { domain, token } = await loginResponse.json();
 
-		await browser.storage.session.set<Session>({ token });
 		await browser.storage.local.set({
 			url,
 			email,
 			authenticated: true,
 			domain: domain ?? null,
+			token,
 		});
 
 		//await Promise.all([loadProfile(), loadFollowers()]);

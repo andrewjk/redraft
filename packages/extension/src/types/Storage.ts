@@ -3,6 +3,7 @@ export interface Storage {
 	url: string;
 	email: string;
 	domain: string | null;
+	token: string;
 	profile: {
 		image: string;
 		url: string;
@@ -18,7 +19,6 @@ export interface Storage {
 }
 
 export interface Session {
-	token: string;
 	following: Following[];
 }
 

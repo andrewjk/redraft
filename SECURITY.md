@@ -116,10 +116,15 @@ closes; it exists for exactly this.
 
 **Fix:** ~~Keep tokens (and the full following list, which contains them)
 in `storage.session`; mirror only display-safe fields to `storage.local`
-for the content script.~~ **Done** — a `Session` type holds `token` and
-the full `following` list; `storage.local` gets a token-free projection
-(`publicFollowing`). Note: session storage dies with the browser, so a
-browser restart now requires logging in again.
+for the content script.~~ **Done, revised** — follower tokens (the
+proliferated per-relationship credentials) and the full `following` list
+live in `storage.session`; `storage.local` only gets a token-free
+projection (`publicFollowing`). The user token itself stays in
+`storage.local` deliberately: it is the extension's session-cookie
+equivalent, and cookies persist to disk too. On browser startup the
+background re-runs `extensionLoad`, which re-derives follower tokens from
+the user's site, so the only credential that survives a restart is the
+one session token.
 
 ### MEDIUM: Header injection rules over-match URLs
 

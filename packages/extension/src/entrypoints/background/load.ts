@@ -5,8 +5,7 @@ import { get } from "./api";
 import setFollowingRules from "./setFollowingRules";
 
 export default async function load(): Promise<void> {
-	const { url } = await browser.storage.local.get<Storage>();
-	const { token } = await browser.storage.session.get<Session>();
+	const { url, token } = await browser.storage.local.get<Storage>();
 	const data = await get<any>(url, `api/extension/load`, token);
 	if (data) {
 		await browser.storage.session.set<Session>({

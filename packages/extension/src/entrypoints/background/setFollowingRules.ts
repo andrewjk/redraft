@@ -1,8 +1,7 @@
-import type { Following, Session, Storage } from "@/types/Storage";
+import type { Following, Storage } from "@/types/Storage";
 
 export default async function setFollowingRules(following: Following[]) {
-	const { url, domain } = await browser.storage.local.get<Storage>();
-	const { token } = await browser.storage.session.get<Session>();
+	const { url, domain, token } = await browser.storage.local.get<Storage>();
 
 	const { MODIFY_HEADERS } = browser.declarativeNetRequest.RuleActionType;
 	const { SET: SET_HEADER } = browser.declarativeNetRequest.HeaderOperation;

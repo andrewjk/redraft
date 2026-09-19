@@ -5,6 +5,7 @@ import { browser } from "wxt/browser";
 import { defineBackground } from "wxt/utils/define-background";
 import type Message from "../../types/Message";
 import follow from "./follow";
+import load from "./load";
 import login from "./login";
 import logout from "./logout";
 import refresh from "./refresh";
@@ -16,6 +17,12 @@ import unfollow from "./unfollow";
 
 const background: BackgroundDefinition = defineBackground({
 	main() {
+		// Follower tokens are only held in session storage, so re-derive them
+		// from the site on startup
+		browser.runtime.onStartup.addListener(() => {
+			load().catch(() => {});
+		});
+
 		browser.tabs.onActivated.addListener(({ tabId }) => {
 			browser.tabs.sendMessage(tabId, {});
 		});

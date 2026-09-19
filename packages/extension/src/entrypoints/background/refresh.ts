@@ -3,6 +3,7 @@ import type { Session, Storage } from "@/types/Storage";
 import { publicFollowing } from "@/types/Storage";
 import { browser } from "wxt/browser";
 import { get } from "./api";
+import load from "./load";
 import setFollowingRules from "./setFollowingRules";
 
 export default async function refresh(): Promise<MessageResponse> {
@@ -14,12 +15,15 @@ export default async function refresh(): Promise<MessageResponse> {
 	// TODO:
 	let ok = true;
 
-	const { url, loadedAt } = await browser.storage.local.get<Storage>();
-	const { token, following } = await browser.storage.session.get<Session>();
-	if (!token) {
-		return { ok: false, error: "Not authenticated" };
+	const { url, token, loadedAt } = await browser.storage.local.get<Storage>();
+	const { following } = await browser.storage.session.get<Session>();
+	if (!following) {
+		// Session state is empty (e.g. after a browser restart), so get
+		// everything from the server instead of a delta update
+		await load();
+		return { ok, error: ok ? "" : "Refresh failed, please try again" };
 	}
-	const currentFollowing = following ?? [];
+	const currentFollowing = following;
 
 	const data = await get<any>(url, `api/extension/refresh?from=${loadedAt}`, token);
 	if (data) {
