@@ -1,5 +1,6 @@
 import type MessageResponse from "@/types/MessageResponse";
-import type { Storage } from "@/types/Storage";
+import type { Session, Storage } from "@/types/Storage";
+import { publicFollowing } from "@/types/Storage";
 import { browser } from "wxt/browser";
 import { get } from "./api";
 import setFollowingRules from "./setFollowingRules";
@@ -13,36 +14,45 @@ export default async function refresh(): Promise<MessageResponse> {
 	// TODO:
 	let ok = true;
 
-	const { url, token, following, loadedAt } = await browser.storage.local.get<Storage>();
+	const { url, loadedAt } = await browser.storage.local.get<Storage>();
+	const { token, following } = await browser.storage.session.get<Session>();
+	if (!token) {
+		return { ok: false, error: "Not authenticated" };
+	}
+	const currentFollowing = following ?? [];
+
 	const data = await get<any>(url, `api/extension/refresh?from=${loadedAt}`, token);
 	if (data) {
 		if (data.following) {
 			for (let newf of data.following) {
-				const index = following.findIndex((f: any) => f.url === newf.url);
+				const index = currentFollowing.findIndex((f: any) => f.url === newf.url);
 				if (newf.deleted) {
 					if (index !== -1) {
-						following.splice(index, 1);
+						currentFollowing.splice(index, 1);
 					}
 				} else {
 					if (index === -1) {
-						following.push(newf);
+						currentFollowing.push(newf);
 					} else {
-						following[index] = newf;
+						currentFollowing[index] = newf;
 					}
 				}
 			}
-			following.sort((a: any, b: any) => a.approved - b.approved || a.name.localeCompare(b.name));
+			currentFollowing.sort(
+				(a: any, b: any) => a.approved - b.approved || a.name.localeCompare(b.name),
+			);
 		}
 
+		await browser.storage.session.set<Session>({ following: currentFollowing });
 		await browser.storage.local.set({
 			profile: data.profile,
-			following,
+			following: publicFollowing(currentFollowing),
 			notificationCount: data.notificationCount,
 			messageCount: data.messageCount,
 			loadedAt: new Date().getTime(),
 		});
 
-		await setFollowingRules(following);
+		await setFollowingRules(currentFollowing);
 	}
 
 	// TODO: Handle errors

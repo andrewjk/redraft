@@ -3,7 +3,6 @@ export interface Storage {
 	url: string;
 	email: string;
 	domain: string | null;
-	token: string;
 	profile: {
 		image: string;
 		url: string;
@@ -18,13 +17,18 @@ export interface Storage {
 	showInfo: boolean;
 }
 
+export interface Session {
+	token: string;
+	following: Following[];
+}
+
 export interface Following {
 	approved: boolean;
 	url: string;
 	name: string;
 	image: string;
-	shared_key: string;
-	token: string;
+	shared_key?: string;
+	token?: string;
 }
 
 export interface Viewing {
@@ -33,4 +37,13 @@ export interface Viewing {
 	image?: string;
 	following: boolean;
 	requested: boolean;
+}
+
+export function publicFollowing(following: Following[]): Following[] {
+	return following.map((f) => ({
+		approved: f.approved,
+		url: f.url,
+		name: f.name,
+		image: f.image,
+	}));
 }

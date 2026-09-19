@@ -6,6 +6,7 @@ export default async function logout(): Promise<MessageResponse> {
 	let ok = true;
 
 	if (ok) {
+		await browser.storage.session.clear();
 		await browser.storage.local.set({
 			authenticated: false,
 			following: [],

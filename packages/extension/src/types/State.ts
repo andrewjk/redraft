@@ -18,13 +18,11 @@ export default interface State {
 		image: string;
 		url: string;
 		name: string;
-		token: string;
 	}[];
 	requested?: {
 		image: string;
 		url: string;
 		name: string;
-		token: string;
 	}[];
 	login?: (e: SubmitEvent) => void;
 	loginError?: string;

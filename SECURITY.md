@@ -114,9 +114,12 @@ compromise the extension) gets long-lived bearer credentials.
 `browser.storage.session` is memory-only and cleared when the browser
 closes; it exists for exactly this.
 
-**Fix:** Keep tokens (and the full following list, which contains them) in
-`storage.session`; mirror only display-safe fields to `storage.local` for
-the content script.
+**Fix:** ~~Keep tokens (and the full following list, which contains them)
+in `storage.session`; mirror only display-safe fields to `storage.local`
+for the content script.~~ **Done** — a `Session` type holds `token` and
+the full `following` list; `storage.local` gets a token-free projection
+(`publicFollowing`). Note: session storage dies with the browser, so a
+browser restart now requires logging in again.
 
 ### MEDIUM: Header injection rules over-match URLs
 

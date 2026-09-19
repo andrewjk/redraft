@@ -1,10 +1,11 @@
 import type MessageResponse from "@/types/MessageResponse";
-import type { Storage } from "@/types/Storage";
+import type { Session, Storage } from "@/types/Storage";
 import { browser } from "wxt/browser";
 import { post } from "./api";
 
 export default async function follow(): Promise<MessageResponse> {
-	let { url, token, viewing } = await browser.storage.local.get<Storage>();
+	let { url, viewing } = await browser.storage.local.get<Storage>();
+	let { token } = await browser.storage.session.get<Session>();
 	if (!viewing) {
 		return { ok: false, error: "No follow url supplied" };
 	}
