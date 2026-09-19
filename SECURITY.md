@@ -161,6 +161,14 @@ worker's console — a browsing-pattern leak for anyone with access to it.
 
 **Fix:** ~~Remove the log.~~ **Done**
 
+### Notes
+
+- Found during remediation (now fixed): logout left the dynamic header
+  rules in place and never called `api/account/logout`, so tokens kept
+  being injected into requests after logging out. Logout now calls the
+  endpoint (which deletes the token server-side) and removes all dynamic
+  rules.
+
 ## Worst realistic case
 
 Without any secret, a third party (Erik) cannot directly read posts sent from
