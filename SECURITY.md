@@ -98,6 +98,57 @@ trivial to add.
   key material proliferates beyond the two relationship rows; rotation design
   must cover (or eliminate) these copies.
 
+## Extension
+
+The browser extension (`packages/extension`) was **not** covered by the
+original audit — it appears above only as the client that holds derived
+tokens. A review of its code found the following.
+
+### MEDIUM: Bearer tokens stored on disk
+
+The user token (`login.ts`) and every follower token (`load.ts`, via the
+`following` list) are kept in `browser.storage.local`, which persists to
+disk. The `httpOnly` cookie argument in the findings above doesn't apply
+here — anything that can read the profile directory (or otherwise
+compromise the extension) gets long-lived bearer credentials.
+`browser.storage.session` is memory-only and cleared when the browser
+closes; it exists for exactly this.
+
+**Fix:** Keep tokens (and the full following list, which contains them) in
+`storage.session`; mirror only display-safe fields to `storage.local` for
+the content script.
+
+### MEDIUM: Header injection rules over-match URLs
+
+`setFollowingRules` builds `declarativeNetRequest` conditions as
+`urlFilter: url + "*"` — a plain prefix match. A followed user at
+`https://bob.example.com` therefore gets their follower token attached to
+requests to `https://bob.example.com.evil.io/` too; the same applies to the
+user's own `X-Social-User` token. The content script's
+`location.startsWith(url)` checks have the same flaw when deciding whether
+a page belongs to a followed site.
+
+**Fix:** Anchor matches at URL boundaries — `regexFilter` with an
+end-of-segment anchor in the rule builder; origin + path-segment
+comparison in the content script.
+
+### LOW: Content script trusts page meta tags
+
+`formatContent` reads `social-follow-url/name/image` meta tags from any
+page and writes them to storage as `viewing`; the popup's follow/unfollow
+actions then send `viewing.url` to the user's own site. A malicious page
+can plant these tags and point the follow action anywhere.
+
+**Fix:** Require the advertised URL to parse as http(s) and share the
+page's origin, so a page can only advertise itself.
+
+### LOW: Background console logs request URLs
+
+`api.ts` logs every extension request URL to the background service
+worker's console — a browsing-pattern leak for anyone with access to it.
+
+**Fix:** Remove the log.
+
 ## Worst realistic case
 
 Without any secret, a third party (Erik) cannot directly read posts sent from
@@ -179,3 +230,4 @@ post's authenticity doesn't rest solely on transport + key possession.
 1. Sanitize micromark output (CSP as backstop)
 2. Key rotation (protocol above)
 3. Rate limiting (login first), CORS narrowing
+4. Extension hardening (session storage, rule anchoring, meta validation)
