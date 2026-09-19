@@ -144,8 +144,10 @@ page and writes them to storage as `viewing`; the popup's follow/unfollow
 actions then send `viewing.url` to the user's own site. A malicious page
 can plant these tags and point the follow action anywhere.
 
-**Fix:** Require the advertised URL to parse as http(s) and share the
-page's origin, so a page can only advertise itself.
+**Fix:** ~~Require the advertised URL to parse as http(s) and share the
+page's origin, so a page can only advertise itself.~~ **Done** —
+`parseSelfUrl` rejects anything that isn't an absolute http(s) URL on the
+page's own origin; invalid tags are treated as absent.
 
 ### LOW: Background console logs request URLs
 

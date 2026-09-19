@@ -29,10 +29,11 @@ export default async function formatContent(): Promise<void> {
 
 	// Is this the site of a user that we can follow?
 	const followEl = getMetaElement("social-follow-url");
-	if (followEl) {
+	const followUrl = parseSelfUrl(followEl?.content);
+	if (followUrl) {
 		await browser.storage.local.set({
 			viewing: {
-				url: followEl.content,
+				url: followUrl,
 				name: getMetaElement("social-follow-name")?.content,
 				image: getMetaElement("social-follow-image")?.content,
 				following,
@@ -77,7 +78,7 @@ export default async function formatContent(): Promise<void> {
 	// Look for our own URL, and display the icon in yellow if found
 	// Look for a following record, and display the icon in red if found
 	// Look for <meta name="social-follow">url</meta> and display the icon in yellow if found
-	let showFollow = authenticated && !currentUser && !following && !!followEl;
+	let showFollow = authenticated && !currentUser && !following && !!followUrl;
 	let showInfo = authenticated && following;
 	let showAccount = authenticated && isSitePage(location, url);
 
@@ -120,6 +121,18 @@ function isSitePage(location: string, siteUrl: string): boolean {
 		return page.pathname === path || page.pathname.startsWith(`${path}/`);
 	} catch {
 		return false;
+	}
+}
+
+function parseSelfUrl(content: string | undefined | null): string | undefined {
+	if (!content) return undefined;
+	try {
+		const url = new URL(content);
+		if (url.protocol !== "https:" && url.protocol !== "http:") return undefined;
+		if (url.origin !== document.location.origin) return undefined;
+		return url.href;
+	} catch {
+		return undefined;
 	}
 }
 
