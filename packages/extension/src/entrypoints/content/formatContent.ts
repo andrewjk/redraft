@@ -20,10 +20,10 @@ export default async function formatContent(): Promise<void> {
 	let url = localStorage.url ?? "--";
 
 	// Is this our site?
-	const currentUser = location.startsWith(url);
+	const currentUser = isSitePage(location, url);
 
 	// Is this the site of a user that we are following?
-	const user = followingList.find((f) => location.startsWith(f.url));
+	const user = followingList.find((f) => isSitePage(location, f.url));
 	const following = user?.approved === true;
 	const requested = user?.approved === false;
 
@@ -79,7 +79,7 @@ export default async function formatContent(): Promise<void> {
 	// Look for <meta name="social-follow">url</meta> and display the icon in yellow if found
 	let showFollow = authenticated && !currentUser && !following && !!followEl;
 	let showInfo = authenticated && following;
-	let showAccount = authenticated && location.startsWith(url);
+	let showAccount = authenticated && isSitePage(location, url);
 
 	// Store the state in localStorage for access from e.g. popup.js
 	await browser.storage.local.set({ showFollow, showInfo });
@@ -108,6 +108,19 @@ export default async function formatContent(): Promise<void> {
 
 function getMetaElement(name: string): HTMLMetaElement | null {
 	return document.head.querySelector<HTMLMetaElement>(`meta[name='${name}']`);
+}
+
+function isSitePage(location: string, siteUrl: string): boolean {
+	if (!siteUrl) return false;
+	try {
+		const page = new URL(location);
+		const site = new URL(siteUrl);
+		if (page.protocol !== site.protocol || page.host !== site.host) return false;
+		const path = site.pathname.replace(/\/$/, "");
+		return page.pathname === path || page.pathname.startsWith(`${path}/`);
+	} catch {
+		return false;
+	}
 }
 
 //function getInputElements(name: string): NodeListOf<HTMLInputElement> {

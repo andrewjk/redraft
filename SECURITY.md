@@ -131,9 +131,11 @@ user's own `X-Social-User` token. The content script's
 `location.startsWith(url)` checks have the same flaw when deciding whether
 a page belongs to a followed site.
 
-**Fix:** Anchor matches at URL boundaries — `regexFilter` with an
+**Fix:** ~~Anchor matches at URL boundaries — `regexFilter` with an
 end-of-segment anchor in the rule builder; origin + path-segment
-comparison in the content script.
+comparison in the content script.~~ **Done** — rules now use
+`regexFilter: ^<site>(/|\?|#|$)` and the content script compares origin +
+path segments (`isSitePage`).
 
 ### LOW: Content script trusts page meta tags
 

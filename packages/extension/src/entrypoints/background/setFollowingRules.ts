@@ -23,10 +23,10 @@ export default async function setFollowingRules(following: Following[]) {
 				],
 			},
 			condition: {
-				// NOTE: We're stripping the trailing slash so that e.g.
-				// `https://redraft.social/user/` will match
-				// `https://redraft.social/user`
-				urlFilter: `${(domain || url).replace(/\/$/, "")}*`,
+				// NOTE: Anchored at URL boundaries so that e.g. `https://x/user`
+				// matches `https://x/user` and `https://x/user/posts`, but not
+				// `https://user.evil.io` or `https://x/user2`
+				regexFilter: siteFilter(domain || url),
 				resourceTypes: ALL_RESOURCE_TYPES,
 			},
 		},
@@ -49,10 +49,7 @@ export default async function setFollowingRules(following: Following[]) {
 					],
 				},
 				condition: {
-					// NOTE: We're stripping the trailing slash so that e.g.
-					// `https://redraft.social/user/` will match
-					// `https://redraft.social/user`
-					urlFilter: `${f.url.replace(/\/$/, "")}*`,
+					regexFilter: siteFilter(f.url),
 					resourceTypes: ALL_RESOURCE_TYPES,
 				},
 			})),
@@ -65,4 +62,10 @@ export default async function setFollowingRules(following: Following[]) {
 		// Add new rules
 		addRules,
 	});
+}
+
+function siteFilter(url: string): string {
+	const trimmed = url.replace(/\/$/, "");
+	const escaped = trimmed.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+	return `^${escaped}(/|\\?|#|$)`;
 }
