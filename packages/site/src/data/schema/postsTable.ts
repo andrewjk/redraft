@@ -63,7 +63,10 @@ export const postsTable = sqliteTable("posts", {
 	rating_bound: int(),
 	/** Id of the parent post, or null if this is not a child */
 	parent_id: int(),
-	/** The count of child posts */
+	/**
+	 * For a post with no parent, the count of child posts. For a child post,
+	 * its position in the parent's list of children
+	 */
 	child_count: int().notNull().default(0),
 	/** Whether this post is pinned at the top of the list */
 	pinned: int({ mode: "boolean" }).notNull().default(false),

@@ -66,6 +66,27 @@ test("post input keeps child posts after an error", async () => {
 	expect(result.body).toMatch(/<textarea[^>]*name="children\[0\]text" value="My unsaved child"/);
 });
 
+test("post input shows a remove button for each child post", async () => {
+	const result = await renderPostInput({
+		id: 1,
+		slug: "post",
+		text: "My post",
+		children: [
+			{ id: 101, slug: "c1", text: "Child one" },
+			{ id: 102, slug: "c2", text: "Child two" },
+		],
+	});
+
+	// One remove button per child, but none for the parent post
+	expect([...result.body.matchAll(/<button[^>]*title="Remove post"/g)]).toHaveLength(2);
+
+	// One move up/down pair per child, with the end positions disabled
+	expect([...result.body.matchAll(/<button[^>]*title="Move up"/g)]).toHaveLength(2);
+	expect([...result.body.matchAll(/<button[^>]*title="Move down"/g)]).toHaveLength(2);
+	expect(result.body).toMatch(/<button[^>]*title="Move up"[^>]*disabled/);
+	expect(result.body).toMatch(/<button[^>]*title="Move down"[^>]*disabled/);
+});
+
 test("post input keeps a link image after an error", async () => {
 	const result = await renderPostInput(
 		{ id: -1, slug: "", text: "", children: [] },

@@ -27,9 +27,12 @@ export default function PostInput($props: { post: PostEditModel, user: UserModel
 		<FormErrors {$props.form} />
 		<Form class="full-width post-input" data={post} schema={PostEditSchema}>
 			<PostInputFields {post} {user} {$props.base} {$props.form} />
+			@// NOTE: the key includes the index, so a child whose position
+			@// changed is remounted and its form fields get the correct name
+			@// (the name prop of @torpor/ui form components isn't reactive)
 			@if (post.children?.length) {
 				@for (let [i, child] of post.children!.entries()) {
-					@key = child.id
+					@key = i + "_" + child.id
 					<PostInputFields {post} {user} {$props.base} {$props.form} {child} {i} />
 				}
 			}

@@ -130,7 +130,7 @@ export default async function postCreateOrUpdate(
 				.returning()
 		)[0];
 		if (model.children?.length) {
-			for (let child of model.children) {
+			for (let [i, child] of model.children.entries()) {
 				await tx.insert(postsTable).values({
 					slug: uuid(),
 					text: child.text ?? "",
@@ -147,6 +147,8 @@ export default async function postCreateOrUpdate(
 					rating_value: child.hasRating ? child.ratingValue : null,
 					rating_bound: child.hasRating ? child.ratingBound : null,
 					parent_id: newPost.id,
+					// For a child, child_count is the position in the parent's list
+					child_count: i,
 					created_at: new Date(),
 					updated_at: new Date(),
 				});
@@ -211,7 +213,7 @@ export default async function postCreateOrUpdate(
 					);
 				}
 			}
-			for (let child of model.children) {
+			for (let [i, child] of model.children.entries()) {
 				const currentChild = currentChildren.find((c) => c.id === child.id);
 				if (currentChild) {
 					updates.push(
@@ -235,6 +237,8 @@ export default async function postCreateOrUpdate(
 								link_embed_height: child.hasLink ? child.linkEmbedHeight : null,
 								rating_value: child.hasRating ? child.ratingValue : null,
 								rating_bound: child.hasRating ? child.ratingBound : null,
+								// For a child, child_count is the position in the parent's list
+								child_count: i,
 								updated_at: new Date(),
 							})
 							.where(eq(postsTable.id, child.id)),
@@ -257,9 +261,11 @@ export default async function postCreateOrUpdate(
 									: null,
 							link_embed_width: child.hasLink ? child.linkEmbedWidth : null,
 							link_embed_height: child.hasLink ? child.linkEmbedHeight : null,
-							rating_value: model.hasRating ? model.ratingValue : null,
-							rating_bound: model.hasRating ? model.ratingBound : null,
+							rating_value: child.hasRating ? child.ratingValue : null,
+							rating_bound: child.hasRating ? child.ratingBound : null,
 							parent_id: newPost.id,
+							// For a child, child_count is the position in the parent's list
+							child_count: i,
 							created_at: new Date(),
 							updated_at: new Date(),
 						}),

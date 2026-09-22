@@ -50,6 +50,9 @@ export default async function postEditGet(slug: string, code: string) {
 			if (post.child_count) {
 				children = await db.query.postsTable.findMany({
 					where: and(eq(postsTable.parent_id, post.id), isNull(postsTable.deleted_at)),
+					// child_count is the child's position; id keeps pre-positioning
+					// children in insertion order
+					orderBy: [postsTable.child_count, postsTable.id],
 				});
 			}
 		};

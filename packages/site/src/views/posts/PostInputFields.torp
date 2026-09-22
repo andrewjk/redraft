@@ -6,10 +6,12 @@ import ImageUpload from "../ImageUpload.torp";
 import LinkPreview from "./LinkPreview.torp";
 import Article from "phosphor-torpor/lib/Article";
 import Calendar from "phosphor-torpor/lib/Calendar";
+import CaretDown from "phosphor-torpor/lib/CaretDown";
+import CaretUp from "phosphor-torpor/lib/CaretUp";
 import Heart from "phosphor-torpor/lib/Heart";
 import Image from "phosphor-torpor/lib/Image";
 import Link from "phosphor-torpor/lib/Link";
-//import Stack from "phosphor-torpor/lib/Stack";
+import Stack from "phosphor-torpor/lib/Stack";
 import StackPlus from "phosphor-torpor/lib/StackPlus";
 //import Star from "phosphor-torpor/lib/Star";
 import Tag from "phosphor-torpor/lib/Tag";
@@ -26,7 +28,10 @@ export default function PostInputFields($props: { post: PostEditModel, child?: P
 	let user = $props.user;
 	let post = $watch($props.child ?? $props.post ?? newPost());
 	let child = $props.child;
-	let prefix = $props.child ? `children[${$props.i}]` : "";
+	// NOTE: this is a function so that `$props.i` is read reactively when the
+	// form field names are set -- the `i` of a child can change when children
+	// are added or removed
+	let prefix = () => ($props.child ? `children[${$props.i}]` : "");
 
 	let $state = $watch({
 		imageLoaded: !!post.image,
@@ -40,9 +45,13 @@ export default function PostInputFields($props: { post: PostEditModel, child?: P
 		}
 	});
 
-	let newIndex = 1;
+	// New posts get a negative id (so they can be told apart from saved posts
+	// when the form is submitted). It is one less than the lowest existing id
+	// so that keys stay unique even when children are added from different
+	// PostInputFields instances
 	function newPost() {
-		return { id: -1 * newIndex++, slug: "", text: "" };
+		let children = $props.post?.children ?? [];
+		return { id: Math.min(0, ...children.map((c) => c.id)) - 1, slug: "", text: "" };
 	}
 
 	async function loadLists() {
@@ -57,15 +66,15 @@ export default function PostInputFields($props: { post: PostEditModel, child?: P
 
 	@render {
 		<div style="display: contents;">
-			<Hidden name={`${prefix}id`} value={post.id} />
-			<Hidden name={`${prefix}published`} value={post.published} />
-			<Hidden name={`${prefix}hasImage`} value={post.hasImage} />
-			<Hidden name={`${prefix}hasLink`} value={post.hasLink} />
-			<Hidden name={`${prefix}hasRating`} value={post.hasRating} />
-			<Hidden name={`${prefix}isArticle`} value={post.isArticle} />
-			<Hidden name={`${prefix}isEvent`} value={post.isEvent} />
+			<Hidden name={`${prefix()}id`} value={post.id} />
+			<Hidden name={`${prefix()}published`} value={post.published} />
+			<Hidden name={`${prefix()}hasImage`} value={post.hasImage} />
+			<Hidden name={`${prefix()}hasLink`} value={post.hasLink} />
+			<Hidden name={`${prefix()}hasRating`} value={post.hasRating} />
+			<Hidden name={`${prefix()}isArticle`} value={post.isArticle} />
+			<Hidden name={`${prefix()}isEvent`} value={post.isEvent} />
 
-			<Field class="form-row" name={`${prefix}text`} &value={post.text}>
+			<Field class="form-row" name={`${prefix()}text`} &value={post.text}>
 				<TextArea
 					placeholder="Post something…"
 					rows={3}
@@ -74,10 +83,10 @@ export default function PostInputFields($props: { post: PostEditModel, child?: P
 			</Field>
 
 			@if (post.isArticle) {
-				<Hidden name={`${prefix}articleId`} value={post.articleId} />
-				<Hidden name={`${prefix}linkPublication`} value={user.name} />
+				<Hidden name={`${prefix()}articleId`} value={post.articleId} />
+				<Hidden name={`${prefix()}linkPublication`} value={user.name} />
 
-				<Field class="form-row" name={`${prefix}linkTitle`} &value={post.linkTitle}>
+				<Field class="form-row" name={`${prefix()}linkTitle`} &value={post.linkTitle}>
 					<Input
 						class="post-input-article-title"
 						required
@@ -85,17 +94,17 @@ export default function PostInputFields($props: { post: PostEditModel, child?: P
 					/>
 					<Message class="error-message" />
 				</Field>
-				<Hidden name={`${prefix}linkImage`} value={post.linkImage} />
+				<Hidden name={`${prefix()}linkImage`} value={post.linkImage} />
 				<ImageUpload image={post.linkimagefile ?? post.linkImage} imageLoaded={$state.linkImageLoaded} class="full-width" />
-				<Field class="form-row" name={`${prefix}articleText`} &value={post.articleText}>
+				<Field class="form-row" name={`${prefix()}articleText`} &value={post.articleText}>
 					<TextArea placeholder="Article text" />
 					<Message class="error-message" />
 				</Field>
 			} else if (post.isEvent) {
-				<Hidden name={`${prefix}eventId`} value={post.eventId} />
-				<Hidden name={`${prefix}linkPublication`} value={user.name} />
+				<Hidden name={`${prefix()}eventId`} value={post.eventId} />
+				<Hidden name={`${prefix()}linkPublication`} value={user.name} />
 
-				<Field class="form-row" name={`${prefix}linkTitle`} &value={post.linkTitle}>
+				<Field class="form-row" name={`${prefix()}linkTitle`} &value={post.linkTitle}>
 					<Input
 						class="post-input-event-title"
 						required
@@ -103,23 +112,23 @@ export default function PostInputFields($props: { post: PostEditModel, child?: P
 					/>
 					<Message class="error-message" />
 				</Field>
-				<Hidden name={`${prefix}linkImage`} value={post.linkImage} />
+				<Hidden name={`${prefix()}linkImage`} value={post.linkImage} />
 				<ImageUpload image={post.linkimagefile ?? post.linkImage} imageLoaded={$state.linkImageLoaded} class="full-width" />
-				<Field class="form-row" name={`${prefix}eventText`} &value={post.eventText}>
+				<Field class="form-row" name={`${prefix()}eventText`} &value={post.eventText}>
 					<TextArea placeholder="Event description" />
 					<Message class="error-message" />
 				</Field>
-				<Field class="form-row" name={`${prefix}eventLocation`} &value={post.eventLocation}>
+				<Field class="form-row" name={`${prefix()}eventLocation`} &value={post.eventLocation}>
 					<Input placeholder="Event location" />
 					<Message class="error-message" />
 				</Field>
-				<Field class="form-row" name={`${prefix}eventStartsAt`} &value={post.eventStartsAt}>
+				<Field class="form-row" name={`${prefix()}eventStartsAt`} &value={post.eventStartsAt}>
 					<Input
 						type="date"
 						placeholder="Event start" />
 					<Message class="error-message" />
 				</Field>
-				<Field class="form-row" name={`${prefix}eventDuration`} &value={post.eventDuration}>
+				<Field class="form-row" name={`${prefix()}eventDuration`} &value={post.eventDuration}>
 					<Input
 						type="number"
 						placeholder="Event duration" />
@@ -127,16 +136,16 @@ export default function PostInputFields($props: { post: PostEditModel, child?: P
 				</Field>
 			} else {
 				@if (post.hasImage) {
-					<Hidden name={`${prefix}image`} value={post.image} />
+					<Hidden name={`${prefix()}image`} value={post.image} />
 					<File
 						style={{ display: $state.imageLoaded ? "none" : undefined }}
-						name={`${prefix}imagefile`}
+						name={`${prefix()}imagefile`}
 						accept="image/*"
 						onchange={imageSelected}
 					/>
 					@if (post.imagefile ?? post.image) {
 						<img src={post.imagefile ?? post.image} />
-						<Field class="form-row" name={`${prefix}imageAltText`} &value={post.imageAltText}>
+						<Field class="form-row" name={`${prefix()}imageAltText`} &value={post.imageAltText}>
 							<Input placeholder="Image alt text" />
 							<Message class="error-message" />
 						</Field>
@@ -159,14 +168,14 @@ export default function PostInputFields($props: { post: PostEditModel, child?: P
 						fileReader.readAsDataURL(image);
 					}
 				} else if (post.hasLink) {
-					<Hidden name={`${prefix}linkImage`} value={post.linkImage} />
-					<Hidden name={`${prefix}linkTitle`} value={post.linkTitle} />
-					<Hidden name={`${prefix}linkPublication`} value={post.linkPublication} />
-					<Hidden name={`${prefix}linkEmbedSrc`} value={post.linkEmbedSrc} />
-					<Hidden name={`${prefix}linkEmbedWidth`} value={post.linkEmbedWidth} />
-					<Hidden name={`${prefix}linkEmbedHeight`} value={post.linkEmbedHeight} />
+					<Hidden name={`${prefix()}linkImage`} value={post.linkImage} />
+					<Hidden name={`${prefix()}linkTitle`} value={post.linkTitle} />
+					<Hidden name={`${prefix()}linkPublication`} value={post.linkPublication} />
+					<Hidden name={`${prefix()}linkEmbedSrc`} value={post.linkEmbedSrc} />
+					<Hidden name={`${prefix()}linkEmbedWidth`} value={post.linkEmbedWidth} />
+					<Hidden name={`${prefix()}linkEmbedHeight`} value={post.linkEmbedHeight} />
 
-					<Field class="form-row" name={`${prefix}linkUrl`} &value={post.linkUrl}>
+					<Field class="form-row" name={`${prefix()}linkUrl`} &value={post.linkUrl}>
 						<Input
 							type="url"
 							style={{ display: $state.linkLoaded ? "none" : undefined }}
@@ -201,7 +210,7 @@ export default function PostInputFields($props: { post: PostEditModel, child?: P
 				}
 
 				@if (post.hasRating) {
-					<Hidden name={`${prefix}ratingValue`} &value={post.ratingValue} />
+					<Hidden name={`${prefix()}ratingValue`} &value={post.ratingValue} />
 
 					<div class="hstack centered spaced-nr">
 						<div class="spacer" />
@@ -241,14 +250,14 @@ export default function PostInputFields($props: { post: PostEditModel, child?: P
 			}
 
 			@if ($state.showTags) {
-				<Field class="form-row" name={`${prefix}tags`} &value={post.tags}>
+				<Field class="form-row" name={`${prefix()}tags`} &value={post.tags}>
 					<Input placeholder="Tags (separate with semicolons)" />
 					<Message class="error-message" />
 				</Field>
 			}
 
 			@if ($state.showVisibility) {
-				<Field class="form-row" name={`${prefix}visibility`} &value={post.visibility}>
+				<Field class="form-row" name={`${prefix()}visibility`} &value={post.visibility}>
 					<Select>
 						<Option value={0}>Public</Option>
 						<Option value={1}>Followers</Option>
@@ -260,7 +269,7 @@ export default function PostInputFields($props: { post: PostEditModel, child?: P
 				@if (parseInt(String(post.visibility)) === 3) {
 					@try {
 						@await {
-							<Field class="form-row" name={`${prefix}listId`} &value={post.listId}>
+							<Field class="form-row" name={`${prefix()}listId`} &value={post.listId}>
 								<Select>
 									@for (let list of $state.lists ?? []) {
 										<Option value={list.id}>{list.name}</Option>
@@ -361,19 +370,43 @@ export default function PostInputFields($props: { post: PostEditModel, child?: P
 					post.linkEmbedWidth = undefined;
 					post.linkEmbedHeight = undefined;
 				}
-				@/* TODO: fix these!
 				@if (child) {
-					<button type="button" class="link icon" onclick={removeChild}>
+					<button
+						type="button"
+						class="link icon"
+						title="Move up"
+						disabled={($props.i ?? 0) === 0}
+						onclick={() => moveChild(-1)}
+					>
+						<CaretUp weight="bold" />
+					</button>
+					<button
+						type="button"
+						class="link icon"
+						title="Move down"
+						disabled={($props.i ?? 0) === ($props.post.children?.length ?? 0) - 1}
+						onclick={() => moveChild(1)}
+					>
+						<CaretDown weight="bold" />
+					</button>
+					<button type="button" class="link icon" title="Remove post" onclick={removeChild}>
 						<div class="zstack">
 							<X size="28px" />
 							<Stack weight="bold" />
 						</div>
 					</button>
 				}
+				@function moveChild(offset: number) {
+					let i = $props.i !== undefined ? $props.i : 0;
+					let children = ($props.post.children ??= []);
+					let j = i + offset;
+					if (j < 0 || j >= children.length) return;
+					[children[i], children[j]] = [children[j], children[i]];
+				}
 				@function removeChild() {
 					let i = $props.i !== undefined ? $props.i : 0;
 					($props.post.children ??= []).splice(i, 1);
-				}*/
+				}
 				<button type="button" class="link icon" disabled={post.isArticle || post.isEvent} onclick={addChild}>
 					<StackPlus weight="bold" />
 				</button>
