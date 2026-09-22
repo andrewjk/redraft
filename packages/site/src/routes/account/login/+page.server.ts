@@ -2,11 +2,13 @@ import { type PageServerEndPoint } from "@torpor/build";
 import { seeOther } from "@torpor/build/response";
 import accountLogin from "../../../api/account/login/+server";
 import * as api from "../../../lib/api";
+import clearStaleUserToken from "../../../lib/utils/clearStaleUserToken";
 import formDataToObject from "../../../lib/utils/formDataToObject";
 import setUserToken from "../../../lib/utils/setUserToken";
 
 export default {
-	load: async ({ appData, params }) => {
+	load: async ({ appData, cookies, params }) => {
+		await clearStaleUserToken(appData, cookies);
 		const user = appData.user;
 		if (user) {
 			return seeOther(params.user ? `/${params.user}/feed` : "/feed");

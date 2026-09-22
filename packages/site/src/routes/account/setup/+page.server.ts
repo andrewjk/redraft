@@ -4,6 +4,7 @@ import accountSetup from "../../..//api/account/setup/+server";
 import * as api from "../../../lib/api";
 import env from "../../../lib/env";
 import storage from "../../../lib/storage";
+import clearStaleUserToken from "../../../lib/utils/clearStaleUserToken";
 import ensureSlash from "../../../lib/utils/ensureSlash";
 import formDataToObject from "../../../lib/utils/formDataToObject";
 import setUserToken from "../../../lib/utils/setUserToken";
@@ -11,7 +12,8 @@ import uuid from "../../../lib/utils/uuid";
 import type SetupModel from "../../../types/account/SetupModel";
 
 export default {
-	load: async ({ appData, params }) => {
+	load: async ({ appData, cookies, params }) => {
+		await clearStaleUserToken(appData, cookies);
 		const user = appData.user;
 		if (user) {
 			return seeOther(params.user ? `/${params.user}/feed` : "/feed");
