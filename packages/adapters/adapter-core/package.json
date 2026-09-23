@@ -22,8 +22,8 @@
 	"license": "ISC",
 	"packageManager": "pnpm@10.9.0",
 	"dependencies": {
-		"@torpor/build": "^1.4.3",
-		"drizzle-orm": "^0.45.2"
+		"@torpor/build": "^1.4.6",
+		"drizzle-orm": "^0.45.3"
 	},
 	"devDependencies": {
 		"@typescript/native-preview": "7.0.0-dev.20260707.2",
