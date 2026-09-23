@@ -1,6 +1,13 @@
+import { File as FileInput } from "@torpor/ui/Form";
 import cleanImage from "../lib/utils/cleanImage";
 
-export default function ImageUpload($props: { name?: string, image: string | ArrayBuffer | File | null | undefined, imageLoaded: boolean }) {
+export default function ImageUpload($props: {
+	name?: string,
+	image: string | ArrayBuffer | File | null | undefined,
+	imageLoaded: boolean,
+	circle?: boolean,
+	placeholder?: string,
+}) {
 	async function fileSelected(e: Event) {
 		let fileInput = (e.target as HTMLInputElement);
 		let image = fileInput.files![0];
@@ -13,7 +20,7 @@ export default function ImageUpload($props: { name?: string, image: string | Arr
 		fileInput.files = dataTransfer.files;
 		const fileReader = new FileReader();
 		fileReader.onload = (ev) => {
-			$props.image = ev.target!.result ;
+			$props.image = ev.target!.result;
 			$props.imageLoaded = true;
 		}
 		fileReader.readAsDataURL(image);
@@ -22,15 +29,28 @@ export default function ImageUpload($props: { name?: string, image: string | Arr
 	@render {
 		<div class="vstack spaced image-upload">
 			@if (!$props.imageLoaded) {
-				<input
+				<FileInput
 					class="full-width"
 					name={$props.name ?? "imagefile"}
-					type="file"
 					accept="image/*"
 					onchange={fileSelected}
 				/>
 			}
-			<img src={$props.image} />
+			<img
+				class={{ circle: $props.circle }}
+				src={$props.image || $props.placeholder}
+			/>
 		</div>
+	}
+
+	@style {
+		img.circle {
+			height: 100px;
+			width: 100px;
+			object-fit: cover;
+			border-radius: 50%;
+			border: 1px solid var(--border-color);
+			box-shadow: 0 0.2rem 0.4rem #eee;
+		}
 	}
 }

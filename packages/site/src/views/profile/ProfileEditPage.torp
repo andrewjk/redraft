@@ -1,10 +1,10 @@
-import { Form, Field, File, Label, Hidden, Input, TextArea, Message } from "@torpor/ui/Form";
-import cleanImage from "../../lib/utils/cleanImage";
+import { Form, Field, Hidden, Label, Input, TextArea, Message } from "@torpor/ui/Form";
 import placeholdify from "../../lib/utils/placeholdify";
 import type FormData from "../../types/FormData";
 import type UserModel from "../../types/UserModel";
 import type ProfileEditModel from "../../types/profile/ProfileEditModel";
 import ProfileEditSchema from "../../types/profile/ProfileEditSchema";
+import ImageUpload from "../ImageUpload.torp";
 import FormErrors from "../FormErrors.torp";
 import ProfileMenu from "./ProfileMenu.torp";
 
@@ -21,10 +21,10 @@ export default function EditPage($props: { data: { profile: ProfileEditModel, us
 			image: formData?.image ?? profileData.image,
 			links: formData?.links ?? profileData.links,
 			imagefile: undefined,
-		} satisfies ProfileEditModel
+		} satisfies ProfileEditModel,
+		imagePreview: formData?.image ?? profileData.image,
+		imageLoaded: false,
 	});
-
-	let preview: HTMLDivElement;
 
 	@head {
 		<title>Edit Profile • Redraft</title>
@@ -46,36 +46,15 @@ export default function EditPage($props: { data: { profile: ProfileEditModel, us
 				<Hidden name="image" value={$state.data.image} />
 				<Field class="form-row" name="imagefile" &value={$state.data.imagefile}>
 					<Label>Image</Label>
-					<div class="hstack centered spaced">
-						<div
-							id="image-preview"
-							class="no-shrink"
-							style={`background-image: url("${placeholdify($state.data.image)}")`}
-							&ref={preview}
-						/>
-						<File
-							accept="image/*"
-							onchange={fileSelected}
-						/>
-					</div>
+					<ImageUpload
+						name="imagefile"
+						image={$state.imagePreview}
+						imageLoaded={$state.imageLoaded}
+						circle
+						placeholder={placeholdify($state.data.image)}
+					/>
 					<Message class="error-message" />
 				</Field>
-				@async function fileSelected(e: Event) {
-					let fileInput = (e.target as HTMLInputElement);
-					let image = fileInput.files![0];
-					if (!image.type.includes("image")) {
-						return;
-					}
-					image = await cleanImage(image);
-					let dataTransfer = new DataTransfer();
-					dataTransfer.items.add(image);
-					fileInput.files = dataTransfer.files;
-					let fileReader = new FileReader();
-					fileReader.onload = (ev) => {
-						preview.style.backgroundImage = `url("${ev.target!.result}")`;
-					}
-					fileReader.readAsDataURL(image);
-				}
 				<Field class="form-row" name="email" &value={$state.data.email}>
 					<Label>Email</Label>
 					<Input
@@ -138,16 +117,5 @@ export default function EditPage($props: { data: { profile: ProfileEditModel, us
 				</div>
 			</Form>
 		</div>
-	}
-
-	@style {
-		#image-preview {
-			height: 100px;
-			width: 100px;
-			background-size: cover;
-			border: 1px solid var(--border-color);
-			border-radius: 50%;
-			box-shadow: 0 0.2rem 0.4rem #eee;
-		}
 	}
 }
