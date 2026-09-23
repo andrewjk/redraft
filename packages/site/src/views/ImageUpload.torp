@@ -1,6 +1,6 @@
 import cleanImage from "../lib/utils/cleanImage";
 
-export default function ImageUpload($props: { image: string | ArrayBuffer | File | null | undefined, imageLoaded: boolean }) {
+export default function ImageUpload($props: { name?: string, image: string | ArrayBuffer | File | null | undefined, imageLoaded: boolean }) {
 	async function fileSelected(e: Event) {
 		let fileInput = (e.target as HTMLInputElement);
 		let image = fileInput.files![0];
@@ -24,7 +24,7 @@ export default function ImageUpload($props: { image: string | ArrayBuffer | File
 			@if (!$props.imageLoaded) {
 				<input
 					class="full-width"
-					name="imagefile"
+					name={$props.name ?? "imagefile"}
 					type="file"
 					accept="image/*"
 					onchange={fileSelected}

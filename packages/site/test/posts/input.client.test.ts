@@ -5,7 +5,7 @@ import formDataToObject from "../../src/lib/utils/formDataToObject";
 import type UserModel from "../../src/types/UserModel";
 import type PostEditModel from "../../src/types/posts/PostEditModel";
 import PostEditSchema from "../../src/types/posts/PostEditSchema";
-import PostInput from "../../src/views/posts/PostInput.torp";
+import PostInput from "../../src/views/posts/PostInput.torp?client";
 
 const user: UserModel = {
 	url: "http://localhost/alice/",
