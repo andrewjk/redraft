@@ -1,0 +1,71 @@
+import { notFound, ok, serverError, unauthorized } from "@torpor/build/response";
+import { and, eq, isNull } from "drizzle-orm";
+import database from "../../data/database";
+import { commentsTable, followedByTable, usersTable } from "../../data/schema";
+import transaction from "../../data/transaction";
+import type BlockModel from "../../types/follow/BlockModel";
+import getErrorMessage from "../utils/getErrorMessage";
+import userIdQuery from "../utils/userIdQuery";
+
+export default async function followUnblock(request: Request, code: string) {
+	let errorMessage = "";
+
+	try {
+		const db = database();
+
+		const model: BlockModel = await request.json();
+
+		// Get the current user
+		const currentUserQuery = db.query.usersTable.findFirst({
+			where: eq(usersTable.id, userIdQuery(code)),
+		});
+
+		// Get the followed by user
+		const followedByQuery = db.query.followedByTable.findFirst({
+			where: and(eq(followedByTable.url, model.url), isNull(followedByTable.deleted_at)),
+			columns: { id: true, blocked_at: true },
+		});
+
+		const [currentUser, followedBy] = await Promise.all([currentUserQuery, followedByQuery]);
+		if (!currentUser) {
+			return unauthorized();
+		}
+		if (!followedBy) {
+			return notFound();
+		}
+
+		// If this user hasn't been blocked, just return ok
+		// Otherwise, update the record
+		if (followedBy.blocked_at) {
+			await transaction(db, async (tx) => {
+				try {
+					// Clear the block date in the followed by record
+					await tx
+						.update(followedByTable)
+						.set({
+							blocked_at: null,
+							updated_at: new Date(),
+						})
+						.where(eq(followedByTable.id, followedBy.id));
+
+					// Clear the block date in the comments
+					await tx
+						.update(commentsTable)
+						.set({
+							blocked_at: null,
+							updated_at: new Date(),
+						})
+						.where(eq(commentsTable.user_id, followedBy.id));
+				} catch (error) {
+					errorMessage = getErrorMessage(error).message;
+					throw error;
+				}
+			});
+		}
+
+		return ok();
+	} catch (error) {
+		const message = errorMessage || getErrorMessage(error).message;
+		return serverError(message);
+	}
+}
