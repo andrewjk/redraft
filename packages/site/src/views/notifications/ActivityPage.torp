@@ -1,13 +1,19 @@
+import { $page } from "@torpor/build/state";
 import type UserModel from "../../types/UserModel";
 import type ViewingModel from "../../types/ViewingModel";
 import type ActivityPreviewModel from "../../types/notifications/ActivityPreviewModel";
+import Pagination from "../Pagination.torp";
 import NotificationMenu from "./NotificationMenu.torp";
 import ActivityPreview from "./ActivityPreview.torp";
 
 /**
  * Shows a list of the current user's activity.
  */
-export default function ActivityPage($props: { data: { activity: ActivityPreviewModel[], user: UserModel, viewing: ViewingModel, base: string } }) {
+export default function ActivityPage($props: { data: { activity: ActivityPreviewModel[], pageCount: number, user: UserModel, viewing: ViewingModel, base: string } }) {
+	let $state = $watch({
+		page: +($page.url.searchParams.get("page") || 1),
+	})
+
 	@head {
 		<title>{$props.data.viewing.name} • Activity • Redraft</title>
 	}
@@ -28,6 +34,8 @@ export default function ActivityPage($props: { data: { activity: ActivityPreview
 					}
 				}
 			</div>
+
+			<Pagination {$props.data.pageCount} {$state.page} />
 		</div>
 	}
 }

@@ -8,7 +8,7 @@ export default function Pagination($props: {
 		@if ($props.pageCount > 1) {
 			<nav class="pagination-container">
 				<ul class="plain pagination">
-					@for (let i = 1; i < $props.pageCount; i++) {
+					@for (let i = 1; i <= $props.pageCount; i++) {
 						<li class={{ "page-item": true, active: i == $props.page }}>
 							@if (i == $props.page) {
 								<span>{i}</span>

@@ -1,13 +1,19 @@
+import { $page } from "@torpor/build/state";
 import type UserModel from "../../types/UserModel";
 import type ViewingModel from "../../types/ViewingModel";
 import type ListPreviewModel from "../../types/contacts/ListPreviewModel";
+import Pagination from "../Pagination.torp";
 import ListPreview from "./ListPreview.torp";
 import FollowMenu from "./FollowMenu.torp";
 
 /**
  * Shows a list of the lists that have been created.
  */
-export default function ListsPage($props: { data: { viewing: ViewingModel, lists: ListPreviewModel[], user: UserModel, base: string } }) {
+export default function ListsPage($props: { data: { viewing: ViewingModel, lists: ListPreviewModel[], pageCount: number, user: UserModel, base: string } }) {
+	let $state = $watch({
+		page: +($page.url.searchParams.get("page") || 1),
+	})
+
 	@head {
 		<title>{$props.data.viewing.name} • Followed by • Redraft</title>
 	}
@@ -38,6 +44,9 @@ export default function ListsPage($props: { data: { viewing: ViewingModel, lists
 					}
 				}
 			</div>
+
+			<Pagination {$props.data.pageCount} {$state.page} />
+
 			<p>
 				<a href="{$props.data.base}contacts/lists/create">
 					Create a list

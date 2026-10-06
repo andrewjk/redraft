@@ -1,15 +1,37 @@
 import { type PageServerEndPoint } from "@torpor/build";
-import { unauthorized } from "@torpor/build/response";
+import { ok, unauthorized } from "@torpor/build/response";
 import profileActivity from "../../../api/notifications/activity/+server";
 import * as api from "../../../lib/api";
+import { PAGE_SIZE } from "../../../lib/constants";
 
 export default {
-	load: async ({ appData, params }) => {
+	load: async ({ appData, url, params }) => {
 		const user = appData.user;
 		if (!user) {
 			return unauthorized();
 		}
 
-		return await api.get("notifications/activity", profileActivity, params, user.token);
+		// Get URL params
+		const page = +(url.searchParams.get("page") || 1);
+
+		// Load the user's activity
+		const search = new URLSearchParams();
+		search.set("limit", PAGE_SIZE.toString());
+		search.set("offset", ((page - 1) * PAGE_SIZE).toString());
+
+		const result = await api.get(
+			`notifications/activity?${search}`,
+			profileActivity,
+			params,
+			user.token,
+		);
+		if (!result.ok) {
+			return result;
+		}
+		const { activity, activityCount } = await result.json();
+
+		const pageCount = Math.ceil(activityCount / PAGE_SIZE);
+
+		return ok({ activity, pageCount });
 	},
 } satisfies PageServerEndPoint;

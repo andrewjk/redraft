@@ -1,14 +1,20 @@
 import { Form, Hidden } from "@torpor/ui/Form";
+import { $page } from "@torpor/build/state";
 import type UserModel from "../../types/UserModel";
 import type ViewingModel from "../../types/ViewingModel";
 import type FollowedByPreviewModel from "../../types/contacts/FollowedByPreviewModel";
+import Pagination from "../Pagination.torp";
 import FollowPreview from "./FollowPreview.torp";
 import FollowMenu from "./FollowMenu.torp";
 
 /**
  * Shows a list of the users who have been blocked.
  */
-export default function BlockedPage($props: { data: { viewing: ViewingModel, blocked: FollowedByPreviewModel[], user: UserModel, base: string } }) {
+export default function BlockedPage($props: { data: { viewing: ViewingModel, blocked: FollowedByPreviewModel[], pageCount: number, user: UserModel, base: string } }) {
+	let $state = $watch({
+		page: +($page.url.searchParams.get("page") || 1),
+	})
+
 	@head {
 		<title>{$props.data.viewing.name} • Blocked • Redraft</title>
 	}
@@ -37,6 +43,8 @@ export default function BlockedPage($props: { data: { viewing: ViewingModel, blo
 					}
 				}
 			</div>
+
+			<Pagination {$props.data.pageCount} {$state.page} />
 		</div>
 	}
 }
