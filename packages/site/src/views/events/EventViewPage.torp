@@ -1,3 +1,4 @@
+import { Form } from "@torpor/ui/Form";
 import placeholdify from "../../lib/utils/placeholdify";
 import relativeTimeSince from "../../lib/utils/relativeTimeSince"
 import stripProtocol from "../../lib/utils/stripProtocol";
@@ -5,6 +6,7 @@ import type UserModel from "../../types/UserModel";
 import type FollowerModel from "../../types/FollowerModel";
 import type PostViewModel from "../../types/posts/PostViewModel";
 import CommentList from "../comments/CommentList.torp"
+import CalendarPlus from "phosphor-torpor/lib/CalendarPlus";
 import ChatCircle from "phosphor-torpor/lib/ChatCircle";
 import Heart from "phosphor-torpor/lib/Heart";
 import Pencil from "phosphor-torpor/lib/Pencil";
@@ -14,6 +16,7 @@ import Pencil from "phosphor-torpor/lib/Pencil";
  */
 export default function EventViewPage($props: { data: { post: PostViewModel, user: UserModel, follower: FollowerModel, base: string } }) {
 	let { post, user, follower } = $props.data;
+	let isOwner = user?.url === post.author.url;
 
 	let fmt = new Intl.DateTimeFormat(undefined, {
 		day: "numeric",
@@ -82,8 +85,95 @@ export default function EventViewPage($props: { data: { post: PostViewModel, use
 							<h3>{post.linkTitle}</h3>
 							<p>Where: {post.eventLocation}</p>
 							<p>When: {fmt.format(new Date(post.eventStartsAt!))}</p>
+							@if (post.eventDuration) {
+								<p>Duration: {post.eventDuration} minutes</p>
+							}
 							@html(post.eventText!)
 						</div>
+
+						<div class="hstack centered spaced-nr event-view-actions font-sm">
+							<a class="event-view-calendar" href="{$props.data.base}events/{post.slug}/ical" download>
+								<CalendarPlus weight="bold" />
+								Add to calendar
+							</a>
+						</div>
+
+						@if (post.eventRsvpEnabled) {
+							<div class="event-view-rsvp vstack spaced-nr">
+								<div class="hstack centered spaced-nr font-sm secondary">
+									<span>{post.eventRsvpGoingCount} going</span>
+									@if (post.eventRsvpMaybeCount) {
+										<span>•</span>
+										<span>{post.eventRsvpMaybeCount} maybe</span>
+									}
+									@if (post.eventRsvpDeclinedCount) {
+										<span>•</span>
+										<span>{post.eventRsvpDeclinedCount} can't go</span>
+									}
+									@if (post.eventRsvpLimit) {
+										<span>•</span>
+										<span>{spotsLeft()} spots left</span>
+									}
+								</div>
+
+								@if (post.eventRsvpDeadline) {
+									<div class="font-sm secondary">
+										RSVP by {fmt.format(new Date(post.eventRsvpDeadline))}
+									</div>
+								}
+
+								@if (!isOwner && (user || follower)) {
+									<Form class="hstack centered spaced" action="?/rsvp">
+										<button
+											type="submit"
+											name="status"
+											value="1"
+											class={{"rsvp-button": true, "selected": post.viewerRsvpStatus === 1}}
+										>
+											Going
+										</button>
+										<button
+											type="submit"
+											name="status"
+											value="2"
+											class={{"rsvp-button": true, "selected": post.viewerRsvpStatus === 2}}
+										>
+											Maybe
+										</button>
+										<button
+											type="submit"
+											name="status"
+											value="3"
+											class={{"rsvp-button": true, "selected": post.viewerRsvpStatus === 3}}
+										>
+											Can't go
+										</button>
+									</Form>
+								}
+
+								@if (isOwner && post.eventRsvps.length) {
+									<div class="event-view-rsvp-list vstack spaced-nr">
+										@for (let rsvp of post.eventRsvps) {
+											<div class="hstack centered spaced-nr font-sm">
+												<img class="event-view-rsvp-image" src={placeholdify(rsvp.image)} alt={rsvp.name} />
+												<a href={rsvp.url}>{rsvp.name}</a>
+												<span class="secondary">{rsvpStatusText(rsvp.status)}</span>
+											</div>
+										}
+									</div>
+								}
+							</div>
+						}
+						@function spotsLeft() {
+							return Math.max(0, (post.eventRsvpLimit ?? 0) - post.eventRsvpGoingCount);
+						}
+						@function rsvpStatusText(status: number) {
+							switch (status) {
+								case 1: return "is going";
+								case 2: return "might go";
+								case 3: return "can't go";
+							}
+						}
 
 						@/*
 						@if (post.tags.length) {
@@ -151,6 +241,45 @@ export default function EventViewPage($props: { data: { post: PostViewModel, use
 
 		.event-view-body {
 			padding: 1rem 0;
+		}
+
+		.event-view-actions {
+			padding-bottom: 1rem;
+		}
+
+		.event-view-calendar {
+			align-items: center;
+			display: inline-flex;
+			gap: 0.4rem;
+		}
+
+		.event-view-rsvp {
+			border-top: 1px solid var(--border-color);
+			padding-top: 1rem;
+		}
+
+		.event-view-rsvp-list {
+			margin-top: 0.5rem;
+		}
+
+		.event-view-rsvp-image {
+			border: 1px solid var(--border-color);
+			border-radius: 50%;
+			height: 24px;
+			width: 24px;
+		}
+
+		.rsvp-button {
+			background-color: var(--surface-alt);
+			border: 1px solid var(--border-color);
+			border-radius: var(--border-radius);
+			cursor: pointer;
+			padding: 0.4rem 1rem;
+		}
+
+		.rsvp-button.selected {
+			background-color: var(--link);
+			color: white;
 		}
 
 		.event-view-link {

@@ -45,6 +45,20 @@ export const feedTable = sqliteTable("feed", {
 	link_embed_src: text(),
 	link_embed_width: int(),
 	link_embed_height: int(),
+	/** Event description, if this is an event */
+	event_text: text(),
+	/** Event location, if this is an event */
+	event_location: text(),
+	/** Event start time, if this is an event */
+	event_starts_at: int({ mode: "timestamp" }),
+	/** Event duration, if this is an event */
+	event_duration: int(),
+	/** Whether RSVPs are enabled, if this is an event */
+	rsvp_enabled: int({ mode: "boolean" }).notNull().default(false),
+	/** The RSVP limit, if this is an event */
+	rsvp_limit: int(),
+	/** When RSVPs close, if this is an event */
+	rsvp_deadline: int({ mode: "timestamp" }),
 	/** The rating value/upper bound */
 	rating_value: real(),
 	rating_bound: int(),

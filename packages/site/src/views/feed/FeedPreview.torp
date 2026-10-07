@@ -168,6 +168,14 @@ export default function FeedPreview($props: { feed: FeedPreviewModel, user: User
 							<a href="{feed.author.url}events/{feed.slug}">
 								View
 							</a>
+							<a href="{feed.author.url}events/{feed.slug}/ical" download>
+								Add to calendar
+							</a>
+							@if (feed.eventRsvpEnabled) {
+								<a href="{feed.author.url}events/{feed.slug}">
+									RSVP
+								</a>
+							}
 						} else if (feed.childCount > 0) {
 							<a href="{feed.author.url}posts/{feed.slug}">
 								{feed.childCount + 1} posts

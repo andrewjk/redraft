@@ -1,7 +1,13 @@
 import { notFound, ok, serverError } from "@torpor/build/response";
 import { and, eq, isNull, or } from "drizzle-orm";
 import database from "../../data/database";
-import { articlesTable, commentsTable, eventsTable, postsTable } from "../../data/schema";
+import {
+	articlesTable,
+	commentsTable,
+	eventRsvpsTable,
+	eventsTable,
+	postsTable,
+} from "../../data/schema";
 import { Article } from "../../data/schema/articlesTable";
 import { Event } from "../../data/schema/eventsTable";
 import { Post } from "../../data/schema/postsTable";
@@ -15,6 +21,7 @@ import {
 	LINK_LINK_TYPE,
 	PUBLIC_POST_VISIBILITY,
 } from "../constants";
+import getRsvpCounts from "../events/rsvpCounts";
 import ensureSlash from "../utils/ensureSlash";
 import getErrorMessage from "../utils/getErrorMessage";
 import renderMarkdown from "../utils/renderMarkdown";
@@ -105,6 +112,40 @@ export default async function postGet(user: User, follower: User, slug: string) 
 
 		await Promise.all([loadChildren(), loadArticle(), loadEvent()]);
 
+		// Load the RSVPs for the event, if this is an event
+		let rsvpCounts = { going: 0, maybe: 0, declined: 0 };
+		let eventRsvps: PostViewModel["eventRsvps"] = [];
+		let viewerRsvpStatus: number | null = null;
+		if (event) {
+			rsvpCounts = await getRsvpCounts(db, event.id);
+
+			// Only the owner gets the full list
+			if (user) {
+				const rows = await db.query.eventRsvpsTable.findMany({
+					where: and(eq(eventRsvpsTable.event_id, event.id), isNull(eventRsvpsTable.deleted_at)),
+					orderBy: [eventRsvpsTable.created_at],
+				});
+				eventRsvps = rows.map((r) => ({
+					url: r.url,
+					name: r.name,
+					image: r.image,
+					status: r.status,
+				}));
+			}
+
+			// Find the current viewer's RSVP, if any
+			if (follower) {
+				const row = await db.query.eventRsvpsTable.findFirst({
+					where: and(
+						eq(eventRsvpsTable.event_id, event.id),
+						eq(eventRsvpsTable.url, follower.url),
+						isNull(eventRsvpsTable.deleted_at),
+					),
+				});
+				viewerRsvpStatus = row?.status ?? null;
+			}
+		}
+
 		// Create the view
 		let parentComments = post.comments.filter((c) => c.parent_id === null);
 		let childComments = post.comments.filter((c) => c.parent_id !== null);
@@ -120,6 +161,14 @@ export default async function postGet(user: User, follower: User, slug: string) 
 			eventLocation: event?.location ?? null,
 			eventStartsAt: event?.starts_at ?? null,
 			eventDuration: event?.duration ?? null,
+			eventRsvpEnabled: event?.rsvp_enabled ?? false,
+			eventRsvpLimit: event?.rsvp_limit ?? null,
+			eventRsvpDeadline: event?.rsvp_deadline ?? null,
+			eventRsvpGoingCount: rsvpCounts.going,
+			eventRsvpMaybeCount: rsvpCounts.maybe,
+			eventRsvpDeclinedCount: rsvpCounts.declined,
+			eventRsvps,
+			viewerRsvpStatus,
 			linkUrl:
 				post.link_type === ARTICLE_LINK_TYPE
 					? `${ensureSlash(currentUser.url)}articles/${post.slug}`

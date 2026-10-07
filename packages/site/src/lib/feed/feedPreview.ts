@@ -37,6 +37,12 @@ export default function feedPreview(
 		imageAltText: feed.image_alt_text,
 		isArticle: feed.link_type === ARTICLE_LINK_TYPE,
 		isEvent: feed.link_type === EVENT_LINK_TYPE,
+		eventStartsAt: feed.event_starts_at,
+		eventLocation: feed.event_location,
+		eventDuration: feed.event_duration,
+		eventRsvpEnabled: feed.rsvp_enabled,
+		eventRsvpLimit: feed.rsvp_limit,
+		eventRsvpDeadline: feed.rsvp_deadline,
 		linkUrl:
 			feed.link_type === ARTICLE_LINK_TYPE
 				? `${ensureSlash((feed.user ?? currentUser).url)}articles/${feed.slug}`

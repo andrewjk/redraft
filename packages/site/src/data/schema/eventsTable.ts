@@ -11,6 +11,12 @@ export const eventsTable = sqliteTable("events", {
 	location: text(),
 	starts_at: int({ mode: "timestamp" }).notNull(),
 	duration: int(),
+	/** Whether RSVPs are enabled for this event */
+	rsvp_enabled: int({ mode: "boolean" }).notNull().default(false),
+	/** The maximum number of "going" RSVPs, or null for unlimited */
+	rsvp_limit: int(),
+	/** When RSVPs close, or null if there is no deadline */
+	rsvp_deadline: int({ mode: "timestamp" }),
 	created_at: int({ mode: "timestamp" }).notNull(),
 	updated_at: int({ mode: "timestamp" }).notNull(),
 	deleted_at: int({ mode: "timestamp" }),

@@ -76,6 +76,12 @@ export default async function postCreateOrUpdate(
 						location: model.eventLocation,
 						starts_at: new Date(model.eventStartsAt!),
 						duration: model.eventDuration,
+						rsvp_enabled: model.eventRsvpEnabled ?? false,
+						rsvp_limit: model.eventRsvpEnabled ? model.eventRsvpLimit : null,
+						rsvp_deadline:
+							model.eventRsvpEnabled && model.eventRsvpDeadline
+								? new Date(model.eventRsvpDeadline)
+								: null,
 						created_at: new Date(),
 						updated_at: new Date(),
 					})
@@ -85,9 +91,16 @@ export default async function postCreateOrUpdate(
 			await tx
 				.update(eventsTable)
 				.set({
+					text: model.eventText ?? "",
 					location: model.eventLocation,
 					starts_at: new Date(model.eventStartsAt!),
 					duration: model.eventDuration,
+					rsvp_enabled: model.eventRsvpEnabled ?? false,
+					rsvp_limit: model.eventRsvpEnabled ? model.eventRsvpLimit : null,
+					rsvp_deadline:
+						model.eventRsvpEnabled && model.eventRsvpDeadline
+							? new Date(model.eventRsvpDeadline)
+							: null,
 					updated_at: new Date(),
 				})
 				.where(eq(eventsTable.id, model.eventId!));

@@ -157,6 +157,9 @@ export default function PostPreview($props: { post: PostPreviewModel, user: User
 							<a href="{post.author.url}events/{post.slug}">
 								View
 							</a>
+							<a href="{post.author.url}events/{post.slug}/ical" download>
+								Add to calendar
+							</a>
 						} else if (post.childCount > 0) {
 							<a href="{post.author.url}posts/{post.slug}">
 								{post.childCount + 1} posts

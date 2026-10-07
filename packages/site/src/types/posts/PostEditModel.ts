@@ -17,6 +17,9 @@ export default interface PostEditModel {
 	eventLocation?: string;
 	eventStartsAt?: Date;
 	eventDuration?: number;
+	eventRsvpEnabled?: boolean;
+	eventRsvpLimit?: number;
+	eventRsvpDeadline?: Date;
 	hasLink?: boolean;
 	linkUrl?: string;
 	linkTitle?: string;

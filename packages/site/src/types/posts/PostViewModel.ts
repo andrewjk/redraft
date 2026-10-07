@@ -14,6 +14,21 @@ export default interface PostViewModel {
 	eventLocation: string | null | undefined;
 	eventStartsAt: Date | null | undefined;
 	eventDuration: number | null | undefined;
+	eventRsvpEnabled: boolean;
+	eventRsvpLimit: number | null | undefined;
+	eventRsvpDeadline: Date | null | undefined;
+	eventRsvpGoingCount: number;
+	eventRsvpMaybeCount: number;
+	eventRsvpDeclinedCount: number;
+	/** The list of RSVPs, only sent to the event owner */
+	eventRsvps: {
+		url: string;
+		name: string;
+		image: string;
+		status: number;
+	}[];
+	/** The current viewer's RSVP status, if any */
+	viewerRsvpStatus: number | null | undefined;
 	linkUrl: string | null | undefined;
 	linkTitle: string | null | undefined;
 	linkImage: string | null | undefined;

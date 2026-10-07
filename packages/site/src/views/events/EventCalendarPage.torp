@@ -1,0 +1,119 @@
+import type UserModel from "../../types/UserModel";
+import type FollowerModel from "../../types/FollowerModel";
+import type EventCalendarModel from "../../types/events/EventCalendarModel";
+import EventMenu from "./EventMenu.torp";
+
+/**
+ * Shows a month grid of events.
+ */
+export default function EventCalendarPage($props: { data: { calendar: EventCalendarModel, user: UserModel, follower: FollowerModel, base: string } }) {
+	let calendar = $props.data.calendar;
+	let weekdays = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
+
+	let fmtTime = new Intl.DateTimeFormat(undefined, { hour: "numeric", minute: "numeric" });
+
+	@head {
+		<title>Events • Calendar • Redraft</title>
+	}
+
+	@render {
+		<div class="vstack spaced events-page">
+			<EventMenu section="Calendar" {$props.data.user} {$props.data.base} />
+			<div class="card full-width event-calendar">
+				<div class="hstack centered spaced event-calendar-header">
+					<a class="subnav-link" href="{$props.data.base}events/calendar?month={calendar.prev}">Prev</a>
+					<h2 class="grow event-calendar-label">{calendar.label}</h2>
+					<a class="subnav-link" href="{$props.data.base}events/calendar?month={calendar.next}">Next</a>
+				</div>
+				<div class="event-calendar-grid">
+					@for (let dayName of weekdays) {
+						<div class="event-calendar-weekday">{dayName}</div>
+					}
+					@for (let week of calendar.weeks) {
+						@for (let day of week) {
+							<div class={{"event-calendar-day": true, "other-month": !day.inMonth, "today": day.isToday}}>
+								<div class="event-calendar-day-number">{day.day}</div>
+								@for (let item of day.events) {
+									<a class="event-calendar-event" href={item.url} title={item.title}>
+										<span class="event-calendar-event-time">{fmtTime.format(new Date(item.startsAt))}</span>
+										<span class="event-calendar-event-title">{item.title}</span>
+									</a>
+								}
+							</div>
+						}
+					}
+				</div>
+			</div>
+		</div>
+	}
+
+	@style {
+		.event-calendar {
+			padding: 1rem;
+		}
+
+		.event-calendar-header {
+			margin-bottom: 1rem;
+		}
+
+		.event-calendar-label {
+			text-align: center;
+		}
+
+		.event-calendar-grid {
+			display: grid;
+			grid-template-columns: repeat(7, 1fr);
+			gap: 1px;
+			background-color: var(--border-color);
+			border: 1px solid var(--border-color);
+		}
+
+		.event-calendar-weekday {
+			background-color: var(--surface-alt);
+			font-size: 75%;
+			font-weight: bold;
+			padding: 0.4rem;
+			text-align: center;
+		}
+
+		.event-calendar-day {
+			background-color: var(--surface);
+			display: flex;
+			flex-direction: column;
+			gap: 0.2rem;
+			min-height: 6rem;
+			padding: 0.4rem;
+		}
+
+		.event-calendar-day.other-month {
+			opacity: 0.4;
+		}
+
+		.event-calendar-day.today {
+			box-shadow: inset 0 0 0 2px var(--link);
+		}
+
+		.event-calendar-day-number {
+			font-size: 75%;
+			font-weight: bold;
+		}
+
+		.event-calendar-event {
+			background-color: var(--link);
+			border-radius: 0.4rem;
+			color: white;
+			display: block;
+			font-size: 75%;
+			overflow: hidden;
+			padding: 0.1rem 0.3rem;
+			text-decoration: none;
+			text-overflow: ellipsis;
+			white-space: nowrap;
+		}
+
+		.event-calendar-event-time {
+			font-weight: bold;
+			margin-right: 0.3rem;
+		}
+	}
+}

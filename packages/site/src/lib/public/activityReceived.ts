@@ -45,6 +45,10 @@ export default async function activityReceived(request: Request) {
 				message = "You reacted to a post";
 				break;
 			}
+			case "rsvped": {
+				message = "You RSVP'd to an event";
+				break;
+			}
 		}
 
 		await transaction(db, async (tx) => {

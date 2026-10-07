@@ -4,6 +4,17 @@ import type PostEditModel from "./PostEditModel";
 
 v.setGlobalConfig({ abortPipeEarly: true });
 
+// Dates are submitted from form inputs as strings, or sent as Dates via the
+// JSON API, so accept either and normalise to a Date
+const dateValue = v.union([
+	v.date(),
+	v.pipe(
+		v.string(),
+		v.transform((s) => new Date(s)),
+		v.check((d) => !isNaN(d.getTime()), "Invalid date"),
+	),
+]);
+
 const PostEditSchema = v.pipe(
 	v.object({
 		id: v.number(),
@@ -21,8 +32,11 @@ const PostEditSchema = v.pipe(
 		eventId: optionalFormValue(v.number()),
 		eventText: v.optional(v.string()),
 		eventLocation: v.optional(v.string()),
-		eventStartsAt: v.optional(v.date()),
+		eventStartsAt: optionalFormValue(dateValue),
 		eventDuration: optionalFormValue(v.number()),
+		eventRsvpEnabled: optionalFormValue(v.boolean()),
+		eventRsvpLimit: optionalFormValue(v.number()),
+		eventRsvpDeadline: optionalFormValue(dateValue),
 		hasLink: optionalFormValue(v.boolean()),
 		linkUrl: v.optional(v.string()),
 		linkTitle: v.optional(v.string()),

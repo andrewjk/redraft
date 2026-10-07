@@ -1,7 +1,7 @@
 import { notFound, ok, serverError, unauthorized } from "@torpor/build/response";
 import { eq } from "drizzle-orm";
 import database from "../../data/database";
-import { postsQueueTable, postsTable, usersTable } from "../../data/schema";
+import { eventsTable, postsQueueTable, postsTable, usersTable } from "../../data/schema";
 import type PostResendModel from "../../types/posts/PostResendModel";
 import type FeedDeletedModel from "../../types/public/FeedDeletedModel";
 import { FEED_DELETED_VERSION } from "../../types/public/FeedDeletedModel";
@@ -43,6 +43,11 @@ export default async function postResend(request: Request, code: string) {
 			return notFound();
 		}
 
+		// Load the event details, if this is an event
+		const event = post.event_id
+			? await db.query.eventsTable.findFirst({ where: eq(eventsTable.id, post.event_id) })
+			: undefined;
+
 		let failureCount = 0;
 
 		// NOTE: Don't use a transaction here, we want each operation to be atomic
@@ -66,6 +71,13 @@ export default async function postResend(request: Request, code: string) {
 						linkEmbedSrc: post.link_embed_src,
 						linkEmbedWidth: post.link_embed_width,
 						linkEmbedHeight: post.link_embed_height,
+						eventText: event?.text,
+						eventLocation: event?.location,
+						eventStartsAt: event?.starts_at,
+						eventDuration: event?.duration,
+						rsvpEnabled: event?.rsvp_enabled,
+						rsvpLimit: event?.rsvp_limit,
+						rsvpDeadline: event?.rsvp_deadline,
 						ratingValue: post.rating_value,
 						ratingBound: post.rating_bound,
 						childCount: post.child_count,

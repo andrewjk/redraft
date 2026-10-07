@@ -16,6 +16,12 @@ export default interface FeedPreviewModel {
 	imageAltText: string | null | undefined;
 	isArticle: boolean;
 	isEvent: boolean;
+	eventStartsAt: Date | null | undefined;
+	eventLocation: string | null | undefined;
+	eventDuration: number | null | undefined;
+	eventRsvpEnabled: boolean;
+	eventRsvpLimit: number | null | undefined;
+	eventRsvpDeadline: Date | null | undefined;
 	linkUrl: string | null | undefined;
 	linkTitle: string | null | undefined;
 	linkImage: string | null | undefined;

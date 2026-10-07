@@ -131,9 +131,35 @@ export default function PostInputFields($props: { post: PostEditModel, child?: P
 				<Field class="form-row" name={`${prefix()}eventDuration`} &value={post.eventDuration}>
 					<Input
 						type="number"
-						placeholder="Event duration" />
+						placeholder="Event duration (minutes)" />
 					<Message class="error-message" />
 				</Field>
+
+				<Hidden name={`${prefix()}eventRsvpEnabled`} value={post.eventRsvpEnabled} />
+				<div class="hstack centered spaced-nr">
+					<label>Allow RSVPs</label>
+					<button
+						type="button"
+						class={{"rsvp-toggle": true, "selected": !!post.eventRsvpEnabled}}
+						onclick={() => post.eventRsvpEnabled = !post.eventRsvpEnabled}
+					>
+						{post.eventRsvpEnabled ? "On" : "Off"}
+					</button>
+				</div>
+				@if (post.eventRsvpEnabled) {
+					<Field class="form-row" name={`${prefix()}eventRsvpLimit`} &value={post.eventRsvpLimit}>
+						<Input
+							type="number"
+							placeholder="RSVP limit, e.g. 30 (optional)" />
+						<Message class="error-message" />
+					</Field>
+					<Field class="form-row" name={`${prefix()}eventRsvpDeadline`} &value={post.eventRsvpDeadline}>
+						<Input
+							type="datetime-local"
+							placeholder="RSVP deadline (optional)" />
+						<Message class="error-message" />
+					</Field>
+				}
 			} else {
 				@if (post.hasImage) {
 					<Hidden name={`${prefix()}image`} value={post.image} />
@@ -481,6 +507,19 @@ export default function PostInputFields($props: { post: PostEditModel, child?: P
 
 		.post-input-rating.selected {
 			color: inherit;
+		}
+
+		.rsvp-toggle {
+			background-color: var(--surface-alt);
+			border: 1px solid var(--border-color);
+			border-radius: var(--border-radius);
+			cursor: pointer;
+			padding: 0.2rem 0.8rem;
+		}
+
+		.rsvp-toggle.selected {
+			background-color: var(--link);
+			color: white;
 		}
 	}
 }

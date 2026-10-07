@@ -33,3 +33,10 @@ export type PostVisibility =
 	| typeof FOLLOWER_POST_VISIBILITY
 	| typeof PRIVATE_POST_VISIBILITY
 	| typeof LIST_POST_VISIBILITY;
+
+// RSVP options
+export const RSVP_GOING = 1;
+export const RSVP_MAYBE = 2;
+export const RSVP_DECLINED = 3;
+
+export type RsvpStatus = typeof RSVP_GOING | typeof RSVP_MAYBE | typeof RSVP_DECLINED;
