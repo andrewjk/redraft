@@ -59,7 +59,7 @@ export default function PostStatusPage($props: { data: { id: number, post: PostP
 			width: 40px;
 			border: 1px solid var(--border-color);
 			border-radius: 50%;
-			box-shadow: 0 0.2rem 0.4rem #eee;
+			box-shadow: 0 0.2rem 0.4rem var(--shadow-color);
 		}
 
 		.post-status-failure-name {

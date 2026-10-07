@@ -20,10 +20,14 @@ export default function profileView(
 				}),
 		location: user.location,
 		image: user.image,
-		links: user.links.map((l) => ({
-			id: l.id,
-			text: l.text,
-			url: l.url,
-		})),
+		links: user.links
+			// Ignore blank link rows that may have been saved before empty links
+			// were filtered out on save
+			.filter((l) => l.text.trim() || l.url.trim())
+			.map((l) => ({
+				id: l.id,
+				text: l.text,
+				url: l.url,
+			})),
 	} satisfies ProfileViewModel;
 }

@@ -2,6 +2,7 @@ import type { PageServerEndPoint } from "@torpor/build";
 import { ok, seeOther } from "@torpor/build/response";
 import database from "../data/database";
 import env from "../lib/env";
+import { parseTheme } from "../lib/theme/theme";
 import ensureSlash from "../lib/utils/ensureSlash";
 import FollowerModel from "../types/FollowerModel";
 import UserModel from "../types/UserModel";
@@ -21,6 +22,7 @@ export default {
 				location: true,
 				message_count: true,
 				notification_count: true,
+				theme: true,
 			},
 		});
 		if (!currentUser && url.pathname !== "/account/setup") {
@@ -55,6 +57,7 @@ export default {
 					image: currentUser.image,
 					bio: currentUser.bio,
 					location: currentUser.location,
+					theme: parseTheme(currentUser.theme),
 				} satisfies ViewingModel),
 		});
 	},

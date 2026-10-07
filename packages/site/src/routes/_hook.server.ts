@@ -1,6 +1,7 @@
 import type { ServerHook } from "@torpor/build";
 import * as jose from "jose";
 import env from "../lib/env";
+import clearStaleUserToken from "../lib/utils/clearStaleUserToken";
 import verifyFollowerToken from "../lib/utils/verifyFollowerToken";
 
 function userSecret() {
@@ -72,5 +73,11 @@ export default {
 				}
 			}
 		}
+
+		// Clear the session if the cookie is still valid but its database
+		// token has expired or been revoked. Without this, pages render as
+		// logged in (the JWT verifies) while authenticated writes fail with a
+		// confusing 401, because the API checks the token against the database
+		await clearStaleUserToken(appData, cookies);
 	},
 } satisfies ServerHook;

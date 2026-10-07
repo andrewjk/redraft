@@ -11,6 +11,8 @@ export default function ProfileMenu($props: { section: string, user: UserModel, 
 				<h1>Profile</h1>
 			} else if ($props.section === "Edit") {
 				<h1>Profile <span class="slash">/</span> Edit</h1>
+			} else if ($props.section === "Appearance") {
+				<h1>Profile <span class="slash">/</span> Appearance</h1>
 			}
 
 			<div class="spacer" />
@@ -24,6 +26,11 @@ export default function ProfileMenu($props: { section: string, user: UserModel, 
 				@if ($props.section !== "Edit") {
 					<a class="subnav-link" href="{$props.base}profile/edit">
 						Edit
+					</a>
+				}
+				@if ($props.section !== "Appearance") {
+					<a class="subnav-link" href="{$props.base}profile/appearance">
+						Appearance
 					</a>
 				}
 				<Form action="?/logout">

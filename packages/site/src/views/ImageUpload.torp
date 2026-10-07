@@ -50,7 +50,7 @@ export default function ImageUpload($props: {
 			object-fit: cover;
 			border-radius: 50%;
 			border: 1px solid var(--border-color);
-			box-shadow: 0 0.2rem 0.4rem #eee;
+			box-shadow: 0 0.2rem 0.4rem var(--shadow-color);
 		}
 	}
 }

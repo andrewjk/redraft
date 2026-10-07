@@ -1,23 +1,40 @@
 :root {
+	/* Typography */
+	--text-font: ui-sans-serif, sans-serif;
+	--heading-font: ui-serif, serif;
+	--text-size: 1.6rem;
+	--heading-size: 3.6rem;
+	--h2-size: 3rem;
+	--h3-size: 2.5rem;
+	--h4-size: 2.1rem;
+	/* Colours */
 	--background: #fafbfc;
+	--surface: #ffffff;
+	--surface-alt: #fcfcfc;
+	--hover: #f0f2f6;
+	--panel-back: #f3f6f9;
+	--code-back: #e3e6e9;
 	--header: #222233;
 	--text: #222222;
 	--text-secondary: #808080;
 	--text-disabled: #808080;
-	--panel-back: #f3f6f9;
-	--code-back: #e3e6e9;
-	--border-radius: 0.4rem;
+	--muted: #d3d3d3;
 	--border-color: #efefef;
+	--shadow-color: rgba(0, 0, 0, 0.1);
 	--link: #0066cc;
+	--highlight: orange;
+	/* Misc */
+	--border-radius: 0.4rem;
 }
 
 html {
-	font-family: ui-sans-serif, sans-serif;
+	font-family: var(--text-font);
 }
 
 body {
 	color: var(--text);
 	background-color: var(--background);
+	font-size: var(--text-size);
 }
 
 h1,
@@ -27,32 +44,32 @@ h4,
 h5,
 h6 {
 	color: var(--header);
-	font-family: ui-serif, serif;
+	font-family: var(--heading-font);
 	font-weight: 400;
 }
 
 h1 {
-	font-size: 3.6rem;
+	font-size: var(--heading-size);
 }
 
 h2 {
-	font-size: 3rem;
+	font-size: var(--h2-size);
 }
 
 h3 {
-	font-size: 2.5rem;
+	font-size: var(--h3-size);
 }
 
 h4 {
-	font-size: 2.1rem;
+	font-size: var(--h4-size);
 }
 
 h5 {
-	font-size: 1.8rem;
+	font-size: calc(var(--heading-size) * 0.5);
 }
 
 h6 {
-	font-size: 1.6rem;
+	font-size: calc(var(--heading-size) * 0.4444);
 }
 
 h1,
@@ -244,7 +261,7 @@ table {
 
 th,
 td {
-	border-bottom: 1px solid lightgray;
+	border-bottom: 1px solid var(--muted);
 	padding: 0.5rem 0.5rem 0.5rem 0;
 }
 
@@ -280,7 +297,7 @@ label {
 
 textarea,
 input {
-	border: 1px solid lightgray;
+	border: 1px solid var(--muted);
 	border-radius: var(--border-radius);
 	padding: 0.2rem 0.6rem;
 }
@@ -321,7 +338,7 @@ a.icon {
 
 button.link.icon:enabled:hover,
 a.icon:hover {
-	background: #f0f2f6;
+	background: var(--hover);
 }
 
 /* Subnav menus */
@@ -351,7 +368,7 @@ a.icon:hover {
 
 .subnav-link:hover,
 .subnav-button:hover {
-	background: #f0f2f6;
+	background: var(--hover);
 	text-decoration: none;
 }
 
@@ -366,24 +383,24 @@ a.icon:hover {
 
 .card {
 	padding: 1rem;
-	background-color: #fff;
+	background-color: var(--surface);
 	border: 1px solid var(--border-color);
 	border-radius: var(--border-radius);
-	box-shadow: 0 0.2rem 0.4rem #eee;
+	box-shadow: 0 0.2rem 0.4rem var(--shadow-color);
 }
 
 .separator::after {
-	color: #808080;
+	color: var(--text-secondary);
 	content: "·";
 }
 
 .menu-separator::after {
-	color: #808080;
+	color: var(--text-secondary);
 	content: "•";
 }
 
 .slash {
-	color: #ddd;
+	color: var(--muted);
 }
 
 .font-sm {

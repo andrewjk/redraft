@@ -222,7 +222,7 @@ export default function PostPreview($props: { post: PostPreviewModel, user: User
 			width: 40px;
 			border: 1px solid var(--border-color);
 			border-radius: 50%;
-			box-shadow: 0 0.2rem 0.4rem #eee;
+			box-shadow: 0 0.2rem 0.4rem var(--shadow-color);
 		}
 
 		.post-preview-name {
@@ -247,7 +247,7 @@ export default function PostPreview($props: { post: PostPreviewModel, user: User
 		}
 
 		.separator {
-			color: #808080;
+			color: var(--text-secondary);
 		}
 	}
 }

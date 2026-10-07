@@ -19,6 +19,8 @@ export const usersTable = sqliteTable("users", {
 	image: text().notNull(),
 	message_count: int().notNull().default(0),
 	notification_count: int().notNull().default(0),
+	/** JSON encoded theme overrides (see types/theme/ThemeModel), or null */
+	theme: text(),
 	created_at: int({ mode: "timestamp" }).notNull(),
 	updated_at: int({ mode: "timestamp" }).notNull(),
 	deleted_at: int({ mode: "timestamp" }),

@@ -98,7 +98,7 @@ export default function ListEditPage($props: { data: { list: ListEditModel, user
 			width: 40px;
 			border: 1px solid var(--border-color);
 			border-radius: 50%;
-			box-shadow: 0 0.2rem 0.4rem #eee;
+			box-shadow: 0 0.2rem 0.4rem var(--shadow-color);
 		}
 
 		.user-preview-name {

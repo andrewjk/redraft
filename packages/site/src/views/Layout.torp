@@ -10,6 +10,7 @@ import type ViewingModel from "../types/ViewingModel";
 import ProfilePreview from "./profile/ProfilePreview.torp";
 import placeholdify from "../lib/utils/placeholdify";
 import stripProtocol from "../lib/utils/stripProtocol";
+import { themeCss } from "../lib/theme/theme";
 
 // TODO: should be able to bust out of this layout in SetupPage so we can
 // remove the `@if ($props.data.viewing)`
@@ -24,6 +25,10 @@ export default function Layout($props: { data: { user: UserModel, follower: Foll
 	}
 
 	@render {
+		@if ($props.data.viewing?.theme) {
+			<style>{themeCss($props.data.viewing.theme)}</style>
+		}
+
 		<div class="app-layout">
 			@if ($props.data.user) {
 				<Nav {$props.data.user} {$props.data.follower} {$props.data.viewing} />
@@ -168,9 +173,9 @@ function Nav() {
 
 	@style {
 		.nav-bar {
-			background-color: #fff;
+			background-color: var(--surface);
 			border-bottom: 1px solid var(--border-color);
-			box-shadow: 0 0.2rem 0.4rem #eee;
+			box-shadow: 0 0.2rem 0.4rem var(--shadow-color);
 		}
 
 		.nav-link {
@@ -194,21 +199,21 @@ function Nav() {
 
 		.nav-link:hover,
 		.nav-button:hover {
-			background: #f0f2f6;
+			background: var(--hover);
 			text-decoration: none;
 		}
 
 		.nav-link.active {
 			border-top: 2px solid #fff0;
-			border-bottom: 2px solid orange;
+			border-bottom: 2px solid var(--highlight, orange);
 			padding: calc(1rem - 2px) 1rem;
 		}
 
 		.nav-popout {
-			background-color: #fff;
+			background-color: var(--surface);
 			border: 1px solid var(--border-color);
 			border-bottom: 1px solid var(--border-color);
-			box-shadow: 0 0.2rem 0.4rem #eee;
+			box-shadow: 0 0.2rem 0.4rem var(--shadow-color);
 		}
 
 		.nav-separator {
@@ -230,7 +235,7 @@ function Nav() {
 			width: 20px;
 			border: 1px solid var(--border-color);
 			border-radius: 50%;
-			box-shadow: 0 0.2rem 0.4rem #eee;
+			box-shadow: 0 0.2rem 0.4rem var(--shadow-color);
 
 			display: inline-block;
 			vertical-align: top;

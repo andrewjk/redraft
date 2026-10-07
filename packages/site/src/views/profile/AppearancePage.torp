@@ -1,0 +1,83 @@
+import { Form, Field, Input, Label, Message } from "@torpor/ui/Form";
+import type FormData from "../../types/FormData";
+import type UserModel from "../../types/UserModel";
+import type ViewingModel from "../../types/ViewingModel";
+import type { ThemeModel } from "../../types/theme/ThemeModel";
+import ThemeSchema from "../../types/theme/ThemeSchema";
+import { defaultTheme, mergeTheme, themeCss } from "../../lib/theme/theme";
+import { THEME_VARIABLES } from "../../lib/theme/themeVariables";
+import FormErrors from "../FormErrors.torp";
+import ProfileMenu from "./ProfileMenu.torp";
+
+/**
+ * Allows the site owner to customize the site's colors.
+ */
+export default function AppearancePage($props: { data: { theme: ThemeModel, viewing: ViewingModel, user: UserModel, base: string }, form?: FormData }) {
+	let $state = $watch({
+		theme: mergeTheme({ ...$props.data.theme, ...$props.form?.data }),
+	});
+
+	@head {
+		<title>Appearance • Redraft</title>
+	}
+
+	@render {
+		@// Preview the theme here as well, so saved values show immediately
+		@// (the layout's cached style tag can be stale after a save) and edits
+		@// preview live
+		<style>{themeCss($state.theme)}</style>
+
+		<div class="vstack spaced full-width appearance-page">
+			<ProfileMenu section="Appearance" {$props.data.user} {$props.data.base} />
+
+			<p>
+				<a href="/account/change-password">Change password</a>
+				<span class="separator" />
+				<a href="/account/export">Export data</a>
+			</p>
+
+			<p>
+				Customize the site's colors. Leave a value at its default to keep
+				the original style.
+			</p>
+
+			<FormErrors {$props.form} />
+
+			<Form data={$state.theme} schema={ThemeSchema}>
+				@for (let variable of THEME_VARIABLES) {
+					<Field class="form-row" name={variable.name} &value={$state.theme[variable.name]}>
+						<Label>{variable.label}</Label>
+						<div class="hstack centered spaced">
+							@if (variable.type === "color") {
+								<span class="theme-swatch" style={{ background: $state.theme[variable.name] }} />
+							}
+							<Input placeholder={variable.default} />
+						</div>
+						<Message class="error-message" />
+					</Field>
+				}
+
+				<div class="hstack centered spaced">
+					<button type="submit">Save</button>
+					<button type="button" class="link" onclick={resetTheme}>
+						Reset to defaults
+					</button>
+				</div>
+				@function resetTheme() {
+					Object.assign($state.theme, defaultTheme());
+				}
+			</Form>
+		</div>
+	}
+
+	@style {
+		.theme-swatch {
+			display: inline-block;
+			width: 1.6rem;
+			height: 1.6rem;
+			flex-shrink: 0;
+			border: 1px solid var(--border-color);
+			border-radius: var(--border-radius);
+		}
+	}
+}

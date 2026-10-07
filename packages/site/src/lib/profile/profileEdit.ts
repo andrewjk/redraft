@@ -36,6 +36,11 @@ export default async function profileEdit(
 		}
 		model = validated.output;
 
+		// Ignore empty link rows -- the edit form always shows a blank one, and
+		// clearing a link's text/url should remove it rather than save a
+		// contentless link
+		const links = model.links.filter((link) => link.text.trim() && link.url.trim());
+
 		// Get the current user
 		const currentUser = await db.query.usersTable.findFirst({
 			where: eq(usersTable.id, userIdQuery(code)),
@@ -66,11 +71,11 @@ export default async function profileEdit(
 				// TODO: Is there a better way to do this?
 				let updates = [];
 				for (let link of currentUser.links) {
-					if (!model.links.find((l) => l.id === link.id)) {
+					if (!links.find((l) => l.id === link.id)) {
 						updates.push(tx.delete(userLinksTable).where(eq(userLinksTable.id, link.id)));
 					}
 				}
-				for (let link of model.links) {
+				for (let link of links) {
 					if (link.id < 0) {
 						updates.push(
 							tx.insert(userLinksTable).values({

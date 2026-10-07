@@ -123,7 +123,7 @@ export default function ProfilePreview($props: { profile: ViewingModel, account?
 			width: 80px;
 			border: 1px solid var(--border-color);
 			border-radius: 50%;
-			box-shadow: 0 0.2rem 0.4rem #eee;
+			box-shadow: 0 0.2rem 0.4rem var(--shadow-color);
 		}
 
 		/*.subnav-link {
@@ -133,7 +133,7 @@ export default function ProfilePreview($props: { profile: ViewingModel, account?
 
 		.subnav-link.active {
 			border-top: 2px solid #fff0;
-			border-bottom: 2px solid orange;
+			border-bottom: 2px solid var(--highlight, orange);
 			padding: calc(1rem - 2px) 1rem;
 		}
 
@@ -164,7 +164,7 @@ export default function ProfilePreview($props: { profile: ViewingModel, account?
 			.subnav-link.active {
 				border: 0;
 				border-right: 2px solid #fff0;
-				border-left: 2px solid orange;
+				border-left: 2px solid var(--highlight, orange);
 			}
 		}
 
