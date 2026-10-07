@@ -1,8 +1,17 @@
 import { expect, test } from "vite-plus/test";
 import * as v from "valibot";
-import { mergeTheme, parseTheme, sanitizeTheme, themeCss } from "../../src/lib/theme/theme";
-import { THEME_VARIABLES } from "../../src/lib/theme/themeVariables";
-import ThemeSchema from "../../src/types/theme/ThemeSchema";
+import {
+	darkDefaultTheme,
+	darkThemeCss,
+	mergeDarkTheme,
+	mergeTheme,
+	parseTheme,
+	sanitizeDarkTheme,
+	sanitizeTheme,
+	themeCss,
+} from "../../src/lib/theme/theme";
+import { DARK_THEME_VARIABLES, THEME_VARIABLES } from "../../src/lib/theme/themeVariables";
+import ThemeSchema, { ThemeEditSchema } from "../../src/types/theme/ThemeSchema";
 
 test("sanitizeTheme keeps only known variables with valid values", async () => {
 	expect(sanitizeTheme({ background: "#fff", link: "not a color", nope: "#fff" })).toEqual({
@@ -82,4 +91,39 @@ test("ThemeSchema accepts valid and rejects invalid values", async () => {
 
 	const badLength = v.safeParse(ThemeSchema, { "border-radius": "1rem; color: red" });
 	expect(badLength.success).toBe(false);
+});
+
+test("dark theme: sanitize keeps only colour variables", async () => {
+	// `text-font` is shared (not per-mode), so it's dropped from a dark palette
+	expect(sanitizeDarkTheme({ background: "#111", "text-font": "Georgia, serif" })).toEqual({
+		background: "#111",
+	});
+	expect(DARK_THEME_VARIABLES.every((variable) => variable.type === "color")).toBe(true);
+});
+
+test("darkThemeCss builds html.dark declarations", async () => {
+	expect(darkThemeCss({ background: "#112233", link: "#ff0000" })).toBe(
+		"html.dark{--background:#112233;--link:#ff0000}",
+	);
+	// Non-colour variables are ignored in the dark palette
+	expect(darkThemeCss({ "text-font": "Georgia, serif" })).toBe("");
+	expect(darkThemeCss(undefined)).toBe("");
+});
+
+test("darkDefaultTheme and mergeDarkTheme", async () => {
+	const defaults = darkDefaultTheme();
+	expect(defaults.background).toBe(
+		DARK_THEME_VARIABLES.find((variable) => variable.name === "background")!.dark,
+	);
+
+	const merged = mergeDarkTheme({ link: "#ff0000" });
+	expect(merged.link).toBe("#ff0000");
+	expect(merged.background).toBe(defaults.background);
+});
+
+test("ThemeEditSchema validates light and dark palettes", async () => {
+	expect(v.safeParse(ThemeEditSchema, { light: { background: "#fff" } }).success).toBe(true);
+	expect(v.safeParse(ThemeEditSchema, { dark: { link: "#ff0000" } }).success).toBe(true);
+	expect(v.safeParse(ThemeEditSchema, {}).success).toBe(true);
+	expect(v.safeParse(ThemeEditSchema, { light: { background: "notacolor" } }).success).toBe(false);
 });

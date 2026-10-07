@@ -15,13 +15,23 @@ for (const variable of THEME_VARIABLES) {
 	);
 }
 
-/**
- * Validates a submitted theme. Only the whitelisted variables are accepted,
- * and invalid values are rejected (rather than silently dropped) so the
- * appearance form can show an error.
- */
+/** Validates a single palette (light or dark). Only whitelisted variables */
 const ThemeSchema = v.object(
 	Object.fromEntries(Object.entries(entries).map(([name, schema]) => [name, v.optional(schema)])),
 ) as unknown as v.GenericSchema<unknown, ThemeModel>;
+
+export interface ThemeEditModel {
+	light?: ThemeModel;
+	dark?: ThemeModel;
+}
+
+/**
+ * Validates a submitted appearance edit. Invalid values are rejected (rather
+ * than silently dropped) so the appearance form can show an error.
+ */
+export const ThemeEditSchema = v.object({
+	light: v.optional(ThemeSchema),
+	dark: v.optional(ThemeSchema),
+}) as unknown as v.GenericSchema<unknown, ThemeEditModel>;
 
 export default ThemeSchema;

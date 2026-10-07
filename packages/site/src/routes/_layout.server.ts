@@ -23,6 +23,7 @@ export default {
 				message_count: true,
 				notification_count: true,
 				theme: true,
+				dark_theme: true,
 			},
 		});
 		if (!currentUser && url.pathname !== "/account/setup") {
@@ -58,6 +59,7 @@ export default {
 					bio: currentUser.bio,
 					location: currentUser.location,
 					theme: parseTheme(currentUser.theme),
+					darkTheme: parseTheme(currentUser.dark_theme),
 				} satisfies ViewingModel),
 		});
 	},

@@ -1,0 +1,1 @@
+ALTER TABLE `users` ADD `dark_theme` text;

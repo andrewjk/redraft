@@ -8,4 +8,6 @@ export default interface ViewingModel {
 	location: string;
 	/** The site owner's theme overrides, if any */
 	theme?: ThemeModel;
+	/** The site owner's dark mode overrides, if any */
+	darkTheme?: ThemeModel;
 }

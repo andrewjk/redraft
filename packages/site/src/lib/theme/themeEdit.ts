@@ -3,11 +3,10 @@ import { eq } from "drizzle-orm";
 import * as v from "valibot";
 import database from "../../data/database";
 import { usersTable } from "../../data/schema";
-import type { ThemeModel } from "../../types/theme/ThemeModel";
-import ThemeSchema from "../../types/theme/ThemeSchema";
+import { ThemeEditSchema, type ThemeEditModel } from "../../types/theme/ThemeSchema";
 import getErrorMessage from "../utils/getErrorMessage";
 import userIdQuery from "../utils/userIdQuery";
-import { sanitizeTheme } from "./theme";
+import { sanitizeDarkTheme, sanitizeTheme } from "./theme";
 
 export default async function themeEdit(request: Request, code: string) {
 	let errorMessage = "";
@@ -15,10 +14,10 @@ export default async function themeEdit(request: Request, code: string) {
 	try {
 		const db = database();
 
-		const model = (await request.json()) as ThemeModel;
+		const model = (await request.json()) as ThemeEditModel;
 
 		// Validate the model's schema (only whitelisted variables, valid values)
-		const validated = v.safeParse(ThemeSchema, model);
+		const validated = v.safeParse(ThemeEditSchema, model);
 		if (!validated.success) {
 			const message = validated.issues.map((e) => e.message).join("\n");
 			return badRequest({ message, data: model });
@@ -32,10 +31,15 @@ export default async function themeEdit(request: Request, code: string) {
 			return unauthorized();
 		}
 
-		const theme = sanitizeTheme(validated.output);
+		const light = sanitizeTheme(validated.output.light);
+		const dark = sanitizeDarkTheme(validated.output.dark);
 		await db
 			.update(usersTable)
-			.set({ theme: theme ? JSON.stringify(theme) : null, updated_at: new Date() })
+			.set({
+				theme: light ? JSON.stringify(light) : null,
+				dark_theme: dark ? JSON.stringify(dark) : null,
+				updated_at: new Date(),
+			})
 			.where(eq(usersTable.id, user.id));
 
 		return ok();

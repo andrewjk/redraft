@@ -25,6 +25,26 @@
 	--highlight: orange;
 	/* Misc */
 	--border-radius: 0.4rem;
+	color-scheme: light;
+}
+
+html.dark {
+	--background: #17191f;
+	--surface: #20242c;
+	--surface-alt: #262b34;
+	--hover: #2b3038;
+	--panel-back: #20242c;
+	--code-back: #262b34;
+	--header: #e8eaf0;
+	--text: #d3d6de;
+	--text-secondary: #8b929b;
+	--text-disabled: #6a6f78;
+	--muted: #3a4049;
+	--border-color: #3a4049;
+	--shadow-color: rgba(0, 0, 0, 0.4);
+	--link: #86a8ff;
+	--highlight: orange;
+	color-scheme: dark;
 }
 
 html {
@@ -88,7 +108,7 @@ p {
 }
 
 hr {
-	background-color: rgba(0, 0, 0, 0.1);
+	background-color: var(--border-color);
 	border: none;
 	height: 1px;
 	margin: 1rem 0;
@@ -379,6 +399,11 @@ a.icon:hover {
 	border-radius: var(--border-radius);
 	background-color: #fbe6e5;
 	padding: 0.5rem 1rem;
+}
+
+html.dark .warning {
+	border-color: #7a3a3a;
+	background-color: #3a2a2a;
 }
 
 .card {

@@ -18,10 +18,13 @@ export default {
 		// layout data on navigation -- which would show stale values after a
 		// save (the page's own load is always re-run)
 		const currentUser = await database().query.usersTable.findFirst({
-			columns: { theme: true },
+			columns: { theme: true, dark_theme: true },
 		});
 
-		return ok({ theme: parseTheme(currentUser?.theme) ?? {} });
+		return ok({
+			theme: parseTheme(currentUser?.theme) ?? {},
+			darkTheme: parseTheme(currentUser?.dark_theme) ?? {},
+		});
 	},
 	actions: {
 		default: async ({ appData, request, params }) => {

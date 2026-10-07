@@ -7,6 +7,19 @@
 		<link rel="stylesheet" href="/src/assets/style.css" />
 		<link rel="stylesheet" href="/src/assets/custom.css" />
 		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<script>
+			(() => {
+				try {
+					const stored = localStorage.getItem("redraft-theme");
+					const dark = stored
+						? stored === "dark"
+						: matchMedia("(prefers-color-scheme: dark)").matches;
+					document.documentElement.classList.toggle("dark", dark);
+				} catch {
+					// Private browsing mode etc, just use the light theme
+				}
+			})();
+		</script>
 		<title>Redraft</title>
 	</head>
 	<body>

@@ -1,5 +1,5 @@
 import type { ThemeModel } from "../../types/theme/ThemeModel";
-import { THEME_VARIABLES, type ThemeVariableInfo } from "./themeVariables";
+import { DARK_THEME_VARIABLES, THEME_VARIABLES, type ThemeVariableInfo } from "./themeVariables";
 
 // Values are embedded in a <style> tag, so reject anything that could break
 // out of the declaration or the tag, or load external resources
@@ -57,22 +57,30 @@ export function isValidThemeValue(variable: ThemeVariableInfo, value: unknown): 
 }
 
 /**
- * Filters an untrusted value down to a valid theme: only known variable names
- * with valid values survive. Returns `undefined` when nothing is left, so
- * callers can skip rendering a style tag entirely.
+ * Filters an untrusted value down to a valid theme: only variables in the
+ * given list, with valid values, survive. Returns `undefined` when nothing is
+ * left, so callers can skip rendering a style tag entirely.
  */
-export function sanitizeTheme(input: unknown): ThemeModel | undefined {
+export function sanitizeTheme(
+	input: unknown,
+	variables: ThemeVariableInfo[] = THEME_VARIABLES,
+): ThemeModel | undefined {
 	if (!input || typeof input !== "object") {
 		return undefined;
 	}
 	const theme: ThemeModel = {};
-	for (const variable of THEME_VARIABLES) {
+	for (const variable of variables) {
 		const value = (input as Record<string, unknown>)[variable.name];
 		if (isValidThemeValue(variable, value)) {
 			theme[variable.name] = value.trim();
 		}
 	}
 	return Object.keys(theme).length ? theme : undefined;
+}
+
+/** Like `sanitizeTheme`, but keeps only the per-mode (colour) variables */
+export function sanitizeDarkTheme(input: unknown): ThemeModel | undefined {
+	return sanitizeTheme(input, DARK_THEME_VARIABLES);
 }
 
 /** Parses a theme stored as JSON in the database */
@@ -94,23 +102,50 @@ export function defaultTheme(): Required<ThemeModel> {
 	) as Required<ThemeModel>;
 }
 
+/** The dark values of the variables that can differ between modes */
+export function darkDefaultTheme(): ThemeModel {
+	return Object.fromEntries(
+		DARK_THEME_VARIABLES.map((v) => [v.name, v.dark as string]),
+	) as ThemeModel;
+}
+
 /** A complete set of values (defaults with the user's overrides applied) */
 export function mergeTheme(theme: ThemeModel | undefined): Required<ThemeModel> {
 	return { ...defaultTheme(), ...theme };
 }
 
-/**
- * Builds the `:root` CSS that applies a theme, or `""` when there are no
- * valid overrides. Safe to render into a <style> tag (values are validated).
- */
-export function themeCss(theme: ThemeModel | undefined): string {
+/** The dark palette (dark defaults with the user's overrides applied) */
+export function mergeDarkTheme(theme: ThemeModel | undefined): ThemeModel {
+	return { ...darkDefaultTheme(), ...theme };
+}
+
+function buildCss(
+	theme: ThemeModel | undefined,
+	variables: ThemeVariableInfo[],
+	selector: string,
+): string {
 	if (!theme) {
 		return "";
 	}
-	const declarations = THEME_VARIABLES.filter((variable) =>
-		isValidThemeValue(variable, theme[variable.name]),
-	)
+	const declarations = variables
+		.filter((variable) => isValidThemeValue(variable, theme[variable.name]))
 		.map((variable) => `--${variable.name}:${theme[variable.name]}`)
 		.join(";");
-	return declarations ? `:root{${declarations}}` : "";
+	return declarations ? `${selector}{${declarations}}` : "";
+}
+
+/**
+ * Builds the `:root` CSS that applies the light theme, or `""` when there are
+ * no valid overrides. Safe to render into a <style> tag (values are validated).
+ */
+export function themeCss(theme: ThemeModel | undefined): string {
+	return buildCss(theme, THEME_VARIABLES, ":root");
+}
+
+/**
+ * Builds the `html.dark` CSS that applies the dark theme overrides, or `""`
+ * when there are none.
+ */
+export function darkThemeCss(theme: ThemeModel | undefined): string {
+	return buildCss(theme, DARK_THEME_VARIABLES, "html.dark");
 }

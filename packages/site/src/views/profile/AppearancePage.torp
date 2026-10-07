@@ -3,18 +3,27 @@ import type FormData from "../../types/FormData";
 import type UserModel from "../../types/UserModel";
 import type ViewingModel from "../../types/ViewingModel";
 import type { ThemeModel } from "../../types/theme/ThemeModel";
-import ThemeSchema from "../../types/theme/ThemeSchema";
-import { defaultTheme, mergeTheme, themeCss } from "../../lib/theme/theme";
-import { THEME_VARIABLES } from "../../lib/theme/themeVariables";
+import { ThemeEditSchema } from "../../types/theme/ThemeSchema";
+import {
+	darkDefaultTheme,
+	darkThemeCss,
+	defaultTheme,
+	mergeDarkTheme,
+	mergeTheme,
+	themeCss,
+} from "../../lib/theme/theme";
+import { DARK_THEME_VARIABLES, THEME_VARIABLES } from "../../lib/theme/themeVariables";
 import FormErrors from "../FormErrors.torp";
 import ProfileMenu from "./ProfileMenu.torp";
 
 /**
- * Allows the site owner to customize the site's colors.
+ * Allows the site owner to customize the site's colors, per mode.
  */
-export default function AppearancePage($props: { data: { theme: ThemeModel, viewing: ViewingModel, user: UserModel, base: string }, form?: FormData }) {
+export default function AppearancePage($props: { data: { theme: ThemeModel, darkTheme: ThemeModel, viewing: ViewingModel, user: UserModel, base: string }, form?: FormData }) {
 	let $state = $watch({
-		theme: mergeTheme({ ...$props.data.theme, ...$props.form?.data }),
+		mode: "light",
+		light: mergeTheme($props.data.theme),
+		dark: mergeDarkTheme($props.data.darkTheme),
 	});
 
 	@head {
@@ -22,10 +31,10 @@ export default function AppearancePage($props: { data: { theme: ThemeModel, view
 	}
 
 	@render {
-		@// Preview the theme here as well, so saved values show immediately
-		@// (the layout's cached style tag can be stale after a save) and edits
-		@// preview live
-		<style>{themeCss($state.theme)}</style>
+		@// Preview both palettes here, so edits apply live and saved values
+		@// show immediately. The header toggle decides which mode is active
+		<style>{themeCss($state.light)}</style>
+		<style>{darkThemeCss($state.dark)}</style>
 
 		<div class="vstack spaced full-width appearance-page">
 			<ProfileMenu section="Appearance" {$props.data.user} {$props.data.base} />
@@ -37,25 +46,57 @@ export default function AppearancePage($props: { data: { theme: ThemeModel, view
 			</p>
 
 			<p>
-				Customize the site's colors. Leave a value at its default to keep
-				the original style.
+				Customize the site's colors. Use the theme toggle in the header to
+				preview dark mode.
 			</p>
 
 			<FormErrors {$props.form} />
 
-			<Form data={$state.theme} schema={ThemeSchema}>
-				@for (let variable of THEME_VARIABLES) {
-					<Field class="form-row" name={variable.name} &value={$state.theme[variable.name]}>
-						<Label>{variable.label}</Label>
-						<div class="hstack centered spaced">
-							@if (variable.type === "color") {
-								<span class="theme-swatch" style={{ background: $state.theme[variable.name] }} />
-							}
-							<Input placeholder={variable.default} />
-						</div>
-						<Message class="error-message" />
-					</Field>
-				}
+			<Form data={{ light: $state.light, dark: $state.dark }} schema={ThemeEditSchema}>
+				<div class="hstack centered spaced-nr theme-tabs">
+					<button
+						type="button"
+						class={{ "theme-tab": true, active: $state.mode === "light" }}
+						onclick={() => $state.mode = "light"}
+					>
+						Light
+					</button>
+					<button
+						type="button"
+						class={{ "theme-tab": true, active: $state.mode === "dark" }}
+						onclick={() => $state.mode = "dark"}
+					>
+						Dark
+					</button>
+				</div>
+
+				<div style={{ display: $state.mode === "light" ? undefined : "none" }}>
+					@for (let variable of THEME_VARIABLES) {
+						<Field class="form-row" name={`light[${variable.name}]`} &value={$state.light[variable.name]}>
+							<Label>{variable.label}</Label>
+							<div class="hstack centered spaced">
+								@if (variable.type === "color") {
+									<span class="theme-swatch" style={{ background: $state.light[variable.name] }} />
+								}
+								<Input placeholder={variable.default} />
+							</div>
+							<Message class="error-message" />
+						</Field>
+					}
+				</div>
+
+				<div style={{ display: $state.mode === "dark" ? undefined : "none" }}>
+					@for (let variable of DARK_THEME_VARIABLES) {
+						<Field class="form-row" name={`dark[${variable.name}]`} &value={$state.dark[variable.name]}>
+							<Label>{variable.label}</Label>
+							<div class="hstack centered spaced">
+								<span class="theme-swatch" style={{ background: $state.dark[variable.name] }} />
+								<Input placeholder={variable.dark} />
+							</div>
+							<Message class="error-message" />
+						</Field>
+					}
+				</div>
 
 				<div class="hstack centered spaced">
 					<button type="submit">Save</button>
@@ -64,7 +105,11 @@ export default function AppearancePage($props: { data: { theme: ThemeModel, view
 					</button>
 				</div>
 				@function resetTheme() {
-					Object.assign($state.theme, defaultTheme());
+					if ($state.mode === "dark") {
+						Object.assign($state.dark, darkDefaultTheme());
+					} else {
+						Object.assign($state.light, defaultTheme());
+					}
 				}
 			</Form>
 		</div>
@@ -78,6 +123,25 @@ export default function AppearancePage($props: { data: { theme: ThemeModel, view
 			flex-shrink: 0;
 			border: 1px solid var(--border-color);
 			border-radius: var(--border-radius);
+		}
+
+		.theme-tabs {
+			margin-bottom: 1rem;
+		}
+
+		.theme-tab {
+			background: none;
+			border: 1px solid var(--border-color);
+			border-radius: var(--border-radius);
+			color: var(--text);
+			cursor: pointer;
+			min-width: 0;
+			padding: 0.4rem 1rem;
+		}
+
+		.theme-tab.active {
+			background: var(--code-back);
+			color: var(--header);
 		}
 	}
 }

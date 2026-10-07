@@ -1,7 +1,10 @@
 import { $page } from "@torpor/build/state";
 import { NavMenu, NavMenuLink } from "@torpor/ui/NavMenu";
+import { SegmentedControl, SegmentedItem } from "@torpor/ui/SegmentedControl";
 import Bell from "phosphor-torpor/lib/Bell";
 import Envelope from "phosphor-torpor/lib/Envelope";
+import MoonStars from "phosphor-torpor/lib/MoonStars";
+import Sun from "phosphor-torpor/lib/Sun";
 //import DotsThreeOutlineVertical from "phosphor-torpor/lib/DotsThreeOutlineVertical";
 //import SignOut from "phosphor-torpor/lib/SignOut";
 import type UserModel from "../types/UserModel";
@@ -10,7 +13,7 @@ import type ViewingModel from "../types/ViewingModel";
 import ProfilePreview from "./profile/ProfilePreview.torp";
 import placeholdify from "../lib/utils/placeholdify";
 import stripProtocol from "../lib/utils/stripProtocol";
-import { themeCss } from "../lib/theme/theme";
+import { darkThemeCss, themeCss } from "../lib/theme/theme";
 
 // TODO: should be able to bust out of this layout in SetupPage so we can
 // remove the `@if ($props.data.viewing)`
@@ -28,7 +31,9 @@ export default function Layout($props: { data: { user: UserModel, follower: Foll
 		@if ($props.data.viewing?.theme) {
 			<style>{themeCss($props.data.viewing.theme)}</style>
 		}
-
+		@if ($props.data.viewing?.darkTheme) {
+			<style>{darkThemeCss($props.data.viewing.darkTheme)}</style>
+		}
 		<div class="app-layout">
 			@if ($props.data.user) {
 				<Nav {$props.data.user} {$props.data.follower} {$props.data.viewing} />
@@ -85,6 +90,32 @@ export default function Layout($props: { data: { user: UserModel, follower: Foll
 }
 
 function Nav() {
+	let $state = $watch({
+		theme: "light",
+		mounted: false,
+	});
+
+	$onmount(() => {
+		// The documentElement class is the source of truth for the theme, as
+		// it is set before first paint by the inline script in site.html
+		$state.theme = document.documentElement.classList.contains("dark") ? "dark" : "light";
+
+		// NOTE: SegmentedControl is only rendered after mount -- it throws when
+		// server rendered in a DOM-shimmed environment (e.g. happy-dom tests)
+		// because @torpor/view's $cache uses `typeof window` to detect SSR
+		$state.mounted = true;
+
+		$run(() => {
+			const theme = $state.theme;
+			document.documentElement.classList.toggle("dark", theme === "dark");
+			try {
+				localStorage.setItem("redraft-theme", theme);
+			} catch {
+				// Private browsing mode etc, theme just won't be persisted
+			}
+		});
+	});
+
 	@render {
 		<NavMenu class="nav-bar">
 			<ul class="plain hstack centered full-width nav-list">
@@ -115,7 +146,7 @@ function Nav() {
 						href="/messages"
 					>
 						<div class="badge-container">
-							<Envelope weight="bold" size="1.6rem" />
+							<Envelope size="1.6rem" />
 							@if ($props.user.messageCount) {
 								<span class="badge">{$props.user.messageCount}</span>
 							}
@@ -129,12 +160,25 @@ function Nav() {
 						href="/notifications"
 					>
 						<div class="badge-container">
-							<Bell weight="bold" size="1.6rem" />
+							<Bell size="1.6rem" />
 							@if ($props.user.notificationCount) {
 								<span class="badge">{$props.user.notificationCount}</span>
 							}
 						</div>
 					</NavMenuLink>
+				</li>
+
+				<li class="nav-control">
+					@if ($state.mounted) {
+						<SegmentedControl class="theme-control" ariaLabel="Color theme" &value={$state.theme}>
+							<SegmentedItem value="light" class="theme-item">
+								<Sun />
+							</SegmentedItem>
+							<SegmentedItem value="dark" class="theme-item">
+								<MoonStars />
+							</SegmentedItem>
+						</SegmentedControl>
+					}
 				</li>
 
 				@//<li class="nav-item">
@@ -179,6 +223,7 @@ function Nav() {
 		}
 
 		.nav-link {
+			color: inherit;
 			display: flex;
 			align-items: center;
 			user-select: none;
@@ -209,6 +254,33 @@ function Nav() {
 			padding: calc(1rem - 2px) 1rem;
 		}
 
+		.nav-control {
+			display: flex;
+			padding: 0 1rem 0 0;
+		}
+
+		.theme-control {
+			border: 1px solid var(--border-color);
+			border-radius: var(--border-radius);
+			display: flex;
+		}
+
+		.theme-item {
+			background: none;
+			border: none;
+			border-radius: calc(var(--border-radius) - 0.15rem);
+			color: var(--text);
+			cursor: pointer;
+			display: inline-flex;
+			min-width: 0;
+			padding: 0.25rem 0.5rem;
+		}
+
+		.theme-item[data-state="active"] {
+			background: var(--code-back);
+			color: var(--header);
+		}
+
 		.nav-popout {
 			background-color: var(--surface);
 			border: 1px solid var(--border-color);
@@ -222,12 +294,12 @@ function Nav() {
 			//margin: 0 1rem;
 		}
 
-		.nav-link.nav-icon.active {
-			padding: calc(1.4rem - 2px) 1.4rem;
+		.nav-link.nav-icon {
+			padding: 1.4rem 1rem;
 		}
 
-		.nav-icon {
-			padding: 1.4rem;
+		.nav-link.nav-icon.active {
+			padding: calc(1.4rem - 2px) 1rem;
 		}
 
 		.profile-image {
