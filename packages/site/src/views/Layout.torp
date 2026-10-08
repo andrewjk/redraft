@@ -130,14 +130,17 @@ function Nav() {
 
 				<div class="spacer" />
 
-				<li class="nav-item">
-					<NavMenuLink
-						class={{ "nav-link hstack spaced-nr": true, active: $page.url.pathname.startsWith("/profile") }}
-						href="/profile"
-					>
-						<img class="profile-image" src={placeholdify($props.viewing.image)} alt={`${$props.viewing.name} (${stripProtocol($props.viewing.url)})`} />
-						<div>{$props.viewing.name}</div>
-					</NavMenuLink>
+				<li class="nav-control">
+					@if ($state.mounted) {
+						<SegmentedControl class="theme-control" ariaLabel="Color theme" &value={$state.theme}>
+							<SegmentedItem value="light" class="theme-item">
+								<Sun />
+							</SegmentedItem>
+							<SegmentedItem value="dark" class="theme-item">
+								<MoonStars />
+							</SegmentedItem>
+						</SegmentedControl>
+					}
 				</li>
 
 				<li class="nav-item">
@@ -168,23 +171,20 @@ function Nav() {
 					</NavMenuLink>
 				</li>
 
-				<li class="nav-control">
-					@if ($state.mounted) {
-						<SegmentedControl class="theme-control" ariaLabel="Color theme" &value={$state.theme}>
-							<SegmentedItem value="light" class="theme-item">
-								<Sun />
-							</SegmentedItem>
-							<SegmentedItem value="dark" class="theme-item">
-								<MoonStars />
-							</SegmentedItem>
-						</SegmentedControl>
-					}
+				<li class="nav-item">
+					<NavMenuLink
+						class={{ "nav-link hstack spaced-nr": true, active: $page.url.pathname.startsWith("/profile") }}
+						href="/profile"
+					>
+						<img class="profile-image" src={placeholdify($props.viewing.image)} alt={`${$props.viewing.name} (${stripProtocol($props.viewing.url)})`} />
+						<div>{$props.viewing.name}</div>
+					</NavMenuLink>
 				</li>
 
 				@//<li class="nav-item">
 				@//	<NavMenuPopout>
 				@//		<NavMenuPopoutButton class="nav-button nav-icon">
-				@//			<DotsThreeOutlineVertical weight="bold" size="1.6rem" />
+				@//			<DotsThreeOutlineVertical size="1.6rem" />
 				@//		</NavMenuPopoutButton>
 				@//		<NavMenuPopoutContent>
 				@//			<NavMenu class="nav-popout" orientation="vertical">
@@ -202,7 +202,7 @@ function Nav() {
 				@//				@/*
 				@//				<Form action="?/logout">
 				@//					<NavMenuButton class="nav-link hstack centered spaced-nr">
-				@//						<SignOut weight="bold" />
+				@//						<SignOut />
 				@//						Log out
 				@//					</NavMenuButton>
 				@//				</Form>
@@ -256,7 +256,7 @@ function Nav() {
 
 		.nav-control {
 			display: flex;
-			padding: 0 1rem 0 0;
+			padding: 0 1rem;
 		}
 
 		.theme-control {

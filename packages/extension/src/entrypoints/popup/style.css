@@ -231,6 +231,27 @@ a.icon:hover {
 	background: #f0f2f6;
 }
 
+/* Icons */
+
+/*
+ * Phosphor icons are drawn as *filled* paths, so we add a matching stroke to
+ * thicken them (their weight is baked into the path geometry). 8 extra units
+ * turns the regular weight into something close to bold.
+ */
+svg[viewBox="0 0 256 256"] {
+	--icon-stroke-width: 8;
+	stroke: currentColor;
+	stroke-width: var(--icon-stroke-width);
+	stroke-linecap: round;
+	stroke-linejoin: round;
+	paint-order: stroke;
+}
+
+/* Every Phosphor icon includes an invisible 256x256 background rect */
+svg[viewBox="0 0 256 256"] > rect[fill="none"] {
+	stroke: none;
+}
+
 /* Misc */
 
 .warning {

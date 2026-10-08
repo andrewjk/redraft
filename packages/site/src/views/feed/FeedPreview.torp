@@ -82,7 +82,7 @@ export default function FeedPreview($props: { feed: FeedPreviewModel, user: User
 							<div class="hstack spaced-nr centered">
 								@if (user?.url === feed.author.url) {
 									<a href="{feed.author.url}posts/edit/{feed.slug}" class="icon">
-										<Pencil weight="bold" />
+										<Pencil />
 									</a>
 								} else {
 									<Form action="?/likeFeedPost">
@@ -91,9 +91,9 @@ export default function FeedPreview($props: { feed: FeedPreviewModel, user: User
 										<Hidden name="liked" value={!feed.liked} />
 										<button class="link icon">
 											@if (feed.liked) {
-												<Heart weight="fill" color="pink" />
+												<span style="color: pink"><Heart weight="fill" /></span>
 											} else {
-												<Heart weight="bold" />
+												<Heart />
 											}
 										</button>
 									</Form>
@@ -102,9 +102,9 @@ export default function FeedPreview($props: { feed: FeedPreviewModel, user: User
 										<Hidden name="saved" value={!feed.saved} />
 										<button class="link icon">
 											@if (feed.saved) {
-												<BookmarkSimple weight="fill" color="blue" />
+												<span style="color: blue"><BookmarkSimple weight="fill" /></span>
 											} else {
-												<BookmarkSimple weight="bold" />
+												<BookmarkSimple />
 											}
 										</button>
 									</Form>
@@ -114,12 +114,12 @@ export default function FeedPreview($props: { feed: FeedPreviewModel, user: User
 											<Hidden name="authorUrl" value={feed.author.url} />
 											<Hidden name="emoji" value="" />
 											<button class="link">
-												<XCircle weight="bold" /> {feed.emoji}
+												<XCircle /> {feed.emoji}
 											</button>
 										</Form>
 									} else {
 										<button type="button" class="link icon" onclick={() => $state.showReaction = true }>
-											<HandWaving weight="bold" />
+											<HandWaving />
 										</button>
 									}
 								}
@@ -186,7 +186,7 @@ export default function FeedPreview($props: { feed: FeedPreviewModel, user: User
 							</a>
 						}
 						<span class="hstack centered spaced-nr">
-							<ChatCircle weight="bold" />
+							<ChatCircle />
 							{feed.commentCount}
 						</span>
 					</div>

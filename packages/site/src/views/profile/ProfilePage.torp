@@ -31,7 +31,7 @@ export default function ProfilePage($props: { data: { profile: ProfileViewModel,
 				<div class="hstack spaced">
 					@for (let link of $props.data.profile.links) {
 						<a href={link.url} class="hstack centered spaced-nr">
-							<Link weight="bold" />
+							<Link />
 							{link.text}
 						</a>
 					}

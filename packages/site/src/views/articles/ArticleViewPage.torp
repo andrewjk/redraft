@@ -70,7 +70,7 @@ export default function ArticleViewPage($props: { data: { post: PostViewModel, u
 								</div>
 								@if (user?.url === post.author.url) {
 									<a href="{$props.data.base}posts/edit/{post.slug}" class="icon">
-										<Pencil weight="bold" />
+										<Pencil />
 									</a>
 								} else {
 									<span>&nbsp;</span>
@@ -98,11 +98,11 @@ export default function ArticleViewPage($props: { data: { post: PostViewModel, u
 
 						<div class="article-view-footer hstack centered font-sm secondary">
 							<span class="hstack centered spaced-nr">
-								<ChatCircle weight="bold" />
+								<ChatCircle />
 								{post.commentCount}
 							</span>
 							<span class="hstack centered spaced-nr">
-								<Heart weight="bold" />
+								<Heart />
 								{post.likeCount}
 							</span>
 							@if (post.emojiFirst) {

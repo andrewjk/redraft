@@ -317,10 +317,10 @@ export default function PostInputFields($props: { post: PostEditModel, child?: P
 					@if (post.hasImage) {
 						<div class="zstack">
 							<X size="28px" />
-							<Image weight="bold" />
+							<Image />
 						</div>
 					} else {
-						<Image weight="bold" />
+						<Image />
 					}
 				</button>
 				@function toggleImage() {
@@ -333,10 +333,10 @@ export default function PostInputFields($props: { post: PostEditModel, child?: P
 					@if (post.hasLink) {
 						<div class="zstack">
 							<X size="28px" />
-							<Link weight="bold" />
+							<Link />
 						</div>
 					} else {
-						<Link weight="bold" />
+						<Link />
 					}
 				</button>
 				@function toggleLink() {
@@ -349,10 +349,10 @@ export default function PostInputFields($props: { post: PostEditModel, child?: P
 					@if (post.hasRating) {
 						<div class="zstack">
 							<X size="28px" />
-							<ThumbsUp weight="bold" />
+							<ThumbsUp />
 						</div>
 					} else {
-						<ThumbsUp weight="bold" />
+						<ThumbsUp />
 					}
 				</button>
 				@if (!child) {
@@ -360,10 +360,10 @@ export default function PostInputFields($props: { post: PostEditModel, child?: P
 						@if (post.isArticle) {
 							<div class="zstack">
 								<X size="28px" />
-								<Article weight="bold" />
+								<Article />
 							</div>
 						} else {
-							<Article weight="bold" />
+							<Article />
 						}
 					</button>
 					@function toggleArticle() {
@@ -375,10 +375,10 @@ export default function PostInputFields($props: { post: PostEditModel, child?: P
 						@if (post.isEvent) {
 							<div class="zstack">
 								<X size="28px" />
-								<Calendar weight="bold" />
+								<Calendar />
 							</div>
 						} else {
-							<Calendar weight="bold" />
+							<Calendar />
 						}
 					</button>
 					@function toggleEvent() {
@@ -404,7 +404,7 @@ export default function PostInputFields($props: { post: PostEditModel, child?: P
 						disabled={($props.i ?? 0) === 0}
 						onclick={() => moveChild(-1)}
 					>
-						<CaretUp weight="bold" />
+						<CaretUp />
 					</button>
 					<button
 						type="button"
@@ -413,12 +413,12 @@ export default function PostInputFields($props: { post: PostEditModel, child?: P
 						disabled={($props.i ?? 0) === ($props.post.children?.length ?? 0) - 1}
 						onclick={() => moveChild(1)}
 					>
-						<CaretDown weight="bold" />
+						<CaretDown />
 					</button>
 					<button type="button" class="link icon" title="Remove post" onclick={removeChild}>
 						<div class="zstack">
 							<X size="28px" />
-							<Stack weight="bold" />
+							<Stack />
 						</div>
 					</button>
 				}
@@ -434,7 +434,7 @@ export default function PostInputFields($props: { post: PostEditModel, child?: P
 					($props.post.children ??= []).splice(i, 1);
 				}
 				<button type="button" class="link icon" disabled={post.isArticle || post.isEvent} onclick={addChild}>
-					<StackPlus weight="bold" />
+					<StackPlus />
 				</button>
 				@function addChild() {
 					let i = $props.i !== undefined ? $props.i + 1 : 0;
@@ -445,20 +445,20 @@ export default function PostInputFields($props: { post: PostEditModel, child?: P
 						@if ($state.showTags) {
 							<div class="zstack">
 								<X size="28px" />
-								<Tag weight="bold" />
+								<Tag />
 							</div>
 						} else {
-							<Tag weight="bold" />
+							<Tag />
 						}
 					</button>
 					<button type="button" class="link icon" onclick={() => $state.showVisibility = !$state.showVisibility}>
 						@if ($state.showVisibility) {
 							<div class="zstack">
 								<X size="28px" />
-								<UsersThree weight="bold" />
+								<UsersThree />
 							</div>
 						} else {
-							<UsersThree weight="bold" />
+							<UsersThree />
 						}
 					</button>
 				}
@@ -474,7 +474,7 @@ export default function PostInputFields($props: { post: PostEditModel, child?: P
 					</button>
 					@if ($props.post.id > -1) {
 						<a href="{$props.base}posts/delete/{$props.post.slug}" style="color: red" class="hstack centered spaced-nr">
-							<Trash weight="bold" />
+							<Trash />
 							Delete
 						</a>
 					}

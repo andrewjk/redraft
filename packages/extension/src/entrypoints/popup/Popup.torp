@@ -61,7 +61,7 @@ export default function Popup() {
 							<div class="spacer" />
 							<a class="user-link" target="_blank" href={`${$state.user?.url}messages`}>
 								<div class="badge-container">
-									<Envelope weight="bold" size="2rem" />
+									<Envelope size="2rem" />
 									@if ($state.messageCount) {
 										<span class="badge">{$state.messageCount}</span>
 									}
@@ -69,7 +69,7 @@ export default function Popup() {
 							</a>
 							<a class="user-link" target="_blank" href={`${$state.user?.url}notifications`}>
 								<div class="badge-container">
-									<Bell weight="bold" size="2rem" />
+									<Bell size="2rem" />
 									@if ($state.notificationCount) {
 										<span class="badge">{$state.notificationCount}</span>
 									}

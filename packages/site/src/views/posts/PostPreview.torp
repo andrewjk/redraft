@@ -83,16 +83,16 @@ export default function PostPreview($props: { post: PostPreviewModel, user: User
 							<div class="hstack spaced-nr centered">
 								@if (user?.url === post.author.url) {
 									<a href="{post.author.url}posts/edit/{post.slug}" class="icon">
-										<Pencil weight="bold" />
+										<Pencil />
 									</a>
 									<Form action="?/pinPost">
 										<Hidden name="slug" value={post.slug} />
 										<Hidden name="pinned" value={!post.pinned} />
 										<button class="link icon">
 											@if (post.pinned) {
-												<PushPinSlash weight="bold" />
+												<PushPinSlash />
 											} else {
-												<PushPin weight="bold" />
+												<PushPin />
 											}
 										</button>
 									</Form>
@@ -170,11 +170,11 @@ export default function PostPreview($props: { post: PostPreviewModel, user: User
 							</a>
 						}
 						<span class="hstack centered spaced-nr">
-							<ChatCircle weight="bold" />
+							<ChatCircle />
 							{post.commentCount}
 						</span>
 						<span class="hstack centered spaced-nr">
-							<Heart weight="bold" />
+							<Heart />
 							{post.likeCount}
 						</span>
 						@if (post.emojiFirst) {

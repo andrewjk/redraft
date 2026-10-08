@@ -361,6 +361,33 @@ a.icon:hover {
 	background: var(--hover);
 }
 
+/* Icons */
+
+/*
+ * Phosphor icons are drawn as *filled* paths, so `stroke-width` on its own
+ * does nothing. Each weight (thin/regular/bold) is separate path geometry,
+ * and regular is roughly a 16-unit stroke while bold is roughly 24. To make
+ * the default (regular) icons heavier without passing `weight="bold"` on
+ * every one, we add a matching stroke: 8 extra units turns regular into bold.
+ *
+ * Tune `--icon-stroke-width` to taste (0 = regular, 8 = bold).
+ */
+svg[viewBox="0 0 256 256"] {
+	--icon-stroke-width: 4;
+	stroke: currentColor;
+	stroke-width: var(--icon-stroke-width);
+	stroke-linecap: round;
+	stroke-linejoin: round;
+	/* Paint the stroke behind the fill so solid/filled icons keep their colour */
+	paint-order: stroke;
+}
+
+/* Every Phosphor icon includes an invisible 256x256 background rect, which we
+ * must not stroke */
+svg[viewBox="0 0 256 256"] > rect[fill="none"] {
+	stroke: none;
+}
+
 /* Subnav menus */
 
 .subnav-menu {
