@@ -29,12 +29,12 @@
 	"packageManager": "pnpm@10.9.0",
 	"dependencies": {
 		"@redraft/adapter-core": "workspace:^",
-		"@torpor/adapter-node": "^1.0.12",
-		"@torpor/build": "^1.4.6",
+		"@torpor/adapter-node": "^1.1.1",
+		"@torpor/build": "^1.6.0",
 		"drizzle-orm": "^0.45.3"
 	},
 	"devDependencies": {
-		"@types/node": "^26.6.2",
+		"@types/node": "^26.6.4",
 		"@typescript/native-preview": "7.0.0-dev.20260707.2",
 		"typescript": "^7.0.2",
 		"vite": "catalog:",
