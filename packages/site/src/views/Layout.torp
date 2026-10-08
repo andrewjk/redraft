@@ -92,18 +92,12 @@ export default function Layout($props: { data: { user: UserModel, follower: Foll
 function Nav() {
 	let $state = $watch({
 		theme: "light",
-		mounted: false,
 	});
 
 	$onmount(() => {
 		// The documentElement class is the source of truth for the theme, as
 		// it is set before first paint by the inline script in site.html
 		$state.theme = document.documentElement.classList.contains("dark") ? "dark" : "light";
-
-		// NOTE: SegmentedControl is only rendered after mount -- it throws when
-		// server rendered in a DOM-shimmed environment (e.g. happy-dom tests)
-		// because @torpor/view's $cache uses `typeof window` to detect SSR
-		$state.mounted = true;
 
 		$run(() => {
 			const theme = $state.theme;
@@ -131,16 +125,14 @@ function Nav() {
 				<div class="spacer" />
 
 				<li class="nav-control">
-					@if ($state.mounted) {
-						<SegmentedControl class="theme-control" ariaLabel="Color theme" &value={$state.theme}>
-							<SegmentedItem value="light" class="theme-item">
-								<Sun />
-							</SegmentedItem>
-							<SegmentedItem value="dark" class="theme-item">
-								<MoonStars />
-							</SegmentedItem>
-						</SegmentedControl>
-					}
+					<SegmentedControl class="theme-control" ariaLabel="Color theme" &value={$state.theme}>
+						<SegmentedItem value="light" class="theme-item">
+							<Sun />
+						</SegmentedItem>
+						<SegmentedItem value="dark" class="theme-item">
+							<MoonStars />
+						</SegmentedItem>
+					</SegmentedControl>
 				</li>
 
 				<li class="nav-item">

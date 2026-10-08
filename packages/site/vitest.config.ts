@@ -1,24 +1,44 @@
 import torpor from "@torpor/unplugin/vite";
 import { defineConfig, type ViteUserConfig } from "vite-plus";
 
-export default defineConfig({
-	plugins: [torpor({ test: true })],
-	resolve: {
-		conditions: ["browser"],
+// Server-rendering tests (pages via `runTest`, or components called as SSR
+// functions) live in `*-ssr.test.ts` and run in a DOM-shimmed SSR environment
+// (see test/ssr-dom-env.ts). Everything else mounts components client-side.
+const ssrTests = "test/**/*-ssr.test.ts";
+
+const server = {
+	deps: {
+		inline: ["@torpor/build", "@torpor/ui", "phosphor-torpor"],
 	},
+};
+
+export default defineConfig({
 	test: {
-		// NOTE: jose doesn't work in jsdom
-		environment: "happy-dom",
-		globalSetup: "./test/globalSetup.ts",
-		// Components are compiled for SSR by default (the `test` option).
-		// Interactive tests use `?client` / `?server` import queries to get
-		// a component compiled for the client (so it can be mounted or
-		// hydrated) or for the server (so it can render HTML to hydrate)
-		// HACK: this is needed to process *.ts routes??
-		server: {
-			deps: {
-				inline: ["@torpor/build", "@torpor/ui", "phosphor-torpor"],
+		projects: [
+			{
+				extends: false,
+				plugins: [torpor()],
+				resolve: { conditions: ["browser"] },
+				test: {
+					name: "ssr",
+					environment: "./test/ssr-dom-env.ts",
+					globalSetup: "./test/globalSetup.ts",
+					include: [ssrTests],
+					server,
+				},
 			},
-		},
+			{
+				extends: false,
+				plugins: [torpor()],
+				resolve: { conditions: ["browser"] },
+				test: {
+					name: "client",
+					environment: "happy-dom",
+					include: ["test/**/*.test.ts"],
+					exclude: [ssrTests],
+					server,
+				},
+			},
+		],
 	},
 }) satisfies ViteUserConfig as ViteUserConfig;

@@ -56,7 +56,7 @@ For adapter packages, `pnpm build` = `tsgo --noEmit && tsdown` (from the adapter
 - Site routes: `src/routes/` (pages) and `src/api/` (API endpoints under `/api`), both registered in `site.config.ts` via `site.addRouteFolder()`
 - API and page routes each have their own `_hook.server.ts` for auth/middleware
 - Database is accessed through `globalThis.socialAdapter` (set by the adapter at runtime), not imported directly — this is how the adapter pattern works
-- `@torpor/ui` must be in `ssr.noExternal` in vite config for `.torp` imports to work from node_modules
+- Packages that ship `.torp` files (e.g. `@torpor/ui`, `phosphor-torpor`) are detected automatically and added to Vite's `optimizeDeps.exclude`/`ssr.noExternal`, so no manual vite config is needed
 - The Cloudflare adapter has a special build: tsup IIFE → post-processing script → tsdown
 
 ## Publishing

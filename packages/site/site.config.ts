@@ -4,15 +4,6 @@ import { Site } from "@torpor/build";
 const site: Site = new Site();
 site.adapter = siteAdapter;
 
-// HACK: To be able to import `.torp` files from barrel files in node_modules,
-// we need to add their libraries to `ssr.noExternal`, so SSR bundles them
-// through the torpor compiler instead of leaving raw .torp imports for Node
-site.viteConfig = {
-	ssr: {
-		noExternal: ["@torpor/ui"],
-	},
-};
-
 // Add the routes
 await site.addRouteFolder("./src/routes");
 

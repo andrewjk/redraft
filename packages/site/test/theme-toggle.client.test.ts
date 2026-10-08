@@ -1,6 +1,6 @@
 import { expect, test } from "vite-plus/test";
 import { mount } from "@torpor/view";
-import Layout from "../src/views/Layout.torp?client";
+import Layout from "../src/views/Layout.torp";
 
 async function tick() {
 	await new Promise((r) => setTimeout(r, 0));
@@ -20,7 +20,7 @@ const data = {
 	base: "/",
 };
 
-test("header theme toggle appears after mount and toggles the theme", async () => {
+test("header theme toggle toggles the theme", async () => {
 	document.body.innerHTML = "";
 	document.documentElement.classList.remove("dark");
 	localStorage.removeItem("redraft-theme");
@@ -44,4 +44,23 @@ test("header theme toggle appears after mount and toggles the theme", async () =
 	console.log("stored:", localStorage.getItem("redraft-theme"));
 	expect(document.documentElement.classList.contains("dark")).toBe(true);
 	expect(localStorage.getItem("redraft-theme")).toBe("dark");
+
+	// The rest of the app must still be there
+	console.log(
+		"after dark -> app-layout:",
+		!!document.querySelector(".app-layout"),
+		"nav:",
+		!!document.querySelector(".nav-bar"),
+		"items:",
+		document.querySelectorAll(".theme-item").length,
+	);
+	expect(document.querySelector(".app-layout")).not.toBeNull();
+	expect(document.querySelector(".nav-bar")).not.toBeNull();
+
+	// And back to light
+	const items2 = [...document.querySelectorAll(".theme-item")];
+	(items2[0] as HTMLButtonElement).click();
+	await tick();
+	expect(document.querySelector(".app-layout")).not.toBeNull();
+	expect(document.documentElement.classList.contains("dark")).toBe(false);
 });

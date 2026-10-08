@@ -2,7 +2,7 @@ import { Site } from "@torpor/build";
 import { runTest } from "@torpor/build/test";
 import { ServerEvent } from "@torpor/build/server";
 import * as jose from "jose";
-import { afterAll, beforeAll, expect, test } from "vite-plus/test";
+import { afterAll, beforeAll, test } from "vite-plus/test";
 import { expectErrorResponse } from "./helpers";
 import { cleanUpSiteTest, prepareSiteTest } from "../prepareSiteTest";
 
@@ -61,5 +61,5 @@ test("a base64 json cookie impersonates a logged in user", async () => {
 	const ev = new ServerEvent(request);
 	ev.cookies.set("jwt", value, { path: "/" });
 	const response = await runTest(site, "/notifications", ev);
-	expect(response.status).toBe(303);
+	expectErrorResponse(response, 401);
 });

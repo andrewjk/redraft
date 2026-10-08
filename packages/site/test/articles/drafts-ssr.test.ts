@@ -38,8 +38,7 @@ test("article drafts get with bad code", async () => {
 	let ev = await buildTestEvent(`http://localhost/articles/drafts`, "xxx-bob");
 
 	const response = await runTest(site, "/articles/drafts", ev);
-	expect(response.status).toBe(303);
-	expect(response.headers.get("location")).toBe("/_error?status=401&message=Unauthorized");
-
-	//await expect(runTest(site, "/articles/drafts", ev)).rejects.toThrowError("401");
+	// Torpor renders the error page in place (keeping the url) rather than
+	// redirecting to /_error
+	expect(response.status).toBe(401);
 });

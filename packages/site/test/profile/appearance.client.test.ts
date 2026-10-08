@@ -1,6 +1,6 @@
 import { expect, test } from "vite-plus/test";
 import { mount } from "@torpor/view";
-import AppearancePage from "../../src/views/profile/AppearancePage.torp?client";
+import AppearancePage from "../../src/views/profile/AppearancePage.torp";
 
 async function tick() {
 	await new Promise((resolve) => setTimeout(resolve, 0));
@@ -41,6 +41,28 @@ test("appearance page seeds the light and dark forms from the current theme", as
 	expect(document.querySelector<HTMLInputElement>('input[name="dark[link]"]')!.value).toBe(
 		"#86a8ff",
 	);
+});
+
+test("appearance page tabs show and hide the light and dark groups", async () => {
+	mountPage();
+
+	// The two field groups are the form's divs that contain inputs
+	const groups = () =>
+		[...document.querySelectorAll<HTMLElement>("form > div")].filter((d) =>
+			d.querySelector("input"),
+		);
+	const display = () => groups().map((g) => g.style.display);
+
+	expect(groups().length).toBe(2);
+	expect(display()).toEqual(["", "none"]);
+
+	(document.querySelectorAll(".theme-tab")[1] as HTMLButtonElement).click();
+	await tick();
+	expect(display()).toEqual(["none", ""]);
+
+	(document.querySelectorAll(".theme-tab")[0] as HTMLButtonElement).click();
+	await tick();
+	expect(display()).toEqual(["", "none"]);
 });
 
 test("appearance page live-previews edits in both modes", async () => {

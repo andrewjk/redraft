@@ -11,17 +11,16 @@ Federated profile copies (`following`/`followed_by` tables, `profileSend`)
 don't carry the theme, so another instance viewing this profile won't see it.
 Only the site's own pages are themed, which is the current intent.
 
-## Upstream (torpor)
+## Testing
 
-### Remove the client-only guard around the header theme SegmentedControl
+### Hydration tests lost with the `?server` query removal
 
-`Layout.torp` renders the header theme toggle (`SegmentedControl`) only after
-`$onmount`, behind a `$state.mounted` flag. That's a workaround: `@torpor/view`'s
-`$cache` throws during SSR when `window` is defined, so server-rendering the
-control fails in DOM-shimmed test environments (happy-dom here). Real Node SSR
-is unaffected (no `window`), and it works client-side.
-
-Once `$cache` detects server rendering properly (see the torpor repo's
-FOLLOWUP.md, "`$cache` throws during SSR when `window` is defined"), drop the
-`mounted` flag and render the SegmentedControl in the SSR output like torpor's
-own site does, so it doesn't pop in after hydration.
+The torpor unplugin dropped the `?server` compile override for tests (SSR
+tests now live in `*-ssr.test.ts` and run in a DOM-shimmed SSR environment;
+see `test/ssr-dom-env.ts`). That removed the only way to get both a
+client-compiled and server-compiled version of a real component in one test,
+so `test/posts/input.hydrate.client.test.ts` (which hydrated `PostInput` from
+SSR HTML to guard the empty-`@if` hydration bug) was deleted. The underlying
+bug is fixed and covered by torpor's own tests, but redraft no longer has a
+direct hydration regression test -- worth restoring if torpor adds a test
+helper for hydrating real `.torp` files.

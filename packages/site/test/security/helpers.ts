@@ -1,8 +1,8 @@
 import { expect } from "vite-plus/test";
 
-// Torpor converts endpoint error responses into a redirect to the error page
-// (e.g. `/_error?status=401&...`), so an error may surface either as the raw
-// status or as the location header
+// Torpor renders a page-load error response as the site's error page in place
+// (keeping the requested url), so an error surfaces as its status code; older
+// versions redirected to `/_error?status=...`, which some tests may still see
 export function expectErrorResponse(response: Response, status: number) {
 	const location = response.headers.get("location") ?? "";
 	expect(
