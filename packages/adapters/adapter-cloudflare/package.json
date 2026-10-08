@@ -30,8 +30,8 @@
 	"packageManager": "pnpm@10.9.0",
 	"dependencies": {
 		"@redraft/adapter-core": "workspace:^",
-		"@torpor/adapter-cloudflare": "^1.0.14",
-		"@torpor/build": "^1.6.0",
+		"@torpor/adapter-cloudflare": "^1.0.15",
+		"@torpor/build": "^1.6.1",
 		"drizzle-orm": "^0.45.3"
 	},
 	"devDependencies": {

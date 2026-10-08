@@ -21,8 +21,8 @@
 	"author": "",
 	"license": "ISC",
 	"dependencies": {
-		"@torpor/ui": "^1.2.0",
-		"@torpor/unplugin": "^1.2.2",
+		"@torpor/ui": "^1.2.1",
+		"@torpor/unplugin": "^1.2.3",
 		"@torpor/view": "^1.2.0",
 		"phosphor-torpor": "^1.0.2"
 	},

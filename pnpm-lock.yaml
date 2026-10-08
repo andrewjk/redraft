@@ -207,11 +207,11 @@ importers:
         specifier: workspace:^
         version: link:../adapter-core
       '@torpor/adapter-cloudflare':
-        specifier: ^1.0.14
-        version: 1.0.14(@cloudflare/vite-plugin@1.63.0(@types/node@26.6.4)(@voidzero-dev/vite-plus-core@1.1.0(@types/node@26.6.4)(@typescript/native-preview@7.0.0-dev.20260707.2)(esbuild@0.27.7)(jiti@2.7.0)(tsx@4.23.15)(typescript@7.0.2))(wrangler@4.148.0(@cloudflare/workers-types@5.20261007.1)(@types/node@26.6.4)))(@types/node@26.6.4)(@typescript/native-preview@7.0.0-dev.20260707.2)(@vitest/ui@5.0.3)(esbuild@0.27.7)(happy-dom@20.14.5)(jiti@2.7.0)(rollup@4.64.1)(tsx@4.23.15)(typescript@7.0.2)(wrangler@4.148.0(@cloudflare/workers-types@5.20261007.1)(@types/node@26.6.4))
+        specifier: ^1.0.15
+        version: 1.0.15(@cloudflare/vite-plugin@1.63.0(@types/node@26.6.4)(@voidzero-dev/vite-plus-core@1.1.0(@types/node@26.6.4)(@typescript/native-preview@7.0.0-dev.20260707.2)(esbuild@0.27.7)(jiti@2.7.0)(tsx@4.23.15)(typescript@7.0.2))(wrangler@4.148.0(@cloudflare/workers-types@5.20261007.1)(@types/node@26.6.4)))(@types/node@26.6.4)(@typescript/native-preview@7.0.0-dev.20260707.2)(@vitest/ui@5.0.3)(esbuild@0.27.7)(happy-dom@20.14.5)(jiti@2.7.0)(rollup@4.64.1)(tsx@4.23.15)(typescript@7.0.2)(wrangler@4.148.0(@cloudflare/workers-types@5.20261007.1)(@types/node@26.6.4))
       '@torpor/build':
-        specifier: ^1.6.0
-        version: 1.6.0(@types/node@26.6.4)(@typescript/native-preview@7.0.0-dev.20260707.2)(@vitest/ui@5.0.3)(esbuild@0.27.7)(happy-dom@20.14.5)(jiti@2.7.0)(rollup@4.64.1)(tsx@4.23.15)(typescript@7.0.2)
+        specifier: ^1.6.1
+        version: 1.6.1(@types/node@26.6.4)(@typescript/native-preview@7.0.0-dev.20260707.2)(@vitest/ui@5.0.3)(esbuild@0.27.7)(happy-dom@20.14.5)(jiti@2.7.0)(rollup@4.64.1)(tsx@4.23.15)(typescript@7.0.2)
       drizzle-orm:
         specifier: ^0.45.3
         version: 0.45.3(@cloudflare/workers-types@5.20261007.1)(@libsql/client@0.18.0)
@@ -241,8 +241,8 @@ importers:
   packages/adapters/adapter-core:
     dependencies:
       '@torpor/build':
-        specifier: ^1.6.0
-        version: 1.6.0(@types/node@26.6.4)(@typescript/native-preview@7.0.0-dev.20260707.2)(@vitest/ui@5.0.3)(esbuild@0.28.2)(happy-dom@20.14.5)(jiti@2.7.0)(rollup@4.64.1)(tsx@4.23.15)(typescript@7.0.2)
+        specifier: ^1.6.1
+        version: 1.6.1(@types/node@26.6.4)(@typescript/native-preview@7.0.0-dev.20260707.2)(@vitest/ui@5.0.3)(esbuild@0.28.2)(happy-dom@20.14.5)(jiti@2.7.0)(rollup@4.64.1)(tsx@4.23.15)(typescript@7.0.2)
       drizzle-orm:
         specifier: ^0.45.3
         version: 0.45.3(@cloudflare/workers-types@5.20261007.1)(@libsql/client@0.18.0)
@@ -266,11 +266,11 @@ importers:
         specifier: workspace:^
         version: link:../adapter-core
       '@torpor/adapter-node':
-        specifier: ^1.1.1
-        version: 1.1.1(@types/node@26.6.4)(@typescript/native-preview@7.0.0-dev.20260707.2)(@vitest/ui@5.0.3)(esbuild@0.28.2)(happy-dom@20.14.5)(jiti@2.7.0)(rollup@4.64.1)(tsx@4.23.15)(typescript@7.0.2)
+        specifier: ^1.1.2
+        version: 1.1.2(@types/node@26.6.4)(@typescript/native-preview@7.0.0-dev.20260707.2)(@vitest/ui@5.0.3)(esbuild@0.28.2)(happy-dom@20.14.5)(jiti@2.7.0)(rollup@4.64.1)(tsx@4.23.15)(typescript@7.0.2)
       '@torpor/build':
-        specifier: ^1.6.0
-        version: 1.6.0(@types/node@26.6.4)(@typescript/native-preview@7.0.0-dev.20260707.2)(@vitest/ui@5.0.3)(esbuild@0.28.2)(happy-dom@20.14.5)(jiti@2.7.0)(rollup@4.64.1)(tsx@4.23.15)(typescript@7.0.2)
+        specifier: ^1.6.1
+        version: 1.6.1(@types/node@26.6.4)(@typescript/native-preview@7.0.0-dev.20260707.2)(@vitest/ui@5.0.3)(esbuild@0.28.2)(happy-dom@20.14.5)(jiti@2.7.0)(rollup@4.64.1)(tsx@4.23.15)(typescript@7.0.2)
       drizzle-orm:
         specifier: ^0.45.3
         version: 0.45.3(@cloudflare/workers-types@5.20261007.1)(@libsql/client@0.18.0)
@@ -296,11 +296,11 @@ importers:
   packages/extension:
     dependencies:
       '@torpor/ui':
-        specifier: ^1.2.0
-        version: 1.2.0(@voidzero-dev/vite-plus-core@1.1.0(@types/node@26.6.4)(esbuild@0.27.7)(jiti@2.7.0)(tsx@4.23.15)(typescript@7.0.2))(esbuild@0.27.7)(rollup@4.64.1)
+        specifier: ^1.2.1
+        version: 1.2.1(@voidzero-dev/vite-plus-core@1.1.0(@types/node@26.6.4)(esbuild@0.27.7)(jiti@2.7.0)(tsx@4.23.15)(typescript@7.0.2))(esbuild@0.27.7)(rollup@4.64.1)
       '@torpor/unplugin':
-        specifier: ^1.2.2
-        version: 1.2.2(@voidzero-dev/vite-plus-core@1.1.0(@types/node@26.6.4)(esbuild@0.27.7)(jiti@2.7.0)(tsx@4.23.15)(typescript@7.0.2))(esbuild@0.27.7)(rollup@4.64.1)
+        specifier: ^1.2.3
+        version: 1.2.3(@voidzero-dev/vite-plus-core@1.1.0(@types/node@26.6.4)(esbuild@0.27.7)(jiti@2.7.0)(tsx@4.23.15)(typescript@7.0.2))(esbuild@0.27.7)(rollup@4.64.1)
       '@torpor/view':
         specifier: ^1.2.0
         version: 1.2.0
@@ -327,11 +327,11 @@ importers:
         specifier: workspace:^
         version: link:../adapters/adapter-node
       '@torpor/adapter-node':
-        specifier: ^1.1.1
-        version: 1.1.1(@types/node@26.6.4)(@typescript/native-preview@7.0.0-dev.20260707.2)(@vitest/ui@5.0.3)(esbuild@0.28.2)(happy-dom@20.14.5)(jiti@2.7.0)(rollup@4.64.1)(tsx@4.23.15)(typescript@7.0.2)
+        specifier: ^1.1.2
+        version: 1.1.2(@types/node@26.6.4)(@typescript/native-preview@7.0.0-dev.20260707.2)(@vitest/ui@5.0.3)(esbuild@0.28.2)(happy-dom@20.14.5)(jiti@2.7.0)(rollup@4.64.1)(tsx@4.23.15)(typescript@7.0.2)
       '@torpor/ui':
-        specifier: ^1.2.0
-        version: 1.2.0(@voidzero-dev/vite-plus-core@1.1.0(@types/node@26.6.4)(@typescript/native-preview@7.0.0-dev.20260707.2)(esbuild@0.28.2)(jiti@2.7.0)(tsx@4.23.15)(typescript@7.0.2))(esbuild@0.28.2)(rollup@4.64.1)
+        specifier: ^1.2.1
+        version: 1.2.1(@voidzero-dev/vite-plus-core@1.1.0(@types/node@26.6.4)(@typescript/native-preview@7.0.0-dev.20260707.2)(esbuild@0.28.2)(jiti@2.7.0)(tsx@4.23.15)(typescript@7.0.2))(esbuild@0.28.2)(rollup@4.64.1)
       '@torpor/view':
         specifier: ^1.2.0
         version: 1.2.0
@@ -382,11 +382,11 @@ importers:
         specifier: ^14.6.7
         version: 14.6.7(@testing-library/dom@10.4.2)
       '@torpor/build':
-        specifier: ^1.6.0
-        version: 1.6.0(@types/node@26.6.4)(@typescript/native-preview@7.0.0-dev.20260707.2)(@vitest/ui@5.0.3)(esbuild@0.28.2)(happy-dom@20.14.5)(jiti@2.7.0)(rollup@4.64.1)(tsx@4.23.15)(typescript@7.0.2)
+        specifier: ^1.6.1
+        version: 1.6.1(@types/node@26.6.4)(@typescript/native-preview@7.0.0-dev.20260707.2)(@vitest/ui@5.0.3)(esbuild@0.28.2)(happy-dom@20.14.5)(jiti@2.7.0)(rollup@4.64.1)(tsx@4.23.15)(typescript@7.0.2)
       '@torpor/unplugin':
-        specifier: ^1.2.2
-        version: 1.2.2(@voidzero-dev/vite-plus-core@1.1.0(@types/node@26.6.4)(@typescript/native-preview@7.0.0-dev.20260707.2)(esbuild@0.28.2)(jiti@2.7.0)(tsx@4.23.15)(typescript@7.0.2))(esbuild@0.28.2)(rollup@4.64.1)
+        specifier: ^1.2.3
+        version: 1.2.3(@voidzero-dev/vite-plus-core@1.1.0(@types/node@26.6.4)(@typescript/native-preview@7.0.0-dev.20260707.2)(esbuild@0.28.2)(jiti@2.7.0)(tsx@4.23.15)(typescript@7.0.2))(esbuild@0.28.2)(rollup@4.64.1)
       '@trivago/prettier-plugin-sort-imports':
         specifier: ^6.0.2
         version: 6.0.2(prettier@3.9.9)
@@ -2033,24 +2033,24 @@ packages:
     resolution: {integrity: sha512-kkKYPb4k/6kRdnESt77B5vJrrYnYHIYczwv0P1c+tfN/IWEx3KZeKEHoUq7sImIyBEXWdA2uakIroD9pmRJziQ==}
     engines: {node: '>=22.0.0'}
 
-  '@torpor/adapter-cloudflare@1.0.14':
-    resolution: {integrity: sha512-XnETKqvE3+E1tI8Gd8CEed9ngzykc3DIJOsGxzdziY95vOPsMkK9Azz8EZnvIzayVFiEA0SBhp9pGaqETyKZCA==}
+  '@torpor/adapter-cloudflare@1.0.15':
+    resolution: {integrity: sha512-YapvufXi9K54RUQTfpMcfT66XXzmJhy9hlDeYg4fBJSDgbIeQPLOHLL/yKeLaqUt35mZnZNf11pDJ8XT1QSosg==}
     peerDependencies:
       '@cloudflare/vite-plugin': ^1.0.0
       wrangler: ^4.118.0
 
-  '@torpor/adapter-node@1.1.1':
-    resolution: {integrity: sha512-A7WaaySXMuoJOXiS5PIE/hNlwlbEQFWX5km1M3UKGD2Au1x0inTCgIZbp2nXIDTFOZsye4FFg/fQihXZJY+ufw==}
+  '@torpor/adapter-node@1.1.2':
+    resolution: {integrity: sha512-wrqB2/oJRjkEwIsxFoUV7YybfuW06oPXpTTesceGfugGaYmrbaFfpgmkeQ5lNCcXij5Shlmglbo0hqcFxFmuVw==}
 
-  '@torpor/build@1.6.0':
-    resolution: {integrity: sha512-LcybS72Ajp0yKvqbPXqIqMqfFSAbVvvhkPuzj2xAxHh7GZqTdkVAshTqIlXfrJN1tcZnyfsgbKvW0kmtNCeL5g==}
+  '@torpor/build@1.6.1':
+    resolution: {integrity: sha512-t/tcjN9oJEk4FXq5C26t/myEMUtwH1sxtzsor85bbeN+MRlZeJAnHg5cJvxYapA68ERLRnfSdJCQHfq0SH004w==}
     hasBin: true
 
-  '@torpor/ui@1.2.0':
-    resolution: {integrity: sha512-gAGxN+QRXGjjKs5jqtPLhrPKWbCf97M9OkQKc4RbNSgr04uu7up76rmwLPFnFFfMfcWHmgfmk6Rhh/CUzoiYMw==}
+  '@torpor/ui@1.2.1':
+    resolution: {integrity: sha512-sSd+OK8Q8QLcHv48x3dpWF8n8uZhUTg84rrqpFMKVAa0KDg19CzYPbC6F5cl9Wvb/E8ZwsdRLt1mv2HPZVGu4w==}
 
-  '@torpor/unplugin@1.2.2':
-    resolution: {integrity: sha512-Aut5+v5Kk/hyDGp8rqR1He4I4qRXXCEBqYScpE6cG/FgVyG4JoqJt6MBmELiFnM84oUdOHUKVXtYwlhG4CLokg==}
+  '@torpor/unplugin@1.2.3':
+    resolution: {integrity: sha512-t3Kij3uJLBljdKBx351M1MWny31E280XqxYsIOjbt6/WA9V8Aoi4I/PfTrAxDpyxEzx+zZw4+G1+4CncA4GFqA==}
     peerDependencies:
       '@nuxt/kit': ^3
       '@nuxt/schema': ^3
@@ -4964,10 +4964,10 @@ snapshots:
 
   '@topcli/prompts@4.0.0': {}
 
-  '@torpor/adapter-cloudflare@1.0.14(@cloudflare/vite-plugin@1.63.0(@types/node@26.6.4)(@voidzero-dev/vite-plus-core@1.1.0(@types/node@26.6.4)(@typescript/native-preview@7.0.0-dev.20260707.2)(esbuild@0.27.7)(jiti@2.7.0)(tsx@4.23.15)(typescript@7.0.2))(wrangler@4.148.0(@cloudflare/workers-types@5.20261007.1)(@types/node@26.6.4)))(@types/node@26.6.4)(@typescript/native-preview@7.0.0-dev.20260707.2)(@vitest/ui@5.0.3)(esbuild@0.27.7)(happy-dom@20.14.5)(jiti@2.7.0)(rollup@4.64.1)(tsx@4.23.15)(typescript@7.0.2)(wrangler@4.148.0(@cloudflare/workers-types@5.20261007.1)(@types/node@26.6.4))':
+  '@torpor/adapter-cloudflare@1.0.15(@cloudflare/vite-plugin@1.63.0(@types/node@26.6.4)(@voidzero-dev/vite-plus-core@1.1.0(@types/node@26.6.4)(@typescript/native-preview@7.0.0-dev.20260707.2)(esbuild@0.27.7)(jiti@2.7.0)(tsx@4.23.15)(typescript@7.0.2))(wrangler@4.148.0(@cloudflare/workers-types@5.20261007.1)(@types/node@26.6.4)))(@types/node@26.6.4)(@typescript/native-preview@7.0.0-dev.20260707.2)(@vitest/ui@5.0.3)(esbuild@0.27.7)(happy-dom@20.14.5)(jiti@2.7.0)(rollup@4.64.1)(tsx@4.23.15)(typescript@7.0.2)(wrangler@4.148.0(@cloudflare/workers-types@5.20261007.1)(@types/node@26.6.4))':
     dependencies:
       '@cloudflare/vite-plugin': 1.63.0(@types/node@26.6.4)(@voidzero-dev/vite-plus-core@1.1.0(@types/node@26.6.4)(@typescript/native-preview@7.0.0-dev.20260707.2)(esbuild@0.27.7)(jiti@2.7.0)(tsx@4.23.15)(typescript@7.0.2))(wrangler@4.148.0(@cloudflare/workers-types@5.20261007.1)(@types/node@26.6.4))
-      '@torpor/build': 1.6.0(@types/node@26.6.4)(@typescript/native-preview@7.0.0-dev.20260707.2)(@vitest/ui@5.0.3)(esbuild@0.27.7)(happy-dom@20.14.5)(jiti@2.7.0)(rollup@4.64.1)(tsx@4.23.15)(typescript@7.0.2)
+      '@torpor/build': 1.6.1(@types/node@26.6.4)(@typescript/native-preview@7.0.0-dev.20260707.2)(@vitest/ui@5.0.3)(esbuild@0.27.7)(happy-dom@20.14.5)(jiti@2.7.0)(rollup@4.64.1)(tsx@4.23.15)(typescript@7.0.2)
       vite: '@voidzero-dev/vite-plus-core@1.1.0(@types/node@26.6.4)(@typescript/native-preview@7.0.0-dev.20260707.2)(esbuild@0.27.7)(jiti@2.7.0)(tsx@4.23.15)(typescript@7.0.2)'
       wrangler: 4.148.0(@cloudflare/workers-types@5.20261007.1)(@types/node@26.6.4)
     transitivePeerDependencies:
@@ -5017,9 +5017,9 @@ snapshots:
       - webpack
       - yaml
 
-  '@torpor/adapter-node@1.1.1(@types/node@26.6.4)(@typescript/native-preview@7.0.0-dev.20260707.2)(@vitest/ui@5.0.3)(esbuild@0.28.2)(happy-dom@20.14.5)(jiti@2.7.0)(rollup@4.64.1)(tsx@4.23.15)(typescript@7.0.2)':
+  '@torpor/adapter-node@1.1.2(@types/node@26.6.4)(@typescript/native-preview@7.0.0-dev.20260707.2)(@vitest/ui@5.0.3)(esbuild@0.28.2)(happy-dom@20.14.5)(jiti@2.7.0)(rollup@4.64.1)(tsx@4.23.15)(typescript@7.0.2)':
     dependencies:
-      '@torpor/build': 1.6.0(@types/node@26.6.4)(@typescript/native-preview@7.0.0-dev.20260707.2)(@vitest/ui@5.0.3)(esbuild@0.28.2)(happy-dom@20.14.5)(jiti@2.7.0)(rollup@4.64.1)(tsx@4.23.15)(typescript@7.0.2)
+      '@torpor/build': 1.6.1(@types/node@26.6.4)(@typescript/native-preview@7.0.0-dev.20260707.2)(@vitest/ui@5.0.3)(esbuild@0.28.2)(happy-dom@20.14.5)(jiti@2.7.0)(rollup@4.64.1)(tsx@4.23.15)(typescript@7.0.2)
     transitivePeerDependencies:
       - '@arethetypeswrong/core'
       - '@edge-runtime/vm'
@@ -5067,9 +5067,9 @@ snapshots:
       - webpack
       - yaml
 
-  '@torpor/build@1.6.0(@types/node@26.6.4)(@typescript/native-preview@7.0.0-dev.20260707.2)(@vitest/ui@5.0.3)(esbuild@0.27.7)(happy-dom@20.14.5)(jiti@2.7.0)(rollup@4.64.1)(tsx@4.23.15)(typescript@7.0.2)':
+  '@torpor/build@1.6.1(@types/node@26.6.4)(@typescript/native-preview@7.0.0-dev.20260707.2)(@vitest/ui@5.0.3)(esbuild@0.27.7)(happy-dom@20.14.5)(jiti@2.7.0)(rollup@4.64.1)(tsx@4.23.15)(typescript@7.0.2)':
     dependencies:
-      '@torpor/unplugin': 1.2.2(@voidzero-dev/vite-plus-core@1.1.0(@types/node@26.6.4)(@typescript/native-preview@7.0.0-dev.20260707.2)(esbuild@0.27.7)(jiti@2.7.0)(tsx@4.23.15)(typescript@7.0.2))(esbuild@0.27.7)(rollup@4.64.1)
+      '@torpor/unplugin': 1.2.3(@voidzero-dev/vite-plus-core@1.1.0(@types/node@26.6.4)(@typescript/native-preview@7.0.0-dev.20260707.2)(esbuild@0.27.7)(jiti@2.7.0)(tsx@4.23.15)(typescript@7.0.2))(esbuild@0.27.7)(rollup@4.64.1)
       '@torpor/view': 1.2.0
       cookie: 2.0.1
       dotenv: 18.0.6
@@ -5122,9 +5122,9 @@ snapshots:
       - webpack
       - yaml
 
-  '@torpor/build@1.6.0(@types/node@26.6.4)(@typescript/native-preview@7.0.0-dev.20260707.2)(@vitest/ui@5.0.3)(esbuild@0.28.2)(happy-dom@20.14.5)(jiti@2.7.0)(rollup@4.64.1)(tsx@4.23.15)(typescript@7.0.2)':
+  '@torpor/build@1.6.1(@types/node@26.6.4)(@typescript/native-preview@7.0.0-dev.20260707.2)(@vitest/ui@5.0.3)(esbuild@0.28.2)(happy-dom@20.14.5)(jiti@2.7.0)(rollup@4.64.1)(tsx@4.23.15)(typescript@7.0.2)':
     dependencies:
-      '@torpor/unplugin': 1.2.2(@voidzero-dev/vite-plus-core@1.1.0(@types/node@26.6.4)(@typescript/native-preview@7.0.0-dev.20260707.2)(esbuild@0.28.2)(jiti@2.7.0)(tsx@4.23.15)(typescript@7.0.2))(esbuild@0.28.2)(rollup@4.64.1)
+      '@torpor/unplugin': 1.2.3(@voidzero-dev/vite-plus-core@1.1.0(@types/node@26.6.4)(@typescript/native-preview@7.0.0-dev.20260707.2)(esbuild@0.28.2)(jiti@2.7.0)(tsx@4.23.15)(typescript@7.0.2))(esbuild@0.28.2)(rollup@4.64.1)
       '@torpor/view': 1.2.0
       cookie: 2.0.1
       dotenv: 18.0.6
@@ -5177,9 +5177,9 @@ snapshots:
       - webpack
       - yaml
 
-  '@torpor/ui@1.2.0(@voidzero-dev/vite-plus-core@1.1.0(@types/node@26.6.4)(@typescript/native-preview@7.0.0-dev.20260707.2)(esbuild@0.28.2)(jiti@2.7.0)(tsx@4.23.15)(typescript@7.0.2))(esbuild@0.28.2)(rollup@4.64.1)':
+  '@torpor/ui@1.2.1(@voidzero-dev/vite-plus-core@1.1.0(@types/node@26.6.4)(@typescript/native-preview@7.0.0-dev.20260707.2)(esbuild@0.28.2)(jiti@2.7.0)(tsx@4.23.15)(typescript@7.0.2))(esbuild@0.28.2)(rollup@4.64.1)':
     dependencies:
-      '@torpor/unplugin': 1.2.2(@voidzero-dev/vite-plus-core@1.1.0(@types/node@26.6.4)(@typescript/native-preview@7.0.0-dev.20260707.2)(esbuild@0.28.2)(jiti@2.7.0)(tsx@4.23.15)(typescript@7.0.2))(esbuild@0.28.2)(rollup@4.64.1)
+      '@torpor/unplugin': 1.2.3(@voidzero-dev/vite-plus-core@1.1.0(@types/node@26.6.4)(@typescript/native-preview@7.0.0-dev.20260707.2)(esbuild@0.28.2)(jiti@2.7.0)(tsx@4.23.15)(typescript@7.0.2))(esbuild@0.28.2)(rollup@4.64.1)
       '@torpor/view': 1.2.0
     transitivePeerDependencies:
       - '@farmfe/core'
@@ -5195,9 +5195,9 @@ snapshots:
       - vite
       - webpack
 
-  '@torpor/ui@1.2.0(@voidzero-dev/vite-plus-core@1.1.0(@types/node@26.6.4)(esbuild@0.27.7)(jiti@2.7.0)(tsx@4.23.15)(typescript@7.0.2))(esbuild@0.27.7)(rollup@4.64.1)':
+  '@torpor/ui@1.2.1(@voidzero-dev/vite-plus-core@1.1.0(@types/node@26.6.4)(esbuild@0.27.7)(jiti@2.7.0)(tsx@4.23.15)(typescript@7.0.2))(esbuild@0.27.7)(rollup@4.64.1)':
     dependencies:
-      '@torpor/unplugin': 1.2.2(@voidzero-dev/vite-plus-core@1.1.0(@types/node@26.6.4)(esbuild@0.27.7)(jiti@2.7.0)(tsx@4.23.15)(typescript@7.0.2))(esbuild@0.27.7)(rollup@4.64.1)
+      '@torpor/unplugin': 1.2.3(@voidzero-dev/vite-plus-core@1.1.0(@types/node@26.6.4)(esbuild@0.27.7)(jiti@2.7.0)(tsx@4.23.15)(typescript@7.0.2))(esbuild@0.27.7)(rollup@4.64.1)
       '@torpor/view': 1.2.0
     transitivePeerDependencies:
       - '@farmfe/core'
@@ -5213,7 +5213,7 @@ snapshots:
       - vite
       - webpack
 
-  '@torpor/unplugin@1.2.2(@voidzero-dev/vite-plus-core@1.1.0(@types/node@26.6.4)(@typescript/native-preview@7.0.0-dev.20260707.2)(esbuild@0.27.7)(jiti@2.7.0)(tsx@4.23.15)(typescript@7.0.2))(esbuild@0.27.7)(rollup@4.64.1)':
+  '@torpor/unplugin@1.2.3(@voidzero-dev/vite-plus-core@1.1.0(@types/node@26.6.4)(@typescript/native-preview@7.0.0-dev.20260707.2)(esbuild@0.27.7)(jiti@2.7.0)(tsx@4.23.15)(typescript@7.0.2))(esbuild@0.27.7)(rollup@4.64.1)':
     dependencies:
       '@torpor/view': 1.2.0
       unplugin: 3.4.0(@voidzero-dev/vite-plus-core@1.1.0(@types/node@26.6.4)(@typescript/native-preview@7.0.0-dev.20260707.2)(esbuild@0.27.7)(jiti@2.7.0)(tsx@4.23.15)(typescript@7.0.2))(esbuild@0.27.7)(rollup@4.64.1)
@@ -5229,7 +5229,7 @@ snapshots:
       - rolldown
       - unloader
 
-  '@torpor/unplugin@1.2.2(@voidzero-dev/vite-plus-core@1.1.0(@types/node@26.6.4)(@typescript/native-preview@7.0.0-dev.20260707.2)(esbuild@0.28.2)(jiti@2.7.0)(tsx@4.23.15)(typescript@7.0.2))(esbuild@0.28.2)(rollup@4.64.1)':
+  '@torpor/unplugin@1.2.3(@voidzero-dev/vite-plus-core@1.1.0(@types/node@26.6.4)(@typescript/native-preview@7.0.0-dev.20260707.2)(esbuild@0.28.2)(jiti@2.7.0)(tsx@4.23.15)(typescript@7.0.2))(esbuild@0.28.2)(rollup@4.64.1)':
     dependencies:
       '@torpor/view': 1.2.0
       unplugin: 3.4.0(@voidzero-dev/vite-plus-core@1.1.0(@types/node@26.6.4)(@typescript/native-preview@7.0.0-dev.20260707.2)(esbuild@0.28.2)(jiti@2.7.0)(tsx@4.23.15)(typescript@7.0.2))(esbuild@0.28.2)(rollup@4.64.1)
@@ -5245,7 +5245,7 @@ snapshots:
       - rolldown
       - unloader
 
-  '@torpor/unplugin@1.2.2(@voidzero-dev/vite-plus-core@1.1.0(@types/node@26.6.4)(esbuild@0.27.7)(jiti@2.7.0)(tsx@4.23.15)(typescript@7.0.2))(esbuild@0.27.7)(rollup@4.64.1)':
+  '@torpor/unplugin@1.2.3(@voidzero-dev/vite-plus-core@1.1.0(@types/node@26.6.4)(esbuild@0.27.7)(jiti@2.7.0)(tsx@4.23.15)(typescript@7.0.2))(esbuild@0.27.7)(rollup@4.64.1)':
     dependencies:
       '@torpor/view': 1.2.0
       unplugin: 3.4.0(@voidzero-dev/vite-plus-core@1.1.0(@types/node@26.6.4)(esbuild@0.27.7)(jiti@2.7.0)(tsx@4.23.15)(typescript@7.0.2))(esbuild@0.27.7)(rollup@4.64.1)

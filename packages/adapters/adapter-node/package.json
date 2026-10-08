@@ -29,8 +29,8 @@
 	"packageManager": "pnpm@10.9.0",
 	"dependencies": {
 		"@redraft/adapter-core": "workspace:^",
-		"@torpor/adapter-node": "^1.1.1",
-		"@torpor/build": "^1.6.0",
+		"@torpor/adapter-node": "^1.1.2",
+		"@torpor/build": "^1.6.1",
 		"drizzle-orm": "^0.45.3"
 	},
 	"devDependencies": {
