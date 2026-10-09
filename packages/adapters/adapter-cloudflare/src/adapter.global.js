@@ -716,7 +716,7 @@
 		static [entityKind] = "WithSubquery";
 	};
 
-	var version = "0.45.1";
+	var version = "0.45.3";
 
 	var otel;
 	var rawTracer;
@@ -2306,7 +2306,7 @@ params: ${params}`);
 			this.casing = new CasingCache(config?.casing);
 		}
 		escapeName(name) {
-			return `"${name}"`;
+			return `"${name.replace(/"/g, '""')}"`;
 		}
 		escapeParam(_num) {
 			return "?";
@@ -2463,7 +2463,9 @@ params: ${params}`);
 						const origTableName = table[SQLiteTable.Symbol.OriginalName];
 						const alias = tableName === origTableName ? void 0 : joinMeta.alias;
 						joinsArray.push(
-							sql`${sql.raw(joinMeta.joinType)} join ${tableSchema ? sql`${sql.identifier(tableSchema)}.` : void 0}${sql.identifier(origTableName)}${alias && sql` ${sql.identifier(alias)}`}${onSql}`,
+							sql`${sql.raw(joinMeta.joinType)} join ${tableSchema ? sql`${sql.identifier(tableSchema)}.` : void 0}${sql.identifier(
+								origTableName,
+							)}${alias && sql` ${sql.identifier(alias)}`}${onSql}`,
 						);
 					} else {
 						joinsArray.push(sql`${sql.raw(joinMeta.joinType)} join ${table}${onSql}`);
@@ -2494,7 +2496,9 @@ params: ${params}`);
 		}
 		buildFromTable(table) {
 			if (is(table, Table) && table[Table.Symbol.IsAlias]) {
-				return sql`${sql`${sql.identifier(table[Table.Symbol.Schema] ?? "")}.`.if(table[Table.Symbol.Schema])}${sql.identifier(table[Table.Symbol.OriginalName])} ${sql.identifier(table[Table.Symbol.Name])}`;
+				return sql`${sql`${sql.identifier(table[Table.Symbol.Schema] ?? "")}.`.if(table[Table.Symbol.Schema])}${sql.identifier(
+					table[Table.Symbol.OriginalName],
+				)} ${sql.identifier(table[Table.Symbol.Name])}`;
 			}
 			return table;
 		}
@@ -2536,7 +2540,9 @@ params: ${params}`);
 				) {
 					const tableName = getTableName(f.field.table);
 					throw new Error(
-						`Your "${f.path.join("->")}" field references a column "${tableName}"."${f.field.name}", but the table "${tableName}" is not part of the query! Did you forget to join it?`,
+						`Your "${f.path.join(
+							"->",
+						)}" field references a column "${tableName}"."${f.field.name}", but the table "${tableName}" is not part of the query! Did you forget to join it?`,
 					);
 				}
 			}
@@ -2960,7 +2966,9 @@ params: ${params}`);
 							session.run(sql.raw(stmt));
 						}
 						session.run(
-							sql`INSERT INTO ${sql.identifier(migrationsTable)} ("hash", "created_at") VALUES(${migration.hash}, ${migration.folderMillis})`,
+							sql`INSERT INTO ${sql.identifier(
+								migrationsTable,
+							)} ("hash", "created_at") VALUES(${migration.hash}, ${migration.folderMillis})`,
 						);
 					}
 				}
@@ -2999,7 +3007,9 @@ params: ${params}`);
 							await tx.run(sql.raw(stmt));
 						}
 						await tx.run(
-							sql`INSERT INTO ${sql.identifier(migrationsTable)} ("hash", "created_at") VALUES(${migration.hash}, ${migration.folderMillis})`,
+							sql`INSERT INTO ${sql.identifier(
+								migrationsTable,
+							)} ("hash", "created_at") VALUES(${migration.hash}, ${migration.folderMillis})`,
 						);
 					}
 				}

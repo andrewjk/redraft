@@ -3,6 +3,7 @@
 	"version": "0.0.1",
 	"description": "",
 	"type": "module",
+	"private": true,
 	"scripts": {
 		"check": "pnpm -r check",
 		"build": "pnpm -r build",
@@ -19,13 +20,6 @@
 	"keywords": [],
 	"author": "",
 	"license": "ISC",
-	"devEngines": {
-		"packageManager": {
-			"name": "pnpm",
-			"version": "12.4.2",
-			"onFail": "download"
-		}
-	},
 	"devDependencies": {
 		"@varlock/bumpy": "^1.18.1",
 		"oxlint-tsgolint": "^7.0.2003",
@@ -37,5 +31,6 @@
 	"workspaces": [
 		"packages/*",
 		"packages/adapters/*"
-	]
+	],
+	"packageManager": "pnpm@12.4.2"
 }

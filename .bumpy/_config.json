@@ -2,8 +2,11 @@
 	"$schema": "../node_modules/@varlock/bumpy/config-schema.json",
 	"baseBranch": "main",
 	"changelog": "default",
-	"access": "restricted",
+	"access": "public",
 	"updateInternalDependencies": "patch",
+	"publish": {
+		"npmStaged": true
+	},
 	"privatePackages": {
 		"version": true,
 		"tag": true

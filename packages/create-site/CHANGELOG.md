@@ -1,5 +1,13 @@
 # @redraft/create-site
 
+## 0.1.5
+
+<sub>2026-10-09</sub>
+
+- _(patch)_
+  Migrated to Torpor v1: new @await/with async syntax with $async getters, ServerHook enter hooks, typed route endpoint annotations, and a component-level error page.
+- _(patch)_ Feat: PDF and zip attachments
+
 ## 0.1.4
 
 ### Patch Changes

@@ -1,5 +1,50 @@
 # @redraft/site
 
+## 0.3.3
+
+<sub>2026-10-09</sub>
+
+- _(patch)_ Feat: overhauled post ratings
+- _(patch)_ Fix: feed/post previews have to be clickable divs
+- _(patch)_ Feat: export data
+- _(patch)_
+  Migrated to Torpor v1: new @await/with async syntax with $async getters, ServerHook enter hooks, typed route endpoint annotations, and a component-level error page.
+- _(patch)_ Fix: delete old images before uploading new ones
+- _(patch)_ Feat: deleting posts
+- _(patch)_
+  User tokens are now verified with the site's secret in both auth hooks, the session cookie holds a signed token instead of plaintext JSON, and token expiry is enforced.
+- _(patch)_
+  Shared keys are no longer sent to the browser. Feed like/reaction actions resolve the key server-side from the post's author URL.
+- _(patch)_
+  Public feed endpoints are hardened: shared key lookups ignore deleted relationships, and feed creates/updates/deletes are scoped to the sender's own entries.
+- _(patch)_
+  Follower tokens are now signed with the relationship's shared key instead of a site-wide secret, and their claims no longer contain the key. Receiving sites verify tokens against the stored relationship.
+- _(patch)_ The setup password is compared in constant time (bcrypt), preventing timing attacks on the initial setup flow.
+- _(patch)_ Unfollowing a user who has already been unfollowed is now a no-op instead of a 404, so retries are safe.
+- _(patch)_ Fix: make setup bio/image/location optional
+- _(patch)_ Fixed the library build: dependencies are kept external when bundling package types, so vp pack succeeds again.
+- _(patch)_
+  Fix: markdown text (feed items, posts, comments, and profile about) is now rendered through a shared `renderMarkdown` util that sanitizes the generated HTML, so event handlers and scripts from remote content can't reach clients.
+- _(patch)_ Fix: await setting user cookie before responding
+- _(patch)_ Fix: reshow image on form submit error
+- _(patch)_ Fix: post editor losing form data on save error
+- _(patch)_
+  A stale auth cookie (e.g. after the database is recreated) no longer causes a redirect loop between the setup and feed pages; the cookie is cleared and the setup or login form is shown.
+- _(patch)_ Fix: post children bugs and ordering
+- _(patch)_ Fix: post image input
+- _(patch)_ Use the ImageUpload component on the setup and edit profile pages
+- _(patch)_ Allow unblocking previously blocked users
+- _(patch)_ Feat: pagination in all lists
+- _(patch)_ Feat: edit CSS variables for your profile
+- _(patch)_ Feat: dark mode
+- _(patch)_ Feat: event RSVPs and limits
+- _(patch)_ Fix: better icon line widths
+- _(patch)_ Chore: update dependencies
+- _(patch)_ Chore: update dependencies
+- _(patch)_ Chore: fix SSR tests after upstream changes
+- _(patch)_ Feat: PDF and zip attachments
+- _(patch)_ Chore: render and sanitize markdown with allmark
+
 ## 0.3.2
 
 ### Patch Changes

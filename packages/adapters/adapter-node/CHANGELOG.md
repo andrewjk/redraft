@@ -1,5 +1,15 @@
 # @redraft/adapter-node
 
+## 0.1.4
+
+<sub>2026-10-09</sub>
+
+- _(patch)_
+  Migrated to Torpor v1: new @await/with async syntax with $async getters, ServerHook enter hooks, typed route endpoint annotations, and a component-level error page.
+- _(patch)_ Fix: delete old images before uploading new ones
+- _(patch)_ Chore: update dependencies
+- _(patch)_ Chore: update dependencies
+
 ## 0.1.3
 
 ### Patch Changes

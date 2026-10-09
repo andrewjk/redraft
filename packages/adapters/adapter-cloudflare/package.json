@@ -1,6 +1,6 @@
 {
 	"name": "@redraft/adapter-cloudflare",
-	"version": "0.1.6",
+	"version": "0.1.7",
 	"description": "A Redraft adapter for deploying to Cloudflare Workers",
 	"type": "module",
 	"exports": {
@@ -22,7 +22,7 @@
 	"scripts": {
 		"check": "tsgo --noEmit",
 		"check:todo": "tsgo --noEmit && pnpm dlx oxlint --type-aware",
-		"build": "tsgo --noEmit && tsup src/iife.ts --format iife && tsx ./scripts/process.ts && vp pack"
+		"build": "tsgo --noEmit && tsup src/iife.ts --format iife && tsx ./scripts/process.ts && vp fmt src/adapter.global.js && vp pack"
 	},
 	"keywords": [],
 	"author": "",
