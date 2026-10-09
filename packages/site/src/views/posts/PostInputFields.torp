@@ -1,4 +1,5 @@
 import { Field, File, Hidden, Input, Select, Option, TextArea, Message } from "@torpor/ui/Form";
+import { ALLOWED_FILE_ACCEPT } from "../../lib/constants";
 import cleanImage from "../../lib/utils/cleanImage";
 import type UserModel from "../../types/UserModel";
 import type PostEditModel from "../../types/posts/PostEditModel";
@@ -11,6 +12,7 @@ import CaretUp from "phosphor-torpor/lib/CaretUp";
 import Heart from "phosphor-torpor/lib/Heart";
 import Image from "phosphor-torpor/lib/Image";
 import Link from "phosphor-torpor/lib/Link";
+import Paperclip from "phosphor-torpor/lib/Paperclip";
 import Stack from "phosphor-torpor/lib/Stack";
 import StackPlus from "phosphor-torpor/lib/StackPlus";
 //import Star from "phosphor-torpor/lib/Star";
@@ -163,35 +165,57 @@ export default function PostInputFields($props: { post: PostEditModel, child?: P
 			} else {
 				@if (post.hasImage) {
 					<Hidden name={`${prefix()}image`} value={post.image} />
-					<File
-						style={{ display: $state.imageLoaded ? "none" : undefined }}
-						name={`${prefix()}imagefile`}
-						accept="image/*"
-						onchange={imageSelected}
-					/>
-					@if (post.imagefile ?? post.image) {
-						<img src={post.imagefile ?? post.image} />
-						<Field class="form-row" name={`${prefix()}imageAltText`} &value={post.imageAltText}>
-							<Input placeholder="Image alt text" />
-							<Message class="error-message" />
-						</Field>
-					}
-					@async function imageSelected(e: Event) {
-						let fileInput = (e.target as HTMLInputElement);
-						let image = fileInput.files![0];
-						if (!image.type.startsWith("image/")) {
-							return;
+					<Hidden name={`${prefix()}isFile`} value={post.isFile} />
+					@if (post.isFile) {
+						<File
+							name={`${prefix()}imagefile`}
+							accept={ALLOWED_FILE_ACCEPT}
+							onchange={fileSelected}
+						/>
+						@if (post.image || post.imageAltText) {
+							<div class="hstack centered spaced-nr secondary">
+								<Paperclip />
+								<span>{post.imageAltText ?? "Attached file"}</span>
+							</div>
 						}
-						image = await cleanImage(image);
-						let dataTransfer = new DataTransfer();
-						dataTransfer.items.add(image);
-						fileInput.files = dataTransfer.files;
-						let fileReader = new FileReader();
-						fileReader.onload = (ev) => {
-							post.imagefile = ev.target!.result;
-							$state.imageLoaded = true;
+						@function fileSelected(e: Event) {
+							let fileInput = (e.target as HTMLInputElement);
+							let file = fileInput.files![0];
+							if (file) {
+								post.imageAltText = file.name;
+							}
 						}
-						fileReader.readAsDataURL(image);
+					} else {
+						<File
+							style={{ display: $state.imageLoaded ? "none" : undefined }}
+							name={`${prefix()}imagefile`}
+							accept="image/*"
+							onchange={imageSelected}
+						/>
+						@if (post.imagefile ?? post.image) {
+							<img src={post.imagefile ?? post.image} />
+							<Field class="form-row" name={`${prefix()}imageAltText`} &value={post.imageAltText}>
+								<Input placeholder="Image alt text" />
+								<Message class="error-message" />
+							</Field>
+						}
+						@async function imageSelected(e: Event) {
+							let fileInput = (e.target as HTMLInputElement);
+							let image = fileInput.files![0];
+							if (!image.type.startsWith("image/")) {
+								return;
+							}
+							image = await cleanImage(image);
+							let dataTransfer = new DataTransfer();
+							dataTransfer.items.add(image);
+							fileInput.files = dataTransfer.files;
+							let fileReader = new FileReader();
+							fileReader.onload = (ev) => {
+								post.imagefile = ev.target!.result;
+								$state.imageLoaded = true;
+							}
+							fileReader.readAsDataURL(image);
+						}
 					}
 				} else if (post.hasLink) {
 					<Hidden name={`${prefix()}linkImage`} value={post.linkImage} />
@@ -313,8 +337,16 @@ export default function PostInputFields($props: { post: PostEditModel, child?: P
 
 			<div class="hstack centered spaced post-input-footer">
 				<div class="spacer" />
-				<button type="button" class="link icon" disabled={post.isArticle || post.isEvent} onclick={toggleImage}>
-					@if (post.hasImage) {
+				<button
+					type="button"
+					class="link icon"
+					title={post.hasImage && !post.isFile ? "Remove image" : "Add image"}
+					disabled={
+						post.isArticle || post.isEvent || post.hasLink || (post.hasImage && post.isFile)
+					}
+					onclick={toggleImage}
+				>
+					@if (post.hasImage && !post.isFile) {
 						<div class="zstack">
 							<X size="28px" />
 							<Image />
@@ -324,12 +356,56 @@ export default function PostInputFields($props: { post: PostEditModel, child?: P
 					}
 				</button>
 				@function toggleImage() {
-					post.hasImage = !post.hasImage;
-					if (post.hasImage) {
+					if (post.hasImage && !post.isFile) {
+						post.hasImage = false;
+					} else {
+						post.hasImage = true;
+						post.isFile = false;
+						clearAttachment();
 						$state.imageLoaded = false;
 					}
 				}
-				<button type="button" class="link icon" disabled={post.isArticle || post.isEvent} onclick={toggleLink}>
+				@if (!child) {
+					<button
+						type="button"
+						class="link icon"
+						title={post.hasImage && post.isFile ? "Remove file" : "Add file"}
+						disabled={
+							post.isArticle || post.isEvent || post.hasLink || (post.hasImage && !post.isFile)
+						}
+						onclick={toggleFile}
+					>
+						@if (post.hasImage && post.isFile) {
+							<div class="zstack">
+								<X size="28px" />
+								<Paperclip />
+							</div>
+						} else {
+							<Paperclip />
+						}
+					</button>
+				}
+				@function toggleFile() {
+					if (post.hasImage && post.isFile) {
+						post.hasImage = false;
+					} else {
+						post.hasImage = true;
+						post.isFile = true;
+						clearAttachment();
+					}
+				}
+				@function clearAttachment() {
+					post.image = undefined;
+					post.imageAltText = undefined;
+					post.imagefile = undefined;
+				}
+				<button
+					type="button"
+					class="link icon"
+					title={post.hasLink ? "Remove link" : "Add link"}
+					disabled={post.isArticle || post.isEvent || post.hasImage}
+					onclick={toggleLink}
+				>
 					@if (post.hasLink) {
 						<div class="zstack">
 							<X size="28px" />
@@ -433,7 +509,7 @@ export default function PostInputFields($props: { post: PostEditModel, child?: P
 					let i = $props.i !== undefined ? $props.i : 0;
 					($props.post.children ??= []).splice(i, 1);
 				}
-				<button type="button" class="link icon" disabled={post.isArticle || post.isEvent} onclick={addChild}>
+				<button type="button" class="link icon" title="Add post" disabled={post.isArticle || post.isEvent} onclick={addChild}>
 					<StackPlus />
 				</button>
 				@function addChild() {
@@ -463,7 +539,7 @@ export default function PostInputFields($props: { post: PostEditModel, child?: P
 					</button>
 				}
 			</div>
-			@if ($props.post.children!.length === 0 || $props.i === $props.post.children!.length -1) {
+			@if ($props.post.children?.length === 0 || $props.i === $props.post.children!.length -1) {
 				<div class="hstack centered spaced post-input-footer">
 					<div class="spacer" />
 					<button type="submit" formaction="?/savePost">

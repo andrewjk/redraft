@@ -8,6 +8,7 @@ import { Post } from "../../data/schema/postsTable";
 import { Tag } from "../../data/schema/tagsTable";
 import type PostEditModel from "../../types/posts/PostEditModel";
 import getErrorMessage from "../utils/getErrorMessage";
+import isImageUrl from "../utils/isImageUrl";
 import userIdQuery from "../utils/userIdQuery";
 
 export default async function postEditGet(slug: string, code: string) {
@@ -101,6 +102,7 @@ function createView(
 		hasImage: !!post.image || undefined,
 		image: post.image ?? undefined,
 		imageAltText: post.image_alt_text ?? undefined,
+		isFile: post.image ? !isImageUrl(post.image) : undefined,
 		isArticle: !!article || undefined,
 		articleId: article?.id,
 		articleText: article?.text,

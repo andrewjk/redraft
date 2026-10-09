@@ -6,6 +6,7 @@ import type FeedPreviewModel from "../../types/feed/FeedPreviewModel";
 import { ARTICLE_LINK_TYPE, EVENT_LINK_TYPE, LINK_LINK_TYPE } from "../constants";
 import ensureSlash from "../utils/ensureSlash";
 import renderMarkdown from "../utils/renderMarkdown";
+import isImageUrl from "../utils/isImageUrl";
 
 export default function feedPreview(
 	feed: Feed & { user?: Following | null },
@@ -35,6 +36,7 @@ export default function feedPreview(
 		visibility: feed.visibility,
 		image: feed.image,
 		imageAltText: feed.image_alt_text,
+		isFile: feed.image ? !isImageUrl(feed.image) : false,
 		isArticle: feed.link_type === ARTICLE_LINK_TYPE,
 		isEvent: feed.link_type === EVENT_LINK_TYPE,
 		eventStartsAt: feed.event_starts_at,

@@ -32,29 +32,32 @@ function footerButtonFooters() {
 	);
 }
 
-// The tool footer of a child contains: image, link, rating, move up, move
-// down, remove, add. childIndex -1 is the parent post's footer
-function footerButtons(childIndex: number) {
-	return [...footerButtonFooters()[childIndex + 1]!.querySelectorAll("button")];
+// The tool footer of a child contains: image, file, link, rating, move up,
+// move down, remove, add. childIndex -1 is the parent post's footer
+function buttonByTitle(childIndex: number, title: string) {
+	return footerButtonFooters()[childIndex + 1]!.querySelector<HTMLButtonElement>(
+		`button[title="${title}"]`,
+	)!;
 }
 
 function upButton(childIndex: number) {
-	return footerButtons(childIndex)[3]!;
+	return buttonByTitle(childIndex, "Move up");
 }
 
 function downButton(childIndex: number) {
-	return footerButtons(childIndex)[4]!;
+	return buttonByTitle(childIndex, "Move down");
 }
 
 function removeButton(childIndex: number) {
-	return footerButtons(childIndex)[5]!;
+	return buttonByTitle(childIndex, "Remove post");
 }
 
 function addButton(childIndex: number) {
-	const buttons = footerButtons(childIndex);
-	// The parent footer has tags and visibility buttons after add, the child
-	// footer doesn't
-	return childIndex === -1 ? buttons[5]! : buttons[buttons.length - 1]!;
+	return buttonByTitle(childIndex, "Add post");
+}
+
+function parentButton(title: string) {
+	return footerButtonFooters()[0]!.querySelector<HTMLButtonElement>(`button[title="${title}"]`)!;
 }
 
 async function tick() {
@@ -176,6 +179,55 @@ test("post input keeps child field names correct after adding children", async (
 
 	// All ids unique, and each child's fields match its array position
 	expect(childIds()).toEqual(["-1", "-2", "101"]);
+});
+
+test("post input disables the image toggle while a file is selected, and vice versa", async () => {
+	mountPostInput({ id: 1, slug: "post", text: "Parent", children: [] });
+
+	// Nothing attached: both toggles are enabled
+	expect(parentButton("Add image").disabled).toBe(false);
+	expect(parentButton("Add file").disabled).toBe(false);
+
+	// Selecting a file disables the image toggle
+	parentButton("Add file").click();
+	await tick();
+	expect(parentButton("Remove file").disabled).toBe(false);
+	expect(parentButton("Add image").disabled).toBe(true);
+
+	// Removing the file re-enables the image toggle
+	parentButton("Remove file").click();
+	await tick();
+	expect(parentButton("Add image").disabled).toBe(false);
+
+	// Selecting an image disables the file toggle
+	parentButton("Add image").click();
+	await tick();
+	expect(parentButton("Remove image").disabled).toBe(false);
+	expect(parentButton("Add file").disabled).toBe(true);
+});
+
+test("post input disables the link toggle while an image or file is selected, and vice versa", async () => {
+	mountPostInput({ id: 1, slug: "post", text: "Parent", children: [] });
+
+	// Nothing attached: the link toggle is enabled
+	expect(parentButton("Add link").disabled).toBe(false);
+
+	// Selecting a file disables the link toggle
+	parentButton("Add file").click();
+	await tick();
+	expect(parentButton("Add link").disabled).toBe(true);
+
+	// Removing the file re-enables the link toggle
+	parentButton("Remove file").click();
+	await tick();
+	expect(parentButton("Add link").disabled).toBe(false);
+
+	// Selecting a link disables the image and file toggles
+	parentButton("Add link").click();
+	await tick();
+	expect(parentButton("Remove link").disabled).toBe(false);
+	expect(parentButton("Add image").disabled).toBe(true);
+	expect(parentButton("Add file").disabled).toBe(true);
 });
 
 test("post input moves a child post up and down", async () => {

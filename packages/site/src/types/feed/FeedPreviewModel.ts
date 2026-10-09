@@ -14,6 +14,8 @@ export default interface FeedPreviewModel {
 	visibility: number;
 	image: string | null | undefined;
 	imageAltText: string | null | undefined;
+	/** The attachment at `image` is a file, not an image */
+	isFile: boolean;
 	isArticle: boolean;
 	isEvent: boolean;
 	eventStartsAt: Date | null | undefined;

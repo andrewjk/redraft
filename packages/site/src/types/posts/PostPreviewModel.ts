@@ -16,6 +16,8 @@ export default interface PostPreviewModel {
 	visibility: number;
 	image: string | null | undefined;
 	imageAltText: string | null | undefined;
+	/** The attachment at `image` is a file, not an image */
+	isFile: boolean;
 	isArticle: boolean;
 	isEvent: boolean;
 	linkUrl: string | null | undefined;

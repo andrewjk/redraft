@@ -8,6 +8,7 @@ function eventPost(overrides: Partial<PostViewModel> = {}): PostViewModel {
 		text: "An event",
 		image: null,
 		imageAltText: null,
+		isFile: false,
 		isArticle: false,
 		articleText: null,
 		isEvent: true,

@@ -7,6 +7,8 @@ export default interface PostViewModel {
 	//visibility: number;
 	image: string | null | undefined;
 	imageAltText: string | null | undefined;
+	/** The attachment at `image` is a file, not an image */
+	isFile: boolean;
 	isArticle: boolean;
 	articleText: string | null | undefined;
 	isEvent: boolean;

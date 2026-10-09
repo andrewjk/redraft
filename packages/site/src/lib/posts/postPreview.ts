@@ -6,6 +6,7 @@ import type PostPreviewModel from "../../types/posts/PostPreviewModel";
 import { ARTICLE_LINK_TYPE, EVENT_LINK_TYPE, LINK_LINK_TYPE } from "../constants";
 import ensureSlash from "../utils/ensureSlash";
 import renderMarkdown from "../utils/renderMarkdown";
+import isImageUrl from "../utils/isImageUrl";
 
 export default function postPreview(
 	post: Post & { user?: PostAuthorModel | null; postTags: { tag: Tag }[] },
@@ -37,6 +38,7 @@ export default function postPreview(
 		visibility: post.visibility,
 		image: post.image,
 		imageAltText: post.image_alt_text,
+		isFile: post.image ? !isImageUrl(post.image) : false,
 		isArticle: post.link_type === ARTICLE_LINK_TYPE,
 		isEvent: post.link_type === EVENT_LINK_TYPE,
 		linkUrl:

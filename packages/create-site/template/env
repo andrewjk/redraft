@@ -15,3 +15,7 @@ DB_CONNECTION=file:./data/user.db
 
 JWT_SECRET=JWT_secret
 JWT_SECRET_2=JWT_contact_secret
+
+# Maximum upload size for images and files, in megabytes (defaults to 10)
+
+# MAX_UPLOAD_SIZE=25

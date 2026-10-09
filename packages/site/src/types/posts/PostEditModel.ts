@@ -6,6 +6,8 @@ export default interface PostEditModel {
 	visibility?: number;
 	listId?: number;
 	hasImage?: boolean;
+	/** When the attachment is a file rather than an image (reuses the image columns) */
+	isFile?: boolean;
 	image?: string;
 	imageAltText?: string;
 	isArticle?: boolean;

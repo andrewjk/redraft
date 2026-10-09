@@ -9,6 +9,7 @@ import LinkPreview from "./LinkPreview.torp";
 import RatingPreview from "./RatingPreview.torp";
 import ChatCircle from "phosphor-torpor/lib/ChatCircle";
 import Heart from "phosphor-torpor/lib/Heart";
+import Paperclip from "phosphor-torpor/lib/Paperclip";
 import Pencil from "phosphor-torpor/lib/Pencil";
 
 /**
@@ -82,7 +83,12 @@ export default function PostViewPage($props: { data: { post: PostViewModel, user
 
 						<div class="post-view-body">
 							@html(post.text)
-							@if (post.image) {
+							@if (post.image && post.isFile) {
+								<p class="hstack centered spaced-nr">
+									<Paperclip />
+									<a href={post.image} download={post.imageAltText || undefined}>{post.imageAltText ?? "Download file"}</a>
+								</p>
+							} else if (post.image) {
 								<p>
 									<img src={post.image} />
 								</p>

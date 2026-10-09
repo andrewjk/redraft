@@ -23,6 +23,7 @@ const PostEditSchema = v.pipe(
 		visibility: optionalFormValue(v.number()),
 		listId: optionalFormValue(v.number()),
 		hasImage: optionalFormValue(v.boolean()),
+		isFile: optionalFormValue(v.boolean()),
 		image: v.optional(v.string()),
 		imageAltText: v.optional(v.string()),
 		isArticle: optionalFormValue(v.boolean()),

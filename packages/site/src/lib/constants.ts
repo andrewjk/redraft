@@ -40,3 +40,14 @@ export const RSVP_MAYBE = 2;
 export const RSVP_DECLINED = 3;
 
 export type RsvpStatus = typeof RSVP_GOING | typeof RSVP_MAYBE | typeof RSVP_DECLINED;
+
+/**
+ * File extensions allowed as post attachments (lowercase, without the dot).
+ * PDFs cover the common cases (menus, books, documents) and a zip is the
+ * fallback for everything else (including multiple files). Images are handled
+ * by the image toggle, so they're not listed here.
+ */
+export const ALLOWED_FILE_TYPES: readonly string[] = ["pdf", "zip"];
+
+/** The `accept` attribute for the file input, derived from the allowlist */
+export const ALLOWED_FILE_ACCEPT = ALLOWED_FILE_TYPES.map((ext) => `.${ext}`).join(",");

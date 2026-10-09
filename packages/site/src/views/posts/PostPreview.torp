@@ -11,6 +11,7 @@ import PushPin from "phosphor-torpor/lib/PushPin";
 import PushPinSlash from "phosphor-torpor/lib/PushPinSlash";
 import ChatCircle from "phosphor-torpor/lib/ChatCircle";
 import Heart from "phosphor-torpor/lib/Heart";
+import Paperclip from "phosphor-torpor/lib/Paperclip";
 import Pencil from "phosphor-torpor/lib/Pencil";
 
 /**
@@ -133,12 +134,18 @@ export default function PostPreview($props: { post: PostPreviewModel, user: User
 					<div class="post-preview-body">
 						<div class="post-preview-link" onclick={() => { window.location.href = `${post.author.url}posts/${post.slug}`; }}>
 							@html(post.text)
-							@if (post.image) {
+							@if (post.image && !post.isFile) {
 								<p>
 									<img class="post-preview-image" src={sizeImage(post.image, 800)} alt={post.imageAltText} />
 								</p>
 							}
 						</div>
+						@if (post.image && post.isFile) {
+							<p class="hstack centered spaced-nr">
+								<Paperclip />
+								<a href={post.image} download={post.imageAltText || undefined}>{post.imageAltText ?? "Download file"}</a>
+							</p>
+						}
 						@// NOTE: This has to go outside of the feed anchor
 						@if (post.linkUrl) {
 							<LinkPreview link={post} />

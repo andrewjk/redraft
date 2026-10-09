@@ -25,6 +25,7 @@ import getRsvpCounts from "../events/rsvpCounts";
 import ensureSlash from "../utils/ensureSlash";
 import getErrorMessage from "../utils/getErrorMessage";
 import renderMarkdown from "../utils/renderMarkdown";
+import isImageUrl from "../utils/isImageUrl";
 
 export default async function postGet(user: User, follower: User, slug: string) {
 	let errorMessage = "";
@@ -154,6 +155,7 @@ export default async function postGet(user: User, follower: User, slug: string) 
 			text: renderMarkdown(post.text),
 			image: post.image,
 			imageAltText: post.image_alt_text,
+			isFile: post.image ? !isImageUrl(post.image) : false,
 			isArticle: post.link_type === ARTICLE_LINK_TYPE,
 			articleText: article?.text ?? null,
 			isEvent: post.link_type === EVENT_LINK_TYPE,
