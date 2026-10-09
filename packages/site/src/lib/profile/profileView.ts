@@ -1,4 +1,3 @@
-import { gfm, gfmHtml } from "micromark-extension-gfm";
 import type { User, UserLink } from "../../data/schema/usersTable";
 import type ProfileViewModel from "../../types/profile/ProfileViewModel";
 import renderMarkdown from "../utils/renderMarkdown";
@@ -12,12 +11,7 @@ export default function profileView(
 		email: user.email,
 		name: user.name,
 		bio: user.bio,
-		about: forEditing
-			? user.about
-			: renderMarkdown(user.about, {
-					extensions: [gfm()],
-					htmlExtensions: [gfmHtml()],
-				}),
+		about: forEditing ? user.about : renderMarkdown(user.about),
 		location: user.location,
 		image: user.image,
 		links: user.links

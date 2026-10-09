@@ -26,3 +26,4 @@ minimumReleaseAgeExclude:
   - "@torpor/view"
   - "@torpor/adapter-cloudflare"
   - "@torpor/adapter-node"
+  - allmark@1.0.23

@@ -1,15 +1,9 @@
-import { micromark, type Options } from "micromark";
-import sanitizeHtml from "sanitize-html";
+import { extended, htmlRenderers, sanitize, transform } from "allmark";
 
 // Markdown may come from untrusted sources (e.g. followers on remote
-// sites), so any raw HTML in it is converted and then sanitized before it
-// is sent to any client
-export default function renderMarkdown(text: string, options?: Options): string {
-	return sanitizeHtml(micromark(text, { ...options, allowDangerousHtml: true }), {
-		allowedTags: [...sanitizeHtml.defaults.allowedTags, "img"],
-		allowedAttributes: {
-			...sanitizeHtml.defaults.allowedAttributes,
-			img: ["src", "srcset", "alt", "title", "width", "height", "loading"],
-		},
-	});
+// sites), so any raw HTML in it is rendered and then sanitized (allmark's
+// GitHub-style sanitizer, which strips event handlers and unsafe URLs)
+// before it is sent to any client
+export default function renderMarkdown(text: string): string {
+	return sanitize(transform(text, extended, htmlRenderers));
 }
